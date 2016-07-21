@@ -40,5 +40,6 @@
         <module>title</module>
         <module>page</module>
         <module>image</module>
+        <module>breadcrumb</module>
     </modules>
 </project>
