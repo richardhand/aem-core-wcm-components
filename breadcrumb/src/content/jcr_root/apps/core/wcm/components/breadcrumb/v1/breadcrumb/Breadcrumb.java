@@ -33,7 +33,7 @@ public class Breadcrumb extends WCMUsePojo {
     private static final String PROP_RELATIVE_STOP_LEVEL = "relParent";
     private static final int PROP_RELATIVE_STOP_LEVEL_DEFAULT = 0;
     private static final String PROP_DELIMITER = "delim";
-    private static final String PROP_DELIMITER_DEFAULT = "";
+    private static final String PROP_DELIMITER_DEFAULT = "&nbsp;&gt;&nbsp;";
     private static final String PROP_TRAIL_DELIMITER = "trail";
     private static final String PROP_TRAIL_DELIMITER_DEFAULT = "";
     private static final String PROP_UNLINK_CURRENT_ITEM = "unlinkCurrentItem";
