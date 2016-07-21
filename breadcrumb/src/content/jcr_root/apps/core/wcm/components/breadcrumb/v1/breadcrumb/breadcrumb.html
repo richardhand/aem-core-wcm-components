@@ -19,9 +19,9 @@
      data-sly-use.delimiterTemplate="templates/breadcrumb_delimiter.html"
      data-sly-use.trailingDelimiterTemplate="templates/breadcrumb_trailing_delimiter.html">
     <sly data-sly-call="${emptyRenderer.empty @ breadcrumb=breadcrumb}"/>
-    <sly data-sly-list="${breadcrumb.items}">
-        <sly data-sly-call="${itemTemplate.item @ renderItem=item}"/>
-        <sly data-sly-call="${delimiterTemplate.delimiter @ breadcrumb=breadcrumb, lastItem=itemList.last}"/>
+    <sly data-sly-list.breadcrumbItem="${breadcrumb.items}">
+        <sly data-sly-call="${itemTemplate.item @ renderItem=breadcrumbItem}"/>
+        <sly data-sly-call="${delimiterTemplate.delimiter @ breadcrumb=breadcrumb, lastItem=breadcrumbItemList.last}"/>
     </sly>
     <sly data-sly-call="${trailingDelimiterTemplate.trailing @ breadcrumb=breadcrumb}"/>
 </sly>
