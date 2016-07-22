@@ -15,6 +15,6 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <template data-sly-template.delimiter="${@ breadcrumb, lastItem}">
     <span data-sly-test="${breadcrumb.hasDelimiter && !lastItem}" data-sly-unwrap>
-        ${breadcrumb.delimiter}
+        ${breadcrumb.delimiter @ context='html'}
     </span>
 </template>

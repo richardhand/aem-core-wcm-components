@@ -26,5 +26,10 @@
             fieldLabel="Trailing Delimiter"
             name="./trail"
             xtype="textfield"/>
+        <linkCurrentPage
+            jcr:primaryType="nt:unstructured"
+            fieldLabel="Unlink current item"
+            name="./unlinkCurrentItem"
+            xtype="checkbox"/>
     </items>
 </jcr:root>

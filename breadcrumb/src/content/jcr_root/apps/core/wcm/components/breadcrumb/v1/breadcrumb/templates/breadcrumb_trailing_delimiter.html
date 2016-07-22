@@ -15,6 +15,6 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <template data-sly-template.trailing="${@ breadcrumb}">
     <span data-sly-test="${breadcrumb.hasTrailingDelimiter}" data-sly-unwrap>
-        ${breadcrumb.trailingDelimiter}
+        ${breadcrumb.trailingDelimiter @ context='html'}
     </span>
 </template>

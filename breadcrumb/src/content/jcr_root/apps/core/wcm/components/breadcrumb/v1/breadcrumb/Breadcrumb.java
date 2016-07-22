@@ -25,6 +25,7 @@ import org.apache.sling.api.resource.ValueMap;
 import com.adobe.cq.sightly.WCMUsePojo;
 import com.adobe.cq.wcm.core.components.commons.AuthoringUtils;
 import com.day.cq.wcm.api.Page;
+import com.day.cq.wcm.api.designer.Style;
 
 public class Breadcrumb extends WCMUsePojo {
 
@@ -33,7 +34,7 @@ public class Breadcrumb extends WCMUsePojo {
     private static final String PROP_RELATIVE_STOP_LEVEL = "relParent";
     private static final int PROP_RELATIVE_STOP_LEVEL_DEFAULT = 0;
     private static final String PROP_DELIMITER = "delim";
-    private static final String PROP_DELIMITER_DEFAULT = "/";
+    private static final String PROP_DELIMITER_DEFAULT = "&nbsp;&gt;&nbsp;";
     private static final String PROP_TRAIL_DELIMITER = "trail";
     private static final String PROP_TRAIL_DELIMITER_DEFAULT = "";
     private static final String PROP_UNLINK_CURRENT_ITEM = "unlinkCurrentItem";
@@ -41,6 +42,7 @@ public class Breadcrumb extends WCMUsePojo {
 
     private List<BreadcrumbItem> breadcrumbItems = new ArrayList<>();
     private ValueMap properties;
+    private Style style;
     private Integer level;
     private Integer endLevel;
     private String delimiter;
@@ -52,6 +54,7 @@ public class Breadcrumb extends WCMUsePojo {
     @Override
     public void activate() throws Exception {
         properties = getProperties();
+        style = getCurrentStyle();
         currentPage = getCurrentPage();
         request = getRequest();
         readBreadcrumbConfiguration();
@@ -93,11 +96,11 @@ public class Breadcrumb extends WCMUsePojo {
 
 
     private void readBreadcrumbConfiguration() {
-        level = properties.get(PROP_PARENT_LEVEL, PROP_PARENT_LEVEL_DEFAULT);
-        endLevel = properties.get(PROP_RELATIVE_STOP_LEVEL, PROP_RELATIVE_STOP_LEVEL_DEFAULT);
-        delimiter = properties.get(PROP_DELIMITER, PROP_DELIMITER_DEFAULT);
-        trailingDelimiter = properties.get(PROP_TRAIL_DELIMITER, PROP_TRAIL_DELIMITER_DEFAULT);
-        unlinkCurrentItem = properties.get(PROP_UNLINK_CURRENT_ITEM, PROP_UNLINK_CURRENT_ITEM_DEFAULT);
+        level = properties.get(PROP_PARENT_LEVEL, style.get(PROP_PARENT_LEVEL, PROP_PARENT_LEVEL_DEFAULT));
+        endLevel = properties.get(PROP_RELATIVE_STOP_LEVEL, style.get(PROP_RELATIVE_STOP_LEVEL, PROP_RELATIVE_STOP_LEVEL_DEFAULT));
+        delimiter = properties.get(PROP_DELIMITER, style.get(PROP_DELIMITER, PROP_DELIMITER_DEFAULT));
+        trailingDelimiter = properties.get(PROP_TRAIL_DELIMITER, style.get(PROP_TRAIL_DELIMITER, PROP_TRAIL_DELIMITER_DEFAULT));
+        unlinkCurrentItem = properties.get(PROP_UNLINK_CURRENT_ITEM, style.get(PROP_UNLINK_CURRENT_ITEM, PROP_UNLINK_CURRENT_ITEM_DEFAULT));
     }
 
     public List<BreadcrumbItem> getItems() {
