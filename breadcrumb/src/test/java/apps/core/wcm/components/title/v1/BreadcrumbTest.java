@@ -19,18 +19,25 @@ import javax.script.Bindings;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.testing.resourceresolver.MockValueMap;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import apps.core.wcm.components.breadcrumb.v1.breadcrumb.Breadcrumb;
 import com.adobe.cq.wcm.core.components.commons.AuthoringUtils;
 import com.adobe.cq.wcm.core.components.testing.WCMUsePojoBaseTest;
+import com.day.cq.wcm.api.designer.Cell;
+import com.day.cq.wcm.api.designer.Design;
+import com.day.cq.wcm.api.designer.Style;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.when;
 
 @PrepareForTest({Breadcrumb.class, AuthoringUtils.class})
 public class BreadcrumbTest extends WCMUsePojoBaseTest<Breadcrumb> {
@@ -47,7 +54,14 @@ public class BreadcrumbTest extends WCMUsePojoBaseTest<Breadcrumb> {
 
     @Test
     public void testBreadcrumbConsistency() {
-        Breadcrumb breadcrumb = getSpiedObject(RESOURCE_DEVI_SLEEVELESS_SHIRT);
+        final Resource resource = context.resourceResolver().getResource(RESOURCE_DEVI_SLEEVELESS_SHIRT);
+        Bindings bindings = getResourceBackedBindings(RESOURCE_DEVI_SLEEVELESS_SHIRT);
+        Resource resourceSpy = PowerMockito.spy(resource);
+        Style style = new MockStyle(resourceSpy);
+        Breadcrumb breadcrumb = getSpiedObject();
+        doReturn(style).when(breadcrumb).getCurrentStyle();
+        doReturn(resourceSpy).when(breadcrumb).getResource();
+        breadcrumb.init(bindings);
         checkBreadcrumbConsistency(breadcrumb, new String[]{"Women", "Shirts", "Devi Sleeveless Shirt"});
     }
 
@@ -56,7 +70,9 @@ public class BreadcrumbTest extends WCMUsePojoBaseTest<Breadcrumb> {
         final Resource resource = context.resourceResolver().getResource(RESOURCE_ABSOLUTE_PARENT);
         Bindings bindings = getResourceBackedBindings(RESOURCE_ABSOLUTE_PARENT);
         Resource resourceSpy = PowerMockito.spy(resource);
+        Style style = new MockStyle(resourceSpy);
         Breadcrumb breadcrumb = getSpiedObject();
+        doReturn(style).when(breadcrumb).getCurrentStyle();
         doReturn(resourceSpy).when(breadcrumb).getResource();
         breadcrumb.init(bindings);
         checkBreadcrumbConsistency(breadcrumb, new String[]{"Shirts", "Devi Sleeveless Shirt"});
@@ -67,7 +83,9 @@ public class BreadcrumbTest extends WCMUsePojoBaseTest<Breadcrumb> {
         final Resource resource = context.resourceResolver().getResource(RESOURCE_RELATIVE_PARENT);
         Bindings bindings = getResourceBackedBindings(RESOURCE_RELATIVE_PARENT);
         Resource resourceSpy = PowerMockito.spy(resource);
+        Style style = new MockStyle(resourceSpy);
         Breadcrumb breadcrumb = getSpiedObject();
+        doReturn(style).when(breadcrumb).getCurrentStyle();
         doReturn(resourceSpy).when(breadcrumb).getResource();
         breadcrumb.init(bindings);
         checkBreadcrumbConsistency(breadcrumb, new String[]{"Women", "Shirts"});
@@ -79,7 +97,9 @@ public class BreadcrumbTest extends WCMUsePojoBaseTest<Breadcrumb> {
         Bindings bindings = getResourceBackedBindings(RESOURCE_UNLINK_CURRENT_PAGE);
         Resource resourceSpy = PowerMockito.spy(resource);
         Breadcrumb breadcrumb = getSpiedObject();
+        Style style = new MockStyle(resourceSpy);
         doReturn(resourceSpy).when(breadcrumb).getResource();
+        doReturn(style).when(breadcrumb).getCurrentStyle();
         breadcrumb.init(bindings);
         checkBreadcrumbConsistency(breadcrumb, new String[]{"Women", "Shirts", "Devi Sleeveless Shirt"});
         assertEquals(StringUtils.EMPTY, breadcrumb.getItems().get(2).getPath());
@@ -91,6 +111,43 @@ public class BreadcrumbTest extends WCMUsePojoBaseTest<Breadcrumb> {
         int index = 0;
         for (Breadcrumb.BreadcrumbItem item : breadcrumb.getItems()) {
             assertEquals(expectedPages[index++], item.getTitle());
+        }
+    }
+
+    private class MockStyle extends MockValueMap implements Style {
+
+        public MockStyle(Resource resource) {
+            super(resource);
+        }
+
+        @Override
+        public Cell getCell() {
+            return null;
+        }
+
+        @Override
+        public Design getDesign() {
+            return null;
+        }
+
+        @Override
+        public String getPath() {
+            return null;
+        }
+
+        @Override
+        public Resource getDefiningResource(String name) {
+            return null;
+        }
+
+        @Override
+        public String getDefiningPath(String name) {
+            return null;
+        }
+
+        @Override
+        public Style getSubStyle(String relPath) {
+            return null;
         }
     }
 
