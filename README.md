@@ -72,7 +72,7 @@ documentation page.
 
 You can install all components to your running AEM instance by issueing the following command in the top level folder of the project:
 
-    mvn clean install -PautoInstallPackage
+    mvn clean install -PautoInstallSinglePackage
     
 ### Single Components
 
