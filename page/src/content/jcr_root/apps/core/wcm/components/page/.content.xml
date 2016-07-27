@@ -5,4 +5,5 @@
     jcr:title="Core WCM Text Component"
     sling:resourceSuperType="core/wcm/components/text/v1/text"
     allowedParents="[*/parsys]"
+    designDialogPath="core/wcm/components/page/v1/page/cq:design_dialog"
     componentGroup="Core"/>

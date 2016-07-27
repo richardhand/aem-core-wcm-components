@@ -63,6 +63,7 @@ public abstract class WCMUsePojoBaseTest<T extends WCMUsePojo> {
         if (StringUtils.isNotEmpty(TEST_ROOT)) {
             try {
                 context.load().json(TEST_CONTENT, TEST_ROOT);
+                context.registerInjectActivateService(new MockAdapterFactory());
             } catch (IllegalArgumentException e) {
                 LOGGER.info("Attempted to load {} from classpath but did not find the resource.", TEST_CONTENT);
             }

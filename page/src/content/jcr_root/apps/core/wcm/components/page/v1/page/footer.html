@@ -13,6 +13,9 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<sly data-sly-use.templatedContainer="com.day.cq.wcm.foundation.TemplatedContainer"
-     data-sly-repeat.child="${templatedContainer.structureResources}"
-     data-sly-resource="${child.path @ resourceType=child.resourceType, decorationTagName='div'}"/>
+<sly data-sly-resource="${'cloudservices' @ resourceType='cq/cloudserviceconfigs/components/servicecomponents'}"/>
+<sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html"
+     data-sly-use.templateEditor="TemplateEditor">
+    <sly data-sly-call="${clientLib.js @ categories=templateEditor.templateCategories}"/>
+</sly>
+<sly data-sly-include="customfooterlibs.html"/>

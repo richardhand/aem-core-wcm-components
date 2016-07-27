@@ -3,4 +3,5 @@
     jcr:description="Core WCM Page Component (v1) - Sightly"
     jcr:primaryType="cq:Component"
     jcr:title="Core WCM Page Component (v1)"
-    componentGroup=".hidden"/>
+    componentGroup=".hidden"
+    designDialogPath="core/wcm/components/page/v1/page/cq:design_dialog"/>
