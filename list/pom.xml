@@ -113,6 +113,13 @@
                     <verbose>true</verbose>
                     <failOnError>true</failOnError>
                     <group>adobe/cq60</group>
+                    <embeddeds>
+                        <embedded>
+                            <groupId>com.adobe.cq</groupId>
+                            <artifactId>com.adobe.cq.wcm.core.components.commons</artifactId>
+                            <target>/apps/core/wcm/install</target>
+                        </embedded>
+                    </embeddeds>
                 </configuration>
             </plugin>
         </plugins>
