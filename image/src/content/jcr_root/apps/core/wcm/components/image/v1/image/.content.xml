@@ -4,5 +4,4 @@
     jcr:primaryType="cq:Component"
     jcr:title="Core WCM Image Component (v1)"
     sling:resourceSuperType="foundation/components/adaptiveimage"
-    componentGroup="Core"
-/>
+    componentGroup="Core"/>

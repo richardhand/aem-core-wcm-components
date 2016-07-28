@@ -15,5 +15,7 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <template data-sly-template.emptylisttemplate="${@ list}">
     <img data-sly-test="${wcmmode.edit && list.isEmpty && !list.isTouch}" src="/libs/cq/ui/resources/0.gif" class="cq-list-placeholder" alt="" />
-    <div data-sly-test="${wcmmode.edit && list.isEmpty && list.isTouch}" class="cq-placeholder" data-emptytext="List"></div>
+    <div data-sly-test.editOrPreview="${wcmmode.edit || wcmmode.preview}" data-sly-test="${editOrPreview && list.isEmpty && list.isTouch}"
+         class="cq-placeholder"
+         data-emptytext="List"></div>
 </template>
