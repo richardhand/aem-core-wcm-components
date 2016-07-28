@@ -9,27 +9,27 @@
             <items jcr:primaryType="cq:WidgetCollection">
                 <basic
                     jcr:primaryType="cq:Widget"
-                    path="/libs/wcm/foundation/components/page/v1/page/tab_basic.infinity.json"
+                    path="/apps/core/wcm/components/page/v1/page/tab_basic.infinity.json"
                     xtype="cqinclude"/>
                 <advanced
                     jcr:primaryType="cq:Widget"
-                    path="/libs/wcm/foundation/components/page/v1/page/tab_advanced.infinity.json"
+                    path="/apps/core/wcm/components/page/v1/page/tab_advanced.infinity.json"
                     xtype="cqinclude"/>
                 <image
                     jcr:primaryType="cq:Widget"
-                    path="/libs/wcm/foundation/components/page/v1/page/tab_image.infinity.json"
+                    path="/apps/core/wcm/components/page/v1/page/tab_image.infinity.json"
                     xtype="cqinclude"/>
                 <cloudservices
                     jcr:primaryType="cq:Widget"
-                    path="/libs/wcm/foundation/components/page/v1/page/tab_cloudservices.infinity.json"
+                    path="/apps/core/wcm/components/page/v1/page/tab_cloudservices.infinity.json"
                     xtype="cqinclude"/>
                 <blueprint
                     jcr:primaryType="cq:Widget"
-                    path="/libs/wcm/foundation/components/page/v1/page/tab_blueprint.infinity.json"
+                    path="/apps/core/wcm/components/page/v1/page/tab_blueprint.infinity.json"
                     xtype="cqinclude"/>
                 <livecopy
                     jcr:primaryType="cq:Widget"
-                    path="/libs/wcm/foundation/components/page/v1/page/tab_livecopy.infinity.json"
+                    path="/apps/core/wcm/components/page/v1/page/tab_livecopy.infinity.json"
                     xtype="cqinclude"/>
             </items>
         </tabs>
