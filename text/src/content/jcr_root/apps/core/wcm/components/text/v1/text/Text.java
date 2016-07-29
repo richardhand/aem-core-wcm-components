@@ -98,7 +98,9 @@ public class Text extends WCMUsePojo {
             boolean isTouch = AuthoringUtils.isTouch(request);
             SightlyWCMMode wcmMode = getWcmMode();
             boolean isPreviewOrEdit = wcmMode.isEdit() || wcmMode.isPreview();
-            cssClass = (isTouch && isPreviewOrEdit) ? CSS_CLASS_TOUCH : CSS_CLASS_CLASSIC;
+            if (isPreviewOrEdit) {
+                cssClass = isTouch ? CSS_CLASS_TOUCH : CSS_CLASS_CLASSIC;
+            }
             xssContext = CONTEXT_TEXT;
             if (wcmMode.isEdit()) {
                 text = isTouch ? "" : I18n.get(request, "Edit text");

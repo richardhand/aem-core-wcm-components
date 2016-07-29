@@ -79,7 +79,7 @@ public class TextTest extends WCMUsePojoBaseTest<Text> {
         assertEquals("Expected empty string.", "", text.getText());
         assertFalse(text.hasContent());
         assertFalse("Did not expect rich text.", text.getTextIsRich());
-        assertEquals("Expected " + Text.CSS_CLASS_TOUCH + " style.", Text.CSS_CLASS_TOUCH, text.getCssClass());
+        assertNull("Expected empty style", text.getCssClass());
         assertEquals("Expected " + Text.CONTEXT_TEXT + " XSS context.", Text.CONTEXT_TEXT, text.getXssContext());
     }
 
@@ -91,7 +91,7 @@ public class TextTest extends WCMUsePojoBaseTest<Text> {
         assertEquals("Expected empty string.", "", text.getText());
         assertFalse(text.hasContent());
         assertFalse("Did not expect rich text.", text.getTextIsRich());
-        assertEquals("Expected " + Text.CSS_CLASS_CLASSIC + " style.", Text.CSS_CLASS_CLASSIC, text.getCssClass());
+        assertNull("Expected empty style", text.getCssClass());
         assertEquals("Expected " + Text.CONTEXT_TEXT + " XSS context.", Text.CONTEXT_TEXT, text.getXssContext());
     }
 }
