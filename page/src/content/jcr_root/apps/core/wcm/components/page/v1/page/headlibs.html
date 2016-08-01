@@ -18,7 +18,8 @@
           data-sly-use.templateEditor="TemplateEditor">
     <sly data-sly-call="${clientLib.all @ categories='cq.foundation-main'}"
          data-sly-include="/libs/cq/cloudserviceconfigs/components/servicelibs/servicelibs.jsp"/>
-    <sly data-sly-call="${clientLib.css @ categories=templateEditor.templateCategories}"/>
+    <sly data-sly-test="${templateEditor.templateCategories}"
+         data-sly-call="${clientLib.css @ categories=templateEditor.templateCategories}"/>
     <link data-sly-test="${staticDesignPath}" href="${staticDesignPath}" rel="stylesheet" type="text/css" />
     <link data-sly-test="${designPath}" href="${designPath}" rel="stylesheet" type="text/css" />
 </template>
