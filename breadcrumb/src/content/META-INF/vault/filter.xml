@@ -16,5 +16,5 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <workspaceFilter version="1.0">
     <filter root="/apps/core/wcm/components/breadcrumb"/>
-    <filter root="/apps/core/wcm/install" mode="update"/>
+    <filter root="/apps/core/wcm/install"/>
 </workspaceFilter>
