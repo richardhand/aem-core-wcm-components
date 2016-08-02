@@ -43,6 +43,7 @@ import org.slf4j.LoggerFactory;
 import com.adobe.cq.sightly.WCMUsePojo;
 import com.adobe.cq.wcm.core.components.commons.AuthoringUtils;
 import com.day.cq.commons.RangeIterator;
+import com.day.cq.search.PredicateGroup;
 import com.day.cq.search.Predicate;
 import com.day.cq.search.Query;
 import com.day.cq.search.QueryBuilder;
@@ -84,6 +85,7 @@ public class List extends WCMUsePojo {
     public static final int LIMIT_DEFAULT = 100;
 
     public static final String SOURCE_CHILDREN = "children";
+    public static final String SOURCE_DESCENDANTS = "descendants";
     public static final String SOURCE_STATIC = "static";
     public static final String SOURCE_SEARCH = "search";
     public static final String SOURCE_QUERYBUILDER = "querybuilder";
@@ -121,6 +123,7 @@ public class List extends WCMUsePojo {
         properties = getProperties();
         resource = getResource();
         ResourceResolver resourceResolver = resource.getResourceResolver();
+        Page currentPage = getCurrentPage();
         readListConfiguration();
         listHTMLElement = Boolean.valueOf(ordered) ? "ol" : "ul";
         Source source = Source.getSource(listSource);
@@ -137,6 +140,25 @@ public class List extends WCMUsePojo {
             } else {
                 pageIterator = Collections.emptyIterator();
             }
+        } else if (source == Source.DESCENDANTS) {
+            QueryBuilder queryBuilder = resourceResolver.adaptTo(QueryBuilder.class);
+            Session session = resourceResolver.adaptTo(Session.class);
+            if (queryBuilder != null && session != null) {
+                Map<String, String> map = new HashMap<>();
+                map.put("path", properties.get("path", currentPage.getPath()));
+                map.put("type", "cq:Page");
+                map.put("p.offset", "0");
+                map.put("p.limit", "500");
+                Query query = queryBuilder.createQuery(PredicateGroup.create(map), session);
+                if (query != null) {
+                    query.setHitsPerPage(limit);
+                    SearchResult result = query.getResult();
+                    pageIterator = new HitPageIterator(pageManager, result.getHits().iterator(), !allowDuplicates);
+                }
+            } else {
+                LOGGER.error("Error loading query builder.");
+            }
+
         } else if (source == Source.QUERYBUILDER) {
             QueryBuilder queryBuilder = resourceResolver.adaptTo(QueryBuilder.class);
             Session session = resourceResolver.adaptTo(Session.class);
@@ -356,6 +378,7 @@ public class List extends WCMUsePojo {
     public enum Source {
 
         CHILDREN(SOURCE_CHILDREN),
+        DESCENDANTS(SOURCE_DESCENDANTS),
         STATIC(SOURCE_STATIC),
         SEARCH(SOURCE_SEARCH),
         QUERYBUILDER(SOURCE_QUERYBUILDER),
