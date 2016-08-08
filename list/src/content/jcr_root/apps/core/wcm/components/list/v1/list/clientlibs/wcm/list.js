@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-CQ.WCM = CQ.WCM || {};
 
+window.CQ = window.CQ || {}
+CQ.WCM = CQ.WCM || {};
 CQ.WCM.List = CQ.WCM.List || function () {
     "use strict";
 
