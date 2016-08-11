@@ -13,48 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-/*global Granite */
-(function (document, $) {
-    'use strict';
+/*global
+    Granite, Coral
+ */
+(function (document, $, Coral) {
+    "use strict";
 
-    const LIST_COMPONENT_V1_CLASS = 'core-wcm-list-v1',
-          LIST_ITEM_TYPE_NAME     = './itemType',
-          LIST_DISPLAY_AS_NAME    = './displayAs';
-
-    function toggleDialogField($field, shouldDisable) {
-        if ($field) {
-            if (shouldDisable) {
-                $field.parent().parent().hide();
-                /**
-                 * delete the property through the Sling POST Servlet
-                 */
-                $field.attr('name', LIST_DISPLAY_AS_NAME + '@Delete');
-            } else {
-                $field.parent().parent().show();
-                $field.attr('name', LIST_DISPLAY_AS_NAME);
+    $(document).on("foundation-contentloaded", function (e) {
+        $(".core-wcm-list-v1 coral-select.cq-dialog-dropdown-showhide", e.target).each(function (i, element) {
+            var target = $(element).data("cqDialogDropdownShowhideTarget");
+            if (target) {
+                Coral.commons.ready(element, function (component) {
+                    showHide(component, target);
+                    component.on("change", function () {
+                        showHide(component, target);
+                    });
+                });
             }
-        }
-
-    }
-
-    function getDialogFieldSelector(fieldName) {
-        return 'form > div.' + LIST_COMPONENT_V1_CLASS + ' [name="' + fieldName + '"]';
-    }
-
-    $(document).on('foundation-contentloaded', function () {
-
-        var $itemTypeField  = $(getDialogFieldSelector(LIST_ITEM_TYPE_NAME)),
-            $displayAsField = $(getDialogFieldSelector(LIST_DISPLAY_AS_NAME));
-
-        if ($itemTypeField.length > 0 && $displayAsField.length > 0) {
-            toggleDialogField($displayAsField, $itemTypeField.val() !== '');
-
-            $itemTypeField.on('change focusout', function () {
-                toggleDialogField($displayAsField, $itemTypeField.val() !== '');
-            });
-        }
+        });
+        showHide($(".cq-dialog-dropdown-showhide", e.target));
     });
 
+    function showHide(component, target) {
+        var value = component.value;
+        $(target).not(".hide").addClass("hide");
+        $(target).filter("[data-showhidetargetvalue='" + value + "']").removeClass("hide");
+    }
 
-
-})(document, Granite.$);
+})(document, Granite.$, Coral);
