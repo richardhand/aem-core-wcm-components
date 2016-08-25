@@ -25,10 +25,10 @@
           href="${resource.path}.feed" />
     <ul data-sly-element="${list.element}" data-sly-list.listItem="${list.items}"
         class="foundation-ordered-list-container ${list.style}">
-        <li data-sly-test="${list.itemType}"
+        <li data-sly-test="${listItem.hasImage && list.itemType}"
             data-sly-call="${itemTemplate.customItemType @ renderItem = listItem, resourceType = list.itemType}"
             class="foundation-list-item"></li>
-        <li data-sly-test="${!list.itemType}" data-sly-call="${itemTemplate[list.type] @ renderItem=listItem}"
+        <li data-sly-test="${listItem.hasImage && !list.itemType}" data-sly-call="${itemTemplate[list.type] @ renderItem=listItem}"
             class="foundation-list-item"></li>
     </ul>
     <div data-sly-test="${!list.isEmpty && list.isPaginating}" class="pagination">
