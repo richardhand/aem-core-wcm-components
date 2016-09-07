@@ -32,9 +32,9 @@
     <name>Adobe Experience Manager Core WCM Components Commons Bundle</name>
 
     <scm>
-        <connection>scm:git:https://github.com/Adobe-Marketing-Cloud/aem-core-wcm-components.git</connection>
-        <developerConnection>scm:git:git@github.com:Adobe-Marketing-Cloud/aem-core-wcm-components.git</developerConnection>
-        <url>https://github.com/Adobe-Marketing-Cloud/aem-core-wcm-components/tree/master/commons</url>
+        <connection>scm:git:https://git.corp.adobe.com/CQ/aem-core-wcm-components.git</connection>
+        <developerConnection>scm:git:git@git.corp.adobe.com:CQ/aem-core-wcm-components.git</developerConnection>
+        <url>https://git.corp.adobe.com/CQ/aem-core-wcm-components/tree/master/commons</url>
         <tag>HEAD</tag>
     </scm>
 
