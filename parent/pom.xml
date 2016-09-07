@@ -159,6 +159,8 @@
                         <exclude>**/META-INF/vault/settings.xml</exclude>
                         <!-- Ignore .vltignore files -->
                         <exclude>**/.vltignore</exclude>
+                        <!-- Ignore .vlt files -->
+                        <exclude>**/.vlt</exclude>
                         <!-- Exclude all JSON files -->
                         <exclude>**/*.json</exclude>
                         <!-- Generated for release source archives -->

@@ -91,6 +91,7 @@ public class List extends WCMUsePojo {
     public static final String SOURCE_QUERYBUILDER = "querybuilder";
     public static final String SOURCE_TAGS = "tags";
     public static final String PN_FILE_REFERENCE = "fileReference";
+    public static final String PROP_ANCESTOR_PAGE = "ancestorPage";
 
 
     private SlingHttpServletRequest request;
@@ -141,11 +142,12 @@ public class List extends WCMUsePojo {
                 pageIterator = Collections.emptyIterator();
             }
         } else if (source == Source.DESCENDANTS) {
+            String ancestorPage = properties.get(PROP_ANCESTOR_PAGE, currentPage.getPath());
             QueryBuilder queryBuilder = resourceResolver.adaptTo(QueryBuilder.class);
             Session session = resourceResolver.adaptTo(Session.class);
             if (queryBuilder != null && session != null) {
                 Map<String, String> map = new HashMap<>();
-                map.put("path", properties.get("path", currentPage.getPath()));
+                map.put("path", properties.get("path", ancestorPage));
                 map.put("type", "cq:Page");
                 map.put("p.offset", "0");
                 map.put("p.limit", "500");

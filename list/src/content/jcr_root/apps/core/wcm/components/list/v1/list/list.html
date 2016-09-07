@@ -14,8 +14,8 @@
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <div data-sly-use.list="List"
-     data-sly-use.emptyRenderer="templates/emptylist.html"
-     data-sly-use.itemTemplate="templates/listitem.html"
+     data-sly-use.emptyRenderer="templates/empty_list.html"
+     data-sly-use.listElementTemplate="templates/list_element.html"
      data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html"
      id="${list.listId}"
      class="cq-dd-pages">
@@ -23,14 +23,7 @@
     <sly data-sly-call="${emptyRenderer.emptylisttemplate @ list=list}" />
     <link data-sly-test="${list.isFeedEnabled}" rel="alternate" type="application/atom+xml" title="Atom 1.0 (List)"
           href="${resource.path}.feed" />
-    <ul data-sly-element="${list.element}" data-sly-list.listItem="${list.items}"
-        class="foundation-ordered-list-container ${list.style}">
-        <li data-sly-test="${listItem.hasImage && list.itemType}"
-            data-sly-call="${itemTemplate.customItemType @ renderItem = listItem, resourceType = list.itemType}"
-            class="foundation-list-item"></li>
-        <li data-sly-test="${listItem.hasImage && !list.itemType}" data-sly-call="${itemTemplate[list.type] @ renderItem=listItem}"
-            class="foundation-list-item"></li>
-    </ul>
+    <sly data-sly-call="${listElementTemplate.container @ list=list}"/>
     <div data-sly-test="${!list.isEmpty && list.isPaginating}" class="pagination">
         <div data-sly-test="${list.previousLink}" class="previous">
             <a href="${list.previousLink}" onclick="CQ_Analytics.record({event: 'listPreviousPage', values: { listPageStart: '${list.pageStart @ context='scriptString'}' }, collect:  false, options: { obj: this }, componentPath: '${resource.resourceType @ context='scriptString'}'}); return CQ.WCM.List.linkClick(this, '${list.listId @ context='scriptString'}');" aria-describedby="${list.accessiblePreviousDescriptionId}">&laquo; ${"Previous" @ i18n}</a>
