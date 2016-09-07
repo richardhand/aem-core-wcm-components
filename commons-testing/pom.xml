@@ -24,14 +24,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>com.adobe.cq.wcm.core.components.commons-testing</artifactId>
-    <version>0.9.0</version>
+    <version>0.9.1-SNAPSHOT</version>
     <name>Adobe Experience Manager Core WCM Components Commons Testing</name>
 
     <scm>
         <connection>scm:git:https://git.corp.adobe.com/CQ/aem-core-wcm-components.git</connection>
         <developerConnection>scm:git:git@git.corp.adobe.com:CQ/aem-core-wcm-components.git</developerConnection>
         <url>https://git.corp.adobe.com/CQ/aem-core-wcm-components/tree/master/commons-testing</url>
-        <tag>com.adobe.cq.wcm.core.components.commons-testing-0.9.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <description>Useful tools for testing Sightly-based AEM components</description>
