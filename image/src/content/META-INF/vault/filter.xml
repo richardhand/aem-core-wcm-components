@@ -17,5 +17,4 @@
 <workspaceFilter version="1.0">
     <filter root="/apps/core/wcm/components/image"/>
     <filter root="/apps/core/wcm/install"/>
-    <filter root="/etc/clientlibs/core/wcm/components/image"/>
 </workspaceFilter>
