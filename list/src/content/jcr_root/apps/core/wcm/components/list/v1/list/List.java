@@ -42,9 +42,10 @@ import org.slf4j.LoggerFactory;
 
 import com.adobe.cq.sightly.WCMUsePojo;
 import com.adobe.cq.wcm.core.components.commons.AuthoringUtils;
+import com.adobe.cq.wcm.core.components.commons.ComponentUtils;
 import com.day.cq.commons.RangeIterator;
-import com.day.cq.search.PredicateGroup;
 import com.day.cq.search.Predicate;
+import com.day.cq.search.PredicateGroup;
 import com.day.cq.search.Query;
 import com.day.cq.search.QueryBuilder;
 import com.day.cq.search.SimpleSearch;
@@ -93,6 +94,8 @@ public class List extends WCMUsePojo {
     public static final String PN_FILE_REFERENCE = "fileReference";
     public static final String PROP_ANCESTOR_PAGE = "ancestorPage";
 
+    private static final String DEFAULT_TITLE = "List";
+
 
     private SlingHttpServletRequest request;
     private PageManager pageManager;
@@ -103,6 +106,7 @@ public class List extends WCMUsePojo {
     private String listSource;
     private String query;
     private String startIn;
+    private String componentTitle;
     private String type;
     private String orderBy;
     private int limit;
@@ -123,6 +127,7 @@ public class List extends WCMUsePojo {
         pageManager = getPageManager();
         properties = getProperties();
         resource = getResource();
+        componentTitle = ComponentUtils.getComponentTitle(resource, DEFAULT_TITLE);
         ResourceResolver resourceResolver = resource.getResourceResolver();
         Page currentPage = getCurrentPage();
         readListConfiguration();
@@ -259,6 +264,10 @@ public class List extends WCMUsePojo {
 
     public String getListHTMLElement() {
         return listHTMLElement;
+    }
+
+    public String getComponentTitle() {
+        return componentTitle;
     }
 
     public String getType() {

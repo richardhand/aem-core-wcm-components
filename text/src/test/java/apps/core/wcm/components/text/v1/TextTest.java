@@ -31,12 +31,13 @@ import static org.mockito.Mockito.when;
 public class TextTest extends WCMUsePojoBaseTest<Text> {
 
     static {
-        TEST_ROOT = "/content/text";
+        TEST_CONTENT_ROOT = "/content/text";
+        TEST_APPS_ROOT = "/apps/core/wcm/components/text";
     }
 
-    public static final String PLAIN_TEXT = TEST_ROOT + "/plain-text";
-    public static final String RICH_TEXT = TEST_ROOT + "/rich-text";
-    public static final String EMPTY_TEXT = TEST_ROOT + "/empty-text";
+    public static final String PLAIN_TEXT = TEST_CONTENT_ROOT + "/plain-text";
+    public static final String RICH_TEXT = TEST_CONTENT_ROOT + "/rich-text";
+    public static final String EMPTY_TEXT = TEST_CONTENT_ROOT + "/empty-text";
 
     @Test
     public void testRegularText() {
@@ -46,6 +47,7 @@ public class TextTest extends WCMUsePojoBaseTest<Text> {
         assertFalse("Expected plain text.", text.getTextIsRich());
         assertNull("Expected a null style since the text value is populated.", text.getCssClass());
         assertEquals("Expected " + Text.CONTEXT_TEXT + " XSS context.", Text.CONTEXT_TEXT, text.getXssContext());
+        assertEquals("Core WCM Text Component (v1)", text.getComponentTitle());
     }
 
     @Test

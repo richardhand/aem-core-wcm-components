@@ -545,6 +545,13 @@
                 <scope>provided</scope>
             </dependency>
 
+            <dependency>
+                <groupId>com.adobe.cq</groupId>
+                <artifactId>com.adobe.cq.wcm.core.components.commons</artifactId>
+                <version>0.9.4</version>
+                <scope>provided</scope>
+            </dependency>
+
             <!--
                 AEM APIs; make sure to not move this bundle upper in the list so that newer APIs available in AEM but not in the Uber
                 Jar can be used as dependencies.
@@ -596,10 +603,11 @@
             </dependency>
             <dependency>
                 <groupId>com.adobe.cq</groupId>
-                <artifactId>com.adobe.cq.wcm.core.components.commons</artifactId>
-                <version>0.9.4</version>
-                <scope>provided</scope>
+                <artifactId>com.adobe.cq.wcm.core.components.commons-testing</artifactId>
+                <version>0.9.1-SNAPSHOT</version>
+                <scope>test</scope>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 

@@ -42,10 +42,11 @@ import static org.mockito.Mockito.when;
 public class BreadcrumbTest extends WCMUsePojoBaseTest<Breadcrumb> {
 
     static {
-        TEST_ROOT = "/content/breadcrumb/women";
+        TEST_CONTENT_ROOT = "/content/breadcrumb/women";
+        TEST_APPS_ROOT = "/apps/core/wcm/components/breadcrumb";
     }
 
-    public static final String RESOURCE_DEVI_SLEEVELESS_SHIRT = TEST_ROOT + "/shirts/devi-sleeveless-shirt";
+    public static final String RESOURCE_DEVI_SLEEVELESS_SHIRT = TEST_CONTENT_ROOT + "/shirts/devi-sleeveless-shirt";
     public static final String RESOURCE_ABSOLUTE_PARENT = RESOURCE_DEVI_SLEEVELESS_SHIRT + "/jcr:content/header/breadcrumb-abs-parent";
     public static final String RESOURCE_RELATIVE_PARENT = RESOURCE_DEVI_SLEEVELESS_SHIRT + "/jcr:content/header/breadcrumb-rel-parent";
     public static final String RESOURCE_UNLINK_CURRENT_PAGE = RESOURCE_DEVI_SLEEVELESS_SHIRT +
@@ -75,6 +76,7 @@ public class BreadcrumbTest extends WCMUsePojoBaseTest<Breadcrumb> {
         doReturn(resourceSpy).when(breadcrumb).getResource();
         breadcrumb.init(bindings);
         checkBreadcrumbConsistency(breadcrumb, new String[]{"Shirts", "Devi Sleeveless Shirt"});
+        assertEquals("Core WCM Breadcrumb Component (v1)", breadcrumb.getComponentTitle());
     }
 
     @Test

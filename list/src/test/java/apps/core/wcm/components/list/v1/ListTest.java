@@ -23,15 +23,10 @@ import javax.script.Bindings;
 
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
-import org.apache.sling.api.resource.ValueMap;
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import apps.core.wcm.components.list.v1.list.List;
 
@@ -43,7 +38,6 @@ import com.day.cq.search.SimpleSearch;
 import com.day.cq.search.result.Hit;
 import com.day.cq.search.result.SearchResult;
 import com.day.cq.tagging.TagManager;
-import io.wcm.testing.mock.aem.junit.AemContext;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -55,16 +49,17 @@ import static org.mockito.Mockito.when;
 public class ListTest extends WCMUsePojoBaseTest<List> {
 
     static {
-        TEST_ROOT = "/content/list";
+        TEST_CONTENT_ROOT = "/content/list";
+        TEST_APPS_ROOT = "/apps/core/wcm/components/list";
     }
     
     
-    public static final String CHILDREN_LIST = TEST_ROOT + "/jcr:content/sidebar/list-children";
-    public static final String CHILDREN_LIST_PAGINATED = TEST_ROOT + "/jcr:content/sidebar/list-children-paginated";
-    public static final String STATIC_LIST = TEST_ROOT + "/jcr:content/sidebar/list-static";
-    public static final String SEARCH_LIST = TEST_ROOT + "/jcr:content/sidebar/list-search";
-    public static final String QUERY_LIST = TEST_ROOT + "/jcr:content/sidebar/list-query";
-    public static final String TAGS_LIST = TEST_ROOT + "/jcr:content/sidebar/list-tags";
+    public static final String CHILDREN_LIST = TEST_CONTENT_ROOT + "/jcr:content/sidebar/list-children";
+    public static final String CHILDREN_LIST_PAGINATED = TEST_CONTENT_ROOT + "/jcr:content/sidebar/list-children-paginated";
+    public static final String STATIC_LIST = TEST_CONTENT_ROOT + "/jcr:content/sidebar/list-static";
+    public static final String SEARCH_LIST = TEST_CONTENT_ROOT + "/jcr:content/sidebar/list-search";
+    public static final String QUERY_LIST = TEST_CONTENT_ROOT + "/jcr:content/sidebar/list-query";
+    public static final String TAGS_LIST = TEST_CONTENT_ROOT + "/jcr:content/sidebar/list-tags";
 
     @Test
     public void testListFromChildrenPages() {
@@ -88,6 +83,7 @@ public class ListTest extends WCMUsePojoBaseTest<List> {
         assertEquals("Expected a default list.", "default", list.getType());
         assertFalse("Did not expect an empty list.", list.isEmpty());
         assertEquals("Expected the list to start from page number 2.", 2, list.getPageStart());
+        assertEquals("Core WCM List Component (v1)", list.getComponentTitle());
     }
 
     @Test

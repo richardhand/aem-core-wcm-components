@@ -23,7 +23,7 @@
     <div class="smart-image"
          data-component='{"component":"cqImage","smartSizes":[${image.smartSizes}],"smartImages":[${image.smartImages}]}'>
         <noscript>
-            <img data-emptytext="Image"
+            <img data-emptytext="${image.componentTitle}"
                  src="${image.src}"
                  alt="${image.alt}"
                  title="${image.shouldDisplayCaptionPopup ? image.caption || image.title : image.title}"

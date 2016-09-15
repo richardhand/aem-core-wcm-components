@@ -52,23 +52,37 @@ public abstract class WCMUsePojoBaseTest<T extends WCMUsePojo> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WCMUsePojoBaseTest.class);
     public static final String TEST_CONTENT = "/test-content.json";
+    public static final String TEST_APPS = "/test-apps.json";
 
     @Rule
     protected final AemContext context = new AemContext();
 
-    protected static String TEST_ROOT;
+    protected static String TEST_CONTENT_ROOT;
+    protected static String TEST_APPS_ROOT;
 
     @Before
     public void setUp() {
-        if (StringUtils.isNotEmpty(TEST_ROOT)) {
+        initTestResources(TEST_CONTENT_ROOT, TEST_CONTENT);
+        initTestResources(TEST_APPS_ROOT, TEST_APPS);
+        context.registerInjectActivateService(new MockAdapterFactory());
+    }
+
+    /**
+     * Initialize test resources for the mocked objects
+     *
+     * @param rootPath path were the resources should be mounted in the JCR tree
+     * @param jsonPath path to the json file to mount
+     */
+    protected void initTestResources(String rootPath, String jsonPath) {
+        if (StringUtils.isNotEmpty(rootPath)) {
             try {
-                context.load().json(TEST_CONTENT, TEST_ROOT);
-                context.registerInjectActivateService(new MockAdapterFactory());
+                context.load().json(jsonPath, rootPath);
             } catch (IllegalArgumentException e) {
-                LOGGER.info("Attempted to load {} from classpath but did not find the resource.", TEST_CONTENT);
+                LOGGER.info("Attempted to load {} from classpath but did not find the resource.", jsonPath);
             }
         }
     }
+
 
     /**
      * Provides a spied object that can be used for further mocking.
@@ -166,5 +180,7 @@ public abstract class WCMUsePojoBaseTest<T extends WCMUsePojo> {
     protected void setWCMMode(WCMMode wcmMode) {
         context.request().setAttribute(WCMMode.REQUEST_ATTRIBUTE_NAME, wcmMode);
     }
+
+
 
 }

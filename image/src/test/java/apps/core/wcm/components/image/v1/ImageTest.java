@@ -41,11 +41,12 @@ import static org.mockito.Mockito.when;
 public class ImageTest extends WCMUsePojoBaseTest<Image> {
 
     static {
-        TEST_ROOT = "/content/image";
+        TEST_CONTENT_ROOT = "/content/image";
+        TEST_APPS_ROOT = "/apps/core/wcm/components/image";
     }
 
-    private static final String IMAGE_DEFAULT_DESIGN_FR = TEST_ROOT + "/imageDefaultDesignFileReference";
-    private static final String IMAGE_DEFAULT_DESIGN_FILE = TEST_ROOT + "/imageDefaultDesignFile";
+    private static final String IMAGE_DEFAULT_DESIGN_FR = TEST_CONTENT_ROOT + "/imageDefaultDesignFileReference";
+    private static final String IMAGE_DEFAULT_DESIGN_FILE = TEST_CONTENT_ROOT + "/imageDefaultDesignFile";
     private static final Style DEFAULT_STYLE = Mockito.mock(Style.class);
 
     @BeforeClass
@@ -76,6 +77,7 @@ public class ImageTest extends WCMUsePojoBaseTest<Image> {
         assertEquals("Title", image.getTitle());
         assertEquals("Alt", image.getAlt());
         assertEquals("Description", image.getCaption());
+        assertEquals("Core WCM Image Component", image.getComponentTitle());
         // wcmMode is disabled
         assertNull(image.getCssClass());
     }

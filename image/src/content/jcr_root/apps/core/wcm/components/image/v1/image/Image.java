@@ -40,6 +40,7 @@ import org.slf4j.LoggerFactory;
 import com.adobe.cq.sightly.SightlyWCMMode;
 import com.adobe.cq.sightly.WCMUsePojo;
 import com.adobe.cq.wcm.core.components.commons.AuthoringUtils;
+import com.adobe.cq.wcm.core.components.commons.ComponentUtils;
 import com.day.cq.wcm.api.NameConstants;
 import com.day.cq.wcm.api.designer.Style;
 
@@ -81,6 +82,7 @@ public class Image extends WCMUsePojo {
 
     private static final Pattern mapInfoRegex = Pattern.compile("\\[([^(]*)\\(([^)]*)\\)([^|]*)\\|([^|]*)\\|([^\\]]*)\\]");
     private static final Pattern mapItemRegex = Pattern.compile("\"([^\"]*)\"");
+    private static final String DEFAULT_TITLE = "Image";
 
     private String link;
     private String fileReference;
@@ -88,6 +90,7 @@ public class Image extends WCMUsePojo {
     private String src;
     private String alt;
     private String title;
+    private String componentTitle;
     private int width;
     private int height;
     private ImageMap imageMap;
@@ -129,6 +132,7 @@ public class Image extends WCMUsePojo {
         allowCaptionText = style.get(DESIGN_PROP_ALLOW_CAPTION_TEXT, true);
         displayCaptionPopup = style.get(DESIGN_PROP_DISPLAY_CAPTION_POPUP, false);
         allowedStyles = style.get(DESIGN_PROP_ALLOWED_STYLES, new String[]{});
+        componentTitle = ComponentUtils.getComponentTitle(resource, DEFAULT_TITLE);
 
         fileReference = properties.get(PROP_FILE_REFERENCE, "");
         if (StringUtils.isNotEmpty(fileReference)) {
@@ -272,6 +276,14 @@ public class Image extends WCMUsePojo {
         }
         supportedWidths = DEFAULT_SUPPORTED_WIDTHS;
         return supportedWidths;
+    }
+
+    /**
+     * Retruns the title of this component
+     * @return component title
+     */
+    public String getComponentTitle() {
+        return componentTitle;
     }
 
     /**

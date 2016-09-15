@@ -1,0 +1,105 @@
+
+{
+    "jcr:primaryType": "cq:Component",
+    "jcr:createdBy": "admin",
+    "jcr:title": "Core WCM Text Component",
+    "allowedParents": ["*/parsys"],
+    "jcr:created": "Mon Sep 12 2016 15:05:08 GMT+0200",
+    "sling:resourceSuperType": "core/wcm/components/text/v1/text",
+    "jcr:description": "Core WCM Text Component - Sightly",
+    "componentGroup": "Core",
+    "v1": {
+        "jcr:primaryType": "nt:unstructured",
+        "text": {
+            "jcr:primaryType": "cq:Component",
+            "jcr:createdBy": "admin",
+            "jcr:title": "Core WCM Text Component (v1)",
+            "allowedParents": ["*/parsys"],
+            "jcr:created": "Mon Sep 12 2016 15:05:08 GMT+0200",
+            "jcr:description": "Core WCM Text Component (v1) - Sightly",
+            "componentGroup": "Core",
+            "cq:editConfig": {
+                "jcr:primaryType": "cq:EditConfig",
+                "jcr:createdBy": "admin",
+                "jcr:created": "Mon Sep 12 2016 15:05:08 GMT+0200",
+                "cq:inplaceEditing": {
+                    "jcr:primaryType": "cq:InplaceEditingConfig",
+                    "editorType": "text",
+                    "active": true,
+                    "configPath": "../../dialog/items/tab1/items/text"
+                }
+            },
+            "cq:dialog": {
+                "jcr:primaryType": "nt:unstructured",
+                "jcr:title": "Text",
+                "helpPath": "http://www.adobe.com/go/aem6_1_docs_component_en#Text - Sightly",
+                "sling:resourceType": "cq/gui/components/authoring/dialog",
+                "content": {
+                    "jcr:primaryType": "nt:unstructured",
+                    "sling:resourceType": "granite/ui/components/foundation/container",
+                    "layout": {
+                        "jcr:primaryType": "nt:unstructured",
+                        "margin": false,
+                        "type": "nav",
+                        "sling:resourceType": "granite/ui/components/foundation/layouts/fixedcolumns"
+                    },
+                    "items": {"jcr:primaryType": "nt:unstructured"}
+                }
+            },
+            "dialog": {
+                "jcr:primaryType": "cq:Dialog",
+                "helpPath": "en/cq/current/wcm/default_components.html#Text",
+                "title": "Text",
+                "xtype": "tabpanel",
+                "items": {
+                    "jcr:primaryType": "cq:WidgetCollection",
+                    "tab1": {
+                        "jcr:primaryType": "cq:Widget",
+                        "anchor": "100%",
+                        "title": "Text",
+                        "xtype": "panel"
+                    }
+                }
+            },
+            "icon.png": {
+                "jcr:primaryType": "nt:file",
+                "jcr:createdBy": "admin",
+                "jcr:created": "Mon Sep 12 2016 15:05:08 GMT+0200",
+                "jcr:content": {
+                    "jcr:primaryType": "nt:resource",
+                    "jcr:lastModifiedBy": "admin",
+                    "jcr:mimeType": "image/png",
+                    "jcr:lastModified": "Mon Sep 12 2016 15:05:08 GMT+0200",
+                    ":jcr:data": 524,
+                    "jcr:uuid": "b035fc8e-a240-46a7-87a8-5d149c13e68f"
+                }
+            },
+            "Text.java": {
+                "jcr:primaryType": "nt:file",
+                "jcr:createdBy": "admin",
+                "jcr:created": "Mon Sep 12 2016 15:05:08 GMT+0200",
+                "jcr:content": {
+                    "jcr:primaryType": "nt:resource",
+                    "jcr:lastModifiedBy": "Administrator",
+                    "jcr:mimeType": "text/plain",
+                    "jcr:lastModified": "Mon Sep 12 2016 15:05:08 GMT+0200",
+                    ":jcr:data": 4291,
+                    "jcr:uuid": "40de928c-aa70-4397-a641-582777df2673"
+                }
+            },
+            "text.html": {
+                "jcr:primaryType": "nt:file",
+                "jcr:createdBy": "admin",
+                "jcr:created": "Mon Sep 12 2016 15:05:08 GMT+0200",
+                "jcr:content": {
+                    "jcr:primaryType": "nt:resource",
+                    "jcr:lastModifiedBy": "Administrator",
+                    "jcr:mimeType": "text/plain",
+                    "jcr:lastModified": "Mon Sep 12 2016 15:05:08 GMT+0200",
+                    ":jcr:data": 1014,
+                    "jcr:uuid": "ffdf4566-1068-4c59-a4ce-230aca2f02e6"
+                }
+            }
+        }
+    }
+}
