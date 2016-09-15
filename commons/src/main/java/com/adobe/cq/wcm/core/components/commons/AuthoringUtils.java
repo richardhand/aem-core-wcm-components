@@ -17,12 +17,7 @@ package com.adobe.cq.wcm.core.components.commons;
 
 import javax.servlet.ServletRequest;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.sling.api.resource.Resource;
-
 import com.day.cq.wcm.api.AuthoringUIMode;
-import com.day.cq.wcm.api.components.Component;
-import com.day.cq.wcm.commons.WCMUtils;
 
 public final class AuthoringUtils {
 
@@ -46,21 +41,5 @@ public final class AuthoringUtils {
     public static boolean isClassic(ServletRequest request) {
         AuthoringUIMode currentMode = AuthoringUIMode.fromRequest(request);
         return AuthoringUIMode.CLASSIC == currentMode;
-    }
-
-    /**
-     * Get the current component title form the resource
-     *
-     * @param resource the current resource
-     * @param defaultTitle the default if component is null or title is empty
-     * @return {@code String} of component tile or defaultTitle
-     */
-    public static String getComponentTitle(Resource resource, String defaultTitle) {
-        String title = StringUtils.defaultString(defaultTitle, StringUtils.EMPTY);
-        Component component = WCMUtils.getComponent(resource);
-        if(component != null) {
-            title = StringUtils.defaultIfEmpty(component.getTitle(), title) ;
-        }
-        return title;
     }
 }
