@@ -415,32 +415,44 @@
                                 <items jcr:primaryType="nt:unstructured">
                                     <section
                                             jcr:primaryType="nt:unstructured"
-                                            jcr:title="Social media sharing"
+                                            jcr:title="Social Media sharing"
                                             sling:resourceType="granite/ui/components/foundation/form/fieldset">
                                         <items jcr:primaryType="nt:unstructured">
-                                            <facebook
+                                            <inputgroup
                                                     jcr:primaryType="nt:unstructured"
-                                                    sling:resourceType="granite/ui/components/foundation/form/checkbox"
-                                                    cq-msm-lockable="./sling:redirect"
-                                                    name="./socialMedia"
-                                                    renderReadOnly="{Boolean}true"
-                                                    text="Facebook"
-                                                    value="facebook"/>
-                                            <pinterest
-                                                    jcr:primaryType="nt:unstructured"
-                                                    sling:resourceType="granite/ui/components/foundation/form/checkbox"
-                                                    cq-msm-lockable="./sling:redirect"
-                                                    name="./socialMedia"
-                                                    renderReadOnly="{Boolean}true"
-                                                    text="Pinterest"
-                                                    value="pinterest"/>
-                                            <socialmedia_type
-                                                    jcr:primaryType="nt:unstructured"
-                                                    sling:resourceType="granite/ui/components/foundation/form/hidden"
-                                                    allowBulkEdit="{Boolean}true"
-                                                    ignoreData="{Boolean}true"
-                                                    name="./socialMedia@TypeHint"
-                                                    value="String[]"/>
+                                                    sling:resourceType="granite/ui/components/foundation/form/inputgroup"
+                                                    fieldLabel="Enable user sharing for"
+                                                    renderReadOnly="{Boolean}true">
+                                                <field
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/foundation/form/fieldset">
+                                                    <items jcr:primaryType="nt:unstructured">
+                                                        <facebook
+                                                                jcr:primaryType="nt:unstructured"
+                                                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                                                cq-msm-lockable="socialMedia"
+                                                                name="./socialMedia"
+                                                                renderReadOnly="{Boolean}true"
+                                                                text="Facebook"
+                                                                value="facebook"/>
+                                                        <pinterest
+                                                                jcr:primaryType="nt:unstructured"
+                                                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                                                cq-msm-lockable="socialMedia"
+                                                                name="./socialMedia"
+                                                                renderReadOnly="{Boolean}true"
+                                                                text="Pinterest"
+                                                                value="pinterest"/>
+                                                        <socialmedia_type
+                                                                jcr:primaryType="nt:unstructured"
+                                                                sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                                                allowBulkEdit="{Boolean}true"
+                                                                ignoreData="{Boolean}true"
+                                                                name="./socialMedia@TypeHint"
+                                                                value="String[]"/>
+                                                    </items>
+                                                </field>
+                                            </inputgroup>
                                         </items>
                                     </section>
                                 </items>
