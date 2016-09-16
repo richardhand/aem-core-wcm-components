@@ -14,6 +14,6 @@
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <p data-sly-use.text="Text" data-sly-unwrap="${text.xssContext == text.CONTEXT_HTML}"
-   class="${text.hasContent ? '' : text.cssClass}" data-emptytext="${text.hasContent ? '' : 'Text'}">
+   class="${text.hasContent ? '' : text.cssClass}" data-emptytext="${text.hasContent ? '' : text.componentTitle}">
     ${text.text @ context=text.xssContext}
 </p>

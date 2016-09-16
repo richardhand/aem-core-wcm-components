@@ -24,6 +24,7 @@ import org.apache.sling.api.resource.ValueMap;
 
 import com.adobe.cq.sightly.WCMUsePojo;
 import com.adobe.cq.wcm.core.components.commons.AuthoringUtils;
+import com.adobe.cq.wcm.core.components.commons.ComponentUtils;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.designer.Style;
 
@@ -39,6 +40,7 @@ public class Breadcrumb extends WCMUsePojo {
     private static final String PROP_TRAIL_DELIMITER_DEFAULT = "";
     private static final String PROP_UNLINK_CURRENT_ITEM = "unlinkCurrentItem";
     private static final boolean PROP_UNLINK_CURRENT_ITEM_DEFAULT = false;
+    private static final String DEFAULT_TITLE = "Breadcrumb";
 
     private List<BreadcrumbItem> breadcrumbItems = new ArrayList<>();
     private ValueMap properties;
@@ -46,6 +48,7 @@ public class Breadcrumb extends WCMUsePojo {
     private Integer level;
     private Integer endLevel;
     private String delimiter;
+    private String componentTitle;
     private String trailingDelimiter;
     private Boolean unlinkCurrentItem;
     private Page currentPage;
@@ -57,6 +60,7 @@ public class Breadcrumb extends WCMUsePojo {
         style = getCurrentStyle();
         currentPage = getCurrentPage();
         request = getRequest();
+        componentTitle = ComponentUtils.getComponentTitle(getResource(), DEFAULT_TITLE);
         readBreadcrumbConfiguration();
         populateItems();
     }
@@ -66,13 +70,17 @@ public class Breadcrumb extends WCMUsePojo {
         while (level < currentLevel - endLevel) {
             Page page = currentPage.getAbsoluteParent(level);
             if (page != null) {
-                BreadcrumbItem breadcrumbItem = new BreadcrumbItem(getTitle(page), getPath(page));
+                BreadcrumbItem breadcrumbItem = new BreadcrumbItem(getPageTitle(page), getPath(page));
                 breadcrumbItems.add(breadcrumbItem);
                 level++;
             } else {
                 break;
             }
         }
+    }
+
+    public String getComponentTitle() {
+        return componentTitle;
     }
 
     private String getPath(Page page) {
@@ -83,7 +91,7 @@ public class Breadcrumb extends WCMUsePojo {
         }
     }
 
-    private String getTitle(Page page) {
+    private String getPageTitle(Page page) {
         String title = page.getNavigationTitle();
         if (StringUtils.isEmpty(title)) {
             title = page.getTitle();

@@ -18,13 +18,13 @@
     <parent>
         <artifactId>com.adobe.cq.wcm.core.components.parent</artifactId>
         <groupId>com.adobe.cq</groupId>
-        <version>0.9.4</version>
+        <version>0.9.8</version>
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>com.adobe.cq.wcm.core.components.commons-testing</artifactId>
-    <version>0.9.1-SNAPSHOT</version>
+    <version>0.9.3-SNAPSHOT</version>
     <name>Adobe Experience Manager Core WCM Components Commons Testing</name>
 
     <scm>

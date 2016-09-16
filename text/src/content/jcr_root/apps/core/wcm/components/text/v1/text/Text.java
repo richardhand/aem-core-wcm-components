@@ -22,6 +22,7 @@ import org.apache.sling.api.resource.ValueMap;
 import com.adobe.cq.sightly.SightlyWCMMode;
 import com.adobe.cq.sightly.WCMUsePojo;
 import com.adobe.cq.wcm.core.components.commons.AuthoringUtils;
+import com.adobe.cq.wcm.core.components.commons.ComponentUtils;
 import com.day.cq.i18n.I18n;
 
 public class Text extends WCMUsePojo {
@@ -32,11 +33,13 @@ public class Text extends WCMUsePojo {
     public static final String CONTEXT_HTML = "html";
     public static final String CSS_CLASS_TOUCH = "cq-placeholder";
     public static final String CSS_CLASS_CLASSIC = "cq-text-placeholder-ipe";
+    private static final String DEFAULT_TITLE = "Text";
 
     private String text;
     private Boolean textIsRich;
     private String cssClass;
     private String xssContext;
+    private String componentTitle;
     private boolean hasContent;
 
 
@@ -86,11 +89,21 @@ public class Text extends WCMUsePojo {
         return hasContent;
     }
 
+    /**
+     * Returns the title of the current component
+     *
+     * @return title of component
+     */
+    public String getComponentTitle() {
+        return componentTitle;
+    }
+
     public void activate() {
         ValueMap properties = getProperties();
         text = properties.get(PROP_TEXT, "");
         textIsRich = properties.get(PROP_RICH_FORMAT, false);
         xssContext = textIsRich ? CONTEXT_HTML : CONTEXT_TEXT;
+        componentTitle = ComponentUtils.getComponentTitle(getResource(), DEFAULT_TITLE);
         hasContent = true;
         if (StringUtils.isEmpty(text)) {
             hasContent = false;

@@ -5,9 +5,10 @@
         "textIsRich"     : true
     },
     "plain-text": {
-        "jcr:primaryType": "nt:unstructured",
-        "text"           : "plain",
-        "textIsRich"     : false
+        "jcr:primaryType"   : "nt:unstructured",
+        "text"              : "plain",
+        "textIsRich"        : false,
+        "sling:resourceType": "core/wcm/components/text/v1/text"
     },
     "empty-text": {
         "jcr:primaryType": "nt:unstructured",
