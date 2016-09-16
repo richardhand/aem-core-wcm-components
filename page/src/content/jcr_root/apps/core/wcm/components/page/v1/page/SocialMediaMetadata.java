@@ -181,7 +181,9 @@ public class SocialMediaMetadata extends WCMUsePojo {
         @Override
         public String getURL() {
             Externalizer externalizer = getSlingScriptHelper().getService(Externalizer.class);
-            String url = externalizer.absoluteLink(getRequest(), "http", getCurrentPage().getPath()) + ".html";
+            String pagePath = Text.escapePath(getCurrentPage().getPath());
+            String extension = getRequest().getRequestPathInfo().getExtension();
+            String url = externalizer.publishLink(getResourceResolver(), pagePath) + "." + extension;
             return url;
         }
 
@@ -199,7 +201,7 @@ public class SocialMediaMetadata extends WCMUsePojo {
         public String getImage() {
             String image = getThumbnailUrl(currentPage, 800, 480);
             Externalizer externalizer = getSlingScriptHelper().getService(Externalizer.class);
-            image = externalizer.absoluteLink(getRequest(), "http", image);
+            image = externalizer.publishLink(getResourceResolver(), image);
             return image;
         }
 
@@ -287,7 +289,8 @@ public class SocialMediaMetadata extends WCMUsePojo {
                 image = super.getImage();
             } else {
                 Externalizer externalizer = getSlingScriptHelper().getService(Externalizer.class);
-                image = externalizer.absoluteLink(getRequest(), "http", image);
+                image= Text.escapePath(image);
+                image = externalizer.publishLink(getResourceResolver(), image);
             }
             return image;
         }
