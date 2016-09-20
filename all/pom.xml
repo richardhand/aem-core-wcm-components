@@ -164,37 +164,37 @@
             <groupId>com.adobe.cq</groupId>
             <artifactId>com.adobe.cq.wcm.core.components.breadcrumb</artifactId>
             <version>0.9.4</version>
-            <type>content-package</type>
+            <type>zip</type>
         </dependency>
         <dependency>
             <groupId>com.adobe.cq</groupId>
             <artifactId>com.adobe.cq.wcm.core.components.image</artifactId>
             <version>0.9.4</version>
-            <type>content-package</type>
+            <type>zip</type>
         </dependency>
         <dependency>
             <groupId>com.adobe.cq</groupId>
             <artifactId>com.adobe.cq.wcm.core.components.list</artifactId>
             <version>0.9.4</version>
-            <type>content-package</type>
+            <type>zip</type>
         </dependency>
         <dependency>
             <groupId>com.adobe.cq</groupId>
             <artifactId>com.adobe.cq.wcm.core.components.page</artifactId>
             <version>0.9.6</version>
-            <type>content-package</type>
+            <type>zip</type>
         </dependency>
         <dependency>
             <groupId>com.adobe.cq</groupId>
             <artifactId>com.adobe.cq.wcm.core.components.text</artifactId>
             <version>0.9.6</version>
-            <type>content-package</type>
+            <type>zip</type>
         </dependency>
         <dependency>
             <groupId>com.adobe.cq</groupId>
             <artifactId>com.adobe.cq.wcm.core.components.title</artifactId>
             <version>0.9.4</version>
-            <type>content-package</type>
+            <type>zip</type>
         </dependency>
         <dependency>
             <groupId>com.adobe.cq</groupId>
