@@ -143,6 +143,11 @@
                             <targetURL>http://${aem.host}:${aem.port}/crx/packmgr/service.jsp</targetURL>
                             <failOnError>true</failOnError>
                             <failOnMissingEmbed>true</failOnMissingEmbed>
+                            <filters>
+                                <filter>
+                                    <root>/apps/core/wcm/install</root>
+                                </filter>
+                            </filters>
                             <embeddeds>
                                 <embedded>
                                     <groupId>com.adobe.cq</groupId>
@@ -177,6 +182,11 @@
                             <targetURL>http://${aem.publish.host}:${aem.publish.port}/crx/packmgr/service.jsp</targetURL>
                             <failOnError>true</failOnError>
                             <failOnMissingEmbed>true</failOnMissingEmbed>
+                            <filters>
+                                <filter>
+                                    <root>/apps/core/wcm/install</root>
+                                </filter>
+                            </filters>
                             <embeddeds>
                                 <embedded>
                                     <groupId>com.adobe.cq</groupId>

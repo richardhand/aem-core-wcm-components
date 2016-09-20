@@ -16,5 +16,4 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <workspaceFilter version="1.0">
     <filter root="/apps/core/wcm/components/text"/>
-    <filter root="/apps/core/wcm/install"/>
 </workspaceFilter>
