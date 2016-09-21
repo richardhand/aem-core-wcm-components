@@ -31,7 +31,7 @@
     <!-- P R O J E C T  D E S C R I P T I O N                                   -->
     <!-- ====================================================================== -->
     <artifactId>com.adobe.cq.wcm.core.components.list</artifactId>
-    <version>0.9.7-SNAPSHOT</version>
+    <version>0.9.8</version>
     <packaging>content-package</packaging>
     <name>Adobe Experience Manager Core WCM List Component</name>
 
@@ -39,7 +39,7 @@
         <connection>scm:git:https://git.corp.adobe.com/CQ/aem-core-wcm-components.git</connection>
         <developerConnection>scm:git:git@git.corp.adobe.com:CQ/aem-core-wcm-components.git</developerConnection>
         <url>https://git.corp.adobe.com/CQ/aem-core-wcm-components/tree/master/list</url>
-        <tag>HEAD</tag>
+        <tag>com.adobe.cq.wcm.core.components.list-0.9.8</tag>
     </scm>
 
     <!-- ====================================================================== -->
