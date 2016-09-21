@@ -34,7 +34,7 @@
         <tag>HEAD</tag>
     </scm>
 
-    <description>Useful tools for testing Sightly-based AEM components</description>
+    <description>Useful tools for testing HTL-based AEM components</description>
 
     <dependencies>
         <dependency>
