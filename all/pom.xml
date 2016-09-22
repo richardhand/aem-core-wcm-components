@@ -234,7 +234,7 @@
         <dependency>
             <groupId>com.adobe.cq</groupId>
             <artifactId>com.adobe.cq.wcm.core.components.page</artifactId>
-            <version>0.9.10</version>
+            <version>0.9.12</version>
             <type>zip</type>
         </dependency>
         <dependency>
