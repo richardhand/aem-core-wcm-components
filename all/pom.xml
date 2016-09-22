@@ -43,67 +43,12 @@
         <tag>HEAD</tag>
     </scm>
 
-
     <build>
         <plugins>
             <plugin>
                 <groupId>com.day.jcr.vault</groupId>
                 <artifactId>content-package-maven-plugin</artifactId>
                 <extensions>true</extensions>
-                <configuration>
-                    <subPackages>
-                        <subPackage>
-                            <groupId>${project.groupId}</groupId>
-                            <artifactId>com.adobe.cq.wcm.core.components.breadcrumb</artifactId>
-                            <filter>true</filter>
-                        </subPackage>
-                        <subPackage>
-                            <groupId>${project.groupId}</groupId>
-                            <artifactId>com.adobe.cq.wcm.core.components.image</artifactId>
-                            <filter>true</filter>
-                        </subPackage>
-                        <subPackage>
-                            <groupId>${project.groupId}</groupId>
-                            <artifactId>com.adobe.cq.wcm.core.components.list</artifactId>
-                            <filter>true</filter>
-                        </subPackage>
-                        <subPackage>
-                            <groupId>${project.groupId}</groupId>
-                            <artifactId>com.adobe.cq.wcm.core.components.page</artifactId>
-                            <filter>true</filter>
-                        </subPackage>
-                        <subPackage>
-                            <groupId>${project.groupId}</groupId>
-                            <artifactId>com.adobe.cq.wcm.core.components.text</artifactId>
-                            <filter>true</filter>
-                        </subPackage>
-                        <subPackage>
-                            <groupId>${project.groupId}</groupId>
-                            <artifactId>com.adobe.cq.wcm.core.components.title</artifactId>
-                            <filter>true</filter>
-                        </subPackage>
-                    </subPackages>
-                    <dependencies>
-                        <dependency>
-                            <group>day/cq60/product</group>
-                            <name>cq-content</name>
-                            <version>[6.1.76,)</version>
-                        </dependency>
-                    </dependencies>
-                    <failOnMissingEmbed>true</failOnMissingEmbed>
-                    <filters>
-                        <filter>
-                            <root>/apps/core/wcm/install</root>
-                        </filter>
-                    </filters>
-                    <embeddeds>
-                        <embedded>
-                            <groupId>com.adobe.cq</groupId>
-                            <artifactId>com.adobe.cq.wcm.core.components.commons</artifactId>
-                            <target>/apps/core/wcm/install</target>
-                        </embedded>
-                    </embeddeds>
-                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -112,7 +57,7 @@
         <profile>
             <id>buildSinglePackage</id>
             <activation>
-                <activeByDefault>false</activeByDefault>
+                <activeByDefault>true</activeByDefault>
             </activation>
 
             <properties>
@@ -124,11 +69,61 @@
                     <plugin>
                         <groupId>com.day.jcr.vault</groupId>
                         <artifactId>content-package-maven-plugin</artifactId>
-                        <extensions>true</extensions>
                         <configuration>
                             <verbose>true</verbose>
                             <failOnError>true</failOnError>
-                            <group>adobe/aem6/sample</group>
+                            <subPackages>
+                                <subPackage>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>com.adobe.cq.wcm.core.components.breadcrumb</artifactId>
+                                    <filter>true</filter>
+                                </subPackage>
+                                <subPackage>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>com.adobe.cq.wcm.core.components.image</artifactId>
+                                    <filter>true</filter>
+                                </subPackage>
+                                <subPackage>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>com.adobe.cq.wcm.core.components.list</artifactId>
+                                    <filter>true</filter>
+                                </subPackage>
+                                <subPackage>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>com.adobe.cq.wcm.core.components.page</artifactId>
+                                    <filter>true</filter>
+                                </subPackage>
+                                <subPackage>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>com.adobe.cq.wcm.core.components.text</artifactId>
+                                    <filter>true</filter>
+                                </subPackage>
+                                <subPackage>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>com.adobe.cq.wcm.core.components.title</artifactId>
+                                    <filter>true</filter>
+                                </subPackage>
+                            </subPackages>
+                            <dependencies>
+                                <dependency>
+                                    <group>day/cq60/product</group>
+                                    <name>cq-content</name>
+                                    <version>[6.1.76,)</version>
+                                </dependency>
+                            </dependencies>
+                            <failOnMissingEmbed>true</failOnMissingEmbed>
+                            <filters>
+                                <filter>
+                                    <root>/apps/core/wcm/install</root>
+                                </filter>
+                            </filters>
+                            <embeddeds>
+                                <embedded>
+                                    <groupId>com.adobe.cq</groupId>
+                                    <artifactId>com.adobe.cq.wcm.core.components.commons</artifactId>
+                                    <target>/apps/core/wcm/install</target>
+                                </embedded>
+                            </embeddeds>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -156,7 +151,60 @@
                         </executions>
                         <configuration>
                             <targetURL>http://${aem.host}:${aem.port}/crx/packmgr/service.jsp</targetURL>
+                            <verbose>true</verbose>
                             <failOnError>true</failOnError>
+                            <subPackages>
+                                <subPackage>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>com.adobe.cq.wcm.core.components.breadcrumb</artifactId>
+                                    <filter>true</filter>
+                                </subPackage>
+                                <subPackage>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>com.adobe.cq.wcm.core.components.image</artifactId>
+                                    <filter>true</filter>
+                                </subPackage>
+                                <subPackage>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>com.adobe.cq.wcm.core.components.list</artifactId>
+                                    <filter>true</filter>
+                                </subPackage>
+                                <subPackage>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>com.adobe.cq.wcm.core.components.page</artifactId>
+                                    <filter>true</filter>
+                                </subPackage>
+                                <subPackage>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>com.adobe.cq.wcm.core.components.text</artifactId>
+                                    <filter>true</filter>
+                                </subPackage>
+                                <subPackage>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>com.adobe.cq.wcm.core.components.title</artifactId>
+                                    <filter>true</filter>
+                                </subPackage>
+                            </subPackages>
+                            <dependencies>
+                                <dependency>
+                                    <group>day/cq60/product</group>
+                                    <name>cq-content</name>
+                                    <version>[6.1.76,)</version>
+                                </dependency>
+                            </dependencies>
+                            <failOnMissingEmbed>true</failOnMissingEmbed>
+                            <filters>
+                                <filter>
+                                    <root>/apps/core/wcm/install</root>
+                                </filter>
+                            </filters>
+                            <embeddeds>
+                                <embedded>
+                                    <groupId>com.adobe.cq</groupId>
+                                    <artifactId>com.adobe.cq.wcm.core.components.commons</artifactId>
+                                    <target>/apps/core/wcm/install</target>
+                                </embedded>
+                            </embeddeds>
                         </configuration>
                     </plugin>
                 </plugins>
