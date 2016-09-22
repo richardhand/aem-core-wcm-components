@@ -13,13 +13,12 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<!DOCTYPE HTML>
-<html>
-    <head data-sly-include="head.html"></head>
-    <body>
-        <sly data-sly-include="body.socialmedia_begin.html"/>
-        <sly data-sly-include="body.html"/>
-        <sly data-sly-include="footer.html"/>
-        <sly data-sly-include="body.socialmedia_end.html"/>
-    </body>
-</html>
+<sly data-sly-use.socialMedia="apps.core.wcm.components.page.v1.page.SocialMediaHelper"
+     data-sly-test="${socialMedia.hasPinterestSharing}">
+    <!-- Pinterest script -->
+    <script
+            type="text/javascript"
+            async defer
+            src="//assets.pinterest.com/js/pinit.js"
+    ></script>
+</sly>
