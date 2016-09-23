@@ -13,13 +13,15 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<!DOCTYPE HTML>
-<html>
-    <head data-sly-include="head.html"></head>
-    <body>
-        <sly data-sly-include="body.socialmedia_begin.html"/>
-        <sly data-sly-include="body.html"/>
-        <sly data-sly-include="footer.html"/>
-        <sly data-sly-include="body.socialmedia_end.html"/>
-    </body>
-</html>
+<sly data-sly-use.page="Page">
+    <!DOCTYPE HTML>
+    <html lang="${page.language @ context='attribute'}">
+        <head data-sly-include="head.html"></head>
+        <body>
+            <sly data-sly-include="body.socialmedia_begin.html"/>
+            <sly data-sly-include="body.html"/>
+            <sly data-sly-include="footer.html"/>
+            <sly data-sly-include="body.socialmedia_end.html"/>
+        </body>
+    </html>
+</sly>
