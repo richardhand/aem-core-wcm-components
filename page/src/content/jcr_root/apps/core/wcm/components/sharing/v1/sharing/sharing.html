@@ -14,12 +14,12 @@
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <div data-sly-use.socialMedia="apps.core.wcm.components.page.v1.page.SocialMediaHelper"
-     class="${socialMedia.socialMediaEnabled ? '' : 'cq-placeholder'}"
-     data-emptytext="${socialMedia.socialMediaEnabled ? '' : 'Social Media Sharing'}">
+     class="${!socialMedia.socialMediaEnabled && 'cq-placeholder'}"
+     data-emptytext="${!socialMedia.socialMediaEnabled && 'Social Media Sharing'}">
     <sly data-sly-test="${socialMedia.facebookEnabled}">
         <!-- Facebook -->
         <div class="fb-share-button"
-             data-href="${socialMedia.metadata['og:url']}"
+             data-href="${socialMedia.metadata.og:url}"
              data-layout="button_count"
              data-size="small"
              data-mobile-iframe="false">
@@ -30,7 +30,7 @@
          <a data-pin-do="buttonPin"
             data-pin-count="beside"
             data-pin-save="true"
-            data-pin-media="${socialMedia.metadata['og:image']}"
+            data-pin-media="${socialMedia.metadata.og:image}"
             href="https://www.pinterest.com/pin/create/button/"></a>
     </sly>
 </div>
