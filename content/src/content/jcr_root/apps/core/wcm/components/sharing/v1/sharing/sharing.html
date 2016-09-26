@@ -13,15 +13,20 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<sly data-sly-use.page="Page">
-    <!DOCTYPE HTML>
-    <html lang="${page.language @ context='attribute'}">
-        <head data-sly-include="head.html"></head>
-        <body>
-            <sly data-sly-include="body.socialmedia_begin.html"/>
-            <sly data-sly-include="body.html"/>
-            <sly data-sly-include="footer.html"/>
-            <sly data-sly-include="body.socialmedia_end.html"/>
-        </body>
-    </html>
-</sly>
+<div data-sly-use.socialMedia="apps.core.wcm.components.page.v1.page.SocialMediaHelper"
+     class="${!socialMedia.socialMediaEnabled && 'cq-placeholder'}"
+     data-emptytext="${!socialMedia.socialMediaEnabled && 'Social Media Sharing'}">
+    <div data-sly-test="${socialMedia.facebookEnabled}"
+         class="fb-share-button"
+         data-href="${socialMedia.metadata.og:url}"
+         data-layout="button_count"
+         data-size="small"
+         data-mobile-iframe="false">
+    </div>
+    <a data-sly-test="${socialMedia.pinterestEnabled}"
+       data-pin-do="buttonPin"
+       data-pin-count="beside"
+       data-pin-save="true"
+       data-pin-media="${socialMedia.metadata.og:image}"
+       href="https://www.pinterest.com/pin/create/button/"></a>
+</div>

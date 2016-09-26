@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
-    jcr:description="Core WCM Page Component - HTL"
+    jcr:description="Core WCM Social Media Sharing Component"
     jcr:primaryType="cq:Component"
-    jcr:title="Core WCM Page Component"
-    sling:resourceSuperType="core/wcm/components/page/v1/page"
+    jcr:title="Social Media Sharing Component"
+    sling:resourceSuperType="core/wcm/components/sharing/v1/sharing"
     allowedParents="[*/parsys]"
-    designDialogPath="core/wcm/components/page/v1/page/cq:design_dialog"
     componentGroup="Core"/>
