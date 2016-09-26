@@ -16,21 +16,17 @@
 <div data-sly-use.socialMedia="apps.core.wcm.components.page.v1.page.SocialMediaHelper"
      class="${!socialMedia.socialMediaEnabled && 'cq-placeholder'}"
      data-emptytext="${!socialMedia.socialMediaEnabled && 'Social Media Sharing'}">
-    <sly data-sly-test="${socialMedia.facebookEnabled}">
-        <!-- Facebook -->
-        <div class="fb-share-button"
-             data-href="${socialMedia.metadata.og:url}"
-             data-layout="button_count"
-             data-size="small"
-             data-mobile-iframe="false">
-        </div>
-    </sly>
-    <sly data-sly-test="${socialMedia.pinterestEnabled}">
-        <!-- Pinterest -->
-         <a data-pin-do="buttonPin"
-            data-pin-count="beside"
-            data-pin-save="true"
-            data-pin-media="${socialMedia.metadata.og:image}"
-            href="https://www.pinterest.com/pin/create/button/"></a>
-    </sly>
+    <div data-sly-test="${socialMedia.facebookEnabled}"
+         class="fb-share-button"
+         data-href="${socialMedia.metadata.og:url}"
+         data-layout="button_count"
+         data-size="small"
+         data-mobile-iframe="false">
+    </div>
+    <a data-sly-test="${socialMedia.pinterestEnabled}"
+       data-pin-do="buttonPin"
+       data-pin-count="beside"
+       data-pin-save="true"
+       data-pin-media="${socialMedia.metadata.og:image}"
+       href="https://www.pinterest.com/pin/create/button/"></a>
 </div>
