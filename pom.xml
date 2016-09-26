@@ -24,11 +24,10 @@
     <parent>
         <groupId>com.adobe.cq</groupId>
         <artifactId>com.adobe.cq.wcm.core.components.parent</artifactId>
-        <version>0.9.4</version>
+        <version>0.9.11-SNAPSHOT</version>
         <relativePath>parent/pom.xml</relativePath>
     </parent>
 
-    <groupId>com.adobe.cq</groupId>
     <artifactId>com.adobe.cq.wcm.core.components.reactor</artifactId>
     <packaging>pom</packaging>
     <version>0.9.0-SNAPSHOT</version>
@@ -43,15 +42,9 @@
     </scm>
     <modules>
         <module>parent</module>
-        <module>commons</module>
-        <module>commons-testing</module>
-        <module>text</module>
-        <module>list</module>
-        <module>title</module>
-        <module>page</module>
-        <module>image</module>
-        <module>breadcrumb</module>
-        <module>all</module>
+        <module>bundles/core</module>
+        <module>testing/junit/core</module>
+        <module>content</module>
     </modules>
 
 </project>

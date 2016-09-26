@@ -299,7 +299,7 @@
                         <embeddeds>
                             <embedded>
                                 <groupId>com.adobe.cq</groupId>
-                                <artifactId>com.adobe.cq.wcm.core.components.commons</artifactId>
+                                <artifactId>com.adobe.cq.wcm.core.components.core</artifactId>
                                 <target>/apps/core/wcm/install</target>
                             </embedded>
                         </embeddeds>
@@ -547,9 +547,15 @@
 
             <dependency>
                 <groupId>com.adobe.cq</groupId>
-                <artifactId>com.adobe.cq.wcm.core.components.commons</artifactId>
-                <version>0.9.4</version>
+                <artifactId>com.adobe.cq.wcm.core.components.core</artifactId>
+                <version>0.9.1-SNAPSHOT</version>
                 <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.adobe.cq</groupId>
+                <artifactId>com.adobe.cq.wcm.core.junit.core</artifactId>
+                <version>0.9.1-SNAPSHOT</version>
+                <scope>test</scope>
             </dependency>
 
             <!--
@@ -557,8 +563,8 @@
                 Jar can be used as dependencies.
              -->
             <dependency>
-                <groupId>com.day.cq</groupId>
-                <artifactId>cq-quickstart</artifactId>
+                <groupId>com.adobe.aem</groupId>
+                <artifactId>uber-jar</artifactId>
                 <version>6.2.0</version>
                 <classifier>apis</classifier>
                 <scope>provided</scope>
@@ -599,12 +605,6 @@
                 <groupId>io.wcm</groupId>
                 <artifactId>io.wcm.testing.aem-mock</artifactId>
                 <version>1.7.0</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.adobe.cq</groupId>
-                <artifactId>com.adobe.cq.wcm.core.components.commons-testing</artifactId>
-                <version>0.9.2</version>
                 <scope>test</scope>
             </dependency>
 
