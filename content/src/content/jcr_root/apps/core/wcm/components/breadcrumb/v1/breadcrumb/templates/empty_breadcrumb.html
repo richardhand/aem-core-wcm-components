@@ -17,5 +17,5 @@
     <img data-sly-test="${wcmmode.edit && breadcrumb.isEmpty && !breadcrumb.isTouch}" src="/libs/cq/ui/resources/0.gif" class="cq-list-placeholder" alt="" />
     <div data-sly-test.editOrPreview="${wcmmode.edit || wcmmode.preview}"
          data-sly-test="${editOrPreview && breadcrumb.isEmpty && breadcrumb.isTouch}" class="cq-placeholder"
-         data-emptytext="${breadcrumb.componentTitle}"></div>
+         data-emptytext="${component.properties.jcr:title}"></div>
 </template>

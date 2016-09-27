@@ -13,15 +13,14 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<sly data-sly-use.breadcrumb="Breadcrumb"
-     data-sly-use.emptyRenderer="templates/empty_breadcrumb.html"
-     data-sly-use.itemTemplate="templates/breadcrumb_item.html"
-     data-sly-use.delimiterTemplate="templates/breadcrumb_delimiter.html"
-     data-sly-use.trailingDelimiterTemplate="templates/breadcrumb_trailing_delimiter.html">
+<sly data-sly-use.breadcrumb="com.adobe.cq.wcm.core.components.models.Breadcrumb"
+     data-sly-use.emptyRenderer="templates/empty_breadcrumb.html">
     <sly data-sly-call="${emptyRenderer.empty @ breadcrumb=breadcrumb}"/>
-    <sly data-sly-list.breadcrumbItem="${breadcrumb.items}">
-        <sly data-sly-call="${itemTemplate.item @ renderItem=breadcrumbItem}"/>
-        <sly data-sly-call="${delimiterTemplate.delimiter @ breadcrumb=breadcrumb, lastItem=breadcrumbItemList.last}"/>
-    </sly>
-    <sly data-sly-call="${trailingDelimiterTemplate.trailing @ breadcrumb=breadcrumb}"/>
+    <ol class="core-Breadcrumb" data-sly-list.navItem="${breadcrumb.breadcrumbItems}">
+        <li class="core-Breadcrumb-Item--active" data-sly-test.notHidden="${!navItem.page.hideInNav || breadcrumb.showHidden}"
+            data-sly-test="${navItem.active && !breadcrumb.hideCurrent}">${navItem.title}
+        </li>
+        <li class="core-Breadcrumb-Item" data-sly-test="${!navItem.active && notHidden}"><a href="${navItem.link}.html">${navItem.title}</a>
+        </li>
+    </ol>
 </sly>
