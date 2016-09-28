@@ -52,10 +52,9 @@ Core list component that features:
 
 ### Breadcrumb
 Core breadcrumb component that features:
-* Absolute start level where the breadcrumb should start
-* Relative stop level where the breadcrumb generation should stop based on the current page
-* Delimiter for each breadcrumb item and dedicated delimiter after the last item of the breadcrumb
-* Possibility to unlink the current item if it is on the same page
+* Start level where the breadcrumb should start
+* Show also hidden navigation items
+* Exclude the current page from the breadcrumb
 
 ## Installation
 
