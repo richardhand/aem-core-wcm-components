@@ -22,17 +22,42 @@
                 "jcr:title"         : "Devi Sleeveless Shirt",
                 "sling:resourceType": "we-retail/components/structure/page",
                 "header"            : {
-                    "jcr:primaryType"   : "nt:unstructured",
-                    "sling:resourceType": "foundation/components/parsys",
-                    "breadcrumb"        : {
+                    "jcr:primaryType"        : "nt:unstructured",
+                    "sling:resourceType"     : "foundation/components/parsys",
+                    "breadcrumb"             : {
                         "jcr:primaryType"   : "nt:unstructured",
                         "jcr:createdBy"     : "admin",
                         "jcr:lastModifiedBy": "admin",
                         "jcr:created"       : "Mon Jan 11 2016 15:23:53 GMT+0100",
                         "jcr:lastModified"  : "Mon Jan 11 2016 16:21:45 GMT+0100",
                         "sling:resourceType": "core/wcm/components/breadcrumb/v1/breadcrumb",
-                        "startLevel"        : "2",
+                    },
+                    "breadcrumb-start-level" : {
+                        "jcr:primaryType"   : "nt:unstructured",
+                        "jcr:createdBy"     : "admin",
+                        "jcr:lastModifiedBy": "admin",
+                        "jcr:created"       : "Mon Jan 11 2016 15:23:53 GMT+0100",
+                        "jcr:lastModified"  : "Mon Jan 11 2016 16:21:45 GMT+0100",
+                        "sling:resourceType": "core/wcm/components/breadcrumb/v1/breadcrumb",
+                        "startLevel"        : "3",
                         "showHidden"        : "true",
+                    },
+                    "breadcrumb-show-hidden" : {
+                        "jcr:primaryType"   : "nt:unstructured",
+                        "jcr:createdBy"     : "admin",
+                        "jcr:lastModifiedBy": "admin",
+                        "jcr:created"       : "Mon Jan 11 2016 15:23:53 GMT+0100",
+                        "jcr:lastModified"  : "Mon Jan 11 2016 16:21:45 GMT+0100",
+                        "sling:resourceType": "core/wcm/components/breadcrumb/v1/breadcrumb",
+                        "showHidden"        : "true",
+                    },
+                    "breadcrumb-hide-current": {
+                        "jcr:primaryType"   : "nt:unstructured",
+                        "jcr:createdBy"     : "admin",
+                        "jcr:lastModifiedBy": "admin",
+                        "jcr:created"       : "Mon Jan 11 2016 15:23:53 GMT+0100",
+                        "jcr:lastModified"  : "Mon Jan 11 2016 16:21:45 GMT+0100",
+                        "sling:resourceType": "core/wcm/components/breadcrumb/v1/breadcrumb",
                         "hideCurrent"       : "true"
                     }
                 }
@@ -48,6 +73,7 @@
             "jcr:createdBy"     : "admin",
             "jcr:primaryType"   : "cq:PageContent",
             "jcr:title"         : "Shirts",
+            "hideInNav"         : "true",
             "sling:resourceType": "we-retail/components/structure/page"
         },
         "jcr:created"          : "Mon Jul 18 2016 14:30:46 GMT+0200",

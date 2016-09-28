@@ -21,51 +21,82 @@ import org.apache.sling.api.scripting.SlingBindings;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import com.adobe.cq.sightly.WCMBindings;
-import com.adobe.cq.wcm.core.components.context.ComponentAemContext;
+import com.adobe.cq.wcm.core.components.NavigationItem;
+import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
 import com.adobe.cq.wcm.core.components.context.MockStyle;
 import com.adobe.cq.wcm.core.components.models.Breadcrumb;
 import com.day.cq.wcm.api.Page;
 import io.wcm.testing.mock.aem.junit.AemContext;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class BreadcrumbImplTest {
 
     private static final String CURRENT_PAGE = "/content/breadcrumb/women/shirts/devi-sleeveless-shirt";
 
     @Rule
-    public AemContext context = ComponentAemContext.createContext("/breadcrumb", "/content/breadcrumb/women");
+    public AemContext context = CoreComponentTestContext.createContext("/breadcrumb", "/content/breadcrumb/women");
+
     private Breadcrumb underTest;
+    private SlingBindings slingBindings;
 
     @Before
     public void setUp() throws Exception {
         Page page = context.currentPage(CURRENT_PAGE);
+        slingBindings = (SlingBindings) context.request().getAttribute(SlingBindings.class.getName());
+        slingBindings.put(WCMBindings.CURRENT_PAGE, page);
+    }
+
+    @Test
+    public void testBreadcrumbItems() throws Exception {
         Resource resource = context.currentResource(CURRENT_PAGE
                 + "/jcr:content/header/breadcrumb");
-        SlingBindings slingBindings = (SlingBindings) context.request().getAttribute(SlingBindings.class.getName());
-        slingBindings.put(WCMBindings.CURRENT_PAGE, page);
-        slingBindings.put(WCMBindings.CURRENT_STYLE, new MockStyle(resource));
         slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
-        context.request().setAttribute(SlingBindings.class.getName(), slingBindings);
+        slingBindings.put(WCMBindings.CURRENT_STYLE, new MockStyle(resource));
         underTest = context.request().adaptTo(Breadcrumb.class);
+        checkBreadcrumbConsistency(new String[]{"Women", "Devi Sleeveless Shirt"});
     }
 
     @Test
     public void testGetShowHidden() throws Exception {
-        assertTrue(underTest.getShowHidden());
+        Resource resource = context.currentResource(CURRENT_PAGE
+                + "/jcr:content/header/breadcrumb-show-hidden");
+        slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
+        slingBindings.put(WCMBindings.CURRENT_STYLE, new MockStyle(resource));
+        underTest = context.request().adaptTo(Breadcrumb.class);
+        checkBreadcrumbConsistency(new String[]{"Women", "Shirts", "Devi Sleeveless Shirt"});
     }
 
     @Test
     public void testGetHideCurrent() throws Exception {
-        assertTrue(underTest.getHideCurrent());
+        Resource resource = context.currentResource(CURRENT_PAGE
+                + "/jcr:content/header/breadcrumb-hide-current");
+        slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
+        slingBindings.put(WCMBindings.CURRENT_STYLE, new MockStyle(resource));
+        underTest = context.request().adaptTo(Breadcrumb.class);
+        checkBreadcrumbConsistency(new String[]{"Women"});
     }
 
     @Test
-    public void testGetBreadcrumbItems() throws Exception {
-        assertEquals(3, underTest.getBreadcrumbItems().size());
+    public void testStartLevel() throws Exception {
+        Resource resource = context.currentResource(CURRENT_PAGE
+                + "/jcr:content/header/breadcrumb-start-level");
+        slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
+        slingBindings.put(WCMBindings.CURRENT_STYLE, new MockStyle(resource));
+        underTest = context.request().adaptTo(Breadcrumb.class);
+        checkBreadcrumbConsistency(new String[]{"Shirts", "Devi Sleeveless Shirt"});
     }
+
+    private void checkBreadcrumbConsistency(String[] expectedPages) {
+        assertTrue("Expected that the returned breadcrumb will contain " + expectedPages.length + " items",
+                underTest.getBreadcrumbItems().size() == expectedPages.length);
+        int index = 0;
+        for (NavigationItem item : underTest.getBreadcrumbItems()) {
+            assertEquals(expectedPages[index++], item.getTitle());
+        }
+    }
+
 }

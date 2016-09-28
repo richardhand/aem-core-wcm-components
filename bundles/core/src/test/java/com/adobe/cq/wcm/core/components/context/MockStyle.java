@@ -22,6 +22,9 @@ import com.day.cq.wcm.api.designer.Cell;
 import com.day.cq.wcm.api.designer.Design;
 import com.day.cq.wcm.api.designer.Style;
 
+/**
+ * Mock implementation of {@link Style}
+ */
 public class MockStyle extends MockValueMap implements Style {
 
     public MockStyle(Resource resource) {

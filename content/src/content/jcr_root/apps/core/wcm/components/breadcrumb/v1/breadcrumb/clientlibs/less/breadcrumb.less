@@ -13,11 +13,11 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-.core-Breadcrumb {
+.core-breadcrumb {
   list-style: none;
 }
 
-.core-Breadcrumb-Item {
+.core-breadcrumb-item {
   float: left;
   & + &::before {
     display: inline-block;
@@ -28,11 +28,10 @@
   &--active {
     float: left;
 
-    .core-Breadcrumb-Item + &::before {
+    .core-breadcrumb-item + &::before {
       display: inline-block;
       padding: 0 5px;
       content: "/\00a0";
     }
   }
-
 }

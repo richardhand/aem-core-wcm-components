@@ -55,43 +55,49 @@ public class BreadcrumbImpl implements Breadcrumb {
     private boolean showHidden;
     private boolean hideCurrent;
     private int startLevel;
-    private List<NavigationItem> breadcrumbItems;
+    List<NavigationItem> breadcrumbItems;
 
     @PostConstruct
     private void initModel() {
         startLevel = properties.get(PN_START_LEVEL, currentStyle.get(PN_START_LEVEL, PROP_START_LEVEL_DEFAULT));
         showHidden = properties.get(PN_SHOW_HIDDEN, currentStyle.get(PN_SHOW_HIDDEN, PROP_SHOW_HIDDEN_DEFAULT));
         hideCurrent = properties.get(PN_HIDE_CURRENT, currentStyle.get(PN_HIDE_CURRENT, PROP_HIDE_CURRENT_DEFAULT));
-        populateBreadcrumbItems();
     }
 
-    private void populateBreadcrumbItems() {
-        breadcrumbItems = new ArrayList<>();
+    @Override
+    public Collection<NavigationItem> getBreadcrumbItems() {
+        if (breadcrumbItems == null) {
+            breadcrumbItems = new ArrayList<>();
+            createBreadcrumbItems(breadcrumbItems);
+        }
+        return breadcrumbItems;
+    }
+
+    private List<NavigationItem> createBreadcrumbItems(List<NavigationItem> breadcrumbItems) {
         int currentLevel = currentPage.getDepth();
+        addNavigationItems(breadcrumbItems, currentLevel);
+        return breadcrumbItems;
+    }
+
+    private void addNavigationItems(List<NavigationItem> breadcrumbItems, int currentLevel) {
         while (startLevel < currentLevel) {
             Page page = currentPage.getAbsoluteParent(startLevel);
             if (page != null) {
-                breadcrumbItems.add(new NavigationItem(page, page.equals(currentPage)));
+                boolean isActivePage = page.equals(currentPage);
+                if (isActivePage && hideCurrent) {
+                    break;
+                }
+                if (checkIfNotHidden(page)) {
+                    breadcrumbItems.add(new NavigationItem(page, isActivePage));
+                }
                 startLevel++;
             } else {
                 break;
             }
         }
-
     }
 
-    @Override
-    public boolean getShowHidden() {
-        return showHidden;
-    }
-
-    @Override
-    public boolean getHideCurrent() {
-        return hideCurrent;
-    }
-
-    @Override
-    public Collection<NavigationItem> getBreadcrumbItems() {
-        return breadcrumbItems;
+    private boolean checkIfNotHidden(Page page) {
+        return !page.isHideInNav() || showHidden;
     }
 }

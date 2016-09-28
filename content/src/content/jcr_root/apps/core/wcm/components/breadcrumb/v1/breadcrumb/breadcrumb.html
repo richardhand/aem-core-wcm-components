@@ -16,11 +16,12 @@
 <sly data-sly-use.breadcrumb="com.adobe.cq.wcm.core.components.models.Breadcrumb"
      data-sly-use.emptyRenderer="templates/empty_breadcrumb.html">
     <sly data-sly-call="${emptyRenderer.empty @ breadcrumb=breadcrumb}"/>
-    <ol class="core-Breadcrumb" data-sly-list.navItem="${breadcrumb.breadcrumbItems}">
-        <li class="core-Breadcrumb-Item--active" data-sly-test.notHidden="${!navItem.page.hideInNav || breadcrumb.showHidden}"
-            data-sly-test="${navItem.active && !breadcrumb.hideCurrent}">${navItem.title}
-        </li>
-        <li class="core-Breadcrumb-Item" data-sly-test="${!navItem.active && notHidden}"><a href="${navItem.link}.html">${navItem.title}</a>
+    <ol class="core-breadcrumb" data-sly-list.navItem="${breadcrumb.breadcrumbItems}">
+        <li class="core-breadcrumb-item--active" data-sly-test="${navItem.active}">${navItem.title}</li>
+        <li class="core-breadcrumb-item" data-sly-test="${!navItem.active}">
+            <a href="${navItem.link}.html" onclick="CQ_Analytics.record({event:'followBreadcrumb',values: { breadcrumbPath:
+            '${navItem.link @ context='scriptString'}' }
+       ,collect: false,options: { obj: this },componentPath: '${resource.resourceType @ context='scriptString'}'})">${navItem.title}</a>
         </li>
     </ol>
 </sly>

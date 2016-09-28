@@ -17,24 +17,41 @@ package com.adobe.cq.wcm.core.components.context;
 
 import java.io.IOException;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.sling.testing.mock.sling.ResourceResolverType;
 
 import io.wcm.testing.mock.aem.junit.AemContext;
 import io.wcm.testing.mock.aem.junit.AemContextCallback;
 
-public final class ComponentAemContext {
+/**
+ * Provide a context for unit tests.
+ */
+public final class CoreComponentTestContext {
 
 
-    private ComponentAemContext() {
+    private CoreComponentTestContext() {
         // only static methods
     }
 
+    /**
+     * Create a new instance of {@link AemContext}, add the project specific Sling Models and load test data from the JSON file
+     * "/test-content.json" of the current classpath
+     *
+     * @param testBase    Prefix of the classpath resource to load test data from. Optional, can be null. If null, test data will be
+     *                    loaded from /test-content.json
+     * @param contentRoot Path to import the JSON content to
+     * @return New instance of {@link AemContext}
+     */
     public static AemContext createContext(final String testBase, final String contentRoot) {
         return new AemContext(new AemContextCallback() {
             @Override
             public void execute(AemContext context) throws IOException {
                 context.addModelsForPackage("com.adobe.cq.wcm.core.components.models");
-                context.load().json(testBase + "/test-content.json", contentRoot);
+                if (StringUtils.isNotEmpty(testBase)) {
+                    context.load().json(testBase + "/test-content.json", contentRoot);
+                } else {
+                    context.load().json("/test-content.json", contentRoot);
+                }
             }
         }, ResourceResolverType.RESOURCERESOLVER_MOCK);
     }

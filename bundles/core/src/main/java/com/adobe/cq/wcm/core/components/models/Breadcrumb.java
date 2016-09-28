@@ -19,27 +19,15 @@ import java.util.Collection;
 
 import com.adobe.cq.wcm.core.components.NavigationItem;
 
+/**
+ * Component-Interface for the breadcrumb Sling Model
+ */
 public interface Breadcrumb {
-
-    /**
-     * Controls if also hidden navigation items should be shown in the breadcrumb
-     *
-     * @return true if hidden items should be shown, otherwise false
-     */
-    boolean getShowHidden();
-
-    /**
-     * Controls if the current page should also be displayed in the breadcrumb
-     *
-     * @return true if the current page shouldn't be displayed in the breadcrumb, otherwise false
-     */
-    boolean getHideCurrent();
 
     /**
      * Create collection of pages for the breadcrumb component
      *
-     * @return {@link Collection< NavigationItem >} of breadcrumb items
+     * @return {@link Collection<NavigationItem>} of breadcrumb items
      */
     Collection<NavigationItem> getBreadcrumbItems();
-
 }
