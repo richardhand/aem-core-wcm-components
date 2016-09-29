@@ -50,8 +50,8 @@ public class NavigationItem {
     }
 
     /**
-     * Returns the navigation title of the {@Page}. If no navigation title is present it first falls back to the page title and then to the
-     * page name
+     * Returns the navigation title of the {@link Page}. If no navigation title is present it first falls back to the page title and then to
+     * the page name
      *
      * @return Navigation title
      */

@@ -27,7 +27,7 @@ public interface Breadcrumb {
     /**
      * Creates collection of pages for the breadcrumb component
      *
-     * @return {@link Collection<NavigationItem>} of breadcrumb items
+     * @return {@link Collection} of breadcrumb items
      */
     Collection<NavigationItem> getBreadcrumbItems();
 }

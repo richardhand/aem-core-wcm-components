@@ -35,7 +35,7 @@ import com.day.cq.wcm.api.designer.Style;
        resourceType = BreadcrumbImpl.RESOURCE_TYPE)
 public class BreadcrumbImpl implements Breadcrumb {
 
-    protected static final String RESOURCE_TYPE = "core/wcm/components/breadcrumb";
+    public static final String RESOURCE_TYPE = "core/wcm/components/breadcrumb";
     private static final boolean PROP_SHOW_HIDDEN_DEFAULT = false;
     private static final String PN_SHOW_HIDDEN = "showHidden";
     private static final boolean PROP_HIDE_CURRENT_DEFAULT = false;
