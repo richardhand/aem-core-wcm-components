@@ -16,47 +16,52 @@
 package com.adobe.cq.wcm.core.components.models.impl;
 
 
+import com.adobe.cq.wcm.core.components.commons.AuthoringUtils;
 import com.adobe.cq.wcm.core.components.models.FormContainer;
+import com.day.cq.wcm.api.components.EditContext;
+import com.day.cq.wcm.api.components.IncludeOptions;
+import com.day.text.Text;
+import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.models.annotations.Model;
-import org.apache.sling.models.annotations.Optional;
+import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
 
-@Model(adaptables = {Resource.class},
+@Model(adaptables = SlingHttpServletRequest.class,
         adapters = FormContainer.class,
         resourceType = FormContainerImpl.RESOURCE_TYPE)
 public class FormContainerImpl implements FormContainer {
 
     protected static final String RESOURCE_TYPE = "core/wcm/components/formcontainer";
-
-    @Inject
-    @Named("actionType")
-    @Optional
-    private String actionType;
+    private static final String PN_ACTION_TYPE = "actionType";
 
     @Self
-    private Resource self;
+    private SlingHttpServletRequest slingRequest;
+
+    @ScriptVariable
+    private ValueMap properties;
+
+    @ScriptVariable
+    private EditContext editContext;
 
     private List<Resource> formFields = new ArrayList<Resource>();
     private List<String> formFieldResourcePaths = new ArrayList<String>();
 
     @PostConstruct
-    protected void init() {
-        for (Resource child : self.getChildren()) {
+    protected void initModel() {
+        for (Resource child : slingRequest.getResource().getChildren()) {
             formFields.add(child);
             formFieldResourcePaths.add(child.getPath());
         }
     }
 
     public boolean isTouch() {
-        // TODO: 9/27/2016
-        return false;
+        return AuthoringUtils.isTouch(slingRequest);
     }
 
     public boolean isEmpty() {
@@ -64,7 +69,7 @@ public class FormContainerImpl implements FormContainer {
     }
 
     public String getActionType() {
-        return actionType;
+        return properties.get(PN_ACTION_TYPE, String.class);
     }
 
     public List<String> getFormFieldResourcePaths() {

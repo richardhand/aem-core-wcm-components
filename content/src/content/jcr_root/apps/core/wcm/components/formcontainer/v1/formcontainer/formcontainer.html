@@ -16,8 +16,13 @@
 <sly data-sly-use.formcontainer="com.adobe.cq.wcm.core.components.models.FormContainer"
      data-sly-use.emptyRenderer="templates/empty_formcontainer.html">
     <sly data-sly-call="${emptyRenderer.empty @ formcontainer=formcontainer}"/>
-    <p data-sly-list="${formcontainer.formFieldResourcePaths}">
-        <div data-sly-resource="${item}" data-sly-unwrap></div>
-    </p>
-    <div data-sly-resource="${'*' @ resourceType='resource.resourceType + \'new\''}" data-sly-unwrap></div>
+    <sly data-sly-test="${!isEmpty}">
+        <form>
+            <sly data-sly-list="${formcontainer.formFieldResourcePaths}">
+                <div data-sly-resource="${item}"></div>
+            </sly>
+            <div data-sly-resource="${resource.path @ resourceType='core/wcm/components/formcontainer/v1/new', appendPath='/*'}"
+                 class="new section"></div>
+        </form>
+    </sly>
 </sly>

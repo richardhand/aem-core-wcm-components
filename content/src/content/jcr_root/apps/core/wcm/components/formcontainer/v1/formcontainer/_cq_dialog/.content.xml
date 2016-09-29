@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    jcr:title="Form Container"
+    sling:resourceType="cq/gui/components/authoring/dialog"
+    helpPath="http://www.adobe.com/go/aem6_1_docs_component_en#FormContainer - HTL">
+    <content
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/coral/foundation/container">
+        <items jcr:primaryType="nt:unstructured">
+            <tabs
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/container">
+                <layout
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/layouts/tabs"
+                        type="nav"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <form
+                            jcr:primaryType="nt:unstructured"
+                            jcr:title="Form"
+                            sling:resourceType="granite/ui/components/coral/foundation/section">
+                        <layout
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/layouts/fixedcolumns"
+                                margin="{Boolean}false"/>
+                        <items jcr:primaryType="nt:unstructured">
+                            <column
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/coral/foundation/container">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <redirect
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                                        fieldDescription="Leave empty to redisplay the form after submission"
+                                        fieldLabel="Thank You Page"
+                                        rootPath="/content"
+                                        name="./redirect"/>
+                                </items>
+                            </column>
+                        </items>
+                    </form>
+                    <advanced
+                            jcr:primaryType="nt:unstructured"
+                            jcr:title="Styles"
+                            sling:resourceType="granite/ui/components/coral/foundation/section">
+                        <layout
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/layouts/fixedcolumns"
+                                margin="{Boolean}false"/>
+                        <items jcr:primaryType="nt:unstructured">
+                            <column
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/coral/foundation/container">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <actiontype
+                                        jcr:primaryType="nt:unstructured"
+                                        fieldLabel="Action Type"
+                                        name="./actionType"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/actionfield"/>
+                                    <formid
+                                        jcr:primaryType="nt:unstructured"
+                                        allowBlank="{Boolean}false"
+                                        fieldDescription="A unique identifier for the form on the page"
+                                        fieldLabel="Form Identifier"
+                                        name="./formid"
+                                        regex="/^[a-zA-Z0-9_-]+$/"
+                                        regexText="This field should only contain numbers, letters, dashes and underscores"
+                                        sling:resourceType="granite/ui/components/coral/foundation/text"/>
+                                    <loadPath
+                                        jcr:primaryType="nt:unstructured"
+                                        fieldDescription="This repository path can be used to preload the form"
+                                        fieldLabel="Load Path"
+                                        name="./loadPath"
+                                        sling:resourceType="granite/ui/components/coral/foundation/text"/>
+                                    <clientVal
+                                        jcr:primaryType="nt:unstructured"
+                                        fieldDescription="If this is enabled java-script client code for validation will be generated"
+                                        fieldLabel="Client Validation"
+                                        name="./clientValidation"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"/>
+                                    <valScript
+                                        jcr:primaryType="nt:unstructured"
+                                        fieldDescription="Optional resource type which is used to find a global form validation script."
+                                        fieldLabel="Validation Resource Type"
+                                        name="./validationRT"
+                                        sling:resourceType="granite/ui/components/coral/foundation/text"/>
+                                </items>
+                            </column>
+                        </items>
+                    </advanced>
+                </items>
+            </tabs>
+        </items>
+    </content>
+</jcr:root>
