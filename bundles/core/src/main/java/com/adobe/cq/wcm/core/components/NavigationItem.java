@@ -20,6 +20,9 @@ import org.apache.commons.lang.StringUtils;
 
 import com.day.cq.wcm.api.Page;
 
+/**
+ * POJO for a navigation item. Which holds navigation title, link and active state of the {@link Page}
+ */
 public class NavigationItem {
 
     private final String title;
@@ -46,18 +49,30 @@ public class NavigationItem {
         return title;
     }
 
+    /**
+     * Get the navigation title of the {@Page}. If no navigation title is present first fall back to the page title and then to the page
+     * name
+     *
+     * @return Navigation title
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     * Get the link to the related {@link Page}.
+     *
+     * @return Page path
+     */
     public String getLink() {
         return link;
     }
 
-    public Page getPage() {
-        return page;
-    }
-
+    /**
+     * Get the active information of the current page
+     *
+     * @return true if it is the current page, otherwise false
+     */
     public boolean isActive() {
         return active;
     }
