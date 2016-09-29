@@ -24,7 +24,7 @@ import io.wcm.testing.mock.aem.junit.AemContext;
 import io.wcm.testing.mock.aem.junit.AemContextCallback;
 
 /**
- * Provide a context for unit tests.
+ * Provides a context for unit tests.
  */
 public final class CoreComponentTestContext {
 
@@ -34,8 +34,8 @@ public final class CoreComponentTestContext {
     }
 
     /**
-     * Create a new instance of {@link AemContext}, add the project specific Sling Models and load test data from the JSON file
-     * "/test-content.json" of the current classpath
+     * Creates a new instance of {@link AemContext}, adds the project specific Sling Models and loads test data from the JSON file
+     * "/test-content.json" in the current classpath
      *
      * @param testBase    Prefix of the classpath resource to load test data from. Optional, can be null. If null, test data will be
      *                    loaded from /test-content.json

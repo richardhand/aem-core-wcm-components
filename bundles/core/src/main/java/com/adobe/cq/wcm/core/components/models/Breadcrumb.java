@@ -25,7 +25,7 @@ import com.adobe.cq.wcm.core.components.NavigationItem;
 public interface Breadcrumb {
 
     /**
-     * Create collection of pages for the breadcrumb component
+     * Creates collection of pages for the breadcrumb component
      *
      * @return {@link Collection<NavigationItem>} of breadcrumb items
      */
