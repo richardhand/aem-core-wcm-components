@@ -15,7 +15,7 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <sly data-sly-use.breadcrumb="com.adobe.cq.wcm.core.components.models.Breadcrumb"
      data-sly-use.emptyRenderer="templates/empty_breadcrumb.html">
-    <sly data-sly-call="${emptyRenderer.empty @ breadcrumb=breadcrumb}"/>
+    <sly data-sly-call="${emptyRenderer.empty @ breadcrumbItems=breadcrumb.breadcrumbItems}"/>
     <ol class="core-breadcrumb" data-sly-list.navItem="${breadcrumb.breadcrumbItems}">
         <li class="core-breadcrumb-item" data-sly-test="${!navItem.active}">
             <a href="${navItem.link}.html" onclick="CQ_Analytics.record({event:'followBreadcrumb',values: {breadcrumbPath:'${navItem.link @ context='scriptString'}'} ,collect: false,options: { obj: this },componentPath: '${resource.resourceType @ context='scriptString'}'})">${navItem.title}</a>
