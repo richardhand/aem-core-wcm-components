@@ -16,6 +16,7 @@
 <template data-sly-template.headlibs="${@ designPath, staticDesignPath}"
           data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html"
           data-sly-use.templateEditor="TemplateEditor">
+    <sly data-sly-call="${clientLib.css @ categories='core.wcm.components'}"/>
     <sly data-sly-call="${clientLib.all @ categories='cq.foundation-main'}"
          data-sly-include="/libs/cq/cloudserviceconfigs/components/servicelibs/servicelibs.jsp"/>
     <sly data-sly-test="${templateEditor.templateCategories}"
