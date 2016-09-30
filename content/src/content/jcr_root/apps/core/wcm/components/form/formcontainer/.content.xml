@@ -3,6 +3,6 @@
     jcr:description="Form Container Component - HTL"
     jcr:primaryType="cq:Component"
     jcr:title="Form Container Component"
-    sling:resourceSuperType="core/wcm/components/formcontainer/v1/formcontainer"
+    sling:resourceSuperType="core/wcm/components/form/formcontainer/v1/formcontainer"
     componentGroup="Core"
     cq:isContainer="{Boolean}true"/>
