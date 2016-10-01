@@ -27,5 +27,14 @@ public interface FormContainer {
     String getActionType();
 
     List<String> getFormFieldResourcePaths();
-
+    
+    String getMethod();
+    
+    String getAction();
+    
+    String getId();
+    
+    String getName();
+    
+    String getEnctype();
 }

@@ -1,4 +1,5 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
  ~ Copyright 2016 Adobe Systems Incorporated
  ~
  ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,17 +19,22 @@ package com.adobe.cq.wcm.core.components.models.impl;
 
 import com.adobe.cq.wcm.core.components.commons.AuthoringUtils;
 import com.adobe.cq.wcm.core.components.models.FormContainer;
+import com.day.cq.wcm.api.Page;
+import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.api.components.EditContext;
 import com.day.cq.wcm.api.components.IncludeOptions;
 import com.day.text.Text;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.Via;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +54,22 @@ public class FormContainerImpl implements FormContainer {
 
     @ScriptVariable
     private EditContext editContext;
+    
+    @Inject
+    @Via("resource")
+    @Default(values = "POST")
+    private String method;
+
+    @Inject
+    @Via("resource")
+    @Default(values="multipart/form-data")
+    private String enctype;
+    
+    private String action;
+    
+    private String id;
+    
+    private String name;
 
     private List<Resource> formFields = new ArrayList<Resource>();
     private List<String> formFieldResourcePaths = new ArrayList<String>();
@@ -58,6 +80,12 @@ public class FormContainerImpl implements FormContainer {
             formFields.add(child);
             formFieldResourcePaths.add(child.getPath());
         }
+
+        PageManager pageManager = slingRequest.getResourceResolver().adaptTo(PageManager.class);
+        Page currentPage = pageManager.getContainingPage(slingRequest.getResource());
+        this.action = currentPage.getPath()+".html";
+        this.id = currentPage.getName();
+        this.name = currentPage.getName();
     }
 
     public boolean isTouch() {
@@ -74,5 +102,25 @@ public class FormContainerImpl implements FormContainer {
 
     public List<String> getFormFieldResourcePaths() {
         return formFieldResourcePaths;
+    }
+
+    public String getMethod(){
+        return this.method;
+    }
+
+    public String getAction() {
+        return this.action;
+    }
+
+    public String getId(){
+        return this.id;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getEnctype() {
+        return this.enctype;
     }
 }
