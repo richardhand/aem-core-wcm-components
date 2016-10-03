@@ -3,5 +3,5 @@
     jcr:description="Form Container Component (v1) - HTL"
     jcr:primaryType="cq:Component"
     jcr:title="Form Container Component (v1)"
-    componentGroup="Core"
+    componentGroup="Core Form"
     cq:isContainer="{Boolean}true"/>

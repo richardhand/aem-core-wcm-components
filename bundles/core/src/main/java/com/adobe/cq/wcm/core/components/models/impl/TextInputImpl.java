@@ -15,57 +15,69 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.models.impl;
 
+import com.day.cq.wcm.foundation.forms.FormsHelper;
+import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
-import org.apache.sling.models.annotations.Default;
+import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.models.annotations.Model;
 
 import com.adobe.cq.wcm.core.components.models.TextInput;
+import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
+import org.apache.sling.models.annotations.injectorspecific.Self;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 
-@Model(adaptables = Resource.class,
-    adapters = TextInput.class,
-    resourceType = TextInputImpl.RESOURCE_TYPE)
+@Model(adaptables = SlingHttpServletRequest.class,
+        adapters = TextInput.class,
+        resourceType = TextInputImpl.RESOURCE_TYPE)
 public class TextInputImpl implements TextInput {
 
     protected static final String RESOURCE_TYPE = "core/wcm/components/form/text";
-    private static final String PN_ACTION_TYPE = "actionType";
+    private static final String PROP_NAME_DEFAULT = "text";
+    private static final String PROP_VALUE_DEFAULT = "";
+    private static final String PROP_LABEL_DEFAULT = "Label for Text Input";
+    private static final String PROP_PLACEHOLDER_DEFAULT = "Text placeholder";
+    private static final String PN_NAME = "name";
+    private static final String PN_VALUE = "value";
+    private static final String PN_LABEL = "label";
+    private static final String PN_PLACEHOLDER = "placeholder";
 
+    @Self
+    private SlingHttpServletRequest slingRequest;
 
-    @Inject
-    @Default(values = "TextInput")
-    private String name;
+    @ScriptVariable
+    private ValueMap properties;
 
-    @Inject
-    @Default(values = "")
-    private String value;
+    @ScriptVariable
+    private Resource resource;
 
-    @Inject
-    @Default(values = "Label for Text Input")
-    private String label;
-
-    @Inject
-    @Default(values = "Text placeholder")
-    private String placeholder;
+    private String [] prefillValues;
 
     @PostConstruct
     protected void initModel() {
+        prefillValues = FormsHelper.getValues(slingRequest, resource);
+        if (prefillValues == null) {
+            prefillValues = new String[0];
+        }
     }
 
     public String getName() {
-        return this.name;
+        return properties.get(PN_NAME, PROP_NAME_DEFAULT);
     }
 
     public String getValue() {
-        return this.value;
+        String value = properties.get(PN_VALUE, PROP_VALUE_DEFAULT);
+        if (value.equals(PROP_VALUE_DEFAULT) && prefillValues.length > 0) {
+            value = prefillValues[0];
+        }
+        return value;
     }
 
     public String getLabel() {
-        return this.label;
+        return properties.get(PN_LABEL, PROP_LABEL_DEFAULT);
     }
 
     public String getPlaceholder() {
-        return this.placeholder;
+        return properties.get(PN_PLACEHOLDER, PROP_PLACEHOLDER_DEFAULT);
     }
 }

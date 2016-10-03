@@ -4,4 +4,4 @@
   jcr:primaryType="cq:Component"
   jcr:title="New Paragraph - Form Container Component (v1)"
   sling:resourceSuperType="wcm/foundation/components/parsys/newpar"
-  componentGroup="Core"/>
+  componentGroup=".hidden"/>
