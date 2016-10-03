@@ -51,18 +51,9 @@ public class FormContainerImpl implements FormContainer {
 
     @ScriptVariable
     private ValueMap properties;
-
-    @ScriptVariable
-    private EditContext editContext;
     
-    @Inject
-    @Via("resource")
-    @Default(values = "POST")
     private String method;
-
-    @Inject
-    @Via("resource")
-    @Default(values="multipart/form-data")
+    
     private String enctype;
     
     private String action;
@@ -80,7 +71,10 @@ public class FormContainerImpl implements FormContainer {
             formFields.add(child);
             formFieldResourcePaths.add(child.getPath());
         }
-
+        
+        this.method = properties.get("method","POST");
+        this.enctype = properties.get("enctype","multipart/form-data");
+        
         PageManager pageManager = slingRequest.getResourceResolver().adaptTo(PageManager.class);
         Page currentPage = pageManager.getContainingPage(slingRequest.getResource());
         this.action = currentPage.getPath()+".html";
