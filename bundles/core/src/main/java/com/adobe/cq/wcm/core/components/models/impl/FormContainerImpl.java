@@ -16,25 +16,17 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.models.impl;
 
-
-import com.adobe.cq.wcm.core.components.commons.AuthoringUtils;
 import com.adobe.cq.wcm.core.components.models.FormContainer;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
-import com.day.cq.wcm.api.components.EditContext;
-import com.day.cq.wcm.api.components.IncludeOptions;
-import com.day.text.Text;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ValueMap;
-import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
-import org.apache.sling.models.annotations.Via;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,19 +54,14 @@ public class FormContainerImpl implements FormContainer {
     
     private String name;
 
-    private List<Resource> formFields = new ArrayList<Resource>();
-    private List<String> formFieldResourcePaths = new ArrayList<String>();
+    private List<Resource> formFields;
+
+    private List<String> formFieldResourcePaths;
 
     @PostConstruct
     protected void initModel() {
-        for (Resource child : slingRequest.getResource().getChildren()) {
-            formFields.add(child);
-            formFieldResourcePaths.add(child.getPath());
-        }
-        
         this.method = properties.get("method","POST");
         this.enctype = properties.get("enctype","multipart/form-data");
-        
         PageManager pageManager = slingRequest.getResourceResolver().adaptTo(PageManager.class);
         Page currentPage = pageManager.getContainingPage(slingRequest.getResource());
         this.action = currentPage.getPath()+".html";
@@ -82,38 +69,45 @@ public class FormContainerImpl implements FormContainer {
         this.name = currentPage.getName();
     }
 
-    public boolean isTouch() {
-        return AuthoringUtils.isTouch(slingRequest);
-    }
-
-    public boolean isEmpty() {
-        return formFields.isEmpty();
-    }
-
+    @Override
     public String getActionType() {
         return properties.get(PN_ACTION_TYPE, String.class);
     }
 
+    @Override
     public List<String> getFormFieldResourcePaths() {
+        if (formFieldResourcePaths == null) {
+            formFields = new ArrayList<Resource>();
+            formFieldResourcePaths = new ArrayList<String>();
+            for (Resource child : slingRequest.getResource().getChildren()) {
+                formFields.add(child);
+                formFieldResourcePaths.add(child.getPath());
+            }
+        }
         return formFieldResourcePaths;
     }
 
+    @Override
     public String getMethod(){
         return this.method;
     }
 
+    @Override
     public String getAction() {
         return this.action;
     }
 
+    @Override
     public String getId(){
         return this.id;
     }
 
+    @Override
     public String getName() {
         return this.name;
     }
 
+    @Override
     public String getEnctype() {
         return this.enctype;
     }

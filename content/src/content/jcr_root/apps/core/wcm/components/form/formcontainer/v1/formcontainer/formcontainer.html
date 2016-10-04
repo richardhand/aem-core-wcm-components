@@ -15,16 +15,13 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <sly data-sly-use.formcontainer="com.adobe.cq.wcm.core.components.models.FormContainer"
      data-sly-use.emptyRenderer="templates/empty_formcontainer.html">
-    <sly data-sly-call="${emptyRenderer.empty @ formcontainer=formcontainer}"/>
-    <sly data-sly-test="${!isEmpty}">
-        <form method="${formcontainer.method}" action="${formcontainer.action}" id="${formcontainer.id}" name="${formcontainer.name}" enctype="${formcontainer.enctype}">
-            <input type="hidden" name=":formstart" value="${resource.path}">
-            <sly data-sly-list="${formcontainer.formFieldResourcePaths}">
-                <div data-sly-resource="${item}"></div>
-            </sly>
-            <div data-sly-resource="${resource.path @ resourceType='core/wcm/components/form/formcontainer/v1/new', appendPath='/*'}"
-                 class="new section"></div>
-            <button type="submit">Submit</button>
-        </form>
-    </sly>
+    <sly data-sly-call="${emptyRenderer.empty @ formFieldResourcePaths=formcontainer.formFieldResourcePaths}"/>
+    <form method="${formcontainer.method}" action="${formcontainer.action}" id="${formcontainer.id}" name="${formcontainer.name}" enctype="${formcontainer.enctype}">
+        <input type="hidden" name=":formstart" value="${resource.path}">
+        <sly data-sly-list="${formcontainer.formFieldResourcePaths}">
+            <div data-sly-resource="${item}"></div>
+        </sly>
+        <div data-sly-resource="${resource.path @ resourceType='core/wcm/components/form/formcontainer/v1/new', appendPath='/*'}"
+             class="new section"></div>
+    </form>
 </sly>

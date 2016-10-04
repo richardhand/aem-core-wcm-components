@@ -13,9 +13,8 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<template data-sly-template.empty="${@ formcontainer}">
-    <img data-sly-test="${wcmmode.edit && formcontainer.isEmpty && !formcontainer.isTouch}" src="/libs/cq/ui/resources/0.gif" class="cq-list-placeholder" alt="" />
+<template data-sly-template.empty="${@ formFieldResourcePaths}">
     <div data-sly-test.editOrPreview="${wcmmode.edit || wcmmode.preview}"
-         data-sly-test="${editOrPreview && formcontainer.isEmpty && formcontainer.isTouch}" class="cq-placeholder"
-         data-emptytext="${formcontainer.componentTitle}"></div>
+         data-sly-test="${editOrPreview && formFieldResourcePaths.size == 0}" class="cq-placeholder"
+         data-emptytext="${component.properties.jcr:title}"></div>
 </template>

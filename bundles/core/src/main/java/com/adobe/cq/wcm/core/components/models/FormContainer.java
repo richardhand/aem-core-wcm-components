@@ -15,26 +15,45 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.models;
 
-
 import java.util.List;
 
+/**
+ * Component-Interface for the FormContainer Sling Model
+ */
 public interface FormContainer {
 
-    boolean isTouch();
-
-    boolean isEmpty();
-
+    /**
+     * @return the action type of form.
+     */
     String getActionType();
 
+    /**
+     * @return the content node paths of form fields (children of form container).
+     */
     List<String> getFormFieldResourcePaths();
-    
+
+    /**
+     * @return form submit method (method attribute of form).
+     */
     String getMethod();
-    
+
+    /**
+     * @return form submit action (used in action attribute of form).
+     */
     String getAction();
-    
+
+    /**
+     * @return form id (used in id attribute of form).
+     */
     String getId();
-    
+
+    /**
+     * @return form name ((used in name attribute of form).
+     */
     String getName();
-    
+
+    /**
+     * @return form data enctype (used in enctype attribute of form).
+     */
     String getEnctype();
 }
