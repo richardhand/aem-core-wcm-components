@@ -61,10 +61,12 @@ public class TextInputImpl implements TextInput {
         }
     }
 
+    @Override
     public String getName() {
         return properties.get(PN_NAME, PROP_NAME_DEFAULT);
     }
 
+    @Override
     public String getValue() {
         String value = properties.get(PN_VALUE, PROP_VALUE_DEFAULT);
         if (value.equals(PROP_VALUE_DEFAULT) && prefillValues.length > 0) {
@@ -73,10 +75,12 @@ public class TextInputImpl implements TextInput {
         return value;
     }
 
+    @Override
     public String getLabel() {
         return properties.get(PN_LABEL, PROP_LABEL_DEFAULT);
     }
 
+    @Override
     public String getPlaceholder() {
         return properties.get(PN_PLACEHOLDER, PROP_PLACEHOLDER_DEFAULT);
     }

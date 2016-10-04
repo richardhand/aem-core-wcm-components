@@ -18,7 +18,7 @@ package com.adobe.cq.wcm.core.components.models;
 import java.util.List;
 
 /**
- * Component-Interface for the FormContainer Sling Model
+ * Component-Interface for the form container Sling Model
  */
 public interface FormContainer {
 

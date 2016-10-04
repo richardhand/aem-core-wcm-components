@@ -16,13 +16,28 @@
 
 package com.adobe.cq.wcm.core.components.models;
 
+/**
+ * Component-Interface for the text input Sling Model
+ */
 public interface TextInput {
 
+    /**
+     * @return value of name attribute.
+     */
     String getName();
 
+    /**
+     * @return value of value attribute.
+     */
     String getValue();
 
+    /**
+     * @return label of this text input.
+     */
     String getLabel();
 
+    /**
+     * @return value of placeholder attribute.
+     */
     String getPlaceholder();
 }
