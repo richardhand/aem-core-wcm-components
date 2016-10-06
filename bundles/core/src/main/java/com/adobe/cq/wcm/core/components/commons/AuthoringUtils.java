@@ -17,9 +17,18 @@ package com.adobe.cq.wcm.core.components.commons;
 
 import javax.servlet.ServletRequest;
 
+import org.apache.sling.api.resource.Resource;
+
+import com.day.cq.commons.jcr.JcrConstants;
 import com.day.cq.wcm.api.AuthoringUIMode;
+import com.day.cq.wcm.api.NameConstants;
+import com.day.cq.wcm.api.Page;
 
 public final class AuthoringUtils {
+
+    private static final String NN_INITIAL = "initial";
+    private static final String NN_POLICIES = "policies";
+    private static final String NN_STRUCTURE = "structure";
 
     /**
      * Checks if the components rendered in the passed request will be rendered for the Touch UI editor.
@@ -41,5 +50,29 @@ public final class AuthoringUtils {
     public static boolean isClassic(ServletRequest request) {
         AuthoringUIMode currentMode = AuthoringUIMode.fromRequest(request);
         return AuthoringUIMode.CLASSIC == currentMode;
+    }
+
+    /**
+     * Checks if the give page is part of the template editor
+     *
+     * @param page {@link Page} to check
+     * @return true if the page is part of the template editor, otherwise false
+     */
+    public static boolean isPageOfAuthoredTemplate(Page page) {
+        boolean isTemplatePage = false;
+        Resource resource = page.adaptTo(Resource.class);
+        if (resource != null) {
+            if (resource.isResourceType(NameConstants.NT_PAGE) && resource.getParent() != null) {
+                Resource parentRessource = resource.getParent();
+                if (parentRessource.isResourceType(NameConstants.NT_TEMPLATE) &&
+                        parentRessource.getChild(NN_INITIAL) != null &&
+                        parentRessource.getChild(NN_POLICIES) != null &&
+                        parentRessource.getChild(NN_STRUCTURE) != null) {
+                    isTemplatePage = true;
+                }
+            }
+        }
+        return isTemplatePage;
+
     }
 }

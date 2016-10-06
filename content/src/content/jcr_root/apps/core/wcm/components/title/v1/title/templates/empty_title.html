@@ -13,8 +13,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<sly data-sly-use.title="com.adobe.cq.wcm.core.components.models.Title"
-     data-sly-use.emptyRenderer="templates/empty_title.html">
-    <sly data-sly-call="${emptyRenderer.empty @ title=title}"/>
-    <h1 data-sly-element="${title.element}">${title.text}</h1>
+<sly data-sly-template.empty="${@ title}">
+    <div data-sly-test="${(wcmmode.edit || wcmmode.preview) && title.text == ''}" class="cq-placeholder"
+         data-emptytext="${component.properties.jcr:title}"></div>
 </sly>
