@@ -13,7 +13,8 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<sly data-sly-template.empty="${@ title}">
-    <div data-sly-test="${(wcmmode.edit || wcmmode.preview) && title.text == ''}" class="cq-placeholder"
+
+<sly data-sly-template.placeholder="${@ isEmpty}">
+    <div data-sly-test="${(wcmmode.edit || wcmmode.preview) && isEmpty}" class="cq-placeholder"
          data-emptytext="${component.properties.jcr:title}"></div>
 </sly>

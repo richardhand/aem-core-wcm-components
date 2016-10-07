@@ -16,16 +16,13 @@
 
 package com.adobe.cq.wcm.core.components.models.impl;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
-import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
-import org.apache.sling.models.annotations.Optional;
-import org.apache.sling.models.annotations.Via;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
+import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
 import com.adobe.cq.wcm.core.components.commons.AuthoringUtils;
 import com.adobe.cq.wcm.core.components.models.Title;
@@ -40,7 +37,6 @@ public class TitleImpl implements Title {
 
     private static final String PROP_TITLE = "jcr:title";
     private static final String PROP_DEFAULT_TYPE = "defaultType";
-    private static final String VIA_RESOURCE = "resource";
 
     @ScriptVariable
     private Page currentPage;
@@ -48,21 +44,23 @@ public class TitleImpl implements Title {
     @ScriptVariable
     private Style currentStyle;
 
-    @Inject
-    @Via(VIA_RESOURCE)
-    @Named(PROP_TITLE)
-    @Default(values = StringUtils.EMPTY)
+    @ValueMapValue(optional = true, name = PROP_TITLE)
     private String title;
 
-    @Inject
-    @Via(VIA_RESOURCE)
-    @Optional
+    @ValueMapValue(optional = true)
     private String type;
+
+    private boolean isPageOfAuthoredTemplate = false;
+
+    @PostConstruct
+    private void initComponent() {
+        isPageOfAuthoredTemplate = AuthoringUtils.isPageOfAuthoredTemplate(currentPage);
+    }
 
     @Override
     public String getText() {
         String text = title;
-        if (StringUtils.isEmpty(text) && !AuthoringUtils.isPageOfAuthoredTemplate(currentPage)) {
+        if (StringUtils.isEmpty(text) && !isPageOfAuthoredTemplate) {
             text = StringUtils.defaultIfEmpty(currentPage.getTitle(),
                     StringUtils.defaultIfEmpty(currentPage.getPageTitle(), currentPage.getName()));
         }

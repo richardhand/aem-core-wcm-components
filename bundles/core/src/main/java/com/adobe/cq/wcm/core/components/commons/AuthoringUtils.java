@@ -53,7 +53,7 @@ public final class AuthoringUtils {
     }
 
     /**
-     * Checks if the give page is part of the template editor
+     * Checks if the given page is part of the template editor
      *
      * @param page {@link Page} to check
      * @return true if the page is part of the template editor, otherwise false
