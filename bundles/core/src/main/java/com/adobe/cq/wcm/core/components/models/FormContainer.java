@@ -56,4 +56,10 @@ public interface FormContainer {
      * @return form data enctype (used in enctype attribute of form).
      */
     String getEnctype();
+
+    /**
+     * @return resource type for the "new" section in form container where other input components will
+     * be dropped.
+     */
+    String getResourceTypeForDropArea();
 }

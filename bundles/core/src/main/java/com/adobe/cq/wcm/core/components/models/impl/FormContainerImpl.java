@@ -19,6 +19,8 @@ package com.adobe.cq.wcm.core.components.models.impl;
 import com.adobe.cq.wcm.core.components.models.FormContainer;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
+import com.day.cq.wcm.api.components.Component;
+import org.apache.sling.api.SlingConstants;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ValueMap;
@@ -37,12 +39,20 @@ public class FormContainerImpl implements FormContainer {
 
     protected static final String RESOURCE_TYPE = "core/wcm/components/formcontainer";
     private static final String PN_ACTION_TYPE = "actionType";
+    private static final String PN_METHOD = "method";
+    private static final String PN_ENCTYPE = "enctype";
+    private static final String PN_RESOURCE_TYPE = "sling:" + SlingConstants.PROPERTY_RESOURCE_TYPE;
+
+    private static final String PROP_METHOD_DEFAULT = "POST";
+    private static final String PROP_ENCTYPE_DEFAULT = "multipart/form-data";
 
     @Self
     private SlingHttpServletRequest slingRequest;
 
     @ScriptVariable
     private ValueMap properties;
+
+
     
     private String method;
     
@@ -60,8 +70,8 @@ public class FormContainerImpl implements FormContainer {
 
     @PostConstruct
     protected void initModel() {
-        this.method = properties.get("method","POST");
-        this.enctype = properties.get("enctype","multipart/form-data");
+        this.method = properties.get(PN_METHOD,PROP_METHOD_DEFAULT);
+        this.enctype = properties.get(PN_ENCTYPE,PROP_ENCTYPE_DEFAULT);
         PageManager pageManager = slingRequest.getResourceResolver().adaptTo(PageManager.class);
         Page currentPage = pageManager.getContainingPage(slingRequest.getResource());
         this.action = currentPage.getPath()+".html";
@@ -110,5 +120,10 @@ public class FormContainerImpl implements FormContainer {
     @Override
     public String getEnctype() {
         return this.enctype;
+    }
+
+    @Override
+    public String getResourceTypeForDropArea() {
+        return properties.get(PN_RESOURCE_TYPE, "") + "/new";
     }
 }

@@ -21,7 +21,7 @@
         <sly data-sly-list="${formcontainer.formFieldResourcePaths}">
             <div data-sly-resource="${item}"></div>
         </sly>
-        <div data-sly-resource="${resource.path @ resourceType='core/wcm/components/form/formcontainer/v1/new', appendPath='/*'}"
+        <div data-sly-resource="${resource.path @ resourceType=formcontainer.resourceTypeForDropArea, appendPath='/*'}"
              class="new section"></div>
     </form>
 </sly>
