@@ -14,7 +14,7 @@
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <sly data-sly-use.title="com.adobe.cq.wcm.core.components.models.Title"
-     data-sly-use.template="/apps/core/wcm/components/commons/v1/templates.html">
-    <h1 data-sly-element="${title.element}">${title.text}</h1>
-    <sly data-sly-call="${template.placeholder @ isEmpty=!title}"/>
+     data-sly-use.template="core/wcm/components/commons/v1/templates.html">
+    <h1 data-sly-element="${title.element}" data-sly-test="${title.text}">${title.text}</h1>
+    <sly data-sly-call="${template.placeholder @ isEmpty=!title.text}"/>
 </sly>

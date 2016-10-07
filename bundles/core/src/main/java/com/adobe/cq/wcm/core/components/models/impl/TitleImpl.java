@@ -16,8 +16,6 @@
 
 package com.adobe.cq.wcm.core.components.models.impl;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.models.annotations.Model;
@@ -44,25 +42,23 @@ public class TitleImpl implements Title {
     @ScriptVariable
     private Style currentStyle;
 
-    @ValueMapValue(optional = true, name = PROP_TITLE)
+    @ValueMapValue(optional = true,
+                   name = PROP_TITLE)
     private String title;
 
     @ValueMapValue(optional = true)
     private String type;
 
-    private boolean isPageOfAuthoredTemplate = false;
-
-    @PostConstruct
-    private void initComponent() {
-        isPageOfAuthoredTemplate = AuthoringUtils.isPageOfAuthoredTemplate(currentPage);
-    }
+    private String text;
 
     @Override
     public String getText() {
-        String text = title;
-        if (StringUtils.isEmpty(text) && !isPageOfAuthoredTemplate) {
-            text = StringUtils.defaultIfEmpty(currentPage.getTitle(),
-                    StringUtils.defaultIfEmpty(currentPage.getPageTitle(), currentPage.getName()));
+        if (text == null) {
+            text = title;
+            if (StringUtils.isEmpty(text) && !AuthoringUtils.isPageOfAuthoredTemplate(currentPage)) {
+                text = StringUtils.defaultIfEmpty(currentPage.getTitle(),
+                        StringUtils.defaultIfEmpty(currentPage.getPageTitle(), currentPage.getName()));
+            }
         }
         return text;
     }
