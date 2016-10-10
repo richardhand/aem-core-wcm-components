@@ -13,8 +13,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<template data-sly-template.empty="${@ breadcrumbItems}">
-    <div data-sly-test.editOrPreview="${wcmmode.edit || wcmmode.preview}"
-         data-sly-test="${editOrPreview && breadcrumbItems.size == 0}" class="cq-placeholder"
+<sly data-sly-template.empty="${@ breadcrumbItems}">
+    <div data-sly-test="${(wcmmode.edit || wcmmode.preview) && breadcrumbItems.size == 0}" class="cq-placeholder"
          data-emptytext="${component.properties.jcr:title}"></div>
-</template>
+</sly>
