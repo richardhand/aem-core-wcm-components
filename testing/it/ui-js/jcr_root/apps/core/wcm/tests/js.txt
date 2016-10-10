@@ -15,5 +15,4 @@
 ###############################################################################
 
 ns.js
-common/DisablePopups.js
 core-components-it/Breadcrumb.js

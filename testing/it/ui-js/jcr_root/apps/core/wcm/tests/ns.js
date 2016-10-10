@@ -15,3 +15,4 @@
  */
 window.CQ = window.CQ || {};
 window.CQ.CoreComponentsIT = window.CQ.CoreComponentsIT || {};
+window.CQ.CoreComponentsIT.Pages = window.CQ.CoreComponentsIT.Pages || {};
