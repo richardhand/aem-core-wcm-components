@@ -565,13 +565,13 @@
             <dependency>
                 <groupId>com.adobe.cq</groupId>
                 <artifactId>com.adobe.cq.wcm.core.components.core</artifactId>
-                <version>0.9.5-SNAPSHOT</version>
+                <version>0.9.6</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>com.adobe.cq</groupId>
                 <artifactId>com.adobe.cq.wcm.core.junit.core</artifactId>
-                <version>0.9.5-SNAPSHOT</version>
+                <version>0.9.6</version>
                 <scope>test</scope>
             </dependency>
 
