@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<!--/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ~ Copyright 2016 Adobe Systems Incorporated
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,10 +12,11 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-<workspaceFilter version="1.0">
-    <filter root="/apps/core/wcm">
-        <exclude pattern="/apps/core/wcm/install"/>
-    </filter>
-    <filter root="/etc/clientlibs/core-wcm-components"/>
-</workspaceFilter>
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
+<sly data-sly-use.button="com.adobe.cq.wcm.core.components.models.Button">
+  <div class="cmp cmp-btn">
+    <button type="${button.type}" class="btn ${button.cssClass}" name="${button.name}" value="${button.value}" disabled="${button.disabled}" autofocus="${button.autofocus}">
+      ${button.title}
+    </button>
+  </div>
+</sly>

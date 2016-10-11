@@ -18,13 +18,13 @@
     <parent>
         <artifactId>com.adobe.cq.wcm.core.components.parent</artifactId>
         <groupId>com.adobe.cq</groupId>
-        <version>0.9.21-SNAPSHOT</version>
+        <version>0.9.24</version>
         <relativePath>../../../parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>com.adobe.cq.wcm.core.junit.core</artifactId>
-    <version>0.9.5-SNAPSHOT</version>
+    <version>0.9.7-SNAPSHOT</version>
     <name>Adobe Experience Manager Core WCM Components JUnit Testing</name>
 
     <scm>
