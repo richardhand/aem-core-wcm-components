@@ -67,6 +67,7 @@
             "jcr:lastModifiedBy": "admin",
             "jcr:created": "Wed Oct 05 2016 16:28:06 GMT+0530",
             "name": "input-field-2",
+            "value": "Prefilled Sample Input",
             "label": "label-input-field-2",
             "jcr:lastModified": "Thu Oct 06 2016 12:47:20 GMT+0530",
             "placeholder": "Please enter the text",

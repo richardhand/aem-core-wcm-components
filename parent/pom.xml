@@ -565,7 +565,7 @@
             <dependency>
                 <groupId>com.adobe.cq</groupId>
                 <artifactId>com.adobe.cq.wcm.core.components.core</artifactId>
-                <version>0.9.8</version>
+                <version>0.9.9-SNAPSHOT</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
