@@ -13,13 +13,13 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<sly data-sly-use.breadcrumb="com.adobe.cq.wcm.core.components.models.Breadcrumb"
-     data-sly-use.emptyRenderer="templates/empty_breadcrumb.html">
-    <sly data-sly-call="${emptyRenderer.empty @ breadcrumbItems=breadcrumb.breadcrumbItems}"/>
-    <ol class="core-breadcrumb" data-sly-list.navItem="${breadcrumb.breadcrumbItems}">
-        <li class="core-breadcrumb-item" data-sly-test="${!navItem.active}">
-            <a href="${navItem.link}.html" onclick="CQ_Analytics.record({event:'followBreadcrumb',values: {breadcrumbPath:'${navItem.link @ context='scriptString'}'} ,collect: false,options: { obj: this },componentPath: '${resource.resourceType @ context='scriptString'}'})">${navItem.title}</a>
+<div data-sly-use.breadcrumb="com.adobe.cq.wcm.core.components.models.Breadcrumb"
+     data-sly-use.template="core/wcm/components/commons/v1/templates.html" class="cmp cmp-breadcrumb">
+    <ol class="breadcrumb" data-sly-list.navItem="${breadcrumb.breadcrumbItems}">
+        <li class="breadcrumb-item" data-sly-test="${!navItem.active}">
+            <a href="${navItem.link}.html" onclick="CQ_Analytics.record({event:'followBreadcrumb',values:{breadcrumbPath:'${navItem.link @ context='scriptString'}'} ,collect: false,options: { obj: this },componentPath:'${resource.resourceType @ context='scriptString'}'})">${navItem.title}</a>
         </li>
-        <li class="core-breadcrumb-item--active" data-sly-test="${navItem.active}">${navItem.title}</li>
+        <li class="breadcrumb-item--active" data-sly-test="${navItem.active}">${navItem.title}</li>
     </ol>
-</sly>
+</div>
+<sly data-sly-call="${template.placeholder @ isEmpty=breadcrumb.breadcrumbItems.size == 0}"/>
