@@ -36,12 +36,15 @@ import com.day.cq.wcm.api.designer.Style;
 public class BreadcrumbImpl implements Breadcrumb {
 
     public static final String RESOURCE_TYPE = "core/wcm/components/breadcrumb";
-    private static final boolean PROP_SHOW_HIDDEN_DEFAULT = false;
-    private static final String PN_SHOW_HIDDEN = "showHidden";
-    private static final boolean PROP_HIDE_CURRENT_DEFAULT = false;
-    private static final String PN_HIDE_CURRENT = "hideCurrent";
-    private static final int PROP_START_LEVEL_DEFAULT = 2;
-    private static final String PN_START_LEVEL = "startLevel";
+    protected static final boolean PROP_SHOW_HIDDEN_DEFAULT = false;
+    protected static final String PN_SHOW_HIDDEN = "showHidden";
+    protected static final String PN_DEFAULT_SHOW_HIDDEN = "defaultShowHidden";
+    protected static final boolean PROP_HIDE_CURRENT_DEFAULT = false;
+    protected static final String PN_HIDE_CURRENT = "hideCurrent";
+    protected static final String PN_DEFAULT_HIDE_CURRENT = "defaultHideCurrent";
+    protected static final int PROP_START_LEVEL_DEFAULT = 2;
+    protected static final String PN_START_LEVEL = "startLevel";
+    protected static final String PN_DEFAULT_START_LEVEL = "defaultStartLevel";
 
     @ScriptVariable
     private ValueMap properties;
@@ -59,9 +62,9 @@ public class BreadcrumbImpl implements Breadcrumb {
 
     @PostConstruct
     private void initModel() {
-        startLevel = properties.get(PN_START_LEVEL, currentStyle.get(PN_START_LEVEL, PROP_START_LEVEL_DEFAULT));
-        showHidden = properties.get(PN_SHOW_HIDDEN, currentStyle.get(PN_SHOW_HIDDEN, PROP_SHOW_HIDDEN_DEFAULT));
-        hideCurrent = properties.get(PN_HIDE_CURRENT, currentStyle.get(PN_HIDE_CURRENT, PROP_HIDE_CURRENT_DEFAULT));
+        startLevel = properties.get(PN_START_LEVEL, currentStyle.get(PN_DEFAULT_START_LEVEL, PROP_START_LEVEL_DEFAULT));
+        showHidden = properties.get(PN_SHOW_HIDDEN, currentStyle.get(PN_DEFAULT_SHOW_HIDDEN, PROP_SHOW_HIDDEN_DEFAULT));
+        hideCurrent = properties.get(PN_HIDE_CURRENT, currentStyle.get(PN_DEFAULT_HIDE_CURRENT, PROP_HIDE_CURRENT_DEFAULT));
     }
 
     @Override
