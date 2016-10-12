@@ -18,7 +18,7 @@
     <parent>
         <artifactId>com.adobe.cq.wcm.core.components.parent</artifactId>
         <groupId>com.adobe.cq</groupId>
-        <version>0.9.24</version>
+        <version>0.9.28</version>
         <relativePath>../../../parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>

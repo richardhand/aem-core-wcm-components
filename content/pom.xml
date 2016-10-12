@@ -23,7 +23,7 @@
     <parent>
         <groupId>com.adobe.cq</groupId>
         <artifactId>com.adobe.cq.wcm.core.components.parent</artifactId>
-        <version>0.9.26</version>
+        <version>0.9.28</version>
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
 
@@ -225,10 +225,6 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.adobe.cq</groupId>
-            <artifactId>com.adobe.cq.wcm.core.components.core</artifactId>
         </dependency>
 
         <!-- Testing -->
