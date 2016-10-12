@@ -19,7 +19,7 @@
     <groupId>com.adobe.cq</groupId>
     <artifactId>com.adobe.cq.wcm.core.components.parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.9.27-SNAPSHOT</version>
+    <version>0.9.29-SNAPSHOT</version>
 
     <name>Adobe Experience Manager Core WCM Components Parent</name>
 
@@ -299,13 +299,6 @@
                         <targetURL>http://${aem.host}:${aem.port}/crx/packmgr/service.jsp</targetURL>
                         <failOnError>true</failOnError>
                         <failOnMissingEmbed>true</failOnMissingEmbed>
-                        <embeddeds>
-                            <embedded>
-                                <groupId>com.adobe.cq</groupId>
-                                <artifactId>com.adobe.cq.wcm.core.components.core</artifactId>
-                                <target>/apps/core/wcm/install</target>
-                            </embedded>
-                        </embeddeds>
                         <dependencies>
                             <dependency>
                                 <group>day/cq60/product</group>
@@ -562,12 +555,6 @@
                 <scope>provided</scope>
             </dependency>
 
-            <dependency>
-                <groupId>com.adobe.cq</groupId>
-                <artifactId>com.adobe.cq.wcm.core.components.core</artifactId>
-                <version>0.9.9-SNAPSHOT</version>
-                <scope>provided</scope>
-            </dependency>
             <dependency>
                 <groupId>com.adobe.cq</groupId>
                 <artifactId>com.adobe.cq.wcm.core.junit.core</artifactId>
