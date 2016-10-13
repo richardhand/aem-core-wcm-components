@@ -24,7 +24,7 @@ public class Page  extends WCMUsePojo {
     @Override
     public void activate() throws Exception {
         com.day.cq.wcm.api.Page currentPage = getCurrentPage();
-        language = currentPage != null ? currentPage.getLanguage(false).toString() : null;
+        language = currentPage != null ? currentPage.getLanguage(false).toLanguageTag() : null;
     }
 
     public String getLanguage() {
