@@ -164,7 +164,7 @@
         <dependency>
             <groupId>com.day.cq.wcm</groupId>
             <artifactId>cq-wcm-foundation</artifactId>
-            <version>5.10.35-SNAPSHOT</version>
+            <version>5.10.37-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
                     <artifactId>cq-integration-testing</artifactId>
