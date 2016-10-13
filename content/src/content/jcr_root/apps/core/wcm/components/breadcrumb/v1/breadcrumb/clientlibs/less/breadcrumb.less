@@ -13,13 +13,13 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-.core-breadcrumb {
+.cmp .breadcrumb {
   list-style: none;
 }
 
-.core-breadcrumb-item {
+.cmp .breadcrumb-item {
   float: left;
-  & + &::before {
+  & + .breadcrumb-item::before {
     display: inline-block; //
     padding: 0 5px;
     content: "/\00a0";
@@ -28,7 +28,7 @@
   &--active {
     float: left;
 
-    .core-breadcrumb-item + &::before {
+    .breadcrumb-item + .breadcrumb-item::before {
       display: inline-block;
       padding: 0 5px;
       content: "/\00a0";

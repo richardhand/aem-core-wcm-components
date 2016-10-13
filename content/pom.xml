@@ -23,7 +23,7 @@
     <parent>
         <groupId>com.adobe.cq</groupId>
         <artifactId>com.adobe.cq.wcm.core.components.parent</artifactId>
-        <version>0.9.21-SNAPSHOT</version>
+        <version>0.9.28</version>
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
 
@@ -31,7 +31,7 @@
     <!-- P R O J E C T  D E S C R I P T I O N                                   -->
     <!-- ====================================================================== -->
     <artifactId>com.adobe.cq.wcm.core.components.content</artifactId>
-    <version>0.9.7-SNAPSHOT</version>
+    <version>0.9.17-SNAPSHOT</version>
     <packaging>content-package</packaging>
     <name>Adobe Experience Manager Core WCM Components Content Package</name>
 
@@ -226,10 +226,6 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.adobe.cq</groupId>
-            <artifactId>com.adobe.cq.wcm.core.components.core</artifactId>
-        </dependency>
 
         <!-- Testing -->
         <dependency>
@@ -262,6 +258,12 @@
             <artifactId>jsp-api</artifactId>
             <version>2.0</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.adobe.cq</groupId>
+            <artifactId>com.adobe.cq.wcm.core.components.core</artifactId>
+            <version>0.9.8</version>
         </dependency>
 
         <dependency>

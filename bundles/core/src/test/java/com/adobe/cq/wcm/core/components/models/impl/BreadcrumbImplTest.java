@@ -13,6 +13,7 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
 package com.adobe.cq.wcm.core.components.models.impl;
 
 import org.apache.sling.api.resource.Resource;
@@ -21,6 +22,7 @@ import org.apache.sling.api.scripting.SlingBindings;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import com.adobe.cq.sightly.WCMBindings;
 import com.adobe.cq.wcm.core.components.NavigationItem;
@@ -28,10 +30,13 @@ import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
 import com.adobe.cq.wcm.core.components.context.MockStyle;
 import com.adobe.cq.wcm.core.components.models.Breadcrumb;
 import com.day.cq.wcm.api.Page;
+import com.day.cq.wcm.api.designer.Style;
 import io.wcm.testing.mock.aem.junit.AemContext;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class BreadcrumbImplTest {
 
@@ -88,6 +93,20 @@ public class BreadcrumbImplTest {
         slingBindings.put(WCMBindings.CURRENT_STYLE, new MockStyle(resource));
         underTest = context.request().adaptTo(Breadcrumb.class);
         checkBreadcrumbConsistency(new String[]{"Shirts", "Devi Sleeveless Shirt"});
+    }
+
+    @Test
+    public void testStyleBasedBreadcrumb() throws Exception {
+        Resource resource = context.currentResource(CURRENT_PAGE
+                + "/jcr:content/header/breadcrumb-style-based");
+        slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
+        Style style = mock(Style.class);
+        when(style.get(BreadcrumbImpl.PN_DEFAULT_START_LEVEL, BreadcrumbImpl.PROP_START_LEVEL_DEFAULT)).thenReturn(3);
+        when(style.get(BreadcrumbImpl.PN_DEFAULT_HIDE_CURRENT, BreadcrumbImpl.PROP_SHOW_HIDDEN_DEFAULT)).thenReturn(false);
+        when(style.get(BreadcrumbImpl.PN_DEFAULT_SHOW_HIDDEN, BreadcrumbImpl.PROP_SHOW_HIDDEN_DEFAULT)).thenReturn(false);
+        slingBindings.put(WCMBindings.CURRENT_STYLE, style);
+        underTest = context.request().adaptTo(Breadcrumb.class);
+        checkBreadcrumbConsistency(new String[]{"Devi Sleeveless Shirt"});
     }
 
     private void checkBreadcrumbConsistency(String[] expectedPages) {

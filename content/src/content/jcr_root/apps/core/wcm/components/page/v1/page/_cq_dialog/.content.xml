@@ -827,7 +827,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="wcm/msm/components/touch-ui/renderconditions/islivecopy"
                                             ignoreIfNotCancelled="{Boolean}true"
-                                            path="${param.item}"/>
+                                            path="${empty param.item ? requestPathInfo.suffix : param.item}"/>
                                     </suspendedNote>
                                     <source
                                         jcr:primaryType="nt:unstructured"
@@ -891,7 +891,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="wcm/msm/components/touch-ui/renderconditions/islivecopy"
                                             ignoreIfCancelled="{Boolean}true"
-                                            path="${param.item}"/>
+                                            path="${empty param.item ? requestPathInfo.suffix : param.item}"/>
                                     </configuration>
                                 </items>
                             </column>
