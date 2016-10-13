@@ -16,3 +16,4 @@
 
 ns.js
 core-components-it/Breadcrumb.js
+utils/Utils.js

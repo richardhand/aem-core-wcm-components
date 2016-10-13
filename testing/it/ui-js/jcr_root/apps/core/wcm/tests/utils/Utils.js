@@ -13,8 +13,17 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-window.CQ = window.CQ || {};
-window.CQ.CoreComponentsIT = window.CQ.CoreComponentsIT || {};
-window.CQ.CoreComponentsIT.Utils = window.CQ.CoreComponentsIT.Utils || {};
-window.CQ.CoreComponentsIT.Pages = window.CQ.CoreComponentsIT.Pages || {};
-window.CQ.CoreComponentsIT.Breadcrumb = window.CQ.CoreComponentsIT.Breadcrumb || {};
+
+window.CQ.CoreComponentsIT.Utils.checkNumberOfItems = function (hobs, selector, numberOfItems) {
+    return hobs.find(selector).length == numberOfItems;
+};
+
+window.CQ.CoreComponentsIT.Utils.checkContentFromIFrame = function (hobs, frameSelector, selector, numberOfItems) {
+    return hobs.find(frameSelector).contents().find(selector).length == numberOfItems;
+
+};
+
+window.CQ.CoreComponentsIT.Utils.checkInputValue = function (hobs, selector, value) {
+    return hobs.find(selector).val() == value;
+
+}
