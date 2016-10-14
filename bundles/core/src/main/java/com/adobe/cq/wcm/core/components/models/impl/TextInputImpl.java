@@ -15,6 +15,7 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.models.impl;
 
+import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
@@ -26,6 +27,7 @@ import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 @Model(adaptables = SlingHttpServletRequest.class,
         adapters = TextInput.class,
@@ -51,10 +53,15 @@ public class TextInputImpl implements TextInput {
     @ScriptVariable
     private Resource resource;
 
+    @Inject
+    private FormStructureHelperFactory formStructureHelperFactory;
+
     private String [] prefillValues;
 
     @PostConstruct
     protected void initModel() {
+        slingRequest.setAttribute(FormsHelper.REQ_ATTR_FORM_STRUCTURE_HELPER,
+                formStructureHelperFactory.getFormStructureHelper(resource));
         prefillValues = FormsHelper.getValues(slingRequest, resource);
         if (prefillValues == null) {
             prefillValues = new String[0];
