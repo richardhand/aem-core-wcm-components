@@ -4,6 +4,9 @@
     <status
         jcr:primaryType="nt:unstructured"
         className="com.day.cq.wcm.core.impl.DefaultPageStatusProvider"/>
+    <template
+        jcr:primaryType="nt:unstructured"
+        className="com.day.cq.wcm.core.impl.TemplateInfoProvider"/>
     <liverelation
         jcr:primaryType="nt:unstructured"
         className="com.day.cq.wcm.msm.impl.LiveRelationshipInfoProvider"/>
