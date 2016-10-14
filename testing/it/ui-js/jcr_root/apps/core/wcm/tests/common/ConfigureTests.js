@@ -14,5 +14,17 @@
  *  limitations under the License.
  */
 
-window.CQ = window.CQ || {};
-window.CQ.CoreComponentsIT = window.CQ.CoreComponentsIT || {};
+;(function(h) {
+
+    window.CQ.CoreComponentsIT.OpenConfigureWindow = function (h, $) {
+        return new h.TestCase("Open the Configure window")
+            //click on the component to see the Editable Toolbar
+            .click(".cq-Overlay.cq-draggable.cq-droptarget")
+            .asserts.visible("#EditableToolbar")
+            //press the Configure button
+            .click(".coral-Button.cq-editable-action[title='Configure']")
+            .asserts.visible(".cq-dialog.foundation-form.foundation-layout-form")
+        ;
+    }
+})(hobs);
+

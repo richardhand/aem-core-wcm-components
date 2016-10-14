@@ -15,5 +15,9 @@
 ###############################################################################
 
 ns.js
-core-components-it/Breadcrumb.js
 utils/Utils.js
+common/ConfigureTests.js
+common/CreatePages.js
+core-components-it/Breadcrumb.js
+core-components-it/FormButton.js
+

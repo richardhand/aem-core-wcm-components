@@ -14,16 +14,21 @@
  *  limitations under the License.
  */
 
-window.CQ.CoreComponentsIT.Utils.checkNumberOfItems = function (hobs, selector, numberOfItems) {
+window.CQ.CoreComponentsIT.pageRoot = "/content/core-components/core-components-page";
+//window.CQ.CoreComponentsIT.pageFinalUrl = window.CQ.CoreComponentsIT.pageRoot
+
+window.CQ.CoreComponentsIT.checkNumberOfItems = function (hobs, selector, numberOfItems) {
     return hobs.find(selector).length == numberOfItems;
 };
 
-window.CQ.CoreComponentsIT.Utils.checkContentFromIFrame = function (hobs, frameSelector, selector, numberOfItems) {
+window.CQ.CoreComponentsIT.checkContentFromIFrame = function (hobs, frameSelector, selector, numberOfItems) {
     return hobs.find(frameSelector).contents().find(selector).length == numberOfItems;
 
 };
 
-window.CQ.CoreComponentsIT.Utils.checkInputValue = function (hobs, selector, value) {
+window.CQ.CoreComponentsIT.checkInputValue = function (hobs, selector, value) {
     return hobs.find(selector).val() == value;
 
-}
+};
+
+
