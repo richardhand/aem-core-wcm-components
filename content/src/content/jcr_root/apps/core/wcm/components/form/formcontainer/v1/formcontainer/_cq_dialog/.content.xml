@@ -51,10 +51,11 @@
                                             <actionType
                                                 jcr:primaryType="nt:unstructured"
                                                 fieldLabel="Action Type"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/select">
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                                name="./actionType">
                                                 <datasource
                                                     jcr:primaryType="nt:unstructured"
-                                                    sling:resourceType="core/wcm/components/form/formcontainer/v1/formcontainer/datasource/actiontypedatasource"/>
+                                                    sling:resourceType="core/wcm/components/form/formcontainer/datasource/actiontypedatasource"/>
                                             </actionType>
                                             <formid
                                                     jcr:primaryType="nt:unstructured"
