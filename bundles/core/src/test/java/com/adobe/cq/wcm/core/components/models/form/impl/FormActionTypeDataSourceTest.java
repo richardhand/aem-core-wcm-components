@@ -15,7 +15,7 @@
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-package com.adobe.cq.wcm.core.components.models.datasource.impl;
+package com.adobe.cq.wcm.core.components.models.form.impl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -32,20 +32,19 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
-import com.adobe.cq.wcm.core.components.models.datasource.FormActionTypeDatasource;
-import com.adobe.granite.ui.components.ds.DataSource;
+import com.adobe.cq.wcm.core.components.models.form.DataSourceModel;
 import com.day.cq.wcm.foundation.forms.FormsManager;
 import io.wcm.testing.mock.aem.junit.AemContext;
 
-import static com.adobe.cq.wcm.core.components.models.datasource.impl.FormActionTypeDatasourceImpl.ActionTypeResource.PN_TEXT;
-import static com.adobe.cq.wcm.core.components.models.datasource.impl.FormActionTypeDatasourceImpl.ActionTypeResource.PN_VALUE;
+import static com.adobe.cq.wcm.core.components.models.form.impl.DataSourceResource.*;
+import static com.adobe.cq.wcm.core.components.models.form.impl.DataSourceResource.PN_TEXT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class FormActionTypeDatasourceImplTest {
+public class FormActionTypeDataSourceTest {
 
     @Rule
     public AemContext context = CoreComponentTestContext.createContext("/formactiontype", "/libs");
@@ -59,7 +58,7 @@ public class FormActionTypeDatasourceImplTest {
     @Mock
     private ResourceResolver resourceResolver;
 
-    private FormActionTypeDatasource underTest;
+    private DataSourceModel underTest;
     private MockSlingHttpServletRequest spyRequest;
 
     @Before
@@ -73,12 +72,13 @@ public class FormActionTypeDatasourceImplTest {
         when(this.formsManager.getActions()).thenReturn(componentDescriptions.iterator());
         when(description.getTitle()).thenReturn("Form Action");
         when(description.getResourceType()).thenReturn("form/action");
-        underTest = spyRequest.adaptTo(FormActionTypeDatasource.class);
+        underTest = spyRequest.adaptTo(DataSourceModel.class);
     }
 
     @Test
     public void testDataSource() throws Exception {
-        DataSource dataSource = (DataSource) spyRequest.getAttribute(DataSource.class.getName());
+        com.adobe.granite.ui.components.ds.DataSource dataSource = (com.adobe.granite.ui.components.ds.DataSource) spyRequest.getAttribute(
+                com.adobe.granite.ui.components.ds.DataSource.class.getName());
         assertNotNull(dataSource);
         Iterator<Resource> iterator = dataSource.iterator();
         Resource resource = iterator.next();

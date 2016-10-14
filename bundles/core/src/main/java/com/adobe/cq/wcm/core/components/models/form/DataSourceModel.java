@@ -15,21 +15,24 @@
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-package com.adobe.cq.wcm.core.components.models.datasource;
+package com.adobe.cq.wcm.core.components.models.form;
 
 import org.apache.sling.api.SlingHttpServletRequest;
 
 import com.adobe.granite.ui.components.ds.DataSource;
 
 /**
- * Interface for the Form Action Type Sling Model
+ * Interface for the Datasource Type Sling Model
  */
-public interface FormActionTypeDatasource {
+public abstract class DataSourceModel {
 
     /**
      * Sets the {@link DataSource} in the current {@link SlingHttpServletRequest}
-     * @param request the current request
+     *
+     * @param request    the current request
      * @param dataSource datasource to put in the current request
      */
-    void initDataSource(SlingHttpServletRequest request, DataSource dataSource);
+    protected void initDataSource(SlingHttpServletRequest request, DataSource dataSource) {
+        request.setAttribute(DataSource.class.getName(), dataSource);
+    }
 }
