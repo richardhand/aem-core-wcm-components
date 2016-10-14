@@ -13,10 +13,11 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<sly data-sly-use.formcontainer="com.adobe.cq.wcm.core.components.models.FormContainer"
-     data-sly-use.emptyRenderer="templates/empty_formcontainer.html">
-    <sly data-sly-call="${emptyRenderer.empty @ formFieldResourcePaths=formcontainer.formFieldResourcePaths}"/>
-    <form method="${formcontainer.method}" action="${formcontainer.action}" id="${formcontainer.id}" name="${formcontainer.name}" enctype="${formcontainer.enctype}">
+<div data-sly-use.formcontainer="com.adobe.cq.wcm.core.components.models.FormContainer"
+     data-sly-use.template="core/wcm/components/commons/v1/templates.html"
+     class="cmp cmp-form">
+    <form method="${formcontainer.method}" action="${formcontainer.action}" id="${formcontainer.id}" name="${formcontainer.name}"
+          enctype="${formcontainer.enctype}">
         <input type="hidden" name=":formstart" value="${resource.path}">
         <sly data-sly-list="${formcontainer.formFieldResourcePaths}">
             <div data-sly-resource="${item}"></div>
@@ -24,4 +25,5 @@
         <div data-sly-resource="${resource.path @ resourceType=formcontainer.resourceTypeForDropArea, appendPath='/*'}"
              class="new section"></div>
     </form>
-</sly>
+</div>
+<sly data-sly-call="${template.placeholder @ isEmpty=formcontainer.formFieldResourcePaths.size == 0}"/>
