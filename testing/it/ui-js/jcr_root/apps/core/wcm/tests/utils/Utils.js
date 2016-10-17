@@ -21,8 +21,13 @@ window.CQ.CoreComponentsIT.checkNumberOfItems = function (hobs, selector, number
     return hobs.find(selector).length == numberOfItems;
 };
 
-window.CQ.CoreComponentsIT.checkContentFromIFrame = function (hobs, frameSelector, selector, numberOfItems) {
-    return hobs.find(frameSelector).contents().find(selector).length == numberOfItems;
+window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame = function (hobs, frameSelector, selector, numberOfItems) {
+    return hobs.find(selector,frameSelector).length == numberOfItems;
+
+};
+
+window.CQ.CoreComponentsIT.checkContentFromIFrame = function (hobs, frameSelector, selector, value) {
+    return hobs.find(selector,frameSelector).text().trim() == value;
 
 };
 

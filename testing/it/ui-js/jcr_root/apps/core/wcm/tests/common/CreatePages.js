@@ -15,12 +15,6 @@
  */
 
 ;(function(h) {
-    //var page = window.CQ.CoreComponentsIT.Pages;
-
-    //page.pageRoot = "/content/core-components/core-components-page"
-
-
-    //var pageUrl = window.CQ.CoreComponentsIT.pageFinalUrl;//window.CQ.CoreComponentsIT.pageRoot;
 
     /**
      * Create a page with a specific page name and title.

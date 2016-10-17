@@ -20,4 +20,5 @@ common/ConfigureTests.js
 common/CreatePages.js
 core-components-it/Breadcrumb.js
 core-components-it/FormButton.js
+core-components-it/Title.js
 

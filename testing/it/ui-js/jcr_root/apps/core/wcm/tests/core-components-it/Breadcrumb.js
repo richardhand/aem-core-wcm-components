@@ -19,7 +19,9 @@
 
     var pageUrl = window.CQ.CoreComponentsIT.pageRoot;
 
-    //Data for the sample page
+    /**
+     * Data for the sample page.
+     */
     var samplePage = {
         title: "CoreComponent TestPage",
         template: "/conf/core-components/settings/wcm/templates/core-components",
@@ -29,6 +31,9 @@
 
     }
 
+    /**
+     * Function used for creating a number of pages.
+     */
     window.CQ.CoreComponentsIT.CreatePages = function (h, $, nrOfPages) {
         var createPagesTestCase = new hobs.TestCase("Create Pages");
 
@@ -44,135 +49,36 @@
         return createPagesTestCase;
     }
 
+    /**
+     * Function used for deleting one page with all her child pages.
+     */
     window.CQ.CoreComponentsIT.DeletePages = function (h, $, nrOfPages) {
 
-        //var deletePagesTestCase = new hobs.TestCase("Delete Pages");
-
-        //for (var i=nrOfPages-1; i>= 0; i--)
-        //{
         return new hobs.TestCase("Delete Pages")
             .execTestCase(window.CQ.CoreComponentsIT.DeletePage(h, $, pageUrl+"/"+samplePage.name+"0"));
-        //    var splitString = "/"+samplePage.name+i
-        //    pageUrl = pageUrl.split(splitString)[0]
-        //}
-
         ;
     }
 
-    window.CQ.CoreComponentsIT.executeBeforeTC = function (h, $) {
-        return new h.TestCase("Execute before")
-            .execTestCase(hobs.steps.aem.commons.disableTutorials)
-            .execTestCase(window.CQ.CoreComponentsIT.CreatePages(h,$,4))
-        ;
-    }
-
-
+    /**
+     * Drag and Drop a Breadcrumb component.
+     */
     window.CQ.CoreComponentsIT.DragDropBreadcrumb = function (h, $) {
         return new h.TestCase("Drag and drop the breadcrumb")
             .execTestCase(window.CQ.CoreComponentsIT.CreatePages(h,$,4))
-            .navigateTo("/editor.html"+pageUrl+".html")
-            .asserts.location("/editor.html"+pageUrl+".html", true)
-            .click(".coral-Tab[title='Components']")
-            .asserts.visible(".coral-Masonry .card-component", true)
-            .cui.dragdrop(
-                ".coral-Masonry-item :contains('Core WCM Breadcrumb Component')",
-                ".cq-Overlay .cq-droptarget",
-                {delayBefore: 2500}
-            )
-            .asserts.visible(".cq-Overlay.cq-draggable.cq-droptarget")
-            .wait(500)
+            .execTestCase(window.CQ.CoreComponentsIT.DragDropConponent(h,$,"Core WCM Breadcrumb Component",pageUrl))
         ;
     };
 
-    window.CQ.CoreComponentsIT.CheckEditableToolbar = function (h, $) {
-        return new h.TestCase("Check the editable toolbar")
-            .wait(500)
-            //click on the component to see the Editable Toolbar
-            .click("#OverlayWrapper")
-            .click(".cq-Overlay.cq-draggable.cq-droptarget")
-            .asserts.visible("#EditableToolbar")
-            //check de number of the button from the EditableToolbar
-            //.asserts.isTrue(function() {return window.CQ.CoreComponentsIT.Utils.checkNumberOfItems(h, ".coral-Button.cq-editable-action", 7);})
-
-            //copy the component
-            .click(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title='Copy']")
-            //paste the component
-            .click("#OverlayWrapper")
-            .click(".cq-Overlay.cq-draggable.cq-droptarget")
-            .asserts.visible("#EditableToolbar")
-            //check if the Paste button appeared
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItems(h, ".coral-Button.cq-editable-action", 8);})
-
-            //paste a component
-            .click(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title='Paste']")
-            .asserts.isTrue(function () { return window.CQ.CoreComponentsIT.checkNumberOfItems(h, ".cq-Overlay.cq-draggable.cq-droptarget", 2);})
-
-            .wait(500)
-            .click("#OverlayWrapper")
-            .click(".cq-Overlay.cq-draggable.cq-droptarget:eq(1)")
-            .asserts.visible("#EditableToolbar")
-            .wait(500)
-            //delete a component
-            .click(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title='Delete']")
-            .wait(500)
-            .click(".coral-Button.coral-Button--warning")
-            .asserts.isTrue(function () { return window.CQ.CoreComponentsIT.checkNumberOfItems(h, ".cq-Overlay.cq-draggable.cq-droptarget", 1);})
-
-            //press the Insert Component button
-            .wait(500)
-            .click(".cq-Overlay.cq-draggable.cq-droptarget")
-            .asserts.visible("#EditableToolbar")
-            .wait(500)
-            .click(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title='Insert component']")
-            .asserts.visible(".coral-Dialog-wrapper .coral-Dialog-content.InsertComponentDialog-components")
-            .click(".coral-Dialog.InsertComponentDialog .coral-Dialog-wrapper .coral-Dialog-header .coral-Dialog-closeButton")
-
-            //press the Group button
-            .click("#OverlayWrapper")
-            .click(".cq-Overlay.cq-draggable.cq-droptarget")
-            .asserts.visible("#EditableToolbar")
-            .click(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title='Group']")
-            .asserts.exists(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square.is-active[title='Group']")
-
-            //press the Parent button
-            .click(".cq-Overlay.cq-draggable.cq-droptarget")
-            .asserts.visible("#EditableToolbar")
-            .click(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title='Parent']")
-            .asserts.exists(".cq-Overlay.cq-Overlay--component.cq-Overlay--container.is-selected.is-active")
-
-            //test the cut button
-            .cui.dragdrop(
-                ".coral-Masonry-item :contains('Layout Container')",
-                ".cq-Overlay .cq-droptarget",
-                {delayBefore: 2500}
-            )
-            //click on the component to see the Editable Toolbar
-            .wait(500)
-            .click("#OverlayWrapper")
-            .click(".cq-Overlay.cq-draggable.cq-droptarget:eq(1)")
-            .asserts.visible("#EditableToolbar")
-            .wait(500)
-            //cut the component
-            .click(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title='Cut']")
-            .wait(500)
-            .click("#OverlayWrapper")
-            .click(".cq-Overlay.cq-Overlay--component.cq-droptarget.cq-Overlay--placeholder:first")
-            .asserts.visible("#EditableToolbar")
-            .wait(500)
-            .click(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title='Paste']")
-            .wait(500)
-            .asserts.isTrue(function () { return window.CQ.CoreComponentsIT.checkNumberOfItems(h, ".cq-Overlay.cq-draggable.cq-droptarget", 2);})
-            .wait(500)
-        ;
-    }
-
+    /**
+     * Check the navigation level for the breadcrumb.
+     */
     window.CQ.CoreComponentsIT.CheckTheNavigationLevel = function (h, $) {
         return new h.TestCase("Check the navigation level")
             //Open the Configure window
             .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
             //check the numbers of the breadcrumb items
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkContentFromIFrame(h,"#ContentFrame",".breadcrumb-item", 4)})
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkContentFromIFrame(h,"#ContentFrame",".breadcrumb-item--active", 1)})
+            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item", 4)})
+            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item--active", 1)})
             //press the Configure button
             .click(".coral-Button.cq-editable-action[title='Configure']")
             .asserts.visible(".cq-dialog.foundation-form.foundation-layout-form")
@@ -185,8 +91,8 @@
             //click on the check button
             .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
             //check the numbers of the breadcrumb items
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkContentFromIFrame(h,"#ContentFrame",".breadcrumb-item", 0)})
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkContentFromIFrame(h,"#ContentFrame",".breadcrumb-item--active", 0)})
+            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item", 0)})
+            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item--active", 0)})
 
             //Open the Configure window
             .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
@@ -197,8 +103,8 @@
             //click on the check button
             .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
             //check the numbers of the breadcrumb items
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkContentFromIFrame(h,"#ContentFrame",".breadcrumb-item", 3)})
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkContentFromIFrame(h,"#ContentFrame",".breadcrumb-item--active", 1)})
+            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item", 3)})
+            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item--active", 1)})
 
             //Open the Configure window
             .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
@@ -208,8 +114,8 @@
             //click on the check button
             .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
             //check the numbers of the breadcrumb items
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkContentFromIFrame(h,"#ContentFrame",".breadcrumb-item", 2)})
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkContentFromIFrame(h,"#ContentFrame",".breadcrumb-item--active", 1)})
+            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item", 2)})
+            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item--active", 1)})
 
             //Open the Configure window
             .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
@@ -219,8 +125,8 @@
             //click on the check button
             .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
             //check the numbers of the breadcrumb items
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkContentFromIFrame(h,"#ContentFrame",".breadcrumb-item", 1)})
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkContentFromIFrame(h,"#ContentFrame",".breadcrumb-item--active", 1)})
+            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item", 1)})
+            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item--active", 1)})
 
             //Open the Configure window
             .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
@@ -230,8 +136,8 @@
             //click on the check button
             .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
             //check the numbers of the breadcrumb items
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkContentFromIFrame(h,"#ContentFrame",".breadcrumb-item", 0)})
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkContentFromIFrame(h,"#ContentFrame",".breadcrumb-item--active", 1)})
+            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item", 0)})
+            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item--active", 1)})
 
             //Open the Configure window
             .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
@@ -240,8 +146,8 @@
             //click on the check button
             .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
             //check the numbers of the breadcrumb items
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkContentFromIFrame(h,"#ContentFrame",".breadcrumb-item", 0)})
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkContentFromIFrame(h,"#ContentFrame",".breadcrumb-item--active", 0)})
+            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item", 0)})
+            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item--active", 0)})
 
             //Open the Configure window
             .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
@@ -250,8 +156,8 @@
             //click on the check button
             .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
             //check the numbers of the breadcrumb items
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkContentFromIFrame(h,"#ContentFrame",".breadcrumb-item", 0)})
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkContentFromIFrame(h,"#ContentFrame",".breadcrumb-item--activ",0)})
+            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item", 0)})
+            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item--activ",0)})
 
             //Open the Configure window
             .wait(500)
@@ -260,8 +166,8 @@
             .fillInput(".coral-Textfield.coral-InputGroup-input[id^='coral-id']", "2")
             //click on the check button
             .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkContentFromIFrame(h,"#ContentFrame",".breadcrumb-item", 4)})
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkContentFromIFrame(h,"#ContentFrame",".breadcrumb-item--activ",0)})
+            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item", 4)})
+            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item--activ",0)})
 
             //Open the Configure window
             .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
@@ -283,7 +189,7 @@
         //.addTestCase(window.CQ.CoreComponentsIT.CreatePages(h,$,4))
         .addTestCase(window.CQ.CoreComponentsIT.DragDropBreadcrumb(h, $))
         .addTestCase(window.CQ.CoreComponentsIT.CheckTheNavigationLevel(h, $))
-        .addTestCase(window.CQ.CoreComponentsIT.CheckEditableToolbar(h, $))
+        .addTestCase(window.CQ.CoreComponentsIT.CheckEditableToolbar(h, $, 8))
         //.addTestCase(window.CQ.CoreComponentsIT.DeletePages(h, $,4))
 
     ;
