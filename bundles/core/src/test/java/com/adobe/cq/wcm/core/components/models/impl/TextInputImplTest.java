@@ -15,6 +15,8 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.models.impl;
 
+import com.day.cq.wcm.foundation.forms.FormStructureHelper;
+import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
 import io.wcm.testing.mock.aem.junit.AemContext;
 
 import org.apache.sling.api.resource.Resource;
@@ -55,6 +57,12 @@ public class TextInputImplTest {
         Page page = context.currentPage(CONTAINING_PAGE);
         slingBindings = (SlingBindings) context.request().getAttribute(SlingBindings.class.getName());
         slingBindings.put(WCMBindings.CURRENT_PAGE, page);
+        context.registerService(FormStructureHelperFactory.class, new FormStructureHelperFactory(){
+            @Override
+            public FormStructureHelper getFormStructureHelper(Resource formElement) {
+                return null;
+            }
+        });
     }
 
     @Test
