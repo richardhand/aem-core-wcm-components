@@ -177,6 +177,7 @@
             <artifactId>cq-quickstart</artifactId>
             <classifier>apis</classifier>
         </dependency>
+        
     </dependencies>
 
 </project>
