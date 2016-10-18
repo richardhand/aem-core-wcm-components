@@ -23,14 +23,14 @@ import org.apache.sling.api.resource.SyntheticResource;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.wrappers.ValueMapDecorator;
 
-public abstract class DataSourceResource extends SyntheticResource {
+public abstract class TextValueDataResourceSource extends SyntheticResource {
 
     protected static final String PN_VALUE = "value";
     protected static final String PN_TEXT = "text";
 
     private ValueMap valueMap;
 
-    public DataSourceResource(ResourceResolver resourceResolver, String path, String resourceType) {
+    public TextValueDataResourceSource(ResourceResolver resourceResolver, String path, String resourceType) {
         super(resourceResolver, path, resourceType);
 
     }

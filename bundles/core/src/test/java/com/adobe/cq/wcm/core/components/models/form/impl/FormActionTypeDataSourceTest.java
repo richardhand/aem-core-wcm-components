@@ -36,8 +36,8 @@ import com.adobe.cq.wcm.core.components.models.form.DataSourceModel;
 import com.day.cq.wcm.foundation.forms.FormsManager;
 import io.wcm.testing.mock.aem.junit.AemContext;
 
-import static com.adobe.cq.wcm.core.components.models.form.impl.DataSourceResource.*;
-import static com.adobe.cq.wcm.core.components.models.form.impl.DataSourceResource.PN_TEXT;
+import static com.adobe.cq.wcm.core.components.models.form.impl.TextValueDataResourceSource.*;
+import static com.adobe.cq.wcm.core.components.models.form.impl.TextValueDataResourceSource.PN_TEXT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.spy;

@@ -59,7 +59,7 @@ public class FormActionTypeDataSource extends DataSourceModel {
         initDataSource(request, actionTypeDataSource);
     }
 
-    public class ActionTypeResource extends DataSourceResource {
+    public class ActionTypeResource extends TextValueDataResourceSource {
 
         private final FormsManager.ComponentDescription description;
 

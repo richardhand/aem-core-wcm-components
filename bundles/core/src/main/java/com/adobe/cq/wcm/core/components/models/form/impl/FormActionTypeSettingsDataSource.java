@@ -17,11 +17,11 @@
 package com.adobe.cq.wcm.core.components.models.form.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import javax.annotation.PostConstruct;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
-import org.apache.sling.api.resource.NonExistingResource;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.models.annotations.Model;
@@ -30,16 +30,14 @@ import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 
 import com.adobe.cq.wcm.core.components.models.form.DataSourceModel;
 import com.adobe.granite.ui.components.ds.SimpleDataSource;
-import com.adobe.granite.workflow.WorkflowException;
-import com.adobe.granite.workflow.WorkflowSession;
-import com.adobe.granite.workflow.model.WorkflowModel;
+import com.day.cq.wcm.foundation.forms.FormsManager;
 
 @Model(adaptables = SlingHttpServletRequest.class,
        adapters = DataSourceModel.class,
-       resourceType = WorkflowModelDataSource.RESOURCE_TYPE)
-public class WorkflowModelDataSource extends DataSourceModel {
+       resourceType = FormActionTypeSettingsDataSource.RESOURCE_TYPE)
+public class FormActionTypeSettingsDataSource extends DataSourceModel {
 
-    protected final static String RESOURCE_TYPE = "core/wcm/components/form/formcontainer/datasource/workflowmodeldatasource";
+    protected final static String RESOURCE_TYPE = "core/wcm/components/form/formcontainer/datasource/actiontypesettingsdatasource";
 
     @Self
     private SlingHttpServletRequest request;
@@ -48,34 +46,25 @@ public class WorkflowModelDataSource extends DataSourceModel {
     private ResourceResolver resourceResolver;
 
     @PostConstruct
-    private void initModel() throws WorkflowException {
-        WorkflowSession workflowSession = resourceResolver.adaptTo(WorkflowSession.class);
-        WorkflowModel[] models = workflowSession.getModels();
-        ArrayList<Resource> resources = new ArrayList<>();
-        for (WorkflowModel model : models) {
-            resources.add(new WorkflowModelResource(model));
-        }
-        SimpleDataSource dataSource = new SimpleDataSource(resources.iterator());
-        initDataSource(request, dataSource);
+    private void initModel() {
+        SimpleDataSource actionTypeSettingsDataSource = new SimpleDataSource(getSettingsDialogs().iterator());
+        initDataSource(request, actionTypeSettingsDataSource);
     }
 
-    public class WorkflowModelResource extends TextValueDataResourceSource {
-
-        private final WorkflowModel model;
-
-        public WorkflowModelResource(WorkflowModel model) {
-            super(resourceResolver, StringUtils.EMPTY, NonExistingResource.RESOURCE_TYPE_NON_EXISTING);
-            this.model = model;
+    private List<Resource> getSettingsDialogs() {
+        ArrayList<Resource> actionTypeSettingsResources = new ArrayList<>();
+        FormsManager formsManager = resourceResolver.adaptTo(FormsManager.class);
+        Iterator<FormsManager.ComponentDescription> actions = formsManager.getActions();
+        while (actions.hasNext()) {
+            FormsManager.ComponentDescription componentDescription = actions.next();
+            for (String searchPath : resourceResolver.getSearchPath()) {
+                Resource dialogResource =
+                        resourceResolver.getResource(searchPath + "/" + componentDescription.getResourceType() + "/cq:dialog");
+                if (dialogResource != null) {
+                    actionTypeSettingsResources.add(dialogResource);
+                }
+            }
         }
-
-        @Override
-        protected String getText() {
-            return model.getTitle();
-        }
-
-        @Override
-        protected String getValue() {
-            return model.getId();
-        }
+        return actionTypeSettingsResources;
     }
 }
