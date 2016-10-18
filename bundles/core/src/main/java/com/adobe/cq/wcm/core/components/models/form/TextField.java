@@ -19,6 +19,8 @@ package com.adobe.cq.wcm.core.components.models.form;
  * The form text field
  */
 public interface TextField extends FormField{
+    
+    String[] TYPES = {"text","email","tel","date","number","password"};
 
     /**
      * checks if the field is multi-valued
