@@ -18,7 +18,6 @@ package com.adobe.cq.wcm.core.components.models.impl.form;
 import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
 
-import org.apache.commons.lang.NotImplementedException;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ValueMap;
@@ -57,6 +56,7 @@ public class TextFieldImpl implements TextField {
     private static final String PROP_CSS_CLASS_DEFAULT = "";
     private static final boolean PROP_AUTOFOCUS_DEFAULT = false;
     private static final String PROP_SHOW_HIDE_EXPRESSION_DEFAULT = null;
+    private static final String PROP_TYPE_DEFAULT = "text";
 
     private static final String PN_NAME = "name";
     private static final String PN_VALUE = "value";
@@ -78,6 +78,7 @@ public class TextFieldImpl implements TextField {
     private static final String PN_CSS_CLASS = "css";
     private static final String PN_AUTOFOCUS = "autofocus";
     private static final String PN_SHOW_HIDE_EXPRESSION = "showHideExpression";
+    private static final String PN_TYPE = "type";
 
     @Self
     private SlingHttpServletRequest slingRequest;
@@ -107,16 +108,16 @@ public class TextFieldImpl implements TextField {
     public String getName() {
         return properties.get(PN_NAME, PROP_NAME_DEFAULT);
     }
-
-    /**
-     * TODO: check if this can be moved to the FormField with java with generic return type Object
-     * Get the value of the field if the field is single-valued.
-     * If the field is multi-valued, ths will return the concatenation of all its values.
-     * @return the value of the field
-     */
+    
+    @Override
     public String getValue() {
         if(this.isMultiValued()) {
-            throw new NotImplementedException();
+            String values[]= this.getMultiValues();
+            StringBuilder sb = new StringBuilder();
+            for(String value:values) {
+                sb.append(value);
+            }
+            return sb.toString();
         }
         String value = properties.get(PN_VALUE, PROP_VALUE_DEFAULT);
         if (value.equals(PROP_VALUE_DEFAULT) && prefillValues.length > 0) {
@@ -125,12 +126,18 @@ public class TextFieldImpl implements TextField {
         return value;
     }
 
-    /**
-     * Get the values of the field if the field is multi-valued
-     * @return A String array containing the values of the field.
-     */
+    
+    @Override
     public String[] getMultiValues() {
-        throw new NotImplementedException();
+        if(properties.containsKey(PN_VALUE)) {
+            return properties.get(PN_VALUE,String[].class);
+        }
+        return prefillValues;
+    }
+
+    @Override
+    public String getType() {
+        return properties.get(PN_TYPE,PROP_TYPE_DEFAULT);
     }
 
     @Override

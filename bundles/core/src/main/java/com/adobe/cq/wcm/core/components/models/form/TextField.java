@@ -69,4 +69,25 @@ public interface TextField extends FormField{
      * @return the number of columns(visible width) the text areas should have
      */
     int getCols();
+
+    /**
+     * TODO: check if this can be moved to the FormField with java with generic return type Object
+     * Get the value of the field if the field is single-valued.
+     * If the field is multi-valued, ths will return the concatenation of all its values.
+     * @return the value of the field
+     */
+    String getValue();
+    
+    /**
+     * Get the values of the field if the field is multi-valued
+     * @return A String array containing the values of the field.
+     */
+    String[] getMultiValues();
+
+    /**
+     * Get the type of the input field such as date, email etc.
+     * The types are as defined under HTML5.
+     * @return the type of the field
+     */
+    String getType();
 }

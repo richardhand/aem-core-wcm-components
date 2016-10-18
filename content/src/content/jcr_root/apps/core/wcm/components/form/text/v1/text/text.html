@@ -14,7 +14,40 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<div class="core-form-group" data-sly-use.textInput="com.adobe.cq.wcm.core.components.models.TextInput">
-    <label for="${textInput.name}">${textInput.label}</label>
-    <input type="text" class="core-form-control" id="${textInput.name}" placeholder="${textInput.placeholder}" name="${textInput.name}" value="${textInput.value}">
+<div class="core-form-group" data-sly-use.textField="com.adobe.cq.wcm.core.components.models.form.TextField">
+    <label for="${textField.name}">${textField.label}</label>
+    <sly data-sly-test="${textField.isMultiValued}">
+        <section data-sly-include="multivalue.html">
+        </section>
+    </sly>
+
+    <sly data-sly-test="${!textField.isMultiValued}">
+        <sly data-sly-test.useTextarea="${textField.rows > 1 && textField.type=='text'} ">
+            <textarea type="${textField.type}"
+                      class="${textField.cssClass}"
+                      id="${textField.name}"
+                      placeholder="${textField.placeholder}"
+                      name="${textField.name}"
+                      value="${textField.value}"
+                      rows="${textField.rows}"
+                      cols="${textField.cols}"
+                      width="${textField.width}"
+                      readonly="${textField.isReadOnly}"
+                    >
+                
+            </textarea>
+        </sly>
+        <sly data-sly-test="${!useTextarea}">
+            <input type="${textField.type}"
+                   class="${textField.cssClass}"
+                   id="${textField.name}"
+                   placeholder="${textField.placeholder}"
+                   name="${textField.name}"
+                   value="${textField.value}"
+                   readonly="${textField.isReadOnly}"
+                   >
+        </sly>
+
+    </sly>
+
 </div>
