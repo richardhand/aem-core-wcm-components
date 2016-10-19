@@ -15,17 +15,17 @@
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <div class="core-form-group" data-sly-use.textField="com.adobe.cq.wcm.core.components.models.form.TextField">
-    <label for="${textField.name}">${textField.label}</label>
+    <label for="${textField.name}0">${textField.title}</label>
     <sly data-sly-test="${textField.isMultiValued}">
         <section data-sly-include="multivalue.html">
         </section>
     </sly>
 
     <sly data-sly-test="${!textField.isMultiValued}">
-        <sly data-sly-test.useTextarea="${textField.rows > 1 && textField.type=='text'} ">
-            <textarea type="${textField.type}"
+        <sly data-sly-test.useTextarea="${textField.rows > 1 && textField.constraintType=='text'} ">
+            <textarea type="${textField.constraintType}"
                       class="${textField.cssClass}"
-                      id="${textField.name}"
+                      id="${textField.name}0"
                       placeholder="${textField.placeholder}"
                       name="${textField.name}"
                       value="${textField.value}"
@@ -33,18 +33,20 @@
                       cols="${textField.cols}"
                       width="${textField.width}"
                       readonly="${textField.isReadOnly}"
+                      required="${textField.required}"
                     >
                 
             </textarea>
         </sly>
         <sly data-sly-test="${!useTextarea}">
-            <input type="${textField.type}"
+            <input type="${textField.constraintType}"
                    class="${textField.cssClass}"
-                   id="${textField.name}"
+                   id="${textField.name}0"
                    placeholder="${textField.placeholder}"
                    name="${textField.name}"
                    value="${textField.value}"
                    readonly="${textField.isReadOnly}"
+                   required="${textField.required}"
                    >
         </sly>
 

@@ -100,7 +100,7 @@ public class TextFieldImpl implements TextField {
             formStructureHelperFactory.getFormStructureHelper(resource));
         prefillValues = FormsHelper.getValues(slingRequest, resource);
         if (prefillValues == null) {
-            prefillValues = new String[0];
+            prefillValues = new String[]{this.getDefaultValue()};
         }
     }
     
