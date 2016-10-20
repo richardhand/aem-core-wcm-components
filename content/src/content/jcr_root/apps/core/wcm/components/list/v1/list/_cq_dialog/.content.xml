@@ -135,15 +135,21 @@
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/well">
                                                 <items jcr:primaryType="nt:unstructured">
-                                                    <pages
-                                                        jcr:primaryType="nt:unstructured"
-                                                        sling:resourceType="granite/ui/components/foundation/form/multifield"
-                                                        class="foundation-layout-util-maximized-alt coral-Form-fieldwrapper">
-                                                        <field
-                                                            jcr:primaryType="nt:unstructured"
-                                                            sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
-                                                            name="./pages"
-                                                            rootPath="/content"/>
+                                                    <pages jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/container"
+                                                        granite:class="foundation-layout-util-maximized-alt coral-Form-fieldwrapper">
+                                                        <items jcr:primaryType="nt:unstructured">
+                                                            <multi
+                                                                jcr:primaryType="nt:unstructured"
+                                                                sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                                                granite:class="">
+                                                                <field
+                                                                    jcr:primaryType="nt:unstructured"
+                                                                    sling:resourceType="granite/ui/components/coral/foundation/form/pathbrowser"
+                                                                    name="./pages"
+                                                                    rootPath="/content"/>
+                                                            </multi>
+                                                        </items>
                                                     </pages>
                                                 </items>
                                             </well>
