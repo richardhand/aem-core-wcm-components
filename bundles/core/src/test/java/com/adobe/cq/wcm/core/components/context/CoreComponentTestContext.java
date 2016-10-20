@@ -19,6 +19,8 @@ import java.io.IOException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.models.impl.ResourceTypeBasedResourcePicker;
+import org.apache.sling.models.spi.ImplementationPicker;
 import org.apache.sling.testing.mock.sling.ResourceResolverType;
 
 import com.day.cq.wcm.foundation.forms.FormStructureHelper;
@@ -55,6 +57,7 @@ public final class CoreComponentTestContext {
                         return null;
                     }
                 });
+                context.registerService(ImplementationPicker.class, new ResourceTypeBasedResourcePicker());
                 context.addModelsForPackage("com.adobe.cq.wcm.core.components.models");
                 if (StringUtils.isNotEmpty(testBase)) {
                     context.load().json(testBase + "/test-content.json", contentRoot);

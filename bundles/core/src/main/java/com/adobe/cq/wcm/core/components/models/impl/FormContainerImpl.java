@@ -37,7 +37,7 @@ import java.util.List;
         resourceType = FormContainerImpl.RESOURCE_TYPE)
 public class FormContainerImpl implements FormContainer {
 
-    protected static final String RESOURCE_TYPE = "core/wcm/components/formcontainer";
+    protected static final String RESOURCE_TYPE = "core/wcm/components/form/formcontainer";
     private static final String PN_ACTION_TYPE = "actionType";
     private static final String PN_METHOD = "method";
     private static final String PN_ENCTYPE = "enctype";

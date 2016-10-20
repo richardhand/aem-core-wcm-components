@@ -54,13 +54,18 @@
                 toggleValidation($(element));
             });
             var useWorkflow = $element.data("useworkflow");
-            if(useWorkflow) {
-               $('.cmp-workflow-selection').removeClass("hide");
+            if (useWorkflow) {
+                $('.cmp-workflow-selection').removeClass("hide");
             }
             $element.closest(ACTION_TYPE_SETTINGS_SELECTOR).removeClass("hide");
         });
     }
 
+    /**
+     * If the form element is not shown we have to disable the required validation for that field.
+     *
+     * @param $field to disable / enable required validation
+     */
     function toggleValidation($field) {
         var notRequired = false;
         if ($field.attr("aria-required") === "true") {

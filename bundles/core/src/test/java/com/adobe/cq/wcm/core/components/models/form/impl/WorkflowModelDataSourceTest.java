@@ -14,10 +14,8 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
 package com.adobe.cq.wcm.core.components.models.form.impl;
 
-import java.util.ArrayList;
 import javax.annotation.Nullable;
 
 import org.apache.sling.api.resource.Resource;
@@ -33,62 +31,57 @@ import org.mockito.runners.MockitoJUnitRunner;
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
 import com.adobe.cq.wcm.core.components.models.form.DataSourceModel;
 import com.adobe.granite.ui.components.ds.DataSource;
-import com.day.cq.wcm.foundation.forms.FormsManager;
+import com.adobe.granite.workflow.WorkflowSession;
+import com.adobe.granite.workflow.model.WorkflowModel;
 import com.google.common.base.Function;
 import io.wcm.testing.mock.aem.junit.AemContext;
 
-import static com.adobe.cq.wcm.core.components.models.form.impl.TextValueDataResourceSource.PN_TEXT;
-import static com.adobe.cq.wcm.core.components.models.form.impl.TextValueDataResourceSource.PN_VALUE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class FormActionTypeDataSourceTest {
+public class WorkflowModelDataSourceTest {
 
     @Rule
-    public AemContext context = CoreComponentTestContext.createContext("/form/formcontainer/datasource/actiontypedatasource",
-            "/apps");
+    public AemContext context = CoreComponentTestContext.createContext("/form/formcontainer/datasource/workflowmodeldatasource",
+            "/apps/workflowdatasource");
 
     @Mock
-    private FormsManager formsManagerMock;
+    private WorkflowSession workflowSessionMock;
 
     @Mock
-    private FormsManager.ComponentDescription description;
-
+    private WorkflowModel workflowModelMock;
 
     private DataSourceModel underTest;
 
     @Before
     public void setUp() throws Exception {
-        registerFormsManagerAdapter();
-        ArrayList<FormsManager.ComponentDescription> componentDescriptions = new ArrayList<>();
-        componentDescriptions.add(description);
-        when(formsManagerMock.getActions()).thenReturn(componentDescriptions.iterator());
-        when(description.getTitle()).thenReturn("Form Action");
-        when(description.getResourceType()).thenReturn("form/action");
+        when(workflowModelMock.getTitle()).thenReturn("Workflow Title");
+        when(workflowModelMock.getId()).thenReturn("test/workflow");
+        when(workflowSessionMock.getModels()).thenReturn(new WorkflowModel[]{workflowModelMock});
+        registerWorkflowSessionAdapter();
+    }
+
+    private void registerWorkflowSessionAdapter() {
+        context.registerAdapter(ResourceResolver.class, WorkflowSession.class, new Function<ResourceResolver, WorkflowSession>() {
+            @Nullable
+            @Override
+            public WorkflowSession apply(@Nullable ResourceResolver input) {
+                return workflowSessionMock;
+            }
+        });
     }
 
     @Test
     public void testDataSource() throws Exception {
-        context.currentResource("/apps/actiontypedatasource");
+        context.currentResource("/apps/workflowdatasource");
         underTest = context.request().adaptTo(DataSourceModel.class);
-        DataSource dataSource = (com.adobe.granite.ui.components.ds.DataSource) context.request().getAttribute(
-                DataSource.class.getName());
+        DataSource dataSource = (DataSource) context.request().getAttribute(DataSource.class.getName());
         assertNotNull(dataSource);
         Resource resource = dataSource.iterator().next();
         ValueMap valueMap = resource.adaptTo(ValueMap.class);
-        assertEquals("Form Action", valueMap.get(PN_TEXT, String.class));
-        assertEquals("form/action", valueMap.get(PN_VALUE, String.class));
-    }
-
-    private void registerFormsManagerAdapter() {
-        context.registerAdapter(ResourceResolver.class, FormsManager.class, new Function<ResourceResolver, FormsManager>() {
-            @Nullable
-            @Override
-            public FormsManager apply(@Nullable ResourceResolver input) {
-                return formsManagerMock;
-            }
-        });
+        assertEquals("Workflow Title", valueMap.get("text", String.class));
+        assertEquals("test/workflow", valueMap.get("value", String.class));
     }
 }
