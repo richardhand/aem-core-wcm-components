@@ -59,7 +59,8 @@ public class FormActionTypeSettingsDataSource extends DataSourceModel {
             FormsManager.ComponentDescription componentDescription = actions.next();
             for (String searchPath : resourceResolver.getSearchPath()) {
                 Resource dialogResource =
-                        resourceResolver.getResource(searchPath + "/" + componentDescription.getResourceType() + "/cq:dialog");
+                        resourceResolver.getResource(searchPath + "/" + componentDescription.getResourceType() + "/" +
+                                FormActionTypeDataSource.NN_DIALOG);
                 if (dialogResource != null) {
                     actionTypeSettingsResources.add(dialogResource);
                 }

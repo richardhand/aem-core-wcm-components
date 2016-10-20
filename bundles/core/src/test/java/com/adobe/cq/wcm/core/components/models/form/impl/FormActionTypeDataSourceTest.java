@@ -40,6 +40,8 @@ import static com.adobe.cq.wcm.core.components.models.form.impl.TextValueDataRes
 import static com.adobe.cq.wcm.core.components.models.form.impl.TextValueDataResourceSource.PN_TEXT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
@@ -47,7 +49,7 @@ import static org.mockito.Mockito.when;
 public class FormActionTypeDataSourceTest {
 
     @Rule
-    public AemContext context = CoreComponentTestContext.createContext("/formactiontype", "/libs");
+    public AemContext context = CoreComponentTestContext.createContext("/formactiontype", "/libs/form/action");
 
     @Mock
     private FormsManager formsManager;
@@ -64,19 +66,25 @@ public class FormActionTypeDataSourceTest {
     @Before
     public void setUp() throws Exception {
         MockSlingHttpServletRequest request = context.request();
+
         spyRequest = spy(request);
         when(spyRequest.getResourceResolver()).thenReturn(resourceResolver);
         when(resourceResolver.adaptTo(FormsManager.class)).thenReturn(this.formsManager);
+        when(resourceResolver.getSearchPath()).thenReturn(new String[]{"/libs"});
+
         ArrayList<FormsManager.ComponentDescription> componentDescriptions = new ArrayList<>();
         componentDescriptions.add(description);
         when(this.formsManager.getActions()).thenReturn(componentDescriptions.iterator());
         when(description.getTitle()).thenReturn("Form Action");
         when(description.getResourceType()).thenReturn("form/action");
-        underTest = spyRequest.adaptTo(DataSourceModel.class);
+
     }
 
     @Test
     public void testDataSource() throws Exception {
+        Resource dialog = context.currentResource("/libs/form/action/cq:dialog");
+        when(resourceResolver.getResource(anyString())).thenReturn(dialog);
+        underTest = spyRequest.adaptTo(DataSourceModel.class);
         com.adobe.granite.ui.components.ds.DataSource dataSource = (com.adobe.granite.ui.components.ds.DataSource) spyRequest.getAttribute(
                 com.adobe.granite.ui.components.ds.DataSource.class.getName());
         assertNotNull(dataSource);

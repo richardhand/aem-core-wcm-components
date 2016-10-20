@@ -1,91 +1,109 @@
 {
-    "jcr:content"    : {
-        "cq:lastModified"  : "Wed Jun 29 2016 14:20:45 GMT+0200",
-        "cq:lastModifiedBy": "admin",
-        "jcr:created"      : "Mon Jul 18 2016 14:30:46 GMT+0200",
-        "jcr:createdBy"    : "admin",
-        "jcr:primaryType"  : "cq:PageContent",
-        "jcr:title"        : "Women"
-    },
-    "jcr:created"    : "Mon Jul 18 2016 14:30:46 GMT+0200",
-    "jcr:createdBy"  : "admin",
-    "jcr:primaryType": "cq:Page",
-    "shirts"         : {
-        "devi-sleeveless-shirt": {
-            "jcr:content"    : {
-                "cq:lastModified"   : "Wed Jun 29 2016 14:20:46 GMT+0200",
-                "cq:lastModifiedBy" : "admin",
-                "jcr:created"       : "Mon Jul 18 2016 14:30:46 GMT+0200",
-                "jcr:createdBy"     : "admin",
-                "jcr:language"      : "en",
-                "jcr:primaryType"   : "cq:PageContent",
-                "jcr:title"         : "Devi Sleeveless Shirt",
-                "sling:resourceType": "we-retail/components/structure/page",
-                "header"            : {
-                    "jcr:primaryType"        : "nt:unstructured",
-                    "sling:resourceType"     : "foundation/components/parsys",
-                    "breadcrumb"             : {
-                        "jcr:primaryType"   : "nt:unstructured",
-                        "jcr:createdBy"     : "admin",
-                        "jcr:lastModifiedBy": "admin",
-                        "jcr:created"       : "Mon Jan 11 2016 15:23:53 GMT+0100",
-                        "jcr:lastModified"  : "Mon Jan 11 2016 16:21:45 GMT+0100",
-                        "sling:resourceType": "core/wcm/components/breadcrumb/v1/breadcrumb"
-                    },
-                    "breadcrumb-start-level" : {
-                        "jcr:primaryType"   : "nt:unstructured",
-                        "jcr:createdBy"     : "admin",
-                        "jcr:lastModifiedBy": "admin",
-                        "jcr:created"       : "Mon Jan 11 2016 15:23:53 GMT+0100",
-                        "jcr:lastModified"  : "Mon Jan 11 2016 16:21:45 GMT+0100",
-                        "sling:resourceType": "core/wcm/components/breadcrumb/v1/breadcrumb",
-                        "startLevel"        : "3",
-                        "showHidden"        : "true"
-                    },
-                    "breadcrumb-show-hidden" : {
-                        "jcr:primaryType"   : "nt:unstructured",
-                        "jcr:createdBy"     : "admin",
-                        "jcr:lastModifiedBy": "admin",
-                        "jcr:created"       : "Mon Jan 11 2016 15:23:53 GMT+0100",
-                        "jcr:lastModified"  : "Mon Jan 11 2016 16:21:45 GMT+0100",
-                        "sling:resourceType": "core/wcm/components/breadcrumb/v1/breadcrumb",
-                        "showHidden"        : "true"
-                    },
-                    "breadcrumb-hide-current": {
-                        "jcr:primaryType"   : "nt:unstructured",
-                        "jcr:createdBy"     : "admin",
-                        "jcr:lastModifiedBy": "admin",
-                        "jcr:created"       : "Mon Jan 11 2016 15:23:53 GMT+0100",
-                        "jcr:lastModified"  : "Mon Jan 11 2016 16:21:45 GMT+0100",
-                        "sling:resourceType": "core/wcm/components/breadcrumb/v1/breadcrumb",
-                        "hideCurrent"       : "true"
-                    },
-                    "breadcrumb-style-based": {
-                        "jcr:primaryType"   : "nt:unstructured",
-                        "jcr:createdBy"     : "admin",
-                        "jcr:lastModifiedBy": "admin",
-                        "jcr:created"       : "Mon Jan 11 2016 15:23:53 GMT+0100",
-                        "jcr:lastModified"  : "Mon Jan 11 2016 16:21:45 GMT+0100",
-                        "sling:resourceType": "core/wcm/components/breadcrumb/v1/breadcrumb"
-                    }
+    "jcr:primaryType"   : "sling:Folder",
+    "jcr:createdBy"     : "admin",
+    "jcr:title"         : "Mail",
+    "jcr:created"       : "Tue Oct 18 2016 11:51:29 GMT+0200",
+    "hint"              : "Sends all submitted values in an email.",
+    "sling:resourceType": "foundation/components/form/action",
+    "cq:dialog"         : {
+        "jcr:primaryType"   : "nt:unstructured",
+        "jcr:title"         : "Form Container",
+        "granite:class"     : "action-type-dialog",
+        "sling:resourceType": "granite/ui/components/coral/foundation/container",
+        "items"             : {
+            "jcr:primaryType": "nt:unstructured",
+            "from"           : {
+                "jcr:primaryType"   : "nt:unstructured",
+                "name"              : "./from",
+                "fieldLabel"        : "From",
+                "sling:resourceType": "granite/ui/components/coral/foundation/form/textfield"
+            },
+            "mailto"         : {
+                "jcr:primaryType"   : "nt:unstructured",
+                "fieldLabel"        : "Mailto",
+                "sling:resourceType": "granite/ui/components/coral/foundation/form/multifield",
+                "field"             : {
+                    "jcr:primaryType"   : "nt:unstructured",
+                    "name"              : "./mailto",
+                    "sling:resourceType": "granite/ui/components/coral/foundation/form/textfield"
                 }
             },
-            "jcr:created"    : "Mon Jul 18 2016 14:30:46 GMT+0200",
-            "jcr:createdBy"  : "admin",
-            "jcr:primaryType": "cq:Page"
+            "cc"             : {
+                "jcr:primaryType"   : "nt:unstructured",
+                "fieldLabel"        : "CC",
+                "sling:resourceType": "granite/ui/components/coral/foundation/form/multifield",
+                "field"             : {
+                    "jcr:primaryType"   : "nt:unstructured",
+                    "name"              : "./cc",
+                    "sling:resourceType": "granite/ui/components/coral/foundation/form/textfield"
+                }
+            },
+            "bcc"            : {
+                "jcr:primaryType"   : "nt:unstructured",
+                "fieldLabel"        : "BCC",
+                "sling:resourceType": "granite/ui/components/coral/foundation/form/multifield",
+                "field"             : {
+                    "jcr:primaryType"   : "nt:unstructured",
+                    "name"              : "./bcc",
+                    "sling:resourceType": "granite/ui/components/coral/foundation/form/textfield"
+                }
+            },
+            "subject"        : {
+                "jcr:primaryType"   : "nt:unstructured",
+                "name"              : "./subject",
+                "fieldLabel"        : "Subject",
+                "sling:resourceType": "granite/ui/components/coral/foundation/form/textfield"
+            }
         },
-        "jcr:content"          : {
-            "cq:lastModified"   : "Wed Jun 29 2016 14:20:46 GMT+0200",
-            "cq:lastModifiedBy" : "admin",
-            "jcr:created"       : "Mon Jul 18 2016 14:30:46 GMT+0200",
-            "jcr:createdBy"     : "admin",
-            "jcr:primaryType"   : "cq:PageContent",
-            "jcr:title"         : "Shirts",
-            "hideInNav"         : "true",
-            "sling:resourceType": "we-retail/components/structure/page"
+        "granite:data"      : {
+            "jcr:primaryType"    : "nt:unstructured",
+            "showhidetargetvalue": "foundation/components/form/actions/mail"
+        }
+    },
+    "dialog"            : {
+        "jcr:primaryType": "cq:WidgetCollection",
+        "from"           : {
+            "jcr:primaryType": "cq:Widget",
+            "name"           : "./from",
+            "xtype"          : "textfield",
+            "fieldLabel"     : "From"
         },
-        "jcr:created"          : "Mon Jul 18 2016 14:30:46 GMT+0200",
-        "jcr:createdBy"        : "admin",
-        "jcr:primaryType"      : "cq:Page"
+        "mailto"         : {
+            "jcr:primaryType": "cq:Widget",
+            "name"           : "./mailto",
+            "xtype"          : "multifield",
+            "fieldLabel"     : "Mailto"
+        },
+        "cc"             : {
+            "jcr:primaryType": "cq:Widget",
+            "name"           : "./cc",
+            "xtype"          : "multifield",
+            "fieldLabel"     : "CC"
+        },
+        "bcc"            : {
+            "jcr:primaryType": "cq:Widget",
+            "name"           : "./bcc",
+            "xtype"          : "multifield",
+            "fieldLabel"     : "BCC"
+        },
+        "subject"        : {
+            "jcr:primaryType": "cq:Widget",
+            "name"           : "./subject",
+            "xtype"          : "textfield",
+            "fieldLabel"     : "Subject"
+        }
+    },
+    "forward.jsp"       : {
+        "jcr:primaryType": "nt:file",
+        "jcr:createdBy"  : "admin",
+        "jcr:created"    : "Tue Oct 18 2016 11:51:29 GMT+0200",
+        "jcr:content"    : {
+            "jcr:primaryType"   : "nt:resource",
+            "jcr:lastModifiedBy": "admin",
+            "jcr:mimeType"      : "text/plain",
+            "jcr:lastModified"  : "Tue Oct 18 2016 11:51:29 GMT+0200",
+            ":jcr:data"         : 967,
+            "jcr:uuid"          : "de2efc96-9638-4854-a68d-b08efb1cb35f"
+        }
     }
 }
