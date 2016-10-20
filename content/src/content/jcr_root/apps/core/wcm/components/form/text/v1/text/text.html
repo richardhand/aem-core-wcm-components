@@ -21,35 +21,10 @@
         </section>
     </sly>
 
-    <sly data-sly-test="${!textField.isMultiValued}">
-        <sly data-sly-test.useTextarea="${textField.rows > 1 && textField.constraintType=='text'} ">
-            <textarea type="${textField.constraintType}"
-                      class="${textField.cssClass}"
-                      id="${textField.name}0"
-                      placeholder="${textField.placeholder}"
-                      name="${textField.name}"
-                      value="${textField.value}"
-                      rows="${textField.rows}"
-                      cols="${textField.cols}"
-                      width="${textField.width}"
-                      readonly="${textField.isReadOnly}"
-                      required="${textField.required}"
-                    >
-                
-            </textarea>
-        </sly>
-        <sly data-sly-test="${!useTextarea}">
-            <input type="${textField.constraintType}"
-                   class="${textField.cssClass}"
-                   id="${textField.name}0"
-                   placeholder="${textField.placeholder}"
-                   name="${textField.name}"
-                   value="${textField.value}"
-                   readonly="${textField.isReadOnly}"
-                   required="${textField.required}"
-                   >
-        </sly>
-
+    <sly data-sly-test="${!textField.isMultiValued}" >
+        <div data-sly-use.input_field="templates/input_field.html" 
+             data-sly-call="${input_field.input_field @ textField = textField}">
+        </div>
     </sly>
 
 </div>

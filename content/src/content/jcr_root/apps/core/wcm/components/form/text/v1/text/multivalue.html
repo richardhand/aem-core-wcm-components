@@ -19,34 +19,9 @@
     <div core-form-textField-content>
         <sly data-sly-list="${textField.getMultiValues}">
             <div core-form-input-subgroup class="core-form-input-subgroup">
-                <sly data-sly-test.useTextarea="${textField.rows > 1 && textField.constraintType=='text'} ">
-                    <textarea type="${textField.constraintType}"
-                              class="${textField.cssClass}"
-                              id="${textField.name}${itemList.index}"
-                              placeholder="${textField.placeholder}"
-                              name="${textField.name}"
-                              value="${item}"
-                              rows="${textField.rows}"
-                              cols="${textField.cols}"
-                              width="${textField.width}"
-                              readonly="${textField.isReadOnly}"
-                              required="${(itemList.index==0) && textField.required}"
-                            >
-                
-                    </textarea>
-                </sly>
-                <sly data-sly-test="${!useTextarea}">
-                    <input type="${textField.constraintType}"
-                           class="${textField.cssClass}"
-                           id="${textField.name}${itemList.index}"
-                           placeholder="${textField.placeholder}"
-                           name="${textField.name}"
-                           value="${item}"
-                           readonly="${textField.isReadOnly}"
-                           required="${(itemList.index==0) && textField.required}"
-                            >
-                </sly>
-
+                    <div data-sly-use.input_field="templates/input_field.html" 
+                         data-sly-call="${input_field.input_field @ textField = textField}">
+                    </div>
                 <button data-sly-test="${itemList.index!=0}" type="button" core-form-textField-item-remove class="core-form-textField-item-remove">Remove</button>
             </div>
         </sly>
