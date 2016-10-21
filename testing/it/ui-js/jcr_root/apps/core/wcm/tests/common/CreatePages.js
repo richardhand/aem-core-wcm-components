@@ -54,20 +54,18 @@
 
     window.CQ.CoreComponentsIT.CreatePage = function (h, $, pageUrl, pageName, pageTitle, pageTemplate) {
         return new h.TestCase("Create a page")
-            .execFct(function () {
-                createPage(pageUrl, pageName, pageTitle, pageTemplate);
+            .execFct(function (opts, done) {
+                createPage(pageUrl, pageName, pageTitle, pageTemplate).then(done);
             })
-            .wait(500)
-            ;
+        ;
     }
 
     window.CQ.CoreComponentsIT.DeletePage = function (h, $, pageUrl) {
         return new h.TestCase("Delete a page")
-            .execFct(function () {
-                deletePage(pageUrl);
+            .execFct(function (opts, done) {
+                deletePage(pageUrl).then(done);
             })
-            .wait(500)
-            ;
+        ;
     }
 
 })(hobs);

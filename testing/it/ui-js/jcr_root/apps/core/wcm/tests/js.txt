@@ -16,8 +16,10 @@
 
 ns.js
 utils/Utils.js
+common/Common.js
 common/ConfigureTests.js
 common/CreatePages.js
+common/EditableToolbarTests.js
 core-components-it/Breadcrumb.js
 core-components-it/FormButton.js
 core-components-it/Title.js

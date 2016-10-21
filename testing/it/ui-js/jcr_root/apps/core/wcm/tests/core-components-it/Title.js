@@ -26,8 +26,8 @@
         return new h.TestCase("Drag and drop the form button")
             .execTestCase(window.CQ.CoreComponentsIT.CreatePage(h,$,pageUrl, "page0","CoreComponent TestPage",
                 "/conf/core-components/settings/wcm/templates/core-components"))
-            .execTestCase(window.CQ.CoreComponentsIT.DragDropConponent(h,$,"Core WCM Title Component",pageUrl))
-            ;
+            .execTestCase(window.CQ.CoreComponentsIT.DragDropComponent(h,$,"Core WCM Title Component",pageUrl))
+        ;
     }
 
     /**
@@ -36,39 +36,36 @@
     window.CQ.CoreComponentsIT.CheckEditButton = function (h, $) {
         return new h.TestCase("Check the edit button")
             //click on the component to see the Editable Toolbar
-            .click("#OverlayWrapper")
-            .click(".cq-Overlay.cq-draggable.cq-droptarget")
-            .asserts.visible("#EditableToolbar")
+            .execTestCase(window.CQ.CoreComponentsIT.OpenEditableToolbar(h,$,".cq-Overlay.cq-draggable.cq-droptarget"))
             .click(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title='Edit']")
             //check de number of the button from the EditableToolbar
-            .wait(500)
             .asserts.isTrue(function() {return hobs.find(".title.aem-GridColumn .cmp.cmp-title","#ContentFrame")})
             //.execFct(function() { hobs.find(".title.aem-GridColumn .cmp.cmp-title > h1","#ContentFrame").replaceWith("content test")})
-            .execFct(function() {
-                //Switch the context to the content frame
-                oldContext = hobs.context();
-                hobs.setContext(window.frames[0].frames['ContentFrame'])
-                //Change the text
-                var content = h.find(".title.aem-GridColumn .cmp.cmp-title > h1");
-                content.html("Content test");
-                //Switch context back
-                hobs.setContext(oldContext.loadEl);
+
+            //get a new context
+            .config.changeContext(function() {
+                return hobs.find("iframe#ContentFrame").get(0);
             })
-            .wait(500)
+            .execFct(function() {
+                hobs.find(".title.aem-GridColumn .cmp.cmp-title > h1").html("Content test")
+            })
+            //reset the new context
+            .config.resetContext()
+
             .click("#OverlayWrapper")
+            .click(".cq-Overlay.cq-draggable.cq-droptarget")
             .click(".cq-Overlay.cq-draggable.cq-droptarget")
         ;
     }
 
     window.CQ.CoreComponentsIT.CheckTitleType = function (h, $, index, value) {
         return new h.TestCase("Check title type")
-            .wait(500)
             .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
             .click(".cq-dialog-content.coral-FixedColumn .coral-Button")
             .click(".coral-Overlay.coral3-Select-overlay.is-open .coral3-SelectList-item:eq("+index+")")
             .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
             .asserts.isTrue(function () {return h.find(".title.aem-GridColumn .cmp.cmp-title >"+ value,"#ContentFrame")})
-
+        ;
     }
 
     /**
@@ -89,21 +86,22 @@
     window.CQ.CoreComponentsIT.CheckConfigureButton = function (h, $){
         return new h.TestCase("Check the Configure button")
             .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
-            .wait(500)
             .asserts.visible(".coral-Form-field.coral-Textfield[name='./jcr:title']")
             .fillInput(".coral-Form-field.coral-Textfield[name='./jcr:title']","Content name")
             .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
-
-            .wait(500)
+            //check the title type
             .execTestCase(window.CQ.CoreComponentsIT.CheckTitleTypes(h, $))
+            //click on the fullscreen button
+            .execTestCase(window.CQ.CoreComponentsIT.OpenFullSreen(h,$))
+            //close the configure window
+            .execTestCase(window.CQ.CoreComponentsIT.CloseConfigureWindow(h,$))
         ;
     }
 
     new h.TestSuite("Core-Components Tests - Title", {path:"/apps/core/wcm/tests/core-components-it/Title.js",
-        execBefore: hobs.steps.aem.commons.disableTutorials, execAfter:window.CQ.CoreComponentsIT.DeletePage(h, $,pageUrl), register: true})
-        .addTestCase(window.CQ.CoreComponentsIT.DragDropTitle(h, $))
+        execBefore: window.CQ.CoreComponentsIT.ExecuteBefore(h,$,window.CQ.CoreComponentsIT.DragDropTitle(h,$)), execAfter:window.CQ.CoreComponentsIT.DeletePage(h, $,pageUrl), register: true})
         .addTestCase(window.CQ.CoreComponentsIT.CheckEditButton(h, $))
         .addTestCase(window.CQ.CoreComponentsIT.CheckConfigureButton(h, $))
-        .addTestCase(window.CQ.CoreComponentsIT.CheckEditableToolbar(h,$, 9))
+        .addTestCase(window.CQ.CoreComponentsIT.CheckEditableToolbar(h,$, 10))
     ;
 }(hobs, jQuery));

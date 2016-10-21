@@ -65,7 +65,7 @@
     window.CQ.CoreComponentsIT.DragDropBreadcrumb = function (h, $) {
         return new h.TestCase("Drag and drop the breadcrumb")
             .execTestCase(window.CQ.CoreComponentsIT.CreatePages(h,$,4))
-            .execTestCase(window.CQ.CoreComponentsIT.DragDropConponent(h,$,"Core WCM Breadcrumb Component",pageUrl))
+            .execTestCase(window.CQ.CoreComponentsIT.DragDropComponent(h,$,"Core WCM Breadcrumb Component",pageUrl))
         ;
     };
 
@@ -74,124 +74,36 @@
      */
     window.CQ.CoreComponentsIT.CheckTheNavigationLevel = function (h, $) {
         return new h.TestCase("Check the navigation level")
-            //Open the Configure window
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
-            //check the numbers of the breadcrumb items
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item", 4)})
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item--active", 1)})
-            //press the Configure button
-            .click(".coral-Button.cq-editable-action[title='Configure']")
-            .asserts.visible(".cq-dialog.foundation-form.foundation-layout-form")
-            //check the value of the navigation level
-            .asserts.isTrue(function(){return window.CQ.CoreComponentsIT.checkInputValue(h,".coral-Textfield.coral-InputGroup-input[id^='coral-id']","2")})
 
-            //decrement the navigation level
-            .click(".coral-Button.coral-Button--secondary.coral-Button--square[title='Decrement']")
-            .asserts.isTrue(function(){return window.CQ.CoreComponentsIT.checkInputValue(h,".coral-Textfield.coral-InputGroup-input[id^='coral-id']","1")})
-            //click on the check button
-            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
-            //check the numbers of the breadcrumb items
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item", 0)})
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item--active", 0)})
-
-            //Open the Configure window
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
-            //increment the navigation level
-            .click(".coral-Button.coral-Button--secondary.coral-Button--square[title='Increment']")
-            .click(".coral-Button.coral-Button--secondary.coral-Button--square[title='Increment']")
-            .asserts.isTrue(function(){return window.CQ.CoreComponentsIT.checkInputValue(h,".coral-Textfield.coral-InputGroup-input[id^='coral-id']","3")})
-            //click on the check button
-            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
-            //check the numbers of the breadcrumb items
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item", 3)})
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item--active", 1)})
-
-            //Open the Configure window
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
-            //increment the navigation level
-            .click(".coral-Button.coral-Button--secondary.coral-Button--square[title='Increment']")
-            .asserts.isTrue(function(){return window.CQ.CoreComponentsIT.checkInputValue(h,".coral-Textfield.coral-InputGroup-input[id^='coral-id']","4")})
-            //click on the check button
-            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
-            //check the numbers of the breadcrumb items
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item", 2)})
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item--active", 1)})
-
-            //Open the Configure window
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
-            //increment the navigation level
-            .click(".coral-Button.coral-Button--secondary.coral-Button--square[title='Increment']")
-            .asserts.isTrue(function(){return window.CQ.CoreComponentsIT.checkInputValue(h,".coral-Textfield.coral-InputGroup-input[id^='coral-id']","5")})
-            //click on the check button
-            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
-            //check the numbers of the breadcrumb items
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item", 1)})
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item--active", 1)})
-
-            //Open the Configure window
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
-            //increment the navigation level
-            .click(".coral-Button.coral-Button--secondary.coral-Button--square[title='Increment']")
-            .asserts.isTrue(function(){return window.CQ.CoreComponentsIT.checkInputValue(h,".coral-Textfield.coral-InputGroup-input[id^='coral-id']","6")})
-            //click on the check button
-            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
-            //check the numbers of the breadcrumb items
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item", 0)})
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item--active", 1)})
-
-            //Open the Configure window
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
-            //check the "Hide Current checkbox"
-            .click(".coral-Checkbox-input[name='./hideCurrent']")
-            //click on the check button
-            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
-            //check the numbers of the breadcrumb items
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item", 0)})
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item--active", 0)})
-
-            //Open the Configure window
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
-            //check the "Hide Current checkbox"
-            .click(".coral-Checkbox-input[name='./showHidden']")
-            //click on the check button
-            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
-            //check the numbers of the breadcrumb items
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item", 0)})
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item--activ",0)})
-
-            //Open the Configure window
-            .wait(500)
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
-            //change the Navigation Level to 2
-            .fillInput(".coral-Textfield.coral-InputGroup-input[id^='coral-id']", "2")
-            //click on the check button
-            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item", 4)})
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item--activ",0)})
-
-            //Open the Configure window
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
-            //Open the full screen
-            .click(".coral-Icon.coral-Icon--fullScreen")
-            .asserts.visible(".cq-dialog-header", true)
-            .wait(500)
-            .click(".coral-Icon.coral-Icon--fullScreen")
-
+            //decrement the navigation level to 1
+            .execTestCase(window.CQ.CoreComponentsIT.CheckNavigationLevel(h,$,".coral-Button[title='Decrement'","1",0,0))
+            //increment the navigation level to 2
+            .execTestCase(window.CQ.CoreComponentsIT.CheckNavigationLevel(h,$,".coral-Button[title='Increment'","2",4,1))
+            //increment the navigation level to 3
+            .execTestCase(window.CQ.CoreComponentsIT.CheckNavigationLevel(h,$,".coral-Button[title='Increment'","3",3,1))
+            //increment the navigation level to 4
+            .execTestCase(window.CQ.CoreComponentsIT.CheckNavigationLevel(h,$,".coral-Button[title='Increment'","4",2,1))
+            //increment the navigation level to 5
+            .execTestCase(window.CQ.CoreComponentsIT.CheckNavigationLevel(h,$,".coral-Button[title='Increment'","5",1,1))
+            //increment the navigation level to 6
+            .execTestCase(window.CQ.CoreComponentsIT.CheckNavigationLevel(h,$,".coral-Button[title='Increment'","6",0,1))
+            //check the Hide Current
+            .execTestCase(window.CQ.CoreComponentsIT.CheckNavigationLevel(h,$,".coral-Checkbox-input[name='./hideCurrent']","6",0,0))
+            //check the Show Hidden
+            .execTestCase(window.CQ.CoreComponentsIT.CheckNavigationLevel(h,$,".coral-Checkbox-input[name='./showHidden']","6",0,0))
+            //fill the navigation level
+            .execTestCase(window.CQ.CoreComponentsIT.FillNavigationLevel(h,$,".coral-Textfield.coral-InputGroup-input[id^='coral-id']","2",4,0))
+            //click on the fullscreen button
+            .execTestCase(window.CQ.CoreComponentsIT.OpenFullSreen(h,$))
             //close the configure window
-            .wait(500)
-            .click(".cq-dialog-actions .coral-Icon.coral-Icon--close")
+            .execTestCase(window.CQ.CoreComponentsIT.CloseConfigureWindow(h,$))
         ;
     };
 
     new h.TestSuite("Core-Components Tests - Breadcrumb", {path:"/apps/core/wcm/tests/core-components-it/Breadcrumb.js",
-        execBefore: hobs.steps.aem.commons.disableTutorials, execAfter:window.CQ.CoreComponentsIT.DeletePages(h, $,4), register: true})
-
-        //.addTestCase(window.CQ.CoreComponentsIT.CreatePages(h,$,4))
-        .addTestCase(window.CQ.CoreComponentsIT.DragDropBreadcrumb(h, $))
+        execBefore:window.CQ.CoreComponentsIT.ExecuteBefore(h,$,window.CQ.CoreComponentsIT.DragDropBreadcrumb(h,$)), execAfter:window.CQ.CoreComponentsIT.DeletePages(h, $,4), register: true})
         .addTestCase(window.CQ.CoreComponentsIT.CheckTheNavigationLevel(h, $))
-        .addTestCase(window.CQ.CoreComponentsIT.CheckEditableToolbar(h, $, 8))
-        //.addTestCase(window.CQ.CoreComponentsIT.DeletePages(h, $,4))
-
+        .addTestCase(window.CQ.CoreComponentsIT.CheckEditableToolbar(h, $, 9))
     ;
 
 }(hobs, jQuery));

@@ -14,6 +14,8 @@
  *  limitations under the License.
  */
 
+hobs.config.pacing_delay = 150
+
 window.CQ.CoreComponentsIT.pageRoot = "/content/core-components/core-components-page";
 //window.CQ.CoreComponentsIT.pageFinalUrl = window.CQ.CoreComponentsIT.pageRoot
 

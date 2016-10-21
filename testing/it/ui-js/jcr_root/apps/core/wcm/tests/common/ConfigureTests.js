@@ -30,107 +30,90 @@
         ;
     }
 
-    /**
-     * Open the Editable toolbar.
-     */
-    window.CQ.CoreComponentsIT.OpenEditableToolbar = function (h, $, selector) {
-        return new h.TestCase("Open Editable Toolbar")
-            //click on the component to see the Editable Toolbar
-            .click("#OverlayWrapper")
-            .click(selector)
-            .asserts.visible("#EditableToolbar")
+    window.CQ.CoreComponentsIT.OpenFullSreen = function (h,$) {
+        return new h.TestCase("Open the full screen")
+            //Open the Configure window
+            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
+            //Open the fullscreen
+            .click(".coral-Icon.coral-Icon--fullScreen")
+            .asserts.visible(".cq-dialog-header", true)
+            .click(".coral-Icon.coral-Icon--fullScreen")
         ;
     }
 
-    /**
-     * Drag and Drop a component.
-     */
-    window.CQ.CoreComponentsIT.DragDropConponent = function (h, $, component, pageUrl) {
-        return new h.TestCase("Drag and drop a component")
-            .navigateTo("/editor.html" + pageUrl + ".html")
-            .asserts.location("/editor.html" + pageUrl + ".html", true)
-            .click(".coral-Tab[title='Components']")
-            .asserts.visible(".coral-Masonry .card-component", true)
-            .cui.dragdrop(
-                ".coral-Masonry-item :contains('"+component+"')",
-                ".cq-Overlay .cq-droptarget",
-                {delayBefore: 2500}
-            )
-            .asserts.visible(".cq-Overlay.cq-draggable.cq-droptarget")
-            .wait(500)
-            ;
+    window.CQ.CoreComponentsIT.CloseConfigureWindow = function (h,$) {
+        return new h.TestCase("Close the Configure Window")
+            .click(".cq-dialog-actions .coral-Icon.coral-Icon--close")
+        ;
     }
 
-    /**
-     * Check the button actions from the Editable Toolbar.
-     */
-    window.CQ.CoreComponentsIT.CheckEditableToolbar = function (h, $, numberOfButtons) {
-        return new h.TestCase("Check the editable toolbar")
+    window.CQ.CoreComponentsIT.FillNavigationLevel = function (h,$,selector, inputValue, itemNo, activeItemNo) {
+        return new h.TestCase("Fill the Navigation Level")
+        //Open the Configure window
+            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
+            //change the Navigation Level to 2
+            .fillInput(selector, inputValue)
+            //click on the check button
+            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
+            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item", itemNo)})
+            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item--activ",activeItemNo)})
+        ;
+    }
 
-        //test the Copy btton
-            .wait(500)
-            .execTestCase(window.CQ.CoreComponentsIT.OpenEditableToolbar(h,$,".cq-Overlay.cq-draggable.cq-droptarget"))
-            .click(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title='Copy']")
+    window.CQ.CoreComponentsIT.FillInput = function (h,$, selector, value, assertFunction) {
+        return new h.TestCase("Fill a input with a value")
+            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
+            .fillInput(selector, value)
+            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
+            .asserts.isTrue(assertFunction)
+        ;
+    }
 
-            //test the Paste button
-            .execTestCase(window.CQ.CoreComponentsIT.OpenEditableToolbar(h,$,".cq-Overlay.cq-draggable.cq-droptarget"))
-            //check if the Paste button appeared
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItems(h, ".coral-Button.cq-editable-action", numberOfButtons);})
-            //press the past button
-            .click(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title='Paste']")
-            //check if we have two components
-            .asserts.isTrue(function () { return window.CQ.CoreComponentsIT.checkNumberOfItems(h, ".cq-Overlay.cq-draggable.cq-droptarget", 2);})
+    window.CQ.CoreComponentsIT.CheckCheckBox = function (h,$, selector,assertFunction) {
+        return new h.TestCase("Check a checkbox")
+            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
+            .click(selector)
+            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
+            .asserts.isTrue(assertFunction)
+        ;
+    }
 
-            //test the Delete button
-            .wait(500)
-            .execTestCase(window.CQ.CoreComponentsIT.OpenEditableToolbar(h,$,".cq-Overlay.cq-draggable.cq-droptarget:eq(1)"))
-            //click on the delete button
-            .click(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title='Delete']")
-            .click(".coral-Button.coral-Button--warning")
-            //check if we have two components
-            .asserts.isTrue(function () { return window.CQ.CoreComponentsIT.checkNumberOfItems(h, ".cq-Overlay.cq-draggable.cq-droptarget", 1);})
-
-            //test the Insert Component button
-            .wait(500)
-            .execTestCase(window.CQ.CoreComponentsIT.OpenEditableToolbar(h,$,".cq-Overlay.cq-draggable.cq-droptarget"))
-            .click(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title='Insert component']")
-            .wait(500)
-            .asserts.visible(".coral-Dialog-wrapper .coral-Dialog-content.InsertComponentDialog-components")
-            .click(".coral-Dialog.InsertComponentDialog .coral-Dialog-wrapper .coral-Dialog-header .coral-Dialog-closeButton")
-
-            //test the Group button
-            .wait(500)
-            .execTestCase(window.CQ.CoreComponentsIT.OpenEditableToolbar(h,$,".cq-Overlay.cq-draggable.cq-droptarget"))
-            .click(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title='Group']")
-            .asserts.exists(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square.is-active[title='Group']")
-
-            //test the Parent button
-            .wait(500)
-            .execTestCase(window.CQ.CoreComponentsIT.OpenEditableToolbar(h,$,".cq-Overlay.cq-draggable.cq-droptarget"))
-            .click(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title='Parent']")
-            .asserts.exists(".cq-Overlay.cq-Overlay--component.cq-Overlay--container.is-selected.is-active")
-
-            //test the Cut button
-            .cui.dragdrop(
-                ".coral-Masonry-item :contains('Layout Container')",
-                ".cq-Overlay .cq-droptarget",
-                {delayBefore: 2500}
+    window.CQ.CoreComponentsIT.CheckNavigationLevel = function (h,$, selector, inputValue, itemNo, activeItemNo){
+        return new h.TestCase("Check the Navigtion Level")
+            //open the Configure window
+            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
+            //increment or decrement the navigation level
+            .click(selector)
+            .asserts.isTrue(function(){return window.CQ.CoreComponentsIT.checkInputValue(h,".coral-Textfield.coral-InputGroup-input[id^='coral-id']",inputValue)})
+            /*
+            .if(command == "",
+                new h.TestCase("Check the navigation level value")
+                    .asserts.isTrue(function(){return window.CQ.CoreComponentsIT.checkInputValue(h,".coral-Textfield.coral-InputGroup-input[id^='coral-id']",inputValue)})
+                ,
+                new h.TestCase("Increment or decrement the navigation level")
+                    .if(command == "click",
+                        new h.TestCase("Increment or decrement the navigation level")
+                            .click(selector)
+                            .asserts.isTrue(function(){return window.CQ.CoreComponentsIT.checkInputValue(h,".coral-Textfield.coral-InputGroup-input[id^='coral-id']",inputValue)})
+                        ,
+                        new h.TestCase("Fill the input for the navigation level")
+                            .if(command == "fillInput",
+                                new h.TestCase("Fill the input for the navigation level")
+                                    .fillInput(selector, inputValue)
+                                    .asserts.isTrue(function(){return window.CQ.CoreComponentsIT.checkInputValue(h,".coral-Textfield.coral-InputGroup-input[id^='coral-id']",inputValue)})
+                            )
+                    )
             )
-            //click on the component to see the Editable Toolbar
-            .wait(500)
-            .execTestCase(window.CQ.CoreComponentsIT.OpenEditableToolbar(h,$,".cq-Overlay.cq-draggable.cq-droptarget:eq(1)"))
-            .wait(500)
-            //cut the component
-            .click(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title='Cut']")
-            .wait(500)
-            .execTestCase(window.CQ.CoreComponentsIT.OpenEditableToolbar(h,$,".cq-Overlay.cq-Overlay--component.cq-droptarget.cq-Overlay--placeholder:first"))
-            .wait(500)
-            .click(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title='Paste']")
-            .wait(500)
-            .asserts.isTrue(function () { return window.CQ.CoreComponentsIT.checkNumberOfItems(h, ".cq-Overlay.cq-draggable.cq-droptarget", 2);})
-            .wait(500)
+            */
+            //click on the check button
+            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
+            //check the numbers of the breadcrumb items
+            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item", itemNo)})
+            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item--active", activeItemNo)})
+
         ;
     }
 
 })(hobs);
+
 

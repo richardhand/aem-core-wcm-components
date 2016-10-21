@@ -16,8 +16,7 @@
 
 ;(function(h, $){
 
-    var pageUrl = window.CQ.CoreComponentsIT.pageRoot;
-    pageUrl = pageUrl+"/page0"
+    var pageUrl = window.CQ.CoreComponentsIT.pageRoot+"/page0";
 
     /**
      * Drag and Drop a Form Button component.
@@ -26,7 +25,25 @@
         return new h.TestCase("Drag and drop the form button")
             .execTestCase(window.CQ.CoreComponentsIT.CreatePage(h,$,pageUrl, "page0","CoreComponent TestPage",
                 "/conf/core-components/settings/wcm/templates/core-components"))
-            .execTestCase(window.CQ.CoreComponentsIT.DragDropConponent(h,$,"Core WCM Form Button Component (v1)",pageUrl))
+            .execTestCase(window.CQ.CoreComponentsIT.DragDropComponent(h,$,"Core WCM Form Button Component (v1)",pageUrl))
+        ;
+    }
+
+    /**
+     * Change the button type.
+     */
+    window.CQ.CoreComponentsIT.ChangeButtonType = function (h,$, fromType, toType) {
+        return new h.TestCase("Change the button type")
+            //open the configure window
+            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
+            //Check the type of the button
+            .asserts.isTrue(function() {return hobs.find(".btn[type='"+fromType.toLowerCase()+"']","#ContentFrame")})
+            //change the type of the button
+            .click(".coral-Button:contains('"+fromType+"')")
+            .click(".coral3-SelectList-item:contains('"+toType+"')")
+            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
+            //Check the type of the button
+            .asserts.isTrue(function() {return hobs.find(".btn[type='"+toType.toLowerCase()+"']","#ContentFrame")})
         ;
     }
 
@@ -36,87 +53,40 @@
     window.CQ.CoreComponentsIT.CheckConfigureButton = function (h, $){
         return new h.TestCase("Check the Configure button")
 
-            //Change the Type of the button to submit
-            .wait(500)
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
-            //Check the type of the button
-            .asserts.isTrue(function() {return hobs.find(".btn[type='button']","#ContentFrame")})
-
-            .click(".coral-Button:contains('Button')")
-            .click(".coral3-SelectList-item:contains('Submit')")
-            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
-            .asserts.isTrue(function() {return hobs.find(".btn[type='submit']","#ContentFrame")})
-
-            //Change the Type of the button to reset
-            .wait(500)
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
-            .click(".coral-Button:contains('Submit')")
-            .click(".coral3-SelectList-item:contains('Reset')")
-            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
-            .asserts.isTrue(function() {return hobs.find(".btn[type='reset']","#ContentFrame")})
-
+            //Change the Type of the button to Submit
+            .execTestCase(window.CQ.CoreComponentsIT.ChangeButtonType(h,$,"Button","Submit"))
+            //Change the Type of the button to Reset
+            .execTestCase(window.CQ.CoreComponentsIT.ChangeButtonType(h,$,"Submit","Reset"))
+            //Change the Type of the button to Button
+            .execTestCase(window.CQ.CoreComponentsIT.ChangeButtonType(h,$,"Reset","Button"))
             //Fill the Title
-            .wait(500)
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
-            .fillInput("[name='./title']", "Test Button")
-            //click on the check button
-            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkContentFromIFrame(h,"#ContentFrame",".btn", "Test Button")})
-
+            .execTestCase(window.CQ.CoreComponentsIT.FillInput(h,$,"[name='./title']","Test Button",
+                function() {return window.CQ.CoreComponentsIT.checkContentFromIFrame(h,"#ContentFrame",".btn", "Test Button")}))
             //Fill the cssClass
-            .wait(500)
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
-            .fillInput("[name='./cssClass']", "coral-Icon")
-            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
-            .asserts.isTrue(function() {return hobs.find(".btn.coral-Icon","#ContentFrame")})
-
+            .execTestCase(window.CQ.CoreComponentsIT.FillInput(h,$,"[name='./cssClass']","coral-Icon",
+                function() {return hobs.find(".btn.coral-Icon","#ContentFrame")}))
             //Check the Disable button
-            .wait(500)
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
-            .click("[name='./disabled']")
-            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
-            .asserts.isTrue(function() {return hobs.find("[disabled]","#ContentFrame")})
-
+            .execTestCase(window.CQ.CoreComponentsIT.CheckCheckBox(h,$,"[name='./disabled']",
+                function() {return hobs.find("[disabled]","#ContentFrame")}))
             //Fill the Name
-            .wait(500)
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
-            .fillInput("[name='./name']", "button1")
-            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
-            .asserts.isTrue(function() {return hobs.find("[name='button1']","#ContentFrame")})
-
+            .execTestCase(window.CQ.CoreComponentsIT.FillInput(h,$,"[name='./name']","button1",
+                function() {return hobs.find("[name='button1']","#ContentFrame")}))
             //Fill the Value
-            .wait(500)
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
-            .fillInput("[name='./value']", "value1")
-            //click on the check button
-            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
-            .asserts.isTrue(function() {return hobs.find("[value='value1']","#ContentFrame")})
-
+            .execTestCase(window.CQ.CoreComponentsIT.FillInput(h,$,"[name='./value']","value1",
+                function() {return hobs.find("[value='value1']","#ContentFrame")}))
             //Check the Autofocus button
-            .wait(500)
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
-            .click("[name='./autofocus']")
-            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
-            .asserts.isTrue(function() {return hobs.find("[autofocus]","#ContentFrame")})
-
-            //Open the full screen
-            .wait(500)
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
-            .click(".coral-Icon.coral-Icon--fullScreen")
-            .asserts.visible(".cq-dialog-header", true)
-            .wait(500)
-            .click(".coral-Icon.coral-Icon--fullScreen")
-
-            //Close the configure window
-            .wait(500)
-            .click(".cq-dialog-actions .coral-Icon.coral-Icon--close")
+            .execTestCase(window.CQ.CoreComponentsIT.CheckCheckBox(h,$,"[name='./autofocus']",
+                function() {return hobs.find("[autofocus]","#ContentFrame")}))
+            //click on the fullscreen button
+            .execTestCase(window.CQ.CoreComponentsIT.OpenFullSreen(h,$))
+            //close the configure window
+            .execTestCase(window.CQ.CoreComponentsIT.CloseConfigureWindow(h,$))
         ;
     }
 
     new h.TestSuite("Core-Components Tests - Form Button", {path:"/apps/core/wcm/tests/core-components-it/FormButton.js",
-        execBefore: hobs.steps.aem.commons.disableTutorials, execAfter:window.CQ.CoreComponentsIT.DeletePage(h, $,pageUrl), register: true})
-        .addTestCase(window.CQ.CoreComponentsIT.DragDropFormButton(h, $))
+        execBefore: window.CQ.CoreComponentsIT.ExecuteBefore(h,$,window.CQ.CoreComponentsIT.DragDropFormButton(h,$)), execAfter:window.CQ.CoreComponentsIT.DeletePage(h, $,pageUrl), register: true})
         .addTestCase(window.CQ.CoreComponentsIT.CheckConfigureButton(h, $))
-        .addTestCase(window.CQ.CoreComponentsIT.CheckEditableToolbar(h,$, 8))
+        .addTestCase(window.CQ.CoreComponentsIT.CheckEditableToolbar(h,$, 9))
     ;
 })(hobs, jQuery);
