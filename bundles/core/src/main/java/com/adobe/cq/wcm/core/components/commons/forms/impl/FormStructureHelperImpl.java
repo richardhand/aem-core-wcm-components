@@ -20,13 +20,21 @@ import com.adobe.cq.wcm.core.components.commons.forms.FormsConstants;
 import com.day.cq.wcm.foundation.forms.FormStructureHelper;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.sling.api.resource.ModifiableValueMap;
+import org.apache.sling.api.resource.PersistenceException;
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 
 @Component(immediate = true)
 @Service(FormStructureHelper.class)
 public class FormStructureHelperImpl implements FormStructureHelper {
+
+    /** The logger. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(FormStructureHelperImpl.class.getName());
 
     @Override
     public Resource getFormResource(Resource formElement) {
@@ -55,4 +63,38 @@ public class FormStructureHelperImpl implements FormStructureHelper {
         return getFormResource(formElement) != null;
     }
 
+    @Override
+    public Resource checkFormStructure(Resource formResource) {
+        ResourceResolver resolver = formResource.getResourceResolver();
+        if (resolver.isResourceType(formResource, FormsConstants.RT_CORE_FORM_CONTAINER)) {
+            // add default action type, form id and action path
+            ModifiableValueMap formProperties = formResource.adaptTo(ModifiableValueMap.class);
+            if(formProperties != null) {
+                try {
+                    if(formProperties.get(com.day.cq.wcm.foundation.forms.FormsConstants.START_PROPERTY_ACTION_TYPE,
+                            String.class) == null) {
+                        formProperties.put(com.day.cq.wcm.foundation.forms.FormsConstants.START_PROPERTY_ACTION_TYPE,
+                                com.day.cq.wcm.foundation.forms.FormsConstants.DEFAULT_ACTION_TYPE);
+                        String defaultContentPath = "/content/usergenerated" +
+                                formResource.getPath().replaceAll("^.content", "").replaceAll("jcr.content.*", "") +
+                                "cq-gen" + System.currentTimeMillis() + "/";
+                        formProperties.put(com.day.cq.wcm.foundation.forms.FormsConstants.START_PROPERTY_ACTION_PATH,
+                                defaultContentPath);
+                    }
+                    if(formProperties.get(com.day.cq.wcm.foundation.forms.FormsConstants.START_PROPERTY_FORMID,
+                            String.class) == null) {
+                        formProperties.put(com.day.cq.wcm.foundation.forms.FormsConstants.START_PROPERTY_FORMID,
+                                formResource.getPath().replaceAll("[/:.]","_"));
+                    }
+                    resolver.commit();
+                } catch(PersistenceException e) {
+                    LOGGER.error("Unable to add default action type and form id " + formResource, e);
+                }
+            } else {
+                LOGGER.error("Resource is not adaptable to ValueMap - unable to add default action type and " +
+                        "form id for " + formResource);
+            }
+        }
+        return null;
+    }
 }
