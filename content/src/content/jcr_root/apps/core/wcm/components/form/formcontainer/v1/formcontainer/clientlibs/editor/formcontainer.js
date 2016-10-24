@@ -38,27 +38,41 @@
     });
 
     function showHide(component, target) {
-        var value   = component.value,
-            $target = $(target);
+        var value              = component.value,
+            $target            = $(target),
+            $workflowSelection = $(".cmp-workflow-selection"),
+            $redirectSelection = $(".cmp-redirect-selection");
+
         $target.not(".hide").addClass("hide").each(function (i, element) {
             $(element).find('input[aria-required=true]').each(function (index, element) {
                 toggleValidation($(element));
             })
         });
-        $('.cmp-workflow-selection').addClass("hide");
+
+        $workflowSelection.addClass("hide");
+        $redirectSelection.addClass("hide");
+
         $target.closest(ACTION_TYPE_SETTINGS_SELECTOR).addClass("hide");
+
         $(target).filter("[data-showhidetargetvalue='" + value + "']").each(function (index, element) {
             var $element = $(element);
             $element.removeClass("hide");
             $element.find('input[aria-required=false]').each(function (index, element) {
                 toggleValidation($(element));
             });
-            var useWorkflow = $element.data("useworkflow");
-            if (useWorkflow) {
-                $('.cmp-workflow-selection').removeClass("hide");
-            }
+
+            showHideOptional($element, $workflowSelection, "usesworkflow");
+            showHideOptional($element, $redirectSelection, "usesredirect");
             $element.closest(ACTION_TYPE_SETTINGS_SELECTOR).removeClass("hide");
         });
+    }
+
+    function showHideOptional($element, $optional, data) {
+        var showOptional = $element.data(data);
+        console.log($element, $optional, data, showOptional);
+        if (showOptional) {
+            $optional.removeClass("hide");
+        }
     }
 
     /**
