@@ -50,8 +50,8 @@ public class TextFieldImpl implements TextField {
     private static final String PROP_REQUIRED_MESSAGE_DEFAULT = "";
     private static final String PROP_CONSTRAINT_DEFAULT = null;
     private static final String PROP_CONSTRAINT_MESSAGE_DEFAULT = "";
-    private static final String PROP_ROWS_DEFAULT = "";
-    private static final String PROP_COLS_DEFAULT = "";
+    private static final String PROP_ROWS_DEFAULT = "2";
+    private static final String PROP_COLS_DEFAULT = "20";
     private static final String PROP_WIDTH_DEFAULT = "";
     private static final String PROP_CSS_CLASS_DEFAULT = "";
     private static final boolean PROP_AUTOFOCUS_DEFAULT = false;
