@@ -70,11 +70,11 @@
                     keep some of the META-INF files and not configure
                     everything in the plugin.
                 -->
-                <directory>${basedir}/META-INF</directory>
+                <directory>${basedir}/src/content/META-INF</directory>
                 <targetPath>../vault-work/META-INF</targetPath>
             </resource>
             <resource>
-                <directory>${basedir}/jcr_root</directory>
+                <directory>${basedir}/src/content/jcr_root</directory>
                 <targetPath>.</targetPath>
                 <filtering>false</filtering>
                 <excludes>
@@ -142,7 +142,7 @@
                         <createdBy>Adobe Systems Incorporated</createdBy>
                     </properties>
 
-                    <filterSource>${basedir}/META-INF/vault/filter.xml</filterSource>
+                    <filterSource>${basedir}/src/content/META-INF/vault/filter.xml</filterSource>
 
                     <prefix>/</prefix>
 

@@ -43,6 +43,7 @@
         <module>parent</module>
         <module>bundles/core</module>
         <module>testing/junit/core</module>
+        <module>testing/it/ui-js</module>
         <module>content</module>
     </modules>
 
