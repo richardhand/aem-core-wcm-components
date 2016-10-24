@@ -15,7 +15,7 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <div class="cmp cmp-form-textfield core-form-group"
      data-sly-use.textField="com.adobe.cq.wcm.core.components.models.form.TextField">
-    <label for="${textField.name}0">${textField.title}</label>
+    <label for="${textField.name}0" hidden="${textField.isTitleHidden}">${textField.title}</label>
     <sly data-sly-test="${textField.isMultiValued}">
         <section data-sly-include="multivalue.html">
         </section>
