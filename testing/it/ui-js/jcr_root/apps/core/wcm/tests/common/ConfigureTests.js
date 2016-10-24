@@ -85,26 +85,7 @@
             //increment or decrement the navigation level
             .click(selector)
             .asserts.isTrue(function(){return window.CQ.CoreComponentsIT.checkInputValue(h,".coral-Textfield.coral-InputGroup-input[id^='coral-id']",inputValue)})
-            /*
-            .if(command == "",
-                new h.TestCase("Check the navigation level value")
-                    .asserts.isTrue(function(){return window.CQ.CoreComponentsIT.checkInputValue(h,".coral-Textfield.coral-InputGroup-input[id^='coral-id']",inputValue)})
-                ,
-                new h.TestCase("Increment or decrement the navigation level")
-                    .if(command == "click",
-                        new h.TestCase("Increment or decrement the navigation level")
-                            .click(selector)
-                            .asserts.isTrue(function(){return window.CQ.CoreComponentsIT.checkInputValue(h,".coral-Textfield.coral-InputGroup-input[id^='coral-id']",inputValue)})
-                        ,
-                        new h.TestCase("Fill the input for the navigation level")
-                            .if(command == "fillInput",
-                                new h.TestCase("Fill the input for the navigation level")
-                                    .fillInput(selector, inputValue)
-                                    .asserts.isTrue(function(){return window.CQ.CoreComponentsIT.checkInputValue(h,".coral-Textfield.coral-InputGroup-input[id^='coral-id']",inputValue)})
-                            )
-                    )
-            )
-            */
+
             //click on the check button
             .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
             //check the numbers of the breadcrumb items
