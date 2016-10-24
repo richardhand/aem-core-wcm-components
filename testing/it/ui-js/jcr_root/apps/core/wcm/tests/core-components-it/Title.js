@@ -33,7 +33,7 @@
     /**
      * Check the Edit button for the Title component.
      */
-    window.CQ.CoreComponentsIT.CheckEditButton = function (h, $) {
+    window.CQ.CoreComponentsIT.CheckEditButtonTest = function (h, $) {
         return new h.TestCase("Check the edit button")
             //click on the component to see the Editable Toolbar
             .execTestCase(window.CQ.CoreComponentsIT.OpenEditableToolbar(h,$,".cq-Overlay.cq-draggable.cq-droptarget"))
@@ -83,7 +83,7 @@
     /**
      * Check the Configure button for the Title component.
      */
-    window.CQ.CoreComponentsIT.CheckConfigureButton = function (h, $){
+    window.CQ.CoreComponentsIT.CheckConfigureButtonTest = function (h, $){
         return new h.TestCase("Check the Configure button")
             .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
             .asserts.visible(".coral-Form-field.coral-Textfield[name='./jcr:title']")
@@ -100,8 +100,8 @@
 
     new h.TestSuite("Core-Components Tests - Title", {path:"/apps/core/wcm/tests/core-components-it/Title.js",
         execBefore: window.CQ.CoreComponentsIT.ExecuteBefore(h,$,window.CQ.CoreComponentsIT.DragDropTitle(h,$)), execAfter:window.CQ.CoreComponentsIT.DeletePage(h, $,pageUrl), register: true})
-        .addTestCase(window.CQ.CoreComponentsIT.CheckEditButton(h, $))
-        .addTestCase(window.CQ.CoreComponentsIT.CheckConfigureButton(h, $))
-        .addTestCase(window.CQ.CoreComponentsIT.CheckEditableToolbar(h,$, 10))
+        .addTestCase(window.CQ.CoreComponentsIT.CheckEditButtonTest(h, $))
+        .addTestCase(window.CQ.CoreComponentsIT.CheckConfigureButtonTest(h, $))
+        .addTestCase(window.CQ.CoreComponentsIT.CheckEditableToolbarTest(h,$, 10))
     ;
 }(hobs, jQuery));

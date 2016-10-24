@@ -72,7 +72,7 @@
     /**
      * Check the navigation level for the breadcrumb.
      */
-    window.CQ.CoreComponentsIT.CheckTheNavigationLevel = function (h, $) {
+    window.CQ.CoreComponentsIT.CheckTheNavigationLevelTest = function (h, $) {
         return new h.TestCase("Check the navigation level")
 
             //decrement the navigation level to 1
@@ -102,8 +102,8 @@
 
     new h.TestSuite("Core-Components Tests - Breadcrumb", {path:"/apps/core/wcm/tests/core-components-it/Breadcrumb.js",
         execBefore:window.CQ.CoreComponentsIT.ExecuteBefore(h,$,window.CQ.CoreComponentsIT.DragDropBreadcrumb(h,$)), execAfter:window.CQ.CoreComponentsIT.DeletePages(h, $,4), register: true})
-        .addTestCase(window.CQ.CoreComponentsIT.CheckTheNavigationLevel(h, $))
-        .addTestCase(window.CQ.CoreComponentsIT.CheckEditableToolbar(h, $, 9))
+        .addTestCase(window.CQ.CoreComponentsIT.CheckTheNavigationLevelTest(h, $))
+        .addTestCase(window.CQ.CoreComponentsIT.CheckEditableToolbarTest(h, $, 9))
     ;
 
 }(hobs, jQuery));

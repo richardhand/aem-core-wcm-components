@@ -122,7 +122,7 @@
     /**
      * Check the button actions from the Editable Toolbar.
      */
-    window.CQ.CoreComponentsIT.CheckEditableToolbar = function (h, $, numberOfButtons) {
+    window.CQ.CoreComponentsIT.CheckEditableToolbarTest = function (h, $, numberOfButtons) {
 
         return new h.TestCase("Check the editable toolbar")
         //test the Copy btton
