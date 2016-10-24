@@ -21,14 +21,13 @@
               id="${textField.name}0"
               placeholder="${textField.placeholder}"
               name="${textField.name}"
-              value="${value}"
               rows="${textField.rows}"
               cols="${textField.cols}"
               width="${textField.width}"
               readonly="${!isMultifieldTemplate && textField.isReadOnly}"
               required="${!isMultifieldTemplate && textField.required}"
             >
-
+        ${value}
     </textarea>
     </sly>
     <sly data-sly-test="${!useTextarea}">
