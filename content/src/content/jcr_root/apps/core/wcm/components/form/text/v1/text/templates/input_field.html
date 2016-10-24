@@ -14,7 +14,7 @@
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <template data-sly-template.input_field="${@ textField, value, isMultifieldTemplate}">
-    
+
     <sly data-sly-test.useTextarea="${textField.rows > 1 && textField.constraintType=='text'} ">
     <textarea type="${textField.constraintType}"
               class="${textField.cssClass}"
@@ -39,6 +39,8 @@
                value="${value}"
                readonly="${!isMultifieldTemplate && textField.isReadOnly}"
                required="${!isMultifieldTemplate && textField.required}"
+               required-message="${textField.requiredMessage}"
+               constraint-message="${textField.constraintMessage}"
                 >
     </sly>
 </template>

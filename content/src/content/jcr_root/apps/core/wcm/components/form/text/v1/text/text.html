@@ -1,4 +1,3 @@
-
 <!--/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ~ Copyright 2016 Adobe Systems Incorporated
   ~
@@ -14,15 +13,16 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<div class="core-form-group" data-sly-use.textField="com.adobe.cq.wcm.core.components.models.form.TextField">
+<div class="cmp cmp-form-textfield core-form-group"
+     data-sly-use.textField="com.adobe.cq.wcm.core.components.models.form.TextField">
     <label for="${textField.name}0">${textField.title}</label>
     <sly data-sly-test="${textField.isMultiValued}">
         <section data-sly-include="multivalue.html">
         </section>
     </sly>
 
-    <sly data-sly-test="${!textField.isMultiValued}" >
-        <div data-sly-use.input_field="templates/input_field.html" 
+    <sly data-sly-test="${!textField.isMultiValued}">
+        <div data-sly-use.input_field="templates/input_field.html"
              data-sly-call="${input_field.input_field @ textField = textField, value=textField.value}">
         </div>
     </sly>
