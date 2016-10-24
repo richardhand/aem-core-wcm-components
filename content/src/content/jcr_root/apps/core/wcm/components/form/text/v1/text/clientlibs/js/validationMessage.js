@@ -15,7 +15,7 @@
  ******************************************************************************/
 (function ($, channel) {
     'use strict';
-    var INPUT_FIELD = ".cmp-form-textfield input";
+    var INPUT_FIELD = ".cmp-form-group input";
     var REQUIRED_MSG_ATTRIBUTE = "required-message";
     var CONSTRAINT_MSG_ATTRIBUTE = "constraint-message";
 

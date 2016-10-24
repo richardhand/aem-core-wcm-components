@@ -13,18 +13,18 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<div class="cmp cmp-form-textfield core-form-group"
+<div class="cmp cmp-form-group"
      data-sly-use.textField="com.adobe.cq.wcm.core.components.models.form.TextField">
     <label for="${textField.name}0" hidden="${textField.isTitleHidden}">${textField.title}</label>
-    <sly data-sly-test="${textField.isMultiValued}">
-        <section data-sly-include="multivalue.html">
-        </section>
+    <sly data-sly-test="${textField.isMultiValued}"
+         data-sly-include="multivalue.html"
+            >
     </sly>
 
-    <sly data-sly-test="${!textField.isMultiValued}">
-        <div data-sly-use.input_field="templates/input_field.html"
-             data-sly-call="${input_field.input_field @ textField = textField, value=textField.value}">
-        </div>
+    <sly data-sly-test="${!textField.isMultiValued}"
+         data-sly-use.input_field="templates/input_field.html"
+         data-sly-call="${input_field.input_field @ textField = textField, value=textField.value}"
+            >
     </sly>
 
 </div>

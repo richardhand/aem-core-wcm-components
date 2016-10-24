@@ -16,18 +16,19 @@
 (function ($, channel) {
     'use strict';
 
-    var ADD_ITEM = "[core-form-textField-addItem]";
-    var REMOVE_ITEM = "[core-form-textField-item-remove]";
-    var TEMPLATE = "[core-form-textField-template]";
-    var CONTENT = "[core-form-textField-content]";
-    var CONTAINER = "[core-form-textField-container]";
-    var INPUT_GROUP = "[core-form-input-subgroup]";
+    var TEMPLATE_ATTR = "cmp-form-textField-template";
+    var ADD_ITEM = "[cmp-form-textField-addItem]";
+    var REMOVE_ITEM = "[cmp-form-textField-item-remove]";
+    var TEMPLATE = "[cmp-form-textField-template]";
+    var CONTENT = "[cmp-form-textField-content]";
+    var CONTAINER = "[cmp-form-textField-container]";
+    var INPUT_GROUP = "[cmp-form-input-subgroup]";
 
     channel.on("click", ADD_ITEM, function (event) {
         var container = $(event.target).parent(CONTAINER)[0];
         var template = $(container).find(TEMPLATE)[0];
         var newElement = $(template).clone(true)[0];
-        newElement.removeAttribute("core-form-textField-template");
+        newElement.removeAttribute(TEMPLATE_ATTR);
         $(container).find(CONTENT)[0].appendChild(newElement);
     });
 
