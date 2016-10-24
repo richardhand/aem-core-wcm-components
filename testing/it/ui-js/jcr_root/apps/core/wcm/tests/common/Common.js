@@ -39,9 +39,7 @@
      */
     window.CQ.CoreComponentsIT.ExecuteBefore = function (h, $, testCase) {
         return new h.TestCase("Execute before")
-            .execFct(function () {
-                hobs.steps.aem.commons.disableTutorials
-            })
+            .execTestCase(hobs.steps.aem.commons.disableTutorials)
             .execTestCase(testCase)
         ;
     }
