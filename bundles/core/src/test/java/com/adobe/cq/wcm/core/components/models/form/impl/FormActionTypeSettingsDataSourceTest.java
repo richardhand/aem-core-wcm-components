@@ -44,10 +44,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class FormActionTypeDataSourceTest {
+public class FormActionTypeSettingsDataSourceTest {
 
     @Rule
-    public AemContext context = CoreComponentTestContext.createContext("/form/formcontainer/datasource/actiontypedatasource",
+    public AemContext context = CoreComponentTestContext.createContext("/form/formcontainer/datasource/actiontypesettingsdatasource",
             "/apps");
 
     @Mock
@@ -71,15 +71,13 @@ public class FormActionTypeDataSourceTest {
 
     @Test
     public void testDataSource() throws Exception {
-        context.currentResource("/apps/actiontypedatasource");
+        context.currentResource("/apps/actiontypesettingsdatasource");
         underTest = context.request().adaptTo(DataSourceModel.class);
-        DataSource dataSource = (com.adobe.granite.ui.components.ds.DataSource) context.request().getAttribute(
+        DataSource dataSource = (DataSource) context.request().getAttribute(
                 DataSource.class.getName());
         assertNotNull(dataSource);
         Resource resource = dataSource.iterator().next();
-        ValueMap valueMap = resource.adaptTo(ValueMap.class);
-        assertEquals("Form Action", valueMap.get(PN_TEXT, String.class));
-        assertEquals("form/action", valueMap.get(PN_VALUE, String.class));
+        assertEquals(resource.getPath(), context.currentResource("/apps/form/action/cq:dialog").getPath());
     }
 
     private void registerFormsManagerAdapter() {

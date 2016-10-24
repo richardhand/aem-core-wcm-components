@@ -43,6 +43,7 @@ public class ButtonImplTest {
     public void testEmptyButton() throws Exception {
         Map<String,Object> properties = new HashMap<>();
         properties.put("type", "reset");
+        properties.put("sling:resourceType", "core/wcm/components/form/button");
         Resource buttonRes = context.create().resource("/content/button", properties);
         Button button = buttonRes.adaptTo(Button.class);
         assertEquals("reset", button.getType());

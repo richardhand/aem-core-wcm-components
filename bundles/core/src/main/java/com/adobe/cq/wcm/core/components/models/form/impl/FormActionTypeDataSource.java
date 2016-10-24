@@ -18,6 +18,7 @@ package com.adobe.cq.wcm.core.components.models.form.impl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang.StringUtils;
@@ -39,6 +40,7 @@ import com.day.cq.wcm.foundation.forms.FormsManager;
 public class FormActionTypeDataSource extends DataSourceModel {
 
     protected final static String RESOURCE_TYPE = "core/wcm/components/form/formcontainer/datasource/actiontypedatasource";
+    public static final String NN_DIALOG = "cq:dialog";
 
     @Self
     private SlingHttpServletRequest request;
@@ -48,18 +50,27 @@ public class FormActionTypeDataSource extends DataSourceModel {
 
     @PostConstruct
     private void initModel() {
+        SimpleDataSource actionTypeDataSource = new SimpleDataSource(getActionTypeResources().iterator());
+        initDataSource(request, actionTypeDataSource);
+    }
+
+    private List<Resource> getActionTypeResources() {
         ArrayList<Resource> actionTypeResources = new ArrayList<>();
         FormsManager formsManager = resourceResolver.adaptTo(FormsManager.class);
         Iterator<FormsManager.ComponentDescription> actions = formsManager.getActions();
         while (actions.hasNext()) {
             FormsManager.ComponentDescription description = actions.next();
-            actionTypeResources.add(new ActionTypeResource(description));
+            for (String searchPath : resourceResolver.getSearchPath()) {
+                Resource dialogResource = resourceResolver.getResource(searchPath + "/" + description.getResourceType() + "/" + NN_DIALOG);
+                if (dialogResource != null) {
+                    actionTypeResources.add(new ActionTypeResource(description));
+                }
+            }
         }
-        SimpleDataSource actionTypeDataSource = new SimpleDataSource(actionTypeResources.iterator());
-        initDataSource(request, actionTypeDataSource);
+        return actionTypeResources;
     }
 
-    public class ActionTypeResource extends DataSourceResource {
+    public class ActionTypeResource extends TextValueDataResourceSource {
 
         private final FormsManager.ComponentDescription description;
 
