@@ -19,4 +19,5 @@
     <sly data-sly-test="${templateEditor.templateCategories}"
          data-sly-call="${clientLib.js @ categories=templateEditor.templateCategories}"/>
 </sly>
+<sly data-sly-call="${clientLib.js @ categories='core.wcm.components'}"/>
 <sly data-sly-include="customfooterlibs.html"/>
