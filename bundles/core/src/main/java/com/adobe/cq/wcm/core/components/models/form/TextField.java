@@ -92,4 +92,13 @@ public interface TextField extends FormField{
      * @return the type of the field
      */
     String getType();
+
+    /**
+     * Checks if the textarea element should be used instead of the input element
+     * This works only when the constraint type is text
+     * @return {@code true} if textarea should be used <br>
+     *     {@code false} if input element should be used
+     * @see #getConstraintType()
+     */
+    boolean useTextarea();
 }

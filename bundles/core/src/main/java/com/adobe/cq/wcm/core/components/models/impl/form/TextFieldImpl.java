@@ -57,6 +57,7 @@ public class TextFieldImpl implements TextField {
     private static final boolean PROP_AUTOFOCUS_DEFAULT = false;
     private static final String PROP_SHOW_HIDE_EXPRESSION_DEFAULT = null;
     private static final String PROP_TYPE_DEFAULT = "text";
+    private static final boolean PROP_USE_TEXTAREA_DEFAULT = false;
 
     private static final String PN_NAME = "name";
     private static final String PN_VALUE = "value";
@@ -79,6 +80,7 @@ public class TextFieldImpl implements TextField {
     private static final String PN_AUTOFOCUS = "autofocus";
     private static final String PN_SHOW_HIDE_EXPRESSION = "showHideExpression";
     private static final String PN_TYPE = "type";
+    private static final String PN_USE_TEXTAREA = "useTextarea";
 
     @Self
     private SlingHttpServletRequest slingRequest;
@@ -138,6 +140,11 @@ public class TextFieldImpl implements TextField {
     @Override
     public String getType() {
         return properties.get(PN_TYPE,PROP_TYPE_DEFAULT);
+    }
+
+    @Override
+    public boolean useTextarea() {
+        return properties.get(PN_USE_TEXTAREA, PROP_USE_TEXTAREA_DEFAULT);
     }
 
     @Override

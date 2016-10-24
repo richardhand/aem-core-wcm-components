@@ -70,7 +70,7 @@ public class TextFieldImplTest {
     public void testDefaultInput(){
         Resource resource = context.currentResource(TEXTINPUT1_PATH);
         slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
-        slingBindings.put(RESOURCE_PROPERTY,resource);
+        slingBindings.put(RESOURCE_PROPERTY, resource);
         TextField textField = context.request().adaptTo(TextField.class);
         assertEquals("text",textField.getName());
         assertEquals("Text input field",textField.getTitle());
@@ -91,8 +91,9 @@ public class TextFieldImplTest {
         assertEquals(2,textField.getRows());
         assertEquals(20,textField.getCols());
         assertEquals("",textField.getValue());
-        assertEquals(new String[]{""}, textField.getMultiValues());
+        assertArrayEquals(new String[]{""}, textField.getMultiValues());
         assertEquals("text",textField.getType());
+        assertEquals(false, textField.useTextarea());
     }
 
     @Test
@@ -122,5 +123,6 @@ public class TextFieldImplTest {
         assertEquals("Prefilled Sample Input",textField.getValue());
         assertArrayEquals(new String[]{"Prefilled Sample Input"}, textField.getMultiValues());
         assertEquals("email",textField.getType());
+        assertEquals(true,textField.useTextarea());
     }
 }

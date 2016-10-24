@@ -15,7 +15,7 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <template data-sly-template.input_field="${@ textField, value, isMultifieldTemplate}">
 
-    <sly data-sly-test.useTextarea="${textField.rows > 1 && textField.constraintType=='text'} ">
+    <sly data-sly-test.useTextarea="${textField.useTextarea && textField.constraintType=='text'} ">
     <textarea type="${textField.constraintType}"
               class="${textField.cssClass}"
               id="${textField.name}0"

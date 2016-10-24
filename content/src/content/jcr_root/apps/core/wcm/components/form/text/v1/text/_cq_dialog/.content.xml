@@ -15,7 +15,7 @@
                 <items jcr:primaryType="nt:unstructured">
                     <first
                             jcr:primaryType="nt:unstructured"
-                            jcr:title="&#x9;&#xa;Title and Text"
+                            jcr:title="Title and Text"
                             sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns"
                             margin="{Boolean}true">
                         <items jcr:primaryType="nt:unstructured">
@@ -49,12 +49,20 @@
                                             name="./multivalue"
                                             text="Property is multi valued"
                                             value="true"/>
-                                    <Copy_x0020_of_x0020_multivalue
+                                    <readonly
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
                                             name="./readOnly"
                                             text="Make read only"
                                             value="true"/>
+                                    <useTextarea
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                            fieldDescription="If this field should use textarea instead of input element ( works with constraint type text)"
+                                            fieldLabel="Use Textarea"
+                                            name="./useTextarea"
+                                            text="Use Textarea"
+                                            value="{Boolean}true"/>
                                 </items>
                             </column>
                         </items>
@@ -120,47 +128,6 @@
                             </column>
                         </items>
                     </third>
-                    <fourth
-                            jcr:primaryType="nt:unstructured"
-                            jcr:title="Styling"
-                            sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns"
-                            margin="{Boolean}true">
-                        <items jcr:primaryType="nt:unstructured">
-                            <column
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/coral/foundation/container">
-                                <items jcr:primaryType="nt:unstructured">
-                                    <multiLine
-                                            jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="cq/gui/components/authoring/dialog/sizefield"
-                                            fieldDescription="The size of the text area"
-                                            fieldLabel="Size"
-                                            width="px">
-                                        <width
-                                                jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
-                                                fieldLabel="Cols"
-                                                name="./cols"/>
-                                        <height
-                                                jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
-                                                fieldLabel="Rows"
-                                                name="./rows"/>
-                                    </multiLine>
-                                    <width
-                                            jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
-                                            fieldLabel="Width"
-                                            name="./width"/>
-                                    <cssClass
-                                            jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                            fieldLabel="CSS class"
-                                            name="./css"/>
-                                </items>
-                            </column>
-                        </items>
-                    </fourth>
                 </items>
             </tabs>
         </items>

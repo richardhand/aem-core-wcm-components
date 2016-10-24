@@ -57,7 +57,7 @@ public class ConstraintTypeDatasource extends DataSourceModel {
         initDataSource(request, actionTypeDataSource);
     }
 
-    public class ConstraintTypeResource extends DataSourceResource {
+    public class ConstraintTypeResource extends TextValueDataResourceSource {
 
         private final String name;
 
