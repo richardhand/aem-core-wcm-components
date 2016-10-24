@@ -13,20 +13,20 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<template data-sly-template.input_field="${@ textField}">
-
+<template data-sly-template.input_field="${@ textField, value, isMultifieldTemplate}">
+    
     <sly data-sly-test.useTextarea="${textField.rows > 1 && textField.constraintType=='text'} ">
     <textarea type="${textField.constraintType}"
               class="${textField.cssClass}"
               id="${textField.name}0"
               placeholder="${textField.placeholder}"
               name="${textField.name}"
-              value="${textField.value}"
+              value="${value}"
               rows="${textField.rows}"
               cols="${textField.cols}"
               width="${textField.width}"
-              readonly="${textField.isReadOnly}"
-              required="${textField.required}"
+              readonly="${!isMultifieldTemplate && textField.isReadOnly}"
+              required="${!isMultifieldTemplate && textField.required}"
             >
 
     </textarea>
@@ -37,9 +37,9 @@
                id="${textField.name}0"
                placeholder="${textField.placeholder}"
                name="${textField.name}"
-               value="${textField.value}"
-               readonly="${textField.isReadOnly}"
-               required="${textField.required}"
+               value="${value}"
+               readonly="${!isMultifieldTemplate && textField.isReadOnly}"
+               required="${!isMultifieldTemplate && textField.required}"
                 >
     </sly>
 </template>

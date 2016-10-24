@@ -20,32 +20,16 @@
         <sly data-sly-list="${textField.getMultiValues}">
             <div core-form-input-subgroup class="core-form-input-subgroup">
                     <div data-sly-use.input_field="templates/input_field.html" 
-                         data-sly-call="${input_field.input_field @ textField = textField}">
+                         data-sly-call="${input_field.input_field @ textField = textField, value=item}">
                     </div>
                 <button data-sly-test="${itemList.index!=0}" type="button" core-form-textField-item-remove class="core-form-textField-item-remove">Remove</button>
             </div>
         </sly>
     </div>
     <div core-form-textField-template core-form-input-subgroup class="core-form-input-subgroup">
-        <sly data-sly-test.useTextarea="${textField.rows > 1 && textField.constraintType=='text'} ">
-        <textarea 
-                  type="${textField.constraintType}"
-                  class="${textField.cssClass}"
-                  placeholder="${textField.placeholder}"
-                  name="${textField.name}"
-                  rows="${textField.rows}"
-                  cols="${textField.cols}"
-                >
-        </textarea>
-        </sly>
-        <sly data-sly-test="${!useTextarea}">
-            <input 
-                   type="${textField.constraintType}"
-                   class="${textField.cssClass}"
-                   placeholder="${textField.placeholder}"
-                   name="${textField.name}"
-                    >
-        </sly>
+        <div data-sly-use.input_field="templates/input_field.html"
+             data-sly-call="${input_field.input_field @ textField = textField, value='', isMultifieldTemplate=true }">
+        </div>
         <button type="button" core-form-textField-item-remove class="core-form-textField-item-remove">
             Remove
         </button>

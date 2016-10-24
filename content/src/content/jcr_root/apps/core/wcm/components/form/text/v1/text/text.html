@@ -23,7 +23,7 @@
 
     <sly data-sly-test="${!textField.isMultiValued}" >
         <div data-sly-use.input_field="templates/input_field.html" 
-             data-sly-call="${input_field.input_field @ textField = textField}">
+             data-sly-call="${input_field.input_field @ textField = textField, value=textField.value}">
         </div>
     </sly>
 
