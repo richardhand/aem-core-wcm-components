@@ -55,7 +55,10 @@
     window.CQ.CoreComponentsIT.CreatePage = function (h, $, pageUrl, pageName, pageTitle, pageTemplate) {
         return new h.TestCase("Create a page")
             .execFct(function (opts, done) {
-                createPage(pageUrl, pageName, pageTitle, pageTemplate).then(done);
+                $.when(createPage(pageUrl, pageName, pageTitle, pageTemplate))
+                    .then( function() {
+                        done();
+                    });
             })
         ;
     }
@@ -63,7 +66,10 @@
     window.CQ.CoreComponentsIT.DeletePage = function (h, $, pageUrl) {
         return new h.TestCase("Delete a page")
             .execFct(function (opts, done) {
-                deletePage(pageUrl).then(done);
+                $.when(deletePage(pageUrl))
+                    .then( function() {
+                        done();
+                    });
             })
         ;
     }
