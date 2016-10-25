@@ -1,9 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
-    jcr:primaryType="cq:EditConfig">
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+          jcr:primaryType="cq:EditConfig">
     <cq:inplaceEditing
-        jcr:primaryType="cq:InplaceEditingConfig"
-        active="{Boolean}true"
-        configPath="../../dialog/items/tab1/items/text"
-        editorType="text"/>
+            jcr:primaryType="cq:InplaceEditingConfig"
+            active="{Boolean}true"
+            editorType="text">
+        <config jcr:primaryType="nt:unstructured">
+            <rtePlugins jcr:primaryType="nt:unstructured">
+                <tracklinks
+                        jcr:primaryType="nt:unstructured"
+                        features="*"/>
+                <table
+                        jcr:primaryType="nt:unstructured"
+                        features="-">
+                    <hiddenHeaderConfig
+                            jcr:primaryType="nt:unstructured"
+                            hiddenHeaderClassName="cq-wcm-foundation-aria-visuallyhidden"/>
+                </table>
+                <format
+                        jcr:primaryType="nt:unstructured"
+                        features="*"/>
+                <links
+                        jcr:primaryType="nt:unstructured"
+                        features="*"/>
+                <justify
+                        jcr:primaryType="nt:unstructured"
+                        features="*"/>
+                <lists
+                        jcr:primaryType="nt:unstructured"
+                        features="*"/>
+            </rtePlugins>
+        </config>
+    </cq:inplaceEditing>
 </jcr:root>
