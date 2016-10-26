@@ -19,7 +19,11 @@ package com.adobe.cq.wcm.core.components.models.impl;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
+import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
+import com.day.cq.wcm.foundation.forms.FormsHelper;
+import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingConstants;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
@@ -66,15 +70,26 @@ public class FormContainerImpl implements FormContainer {
 
     private List<String> formFieldResourcePaths;
 
+    @ScriptVariable
+    private Resource resource;
+
+    @Inject
+    private FormStructureHelperFactory formStructureHelperFactory;
+
     @PostConstruct
     protected void initModel() {
+        slingRequest.setAttribute(FormsHelper.REQ_ATTR_FORM_STRUCTURE_HELPER,
+                formStructureHelperFactory.getFormStructureHelper(resource));
         this.method = properties.get(PN_METHOD,PROP_METHOD_DEFAULT);
         this.enctype = properties.get(PN_ENCTYPE,PROP_ENCTYPE_DEFAULT);
         PageManager pageManager = slingRequest.getResourceResolver().adaptTo(PageManager.class);
         Page currentPage = pageManager.getContainingPage(slingRequest.getResource());
         this.action = currentPage.getPath()+".html";
-        this.id = currentPage.getName();
-        this.name = currentPage.getName();
+        String formId = properties.get("id", "");
+        if(StringUtils.isEmpty(formId))
+            formId = FormsHelper.getFormId(slingRequest);
+        this.id = formId;
+        this.name = formId;
     }
 
     @Override
