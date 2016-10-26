@@ -48,7 +48,7 @@ public interface FormContainer {
     String getId();
 
     /**
-     * @return form name ((used in name attribute of form).
+     * @return form name (used in name attribute of form).
      */
     String getName();
 

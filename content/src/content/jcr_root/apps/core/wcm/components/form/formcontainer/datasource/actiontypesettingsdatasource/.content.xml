@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
-  jcr:description="Core Form - Action Type Datasource"
-  jcr:primaryType="cq:Component"
-  jcr:title="Core Form - Action Type Settings Datasource"
-  sling:resourceSuperType="core/wcm/components/form/formcontainer/v1/formcontainer/datasource/actiontypesettingsdatasource"
-  componentGroup=".hidden"/>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="sling:Folder"
+    sling:resourceSuperType="core/wcm/components/form/formcontainer/v1/formcontainer/datasource/actiontypesettingsdatasource"/>

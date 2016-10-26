@@ -44,7 +44,7 @@ public class FormStructureHelperImpl implements FormStructureHelper {
         if ( formElement.getPath().lastIndexOf("/") == 0 ) {
             return null;
         }
-        if ( formElement.getResourceResolver().isResourceType(formElement, FormsConstants.RT_CORE_FORM_CONTAINER) ) {
+        if ( formElement.isResourceType(FormsConstants.RT_CORE_FORM_CONTAINER) ) {
             return formElement;
         }
         return getFormResource(formElement.getParent());
@@ -52,7 +52,7 @@ public class FormStructureHelperImpl implements FormStructureHelper {
 
     @Override
     public Iterable<Resource> getFormElements(Resource formResource) {
-        if (formResource.getResourceResolver().isResourceType(formResource, FormsConstants.RT_CORE_FORM_CONTAINER)) {
+        if (formResource.isResourceType(FormsConstants.RT_CORE_FORM_CONTAINER)) {
             return formResource.getChildren();
         }
         return Collections.<Resource>emptyList();
@@ -65,34 +65,36 @@ public class FormStructureHelperImpl implements FormStructureHelper {
 
     @Override
     public Resource checkFormStructure(Resource formResource) {
-        ResourceResolver resolver = formResource.getResourceResolver();
-        if (resolver.isResourceType(formResource, FormsConstants.RT_CORE_FORM_CONTAINER)) {
-            // add default action type, form id and action path
-            ModifiableValueMap formProperties = formResource.adaptTo(ModifiableValueMap.class);
-            if(formProperties != null) {
-                try {
-                    if(formProperties.get(com.day.cq.wcm.foundation.forms.FormsConstants.START_PROPERTY_ACTION_TYPE,
-                            String.class) == null) {
-                        formProperties.put(com.day.cq.wcm.foundation.forms.FormsConstants.START_PROPERTY_ACTION_TYPE,
-                                com.day.cq.wcm.foundation.forms.FormsConstants.DEFAULT_ACTION_TYPE);
-                        String defaultContentPath = "/content/usergenerated" +
-                                formResource.getPath().replaceAll("^.content", "").replaceAll("jcr.content.*", "") +
-                                "cq-gen" + System.currentTimeMillis() + "/";
-                        formProperties.put(com.day.cq.wcm.foundation.forms.FormsConstants.START_PROPERTY_ACTION_PATH,
-                                defaultContentPath);
+        if (formResource != null) {
+            ResourceResolver resolver = formResource.getResourceResolver();
+            if (formResource.isResourceType(FormsConstants.RT_CORE_FORM_CONTAINER)) {
+                // add default action type, form id and action path
+                ModifiableValueMap formProperties = formResource.adaptTo(ModifiableValueMap.class);
+                if (formProperties != null) {
+                    try {
+                        if (formProperties.get(com.day.cq.wcm.foundation.forms.FormsConstants.START_PROPERTY_ACTION_TYPE,
+                                String.class) == null) {
+                            formProperties.put(com.day.cq.wcm.foundation.forms.FormsConstants.START_PROPERTY_ACTION_TYPE,
+                                    com.day.cq.wcm.foundation.forms.FormsConstants.DEFAULT_ACTION_TYPE);
+                            String defaultContentPath = "/content/usergenerated" +
+                                    formResource.getPath().replaceAll("^.content", "").replaceAll("jcr.content.*", "") +
+                                    "cq-gen" + System.currentTimeMillis() + "/";
+                            formProperties.put(com.day.cq.wcm.foundation.forms.FormsConstants.START_PROPERTY_ACTION_PATH,
+                                    defaultContentPath);
+                        }
+                        if (formProperties.get(com.day.cq.wcm.foundation.forms.FormsConstants.START_PROPERTY_FORMID,
+                                String.class) == null) {
+                            formProperties.put(com.day.cq.wcm.foundation.forms.FormsConstants.START_PROPERTY_FORMID,
+                                    formResource.getPath().replaceAll("[/:.]", "_"));
+                        }
+                        resolver.commit();
+                    } catch (PersistenceException e) {
+                        LOGGER.error("Unable to add default action type and form id " + formResource, e);
                     }
-                    if(formProperties.get(com.day.cq.wcm.foundation.forms.FormsConstants.START_PROPERTY_FORMID,
-                            String.class) == null) {
-                        formProperties.put(com.day.cq.wcm.foundation.forms.FormsConstants.START_PROPERTY_FORMID,
-                                formResource.getPath().replaceAll("[/:.]","_"));
-                    }
-                    resolver.commit();
-                } catch(PersistenceException e) {
-                    LOGGER.error("Unable to add default action type and form id " + formResource, e);
+                } else {
+                    LOGGER.error("Resource is not adaptable to ValueMap - unable to add default action type and " +
+                            "form id for " + formResource);
                 }
-            } else {
-                LOGGER.error("Resource is not adaptable to ValueMap - unable to add default action type and " +
-                        "form id for " + formResource);
             }
         }
         return null;

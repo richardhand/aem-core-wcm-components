@@ -16,10 +16,10 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.models.impl;
 
-import com.adobe.cq.wcm.core.components.models.FormContainer;
-import com.day.cq.wcm.api.Page;
-import com.day.cq.wcm.api.PageManager;
-import com.day.cq.wcm.api.components.Component;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.PostConstruct;
+
 import org.apache.sling.api.SlingConstants;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
@@ -28,9 +28,9 @@ import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.List;
+import com.adobe.cq.wcm.core.components.models.FormContainer;
+import com.day.cq.wcm.api.Page;
+import com.day.cq.wcm.api.PageManager;
 
 @Model(adaptables = SlingHttpServletRequest.class,
         adapters = FormContainer.class,
@@ -51,8 +51,6 @@ public class FormContainerImpl implements FormContainer {
 
     @ScriptVariable
     private ValueMap properties;
-
-
     
     private String method;
     
