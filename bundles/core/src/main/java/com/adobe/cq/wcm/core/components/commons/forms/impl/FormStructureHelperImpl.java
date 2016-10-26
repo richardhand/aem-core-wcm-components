@@ -37,30 +37,30 @@ public class FormStructureHelperImpl implements FormStructureHelper {
     private static final Logger LOGGER = LoggerFactory.getLogger(FormStructureHelperImpl.class.getName());
 
     @Override
-    public Resource getFormResource(Resource formElement) {
-        if (formElement == null) {
+    public Resource getFormResource(Resource resource) {
+        if (resource == null) {
             return null;
         }
-        if ( formElement.getPath().lastIndexOf("/") == 0 ) {
+        if ( resource.getPath().lastIndexOf("/") == 0 ) {
             return null;
         }
-        if ( formElement.isResourceType(FormsConstants.RT_CORE_FORM_CONTAINER) ) {
-            return formElement;
+        if ( resource.isResourceType(FormsConstants.RT_CORE_FORM_CONTAINER) ) {
+            return resource;
         }
-        return getFormResource(formElement.getParent());
+        return getFormResource(resource.getParent());
     }
 
     @Override
-    public Iterable<Resource> getFormElements(Resource formResource) {
-        if (formResource.isResourceType(FormsConstants.RT_CORE_FORM_CONTAINER)) {
-            return formResource.getChildren();
+    public Iterable<Resource> getFormElements(Resource resource) {
+        if (resource.isResourceType(FormsConstants.RT_CORE_FORM_CONTAINER)) {
+            return resource.getChildren();
         }
         return Collections.<Resource>emptyList();
     }
 
     @Override
-    public boolean accepts(Resource formElement) {
-        return getFormResource(formElement) != null;
+    public boolean canManage(Resource resource) {
+        return getFormResource(resource) != null;
     }
 
     @Override
