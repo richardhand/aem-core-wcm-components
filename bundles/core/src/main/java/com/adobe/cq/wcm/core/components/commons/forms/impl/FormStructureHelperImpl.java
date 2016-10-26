@@ -64,7 +64,7 @@ public class FormStructureHelperImpl implements FormStructureHelper {
     }
 
     @Override
-    public Resource checkFormStructure(Resource formResource) {
+    public Resource updateFormStructure(Resource formResource) {
         if (formResource != null) {
             ResourceResolver resolver = formResource.getResourceResolver();
             if (formResource.isResourceType(FormsConstants.RT_CORE_FORM_CONTAINER)) {
