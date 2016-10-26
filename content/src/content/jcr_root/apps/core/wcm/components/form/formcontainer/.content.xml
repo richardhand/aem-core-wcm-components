@@ -4,5 +4,5 @@
     jcr:primaryType="cq:Component"
     jcr:title="Core WCM Form Container Component"
     sling:resourceSuperType="core/wcm/components/form/formcontainer/v1/formcontainer"
-    componentGroup="Core Form"
+    componentGroup=".core-wcm-form"
     cq:isContainer="{Boolean}true"/>
