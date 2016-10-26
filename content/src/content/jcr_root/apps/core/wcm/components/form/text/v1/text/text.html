@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+<!--/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ~ Copyright 2016 Adobe Systems Incorporated
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,10 +13,8 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-<workspaceFilter version="1.0">
-    <filter root="/apps/core/wcm/components"/>
-    <filter root="/apps/core/wcm/config"/>
-    <filter root="/apps/core/wcm/config.author"/>
-    <filter root="/etc/clientlibs/core-wcm-components"/>
-</workspaceFilter>
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
+<div class="core-form-group" data-sly-use.textInput="com.adobe.cq.wcm.core.components.models.TextInput">
+  <label for="${textInput.name}">${textInput.label}</label>
+  <input type="text" class="core-form-control" id="${textInput.name}" placeholder="${textInput.placeholder}" name="${textInput.name}" value="${textInput.value}">
+</div>

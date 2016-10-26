@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+          jcr:primaryType="sling:OsgiConfig"
+          sling.servlet.resourceTypes="core/wcm/components/form/formcontainer"
+          sling.servlet.methods="POST"
+          sling.servlet.selectors="form"
+          sling.filter.scope="request"
+          service.ranking="610"
+          service.description="Foundation Form Handling Servlet"
+          form.resourcetype="core/wcm/components/form/formcontainer"
+/>
