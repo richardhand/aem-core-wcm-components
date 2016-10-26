@@ -23,4 +23,5 @@ common/EditableToolbarTests.js
 core-components-it/Breadcrumb.js
 core-components-it/FormButton.js
 core-components-it/Title.js
+core-components-it/Text.js
 
