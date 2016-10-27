@@ -77,13 +77,11 @@ public class TextFieldImplTest {
         assertEquals("",textField.getRequiredMessage());
         assertEquals(null,textField.getShowHideExpression());
         assertEquals("Text placeholder",textField.getPlaceholder());
-        assertEquals(false,textField.isMultiValued());
         assertEquals(false,textField.isReadOnly());
         assertEquals("",textField.getDefaultValue());
         assertEquals(null,textField.getConstraintType());
         assertEquals("",textField.getConstraintMessage());
         assertEquals("",textField.getValue());
-        assertArrayEquals(new String[]{""}, textField.getMultiValues());
         assertEquals("text",textField.getType());
         assertEquals(false, textField.useTextarea());
     }
@@ -103,13 +101,11 @@ public class TextFieldImplTest {
         assertEquals("please fill the field",textField.getRequiredMessage());
         assertEquals("((givenName.equals(\"\"Referees\"\")))",textField.getShowHideExpression());
         assertEquals("Custom placeholder",textField.getPlaceholder());
-        assertEquals(false,textField.isMultiValued());
         assertEquals(true,textField.isReadOnly());
         assertEquals("Custom default value",textField.getDefaultValue());
         assertEquals("foundation/components/form/constraints/email",textField.getConstraintType());
         assertEquals("The value should be a valid email address",textField.getConstraintMessage());
         assertEquals("Prefilled Sample Input",textField.getValue());
-        assertArrayEquals(new String[]{"Prefilled Sample Input"}, textField.getMultiValues());
         assertEquals("email",textField.getType());
         assertEquals(true,textField.useTextarea());
     }

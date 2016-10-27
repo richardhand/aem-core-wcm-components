@@ -42,7 +42,6 @@ public class TextFieldImpl implements TextField {
     private static final String PROP_TITLE_DEFAULT = "Text input field";
     private static final String PROP_DESCRIPTION_DEFAULT = "";
     private static final boolean PROP_HIDE_TITLE_DEFAULT = false;
-    private static final boolean PROP_MULTIVALUE_DEFAULT= false;
     private static final boolean PROP_READONLY_DEFAULT = false;
     private static final String PROP_DEFAULT_VALUE_DEFAULT = "";
     private static final boolean PROP_REQUIRED_DEFAULT = false;
@@ -60,7 +59,6 @@ public class TextFieldImpl implements TextField {
     private static final String PN_TITLE = "jcr:title";
     private static final String PN_HIDE_TITLE = "hideTitle";
     private static final String PN_DESCRIPTION = "jcr:description";
-    private static final String PN_MULTIVALUE= "multivalue";
     private static final String PN_READONLY = "readOnly";
     private static final String PN_DEFAULT_VALUE = "defaultValue";
     private static final String PN_REQUIRED = "required";
@@ -103,28 +101,11 @@ public class TextFieldImpl implements TextField {
     
     @Override
     public String getValue() {
-        if(this.isMultiValued()) {
-            String values[]= this.getMultiValues();
-            StringBuilder sb = new StringBuilder();
-            for(String value:values) {
-                sb.append(value);
-            }
-            return sb.toString();
-        }
         String value = properties.get(PN_VALUE, PROP_VALUE_DEFAULT);
         if (value.equals(PROP_VALUE_DEFAULT) && prefillValues.length > 0) {
             value = prefillValues[0];
         }
         return value;
-    }
-
-    
-    @Override
-    public String[] getMultiValues() {
-        if(properties.containsKey(PN_VALUE)) {
-            return properties.get(PN_VALUE,String[].class);
-        }
-        return prefillValues;
     }
 
     @Override
@@ -150,11 +131,6 @@ public class TextFieldImpl implements TextField {
     @Override
     public String getDescription() {
         return properties.get(PN_DESCRIPTION,PROP_DESCRIPTION_DEFAULT);
-    }
-
-    @Override
-    public boolean isMultiValued() {
-        return properties.get(PN_MULTIVALUE,PROP_MULTIVALUE_DEFAULT);
     }
 
     @Override

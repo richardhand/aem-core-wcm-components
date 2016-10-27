@@ -23,13 +23,6 @@ public interface TextField extends FormField{
     String[] TYPES = {"text","email","tel","date","number","password"};
 
     /**
-     * checks if the field is multi-valued
-     * @return {@code true} if the field is multi-valued <br>
-     *     @{code false} otherwise
-     */
-    boolean isMultiValued();
-
-    /**
      * checks if the field should be rendered read only on the page
      * @return {@code true} if the field should be read-only <br>
      *     {@code false} otherwise
@@ -59,12 +52,6 @@ public interface TextField extends FormField{
      * @return the value of the field
      */
     String getValue();
-    
-    /**
-     * Get the values of the field if the field is multi-valued
-     * @return A String array containing the values of the field.
-     */
-    String[] getMultiValues();
 
     /**
      * Get the type of the input field such as date, email etc.

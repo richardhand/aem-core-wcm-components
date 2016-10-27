@@ -67,7 +67,6 @@
             "jcr:createdBy": "admin",
             "jcr:created": "Wed Oct 05 2016 16:28:06 GMT+0530",
             "constraintMessage": "The value should be a valid email address",
-            "multivalue": false,
             "showHideExpression": "((givenName.equals(\"\"Referees\"\")))",
             "readOnly": true,
             "defaultValue": "Custom default value",
