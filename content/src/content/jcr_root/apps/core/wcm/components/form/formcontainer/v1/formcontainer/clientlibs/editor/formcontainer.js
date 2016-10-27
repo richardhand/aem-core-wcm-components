@@ -20,7 +20,7 @@
     "use strict";
 
     const ACTION_TYPE_SETTINGS_SELECTOR = "#cmp-action-type-settings",
-          ACTION_TYPE_ELEMENT_SELECTOR  = "coral-select.cmp-action-type-selection";
+          ACTION_TYPE_ELEMENT_SELECTOR  = ".cmp-action-type-selection";
 
     $(document).on("foundation-contentloaded", function (e) {
         $(ACTION_TYPE_ELEMENT_SELECTOR, e.target).each(function (i, element) {
@@ -69,7 +69,6 @@
 
     function showHideOptional($element, $optional, data) {
         var showOptional = $element.data(data);
-        console.log($element, $optional, data, showOptional);
         if (showOptional) {
             $optional.removeClass("hide");
         }

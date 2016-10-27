@@ -15,8 +15,11 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.models.impl;
 
+import com.day.cq.wcm.foundation.forms.FormStructureHelper;
+import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
 import io.wcm.testing.mock.aem.junit.AemContext;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.scripting.SlingBindings;
@@ -30,6 +33,7 @@ import com.day.cq.wcm.api.Page;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class FormContainerImplTest {
 
@@ -40,6 +44,8 @@ public class FormContainerImplTest {
     private static final String FORM2_PATH = CONTAINING_PAGE+"/jcr:content/root/responsivegrid/formcontainer_350773202";
     
     private static final String formFields[]={"text","text_185087333"};
+
+    private static final String RESOURCE_PROPERTY = "resource";
     
     @Rule
     public AemContext context = CoreComponentTestContext.createContext("/form/formcontainer", "/content/we-retail/demo-page");
@@ -51,18 +57,25 @@ public class FormContainerImplTest {
         Page page = context.currentPage(CONTAINING_PAGE);
         slingBindings = (SlingBindings) context.request().getAttribute(SlingBindings.class.getName());
         slingBindings.put(WCMBindings.CURRENT_PAGE, page);
+        context.registerService(FormStructureHelperFactory.class, new FormStructureHelperFactory(){
+            @Override
+            public FormStructureHelper getFormStructureHelper(Resource formElement) {
+                return null;
+            }
+        });
     }
     
     @Test
     public void testFormWithCustomAttributesAndFields() {
         Resource resource = context.currentResource(FORM1_PATH);
         slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
+        slingBindings.put(RESOURCE_PROPERTY,resource);
         FormContainer formContainer = context.request().adaptTo(FormContainer.class);
         assertEquals(formContainer.getActionType(), "foundation/components/form/actions/store");
         assertEquals(formContainer.getEnctype(),"application/x-www-form-urlencoded");
         assertEquals(formContainer.getMethod(),"GET");
-        assertEquals(formContainer.getName(),"demo-page");
-        assertEquals(formContainer.getId(),"demo-page");
+        assertTrue(StringUtils.isNotBlank(formContainer.getName()));
+        assertTrue(StringUtils.isNotBlank(formContainer.getId()));
         assertEquals(formContainer.getAction(),CONTAINING_PAGE+".html");
         List<String> fieldPaths = formContainer.getFormFieldResourcePaths();
         assertEquals(fieldPaths.size(),formFields.length);
