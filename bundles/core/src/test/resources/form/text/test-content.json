@@ -81,7 +81,7 @@
             "sling:resourceType": "core/wcm/components/form/text",
             "autofocus": true,
             "requiredMessage": "please fill the field",
-            "constraintType": "foundation/components/form/constraints/email"
+            "constraintType": "email"
           }
         }
       }

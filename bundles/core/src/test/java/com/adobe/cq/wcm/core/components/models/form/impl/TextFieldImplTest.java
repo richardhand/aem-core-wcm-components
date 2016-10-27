@@ -103,7 +103,7 @@ public class TextFieldImplTest {
         assertEquals("Custom placeholder",textField.getPlaceholder());
         assertEquals(true,textField.isReadOnly());
         assertEquals("Custom default value",textField.getDefaultValue());
-        assertEquals("foundation/components/form/constraints/email",textField.getConstraintType());
+        assertEquals("email",textField.getConstraintType());
         assertEquals("The value should be a valid email address",textField.getConstraintMessage());
         assertEquals("Prefilled Sample Input",textField.getValue());
         assertEquals("email",textField.getType());

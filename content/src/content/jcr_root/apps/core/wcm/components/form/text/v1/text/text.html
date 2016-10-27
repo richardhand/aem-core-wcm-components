@@ -16,8 +16,8 @@
 <div class="cmp cmp-form-group"
      data-sly-use.textField="com.adobe.cq.wcm.core.components.models.form.TextField">
     <label for="${textField.name}" hidden="${textField.isTitleHidden}">${textField.title}</label>
-    <sly data-sly-test.useTextarea="${textField.useTextarea && textField.constraintType=='text'} ">
-    <textarea type="${textField.constraintType}"
+    <textarea data-sly-test.useTextarea="${textField.useTextarea && textField.constraintType=='text'} "
+              type="${textField.constraintType}"
               id="${textField.name}${count}"
               placeholder="${textField.placeholder}"
               name="${textField.name}"
@@ -28,18 +28,16 @@
             >
         ${textField.value}
     </textarea>
-    </sly>
-    <sly data-sly-test="${!useTextarea}">
-        <input type="${textField.constraintType}"
-               id="${textField.name}"
-               placeholder="${textField.placeholder}"
-               name="${textField.name}"
-               value="${textField.value}"
-               readonly="${textField.isReadOnly}"
-               required="${textField.required}"
-               required-message="${textField.requiredMessage}"
-               constraint-message="${textField.constraintMessage}"
-               autofocus="${textField.isAutofocus}"
-                >
-    </sly>
+    <input data-sly-test="${!useTextarea}"
+           type="${textField.constraintType}"
+           id="${textField.name}"
+           placeholder="${textField.placeholder}"
+           name="${textField.name}"
+           value="${textField.value}"
+           readonly="${textField.isReadOnly}"
+           required="${textField.required}"
+           required-message="${textField.requiredMessage}"
+           constraint-message="${textField.constraintMessage}"
+           autofocus="${textField.isAutofocus}"
+            />
 </div>
