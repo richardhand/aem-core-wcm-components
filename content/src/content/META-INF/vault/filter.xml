@@ -16,5 +16,7 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <workspaceFilter version="1.0">
     <filter root="/apps/core/wcm/components"/>
+    <filter root="/apps/core/wcm/config"/>
+    <filter root="/apps/core/wcm/config.author"/>
     <filter root="/etc/clientlibs/core-wcm-components"/>
 </workspaceFilter>
