@@ -27,7 +27,7 @@ import org.junit.*;
 
 import com.adobe.cq.sightly.WCMBindings;
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
-import com.adobe.cq.wcm.core.components.models.FormContainer;
+import com.adobe.cq.wcm.core.components.models.form.FormContainer;
 import com.day.cq.wcm.api.Page;
 
 import java.util.List;

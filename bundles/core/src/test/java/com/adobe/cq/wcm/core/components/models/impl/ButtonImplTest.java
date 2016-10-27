@@ -27,7 +27,7 @@ import org.apache.sling.testing.mock.sling.junit.SlingContext;
 
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
 import io.wcm.testing.mock.aem.junit.AemContext;
-import com.adobe.cq.wcm.core.components.models.Button;
+import com.adobe.cq.wcm.core.components.models.form.Button;
 
 public class ButtonImplTest {
 
