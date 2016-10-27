@@ -42,11 +42,14 @@
                                             <title
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                cq-msm-lockable="jcr:title"
                                                 fieldLabel="Title"
                                                 name="./jcr:title"
                                                 renderReadOnly="{Boolean}true"
-                                                required="{Boolean}true"/>
+                                                required="{Boolean}true">
+                                                <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    cq-msm-lockable="jcr:title"/>
+                                            </title>
                                             <msmConfigEndpoint
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/hidden"
@@ -65,12 +68,13 @@
                                             <hideinnav
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                                allowBulkEdit="{Boolean}true"
                                                 name="./hideInNav"
                                                 renderReadOnly="{Boolean}true"
                                                 text="Hide in Navigation"
                                                 value="true">
-                                                <granite:data jcr:primaryType="nt:unstructured"
+                                                <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    allowBulkEdit="{Boolean}true"
                                                     cq-msm-lockable="hideInNav"/>
                                             </hideinnav>
                                             <charset
@@ -92,36 +96,49 @@
                                                 cq:showOnCreate="{Boolean}true"
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                allowBulkEdit="{Boolean}true"
-                                                cq-msm-lockable="pageTitle"
                                                 fieldLabel="Page Title"
                                                 name="./pageTitle"
-                                                renderReadOnly="{Boolean}true"/>
+                                                renderReadOnly="{Boolean}true">
+                                                <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    allowBulkEdit="{Boolean}true"
+                                                    cq-msm-lockable="pageTitle"/>
+                                            </pagetitle>
                                             <navigationtitle
                                                 cq:showOnCreate="{Boolean}true"
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                                                 allowBulkEdit="{Boolean}true"
-                                                cq-msm-lockable="navTitle"
                                                 fieldLabel="Navigation Title"
                                                 name="./navTitle"
-                                                renderReadOnly="{Boolean}true"/>
+                                                renderReadOnly="{Boolean}true">
+                                                <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    allowBulkEdit="{Boolean}true"
+                                                    cq-msm-lockable="navTitle"/>
+                                            </navigationtitle>
                                             <subtitle
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                allowBulkEdit="{Boolean}true"
-                                                cq-msm-lockable="subtitle"
                                                 fieldLabel="Subtitle"
                                                 name="./subtitle"
-                                                renderReadOnly="{Boolean}true"/>
+                                                renderReadOnly="{Boolean}true">
+                                                <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    allowBulkEdit="{Boolean}true"
+                                                    cq-msm-lockable="subtitle"/>
+                                            </subtitle>
                                             <description
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/textarea"
-                                                allowBulkEdit="{Boolean}true"
-                                                cq-msm-lockable="jcr:description"
                                                 fieldLabel="Description"
                                                 name="./jcr:description"
-                                                renderReadOnly="{Boolean}true"/>
+                                                renderReadOnly="{Boolean}true">
+                                                <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    allowBulkEdit="{Boolean}true"
+                                                    cq-msm-lockable="jcr:description"/>
+                                            </description>
                                         </items>
                                     </moretitles>
                                     <onofftime
@@ -133,39 +150,31 @@
                                             <ondate
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/datepicker"
-                                                allowBulkEdit="{Boolean}true"
-                                                cq-msm-lockable="onTime"
                                                 displayedFormat="MMMM DD, YYYY hh:mm a"
                                                 displayTimezoneMessage="{Boolean}true"
                                                 fieldLabel="On Time"
                                                 name="./onTime"
                                                 renderReadOnly="{Boolean}true"
-                                                type="datetime"/>
-                                            <ondate_type
-                                                jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/hidden"
-                                                allowBulkEdit="{Boolean}true"
-                                                ignoreData="{Boolean}true"
-                                                name="./onTime@TypeHint"
-                                                value="Date"/>
+                                                type="datetime">
+                                                <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    allowBulkEdit="{Boolean}true"
+                                                    cq-msm-lockable="onTime"/>
+                                            </ondate>
                                             <offdate
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/datepicker"
-                                                allowBulkEdit="{Boolean}true"
-                                                cq-msm-lockable="offTime"
                                                 displayedFormat="MMMM DD, YYYY hh:mm a"
                                                 displayTimezoneMessage="{Boolean}true"
                                                 fieldLabel="Off Time"
                                                 name="./offTime"
                                                 renderReadOnly="{Boolean}true"
-                                                type="datetime"/>
-                                            <offdate_type
-                                                jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/hidden"
-                                                allowBulkEdit="{Boolean}true"
-                                                ignoreData="{Boolean}true"
-                                                name="./offTime@TypeHint"
-                                                value="Date"/>
+                                                type="datetime">
+                                                <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    allowBulkEdit="{Boolean}true"
+                                                    cq-msm-lockable="offTime"/>
+                                            </offdate>
                                         </items>
                                     </onofftime>
                                     <vanityurl
@@ -180,6 +189,9 @@
                                                 cq-msm-lockable="sling:vanityPath"
                                                 fieldLabel="Vanity URL"
                                                 renderReadOnly="{Boolean}true">
+                                                <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    cq-msm-lockable="sling:vanityPath"/>
                                                 <field
                                                     jcr:primaryType="nt:unstructured"
                                                     sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
@@ -189,11 +201,14 @@
                                             <redirectVanityURL
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                                cq-msm-lockable="./sling:redirect"
                                                 name="./sling:redirect"
                                                 renderReadOnly="{Boolean}true"
                                                 text="Redirect Vanity URL"
-                                                value="true"/>
+                                                value="true">
+                                                <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    cq-msm-lockable="./sling:redirect"/>
+                                            </redirectVanityURL>
                                         </items>
                                     </vanityurl>
                                 </items>
@@ -219,12 +234,14 @@
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/select"
                                                 granite:class="language"
-                                                cq-msm-lockable="jcr:language"
                                                 emptyText="Select"
                                                 fieldLabel="Language"
                                                 name="./jcr:language"
                                                 renderReadOnly="{Boolean}true"
                                                 translateOptions="{Boolean}true">
+                                                <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    cq-msm-lockable="jcr:language"/>
                                                 <datasource
                                                     jcr:primaryType="nt:unstructured"
                                                     sling:resourceType="cq/gui/components/common/datasources/languages"
@@ -233,29 +250,38 @@
                                             <redirect
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/pathbrowser"
-                                                allowBulkEdit="true"
-                                                cq-msm-lockable="redirectTarget"
                                                 fieldLabel="Redirect"
                                                 name="./redirectTarget"
                                                 readOnlyURITemplate="/libs/wcm/core/content/sites/properties.html{+value}"
                                                 renderReadOnly="{Boolean}true"
-                                                rootPath="/content"/>
+                                                rootPath="/content">
+                                                <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    allowBulkEdit="true"
+                                                    cq-msm-lockable="redirectTarget"/>
+                                            </redirect>
                                             <designs
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/pathbrowser"
-                                                cq-msm-lockable="cq:designPath"
                                                 fieldLabel="Design"
                                                 name="./cq:designPath"
                                                 renderReadOnly="{Boolean}true"
-                                                rootPath="/etc/designs"/>
+                                                rootPath="/etc/designs">
+                                                <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    cq-msm-lockable="cq:designPath"/>
+                                            </designs>
                                             <alias
                                                 cq:showOnCreate="{Boolean}true"
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                cq-msm-lockable="sling:alias"
                                                 fieldLabel="Alias"
                                                 name="./sling:alias"
-                                                renderReadOnly="{Boolean}true"/>
+                                                renderReadOnly="{Boolean}true">
+                                                <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    cq-msm-lockable="sling:alias"/>
+                                            </alias>
                                         </items>
                                     </section1>
                                     <templates
@@ -288,11 +314,14 @@
                                             <enable
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                                cq-msm-lockable="cq:cugEnabled"
                                                 name="./cq:cugEnabled"
                                                 renderReadOnly="{Boolean}true"
                                                 text="Enabled"
-                                                value="true"/>
+                                                value="true">
+                                                <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    cq-msm-lockable="cq:cugEnabled"/>
+                                            </enable>
                                             <deleteenable
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/hidden"
@@ -301,17 +330,22 @@
                                             <loginpage
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/pathbrowser"
-                                                cq-msm-lockable="cq:cugLoginPage"
                                                 fieldLabel="Login Page"
                                                 name="./cq:cugLoginPage"
                                                 renderReadOnly="{Boolean}true"
-                                                rootPath="/content"/>
+                                                rootPath="/content">
+                                                <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    cq-msm-lockable="cq:cugLoginPage"/>
+                                            </loginpage>
                                             <admittedgroups
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
-                                                cq-msm-lockable="cq:cugPrincipals"
                                                 fieldLabel="Admitted Groups"
                                                 renderReadOnly="{Boolean}true">
+                                                <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    cq-msm-lockable="cq:cugPrincipals"/>
                                                 <field
                                                     jcr:primaryType="nt:unstructured"
                                                     sling:resourceType="granite/ui/components/coral/foundation/form/select"
@@ -325,11 +359,14 @@
                                             <realm
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                cq-msm-lockable="cq:cugRealm"
                                                 fieldDescription="Leave empty to use the page title"
                                                 fieldLabel="Realm"
                                                 name="./cq:cugRealm"
-                                                renderReadOnly="{Boolean}true"/>
+                                                renderReadOnly="{Boolean}true">
+                                                <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    cq-msm-lockable="cq:cugRealm"/>
+                                            </realm>
                                         </items>
                                     </cug>
                                     <export
@@ -341,12 +378,15 @@
                                             <config
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/pathbrowser"
-                                                cq-msm-lockable="cq:exportTemplate"
                                                 fieldLabel="Export Configuration"
                                                 name="./cq:exportTemplate"
                                                 optionLoader="cq.exportTemplate"
                                                 renderReadOnly="{Boolean}true"
-                                                rootPath="/etc/contentsync/templates"/>
+                                                rootPath="/etc/contentsync/templates">
+                                                <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    cq-msm-lockable="cq:exportTemplate"/>
+                                            </config>
                                         </items>
                                     </export>
                                 </items>
