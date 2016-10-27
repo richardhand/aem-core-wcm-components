@@ -38,7 +38,6 @@ public class TextFieldImpl implements TextField {
     protected static final String RESOURCE_TYPE = "core/wcm/components/form/text";
     private static final String PROP_NAME_DEFAULT = "text";
     private static final String PROP_VALUE_DEFAULT = "";
-    private static final String PROP_LABEL_DEFAULT = "Label for Text Input";
     private static final String PROP_PLACEHOLDER_DEFAULT = "Text placeholder";
     private static final String PROP_TITLE_DEFAULT = "Text input field";
     private static final String PROP_DESCRIPTION_DEFAULT = "";
@@ -50,10 +49,6 @@ public class TextFieldImpl implements TextField {
     private static final String PROP_REQUIRED_MESSAGE_DEFAULT = "";
     private static final String PROP_CONSTRAINT_DEFAULT = null;
     private static final String PROP_CONSTRAINT_MESSAGE_DEFAULT = "";
-    private static final String PROP_ROWS_DEFAULT = "2";
-    private static final String PROP_COLS_DEFAULT = "20";
-    private static final String PROP_WIDTH_DEFAULT = "";
-    private static final String PROP_CSS_CLASS_DEFAULT = "";
     private static final boolean PROP_AUTOFOCUS_DEFAULT = false;
     private static final String PROP_SHOW_HIDE_EXPRESSION_DEFAULT = null;
     private static final String PROP_TYPE_DEFAULT = "text";
@@ -61,7 +56,6 @@ public class TextFieldImpl implements TextField {
 
     private static final String PN_NAME = "name";
     private static final String PN_VALUE = "value";
-    private static final String PN_LABEL = "label";
     private static final String PN_PLACEHOLDER = "placeholder";
     private static final String PN_TITLE = "jcr:title";
     private static final String PN_HIDE_TITLE = "hideTitle";
@@ -73,10 +67,6 @@ public class TextFieldImpl implements TextField {
     private static final String PN_REQUIRED_MESSAGE = "requiredMessage";
     private static final String PN_CONSTRAINT = "constraintType";
     private static final String PN_CONSTRAINT_MESSAGE = "constraintMessage";
-    private static final String PN_ROWS = "rows";
-    private static final String PN_COLS = "cols";
-    private static final String PN_WIDTH = "width";
-    private static final String PN_CSS_CLASS = "css";
     private static final String PN_AUTOFOCUS = "autofocus";
     private static final String PN_SHOW_HIDE_EXPRESSION = "showHideExpression";
     private static final String PN_TYPE = "type";
@@ -210,33 +200,5 @@ public class TextFieldImpl implements TextField {
     @Override
     public String getConstraintMessage() {
         return properties.get(PN_CONSTRAINT_MESSAGE,PROP_CONSTRAINT_MESSAGE_DEFAULT);
-    }
-
-    @Override
-    public String getWidth() {
-        return properties.get(PN_WIDTH,PROP_WIDTH_DEFAULT);
-    }
-
-    @Override
-    public String getCssClass() {
-        return properties.get(PN_CSS_CLASS,PROP_CSS_CLASS_DEFAULT);
-    }
-
-    @Override
-    public int getRows() {
-        String rows = properties.get(PN_ROWS,PROP_ROWS_DEFAULT);
-        if(rows.isEmpty()) {
-            return 0;
-        }
-        return Integer.parseInt(rows);
-    }
-
-    @Override
-    public int getCols() {
-        String cols = properties.get(PN_COLS,PROP_COLS_DEFAULT);
-        if(cols.isEmpty()) {
-            return 0;
-        }
-        return Integer.parseInt(cols);
     }
 }

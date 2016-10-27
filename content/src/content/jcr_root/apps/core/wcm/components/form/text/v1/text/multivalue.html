@@ -20,7 +20,8 @@
         <sly data-sly-list="${textField.getMultiValues}">
             <div cmp-form-input-subgroup class="cmp-form-input-subgroup">
                     <div data-sly-use.input_field="templates/input_field.html" 
-                         data-sly-call="${input_field.input_field @ textField = textField, value=item}">
+                         data-sly-call="${input_field.input_field @ textField = textField, value=item,
+                                            count=itemList.index==0 ? '' : itemList.index }">
                     </div>
                 <button data-sly-test="${itemList.index!=0}" type="button" cmp-form-textField-item-remove class="cmp-form-textField-item-remove">Remove</button>
             </div>

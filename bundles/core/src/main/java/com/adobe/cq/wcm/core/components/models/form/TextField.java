@@ -53,26 +53,6 @@ public interface TextField extends FormField{
     String getConstraintMessage();
 
     /**
-     * @return the css width of the field
-     */
-    String getWidth();
-
-    /**
-     * @return the html class to be added to the field
-     */
-    String getCssClass();
-
-    /**
-     * @return the number of rows the text area should display
-     */
-    int getRows();
-
-    /**
-     * @return the number of columns(visible width) the text areas should have
-     */
-    int getCols();
-
-    /**
      * TODO: check if this can be moved to the FormField with java with generic return type Object
      * Get the value of the field if the field is single-valued.
      * If the field is multi-valued, ths will return the concatenation of all its values.

@@ -13,27 +13,24 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<template data-sly-template.input_field="${@ textField, value, isMultifieldTemplate}">
+<template data-sly-template.input_field="${@ textField, value, isMultifieldTemplate, count}">
 
     <sly data-sly-test.useTextarea="${textField.useTextarea && textField.constraintType=='text'} ">
     <textarea type="${textField.constraintType}"
-              class="${textField.cssClass}"
-              id="${textField.name}0"
+              id="${textField.name}${count}"
               placeholder="${textField.placeholder}"
               name="${textField.name}"
-              rows="${textField.rows}"
-              cols="${textField.cols}"
-              width="${textField.width}"
               readonly="${!isMultifieldTemplate && textField.isReadOnly}"
               required="${!isMultifieldTemplate && textField.required}"
+              required-message="${textField.requiredMessage}"
+              autofocus="${textField.isAutofocus}"
             >
         ${value}
     </textarea>
     </sly>
     <sly data-sly-test="${!useTextarea}">
         <input type="${textField.constraintType}"
-               class="${textField.cssClass}"
-               id="${textField.name}0"
+               id="${textField.name}${count}"
                placeholder="${textField.placeholder}"
                name="${textField.name}"
                value="${value}"
@@ -41,6 +38,7 @@
                required="${!isMultifieldTemplate && textField.required}"
                required-message="${textField.requiredMessage}"
                constraint-message="${textField.constraintMessage}"
+               autofocus="${textField.isAutofocus}"
                 >
     </sly>
 </template>

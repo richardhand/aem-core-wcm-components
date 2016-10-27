@@ -86,10 +86,6 @@ public class TextFieldImplTest {
         assertEquals("",textField.getDefaultValue());
         assertEquals(null,textField.getConstraintType());
         assertEquals("",textField.getConstraintMessage());
-        assertEquals("",textField.getWidth());
-        assertEquals("",textField.getCssClass());
-        assertEquals(2,textField.getRows());
-        assertEquals(20,textField.getCols());
         assertEquals("",textField.getValue());
         assertArrayEquals(new String[]{""}, textField.getMultiValues());
         assertEquals("text",textField.getType());
@@ -116,10 +112,6 @@ public class TextFieldImplTest {
         assertEquals("Custom default value",textField.getDefaultValue());
         assertEquals("foundation/components/form/constraints/email",textField.getConstraintType());
         assertEquals("The value should be a valid email address",textField.getConstraintMessage());
-        assertEquals("30em",textField.getWidth());
-        assertEquals("core-form-email-field",textField.getCssClass());
-        assertEquals(5,textField.getRows());
-        assertEquals(10,textField.getCols());
         assertEquals("Prefilled Sample Input",textField.getValue());
         assertArrayEquals(new String[]{"Prefilled Sample Input"}, textField.getMultiValues());
         assertEquals("email",textField.getType());

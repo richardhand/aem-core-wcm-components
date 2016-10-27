@@ -63,6 +63,13 @@
                                             name="./useTextarea"
                                             text="Use Textarea"
                                             value="{Boolean}true"/>
+                                    <autofocus
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                            fieldLabel="Autofocus"
+                                            name="./autofocus"
+                                            text="Autofocus"
+                                            value="{Boolean}true"/>
                                 </items>
                             </column>
                         </items>
