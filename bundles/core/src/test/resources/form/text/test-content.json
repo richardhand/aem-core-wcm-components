@@ -72,7 +72,7 @@
             "defaultValue": "Custom default value",
             "required": true,
             "name": "Custom Name",
-            "type": "email",
+            "type": "textarea",
             "useTextarea": true,
             "value": "Prefilled Sample Input",
             "jcr:description": "Custom description",

@@ -16,7 +16,7 @@
 <div class="cmp cmp-form-group"
      data-sly-use.textField="com.adobe.cq.wcm.core.components.models.form.TextField">
     <label for="${textField.name}" hidden="${textField.isTitleHidden}">${textField.title}</label>
-    <textarea data-sly-test.useTextarea="${textField.useTextarea && textField.constraintType=='text'} "
+    <textarea data-sly-test.useTextarea="${textField.type.name == 'TEXTAREA' && textField.constraintType.name=='TEXT'}"
               type="${textField.constraintType}"
               id="${textField.name}${count}"
               placeholder="${textField.placeholder}"

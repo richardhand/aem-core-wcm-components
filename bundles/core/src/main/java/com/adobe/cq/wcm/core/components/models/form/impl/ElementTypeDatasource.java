@@ -18,6 +18,7 @@ package com.adobe.cq.wcm.core.components.models.form.impl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang.StringUtils;
@@ -35,11 +36,11 @@ import com.adobe.granite.ui.components.ds.SimpleDataSource;
 import com.day.cq.wcm.foundation.forms.FormsManager;
 
 @Model(adaptables = SlingHttpServletRequest.class,
-    adapters = DataSourceModel.class,
-    resourceType = ConstraintTypeDatasource.RESOURCE_TYPE)
-public class ConstraintTypeDatasource extends DataSourceModel {
+        adapters = DataSourceModel.class,
+        resourceType = ElementTypeDatasource.RESOURCE_TYPE)
+public class ElementTypeDatasource extends DataSourceModel {
 
-    protected final static String RESOURCE_TYPE = "core/wcm/components/form/text/datasource/constrainttypedatasource";
+    protected final static String RESOURCE_TYPE = "core/wcm/components/form/text/datasource/elementtypedatasource";
 
     @Self
     private SlingHttpServletRequest request;
@@ -49,19 +50,19 @@ public class ConstraintTypeDatasource extends DataSourceModel {
 
     @PostConstruct
     private void initModel() {
-        ArrayList<Resource> constraintTypeResources = new ArrayList<>();
-        for(TextField.CONSTRAINT_TYPE type: TextField.CONSTRAINT_TYPE.values()) {
-            constraintTypeResources.add(new ConstraintTypeResource(type.toString()));
+        List<Resource> elementTypeResources = new ArrayList<>();
+        for(TextField.ELEMENT_TYPE type: TextField.ELEMENT_TYPE.values()) {
+            elementTypeResources.add(new ElementTypeResource(type.toString()));
         }
-        SimpleDataSource actionTypeDataSource = new SimpleDataSource(constraintTypeResources.iterator());
+        SimpleDataSource actionTypeDataSource = new SimpleDataSource(elementTypeResources.iterator());
         initDataSource(request, actionTypeDataSource);
     }
 
-    public class ConstraintTypeResource extends TextValueDataResourceSource {
+    public class ElementTypeResource extends TextValueDataResourceSource {
 
         private final String name;
 
-        public ConstraintTypeResource(String name) {
+        public ElementTypeResource(String name) {
             super(resourceResolver, StringUtils.EMPTY, NonExistingResource.RESOURCE_TYPE_NON_EXISTING);
             this.name = name;
         }

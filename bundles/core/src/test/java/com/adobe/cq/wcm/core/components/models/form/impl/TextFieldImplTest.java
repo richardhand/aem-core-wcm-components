@@ -16,6 +16,8 @@
 package com.adobe.cq.wcm.core.components.models.form.impl;
 
 import com.adobe.cq.wcm.core.components.models.form.TextField;
+import com.adobe.cq.wcm.core.components.models.form.TextField.CONSTRAINT_TYPE;
+import com.adobe.cq.wcm.core.components.models.form.TextField.ELEMENT_TYPE;
 import com.day.cq.wcm.foundation.forms.FormStructureHelper;
 import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
 import io.wcm.testing.mock.aem.junit.AemContext;
@@ -79,20 +81,19 @@ public class TextFieldImplTest {
         assertEquals("Text placeholder",textField.getPlaceholder());
         assertEquals(false,textField.isReadOnly());
         assertEquals("",textField.getDefaultValue());
-        assertEquals(null,textField.getConstraintType());
-        assertEquals("",textField.getConstraintMessage());
+        assertEquals(CONSTRAINT_TYPE.TEXT,textField.getConstraintType());
+        assertEquals("", textField.getConstraintMessage());
         assertEquals("",textField.getValue());
-        assertEquals("text",textField.getType());
-        assertEquals(false, textField.useTextarea());
+        assertEquals(ELEMENT_TYPE.INPUT,textField.getType());
     }
 
     @Test
     public void testInputWithCusomtDataAndAttributes() {
         Resource resource = context.currentResource(TEXTINPUT2_PATH);
         slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
-        slingBindings.put(RESOURCE_PROPERTY,resource);
+        slingBindings.put(RESOURCE_PROPERTY, resource);
         TextField textField = context.request().adaptTo(TextField.class);
-        assertEquals("Custom Name",textField.getName());
+        assertEquals("Custom Name", textField.getName());
         assertEquals("Custom title",textField.getTitle());
         assertEquals(true,textField.isTitleHidden());
         assertEquals("Custom description",textField.getDescription());
@@ -103,10 +104,9 @@ public class TextFieldImplTest {
         assertEquals("Custom placeholder",textField.getPlaceholder());
         assertEquals(true,textField.isReadOnly());
         assertEquals("Custom default value",textField.getDefaultValue());
-        assertEquals("email",textField.getConstraintType());
-        assertEquals("The value should be a valid email address",textField.getConstraintMessage());
+        assertEquals(CONSTRAINT_TYPE.EMAIL,textField.getConstraintType());
+        assertEquals("The value should be a valid email address", textField.getConstraintMessage());
         assertEquals("Prefilled Sample Input",textField.getValue());
-        assertEquals("email",textField.getType());
-        assertEquals(true,textField.useTextarea());
+        assertEquals(ELEMENT_TYPE.TEXTAREA,textField.getType());
     }
 }

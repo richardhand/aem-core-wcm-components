@@ -46,12 +46,11 @@ public class TextFieldImpl implements TextField {
     private static final String PROP_DEFAULT_VALUE_DEFAULT = "";
     private static final boolean PROP_REQUIRED_DEFAULT = false;
     private static final String PROP_REQUIRED_MESSAGE_DEFAULT = "";
-    private static final String PROP_CONSTRAINT_DEFAULT = null;
+    private static final CONSTRAINT_TYPE PROP_CONSTRAINT_DEFAULT = CONSTRAINT_TYPE.TEXT;
     private static final String PROP_CONSTRAINT_MESSAGE_DEFAULT = "";
     private static final boolean PROP_AUTOFOCUS_DEFAULT = false;
     private static final String PROP_SHOW_HIDE_EXPRESSION_DEFAULT = null;
-    private static final String PROP_TYPE_DEFAULT = "text";
-    private static final boolean PROP_USE_TEXTAREA_DEFAULT = false;
+    private static final ELEMENT_TYPE PROP_TYPE_DEFAULT = ELEMENT_TYPE.INPUT;
 
     private static final String PN_NAME = "name";
     private static final String PN_VALUE = "value";
@@ -68,7 +67,6 @@ public class TextFieldImpl implements TextField {
     private static final String PN_AUTOFOCUS = "autofocus";
     private static final String PN_SHOW_HIDE_EXPRESSION = "showHideExpression";
     private static final String PN_TYPE = "type";
-    private static final String PN_USE_TEXTAREA = "useTextarea";
 
     @Self
     private SlingHttpServletRequest slingRequest;
@@ -109,13 +107,9 @@ public class TextFieldImpl implements TextField {
     }
 
     @Override
-    public String getType() {
-        return properties.get(PN_TYPE,PROP_TYPE_DEFAULT);
-    }
-
-    @Override
-    public boolean useTextarea() {
-        return properties.get(PN_USE_TEXTAREA, PROP_USE_TEXTAREA_DEFAULT);
+    public ELEMENT_TYPE getType() {
+        String type = properties.get(PN_TYPE, PROP_TYPE_DEFAULT.toString());
+        return ELEMENT_TYPE.valueOf(type.toUpperCase());
     }
 
     @Override
@@ -169,8 +163,9 @@ public class TextFieldImpl implements TextField {
     }
 
     @Override
-    public String getConstraintType() {
-        return properties.get(PN_CONSTRAINT,PROP_CONSTRAINT_DEFAULT);
+    public CONSTRAINT_TYPE getConstraintType() {
+        String type = properties.get(PN_CONSTRAINT, PROP_CONSTRAINT_DEFAULT.toString());
+        return CONSTRAINT_TYPE.valueOf(type.toUpperCase());
     }
 
     @Override

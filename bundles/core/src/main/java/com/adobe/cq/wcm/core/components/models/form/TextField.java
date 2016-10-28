@@ -19,8 +19,34 @@ package com.adobe.cq.wcm.core.components.models.form;
  * The form text field
  */
 public interface TextField extends FormField{
-    
-    String[] TYPES = {"text","email","tel","date","number","password"};
+
+    /**
+     * the type of constraint on the input field
+     */
+    enum CONSTRAINT_TYPE {
+        TEXT,
+        EMAIL,
+        TEL,
+        DATE,
+        NUMBER,
+        PASSWORD;
+
+        public String toString() {
+            return this.name().toLowerCase();
+        }
+    }
+
+    /**
+     * the type of html element
+     */
+    enum ELEMENT_TYPE {
+        INPUT,
+        TEXTAREA;
+
+        public String toString() {
+            return this.name().toLowerCase();
+        }
+    }
 
     /**
      * checks if the field should be rendered read only on the page
@@ -35,9 +61,12 @@ public interface TextField extends FormField{
     String getDefaultValue();
 
     /**
-     * @return the path of the resource to be used for a particular type of validation
+     * Get the type of the input field such as date, email etc.
+     * The types are as defined under HTML5.
+     * @return the type of the field
+     * @see com.adobe.cq.wcm.core.components.models.form.TextField.ELEMENT_TYPE
      */
-    String getConstraintType();
+    CONSTRAINT_TYPE getConstraintType();
 
     /**
      * @return the message to be displayed when the constraint specified by {@link #getConstraintType()}
@@ -54,18 +83,9 @@ public interface TextField extends FormField{
     String getValue();
 
     /**
-     * Get the type of the input field such as date, email etc.
-     * The types are as defined under HTML5.
-     * @return the type of the field
+     * Get the type of html element to use for rendering , textarea or input
+     * @return the type of html element to use
+     * @see com.adobe.cq.wcm.core.components.models.form.TextField.ELEMENT_TYPE
      */
-    String getType();
-
-    /**
-     * Checks if the textarea element should be used instead of the input element
-     * This works only when the constraint type is text
-     * @return {@code true} if textarea should be used <br>
-     *     {@code false} if input element should be used
-     * @see #getConstraintType()
-     */
-    boolean useTextarea();
+    ELEMENT_TYPE getType();
 }
