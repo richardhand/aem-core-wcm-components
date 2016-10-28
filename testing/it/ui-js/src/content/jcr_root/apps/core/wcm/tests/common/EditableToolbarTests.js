@@ -110,7 +110,7 @@
                 {delayBefore: 2500}
             )
             //click on the component to see the Editable Toolbar
-            .execTestCase(window.CQ.CoreComponentsIT.OpenEditableToolbar(h,$,".cq-Overlay.cq-draggable.cq-droptarget:eq(1)"))
+            .execTestCase(window.CQ.CoreComponentsIT.OpenEditableToolbar(h,$,".cq-Overlay.cq-draggable.cq-droptarget:not(.cq-Overlay--container)"))
             //cut the component
             .click(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title='Cut']")
             .execTestCase(window.CQ.CoreComponentsIT.OpenEditableToolbar(h,$,".cq-Overlay.cq-Overlay--component.cq-droptarget.cq-Overlay--placeholder:first"))
