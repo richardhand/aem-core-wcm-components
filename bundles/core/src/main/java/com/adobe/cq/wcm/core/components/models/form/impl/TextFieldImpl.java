@@ -15,8 +15,8 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.models.form.impl;
 
-import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
-import com.day.cq.wcm.foundation.forms.FormsHelper;
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
@@ -26,9 +26,8 @@ import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 
 import com.adobe.cq.wcm.core.components.models.form.TextField;
-
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
+import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
+import com.day.cq.wcm.foundation.forms.FormsHelper;
 
 @Model(adaptables = SlingHttpServletRequest.class,
     adapters = TextField.class,

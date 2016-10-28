@@ -16,10 +16,9 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.models.form.impl;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -33,7 +32,6 @@ import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 import com.adobe.cq.wcm.core.components.models.form.DataSourceModel;
 import com.adobe.cq.wcm.core.components.models.form.TextField;
 import com.adobe.granite.ui.components.ds.SimpleDataSource;
-import com.day.cq.wcm.foundation.forms.FormsManager;
 
 @Model(adaptables = SlingHttpServletRequest.class,
     adapters = DataSourceModel.class,
