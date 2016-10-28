@@ -18,6 +18,7 @@ package com.adobe.cq.wcm.core.components.models.form.impl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang.StringUtils;
@@ -49,7 +50,7 @@ public class ConstraintTypeDatasource extends DataSourceModel {
 
     @PostConstruct
     private void initModel() {
-        ArrayList<Resource> constraintTypeResources = new ArrayList<>();
+        List<Resource> constraintTypeResources = new ArrayList<>();
         for(TextField.CONSTRAINT_TYPE type: TextField.CONSTRAINT_TYPE.values()) {
             constraintTypeResources.add(new ConstraintTypeResource(type.toString()));
         }

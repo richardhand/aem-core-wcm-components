@@ -4,4 +4,4 @@
       jcr:primaryType="cq:Component"
       jcr:title="Core WCM Form Text field (v1)"
       allowedParents="[*/form]"
-      componentGroup=".hidden"/>
+      componentGroup=".core-wcm-form"/>

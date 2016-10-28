@@ -13,12 +13,15 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<div class="cmp cmp-form-group"
+<div class="cmp cmp-form-field"
      data-sly-use.textField="com.adobe.cq.wcm.core.components.models.form.TextField">
-    <label for="${textField.name}" hidden="${textField.isTitleHidden}">${textField.title}</label>
-    <textarea data-sly-test.useTextarea="${textField.type.name == 'TEXTAREA' && textField.constraintType.name=='TEXT'}"
+    <div class="form-group">
+        <label for="${textField.name}" hidden="${textField.isTitleHidden}">
+            ${textField.title}
+        </label>
+        <textarea data-sly-test.useTextarea="${textField.type.name == 'TEXTAREA' && textField.constraintType.name=='TEXT'}"
               type="${textField.constraintType}"
-              id="${textField.name}${count}"
+              id="${textField.name}"
               placeholder="${textField.placeholder}"
               name="${textField.name}"
               readonly="${textField.isReadOnly}"
@@ -26,18 +29,19 @@
               required-message="${textField.requiredMessage}"
               autofocus="${textField.isAutofocus}"
             >
-        ${textField.value}
-    </textarea>
-    <input data-sly-test="${!useTextarea}"
-           type="${textField.constraintType}"
-           id="${textField.name}"
-           placeholder="${textField.placeholder}"
-           name="${textField.name}"
-           value="${textField.value}"
-           readonly="${textField.isReadOnly}"
-           required="${textField.required}"
-           required-message="${textField.requiredMessage}"
-           constraint-message="${textField.constraintMessage}"
-           autofocus="${textField.isAutofocus}"
-            />
+            ${textField.value}
+        </textarea>
+        <input data-sly-test="${!useTextarea}"
+               type="${textField.constraintType}"
+               id="${textField.name}"
+               placeholder="${textField.placeholder}"
+               name="${textField.name}"
+               value="${textField.value}"
+               readonly="${textField.isReadOnly}"
+               required="${textField.required}"
+               required-message="${textField.requiredMessage}"
+               constraint-message="${textField.constraintMessage}"
+               autofocus="${textField.isAutofocus}"
+                />
+    </div>
 </div>

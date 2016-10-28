@@ -15,9 +15,9 @@
  ******************************************************************************/
 (function ($, channel) {
     'use strict';
-    var INPUT_FIELD = ".cmp-form-group input";
-    var REQUIRED_MSG_ATTRIBUTE = "required-message";
-    var CONSTRAINT_MSG_ATTRIBUTE = "constraint-message";
+    var INPUT_FIELD = ".cmp-form-field input",
+        REQUIRED_MSG_ATTRIBUTE = "required-message",
+        CONSTRAINT_MSG_ATTRIBUTE = "constraint-message";
 
     channel.ready(function () {
         $(INPUT_FIELD).each(function (index) {

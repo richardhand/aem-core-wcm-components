@@ -61,7 +61,7 @@ public interface TextField extends FormField{
     String getDefaultValue();
 
     /**
-     * Get the type of the input field such as date, email etc.
+     * Gets the type of the input field such as date, email etc.
      * The types are as defined under HTML5.
      * @return the type of the field
      * @see com.adobe.cq.wcm.core.components.models.form.TextField.ELEMENT_TYPE
@@ -75,15 +75,15 @@ public interface TextField extends FormField{
     String getConstraintMessage();
 
     /**
-     * TODO: check if this can be moved to the FormField with java with generic return type Object
-     * Get the value of the field if the field is single-valued.
+     * TODO: check if it can be moved to the FormField with java with generic return type Object
+     * Gets the value of the field if the field is single-valued.
      * If the field is multi-valued, ths will return the concatenation of all its values.
      * @return the value of the field
      */
     String getValue();
 
     /**
-     * Get the type of html element to use for rendering , textarea or input
+     * Gets the type of html element to use for rendering , textarea or input
      * @return the type of html element to use
      * @see com.adobe.cq.wcm.core.components.models.form.TextField.ELEMENT_TYPE
      */
