@@ -1,7 +1,7 @@
 /*
  * ADOBE CONFIDENTIAL
  *
- * Copyright 2012 Adobe Systems Incorporated
+ * Copyright 2016 Adobe Systems Incorporated
  * All Rights Reserved.
  *
  * NOTICE:  All information contained herein is, and remains
@@ -30,9 +30,10 @@
         toggleUploadButton(component, true);
     });
 
-    $(document).on("fileselected", ".cq-wcm-pagethumbnail .coral-FileUpload", function(e) {
+    $(document).on("coral-fileupload:fileadded", ".cq-wcm-pagethumbnail .cq-wcm-fileupload", function(e) {
         var fileUploadEl = $(this);
-        var fileUpload = e.fileUpload;
+        var fileUpload = e.originalEvent.target;
+        var file = e.originalEvent.detail.item.file;
         var component = fileUploadEl.closest(".cq-wcm-pagethumbnail");
 
         wait(component);
@@ -45,9 +46,9 @@
                 var status = $(e.content).find("#Status").text();
                 e.fileUpload._internalOnUploadLoad(e, e.item, status, e.content);
             })
-            .one("fileuploadsuccess", function(e) {
-                var url = base + (function() {
-                        var name = fileUpload.options.name;
+            .one("coral-fileupload:load", function(e) {
+                var url = base + "/" + (function() {
+                        var name = file.name;
                         if (name.indexOf(".") === 0) {
                             name = name.substring(1);
                         }
@@ -56,12 +57,12 @@
 
                 clearWait(component, url + "?ck=" + new Date().getTime());
                 fileUploadEl.removeClass("disabled");
-                setValue(component, fileUpload.options.name.replace(".sftmp", "@MoveFrom"), url);
+                setValue(component, fileUpload.name.replace(".sftmp", "@MoveFrom"), url);
             });
 
-        e.item.fileName = fileUpload.options.name;
-        fileUpload.options.uploadUrl = base;
-        fileUpload.uploadFile(e.item);
+
+        fileUpload.action = base;
+        fileUpload.upload(file.name);
 
         return true;
     });
@@ -112,7 +113,7 @@
 
     function toggleUploadButton(component, show) {
         component
-            .find('.coral-FileUpload').toggle(show)
+            .find('.cq-wcm-fileupload').toggle(show)
             .end()
             .find('button[type="reset"]').toggle(!show)
     }
