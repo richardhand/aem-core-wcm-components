@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-hobs.config.pacing_delay = 250
+hobs.config.pacing_delay = 150
 
 window.CQ.CoreComponentsIT.pageRoot = "/content/core-components/core-components-page";
 //window.CQ.CoreComponentsIT.pageFinalUrl = window.CQ.CoreComponentsIT.pageRoot
@@ -24,7 +24,7 @@ window.CQ.CoreComponentsIT.checkNumberOfItems = function (hobs, selector, number
 };
 
 window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame = function (hobs, frameSelector, selector, numberOfItems) {
-    return hobs.find(selector,frameSelector).length == numberOfItems;
+    return hobs.find(selector).length == numberOfItems;
 
 };
 

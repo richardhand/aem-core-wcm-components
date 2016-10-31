@@ -66,7 +66,9 @@
                     var actualValue = hobs.find('.section.text.aem-GridColumn > div.cmp.cmp-text > p').html();
                     return actualValue === testValue;
                 }
-            );
+            )
+            .config.resetContext()
+        ;
     };
 
 

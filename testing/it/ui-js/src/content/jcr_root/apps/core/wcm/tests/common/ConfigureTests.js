@@ -55,8 +55,15 @@
             .fillInput(selector, inputValue)
             //click on the check button
             .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
+
+            .config.changeContext(function() {
+                return hobs.find("iframe#ContentFrame").get(0);
+            })
+
             .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item", itemNo)})
             .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item--activ",activeItemNo)})
+
+            .config.resetContext()
         ;
     }
 
@@ -89,9 +96,14 @@
             //click on the check button
             .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
             //check the numbers of the breadcrumb items
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item", itemNo)})
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"#ContentFrame",".breadcrumb-item--active", activeItemNo)})
+            .config.changeContext(function() {
+                return hobs.find("iframe#ContentFrame").get(0);
+            })
 
+            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"iframe#ContentFrame",".breadcrumb-item", itemNo)})
+            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame(h,"iframe#ContentFrame",".breadcrumb-item--active", activeItemNo)})
+
+            .config.resetContext()
         ;
     }
 
