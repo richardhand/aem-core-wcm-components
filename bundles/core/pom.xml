@@ -179,7 +179,7 @@
         <dependency>
             <groupId>com.day.cq.wcm</groupId>
             <artifactId>cq-wcm-foundation</artifactId>
-            <version>5.10.37-SNAPSHOT</version>
+            <version>5.10.44</version>
             <exclusions>
                 <exclusion>
                     <artifactId>cq-integration-testing</artifactId>
