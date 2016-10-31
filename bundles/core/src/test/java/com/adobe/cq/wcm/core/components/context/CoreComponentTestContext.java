@@ -18,13 +18,8 @@ package com.adobe.cq.wcm.core.components.context;
 import java.io.IOException;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.sling.api.resource.Resource;
-import org.apache.sling.models.impl.ResourceTypeBasedResourcePicker;
-import org.apache.sling.models.spi.ImplementationPicker;
 import org.apache.sling.testing.mock.sling.ResourceResolverType;
 
-import com.day.cq.wcm.foundation.forms.FormStructureHelper;
-import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
 import io.wcm.testing.mock.aem.junit.AemContext;
 import io.wcm.testing.mock.aem.junit.AemContextCallback;
 
@@ -51,13 +46,6 @@ public final class CoreComponentTestContext {
         return new AemContext(new AemContextCallback() {
             @Override
             public void execute(AemContext context) throws IOException {
-                context.registerService(FormStructureHelperFactory.class, new FormStructureHelperFactory() {
-                    @Override
-                    public FormStructureHelper getFormStructureHelper(Resource formElement) {
-                        return null;
-                    }
-                });
-                context.registerService(ImplementationPicker.class, new ResourceTypeBasedResourcePicker());
                 context.addModelsForPackage("com.adobe.cq.wcm.core.components.models");
                 if (StringUtils.isNotEmpty(testBase)) {
                     context.load().json(testBase + "/test-content.json", contentRoot);
