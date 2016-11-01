@@ -5,4 +5,4 @@
     jcr:title="Core WCM Form Text field" 
     allowedParents="[*/form]"
     sling:resourceSuperType="core/wcm/components/form/text/v1/text"
-    componentGroup=".core-wcm-form"/>
+    componentGroup="core-wcm-form"/>
