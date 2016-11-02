@@ -55,7 +55,7 @@
     window.CQ.CoreComponentsIT.DeletePages = function (h, $, nrOfPages) {
 
         return new hobs.TestCase("Delete Pages")
-            .execTestCase(window.CQ.CoreComponentsIT.DeletePage(h, $, pageUrl+"/"+samplePage.name+"0"));
+            .execTestCase(window.CQ.CoreComponentsIT.DeletePage(h, $, window.CQ.CoreComponentsIT.pageRoot+"/"+samplePage.name+"0"));
         ;
     }
 
@@ -101,7 +101,8 @@
     };
 
     new h.TestSuite("Core-Components Tests - Breadcrumb", {path:"/apps/core/wcm/tests/core-components-it/Breadcrumb.js",
-        execBefore:window.CQ.CoreComponentsIT.ExecuteBefore(h,$,window.CQ.CoreComponentsIT.DragDropBreadcrumb(h,$)), execAfter:window.CQ.CoreComponentsIT.DeletePages(h, $,4), register: true})
+        execBefore:window.CQ.CoreComponentsIT.ExecuteBefore(h,$,window.CQ.CoreComponentsIT.DragDropBreadcrumb(h,$)),
+        execAfter:window.CQ.CoreComponentsIT.DeletePages(h, $,4), register: true,})
         .addTestCase(window.CQ.CoreComponentsIT.CheckTheNavigationLevelTest(h, $))
         .addTestCase(window.CQ.CoreComponentsIT.CheckEditableToolbarTest(h, $, 9))
     ;

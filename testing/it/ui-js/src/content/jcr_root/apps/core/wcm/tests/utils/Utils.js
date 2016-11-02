@@ -24,7 +24,7 @@ window.CQ.CoreComponentsIT.checkNumberOfItems = function (hobs, selector, number
 };
 
 window.CQ.CoreComponentsIT.checkNumberOfItemsFromIFrame = function (hobs, frameSelector, selector, numberOfItems) {
-    return hobs.find(selector,frameSelector).length == numberOfItems;
+    return hobs.find(selector).length == numberOfItems;
 
 };
 

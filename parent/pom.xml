@@ -19,7 +19,7 @@
     <groupId>com.adobe.cq</groupId>
     <artifactId>com.adobe.cq.wcm.core.components.parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.9.31-SNAPSHOT</version>
+    <version>0.9.33-SNAPSHOT</version>
 
     <name>Adobe Experience Manager Core WCM Components Parent</name>
 
@@ -356,6 +356,21 @@
                             </exclusions>
                         </dependency>
                     </dependencies>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.sling</groupId>
+                    <artifactId>htl-maven-plugin</artifactId>
+                    <version>1.0.2</version>
+                    <configuration>
+                        <failOnWarnings>true</failOnWarnings>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>validate</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
