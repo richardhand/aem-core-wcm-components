@@ -13,8 +13,11 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-package com.adobe.cq.wcm.core.components.models.impl;
+package com.adobe.cq.wcm.core.components.models.form.impl;
 
+import com.adobe.cq.wcm.core.components.models.form.TextField;
+import com.adobe.cq.wcm.core.components.models.form.TextField.CONSTRAINT_TYPE;
+import com.adobe.cq.wcm.core.components.models.form.TextField.ELEMENT_TYPE;
 import com.day.cq.wcm.foundation.forms.FormStructureHelper;
 import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
 import io.wcm.testing.mock.aem.junit.AemContext;
@@ -22,29 +25,25 @@ import io.wcm.testing.mock.aem.junit.AemContext;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.scripting.SlingBindings;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
 import com.adobe.cq.sightly.WCMBindings;
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
-import com.adobe.cq.wcm.core.components.models.FormContainer;
-import com.adobe.cq.wcm.core.components.models.TextInput;
 import com.day.cq.wcm.api.Page;
 
-import java.util.List;
-
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
-public class TextInputImplTest {
+public class TextFieldImplTest {
 
     private static final String CONTAINING_PAGE = "/content/we-retail/demo-page";
 
     private static final String TEXTINPUT1_PATH = CONTAINING_PAGE+"/jcr:content/root/responsivegrid/formcontainer/text";
-    
+
     private static final String TEXTINPUT2_PATH = CONTAINING_PAGE+"/jcr:content/root/responsivegrid/formcontainer/text_185087333";
-    
+
     private static final String RESOURCE_PROPERTY = "resource";
 
     @Rule
@@ -69,23 +68,45 @@ public class TextInputImplTest {
     public void testDefaultInput(){
         Resource resource = context.currentResource(TEXTINPUT1_PATH);
         slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
-        slingBindings.put(RESOURCE_PROPERTY,resource);
-        TextInput textInput = context.request().adaptTo(TextInput.class);
-        assertEquals("text",textInput.getName());
-        assertEquals("Label for Text Input",textInput.getLabel());
-        assertEquals("",textInput.getValue());
-        assertEquals("Text placeholder",textInput.getPlaceholder());
+        slingBindings.put(RESOURCE_PROPERTY, resource);
+        TextField textField = context.request().adaptTo(TextField.class);
+        assertEquals("text",textField.getName());
+        assertEquals("Text input field",textField.getTitle());
+        assertEquals(false,textField.isTitleHidden());
+        assertEquals("",textField.getDescription());
+        assertEquals(false,textField.isAutofocus());
+        assertEquals(false,textField.getRequired());
+        assertEquals("",textField.getRequiredMessage());
+        assertEquals(null,textField.getShowHideExpression());
+        assertEquals("Text placeholder",textField.getPlaceholder());
+        assertEquals(false,textField.isReadOnly());
+        assertEquals("",textField.getDefaultValue());
+        assertEquals(CONSTRAINT_TYPE.TEXT,textField.getConstraintType());
+        assertEquals("", textField.getConstraintMessage());
+        assertEquals("",textField.getValue());
+        assertEquals(ELEMENT_TYPE.INPUT,textField.getType());
     }
-    
+
     @Test
     public void testInputWithCusomtDataAndAttributes() {
         Resource resource = context.currentResource(TEXTINPUT2_PATH);
         slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
-        slingBindings.put(RESOURCE_PROPERTY,resource);
-        TextInput textInput = context.request().adaptTo(TextInput.class);
-        assertEquals("input-field-2",textInput.getName());
-        assertEquals("label-input-field-2",textInput.getLabel());
-        assertEquals("Prefilled Sample Input",textInput.getValue());
-        assertEquals("Please enter the text",textInput.getPlaceholder());
+        slingBindings.put(RESOURCE_PROPERTY, resource);
+        TextField textField = context.request().adaptTo(TextField.class);
+        assertEquals("Custom Name", textField.getName());
+        assertEquals("Custom title",textField.getTitle());
+        assertEquals(true,textField.isTitleHidden());
+        assertEquals("Custom description",textField.getDescription());
+        assertEquals(true,textField.isAutofocus());
+        assertEquals(true,textField.getRequired());
+        assertEquals("please fill the field",textField.getRequiredMessage());
+        assertEquals("((givenName.equals(\"\"Referees\"\")))",textField.getShowHideExpression());
+        assertEquals("Custom placeholder",textField.getPlaceholder());
+        assertEquals(true,textField.isReadOnly());
+        assertEquals("Custom default value",textField.getDefaultValue());
+        assertEquals(CONSTRAINT_TYPE.EMAIL,textField.getConstraintType());
+        assertEquals("The value should be a valid email address", textField.getConstraintMessage());
+        assertEquals("Prefilled Sample Input",textField.getValue());
+        assertEquals(ELEMENT_TYPE.TEXTAREA,textField.getType());
     }
 }

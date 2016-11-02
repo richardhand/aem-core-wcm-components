@@ -63,15 +63,25 @@
           },
           "text_185087333": {
             "jcr:primaryType": "nt:unstructured",
+            "jcr:title": "Custom title",
             "jcr:createdBy": "admin",
-            "jcr:lastModifiedBy": "admin",
             "jcr:created": "Wed Oct 05 2016 16:28:06 GMT+0530",
-            "name": "input-field-2",
+            "constraintMessage": "The value should be a valid email address",
+            "showHideExpression": "((givenName.equals(\"\"Referees\"\")))",
+            "readOnly": true,
+            "defaultValue": "Custom default value",
+            "required": true,
+            "name": "Custom Name",
+            "type": "textarea",
+            "useTextarea": true,
             "value": "Prefilled Sample Input",
-            "label": "label-input-field-2",
-            "jcr:lastModified": "Thu Oct 06 2016 12:47:20 GMT+0530",
-            "placeholder": "Please enter the text",
-            "sling:resourceType": "core/wcm/components/form/text"
+            "jcr:description": "Custom description",
+            "placeholder": "Custom placeholder",
+            "hideTitle": true,
+            "sling:resourceType": "core/wcm/components/form/text",
+            "autofocus": true,
+            "requiredMessage": "please fill the field",
+            "constraintType": "email"
           }
         }
       }

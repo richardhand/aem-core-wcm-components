@@ -68,4 +68,9 @@ public interface FormField {
      * @return The expression to be evaluated to check if the field should be shown or be hidden on the page.
      */
     String getShowHideExpression();
+
+    /**
+     * @return value of placeholder attribute. 
+     */
+    String getPlaceholder();
 }
