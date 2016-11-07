@@ -27,7 +27,7 @@ import com.adobe.cq.wcm.core.components.models.form.Button;
         resourceType = ButtonImpl.RESOURCE_TYPE)
 public class ButtonImpl implements Button {
 
-    protected static final String RESOURCE_TYPE = "core/wcm/components/form/button";
+    public static final String RESOURCE_TYPE = "core/wcm/components/form/button";
 
     @ValueMapValue
     @Default(values = "")
@@ -90,5 +90,26 @@ public class ButtonImpl implements Button {
     @Override
     public boolean isAutofocus() {
         return autofocus;
+    }
+
+    public static enum Type {
+        RESET("reset"),
+        SUBMIT("submit"),
+        BUTTON("button");
+
+        private String value;
+
+        Type(String value) {
+            this.value = value;
+        }
+
+        public static Type fromString(String value) {
+            for (Type type : values()) {
+                if (type.value.equals(value)) {
+                    return type;
+                }
+            }
+            return null;
+        }
     }
 }

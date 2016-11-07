@@ -16,8 +16,9 @@
 
 package com.adobe.cq.wcm.core.components.commons.forms.impl;
 
-import com.adobe.cq.wcm.core.components.commons.forms.FormsConstants;
-import com.day.cq.wcm.foundation.forms.FormStructureHelper;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.resource.ModifiableValueMap;
@@ -27,13 +28,18 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
+import com.adobe.cq.wcm.core.components.commons.forms.FormsConstants;
+import com.adobe.cq.wcm.core.components.models.form.Button;
+import com.adobe.cq.wcm.core.components.models.form.impl.ButtonImpl;
+import com.day.cq.wcm.foundation.forms.FormStructureHelper;
 
 @Component(immediate = true)
 @Service(FormStructureHelper.class)
 public class FormStructureHelperImpl implements FormStructureHelper {
 
-    /** The logger. */
+    /**
+     * The logger.
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(FormStructureHelperImpl.class.getName());
 
     @Override
@@ -41,10 +47,10 @@ public class FormStructureHelperImpl implements FormStructureHelper {
         if (resource == null) {
             return null;
         }
-        if ( resource.getPath().lastIndexOf("/") == 0 ) {
+        if (resource.getPath().lastIndexOf("/") == 0) {
             return null;
         }
-        if ( resource.isResourceType(FormsConstants.RT_CORE_FORM_CONTAINER) ) {
+        if (resource.isResourceType(FormsConstants.RT_CORE_FORM_CONTAINER)) {
             return resource;
         }
         return getFormResource(resource.getParent());
@@ -52,10 +58,42 @@ public class FormStructureHelperImpl implements FormStructureHelper {
 
     @Override
     public Iterable<Resource> getFormElements(Resource resource) {
+        final List<Resource> list = new ArrayList<>();
         if (resource.isResourceType(FormsConstants.RT_CORE_FORM_CONTAINER)) {
-            return resource.getChildren();
+            for (Resource child : resource.getChildren()) {
+                filterFormElements(child, list);
+            }
         }
-        return Collections.<Resource>emptyList();
+        return list;
+    }
+
+    private void filterFormElements(Resource resource, List<Resource> list) {
+        if (isFormResource(resource) && isNoButtonElement(resource)) {
+            list.add(resource);
+        } else {
+            for (Resource child : resource.getChildren()) {
+                filterFormElements(child, list);
+            }
+        }
+    }
+
+    private boolean isNoButtonElement(Resource resource) {
+        if (resource.getResourceType().startsWith(ButtonImpl.RESOURCE_TYPE) ||
+                resource.getResourceSuperType() != null && resource.getResourceSuperType().startsWith(ButtonImpl.RESOURCE_TYPE)) {
+            Button button = resource.adaptTo(Button.class);
+            if (button != null) {
+                ButtonImpl.Type type = ButtonImpl.Type.fromString(button.getType());
+                if (type != null && (type == ButtonImpl.Type.RESET || type == ButtonImpl.Type.SUBMIT)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean isFormResource(Resource resource) {
+        return resource.getResourceType().startsWith(FormsConstants.RT_CORE_FORM_PREFIX) ||
+                resource.getResourceSuperType() != null && resource.getResourceSuperType().startsWith(FormsConstants.RT_CORE_FORM_PREFIX);
     }
 
     @Override
