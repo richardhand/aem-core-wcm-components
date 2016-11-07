@@ -25,7 +25,7 @@
                                 granite:class="cmp-action-type-selection"
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/coral/foundation/form/select"
-                                emptyOption="{Boolean}true"
+                                deleteHint="{Boolean}true"
                                 fieldLabel="Action Type"
                                 name="./actionType">
                                 <datasource
