@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    jcr:title="Form Options"
+    sling:resourceType="cq/gui/components/authoring/dialog"
+    helpPath="http://www.adobe.com/go/aem6_3_docs_component_en#Options">
+    <content
+        granite:class="core-wcm-form-options-v1"
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/coral/foundation/container">
+        <items jcr:primaryType="nt:unstructured">
+            <tabs
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/tabs">
+                <items jcr:primaryType="nt:unstructured">
+                    <options
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Options"
+                        sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns"
+                        margin="{Boolean}false">
+                        <items jcr:primaryType="nt:unstructured">
+                            <columns
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/container">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <options
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                        composite="{Boolean}true"
+                                        fieldDescription="Define the different options"
+                                        fieldLabel="Options"
+                                        renderReadOnly="{Boolean}true">
+                                        <field
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/container"
+                                            name="./optionitems">
+                                            <items jcr:primaryType="nt:unstructured">
+                                                <select
+                                                    granite:class="multifield-composite-item"
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/container">
+                                                    <items jcr:primaryType="nt:unstructured">
+                                                        <select
+                                                            jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                                            name="./selected"
+                                                            text="Active"
+                                                            uncheckedValue="false"
+                                                            value="{Boolean}true"/>
+                                                    </items>
+                                                </select>
+                                                <radiogroup
+                                                    granite:class="multifield-composite-item"
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/container">
+                                                    <items jcr:primaryType="nt:unstructured">
+                                                        <radiogroup
+                                                            jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="granite/ui/components/coral/foundation/form/radiogroup"
+                                                            deleteHint="{Boolean}false"
+                                                            name="./selected"
+                                                            vertical="{Boolean}true">
+                                                            <items jcr:primaryType="nt:unstructured">
+                                                                <range
+                                                                    jcr:primaryType="nt:unstructured"
+                                                                    text="Active"
+                                                                    value="{Boolean}true"/>
+                                                            </items>
+                                                        </radiogroup>
+                                                    </items>
+                                                </radiogroup>
+                                                <value
+                                                    granite:class="multifield-composite-item"
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/container">
+                                                    <items jcr:primaryType="nt:unstructured">
+                                                        <value
+                                                            jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                            fieldLabel="Value"
+                                                            name="./value"/>
+                                                    </items>
+                                                </value>
+                                                <text
+                                                    granite:class="multifield-composite-item"
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/container">
+                                                    <items jcr:primaryType="nt:unstructured">
+                                                        <text
+                                                            jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                            fieldLabel="Text"
+                                                            name="./text"/>
+                                                    </items>
+                                                </text>
+                                            </items>
+                                        </field>
+                                    </options>
+                                    <name
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                            fieldLabel="Element Name"
+                                            name="./name"/>
+                                    <class
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                            fieldLabel="CSS Class"
+                                            name="./cssClass"/>
+                                    <multiselect
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                            fieldDescription="Allow selection of multiple options"
+                                            name="./multiSelection"
+                                            text="Multi Selection"
+                                            value="{Boolean}true"/>
+                                    <collapse
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                            fieldDescription="Collapse options into a dropdown"
+                                            name="./collapsed"
+                                            text="Collapse Options"
+                                            value="{Boolean}true"/>
+                                </items>
+                            </columns>
+                        </items>
+                    </options>
+                </items>
+            </tabs>
+        </items>
+    </content>
+</jcr:root>
