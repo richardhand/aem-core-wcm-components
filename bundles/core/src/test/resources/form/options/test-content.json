@@ -1,0 +1,32 @@
+{
+  "jcr:primaryType": "nt:unstructured",
+  "jcr:createdBy": "admin",
+  "cssClass": "class1",
+  "jcr:lastModifiedBy": "admin",
+  "jcr:created": "Wed Nov 02 2016 15:32:37 GMT+0100",
+  "name": "name1",
+  "multiSelection": "true",
+  "jcr:lastModified": "Wed Nov 09 2016 14:50:06 GMT+0100",
+  "sling:resourceType": "core/wcm/components/form/options",
+  "optionitems": {
+    "jcr:primaryType": "nt:unstructured",
+    "item0": {
+      "jcr:primaryType": "nt:unstructured",
+      "text": "t1",
+      "value": "v1",
+      "selected": "true"
+    },
+    "item1": {
+      "jcr:primaryType": "nt:unstructured",
+      "text": "t2",
+      "value": "v2",
+      "selected": "true"
+    },
+    "item2": {
+      "jcr:primaryType": "nt:unstructured",
+      "text": "t3",
+      "value": "v3",
+      "selected": "false"
+    }
+  }
+}
