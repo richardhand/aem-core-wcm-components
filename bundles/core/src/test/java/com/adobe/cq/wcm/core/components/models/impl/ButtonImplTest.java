@@ -27,7 +27,7 @@ import org.apache.sling.testing.mock.sling.junit.SlingContext;
 
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
 import io.wcm.testing.mock.aem.junit.AemContext;
-import com.adobe.cq.wcm.core.components.models.Button;
+import com.adobe.cq.wcm.core.components.models.form.Button;
 
 public class ButtonImplTest {
 
@@ -43,6 +43,7 @@ public class ButtonImplTest {
     public void testEmptyButton() throws Exception {
         Map<String,Object> properties = new HashMap<>();
         properties.put("type", "reset");
+        properties.put("sling:resourceType", "core/wcm/components/form/button");
         Resource buttonRes = context.create().resource("/content/button", properties);
         Button button = buttonRes.adaptTo(Button.class);
         assertEquals("reset", button.getType());

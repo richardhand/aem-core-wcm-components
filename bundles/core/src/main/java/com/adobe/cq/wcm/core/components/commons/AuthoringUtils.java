@@ -63,11 +63,10 @@ public final class AuthoringUtils {
         Resource resource = page.adaptTo(Resource.class);
         if (resource != null) {
             if (resource.isResourceType(NameConstants.NT_PAGE) && resource.getParent() != null) {
-                Resource parentRessource = resource.getParent();
-                if (parentRessource.isResourceType(NameConstants.NT_TEMPLATE) &&
-                        parentRessource.getChild(NN_INITIAL) != null &&
-                        parentRessource.getChild(NN_POLICIES) != null &&
-                        parentRessource.getChild(NN_STRUCTURE) != null) {
+                Resource parentResource = resource.getParent();
+                if (parentResource != null && parentResource.isResourceType(NameConstants.NT_TEMPLATE) &&
+                        parentResource.getChild(NN_INITIAL) != null && parentResource.getChild(NN_POLICIES) != null &&
+                        parentResource.getChild(NN_STRUCTURE) != null) {
                     isTemplatePage = true;
                 }
             }

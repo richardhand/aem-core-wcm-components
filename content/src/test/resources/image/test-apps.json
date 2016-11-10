@@ -218,12 +218,7 @@
                 "sling:resourceType": "cq/gui/components/authoring/dialog",
                 "content": {
                     "jcr:primaryType": "nt:unstructured",
-                    "sling:resourceType": "granite/ui/components/foundation/container",
-                    "layout": {
-                        "jcr:primaryType": "nt:unstructured",
-                        "type": "nav",
-                        "sling:resourceType": "granite/ui/components/foundation/layouts/tabs"
-                    },
+                    "sling:resourceType": "granite/ui/components/coral/foundation/container",
                     "items": {"jcr:primaryType": "nt:unstructured"}
                 }
             },

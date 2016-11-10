@@ -79,7 +79,7 @@
                                                 <items jcr:primaryType="nt:unstructured">
                                                     <parentPage
                                                         jcr:primaryType="nt:unstructured"
-                                                        sling:resourceType="granite/ui/components/coral/foundation/form/pathbrowser"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
                                                         fieldDescription="Leave empty to use current page"
                                                         fieldLabel="Parent page"
                                                         name="./parentPage"
@@ -108,7 +108,7 @@
                                                 <items jcr:primaryType="nt:unstructured">
                                                     <parentPage
                                                         jcr:primaryType="nt:unstructured"
-                                                        sling:resourceType="granite/ui/components/coral/foundation/form/pathbrowser"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
                                                         fieldDescription="Leave empty to use current page"
                                                         fieldLabel="Descendants of"
                                                         name="./ancestorPage"
@@ -135,15 +135,21 @@
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/well">
                                                 <items jcr:primaryType="nt:unstructured">
-                                                    <pages
-                                                        jcr:primaryType="nt:unstructured"
-                                                        sling:resourceType="granite/ui/components/foundation/form/multifield"
-                                                        class="foundation-layout-util-maximized-alt coral-Form-fieldwrapper">
-                                                        <field
-                                                            jcr:primaryType="nt:unstructured"
-                                                            sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
-                                                            name="./pages"
-                                                            rootPath="/content"/>
+                                                    <pages jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/container"
+                                                        granite:class="foundation-layout-util-maximized-alt coral-Form-fieldwrapper">
+                                                        <items jcr:primaryType="nt:unstructured">
+                                                            <multi
+                                                                jcr:primaryType="nt:unstructured"
+                                                                sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                                                granite:class="">
+                                                                <field
+                                                                    jcr:primaryType="nt:unstructured"
+                                                                    sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                                                                    name="./pages"
+                                                                    rootPath="/content"/>
+                                                            </multi>
+                                                        </items>
                                                     </pages>
                                                 </items>
                                             </well>
@@ -169,7 +175,7 @@
                                                 <items jcr:primaryType="nt:unstructured">
                                                     <searchIn
                                                         jcr:primaryType="nt:unstructured"
-                                                        sling:resourceType="granite/ui/components/coral/foundation/form/pathbrowser"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
                                                         fieldDescription="Leave empty to use current site (eg. /content/mysite)"
                                                         fieldLabel="Search in"
                                                         name="./searchIn"
@@ -231,7 +237,7 @@
                                                 <items jcr:primaryType="nt:unstructured">
                                                     <parentPage
                                                         jcr:primaryType="nt:unstructured"
-                                                        sling:resourceType="granite/ui/components/coral/foundation/form/pathbrowser"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
                                                         fieldDescription="Leave empty to use current page"
                                                         fieldLabel="Parent page"
                                                         name="./tagsSearchRoot"
