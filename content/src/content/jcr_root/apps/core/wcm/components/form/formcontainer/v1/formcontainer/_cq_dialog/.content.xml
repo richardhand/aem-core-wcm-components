@@ -46,7 +46,7 @@
                             </advanced>
                             <redirect
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/coral/foundation/form/pathbrowser"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
                                 fieldDescription="Leave empty to redisplay the form after submission"
                                 fieldLabel="Thank You Page"
                                 name="./redirect"

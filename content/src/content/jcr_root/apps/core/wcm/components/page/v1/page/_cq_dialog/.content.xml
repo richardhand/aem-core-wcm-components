@@ -249,7 +249,7 @@
                                             </language>
                                             <redirect
                                                 jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/pathbrowser"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
                                                 fieldLabel="Redirect"
                                                 name="./redirectTarget"
                                                 readOnlyURITemplate="/libs/wcm/core/content/sites/properties.html{+value}"
@@ -262,7 +262,7 @@
                                             </redirect>
                                             <designs
                                                 jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/pathbrowser"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
                                                 fieldLabel="Design"
                                                 name="./cq:designPath"
                                                 renderReadOnly="{Boolean}true"
@@ -329,7 +329,7 @@
                                                 value="true"/>
                                             <loginpage
                                                 jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/pathbrowser"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
                                                 fieldLabel="Login Page"
                                                 name="./cq:cugLoginPage"
                                                 renderReadOnly="{Boolean}true"
@@ -377,7 +377,7 @@
                                         <items jcr:primaryType="nt:unstructured">
                                             <config
                                                 jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/pathbrowser"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
                                                 fieldLabel="Export Configuration"
                                                 name="./cq:exportTemplate"
                                                 optionLoader="cq.exportTemplate"
@@ -531,7 +531,7 @@
                                 <items jcr:primaryType="nt:unstructured">
                                     <contextHubConfig
                                         jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/coral/foundation/form/pathbrowser"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
                                         emptyText="Select ContextHub Configuration Path"
                                         fieldLabel="ContextHub Path"
                                         name="./cq:contextHubPath"
@@ -544,7 +544,7 @@
                                     </contextHubConfig>
                                     <contextHubSegments
                                         jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/coral/foundation/form/pathbrowser"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
                                         emptyText="Select ContextHub Segments Path"
                                         fieldLabel="Segments Path"
                                         name="./cq:contextHubSegmentsPath"
