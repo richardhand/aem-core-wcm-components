@@ -20,17 +20,17 @@
      * Handler to show/hide the MSM action buttons according to the selected tab.
      */
     $(document).on("coral-panelstack:change", ".cq-siteadmin-admin-properties-tabs", function(e) {
-        var $target = $(e.target);
+        var $target = $(e.target.selectedItem);
 
         var $actionBar = $("coral-actionbar");
 
-        if ($target.find(".cq-siteadmin-admin-properties-blueprint")) {
+        if ($target.find(".cq-siteadmin-admin-properties-blueprint").length > 0) {
             $actionBar.find(".cq-siteadmin-admin-properties-actions-blueprint").removeClass("hide");
         } else {
             $actionBar.find(".cq-siteadmin-admin-properties-actions-blueprint").addClass("hide");
         }
 
-        if ($target.find(".cq-siteadmin-admin-properties-livecopy")) {
+        if ($target.find(".cq-siteadmin-admin-properties-livecopy").length > 0) {
             $actionBar.find(".cq-siteadmin-admin-properties-actions-livecopy").removeClass("hide");
         } else {
             $actionBar.find(".cq-siteadmin-admin-properties-actions-livecopy").addClass("hide");
