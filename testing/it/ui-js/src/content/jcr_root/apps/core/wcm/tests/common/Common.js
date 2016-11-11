@@ -22,8 +22,16 @@
     window.CQ.CoreComponentsIT.DragDropComponent = function (h, $, component, pageUrl) {
         return new h.TestCase("Drag and drop a component")
             .navigateTo("/editor.html" + pageUrl + ".html")
-            .asserts.location("/editor.html" + pageUrl + ".html", true)
+            .assert.location("/editor.html" + pageUrl + ".html", true)
+
+            .if(
+                function() { return h.find("button.is-selected:contains('Preview')").length != 0 },
+                new hobs.TestCase("Open SidePanel").click("button.editor-GlobalBar-item:contains('Edit')")
+                    .wait(250),null, {timeout: 100}
+            )
+
             .assert.visible("button.toggle-sidepanel[title='Toggle Side Panel']")
+
             .if(
                 function() { return h.find('#SidePanel.sidepanel-closed').length != 0 },
                 new hobs.TestCase("Open SidePanel").click("button.toggle-sidepanel[title='Toggle Side Panel']")
@@ -31,16 +39,17 @@
             )
             .assert.visible(".coral-Tab[title='Components']")
             .click(".coral-Tab[title='Components']")
+            .assert.visible(".coral-Tab.is-selected[title='Components']")
             .wait(500)
-            .asserts.visible(".coral-Masonry .card-component")
-            .asserts.visible(".coral-Masonry-item :contains('"+component+"')")
-            .asserts.visible(".cq-Overlay .cq-droptarget")
+            .assert.visible(".coral-Masonry .card-component")
+            .assert.visible(".coral-Masonry-item :contains('"+component+"')")
+            .assert.visible(".cq-Overlay .cq-droptarget")
             .cui.dragdrop(
                 ".coral-Masonry-item :contains('"+component+"')",
                 ".cq-Overlay .cq-droptarget",
                 {delayBefore: 2500}
             )
-            .asserts.visible(".cq-Overlay.cq-draggable.cq-droptarget")
+            .assert.visible(".cq-Overlay.cq-draggable.cq-droptarget")
         ;
     }
 

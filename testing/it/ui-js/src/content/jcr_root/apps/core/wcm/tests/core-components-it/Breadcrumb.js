@@ -104,7 +104,7 @@
         execBefore:window.CQ.CoreComponentsIT.ExecuteBefore(h,$,window.CQ.CoreComponentsIT.DragDropBreadcrumb(h,$)),
         execAfter:window.CQ.CoreComponentsIT.DeletePages(h, $,4), register: true,})
         .addTestCase(window.CQ.CoreComponentsIT.CheckTheNavigationLevelTest(h, $))
-        .addTestCase(window.CQ.CoreComponentsIT.CheckEditableToolbarTest(h, $, 9))
+        .addTestCase(window.CQ.CoreComponentsIT.CheckEditableToolbarTest(h, $, 9,".cq-Overlay.cq-draggable.cq-droptarget:not(.cq-Overlay--container)"))
     ;
 
 }(hobs, jQuery));

@@ -25,7 +25,7 @@
             //click on the component to see the Editable Toolbar
             .click("#OverlayWrapper")
             .click(selector)
-            .asserts.visible("#EditableToolbar")
+            .assert.visible("#EditableToolbar")
         ;
     }
 
@@ -41,11 +41,11 @@
             //test the Paste button
             .execTestCase(window.CQ.CoreComponentsIT.OpenEditableToolbar(h,$,".cq-Overlay.cq-draggable.cq-droptarget"))
             //check if the Paste button appeared
-            .asserts.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItems(h, ".coral-Button.cq-editable-action", numberOfButtons);})
+            .assert.isTrue(function() {return window.CQ.CoreComponentsIT.checkNumberOfItems(h, ".coral-Button.cq-editable-action", numberOfButtons);})
             //press the past button
             .click(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title='Paste']")
             //check if we have two components
-            .asserts.isTrue(function () { return window.CQ.CoreComponentsIT.checkNumberOfItems(h, ".cq-Overlay.cq-draggable.cq-droptarget", 2);})
+            .assert.isTrue(function () { return window.CQ.CoreComponentsIT.checkNumberOfItems(h, ".cq-Overlay.cq-draggable.cq-droptarget", 2);})
 
             ;
     }
@@ -60,7 +60,7 @@
             .click(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title='Delete']")
             .click(".coral-Button.coral-Button--warning")
             //check if we have two components
-            .asserts.isTrue(function () { return window.CQ.CoreComponentsIT.checkNumberOfItems(h, ".cq-Overlay.cq-draggable.cq-droptarget", 1);})
+            .assert.isTrue(function () { return window.CQ.CoreComponentsIT.checkNumberOfItems(h, ".cq-Overlay.cq-draggable.cq-droptarget", 1);})
 
             ;
     }
@@ -72,7 +72,7 @@
         return new h.TestCase("Check the Insert Component button")
             .execTestCase(window.CQ.CoreComponentsIT.OpenEditableToolbar(h,$,".cq-Overlay.cq-draggable.cq-droptarget"))
             .click(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title='Insert component']")
-            .asserts.visible(".coral-Dialog-wrapper .coral-Dialog-content.InsertComponentDialog-components")
+            .assert.visible(".coral-Dialog-wrapper .coral-Dialog-content.InsertComponentDialog-components")
             .click(".coral-Dialog.InsertComponentDialog .coral-Dialog-wrapper .coral-Dialog-header .coral-Dialog-closeButton")
             ;
     }
@@ -84,7 +84,7 @@
         return new h.TestCase("Check the Group button")
             .execTestCase(window.CQ.CoreComponentsIT.OpenEditableToolbar(h,$,".cq-Overlay.cq-draggable.cq-droptarget"))
             .click(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title='Group']")
-            .asserts.exists(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square.is-active[title='Group']")
+            .assert.exist(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square.is-active[title='Group']")
             ;
     }
 
@@ -95,34 +95,34 @@
         return new h.TestCase("Check the Parent button")
             .execTestCase(window.CQ.CoreComponentsIT.OpenEditableToolbar(h,$,".cq-Overlay.cq-draggable.cq-droptarget"))
             .click(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title='Parent']")
-            .asserts.exists(".cq-Overlay.cq-Overlay--component.cq-Overlay--container.is-selected.is-active")
+            .assert.exist(".cq-Overlay.cq-Overlay--component.cq-Overlay--container.is-selected.is-active")
             ;
     }
 
     /**
      * Check the Cut button.
      */
-    window.CQ.CoreComponentsIT.CheckCutButton = function (h,$) {
+    window.CQ.CoreComponentsIT.CheckCutButton = function (h,$, selector) {
         return new h.TestCase("Check the Cut button")
             .cui.dragdrop(
                 ".coral-Masonry-item :contains('Layout Container')",
                 ".cq-Overlay .cq-droptarget",
-                {delayBefore: 2500}
+                {delayBefore: 500}
             )
             //click on the component to see the Editable Toolbar
-            .execTestCase(window.CQ.CoreComponentsIT.OpenEditableToolbar(h,$,".cq-Overlay.cq-draggable.cq-droptarget:not(.cq-Overlay--container)"))
+            .execTestCase(window.CQ.CoreComponentsIT.OpenEditableToolbar(h,$,selector))
             //cut the component
             .click(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title='Cut']")
             .execTestCase(window.CQ.CoreComponentsIT.OpenEditableToolbar(h,$,".cq-Overlay.cq-Overlay--component.cq-droptarget.cq-Overlay--placeholder:first"))
             .click(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title='Paste']")
-            .asserts.isTrue(function () { return window.CQ.CoreComponentsIT.checkNumberOfItems(h, ".cq-Overlay.cq-draggable.cq-droptarget", 2);})
+            .assert.isTrue(function () { return window.CQ.CoreComponentsIT.checkNumberOfItems(h, ".cq-Overlay.cq-draggable.cq-droptarget", 2);})
             ;
     }
 
     /**
      * Check the button actions from the Editable Toolbar.
      */
-    window.CQ.CoreComponentsIT.CheckEditableToolbarTest = function (h, $, numberOfButtons) {
+    window.CQ.CoreComponentsIT.CheckEditableToolbarTest = function (h, $, numberOfButtons, selector) {
 
         return new h.TestCase("Check the editable toolbar")
         //test the Copy btton
@@ -136,7 +136,7 @@
             //test the Parent button
             .execTestCase(window.CQ.CoreComponentsIT.CheckParentButton(h,$))
             //test the Cut button
-            .execTestCase(window.CQ.CoreComponentsIT.CheckCutButton(h,$))
+            .execTestCase(window.CQ.CoreComponentsIT.CheckCutButton(h,$, selector))
             ;
     }
 
