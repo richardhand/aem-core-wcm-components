@@ -17,18 +17,6 @@
                         jcr:primaryType="nt:unstructured"
                         hiddenHeaderClassName="cq-wcm-foundation-aria-visuallyhidden"/>
                 </table>
-                <format
-                    jcr:primaryType="nt:unstructured"
-                    features="*"/>
-                <links
-                    jcr:primaryType="nt:unstructured"
-                    features="*"/>
-                <justify
-                    jcr:primaryType="nt:unstructured"
-                    features="*"/>
-                <lists
-                    jcr:primaryType="nt:unstructured"
-                    features="*"/>
             </rtePlugins>
         </config>
     </cq:inplaceEditing>

@@ -16,3 +16,4 @@
 
 #base=.
 pagethumbnail.js
+tab.click.js
