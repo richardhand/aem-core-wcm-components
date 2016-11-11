@@ -4,7 +4,7 @@
     jcr:primaryType="nt:unstructured"
     jcr:title="Page"
     sling:resourceType="cq/gui/components/authoring/dialog"
-    extraClientlibs="[cq.common.wcm,core.wcm.page.properties]"
+    extraClientlibs="[cq.common.wcm,core.wcm.page.properties,cq.wcm.msm.properties]"
     mode="edit">
     <content
         jcr:primaryType="nt:unstructured"
