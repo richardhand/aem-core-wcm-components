@@ -131,6 +131,7 @@
                                                             jcr:primaryType="nt:unstructured"
                                                             jcr:title="align"
                                                             sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/plugin"
+                                                            defaultEnabled="{Boolean}true"
                                                             features="*"
                                                             name="justify"/>
                                                 </items>
@@ -147,16 +148,19 @@
                                                             jcr:primaryType="nt:unstructured"
                                                             jcr:title="bold"
                                                             sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
+                                                            defaultEnabled="{Boolean}true"
                                                             name="bold"/>
                                                     <italic
                                                             jcr:primaryType="nt:unstructured"
                                                             jcr:title="italic"
                                                             sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
+                                                            defaultEnabled="{Boolean}true"
                                                             name="italic"/>
                                                     <underline
                                                             jcr:primaryType="nt:unstructured"
                                                             jcr:title="underline"
                                                             sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
+                                                            defaultEnabled="{Boolean}true"
                                                             name="underline"/>
                                                 </items>
                                                 <granite:data
@@ -173,16 +177,19 @@
                                                             jcr:primaryType="nt:unstructured"
                                                             jcr:title="link text"
                                                             sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
+                                                            defaultEnabled="{Boolean}true"
                                                             name="modifylink"/>
                                                     <unlink
                                                             jcr:primaryType="nt:unstructured"
                                                             jcr:title="unlink text"
                                                             sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
+                                                            defaultEnabled="{Boolean}true"
                                                             name="unlink"/>
                                                     <anchor
                                                             jcr:primaryType="nt:unstructured"
                                                             jcr:title="anchor"
                                                             sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
+                                                            defaultEnabled="{Boolean}true"
                                                             name="anchor"/>
                                                 </items>
                                                 <granite:data
@@ -220,11 +227,13 @@
                                                             jcr:primaryType="nt:unstructured"
                                                             jcr:title="bullet list"
                                                             sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
+                                                            defaultEnabled="{Boolean}true"
                                                             name="unordered"/>
                                                     <ordered
                                                             jcr:primaryType="nt:unstructured"
                                                             jcr:title="number list"
                                                             sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
+                                                            defaultEnabled="{Boolean}true"
                                                             name="ordered"/>
                                                 </items>
                                                 <granite:data
