@@ -19,7 +19,6 @@ import javax.servlet.ServletRequest;
 
 import org.apache.sling.api.resource.Resource;
 
-import com.day.cq.commons.jcr.JcrConstants;
 import com.day.cq.wcm.api.AuthoringUIMode;
 import com.day.cq.wcm.api.NameConstants;
 import com.day.cq.wcm.api.Page;

@@ -17,4 +17,4 @@
 @Version("1.0.0")
 package com.adobe.cq.wcm.core.components.commons;
 
-import aQute.bnd.annotation.Version;
+import org.osgi.annotation.versioning.Version;

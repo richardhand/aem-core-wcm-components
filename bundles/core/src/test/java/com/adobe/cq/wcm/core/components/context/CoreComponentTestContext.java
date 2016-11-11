@@ -65,6 +65,6 @@ public final class CoreComponentTestContext {
                     context.load().json("/test-content.json", contentRoot);
                 }
             }
-        }, ResourceResolverType.RESOURCERESOLVER_MOCK);
+        }, ResourceResolverType.JCR_MOCK);
     }
 }
