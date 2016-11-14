@@ -25,7 +25,7 @@
         return new h.TestCase("Drag and drop the form button")
             .execTestCase(window.CQ.CoreComponentsIT.CreatePage(h,$,pageUrl, "page0","CoreComponent TestPage",
                 "/conf/core-components/settings/wcm/templates/core-components"))
-            .execTestCase(window.CQ.CoreComponentsIT.DragDropComponent(h,$,"Core WCM Form Button Component (v1)",pageUrl))
+            .execTestCase(window.CQ.CoreComponentsIT.DragDropComponent(h,$,"Core WCM Form Button Component",pageUrl))
         ;
     }
 
@@ -35,15 +35,15 @@
     window.CQ.CoreComponentsIT.ChangeButtonType = function (h,$, fromType, toType) {
         return new h.TestCase("Change the button type")
             //open the configure window
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
+            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $, ".cq-Overlay.cq-draggable.cq-droptarget"))
             //Check the type of the button
-            .asserts.isTrue(function() {return hobs.find(".btn[type='"+fromType.toLowerCase()+"']","#ContentFrame")})
+            .assert.isTrue(function() {return hobs.find(".btn[type='"+fromType.toLowerCase()+"']","#ContentFrame")})
             //change the type of the button
             .click(".coral-Button:contains('"+fromType+"')")
             .click(".coral3-SelectList-item:contains('"+toType+"')")
             .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
             //Check the type of the button
-            .asserts.isTrue(function() {return hobs.find(".btn[type='"+toType.toLowerCase()+"']","#ContentFrame")})
+            .assert.isTrue(function() {return hobs.find(".btn[type='"+toType.toLowerCase()+"']","#ContentFrame")})
         ;
     }
 
@@ -87,6 +87,6 @@
     new h.TestSuite("Core-Components Tests - Form Button", {path:"/apps/core/wcm/tests/core-components-it/FormButton.js",
         execBefore: window.CQ.CoreComponentsIT.ExecuteBefore(h,$,window.CQ.CoreComponentsIT.DragDropFormButton(h,$)), execAfter:window.CQ.CoreComponentsIT.DeletePage(h, $,pageUrl), register: true})
         .addTestCase(window.CQ.CoreComponentsIT.CheckConfigureButtonTest(h, $))
-        .addTestCase(window.CQ.CoreComponentsIT.CheckEditableToolbarTest(h,$, 9))
+        .addTestCase(window.CQ.CoreComponentsIT.CheckEditableToolbarTest(h,$, 9,".cq-Overlay.cq-draggable.cq-droptarget:not(.cq-Overlay--container)"))
     ;
 })(hobs, jQuery);

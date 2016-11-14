@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-hobs.config.pacing_delay = 150
+hobs.config.pacing_delay = 300
 
 window.CQ.CoreComponentsIT.pageRoot = "/content/core-components/core-components-page";
 //window.CQ.CoreComponentsIT.pageFinalUrl = window.CQ.CoreComponentsIT.pageRoot
@@ -36,6 +36,12 @@ window.CQ.CoreComponentsIT.checkContentFromIFrame = function (hobs, frameSelecto
 window.CQ.CoreComponentsIT.checkInputValue = function (hobs, selector, value) {
     return hobs.find(selector).val() == value;
 
+};
+
+window.CQ.CoreComponentsIT.compareLocation = function(path) {
+    return function() {
+        return (hobs.context().window.location.pathname + hobs.context().window.location.search) == (hobs.config.context_path + path);
+    };
 };
 
 

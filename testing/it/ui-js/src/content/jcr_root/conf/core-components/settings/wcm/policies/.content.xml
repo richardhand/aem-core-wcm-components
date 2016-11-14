@@ -83,13 +83,12 @@
                             mergeList="{Boolean}true"/>
                     </default>
                     <policy_1475234603206
-                        jcr:description=""
-                        jcr:lastModified="{Date}2016-10-13T15:58:19.512+03:00"
+                        jcr:lastModified="{Date}2016-11-03T18:06:15.936+02:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Core Components Policy"
                         sling:resourceType="wcm/core/components/policy/policy"
-                        components="[/libs/wcm/foundation/components/responsivegrid,group:Core,group:Core Form]">
+                        components="[/libs/wcm/foundation/components/responsivegrid,group:Core,group:Core Form,group:core-wcm-form]">
                         <jcr:content
                             jcr:primaryType="nt:unstructured"
                             mergeList="{Boolean}true"/>

@@ -15,28 +15,27 @@
  ******************************************************************************/
 ;(function (h, $) {
 
-    var pageUrl = window.CQ.CoreComponentsIT.pageRoot;
-    pageUrl     = pageUrl + '/page0';
+    var pageUrl = window.CQ.CoreComponentsIT.pageRoot+ '/page0';
 
     /**
-     * Drag and Drop a Title component.
+     * Drag and Drop a Text component.
      */
     window.CQ.CoreComponentsIT.DragDropText = function (h, $) {
-        return new h.TestCase('Drag and drop the form button')
+        return new h.TestCase('Drag and drop the text component')
             .execTestCase(window.CQ.CoreComponentsIT.CreatePage(h, $, pageUrl, 'page0', 'CoreComponent TestPage',
                 '/conf/core-components/settings/wcm/templates/core-components'))
             .execTestCase(window.CQ.CoreComponentsIT.DragDropComponent(h, $, 'Core WCM Text Component', pageUrl));
     };
 
     /**
-     * Check the Edit button for the Title component.
+     * Check the Edit button for the Text component.
      */
     window.CQ.CoreComponentsIT.CheckEditButtonTest = function (h, $) {
         var testValue = '<b>This</b> is a <i>rich</i> <u>text</u>.'
         return new h.TestCase('Check the edit button')
             .execTestCase(window.CQ.CoreComponentsIT.OpenEditableToolbar(h,$,'.cq-Overlay.cq-draggable.cq-droptarget'))
             .click('.coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title="Edit"]')
-            .asserts.isTrue(function() {return hobs.find('.title.aem-GridColumn .cmp.cmp-text','#ContentFrame')})
+            .assert.isTrue(function() {return hobs.find('.title.aem-GridColumn .cmp.cmp-text','#ContentFrame')})
 
             //get a new context
             .config.changeContext(function() {
@@ -49,9 +48,9 @@
             .config.resetContext()
 
             .click('#OverlayWrapper')
-            .click('.cq-Overlay.cq-draggable.cq-droptarget')
-            .click('.cq-Overlay.cq-draggable.cq-droptarget')
-            .asserts.isTrue(
+
+            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h,$,".cq-Overlay.cq-draggable.cq-droptarget"))
+            .assert.isTrue(
                 function() {
                     var actualValue = hobs.find('.coral-RichText-editable.coral-Form-field.coral-Textfield.coral-Textfield--multiline.coral-RichText > p').html();
                     return actualValue === testValue;
@@ -61,7 +60,8 @@
                 function() {
                     return hobs.find('iframe#ContentFrame').get(0);
                 }
-            ).asserts.isTrue(
+            )
+            .assert.isTrue(
                 function() {
                     var actualValue = hobs.find('.section.text.aem-GridColumn > div.cmp.cmp-text > p').html();
                     return actualValue === testValue;

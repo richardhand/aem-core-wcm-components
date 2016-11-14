@@ -16,8 +16,7 @@
 
 ;(function(h, $){
 
-    var pageUrl = window.CQ.CoreComponentsIT.pageRoot;
-    pageUrl = pageUrl+"/page0"
+    var pageUrl = window.CQ.CoreComponentsIT.pageRoot+"/page0";
 
     /**
      * Drag and Drop a Title component.
@@ -39,7 +38,7 @@
             .execTestCase(window.CQ.CoreComponentsIT.OpenEditableToolbar(h,$,".cq-Overlay.cq-draggable.cq-droptarget"))
             .click(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title='Edit']")
             //check de number of the button from the EditableToolbar
-            .asserts.isTrue(function() {return hobs.find(".title.aem-GridColumn .cmp.cmp-title","#ContentFrame")})
+            .assert.isTrue(function() {return hobs.find(".title.aem-GridColumn .cmp.cmp-title","#ContentFrame")})
             //.execFct(function() { hobs.find(".title.aem-GridColumn .cmp.cmp-title > h1","#ContentFrame").replaceWith("content test")})
 
             //get a new context
@@ -49,6 +48,12 @@
             .execFct(function() {
                 hobs.find(".title.aem-GridColumn .cmp.cmp-title > h1").html("Content test")
             })
+            .assert.isTrue(
+                function() {
+                    var actualValue = hobs.find('.title.aem-GridColumn .cmp.cmp-title > h1').html();
+                    return actualValue === "Content test";
+                }
+            )
             //reset the new context
             .config.resetContext()
 
@@ -60,11 +65,11 @@
 
     window.CQ.CoreComponentsIT.CheckTitleType = function (h, $, index, value) {
         return new h.TestCase("Check title type")
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
+            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $, ".cq-Overlay.cq-draggable.cq-droptarget"))
             .click(".cq-dialog-content.coral-FixedColumn .coral-Button")
             .click(".coral-Overlay.coral3-Select-overlay.is-open .coral3-SelectList-item:eq("+index+")")
             .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
-            .asserts.isTrue(function () {return h.find(".title.aem-GridColumn .cmp.cmp-title >"+ value,"#ContentFrame")})
+            .assert.isTrue(function () {return h.find(".title.aem-GridColumn .cmp.cmp-title >"+ value,"#ContentFrame")})
         ;
     }
 
@@ -85,8 +90,8 @@
      */
     window.CQ.CoreComponentsIT.CheckConfigureButtonTest = function (h, $){
         return new h.TestCase("Check the Configure button")
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $))
-            .asserts.visible(".coral-Form-field.coral-Textfield[name='./jcr:title']")
+            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $, ".cq-Overlay.cq-draggable.cq-droptarget"))
+            .assert.visible(".coral-Form-field.coral-Textfield[name='./jcr:title']")
             .fillInput(".coral-Form-field.coral-Textfield[name='./jcr:title']","Content name")
             .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
             //check the title type
@@ -102,6 +107,6 @@
         execBefore: window.CQ.CoreComponentsIT.ExecuteBefore(h,$,window.CQ.CoreComponentsIT.DragDropTitle(h,$)), execAfter:window.CQ.CoreComponentsIT.DeletePage(h, $,pageUrl), register: true})
         .addTestCase(window.CQ.CoreComponentsIT.CheckEditButtonTest(h, $))
         .addTestCase(window.CQ.CoreComponentsIT.CheckConfigureButtonTest(h, $))
-        .addTestCase(window.CQ.CoreComponentsIT.CheckEditableToolbarTest(h,$, 10))
+        .addTestCase(window.CQ.CoreComponentsIT.CheckEditableToolbarTest(h,$, 10,".cq-Overlay.cq-draggable.cq-droptarget:not(.cq-Overlay--container)"))
     ;
 }(hobs, jQuery));
