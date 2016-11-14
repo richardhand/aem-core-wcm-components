@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-
-@Version("0.10.0")
-package com.adobe.cq.wcm.core.components.models;
+@Version("0.9.28")
+package com.adobe.cq.wcm.core.components;
 
 import org.osgi.annotation.versioning.Version;
+
