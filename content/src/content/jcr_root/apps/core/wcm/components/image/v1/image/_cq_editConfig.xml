@@ -23,7 +23,26 @@
             <plugins jcr:primaryType="nt:unstructured">
                 <crop
                     jcr:primaryType="nt:unstructured"
-                    features="*"/>
+                    features="*">
+                    <aspectRatios jcr:primaryType="nt:unstructured">
+                        <wildLandscape
+                            jcr:primaryType="nt:unstructured"
+                            name="Wide Landscape"
+                            ratio="2.4142"/>
+                        <landscape
+                            jcr:primaryType="nt:unstructured"
+                            name="Landscape"
+                            ratio="1.6180"/>
+                        <square
+                            jcr:primaryType="nt:unstructured"
+                            name="Square"
+                            ratio="1"/>
+                        <portrait
+                            jcr:primaryType="nt:unstructured"
+                            name="Portrait"
+                            ratio="0.6180"/>
+                    </aspectRatios>
+                </crop>
                 <flip
                     jcr:primaryType="nt:unstructured"
                     features="-"/>
