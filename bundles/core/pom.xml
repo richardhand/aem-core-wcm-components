@@ -24,7 +24,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>com.adobe.cq.wcm.core.components.core</artifactId>
-    <version>0.9.29-SNAPSHOT</version>
+    <version>0.9.31-SNAPSHOT</version>
     <packaging>bundle</packaging>
 
     <name>Adobe Experience Manager Core WCM Components Core Bundle</name>
