@@ -261,41 +261,30 @@
             .click(".coral-Form-fieldwrapper.cmp-redirect-selection .coral-InputGroup-button >button")
 
             .execFct(function() {
-                hobs.find(".coral-ColumnView-label").filter(function () {
-                    return $(this).text() === "We.Retail";
-                }).click();
+                hobs.find("coral-columnview-item-content[title='we-retail']").click();
             })
             .execFct(function() {
-                hobs.find(".coral-ColumnView-label").filter(function () {
-                    return $(this).text() === "Language Masters";
-                }).click();
+                hobs.find("coral-columnview-item-content[title='language-masters']").click();
             })
             .execFct(function() {
-                hobs.find(".coral-ColumnView-label").filter(function () {
-                    return $(this).text() === "English";
-                }).click();
+                hobs.find("coral-columnview-item-content[title='en']").click();
             })
             .execFct(function() {
-                hobs.find(".coral-ColumnView-label").filter(function () {
-                    return $(this).text() === "User";
-                }).click();
+                hobs.find("coral-columnview-item-content[title='user']").click();
             })
             .execFct(function() {
-                hobs.find(".coral-ColumnView-label").filter(function () {
-                    return $(this).text() === "My Account";
-                }).click();
+                hobs.find("coral-columnview-item-content[title='account']").click();
             })
             .execFct(function() {
-                hobs.find(".coral-ColumnView-label").filter(function () {
-                    return $(this).text() === "Sign Up";
-                }).click();
+                hobs.find("coral-columnview-item-content[title='sign-up']").click();
             })
             .execFct(function() {
-                hobs.find(".coral-ColumnView-label").filter(function() {
-                    return $(this).text() === "Thank You";
-                }).click();
+                hobs.find("coral-columnview-item-content[title='thank-you']").click();
             })
-            .click(".coral-Pathbrowser-picker.coral-Modal[aria-hidden='false'] button[title='Confirm']")
+
+            .click("coral-columnview-item:contains('thank-you') .foundation-collection-item-thumbnail")
+            .click("button.granite-pickerdialog-submit:contains('Select')")
+            //.click(".coral-Pathbrowser-picker.coral-Modal[aria-hidden='false'] button[title='Confirm']")
             .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
 
             .execTestCase(window.CQ.CoreComponentsIT.FormContainer.SubmitFormContent(h,$))
@@ -334,6 +323,8 @@
 
             .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
 
+            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.SubmitFormContent(h,$))
+
             //Check if the workflow is started
             .navigateTo("/libs/cq/workflow/admin/console/content/instances.html")
             .assert.location("/libs/cq/workflow/admin/console/content/instances.html")
@@ -360,6 +351,8 @@
             .click("button:contains('View Data')")
 
             .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
+
+            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.SubmitFormContent(h,$))
 
             //Check if data are saved in the Bulk Editor
             .navigateTo("/etc/importers/bulkeditor.html?rootPath=%2Fcontent%2Fusergenerated%2Fcore-components%2Fcore-components-page%2Fcq&initialSearch=true&contentMode=false&spc=true&cs=field_name&cv=field_name")
@@ -427,6 +420,7 @@
         .addTestCase(window.CQ.CoreComponentsIT.FormContainer.CheckMailForm(h,$))
         .addTestCase(window.CQ.CoreComponentsIT.FormContainer.CheckStoreContentForm(h,$))
         .addTestCase(window.CQ.CoreComponentsIT.FormContainer.CheckAdvancedOptions(h,$))
+        .addTestCase(window.CQ.CoreComponentsIT.OpenFullSreen(h,$))
         //.addTestCase(window.CQ.CoreComponentsIT.CheckEditableToolbarTest(h,$, 9, ".cq-Overlay.cq-draggable.cq-droptarget.cq-Overlay--container"))
     ;
 

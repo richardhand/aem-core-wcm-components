@@ -48,9 +48,9 @@
             .config.resetContext()
 
             .click('#OverlayWrapper')
-            .click('.cq-Overlay.cq-draggable.cq-droptarget')
-            .click('.cq-Overlay.cq-draggable.cq-droptarget')
-            .asserts.isTrue(
+
+            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h,$,".cq-Overlay.cq-draggable.cq-droptarget"))
+            .assert.isTrue(
                 function() {
                     var actualValue = hobs.find('.coral-RichText-editable.coral-Form-field.coral-Textfield.coral-Textfield--multiline.coral-RichText > p').html();
                     return actualValue === testValue;
@@ -60,7 +60,8 @@
                 function() {
                     return hobs.find('iframe#ContentFrame').get(0);
                 }
-            ).assert.isTrue(
+            )
+            .assert.isTrue(
                 function() {
                     var actualValue = hobs.find('.section.text.aem-GridColumn > div.cmp.cmp-text > p').html();
                     return actualValue === testValue;

@@ -48,6 +48,12 @@
             .execFct(function() {
                 hobs.find(".title.aem-GridColumn .cmp.cmp-title > h1").html("Content test")
             })
+            .assert.isTrue(
+                function() {
+                    var actualValue = hobs.find('.title.aem-GridColumn .cmp.cmp-title > h1').html();
+                    return actualValue === "Content test";
+                }
+            )
             //reset the new context
             .config.resetContext()
 
