@@ -130,6 +130,40 @@
                                                         sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/plugin"
                                                         features="*"
                                                         name="crop"/>
+                                                    <configWrapper
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/wrapper"
+                                                        configPath="./plugins/crop/aspectRatios">
+                                                        <aspectratios
+                                                            granite:class="cq-AspectRatio"
+                                                            jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                                            fieldLabel="Aspect ratios"
+                                                            composite="{Boolean}true">
+                                                            <field
+                                                                granite:class="cq-AspectRatio-field"
+                                                                jcr:primaryType="nt:unstructured"
+                                                                sling:resourceType="granite/ui/components/coral/foundation/container"
+                                                                name="./plugins/crop/aspectRatios">
+                                                                <items jcr:primaryType="nt:unstructured">
+                                                                    <name
+                                                                        granite:class="cq-AspectRatio-name"
+                                                                        jcr:primaryType="nt:unstructured"
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                        fieldLabel="Name"
+                                                                        name="name"/>
+                                                                    <ratio
+                                                                        granite:class="cq-AspectRatio-ratio"
+                                                                        jcr:primaryType="nt:unstructured"
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
+                                                                        fieldLabel="Ratio"
+                                                                        name="ratio"
+                                                                        min="0"
+                                                                        step="0.0001"/>
+                                                                </items>
+                                                            </field>
+                                                        </aspectratios>
+                                                    </configWrapper>
                                                 </items>
                                             </crop>
                                             <map
