@@ -23,18 +23,20 @@
           ACTION_TYPE_ELEMENT_SELECTOR  = ".cmp-action-type-selection";
 
     $(document).on("foundation-contentloaded", function (e) {
-        $(ACTION_TYPE_ELEMENT_SELECTOR, e.target).each(function (i, element) {
-            var target = $(element).data("cqDialogDropdownShowhideTarget");
-            if (target) {
-                Coral.commons.ready(element, function (component) {
-                    showHide(component, target);
-                    component.on("change", function () {
+        if ($(e.target).find(ACTION_TYPE_ELEMENT_SELECTOR).length > 0) {
+            $(ACTION_TYPE_ELEMENT_SELECTOR, e.target).each(function (i, element) {
+                var target = $(element).data("cqDialogDropdownShowhideTarget");
+                if (target) {
+                    Coral.commons.ready(element, function (component) {
                         showHide(component, target);
+                        component.on("change", function () {
+                            showHide(component, target);
+                        });
                     });
-                });
-            }
-        });
-        showHide($(".cq-dialog-dropdown-showhide", e.target));
+                }
+            });
+            showHide($(".cq-dialog-dropdown-showhide", e.target));
+        }
     });
 
     function showHide(component, target) {
