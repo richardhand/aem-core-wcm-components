@@ -38,4 +38,10 @@ window.CQ.CoreComponentsIT.checkInputValue = function (hobs, selector, value) {
 
 };
 
+window.CQ.CoreComponentsIT.compareLocation = function(path) {
+    return function() {
+        return (hobs.context().window.location.pathname + hobs.context().window.location.search) == (hobs.config.context_path + path);
+    };
+};
+
 

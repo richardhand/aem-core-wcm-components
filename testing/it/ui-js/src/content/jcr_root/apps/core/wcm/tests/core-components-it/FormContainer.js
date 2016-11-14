@@ -52,27 +52,25 @@
     window.CQ.CoreComponentsIT.FormContainer.CreateContentNode = function (h, $, url) {
         return new h.TestCase("Create a new node")
             .execFct(function (opts, done) {
-                $.when(createFormContentNode(url))
-                    .then( function() {
-                        done();
-                    });
+                createFormContentNode(url).then(done);
             })
-            ;
+        ;
     }
 
-    var getJsonFile = function(url){
-        $.ajax(url+".json").done(function(response){
-            jsonFile = response;
-        })
+    var getJsonFile = function(url) {
+        return $.ajax(url + ".json");
     }
 
     window.CQ.CoreComponentsIT.FormContainer.CheckDataStore = function (h, $, url) {
         return new h.TestCase("Create a page")
-            .execFct(function (opts, done) {
-                $.when(getJsonFile(url))
-                    .then( function() {
-                        done();
-                    });})
+
+            .execFct(function(opts, done) {
+                getJsonFile(url).done(function(response) {
+                    jsonFile = response;
+                    done();
+                });
+            })
+
             .assert.isTrue(function () {
                 code = true;
                 if (jsonFile === null || jsonFile === ""){
@@ -150,7 +148,7 @@
                 new hobs.TestCase("Open SidePanel").click("button.toggle-sidepanel[title='Toggle Side Panel']")
                    .wait(250),null, {timeout: 100}
             )
-            ;
+        ;
     }
 
     window.CQ.CoreComponentsIT.FormContainer.CheckFillMailForm = function (h,$) {
@@ -260,31 +258,16 @@
 
             .click(".coral-Form-fieldwrapper.cmp-redirect-selection .coral-InputGroup-button >button")
 
-            .execFct(function() {
-                hobs.find("coral-columnview-item-content[title='we-retail']").click();
-            })
-            .execFct(function() {
-                hobs.find("coral-columnview-item-content[title='language-masters']").click();
-            })
-            .execFct(function() {
-                hobs.find("coral-columnview-item-content[title='en']").click();
-            })
-            .execFct(function() {
-                hobs.find("coral-columnview-item-content[title='user']").click();
-            })
-            .execFct(function() {
-                hobs.find("coral-columnview-item-content[title='account']").click();
-            })
-            .execFct(function() {
-                hobs.find("coral-columnview-item-content[title='sign-up']").click();
-            })
-            .execFct(function() {
-                hobs.find("coral-columnview-item-content[title='thank-you']").click();
-            })
+            .click("coral-columnview-item-content[title='we-retail']")
+            .click("coral-columnview-item-content[title='language-masters']")
+            .click("coral-columnview-item-content[title='en']")
+            .click("coral-columnview-item-content[title='user']")
+            .click("coral-columnview-item-content[title='account']")
+            .click("coral-columnview-item-content[title='sign-up']")
+            .click("coral-columnview-item-content[title='thank-you']")
 
             .click("coral-columnview-item:contains('thank-you') .foundation-collection-item-thumbnail")
             .click("button.granite-pickerdialog-submit:contains('Select')")
-            //.click(".coral-Pathbrowser-picker.coral-Modal[aria-hidden='false'] button[title='Confirm']")
             .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
 
             .execTestCase(window.CQ.CoreComponentsIT.FormContainer.SubmitFormContent(h,$))
@@ -356,7 +339,7 @@
 
             //Check if data are saved in the Bulk Editor
             .navigateTo("/etc/importers/bulkeditor.html?rootPath=%2Fcontent%2Fusergenerated%2Fcore-components%2Fcore-components-page%2Fcq&initialSearch=true&contentMode=false&spc=true&cs=field_name&cv=field_name")
-            //.assert.location("/etc/importers/bulkeditor.html?rootPath=%2Fcontent%2Fusergenerated%2Fcore-components%2Fcore-components-page%2Fcq&initialSearch=true&contentMode=false&spc=true&cs=field_name&cv=field_name")
+            .assert.isTrue(window.CQ.CoreComponentsIT.compareLocation("/etc/importers/bulkeditor.html?rootPath=%2Fcontent%2Fusergenerated%2Fcore-components%2Fcore-components-page%2Fcq&initialSearch=true&contentMode=false&spc=true&cs=field_name&cv=field_name"))
             .assert.isTrue(function (){
                 return hobs.find(".x-grid3-body:contains('"+textContent+"')")
             })

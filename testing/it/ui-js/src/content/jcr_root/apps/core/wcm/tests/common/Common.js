@@ -40,7 +40,7 @@
             .assert.visible(".coral-Tab[title='Components']")
             .click(".coral-Tab[title='Components']")
             .assert.visible(".coral-Tab.is-selected[title='Components']")
-            .wait(500)
+            //.wait(500)
             .assert.visible(".coral-Masonry .card-component")
             .assert.visible(".coral-Masonry-item :contains('"+component+"')")
             .assert.visible(".cq-Overlay .cq-droptarget")
