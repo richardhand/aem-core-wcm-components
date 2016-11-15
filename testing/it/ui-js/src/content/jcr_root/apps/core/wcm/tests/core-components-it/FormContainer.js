@@ -331,7 +331,7 @@
 
             //Set a different content path
             .fillInput("input[name='./action']",contentPath)
-            .click("button:contains('View Data')")
+            .assert.visible("button:contains('View Data')")
 
             .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
 
