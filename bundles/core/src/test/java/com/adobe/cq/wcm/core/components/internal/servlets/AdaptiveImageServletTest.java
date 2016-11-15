@@ -18,6 +18,7 @@ package com.adobe.cq.wcm.core.components.internal.servlets;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import javax.annotation.Nullable;
@@ -64,8 +65,7 @@ public class AdaptiveImageServletTest {
     private static final String IMAGE2_PATH = PAGE + "/jcr:content/root/image2";
     private static final String IMAGE_BINARY_NAME = "Adobe_Systems_logo_and_wordmark.svg.png";
     private static final String ASSET_PATH = "/content/dam/core/images/" + IMAGE_BINARY_NAME;
-    private static final int asset_width = 2000;
-    private static final int asset_height = 2000;
+    private static final int ADAPTIVE_IMAGE_SERVLET_DEFAULT_RESIZE_WIDTH = 1280;
 
 
 
@@ -103,6 +103,7 @@ public class AdaptiveImageServletTest {
         ContentPolicyMapping mapping = request.getResource().adaptTo(ContentPolicyMapping.class);
         ContentPolicy contentPolicy = mapping.getPolicy();
         when(contentPolicyManager.getPolicy(componentContext)).thenReturn(contentPolicy);
+        activateServlet(servlet);
         servlet.doGet(request, response);
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(response.getOutput());
         BufferedImage image = ImageIO.read(byteArrayInputStream);
@@ -121,6 +122,7 @@ public class AdaptiveImageServletTest {
         ContentPolicyMapping mapping = request.getResource().adaptTo(ContentPolicyMapping.class);
         ContentPolicy contentPolicy = mapping.getPolicy();
         when(contentPolicyManager.getPolicy(componentContext)).thenReturn(contentPolicy);
+        activateServlet(servlet);
         servlet.doGet(request, response);
         assertEquals("Expected a 404 response when the design does not allow the requested width to be rendered.",HttpServletResponse
                 .SC_NOT_FOUND, response.getStatus());
@@ -131,6 +133,7 @@ public class AdaptiveImageServletTest {
     public void testRequestWithWidthNoDesign() throws Exception {
         MockSlingHttpServletResponse response = spy(aemContext.response());
         MockSlingHttpServletRequest request = prepareRequest(IMAGE_PATH, "img.800", "png");
+        activateServlet(servlet);
         servlet.doGet(request, response);
         assertEquals("Expected a 404 response when the request contains width information but no content policy has been defined.",
                 HttpServletResponse.SC_NOT_FOUND, response.getStatus());
@@ -146,10 +149,14 @@ public class AdaptiveImageServletTest {
         ContentPolicyMapping mapping = request.getResource().adaptTo(ContentPolicyMapping.class);
         ContentPolicy contentPolicy = mapping.getPolicy();
         when(contentPolicyManager.getPolicy(componentContext)).thenReturn(contentPolicy);
+        activateServlet(servlet);
         servlet.doGet(request, response);
-        assertEquals("Expected a 404 response when the request does not contain width information but a content policy has been defined.",
-                HttpServletResponse.SC_NOT_FOUND, response.getStatus());
-        assertArrayEquals("Expected an empty response output.", new byte[0], response.getOutput());
+        verify(response).setContentType("image/png");
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(response.getOutput());
+        BufferedImage image = ImageIO.read(byteArrayInputStream);
+        Dimension expectedDimension = new Dimension(600, 600);
+        Dimension actualDimension = new Dimension(image.getWidth(), image.getHeight());
+        assertEquals("Expected image rendered using the first width defined in the content policy.", expectedDimension, actualDimension);
     }
 
 
@@ -157,19 +164,21 @@ public class AdaptiveImageServletTest {
     public void testRequestNoWidthNoDesign() throws Exception {
         MockSlingHttpServletResponse response = spy(aemContext.response());
         MockSlingHttpServletRequest request = prepareRequest(IMAGE_PATH, "img", "png");
+        activateServlet(servlet);
         servlet.doGet(request, response);
         verify(response).setContentType("image/png");
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(response.getOutput());
         BufferedImage image = ImageIO.read(byteArrayInputStream);
-        Dimension expectedDimension = new Dimension(asset_width, asset_height);
+        Dimension expectedDimension = new Dimension(ADAPTIVE_IMAGE_SERVLET_DEFAULT_RESIZE_WIDTH, ADAPTIVE_IMAGE_SERVLET_DEFAULT_RESIZE_WIDTH);
         Dimension actualDimension = new Dimension(image.getWidth(), image.getHeight());
-        assertEquals("Expected image rendered at full size.", expectedDimension, actualDimension);
+        assertEquals("Expected image rendered with the default resize configuration width.", expectedDimension, actualDimension);
     }
 
     @Test
     public void testWrongNumberOfSelectors() throws Exception {
         MockSlingHttpServletResponse response = spy(aemContext.response());
         MockSlingHttpServletRequest request = prepareRequest(IMAGE_PATH, "img.1.1", "png");
+        activateServlet(servlet);
         servlet.doGet(request, response);
         assertEquals("Expected a 404 response when the request has more selectors than expected.",
                 HttpServletResponse.SC_NOT_FOUND, response.getStatus());
@@ -180,6 +189,7 @@ public class AdaptiveImageServletTest {
     public void testInvalidWidthSelector() throws Exception {
         MockSlingHttpServletResponse response = spy(aemContext.response());
         MockSlingHttpServletRequest request = prepareRequest(IMAGE_PATH, "img.full", "png");
+        activateServlet(servlet);
         servlet.doGet(request, response);
         assertEquals("Expected a 404 response when the request has an invalid width selector.",
                 HttpServletResponse.SC_NOT_FOUND, response.getStatus());
@@ -197,6 +207,7 @@ public class AdaptiveImageServletTest {
         ContentPolicyMapping mapping = request.getResource().adaptTo(ContentPolicyMapping.class);
         ContentPolicy contentPolicy = mapping.getPolicy();
         when(contentPolicyManager.getPolicy(componentContext)).thenReturn(contentPolicy);
+        activateServlet(servlet);
         servlet.doGet(request, response);
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(response.getOutput());
         BufferedImage image = ImageIO.read(byteArrayInputStream);
@@ -215,6 +226,7 @@ public class AdaptiveImageServletTest {
     public void testWithInvalidFileReference() throws Exception {
         MockSlingHttpServletResponse response = spy(aemContext.response());
         MockSlingHttpServletRequest request = prepareRequest(IMAGE2_PATH, "img", "png");
+        activateServlet(servlet);
         servlet.doGet(request, response);
         assertEquals("Expected a 404 response when the image does not have a valid file reference.",
                 HttpServletResponse.SC_NOT_FOUND, response.getStatus());
@@ -239,6 +251,20 @@ public class AdaptiveImageServletTest {
         modifiersField.setAccessible(true);
         modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
         field.set(null, newValue);
+    }
+
+    private void activateServlet(AdaptiveImageServlet servlet) {
+        servlet.activate(new AdaptiveImageServlet.Configuration() {
+            @Override
+            public Class<? extends Annotation> annotationType() {
+                return null;
+            }
+
+            @Override
+            public int defaultResizeWidth() {
+                return ADAPTIVE_IMAGE_SERVLET_DEFAULT_RESIZE_WIDTH;
+            }
+        });
     }
 
 }
