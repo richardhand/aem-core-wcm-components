@@ -78,7 +78,7 @@ public class TextFieldImplTest {
         assertEquals(false,textField.getRequired());
         assertEquals("",textField.getRequiredMessage());
         assertEquals(null,textField.getShowHideExpression());
-        assertEquals("Text placeholder",textField.getPlaceholder());
+        assertEquals("",textField.getPlaceholder());
         assertEquals(false,textField.isReadOnly());
         assertEquals("",textField.getDefaultValue());
         assertEquals(CONSTRAINT_TYPE.TEXT,textField.getConstraintType());
@@ -101,7 +101,7 @@ public class TextFieldImplTest {
         assertEquals(true,textField.getRequired());
         assertEquals("please fill the field",textField.getRequiredMessage());
         assertEquals("((givenName.equals(\"\"Referees\"\")))",textField.getShowHideExpression());
-        assertEquals("Custom placeholder",textField.getPlaceholder());
+        assertEquals("Custom help/placeholder message",textField.getPlaceholder());
         assertEquals(true,textField.isReadOnly());
         assertEquals("Custom default value",textField.getDefaultValue());
         assertEquals(CONSTRAINT_TYPE.EMAIL,textField.getConstraintType());

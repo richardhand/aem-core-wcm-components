@@ -28,9 +28,7 @@
               required="${textField.required}"
               required-message="${textField.requiredMessage}"
               autofocus="${textField.isAutofocus}"
-            >
-            ${textField.value}
-        </textarea>
+            >${textField.value}</textarea>
         <input data-sly-test="${!useTextarea}"
                type="${textField.constraintType}"
                id="${textField.name}"

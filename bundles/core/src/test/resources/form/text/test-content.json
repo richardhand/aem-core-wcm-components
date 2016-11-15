@@ -70,6 +70,7 @@
             "showHideExpression": "((givenName.equals(\"\"Referees\"\")))",
             "readOnly": true,
             "defaultValue": "Custom default value",
+            "helpMessage": "Custom help/placeholder message",
             "required": true,
             "name": "Custom Name",
             "type": "textarea",
@@ -81,7 +82,8 @@
             "sling:resourceType": "core/wcm/components/form/text",
             "autofocus": true,
             "requiredMessage": "please fill the field",
-            "constraintType": "email"
+            "constraintType": "email",
+            "usePlaceholder": "true"
           }
         }
       }
