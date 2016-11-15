@@ -50,6 +50,8 @@ public class TextFieldImpl implements TextField {
     private static final boolean PROP_AUTOFOCUS_DEFAULT = false;
     private static final String PROP_SHOW_HIDE_EXPRESSION_DEFAULT = null;
     private static final ELEMENT_TYPE PROP_TYPE_DEFAULT = ELEMENT_TYPE.INPUT;
+    private static final String PROP_HELP_MESSAGE_DEFAULT = "";
+    private static final boolean PROP_USE_PLACEHOLDER = false;
 
     private static final String PN_NAME = "name";
     private static final String PN_VALUE = "value";
@@ -66,6 +68,8 @@ public class TextFieldImpl implements TextField {
     private static final String PN_AUTOFOCUS = "autofocus";
     private static final String PN_SHOW_HIDE_EXPRESSION = "showHideExpression";
     private static final String PN_TYPE = "type";
+    private static final String PN_HELP_MESSAGE = "helpMessage";
+    private static final String PN_USE_PLACEHOLDER = "usePlaceholder";
 
     @Self
     private SlingHttpServletRequest slingRequest;
@@ -158,7 +162,12 @@ public class TextFieldImpl implements TextField {
 
     @Override
     public String getPlaceholder() {
-         return properties.get(PN_PLACEHOLDER,PROP_PLACEHOLDER_DEFAULT);
+        boolean usePlaceholder = properties.get(PN_USE_PLACEHOLDER, PROP_USE_PLACEHOLDER);
+        String placeholder = "";
+        if (usePlaceholder) {
+            placeholder = properties.get(PN_HELP_MESSAGE, PROP_HELP_MESSAGE_DEFAULT);
+        }
+        return placeholder;
     }
 
     @Override
