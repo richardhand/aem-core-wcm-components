@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
-      jcr:description="Core WCM Form Text field (v1)"
+      cq:icon="type"
+      jcr:description="Allows visitors to enter text information"
       jcr:primaryType="cq:Component"
-      jcr:title="Core WCM Form Text field (v1)"
+      jcr:title="Text Field (v1)"
       allowedParents="[*/form]"
       componentGroup=".core-wcm-form"/>

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
-    jcr:description="Core WCM Form Container Component (v1)"
+    cq:icon="form"
+    jcr:description="Components Container allowing visitors to submit information"
     jcr:primaryType="cq:Component"
-    jcr:title="Core WCM Form Container Component (v1)"
+    jcr:title="Form Container (v1)"
     componentGroup=".core-wcm-form"
     cq:isContainer="{Boolean}true"/>
