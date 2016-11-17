@@ -19,6 +19,7 @@
     <form method="${formcontainer.method}" action="${formcontainer.action}" id="${formcontainer.id}" name="${formcontainer.name}"
           enctype="${formcontainer.enctype}">
         <input type="hidden" name=":formstart" value="${resource.path}">
+        <input data-sly-test="${formcontainer.redirect}" type="hidden" name=":redirect" value="${formcontainer.redirect}"/>
         <sly data-sly-list="${formcontainer.formFieldResourcePaths}">
             <div data-sly-resource="${item}"></div>
         </sly>

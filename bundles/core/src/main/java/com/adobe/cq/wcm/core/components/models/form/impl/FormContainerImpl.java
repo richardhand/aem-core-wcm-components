@@ -18,11 +18,10 @@ package com.adobe.cq.wcm.core.components.models.form.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
-import com.day.cq.wcm.foundation.forms.FormsHelper;
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingConstants;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -35,6 +34,8 @@ import org.apache.sling.models.annotations.injectorspecific.Self;
 import com.adobe.cq.wcm.core.components.models.form.FormContainer;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
+import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
+import com.day.cq.wcm.foundation.forms.FormsHelper;
 
 @Model(adaptables = SlingHttpServletRequest.class,
         adapters = FormContainer.class,
@@ -46,6 +47,7 @@ public class FormContainerImpl implements FormContainer {
     private static final String PN_METHOD = "method";
     private static final String PN_ENCTYPE = "enctype";
     private static final String PN_RESOURCE_TYPE = "sling:" + SlingConstants.PROPERTY_RESOURCE_TYPE;
+    private static final String PN_REDIRECT_TYPE = "redirect";
 
     private static final String PROP_METHOD_DEFAULT = "POST";
     private static final String PROP_ENCTYPE_DEFAULT = "multipart/form-data";
@@ -138,5 +140,14 @@ public class FormContainerImpl implements FormContainer {
     @Override
     public String getResourceTypeForDropArea() {
         return properties.get(PN_RESOURCE_TYPE, "") + "/new";
+    }
+
+    @Override
+    public String getRedirect() {
+        String redirect = properties.get(PN_REDIRECT_TYPE, String.class);
+        if (redirect != null && !redirect.endsWith(".html")) {
+            return redirect + ".html";
+        }
+        return redirect;
     }
 }

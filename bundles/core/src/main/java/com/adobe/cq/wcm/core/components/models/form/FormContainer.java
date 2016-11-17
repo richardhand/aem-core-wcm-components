@@ -62,4 +62,9 @@ public interface FormContainer {
      * be dropped.
      */
     String getResourceTypeForDropArea();
+
+    /**
+     * @return form submit redirect (used in redirect input field of form).
+     */
+    String getRedirect();
 }
