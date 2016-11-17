@@ -86,6 +86,6 @@
 
     new h.TestSuite("Core-Components Tests - Form Button", {path:"/apps/core/wcm/tests/core-components-it/FormButton.js",
         execBefore: window.CQ.CoreComponentsIT.ExecuteBefore(h,$,window.CQ.CoreComponentsIT.DragDropFormButton(h,$)), execAfter:window.CQ.CoreComponentsIT.DeletePage(h, $,pageUrl), register: true})
-        .addTestCase(window.CQ.CoreComponentsIT.CheckConfigureButtonTest(h, $))
+        .addTestCase(window.CQ.CoreComponentsIT.CheckButtonConfigureButtonTest(h, $))
     ;
 })(hobs, jQuery);
