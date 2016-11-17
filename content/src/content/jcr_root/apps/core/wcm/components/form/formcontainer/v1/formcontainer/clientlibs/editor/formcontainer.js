@@ -19,8 +19,8 @@
 (function (document, $, Coral) {
     "use strict";
 
-    const ACTION_TYPE_SETTINGS_SELECTOR = "#cmp-action-type-settings",
-          ACTION_TYPE_ELEMENT_SELECTOR  = ".cmp-action-type-selection";
+    var ACTION_TYPE_SETTINGS_SELECTOR = "#cmp-action-type-settings",
+        ACTION_TYPE_ELEMENT_SELECTOR  = ".cmp-action-type-selection";
 
     $(document).on("foundation-contentloaded", function (e) {
         if ($(e.target).find(ACTION_TYPE_ELEMENT_SELECTOR).length > 0) {
