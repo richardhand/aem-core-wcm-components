@@ -59,10 +59,8 @@ public class ImageTest extends WCMUsePojoBaseTest<Image> {
         when(DEFAULT_STYLE.get(Image.DESIGN_PROP_ALLOW_IMAGE_MAPS, true)).thenReturn(true);
         when(DEFAULT_STYLE.get(Image.DESIGN_PROP_ALLOW_LINKING, true)).thenReturn(true);
         when(DEFAULT_STYLE.get(Image.DESIGN_PROP_ALLOW_CAPTION_TEXT, true)).thenReturn(true);
-        when(DEFAULT_STYLE.get(Image.DESIGN_PROP_DISPLAY_CAPTION_POPUP, false)).thenReturn(false);
         when(DEFAULT_STYLE.get(eq(Image.DESIGN_PROP_ALLOWED_STYLES), any(String[].class))).thenReturn(null);
     }
-
 
     @Test
     public void testDefaultDesignFileReference() {
@@ -72,12 +70,11 @@ public class ImageTest extends WCMUsePojoBaseTest<Image> {
         bindings.put(WCMBindings.CURRENT_STYLE, DEFAULT_STYLE);
         Image image = getSpiedObject();
         image.init(bindings);
-        assertEquals("/content/image/imageDefaultDesignFileReference.img.full.high.jpg", image.getSrc());
+        assertEquals("/content/image/imageDefaultDesignFileReference.img.jpg", image.getSrc());
         assertNull("Expected a null link since the image has an image map defined.", image.getLink());
         assertNotNull(image.getImageMap());
-        assertEquals("Title", image.getTitle());
         assertEquals("Alt", image.getAlt());
-        assertEquals("Description", image.getCaption());
+        assertEquals("Caption", image.getCaption());
         assertEquals("Core WCM Image Component", image.getComponentTitle());
         // wcmMode is disabled
         assertNull(image.getCssClass());
@@ -94,12 +91,11 @@ public class ImageTest extends WCMUsePojoBaseTest<Image> {
         bindings.put(WCMBindings.CURRENT_STYLE, DEFAULT_STYLE);
         Image image = getSpiedObject();
         image.init(bindings);
-        assertEquals("/content/image/imageDefaultDesignFile.img.full.high.jpeg", image.getSrc());
+        assertEquals("/content/image/imageDefaultDesignFile.img.jpeg", image.getSrc());
         assertEquals("https://www.adobe.com", image.getLink());
         assertNull(image.getImageMap());
-        assertEquals("Title", image.getTitle());
         assertEquals("Alt", image.getAlt());
-        assertEquals("Description", image.getCaption());
+        assertEquals("Caption", image.getCaption());
         assertEquals("cq-dd-image ", image.getCssClass());
     }
 

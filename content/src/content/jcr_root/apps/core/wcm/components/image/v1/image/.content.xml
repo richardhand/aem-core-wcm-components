@@ -4,5 +4,4 @@
     jcr:description="Smart Adaptive Image"
     jcr:primaryType="cq:Component"
     jcr:title="Image (v1)"
-    sling:resourceSuperType="foundation/components/adaptiveimage"
     componentGroup=".core-wcm"/>
