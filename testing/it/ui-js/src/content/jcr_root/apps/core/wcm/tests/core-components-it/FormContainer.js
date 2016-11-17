@@ -403,8 +403,6 @@
         .addTestCase(window.CQ.CoreComponentsIT.FormContainer.CheckMailForm(h,$))
         .addTestCase(window.CQ.CoreComponentsIT.FormContainer.CheckStoreContentForm(h,$))
         .addTestCase(window.CQ.CoreComponentsIT.FormContainer.CheckAdvancedOptions(h,$))
-        .addTestCase(window.CQ.CoreComponentsIT.OpenFullSreen(h,$))
-        //.addTestCase(window.CQ.CoreComponentsIT.CheckEditableToolbarTest(h,$, 9, ".cq-Overlay.cq-draggable.cq-droptarget.cq-Overlay--container"))
     ;
 
 }(hobs, jQuery));

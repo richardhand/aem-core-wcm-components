@@ -50,7 +50,7 @@
     /**
      * Check the Configure button for the component.
      */
-    window.CQ.CoreComponentsIT.CheckConfigureButtonTest = function (h, $){
+    window.CQ.CoreComponentsIT.CheckButtonConfigureButtonTest = function (h, $){
         return new h.TestCase("Check the Configure button")
 
             //Change the Type of the button to Submit
@@ -87,6 +87,5 @@
     new h.TestSuite("Core-Components Tests - Form Button", {path:"/apps/core/wcm/tests/core-components-it/FormButton.js",
         execBefore: window.CQ.CoreComponentsIT.ExecuteBefore(h,$,window.CQ.CoreComponentsIT.DragDropFormButton(h,$)), execAfter:window.CQ.CoreComponentsIT.DeletePage(h, $,pageUrl), register: true})
         .addTestCase(window.CQ.CoreComponentsIT.CheckConfigureButtonTest(h, $))
-        .addTestCase(window.CQ.CoreComponentsIT.CheckEditableToolbarTest(h,$, 9,".cq-Overlay.cq-draggable.cq-droptarget:not(.cq-Overlay--container)"))
     ;
 })(hobs, jQuery);
