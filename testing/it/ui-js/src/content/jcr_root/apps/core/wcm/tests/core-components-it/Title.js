@@ -88,7 +88,7 @@
     /**
      * Check the Configure button for the Title component.
      */
-    window.CQ.CoreComponentsIT.CheckConfigureButtonTest = function (h, $){
+    window.CQ.CoreComponentsIT.CheckTitleConfigureButtonTest = function (h, $){
         return new h.TestCase("Check the Configure button")
             .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $, ".cq-Overlay.cq-draggable.cq-droptarget"))
             .assert.visible(".coral-Form-field.coral-Textfield[name='./jcr:title']")
@@ -107,6 +107,5 @@
         execBefore: window.CQ.CoreComponentsIT.ExecuteBefore(h,$,window.CQ.CoreComponentsIT.DragDropTitle(h,$)), execAfter:window.CQ.CoreComponentsIT.DeletePage(h, $,pageUrl), register: true})
         .addTestCase(window.CQ.CoreComponentsIT.CheckEditButtonTest(h, $))
         .addTestCase(window.CQ.CoreComponentsIT.CheckConfigureButtonTest(h, $))
-        .addTestCase(window.CQ.CoreComponentsIT.CheckEditableToolbarTest(h,$, 10,".cq-Overlay.cq-draggable.cq-droptarget:not(.cq-Overlay--container)"))
     ;
 }(hobs, jQuery));
