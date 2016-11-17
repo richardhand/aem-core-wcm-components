@@ -106,6 +106,6 @@
     new h.TestSuite("Core-Components Tests - Title", {path:"/apps/core/wcm/tests/core-components-it/Title.js",
         execBefore: window.CQ.CoreComponentsIT.ExecuteBefore(h,$,window.CQ.CoreComponentsIT.DragDropTitle(h,$)), execAfter:window.CQ.CoreComponentsIT.DeletePage(h, $,pageUrl), register: true})
         .addTestCase(window.CQ.CoreComponentsIT.CheckEditButtonTest(h, $))
-        .addTestCase(window.CQ.CoreComponentsIT.CheckConfigureButtonTest(h, $))
+        .addTestCase(window.CQ.CoreComponentsIT.CheckTitleConfigureButtonTest(h, $))
     ;
 }(hobs, jQuery));
