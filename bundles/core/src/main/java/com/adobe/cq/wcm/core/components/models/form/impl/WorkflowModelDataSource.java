@@ -50,10 +50,12 @@ public class WorkflowModelDataSource extends DataSourceModel {
     @PostConstruct
     private void initModel() throws WorkflowException {
         WorkflowSession workflowSession = resourceResolver.adaptTo(WorkflowSession.class);
-        WorkflowModel[] models = workflowSession.getModels();
         ArrayList<Resource> resources = new ArrayList<>();
-        for (WorkflowModel model : models) {
-            resources.add(new WorkflowModelResource(model));
+        if(workflowSession != null) {
+            WorkflowModel[] models = workflowSession.getModels();
+            for (WorkflowModel model : models) {
+                resources.add(new WorkflowModelResource(model));
+            }
         }
         SimpleDataSource dataSource = new SimpleDataSource(resources.iterator());
         initDataSource(request, dataSource);

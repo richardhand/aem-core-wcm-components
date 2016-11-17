@@ -78,8 +78,9 @@ public class FormStructureHelperImpl implements FormStructureHelper {
     }
 
     private boolean isNoButtonElement(Resource resource) {
+        String resourceSuperType = resource.getResourceSuperType();
         if (resource.getResourceType().startsWith(ButtonImpl.RESOURCE_TYPE) ||
-                resource.getResourceSuperType() != null && resource.getResourceSuperType().startsWith(ButtonImpl.RESOURCE_TYPE)) {
+                resourceSuperType != null && resourceSuperType.startsWith(ButtonImpl.RESOURCE_TYPE)) {
             Button button = resource.adaptTo(Button.class);
             if (button != null) {
                 ButtonImpl.Type type = ButtonImpl.Type.fromString(button.getType());
@@ -92,8 +93,9 @@ public class FormStructureHelperImpl implements FormStructureHelper {
     }
 
     private boolean isFormResource(Resource resource) {
+        String resourceSuperType = resource.getResourceSuperType();
         return resource.getResourceType().startsWith(FormsConstants.RT_CORE_FORM_PREFIX) ||
-                resource.getResourceSuperType() != null && resource.getResourceSuperType().startsWith(FormsConstants.RT_CORE_FORM_PREFIX);
+                resourceSuperType != null && resourceSuperType.startsWith(FormsConstants.RT_CORE_FORM_PREFIX);
     }
 
     @Override

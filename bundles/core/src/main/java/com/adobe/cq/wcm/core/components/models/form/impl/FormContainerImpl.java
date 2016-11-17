@@ -18,7 +18,6 @@ package com.adobe.cq.wcm.core.components.models.form.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
@@ -33,7 +32,6 @@ import org.apache.sling.models.annotations.injectorspecific.Self;
 
 import com.adobe.cq.wcm.core.components.models.form.FormContainer;
 import com.day.cq.wcm.api.Page;
-import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
 
@@ -57,6 +55,9 @@ public class FormContainerImpl implements FormContainer {
 
     @ScriptVariable
     private ValueMap properties;
+
+    @ScriptVariable
+    private Page currentPage;
     
     private String method;
     
@@ -84,8 +85,6 @@ public class FormContainerImpl implements FormContainer {
                 formStructureHelperFactory.getFormStructureHelper(resource));
         this.method = properties.get(PN_METHOD,PROP_METHOD_DEFAULT);
         this.enctype = properties.get(PN_ENCTYPE,PROP_ENCTYPE_DEFAULT);
-        PageManager pageManager = slingRequest.getResourceResolver().adaptTo(PageManager.class);
-        Page currentPage = pageManager.getContainingPage(slingRequest.getResource());
         this.action = currentPage.getPath()+".html";
         String formId = properties.get("id", "");
         if(StringUtils.isEmpty(formId))

@@ -57,12 +57,14 @@ public class FormActionTypeDataSource extends DataSourceModel {
     private List<Resource> getActionTypeResources() {
         List<Resource> actionTypeResources = new ArrayList<>();
         FormsManager formsManager = resourceResolver.adaptTo(FormsManager.class);
-        Iterator<FormsManager.ComponentDescription> actions = formsManager.getActions();
-        while (actions.hasNext()) {
-            FormsManager.ComponentDescription description = actions.next();
-            Resource dialogResource = resourceResolver.getResource(description.getResourceType() + "/" + NN_DIALOG);
-            if (dialogResource != null) {
-                actionTypeResources.add(new ActionTypeResource(description));
+        if (formsManager != null) {
+            Iterator<FormsManager.ComponentDescription> actions = formsManager.getActions();
+            while (actions.hasNext()) {
+                FormsManager.ComponentDescription description = actions.next();
+                Resource dialogResource = resourceResolver.getResource(description.getResourceType() + "/" + NN_DIALOG);
+                if (dialogResource != null) {
+                    actionTypeResources.add(new ActionTypeResource(description));
+                }
             }
         }
         return actionTypeResources;
