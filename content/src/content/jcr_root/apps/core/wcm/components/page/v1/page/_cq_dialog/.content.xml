@@ -476,6 +476,29 @@
                                                             jcr:primaryType="nt:unstructured"
                                                             cq-msm-lockable="./socialMedia"/>
                                                     </pinterest>
+                                                    <preferred
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                                        name="./preferredVariation"
+                                                        renderReadOnly="{Boolean}true"
+                                                        emptyOption="{Boolean}true"
+                                                        translateOptions="{Boolean}false"
+                                                        fieldDescription="Preferred social media variation of experience fragment included in the page."
+                                                        fieldLabel="Preferred XF variation">
+                                                        <granite:data
+                                                                jcr:primaryType="nt:unstructured"
+                                                                cq-msm-lockable="./preferredSocialMedia"/>
+                                                        <items jcr:primaryType="nt:unstructured">
+                                                            <facebook
+                                                                jcr:primaryType="nt:unstructured"
+                                                                text="Facebook"
+                                                                value="facebook"/>
+                                                            <pinterest
+                                                                jcr:primaryType="nt:unstructured"
+                                                                text="Pinterest"
+                                                                value="pinterest"/>
+                                                        </items>
+                                                    </preferred>
                                                     <socialmedia_type
                                                         jcr:primaryType="nt:unstructured"
                                                         sling:resourceType="granite/ui/components/coral/foundation/form/hidden"

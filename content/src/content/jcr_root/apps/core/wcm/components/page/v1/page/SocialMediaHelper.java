@@ -23,6 +23,10 @@ import com.adobe.cq.commerce.api.Product;
 import com.adobe.cq.commerce.common.CommerceHelper;
 import com.adobe.cq.commerce.common.PriceFilter;
 import com.adobe.cq.sightly.WCMUsePojo;
+import com.adobe.cq.xf.ExperienceFragment;
+import com.adobe.cq.xf.ExperienceFragmentVariation;
+import com.adobe.cq.xf.ExperienceFragmentsService;
+import com.adobe.cq.xf.social.ExperienceFragmentSocialVariation;
 import com.day.cq.commons.Externalizer;
 import com.day.cq.wcm.api.Page;
 import org.apache.commons.lang.ArrayUtils;
@@ -33,26 +37,23 @@ import org.apache.sling.api.resource.ValueMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
+import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Helper class for page functionality related to page sharing by user on social media platforms.
  */
 public class SocialMediaHelper extends WCMUsePojo {
     private static final Logger LOGGER = LoggerFactory.getLogger(SocialMediaHelper.class);
-    private static final String EXPERIENCE_FRAGMENT_CONTAINER = "cq/experience-fragments/editor/components/experiencefragment";
-    private static final String FACEBOOK_VARIATION = "cq/experience-fragments/components/xffacebook";
-    private static final String PINTEREST_VARIATION = "cq/experience-fragments/components/xfpinterest";
+    private static final String VARIANT_TYPE_FACEBOOK = "facebook";
+    private static final String VARIANT_TYPE_PINTEREST = "pinterest";
     private static final String SHARING_COMPONENT = "core/wcm/components/sharing";
     private static final String PN_SOCIAL_MEDIA = "socialMedia";
-    private static final String PN_FRAGMENT_PATH = "fragmentPath";
-    private static final String PN_JCR_CONTENT = "jcr:content";
+    private static final String PN_PREFERRED_VARIATION = "preferredVariation";
     private static final String PV_FACEBOOK = "facebook";
     private static final String PV_PINTEREST = "pinterest";
     //Open Graph metadata property names
@@ -69,6 +70,7 @@ public class SocialMediaHelper extends WCMUsePojo {
     private boolean facebookEnabled;
     private boolean pinterestEnabled;
     private boolean socialMediaEnabled;
+    private String preferredVariation;
     /**
      * Holds the metadata for a page.
      */
@@ -126,10 +128,12 @@ public class SocialMediaHelper extends WCMUsePojo {
     @Override
     public void activate() throws Exception {
         Page currentPage = getCurrentPage();
-        String[] socialMedia = currentPage.getProperties().get(PN_SOCIAL_MEDIA, String[].class);
+        ValueMap pageProperties = currentPage.getProperties();
+        String[] socialMedia = pageProperties.get(PN_SOCIAL_MEDIA, String[].class);
         facebookEnabled = ArrayUtils.contains(socialMedia, PV_FACEBOOK);
         pinterestEnabled = ArrayUtils.contains(socialMedia, PV_PINTEREST);
         socialMediaEnabled = facebookEnabled || pinterestEnabled;
+        preferredVariation = pageProperties.get(PN_PREFERRED_VARIATION, String.class);
     }
 
     //Private accessor for hasSharingComponent field providing lazy initialization.
@@ -195,51 +199,40 @@ public class SocialMediaHelper extends WCMUsePojo {
     private WebsiteMetadata createMetadataProvider() {
         Page currentPage = getCurrentPage();
         Product product = CommerceHelper.findCurrentProduct(currentPage);
-        Set<Resource> eFragments = new LinkedHashSet<>();
-        collectExperienceFragments(currentPage.getContentResource(), eFragments);
+        Collection<ExperienceFragmentSocialVariation> variations = findExperienceFragments();
         if (product == null) {
-            if (eFragments.isEmpty()) {
+            if (variations.isEmpty()) {
                 return new WebsiteMetadataProvider();
             } else {
-                return new ExperienceFragmentWebsiteMetadataProvider(eFragments);
+                return new ExperienceFragmentWebsiteMetadataProvider(variations);
             }
         } else {
-            if (eFragments.isEmpty()) {
+            if (variations.isEmpty()) {
                 return new ProductMetadataProvider(product);
             } else {
-                return new ExperienceFragmentProductMetadataProvider(product, eFragments);
+                return new ExperienceFragmentProductMetadataProvider(product, variations);
             }
         }
     }
 
-    private void collectExperienceFragments(final Resource resource, Set<Resource> eFragments) {
-        if (resource.isResourceType(EXPERIENCE_FRAGMENT_CONTAINER)) {
-            String fragmentPath = resource.getValueMap().get(PN_FRAGMENT_PATH, String.class);
-            if (StringUtils.isNotBlank(fragmentPath)) {
-                Resource fragmentResource = getResourceResolver().getResource(fragmentPath);
-                if (fragmentResource != null) {
-                    fragmentResource = fragmentResource.getParent();
-                    for (Resource res : fragmentResource.getChildren()) {
-                        Resource contentRes = res.getChild(PN_JCR_CONTENT);
-                        if (contentRes != null) {
-                            if (contentRes.isResourceType(FACEBOOK_VARIATION)) {
-                                if (facebookEnabled) {
-                                    eFragments.add(contentRes);
-                                }
-                            } else if (contentRes.isResourceType(PINTEREST_VARIATION)) {
-                                if (pinterestEnabled) {
-                                    eFragments.add(contentRes);
-                                }
-                            }
-                        }
+    private Collection<ExperienceFragmentSocialVariation> findExperienceFragments() {
+        List<ExperienceFragmentSocialVariation> result = new ArrayList<>();
+        ExperienceFragmentsService xfService = getResourceResolver().adaptTo(ExperienceFragmentsService.class);
+        List<ExperienceFragmentVariation> variations = xfService.listUsedVariations(getCurrentPage());
+        for (ExperienceFragmentVariation variation : variations) {
+            ExperienceFragment xf = variation.getParent();
+            List<ExperienceFragmentVariation> xfVariations = xf.getVariations(VARIANT_TYPE_FACEBOOK, VARIANT_TYPE_PINTEREST);
+            for (ExperienceFragmentVariation xfVariation : xfVariations) {
+                Page variationPage = getPageManager().getPage(xfVariation.getPath());
+                if (variationPage != null) {
+                    ExperienceFragmentSocialVariation socialVariation = variationPage.adaptTo(ExperienceFragmentSocialVariation.class);
+                    if (socialVariation != null) {
+                        result.add(socialVariation);
                     }
                 }
             }
-        } else {
-            for (Iterator<Resource> iter = resource.listChildren(); iter.hasNext();) {
-                collectExperienceFragments(iter.next(), eFragments);
-            }
         }
+        return result;
     }
 
     /**
@@ -448,30 +441,120 @@ public class SocialMediaHelper extends WCMUsePojo {
     }
 
     private class ExperienceFragmentMetadataProvider {
-        private Set<Resource> fragmentResources;
+        private Collection<ExperienceFragmentSocialVariation> variations;
 
-        public ExperienceFragmentMetadataProvider(Set<Resource> fragmentResources) {
-            this.fragmentResources = fragmentResources;
+        public ExperienceFragmentMetadataProvider(Collection<ExperienceFragmentSocialVariation> variations) {
+            this.variations = variations;
         }
-        //todo extract info from EF
+
+        private ExperienceFragmentSocialVariation selectVariation() {
+            if (variations == null || variations.isEmpty() || !socialMediaEnabled)
+                return null;
+
+            //take the first match
+
+            //preferred variation
+            if (StringUtils.isNotBlank(preferredVariation)) {
+                for (ExperienceFragmentSocialVariation variation : variations) {
+                    if (preferredVariation.equals(variation.getType())) {
+                        return variation;
+                    }
+                }
+
+                return null;
+            }
+
+            //Facebook only
+            if (facebookEnabled && !pinterestEnabled) {
+                for (ExperienceFragmentSocialVariation variation : variations) {
+                    if (VARIANT_TYPE_FACEBOOK.equals(variation.getType())) {
+                        return variation;
+                    }
+                }
+
+                return null;
+            }
+
+            //Pinterest only
+            if (pinterestEnabled && !facebookEnabled) {
+                for (ExperienceFragmentSocialVariation variation : variations) {
+                    if (VARIANT_TYPE_PINTEREST.equals(variation.getType())) {
+                        return variation;
+                    }
+                }
+
+                return null;
+            }
+
+
+
+            return variations.iterator().next();
+        }
+
+        public String getDescription(String defaultDescription) {
+            ExperienceFragmentSocialVariation variation = selectVariation();
+            if (variation == null)
+                return defaultDescription;
+
+            String description = variation.getText();
+            if (StringUtils.isNotBlank(description)) {
+                return description;
+            }
+
+            return defaultDescription;
+        }
+
+        public String getImage(String defaultImage) {
+            ExperienceFragmentSocialVariation variation = selectVariation();
+            if (variation == null)
+                return defaultImage;
+
+            String image = variation.getImagePath();
+            if (StringUtils.isNotBlank(image)) {
+                Externalizer externalizer = getSlingScriptHelper().getService(Externalizer.class);
+                image= Text.escapePath(image);
+                image = externalizer.publishLink(getResourceResolver(), image);
+                return image;
+            }
+
+            return defaultImage;
+        }
     }
 
     private class ExperienceFragmentWebsiteMetadataProvider extends WebsiteMetadataProvider {
         private final ExperienceFragmentMetadataProvider efMetadata;
 
-        public ExperienceFragmentWebsiteMetadataProvider(Set<Resource> eFragments) {
-            efMetadata = new ExperienceFragmentMetadataProvider(eFragments);
+        public ExperienceFragmentWebsiteMetadataProvider(Collection<ExperienceFragmentSocialVariation> variations) {
+            efMetadata = new ExperienceFragmentMetadataProvider(variations);
         }
-        //todo provide info from EF
+
+        @Override
+        public String getDescription() {
+            return efMetadata.getDescription(super.getDescription());
+        }
+
+        @Override
+        public String getImage() {
+            return efMetadata.getImage(super.getImage());
+        }
     }
 
     private class ExperienceFragmentProductMetadataProvider extends ProductMetadataProvider {
         private final ExperienceFragmentMetadataProvider efMetadata;
 
-        public ExperienceFragmentProductMetadataProvider(Product product, Set<Resource> eFragments) {
+        public ExperienceFragmentProductMetadataProvider(Product product, Collection<ExperienceFragmentSocialVariation> variations) {
             super(product);
-            efMetadata = new ExperienceFragmentMetadataProvider(eFragments);
+            efMetadata = new ExperienceFragmentMetadataProvider(variations);
         }
-        //todo provide info from EF
+
+        @Override
+        public String getDescription() {
+            return efMetadata.getDescription(super.getDescription());
+        }
+
+        @Override
+        public String getImage() {
+            return efMetadata.getImage(super.getImage());
+        }
     }
 }
