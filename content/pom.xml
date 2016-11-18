@@ -23,7 +23,7 @@
     <parent>
         <groupId>com.adobe.cq</groupId>
         <artifactId>com.adobe.cq.wcm.core.components.parent</artifactId>
-        <version>0.9.32</version>
+        <version>0.9.38</version>
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
 
@@ -208,11 +208,11 @@
         </dependency>
         <dependency>
             <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.core</artifactId>
+            <artifactId>osgi.core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.compendium</artifactId>
+            <artifactId>osgi.cmpn</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.felix</groupId>
@@ -233,12 +233,10 @@
         <dependency>
             <groupId>com.adobe.cq</groupId>
             <artifactId>cq-experience-fragments</artifactId>
-            <version>1.0.40</version>
         </dependency>
         <dependency>
             <groupId>com.adobe.cq</groupId>
             <artifactId>cq-experience-fragments-social</artifactId>
-            <version>1.0.4</version>
         </dependency>
 
         <!-- Testing -->
