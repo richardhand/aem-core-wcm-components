@@ -606,6 +606,19 @@
                 <scope>provided</scope>
             </dependency>
 
+            <dependency>
+                <groupId>com.adobe.cq</groupId>
+                <artifactId>cq-experience-fragments</artifactId>
+                <version>1.0.40</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.adobe.cq</groupId>
+                <artifactId>cq-experience-fragments-social</artifactId>
+                <version>1.0.4</version>
+                <scope>provided</scope>
+            </dependency>
+
             <!-- Provide API com.adobe.cq.sightly >= 3.0.0 -->
             <dependency>
                 <groupId>com.adobe.cq.sightly</groupId>
