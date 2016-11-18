@@ -53,13 +53,7 @@ public class ImageTest extends WCMUsePojoBaseTest<Image> {
     @BeforeClass
     public static void setUpSuite() {
         when(DEFAULT_STYLE.get(eq(Image.DESIGN_PROP_ALLOWED_RENDITION_WIDTHS), any(Integer[].class))).thenReturn(new Integer[0]);
-        when(DEFAULT_STYLE.get(Image.DESIGN_PROP_ENFORCE_ASPECT_RATIO, true)).thenReturn(true);
-        when(DEFAULT_STYLE.get(Image.DESIGN_PROP_ALLOW_CROPPING, true)).thenReturn(true);
-        when(DEFAULT_STYLE.get(Image.DESIGN_PROP_ALLOW_ROTATING, true)).thenReturn(true);
         when(DEFAULT_STYLE.get(Image.DESIGN_PROP_ALLOW_IMAGE_MAPS, true)).thenReturn(true);
-        when(DEFAULT_STYLE.get(Image.DESIGN_PROP_ALLOW_LINKING, true)).thenReturn(true);
-        when(DEFAULT_STYLE.get(Image.DESIGN_PROP_ALLOW_CAPTION_TEXT, true)).thenReturn(true);
-        when(DEFAULT_STYLE.get(eq(Image.DESIGN_PROP_ALLOWED_STYLES), any(String[].class))).thenReturn(null);
     }
 
     @Test

@@ -57,13 +57,8 @@ public class Image extends WCMUsePojo {
     public static final String PROP_IMAGE_MAP = "imageMap";
 
     public static final String DESIGN_PROP_ALLOWED_RENDITION_WIDTHS = "allowedRenditionWidths";
-    public static final String DESIGN_PROP_ENFORCE_ASPECT_RATIO = "enforceAspectRatio";
-    public static final String DESIGN_PROP_ALLOW_CROPPING = "allowCropping";
-    public static final String DESIGN_PROP_ALLOW_ROTATING = "allowRotating";
     public static final String DESIGN_PROP_ALLOW_IMAGE_MAPS = "allowImageMaps";
-    public static final String DESIGN_PROP_ALLOW_LINKING = "allowLinking";
-    public static final String DESIGN_PROP_ALLOW_CAPTION_TEXT = "allowCaptionText";
-    public static final String DESIGN_PROP_ALLOWED_STYLES = "allowedStyles";
+
 
     public static final String CHILD_NODE_IMAGE_FILE = "file";
 
@@ -103,13 +98,7 @@ public class Image extends WCMUsePojo {
 
     // design properties
     private Integer[] allowedRenditionWidths;
-    private boolean enforceAspectRatio;
-    private boolean allowCropping;
-    private boolean allowRotating;
     private boolean allowImageMaps;
-    private boolean allowLinking;
-    private boolean allowCaptionText;
-    private String[] allowedStyles;
     private String cssClass;
 
 
@@ -121,13 +110,7 @@ public class Image extends WCMUsePojo {
         Style style = getCurrentStyle();
         extension = "jpg";
         allowedRenditionWidths = getSupportedWidths(style.get(DESIGN_PROP_ALLOWED_RENDITION_WIDTHS, new Integer[]{}));
-        enforceAspectRatio = style.get(DESIGN_PROP_ENFORCE_ASPECT_RATIO, true);
-        allowCropping = style.get(DESIGN_PROP_ALLOW_CROPPING, true);
-        allowRotating = style.get(DESIGN_PROP_ALLOW_ROTATING, true);
         allowImageMaps = style.get(DESIGN_PROP_ALLOW_IMAGE_MAPS, true);
-        allowLinking = style.get(DESIGN_PROP_ALLOW_LINKING, true);
-        allowCaptionText = style.get(DESIGN_PROP_ALLOW_CAPTION_TEXT, true);
-        allowedStyles = style.get(DESIGN_PROP_ALLOWED_STYLES, new String[]{});
         componentTitle = ComponentUtils.getComponentTitle(resource, DEFAULT_TITLE);
 
         fileReference = properties.get(PROP_FILE_REFERENCE, "");
@@ -157,14 +140,10 @@ public class Image extends WCMUsePojo {
             isDecorative = properties.get(PROP_IS_DECORATIVE, false);
             if (!isDecorative) {
                 alt = properties.get(PROP_ALT, String.class);
-                if (allowLinking) {
-                    link = properties.get(PROP_LINK_URL, String.class);
-                }
+                link = properties.get(PROP_LINK_URL, String.class);
             }
-            if (allowCaptionText) {
-                caption = properties.get(NameConstants.PN_TITLE, String.class);
-                displayCaptionPopup = properties.get(PROP_DISPLAY_CAPTION_POPUP, false);
-            }
+            caption = properties.get(NameConstants.PN_TITLE, String.class);
+            displayCaptionPopup = properties.get(PROP_DISPLAY_CAPTION_POPUP, false);
             if (allowedRenditionWidths.length > 0) {
                 Arrays.sort(allowedRenditionWidths);
                 smartImages = new String[allowedRenditionWidths.length];
