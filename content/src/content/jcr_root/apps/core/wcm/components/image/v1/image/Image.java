@@ -49,22 +49,16 @@ public class Image extends WCMUsePojo {
     public static final Logger LOGGER = LoggerFactory.getLogger(Image.class);
 
     public static final String PROP_FILE_REFERENCE = "fileReference";
-    public static final String PROP_ALT = "alt";
     public static final String PROP_IS_DECORATIVE = "isDecorative";
-    public static final String PROP_WIDTH = "width";
-    public static final String PROP_HEIGHT = "height";
+    public static final String PROP_ALT = "alt";
     public static final String PROP_LINK_URL = "linkURL";
+    public static final String PROP_DISPLAY_CAPTION_POPUP = "displayCaptionPopup";
+
     public static final String PROP_IMAGE_MAP = "imageMap";
 
     public static final String DESIGN_PROP_ALLOWED_RENDITION_WIDTHS = "allowedRenditionWidths";
-    public static final String DESIGN_PROP_ENFORCE_ASPECT_RATIO = "enforceAspectRatio";
-    public static final String DESIGN_PROP_ALLOW_CROPPING = "allowCropping";
-    public static final String DESIGN_PROP_ALLOW_ROTATING = "allowRotating";
     public static final String DESIGN_PROP_ALLOW_IMAGE_MAPS = "allowImageMaps";
-    public static final String DESIGN_PROP_ALLOW_LINKING = "allowLinking";
-    public static final String DESIGN_PROP_ALLOW_CAPTION_TEXT = "allowCaptionText";
-    public static final String DESIGN_PROP_DISPLAY_CAPTION_POPUP = "displayCaptionPopup";
-    public static final String DESIGN_PROP_ALLOWED_STYLES = "allowedStyles";
+
 
     public static final String CHILD_NODE_IMAGE_FILE = "file";
 
@@ -84,15 +78,14 @@ public class Image extends WCMUsePojo {
     private static final Pattern mapItemRegex = Pattern.compile("\"([^\"]*)\"");
     private static final String DEFAULT_TITLE = "Image";
 
-    private String link;
+    private String src;
     private String fileReference;
     private String fileName;
-    private String src;
+    private boolean isDecorative;
     private String alt;
-    private String title;
+    private String link;
+    private boolean displayCaptionPopup;
     private String componentTitle;
-    private int width;
-    private int height;
     private ImageMap imageMap;
     private String[] smartImages = new String[0];
     private String extension;
@@ -105,14 +98,7 @@ public class Image extends WCMUsePojo {
 
     // design properties
     private Integer[] allowedRenditionWidths;
-    private boolean enforceAspectRatio;
-    private boolean allowCropping;
-    private boolean allowRotating;
     private boolean allowImageMaps;
-    private boolean allowLinking;
-    private boolean allowCaptionText;
-    private boolean displayCaptionPopup;
-    private String[] allowedStyles;
     private String cssClass;
 
 
@@ -124,14 +110,7 @@ public class Image extends WCMUsePojo {
         Style style = getCurrentStyle();
         extension = "jpg";
         allowedRenditionWidths = getSupportedWidths(style.get(DESIGN_PROP_ALLOWED_RENDITION_WIDTHS, new Integer[]{}));
-        enforceAspectRatio = style.get(DESIGN_PROP_ENFORCE_ASPECT_RATIO, true);
-        allowCropping = style.get(DESIGN_PROP_ALLOW_CROPPING, true);
-        allowRotating = style.get(DESIGN_PROP_ALLOW_ROTATING, true);
         allowImageMaps = style.get(DESIGN_PROP_ALLOW_IMAGE_MAPS, true);
-        allowLinking = style.get(DESIGN_PROP_ALLOW_LINKING, true);
-        allowCaptionText = style.get(DESIGN_PROP_ALLOW_CAPTION_TEXT, true);
-        displayCaptionPopup = style.get(DESIGN_PROP_DISPLAY_CAPTION_POPUP, false);
-        allowedStyles = style.get(DESIGN_PROP_ALLOWED_STYLES, new String[]{});
         componentTitle = ComponentUtils.getComponentTitle(resource, DEFAULT_TITLE);
 
         fileReference = properties.get(PROP_FILE_REFERENCE, "");
@@ -157,31 +136,22 @@ public class Image extends WCMUsePojo {
         }
 
         if (StringUtils.isNotEmpty(fileName)) {
-            src = request.getContextPath() + resource.getPath() + ".img.full.high." + extension;
-            title = properties.get(NameConstants.PN_TITLE, String.class);
-            alt = properties.get(PROP_ALT, String.class);
-            if (allowLinking) {
+            src = request.getContextPath() + resource.getPath() + "." + "img" + "." + extension;
+            isDecorative = properties.get(PROP_IS_DECORATIVE, false);
+            if (!isDecorative) {
+                alt = properties.get(PROP_ALT, String.class);
                 link = properties.get(PROP_LINK_URL, String.class);
             }
-            if (allowCaptionText) {
-                caption = properties.get(NameConstants.PN_DESCRIPTION, String.class);
-            }
+            caption = properties.get(NameConstants.PN_TITLE, String.class);
+            displayCaptionPopup = properties.get(PROP_DISPLAY_CAPTION_POPUP, false);
             if (allowedRenditionWidths.length > 0) {
                 Arrays.sort(allowedRenditionWidths);
                 smartImages = new String[allowedRenditionWidths.length];
                 int index = 0;
                 for (int width : allowedRenditionWidths) {
-                    smartImages[index] = "\"" + request.getContextPath() + resource.getPath() + ".img." + width + ".high." + extension + "\"";
+                    smartImages[index] = "\"" + request.getContextPath() + resource.getPath() + "." + "img" + "." + width + "." + extension + "\"";
                     index++;
                 }
-            }
-            width = properties.get(PROP_WIDTH, 0);
-            if (width < 0) {
-                width = 0;
-            }
-            height = properties.get(PROP_HEIGHT, 0);
-            if (height < 0) {
-                height = 0;
             }
             if (allowImageMaps) {
                 String imageMapString = properties.get(PROP_IMAGE_MAP, String.class);
@@ -334,39 +304,12 @@ public class Image extends WCMUsePojo {
     }
 
     /**
-     * Returns the set width of the image.
-     *
-     * @return the set width of the image; will return 0 if the set width is negative or missing
-     */
-    public int getWidth() {
-        return width;
-    }
-
-    /**
-     * Returns the set height of the image.
-     *
-     * @return the set height of the image; will return 0 if the set height is negative or missing
-     */
-    public int getHeight() {
-        return height;
-    }
-
-    /**
      * Returns the value for the image's {@code alt} attribute, if one was set.
      *
      * @return the value, if one was set, or {@code null}
      */
     public String getAlt() {
         return alt;
-    }
-
-    /**
-     * Returns the value for the image's {@code title} attribute, if one was set.
-     *
-     * @return the value, if one was set, or {@code null}
-     */
-    public String getTitle() {
-        return title;
     }
 
     /**
