@@ -36,6 +36,26 @@
                                 jcr:primaryType="nt:unstructured"
                                 description="Heading 3"
                                 tag="h3"/>
+                        <default_h4
+                                jcr:primaryType="nt:unstructured"
+                                description="Heading 4"
+                                tag="h4"/>
+                        <default_h5
+                                jcr:primaryType="nt:unstructured"
+                                description="Heading 5"
+                                tag="h5"/>
+                        <default_h6
+                                jcr:primaryType="nt:unstructured"
+                                description="Heading 6"
+                                tag="h6"/>
+                        <default_blockquote
+                                jcr:primaryType="nt:unstructured"
+                                description="Quote"
+                                tag="blockquote"/>
+                        <default_pre
+                                jcr:primaryType="nt:unstructured"
+                                description="Preformatted"
+                                tag="pre"/>
                     </formats>
                 </paraformat>
                 <misctools
@@ -57,6 +77,15 @@
                         </chars>
                     </specialCharsConfig>
                 </misctools>
+                <links
+                        jcr:primaryType="nt:unstructured"
+                        features="modifylink,unlink"/>
+                <justify
+                        jcr:primaryType="nt:unstructured"
+                        features="-"/>
+                <format
+                        jcr:primaryType="nt:unstructured"
+                        features="bold,italic"/>
             </rtePlugins>
         </config>
     </cq:inplaceEditing>

@@ -20,7 +20,7 @@
                             <fixedcol
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns"
-                                    maimized="{Boolean}false">
+                                    maximized="{Boolean}false">
                                 <items jcr:primaryType="nt:unstructured">
                                     <col1
                                             jcr:primaryType="nt:unstructured"
@@ -33,12 +33,12 @@
                                                 <items jcr:primaryType="nt:unstructured">
                                                     <paste-plaintext
                                                             jcr:primaryType="nt:unstructured"
-                                                            jcr:title="paste text"
+                                                            jcr:title="Show paste plain text option"
                                                             sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
                                                             name="paste-plaintext"/>
                                                     <paste-wordhtml
                                                             jcr:primaryType="nt:unstructured"
-                                                            jcr:title="paste from word"
+                                                            jcr:title="Show paste from word option"
                                                             sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
                                                             name="paste-wordhtml"/>
                                                 </items>
@@ -54,7 +54,7 @@
                                                 <items jcr:primaryType="nt:unstructured">
                                                     <find-replace
                                                             jcr:primaryType="nt:unstructured"
-                                                            jcr:title="find &amp; replace"
+                                                            jcr:title="Show find &amp; replace options"
                                                             sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/plugin"
                                                             features="*"
                                                             name="findreplace"/>
@@ -70,7 +70,7 @@
                                                 <items jcr:primaryType="nt:unstructured">
                                                     <spellcheck
                                                             jcr:primaryType="nt:unstructured"
-                                                            jcr:title="spell checker"
+                                                            jcr:title="Show spell checker options"
                                                             sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/plugin"
                                                             features="*"
                                                             name="spellcheck"/>
@@ -86,7 +86,7 @@
                                                 <items jcr:primaryType="nt:unstructured">
                                                     <editHTML
                                                             jcr:primaryType="nt:unstructured"
-                                                            jcr:title="edit HTML"
+                                                            jcr:title="Show HTML source editing option"
                                                             sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
                                                             name="sourceedit"/>
                                                 </items>
@@ -116,6 +116,39 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/coral/foundation/container">
                                         <items jcr:primaryType="nt:unstructured">
+                                            <tables
+                                                    granite:class="js-cq-IPEPlugin-group"
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/container">
+                                                <items jcr:primaryType="nt:unstructured">
+                                                    <tables
+                                                            jcr:primaryType="nt:unstructured"
+                                                            jcr:title="Show table options"
+                                                            sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/plugin"
+                                                            features="*"
+                                                            name="table"/>
+                                                </items>
+                                                <granite:data
+                                                        jcr:primaryType="nt:unstructured"
+                                                        plugin-root-name="rtePlugins"/>
+                                            </tables>
+                                            <lists
+                                                    granite:class="js-cq-IPEPlugin-group"
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/container">
+                                                <items jcr:primaryType="nt:unstructured">
+                                                    <lists
+                                                            jcr:primaryType="nt:unstructured"
+                                                            jcr:title="Show list options (bullet, number, indent, unindent)"
+                                                            sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/plugin"
+                                                            defaultEnabled="{Boolean}true"
+                                                            features="*"
+                                                            name="lists"/>
+                                                </items>
+                                                <granite:data
+                                                        jcr:primaryType="nt:unstructured"
+                                                        plugin-root-name="rtePlugins"/>
+                                            </lists>
                                             <align
                                                     granite:class="js-cq-IPEPlugin-group"
                                                     jcr:primaryType="nt:unstructured"
@@ -123,9 +156,8 @@
                                                 <items jcr:primaryType="nt:unstructured">
                                                     <align
                                                             jcr:primaryType="nt:unstructured"
-                                                            jcr:title="align"
+                                                            jcr:title="Show custom alignment options (left aligned, centered, right aligned)"
                                                             sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/plugin"
-                                                            defaultEnabled="{Boolean}true"
                                                             features="*"
                                                             name="justify"/>
                                                 </items>
@@ -140,21 +172,20 @@
                                                 <items jcr:primaryType="nt:unstructured">
                                                     <bold
                                                             jcr:primaryType="nt:unstructured"
-                                                            jcr:title="bold"
+                                                            jcr:title="Show bold option"
                                                             sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
                                                             defaultEnabled="{Boolean}true"
                                                             name="bold"/>
                                                     <italic
                                                             jcr:primaryType="nt:unstructured"
-                                                            jcr:title="italic"
+                                                            jcr:title="Show italic option"
                                                             sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
                                                             defaultEnabled="{Boolean}true"
                                                             name="italic"/>
                                                     <underline
                                                             jcr:primaryType="nt:unstructured"
-                                                            jcr:title="underline"
+                                                            jcr:title="Show underline option"
                                                             sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
-                                                            defaultEnabled="{Boolean}true"
                                                             name="underline"/>
                                                 </items>
                                                 <granite:data
@@ -167,28 +198,16 @@
                                                     jcr:primaryType="nt:unstructured"
                                                     sling:resourceType="granite/ui/components/coral/foundation/container">
                                                 <items jcr:primaryType="nt:unstructured">
-                                                    <link
+                                                    <links
                                                             jcr:primaryType="nt:unstructured"
-                                                            jcr:title="link text"
-                                                            sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
+                                                            jcr:title="Show link insertion options (link, unlink)"
+                                                            sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/plugin"
                                                             defaultEnabled="{Boolean}true"
-                                                            name="modifylink"/>
-                                                    <unlink
-                                                            jcr:primaryType="nt:unstructured"
-                                                            jcr:title="unlink text"
-                                                            sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
-                                                            defaultEnabled="{Boolean}true"
-                                                            name="unlink"/>
-                                                    <anchor
-                                                            jcr:primaryType="nt:unstructured"
-                                                            jcr:title="anchor"
-                                                            sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
-                                                            defaultEnabled="{Boolean}true"
-                                                            name="anchor"/>
+                                                            features="modifylink,unlink"
+                                                            name="links"/>
                                                 </items>
                                                 <granite:data
                                                         jcr:primaryType="nt:unstructured"
-                                                        name="links"
                                                         plugin-root-name="rtePlugins"/>
                                             </links>
                                             <subsuperscript
@@ -196,77 +215,17 @@
                                                     jcr:primaryType="nt:unstructured"
                                                     sling:resourceType="granite/ui/components/coral/foundation/container">
                                                 <items jcr:primaryType="nt:unstructured">
-                                                    <superscript
+                                                    <subsuperscript
                                                             jcr:primaryType="nt:unstructured"
-                                                            jcr:title="superscript"
-                                                            sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
-                                                            name="superscript"/>
-                                                    <subscript
-                                                            jcr:primaryType="nt:unstructured"
-                                                            jcr:title="subscript"
-                                                            sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
-                                                            name="subscript"/>
+                                                            jcr:title="Show superscript and subscript options"
+                                                            sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/plugin"
+                                                            features="*"
+                                                            name="subsuperscript"/>
                                                 </items>
                                                 <granite:data
                                                         jcr:primaryType="nt:unstructured"
-                                                        name="subsuperscript"
                                                         plugin-root-name="rtePlugins"/>
                                             </subsuperscript>
-                                            <lists
-                                                    granite:class="js-cq-IPEPlugin-group"
-                                                    jcr:primaryType="nt:unstructured"
-                                                    sling:resourceType="granite/ui/components/coral/foundation/container">
-                                                <items jcr:primaryType="nt:unstructured">
-                                                    <unordered
-                                                            jcr:primaryType="nt:unstructured"
-                                                            jcr:title="bullet list"
-                                                            sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
-                                                            defaultEnabled="{Boolean}true"
-                                                            name="unordered"/>
-                                                    <ordered
-                                                            jcr:primaryType="nt:unstructured"
-                                                            jcr:title="number list"
-                                                            sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
-                                                            defaultEnabled="{Boolean}true"
-                                                            name="ordered"/>
-                                                </items>
-                                                <granite:data
-                                                        jcr:primaryType="nt:unstructured"
-                                                        name="lists"
-                                                        plugin-root-name="rtePlugins"/>
-                                            </lists>
-                                            <tables
-                                                    granite:class="js-cq-IPEPlugin-group"
-                                                    jcr:primaryType="nt:unstructured"
-                                                    sling:resourceType="granite/ui/components/coral/foundation/container">
-                                                <items jcr:primaryType="nt:unstructured">
-                                                    <tables
-                                                            jcr:primaryType="nt:unstructured"
-                                                            jcr:title="tables"
-                                                            sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/plugin"
-                                                            features="*"
-                                                            name="table"/>
-                                                </items>
-                                                <granite:data
-                                                        jcr:primaryType="nt:unstructured"
-                                                        plugin-root-name="rtePlugins"/>
-                                            </tables>
-                                            <images
-                                                    granite:class="js-cq-IPEPlugin-group"
-                                                    jcr:primaryType="nt:unstructured"
-                                                    sling:resourceType="granite/ui/components/coral/foundation/container">
-                                                <items jcr:primaryType="nt:unstructured">
-                                                    <images
-                                                            jcr:primaryType="nt:unstructured"
-                                                            jcr:title="images"
-                                                            sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/plugin"
-                                                            features="*"
-                                                            name="image"/>
-                                                </items>
-                                                <granite:data
-                                                        jcr:primaryType="nt:unstructured"
-                                                        plugin-root-name="rtePlugins"/>
-                                            </images>
                                         </items>
                                     </col1>
                                 </items>
@@ -282,7 +241,7 @@
                         <items jcr:primaryType="nt:unstructured">
                             <paraformat
                                     jcr:primaryType="nt:unstructured"
-                                    jcr:title="Enable Paragraph formats"
+                                    jcr:title="Enable Paragraph styles"
                                     sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/plugin"
                                     features="*"
                                     name="paraformat"/>
@@ -306,13 +265,13 @@
                                                     granite:class="cq-rte-symbol"
                                                     jcr:primaryType="nt:unstructured"
                                                     sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                    emptyText="tag"
+                                                    emptyText="Element"
                                                     name="tag"/>
                                             <description
                                                     granite:class="cq-rte-symbol-description"
                                                     jcr:primaryType="nt:unstructured"
                                                     sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                    emptyText="description"
+                                                    emptyText="Display text"
                                                     name="description"/>
                                         </items>
                                     </field>
@@ -328,99 +287,18 @@
                                 jcr:primaryType="nt:unstructured"
                                 plugin-root-name="rtePlugins"/>
                     </Paraformat>
-                    <Characters_x0020_styles
-                            jcr:primaryType="nt:unstructured"
-                            jcr:title="Characters Styles"
-                            sling:resourceType="granite/ui/components/coral/foundation/container"
-                            maximized="{Boolean}true">
-                        <items jcr:primaryType="nt:unstructured">
-                            <fixedcol
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns"
-                                    maximized="{Boolean}false">
-                                <items jcr:primaryType="nt:unstructured">
-                                    <characters-styles
-                                            granite:class="js-cq-IPEPlugin-group"
-                                            jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="granite/ui/components/coral/foundation/container">
-                                        <items jcr:primaryType="nt:unstructured">
-                                            <styles
-                                                    jcr:primaryType="nt:unstructured"
-                                                    jcr:title="Enable styles"
-                                                    sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/plugin"
-                                                    features="*"
-                                                    name="styles"/>
-                                            <accordion
-                                                    jcr:primaryType="nt:unstructured"
-                                                    sling:resourceType="granite/ui/components/coral/foundation/accordion">
-                                                <items jcr:primaryType="nt:unstructured">
-                                                    <styleSheetsConfigWrapper
-                                                            jcr:primaryType="nt:unstructured"
-                                                            jcr:title="Add paths of external style sheets"
-                                                            sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/wrapper"
-                                                            configPath="./externalStyleSheets">
-                                                        <styleSheets
-                                                                granite:class="cq-charactersstyles"
-                                                                jcr:primaryType="nt:unstructured"
-                                                                sling:resourceType="granite/ui/components/coral/foundation/form/multifield">
-                                                            <field
-                                                                    jcr:primaryType="nt:unstructured"
-                                                                    sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                                    name="./externalStyleSheets"/>
-                                                        </styleSheets>
-                                                    </styleSheetsConfigWrapper>
-                                                    <stylesConfigWrapper
-                                                            jcr:primaryType="nt:unstructured"
-                                                            jcr:title="Add styles"
-                                                            sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/wrapper"
-                                                            configPath="./rtePlugins/styles/styles">
-                                                        <styles
-                                                                jcr:primaryType="nt:unstructured"
-                                                                sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
-                                                                composite="{Boolean}true">
-                                                            <field
-                                                                    jcr:primaryType="nt:unstructured"
-                                                                    sling:resourceType="granite/ui/components/coral/foundation/container"
-                                                                    name="./rtePlugins/styles/styles">
-                                                                <items jcr:primaryType="nt:unstructured">
-                                                                    <cssName
-                                                                            jcr:primaryType="nt:unstructured"
-                                                                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                                            emptyText="cssName"
-                                                                            name="cssName"/>
-                                                                    <text
-                                                                            jcr:primaryType="nt:unstructured"
-                                                                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                                            emptyText="Display text"
-                                                                            name="text"/>
-                                                                </items>
-                                                            </field>
-                                                        </styles>
-                                                    </stylesConfigWrapper>
-                                                </items>
-                                            </accordion>
-                                        </items>
-                                        <granite:data
-                                                jcr:primaryType="nt:unstructured"
-                                                plugin-root-name="rtePlugins"/>
-                                    </characters-styles>
-                                </items>
-                            </fixedcol>
-                        </items>
-                    </Characters_x0020_styles>
                     <Characters
                             granite:class="js-cq-IPEPlugin-group"
                             jcr:primaryType="nt:unstructured"
-                            jcr:title="Characters"
+                            jcr:title="Special Characters"
                             sling:resourceType="granite/ui/components/coral/foundation/container"
                             maximized="{Boolean}true">
                         <items jcr:primaryType="nt:unstructured">
                             <specialchars
                                     jcr:primaryType="nt:unstructured"
                                     jcr:title="Enable Special characters"
-                                    sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/plugin"
-                                    features="specialchars"
-                                    name="misctools"/>
+                                    sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
+                                    name="specialchars"/>
                             <configWrapper
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/wrapper"
@@ -441,13 +319,13 @@
                                                     granite:class="cq-rte-symbol"
                                                     jcr:primaryType="nt:unstructured"
                                                     sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                    emptyText="entity"
+                                                    emptyText="Entity"
                                                     name="entity"/>
                                             <name
                                                     granite:class="cq-rte-symbol-description"
                                                     jcr:primaryType="nt:unstructured"
                                                     sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                    emptyText="name"
+                                                    emptyText="Display text"
                                                     name="name"/>
                                         </items>
                                     </field>
@@ -462,6 +340,7 @@
                         </items>
                         <granite:data
                                 jcr:primaryType="nt:unstructured"
+                                name="misctools"
                                 plugin-root-name="rtePlugins"/>
                     </Characters>
                 </items>
