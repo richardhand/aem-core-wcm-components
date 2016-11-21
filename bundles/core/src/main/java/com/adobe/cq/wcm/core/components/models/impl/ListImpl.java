@@ -71,7 +71,6 @@ public class ListImpl implements List {
     private static final String PN_PARENT_PAGE = "parentPage";
     private static final String PN_TAGS = "tags";
     private static final String PN_TAGS_MATCH = "tagsMatch";
-    private static final String PN_SAVED_QUERY = "savedquery";
     private static final int LIMIT_DEFAULT = 100;
     private static final String PN_SHOW_DESCRIPTION = "showDescription";
     private static final boolean SHOW_DESCRIPTION_DEFAULT = false;
@@ -203,9 +202,6 @@ public class ListImpl implements List {
             case TAGS:
                 populateTagListItems();
                 break;
-            case QUERY_BUILDER:
-                populateQueryListItems();
-                break;
             case SEARCH:
                 populateSearchListItems();
                 break;
@@ -269,26 +265,6 @@ public class ListImpl implements List {
         }
     }
 
-    private void populateQueryListItems() {
-        listItems = new ArrayList<>();
-        QueryBuilder queryBuilder = resourceResolver.adaptTo(QueryBuilder.class);
-        Session session = resourceResolver.adaptTo(Session.class);
-        if (queryBuilder != null && session != null) {
-            try {
-                Query query = queryBuilder.loadQuery(resource.getPath() + "/" + PN_SAVED_QUERY, session);
-                if (query != null) {
-                    query.setHitsPerPage(limit);
-                    SearchResult result = query.getResult();
-                    collectSearchResults(result);
-                }
-            } catch (RepositoryException | IOException e) {
-                LOGGER.error("Unable to load stored query for " + resource.getPath(), e);
-            }
-        } else {
-            LOGGER.error("Error loading query builder.");
-        }
-    }
-
     private void populateSearchListItems() {
         listItems = new ArrayList<>();
         if (!StringUtils.isEmpty(query)) {
@@ -346,7 +322,6 @@ public class ListImpl implements List {
         CHILDREN("children"),
         STATIC("static"),
         SEARCH("search"),
-        QUERY_BUILDER("querybuilder"),
         TAGS("tags");
 
         private String value;

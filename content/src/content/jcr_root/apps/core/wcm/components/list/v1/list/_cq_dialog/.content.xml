@@ -42,10 +42,6 @@
                                         jcr:primaryType="nt:unstructured"
                                         text="Search"
                                         value="search"/>
-                                    <querybuilder
-                                        jcr:primaryType="nt:unstructured"
-                                        text="Advanced Search"
-                                        value="querybuilder"/>
                                     <tags
                                         jcr:primaryType="nt:unstructured"
                                         text="Tags"
