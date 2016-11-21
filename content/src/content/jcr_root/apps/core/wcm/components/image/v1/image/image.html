@@ -13,34 +13,31 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<a
-        data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html"
-        data-sly-use.image="Image"
-        data-sly-unwrap="${!image.link}"
-        href="${image.link}"
-        onclick="CQ_Analytics.record({event: 'imageClick', values: { imageLink: '${image.link @ context='scriptString'}', imageAsset:
+<sly data-sly-use.image="com.adobe.cq.wcm.core.components.models.Image"
+     data-sly-use.templates="core/wcm/components/commons/v1/templates.html">
+    <a      data-sly-test.hasImage="${image.src}"
+            data-sly-unwrap="${!image.link}"
+            href="${image.link}"
+            onclick="CQ_Analytics.record({event: 'imageClick', values: { imageLink: '${image.link @ context='scriptString'}', imageAsset:
     '${image.fileReference @ context='scriptString'}', imageTitle: '${image.fileName @ context='scriptString'}' }, collect: false, options: { obj: this }, componentPath: '${resource.resourceType @ context='scriptString'}'})">
-    <div class="smart-image"
-         data-component='{"component":"cqImage","smartSizes":[${image.smartSizes}],"smartImages":[${image.smartImages}]}'>
-        <noscript>
-            <img data-emptytext="${image.componentTitle}"
-                 src="${image.src}"
-                 alt="${image.alt}"
-                 title="${image.shouldDisplayCaptionPopup ? image.caption : ''}"
-                 class="${image.cssClass} image"
-                 usemap="${image.imageMap.id}"
-            />
-        </noscript>
-    </div>
-</a>
-<small data-sly-test="${!image.shouldDisplayCaptionPopup && image.caption}">${image.caption}</small>
-<map data-sly-list.area="${image.imageMap.areas}" name="${image.imageMap.name}">
-    <area shape="${area.type}"
-          coords="${area.coordinates}"
-          href="${area.href}"
-          alt="${area.text}"
-          title="${area.text}"
-          target="${area.target}"
-    />
-</map>
-<sly data-sly-call="${clientLib.all @ categories='core.wcm.components.image.v1'}" />
+        <div data-sly-test="${image.smartSizes.length >= 2}"
+             class="cmp cmp-image"
+             data-cmp-image='{"smartSizes" : [${image.smartSizes}], "smartImages" : [${image.smartImages}], "lazyEnabled": ${image.isLazyLoadingEnabled}}'>
+            <sly data-sly-call="${imageTemplate @ image = image, useNoScript = true}"></sly>
+        </div>
+        <div data-sly-test="${image.smartSizes.length < 2}"
+             class="cmp cmp-image"
+             data-cmp-image='${image.isLazyLoadingEnabled ? "{\"lazyEnabled\" : true}" : false}'>
+            <sly data-sly-call="${imageTemplate @ image = image, useNoScript = image.isLazyLoadingEnabled}"></sly>
+        </div>
+    </a>
+    <small data-sly-test="${!image.shouldDisplayCaptionPopup && image.title}">${image.title}</small>
+    <sly data-sly-test="${!hasImage}" data-sly-call="${templates.placeholder @ isEmpty = true}"/>
+</sly>
+<template data-sly-template.imageTemplate="${@ image='The com.adobe.cq.wcm.core.components.models.Image model', useNoScript}">
+    <noscript data-sly-unwrap="${!useNoScript}">
+        <img src="${image.src}"
+             alt="${image.alt}"
+             title="${image.shouldDisplayCaptionPopup ? image.title : ''}"/>
+    </noscript>
+</template>
