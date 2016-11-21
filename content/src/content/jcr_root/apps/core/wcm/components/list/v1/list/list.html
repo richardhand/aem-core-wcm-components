@@ -1,5 +1,5 @@
 <!--/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  ~ Copyright 2015 Adobe Systems Incorporated
+  ~ Copyright 2016 Adobe Systems Incorporated
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -13,25 +13,13 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<div data-sly-use.list="List"
-     data-sly-use.emptyRenderer="templates/empty_list.html"
-     data-sly-use.listElementTemplate="templates/list_element.html"
+<div data-sly-use.list="com.adobe.cq.wcm.core.components.models.List"
+     data-sly-use.template="core/wcm/components/commons/v1/templates.html"
+     data-sly-use.itemTemplate="list_item.html"
      data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html"
-     id="${list.listId}"
-     class="cq-dd-pages">
-    <sly data-sly-call="${clientLib.all @ categories='core.wcm.components.list'}" />
-    <sly data-sly-call="${emptyRenderer.emptylisttemplate @ list=list}" />
-    <link data-sly-test="${list.isFeedEnabled}" rel="alternate" type="application/atom+xml" title="Atom 1.0 (List)"
-          href="${resource.path}.feed" />
-    <sly data-sly-call="${listElementTemplate.container @ list=list}"/>
-    <div data-sly-test="${!list.isEmpty && list.isPaginating}" class="pagination">
-        <div data-sly-test="${list.previousLink}" class="previous">
-            <a href="${list.previousLink}" onclick="CQ_Analytics.record({event: 'listPreviousPage', values: { listPageStart: '${list.pageStart @ context='scriptString'}' }, collect:  false, options: { obj: this }, componentPath: '${resource.resourceType @ context='scriptString'}'}); return CQ.WCM.List.linkClick(this, '${list.listId @ context='scriptString'}');" aria-describedby="${list.accessiblePreviousDescriptionId}">&laquo; ${"Previous" @ i18n}</a>
-            <span class="cq-wcm-foundation-aria-description" data-sly-test="${properties.accessiblePrevious}" data-sly-text="${properties.accessiblePrevious}" data-sly-attribute.id="${list.accessiblePreviousDescriptionId}"></span>
-        </div>
-        <div data-sly-test="${list.nextLink}" class="next">
-            <a href="${list.nextLink}" onclick="CQ_Analytics.record({event: 'listNextPage', values: { listPageStart: '${list.pageStart @ context='scriptString'}' }, collect:  false, options: { obj: this }, componentPath: '${resource.resourceType @ context='scriptString'}>'}); return CQ.WCM.List.linkClick(this, '${list.listId @ context='scriptString'}');" aria-describedby="${list.accessibleNextDescriptionId}">${"Next" @ i18n} &raquo;</a>
-            <span class="cq-wcm-foundation-aria-description" data-sly-test="${properties.accessibleNext}" data-sly-text="${properties.accessibleNext}" data-sly-attribute.id="${list.accessibleNextDescriptionId}"></span>
-        </div>
-    </div>
+     class="cmp cmp-list">
+    <ul class="list" data-sly-list.listItem="${list.listItems}">
+        <li data-sly-call="${itemTemplate.item @ list = list, listItem = listItem}" class="list-item"></li>
+    </ul>
 </div>
+<sly data-sly-call="${template.placeholder @ isEmpty=list.listItems.size == 0}"/>
