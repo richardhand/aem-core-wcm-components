@@ -33,9 +33,13 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.InjectionStrategy;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
+import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
+import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,24 +73,19 @@ public class ListImpl implements List {
     private static final String PN_TAGS_MATCH = "tagsMatch";
     private static final String PN_SAVED_QUERY = "savedquery";
     private static final int LIMIT_DEFAULT = 100;
-    private static final String PN_LIMIT = "limit";
-    private static final String PN_SHOW_THUMBNAIL = "showThumbnail";
-    private static final boolean SHOW_THUMBNAIL_DEFAULT = false;
     private static final String PN_SHOW_DESCRIPTION = "showDescription";
     private static final boolean SHOW_DESCRIPTION_DEFAULT = false;
     private static final String PN_SHOW_MODIFICATION_DATE = "showModificationDate";
     private static final boolean SHOW_MODIFICATION_DATE_DEFAULT = false;
     private static final String PN_LINK_ITEM = "linkItem";
     private static final boolean LINK_ITEM_DEFAULT = false;
-    private static final String PN_DEPTH = "childDepth";
     private static final int PN_DEPTH_DEFAULT = 1;
-    private static final String PN_QUERY = "query";
     private static final String PN_SEARCH_IN = "searchIn";
     private static final String PN_SORT_ORDER = "sortOrder";
     private static final String PN_ORDER_BY = "orderBy";
     private static final String PN_DATA_FORMAT_DEFAULT = "yyyy-MM-dd";
     private static final String PN_DATA_FORMAT = "dateFormat";
-    private static final java.lang.String PN_MAX_ITEMS = "maxItems";
+    private static final String TAGS_MATCH_ANY_VALUE = "any";
 
     @ScriptVariable
     private ValueMap properties;
@@ -103,20 +102,36 @@ public class ListImpl implements List {
     @SlingObject
     private Resource resource;
 
-    private PageManager pageManager;
+    @Self
+    private SlingHttpServletRequest request;
+
+    @ValueMapValue(injectionStrategy = InjectionStrategy.OPTIONAL)
+    @Default(intValues = LIMIT_DEFAULT)
     private int limit;
-    private java.util.List<ListItem> listItems;
-    private boolean showThumbnail;
-    private boolean showDescription;
-    private boolean showModificationDate;
-    private boolean linkItem;
+
+    @ValueMapValue(injectionStrategy = InjectionStrategy.OPTIONAL)
+    @Default(intValues = PN_DEPTH_DEFAULT)
     private int childDepth;
+
+    @ValueMapValue(injectionStrategy = InjectionStrategy.OPTIONAL)
+    @Default(values = StringUtils.EMPTY)
     private String query;
+
+    @ValueMapValue(injectionStrategy = InjectionStrategy.OPTIONAL)
+    @Default(intValues = 0)
+    private int maxItems;
+
     private String startIn;
     private SortOrder sortOrder;
     private OrderBy orderBy;
     private DateFormat dateFormat;
-    private int maxItems;
+
+    private boolean showDescription;
+    private boolean showModificationDate;
+    private boolean linkItem;
+
+    private PageManager pageManager;
+    private java.util.List<ListItem> listItems;
 
     @PostConstruct
     private void initModel() {
@@ -126,25 +141,18 @@ public class ListImpl implements List {
 
     private void readProperties() {
         // read edit config properties
-        limit = properties.get(PN_LIMIT, 0);
-        if (limit == 0) {
-            limit = LIMIT_DEFAULT;
-        }
-        childDepth = properties.get(PN_DEPTH, PN_DEPTH_DEFAULT);
-        query = properties.get(PN_QUERY, StringUtils.EMPTY);
         startIn = properties.get(PN_SEARCH_IN, currentPage.getPath());
         sortOrder = SortOrder.fromString(properties.get(PN_SORT_ORDER, SortOrder.ASC.value));
         orderBy = OrderBy.fromString(properties.get(PN_ORDER_BY, StringUtils.EMPTY));
-        maxItems = properties.get(PN_MAX_ITEMS, 0);
 
         // read design config properties
-        showThumbnail = properties.get(PN_SHOW_THUMBNAIL, currentStyle.get(PN_SHOW_THUMBNAIL, SHOW_THUMBNAIL_DEFAULT));
         showDescription = properties.get(PN_SHOW_DESCRIPTION, currentStyle.get(PN_SHOW_DESCRIPTION, SHOW_DESCRIPTION_DEFAULT));
         showModificationDate = properties.get(
                 PN_SHOW_MODIFICATION_DATE, currentStyle.get(PN_SHOW_MODIFICATION_DATE, SHOW_MODIFICATION_DATE_DEFAULT));
         linkItem = properties.get(PN_LINK_ITEM, currentStyle.get(PN_LINK_ITEM, LINK_ITEM_DEFAULT));
         try {
-            dateFormat = new SimpleDateFormat(properties.get(PN_DATA_FORMAT, currentStyle.get(PN_DATA_FORMAT, PN_DATA_FORMAT_DEFAULT)));
+            dateFormat = new SimpleDateFormat(properties.get(PN_DATA_FORMAT, currentStyle.get(PN_DATA_FORMAT, PN_DATA_FORMAT_DEFAULT)),
+                    request.getLocale());
         } catch (IllegalArgumentException e) {
             dateFormat = new SimpleDateFormat(PN_DATA_FORMAT_DEFAULT);
         }
@@ -163,11 +171,6 @@ public class ListImpl implements List {
     @Override
     public boolean linkItem() {
         return linkItem;
-    }
-
-    @Override
-    public boolean showThumbnail() {
-        return showThumbnail;
     }
 
     @Override
@@ -215,7 +218,6 @@ public class ListImpl implements List {
     }
 
 
-
     private void populateStaticListItems() {
         listItems = new ArrayList<>();
         String[] pagesPaths = properties.get(PN_PAGES, new String[0]);
@@ -249,7 +251,7 @@ public class ListImpl implements List {
     private void populateTagListItems() {
         listItems = new ArrayList<>();
         String[] tags = properties.get(PN_TAGS, new String[0]);
-        boolean matchAny = properties.get(PN_TAGS_MATCH, "any").equals("any");
+        boolean matchAny = properties.get(PN_TAGS_MATCH, TAGS_MATCH_ANY_VALUE).equals(TAGS_MATCH_ANY_VALUE);
         if (ArrayUtils.isNotEmpty(tags)) {
             Page rootPage = getRootPage();
             if (rootPage != null) {
@@ -417,9 +419,9 @@ public class ListImpl implements List {
         public int compare(ListItem listItem1, ListItem listItem2) {
             int i = 0;
             if (orderBy == OrderBy.MODIFIED) {
-                i = listItem1.getModificationDate().compareTo(listItem2.getModificationDate());
-            } else {
-                i = listItem1.getTitle().compareTo(listItem2.getTitle());
+                i = listItem1.getPage().getLastModified().compareTo(listItem2.getPage().getLastModified());
+            } else if (orderBy == OrderBy.TITLE) {
+                i = listItem1.getPage().getTitle().compareTo(listItem2.getPage().getTitle());
             }
 
             if (sortOrder == SortOrder.DESC) {

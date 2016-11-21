@@ -17,28 +17,20 @@ package com.adobe.cq.wcm.core.components.models;
 
 import java.util.Calendar;
 
+import com.day.cq.wcm.api.Page;
+
 /**
  * Interface for a single item of the {@link List} model
  */
 public interface ListItem {
 
     /**
-     * Returns title of the list item
-     *
-     * @return String of the list item title
+     * @return modifaction date as configured date {@link String}
      */
-    String getTitle();
-
-    /**
-     * Returns description of the list item
-     *
-     * @return Description of the list item
-     */
-    String getDescription();
-
     String getModificationDateString();
 
-    Calendar getModificationDate();
-
-    String getPath();
+    /**
+     * @return {@link Page} object of the related list item
+     */
+    Page getPage();
 }

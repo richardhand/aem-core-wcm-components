@@ -15,13 +15,13 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <template data-sly-template.item="${@ list, listItem}">
     <p>
-        <a href="${listItem.path}.html">
-            <span>${listItem.title}</span>
+        <a href="${listItem.page.path @ extension='html'}">
+            <span>${listItem.page.title || listItem.page.name}</span>
             <span data-sly-test="${list.showModificationDate}">&ndash; ${listItem.modificationDateString}</span>
         </a>
         <sly data-sly-test="${list.showDescription}">
             <br/>
-            <span class="teaser-description">${listItem.description}</span>
+            <span class="teaser-description">${listItem.page.description}</span>
         </sly>
     </p>
 </template>
