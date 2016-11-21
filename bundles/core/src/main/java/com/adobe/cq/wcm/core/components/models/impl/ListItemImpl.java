@@ -33,16 +33,6 @@ public class ListItemImpl implements ListItem {
     }
 
     @Override
-    public String getTitle() {
-        return page.getTitle();
-    }
-
-    @Override
-    public String getDescription() {
-        return page.getDescription();
-    }
-
-    @Override
     public String getModificationDateString() {
         Calendar lastModified = page.getLastModified();
         dateFormat.setCalendar(lastModified);
@@ -50,12 +40,7 @@ public class ListItemImpl implements ListItem {
     }
 
     @Override
-    public Calendar getModificationDate() {
-        return page.getLastModified();
-    }
-
-    @Override
-    public String getPath() {
-        return page.getPath();
+    public Page getPage() {
+        return page;
     }
 }

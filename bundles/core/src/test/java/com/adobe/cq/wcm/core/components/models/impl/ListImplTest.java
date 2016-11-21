@@ -87,7 +87,6 @@ public class ListImplTest {
         List list = context.request().adaptTo(List.class);
         assertTrue(list.showDescription());
         assertTrue(list.showModificationDate());
-        assertTrue(list.showThumbnail());
         assertTrue(list.linkItem());
     }
 
@@ -223,7 +222,7 @@ public class ListImplTest {
                 list.getListItems().size() == expectedPages.length);
         int index = 0;
         for (ListItem item : list.getListItems()) {
-            assertEquals(expectedPages[index++], item.getTitle());
+            assertEquals(expectedPages[index++], item.getPage().getTitle());
         }
     }
 }
