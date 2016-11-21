@@ -1,5 +1,5 @@
 <!--/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  ~ Copyright 2016 Adobe Systems Incorporated
+  ~ Copyright 2015 Adobe Systems Incorporated
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -13,14 +13,15 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<template data-sly-template.container="${@ list}"
-          data-sly-use.itemTemplate="templates/list_item.html">
-    <ul data-sly-element="${list.listHTMLElement}" data-sly-list.listItem="${list.items}"
-        class="foundation-ordered-list-container ${list.style}">
-        <li data-sly-test="${list.itemType}"
-            data-sly-call="${itemTemplate.customItemType @ renderItem = listItem, resourceType = list.itemType}"
-            class="foundation-list-item"></li>
-        <li data-sly-test="${!list.itemType}" data-sly-call="${itemTemplate[list.type] @ renderItem=listItem}"
-            class="foundation-list-item"></li>
-    </ul>
+<template data-sly-template.item="${@ list, listItem}">
+    <p>
+        <a href="${listItem.path}.html">
+            <span>${listItem.title}</span>
+            <span data-sly-test="${list.showModificationDate}">&ndash; ${listItem.modificationDateString}</span>
+        </a>
+        <sly data-sly-test="${list.showDescription}">
+            <br/>
+            <span class="teaser-description">${listItem.description}</span>
+        </sly>
+    </p>
 </template>
