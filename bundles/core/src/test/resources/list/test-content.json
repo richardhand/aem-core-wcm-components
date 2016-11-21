@@ -114,11 +114,6 @@
                 "list:test_category/test_tag"
             ]
         },
-        "queryListType"                            : {
-            "jcr:primaryType"   : "nt:unstructured",
-            "sling:resourceType": "core/wcm/components/list",
-            "listFrom"          : "querybuilder"
-        },
         "searchListType"                           : {
             "jcr:primaryType"   : "nt:unstructured",
             "sling:resourceType": "core/wcm/components/list",

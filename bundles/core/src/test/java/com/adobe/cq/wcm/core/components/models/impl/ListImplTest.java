@@ -34,8 +34,6 @@ import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
 import com.adobe.cq.wcm.core.components.context.MockStyle;
 import com.adobe.cq.wcm.core.components.models.List;
 import com.adobe.cq.wcm.core.components.models.ListItem;
-import com.day.cq.search.Query;
-import com.day.cq.search.QueryBuilder;
 import com.day.cq.search.SimpleSearch;
 import com.day.cq.search.result.Hit;
 import com.day.cq.search.result.SearchResult;
@@ -44,7 +42,6 @@ import io.wcm.testing.mock.aem.junit.AemContext;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -61,9 +58,6 @@ public class ListImplTest {
     private Session mockSession;
 
     @Mock
-    private QueryBuilder mockQueryBuilder;
-
-    @Mock
     private SimpleSearch mockSimpleSearch;
 
     private SlingBindings slingBindings;
@@ -71,7 +65,6 @@ public class ListImplTest {
     @Before
     public void setUp() throws Exception {
         context.load().json("/list/test-etc.json", "/etc/tags/list");
-        context.registerAdapter(ResourceResolver.class, QueryBuilder.class, mockQueryBuilder);
         context.registerAdapter(ResourceResolver.class, Session.class, mockSession);
         context.registerAdapter(Resource.class, SimpleSearch.class, mockSimpleSearch);
         slingBindings = (SlingBindings) context.request().getAttribute(SlingBindings.class.getName());
@@ -131,25 +124,6 @@ public class ListImplTest {
         Resource resource = context.currentResource("/content/list/listTypes/tagsListType");
         slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
         slingBindings.put(WCMBindings.CURRENT_STYLE, new MockStyle(resource));
-        List list = context.request().adaptTo(List.class);
-        assertEquals(1, list.getListItems().size());
-    }
-
-    @Test
-    public void testQueryListType() throws Exception {
-        Query query = mock(Query.class);
-        SearchResult searchResult = mock(SearchResult.class);
-        Hit hit = mock(Hit.class);
-        when(mockQueryBuilder.loadQuery(any(String.class), any(Session.class))).thenReturn(query);
-        when(query.getResult()).thenReturn(searchResult);
-        when(searchResult.getHits()).thenReturn(Collections.singletonList(hit));
-        Resource contentResource = context.currentResource("/content/list/pages/page_1/jcr:content");
-        when(hit.getResource()).thenReturn(contentResource);
-
-        Resource resource = context.currentResource("/content/list/listTypes/queryListType");
-        slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
-        slingBindings.put(WCMBindings.CURRENT_STYLE, new MockStyle(resource));
-
         List list = context.request().adaptTo(List.class);
         assertEquals(1, list.getListItems().size());
     }
