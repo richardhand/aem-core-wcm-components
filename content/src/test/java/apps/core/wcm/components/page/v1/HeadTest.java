@@ -38,6 +38,12 @@ import static org.mockito.Mockito.when;
 public class HeadTest extends WCMUsePojoBaseTest<Head> {
 
     public static final String DESIGN_PATH = "/etc/designs/mysite";
+    public static final String FN_ICO_FAVICON = "favicon.ico";
+    public static final String FN_PNG_FAVICON = "weretail_favicon_32.png";
+    public static final String FN_TOUCH_ICON_60 = "weretail_touch-icon_60.png";
+    public static final String FN_TOUCH_ICON_76 = "weretail_touch-icon_76.png";
+    public static final String FN_TOUCH_ICON_120 = "weretail_touch-icon_120.png";
+    public static final String FN_TOUCH_ICON_152 = "weretail_touch-icon_152.png";
 
     static {
         TEST_CONTENT_ROOT = "/content/mysite";
@@ -49,8 +55,12 @@ public class HeadTest extends WCMUsePojoBaseTest<Head> {
     @Before
     public void setUp() {
         super.setUp();
-        context.load().binaryFile(TEST_BASE + "/favicon.ico", DESIGN_PATH + "/favicon.ico");
-        context.load().binaryFile(TEST_BASE + "/favicon.png", DESIGN_PATH + "/favicon.png");
+        context.load().binaryFile(TEST_BASE + "/"+FN_ICO_FAVICON, DESIGN_PATH + "/"+FN_ICO_FAVICON);
+        context.load().binaryFile(TEST_BASE + "/"+FN_PNG_FAVICON, DESIGN_PATH + "/"+FN_PNG_FAVICON);
+        context.load().binaryFile(TEST_BASE + "/"+FN_TOUCH_ICON_60, DESIGN_PATH + "/"+FN_TOUCH_ICON_60);
+        context.load().binaryFile(TEST_BASE + "/"+FN_TOUCH_ICON_76, DESIGN_PATH + "/"+FN_TOUCH_ICON_76);
+        context.load().binaryFile(TEST_BASE + "/"+FN_TOUCH_ICON_120, DESIGN_PATH + "/"+FN_TOUCH_ICON_120);
+        context.load().binaryFile(TEST_BASE + "/"+FN_TOUCH_ICON_152, DESIGN_PATH + "/"+FN_TOUCH_ICON_152);
         context.load().binaryFile(TEST_BASE + "/static.css", DESIGN_PATH + "/static.css");
         context.load().json(TEST_BASE + "/default-tags.json", "/etc/tags/default");
     }
@@ -66,8 +76,12 @@ public class HeadTest extends WCMUsePojoBaseTest<Head> {
         assertEquals("Templated Page", head.getTitle());
         assertEquals(DESIGN_PATH + ".css", head.getDesignPath());
         assertEquals(DESIGN_PATH + "/static.css", head.getStaticDesignPath());
-        assertEquals(DESIGN_PATH + "/favicon.ico", head.getICOFavicon());
-        assertEquals(DESIGN_PATH + "/favicon.png", head.getPNGFavicon());
+        assertEquals(DESIGN_PATH + "/"+FN_ICO_FAVICON, head.getICOFavicon());
+        assertEquals(DESIGN_PATH + "/"+FN_PNG_FAVICON, head.getPNGFavicon());
+        assertEquals(DESIGN_PATH + "/"+FN_TOUCH_ICON_60, head.getTouchIcon60());
+        assertEquals(DESIGN_PATH + "/"+FN_TOUCH_ICON_76, head.getTouchIcon76());
+        assertEquals(DESIGN_PATH + "/"+FN_TOUCH_ICON_120, head.getTouchIcon120());
+        assertEquals(DESIGN_PATH + "/"+FN_TOUCH_ICON_152, head.getTouchIcon152());
         String[] keywordsArray = head.getKeywords();
         assertEquals(3, keywordsArray.length);
         Set<String> keywords = new HashSet<>(keywordsArray.length);

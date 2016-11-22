@@ -36,4 +36,17 @@
 <sly data-sly-test="${!pngFavicon && icoFavicon}">
     <link rel="icon" href="${icoFavicon}">
 </sly>
+
+<sly data-sly-test.touchIcon60="${head.touchIcon60}">
+    <link rel="apple-touch-icon" href="${touchIcon60}">
+</sly>
+<sly data-sly-test.touchIcon76="${head.touchIcon76}">
+    <link rel="apple-touch-icon" sizes="76x76" href="${touchIcon76}">
+</sly>
+<sly data-sly-test.touchIcon120="${head.touchIcon120}">
+    <link rel="apple-touch-icon" sizes="120x120" href="${touchIcon120}">
+</sly>
+<sly data-sly-test.touchIcon152="${head.touchIcon152}">
+    <link rel="apple-touch-icon" sizes="152x152" href="${touchIcon152}">
+</sly>
 <title>${head.title}</title>

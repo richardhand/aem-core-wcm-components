@@ -27,10 +27,22 @@ public class Head extends WCMUsePojo {
 
     public String[] keywords;
     public String designPathCSS;
-    public String icoFavicon;
-    public String pngFavicon;
     public String title;
     public String staticDesignPath;
+
+    private static final String FN_ICO_FAVICON = "favicon.ico";
+    private static final String FN_PNG_FAVICON = "weretail_favicon_32.png";
+    private static final String FN_TOUCH_ICON_60 = "weretail_touch-icon_60.png";
+    private static final String FN_TOUCH_ICON_76 = "weretail_touch-icon_76.png";
+    private static final String FN_TOUCH_ICON_120 = "weretail_touch-icon_120.png";
+    private static final String FN_TOUCH_ICON_152 = "weretail_touch-icon_152.png";
+
+    private String icoFavicon;
+    private String pngFavicon;
+    private String touchIcon60;
+    private String touchIcon76;
+    private String touchIcon120;
+    private String touchIcon152;
 
     @Override
     public void activate() throws Exception {
@@ -48,22 +60,48 @@ public class Head extends WCMUsePojo {
             if (StringUtils.isNotEmpty(designPath)) {
                 designPathCSS = designPath + ".css";
             }
-            icoFavicon = designPath + "/favicon.ico";
-            pngFavicon = designPath + "/favicon.png";
-            if (resourceResolver.getResource(icoFavicon) == null) {
-                icoFavicon = null;
-            }
-            if (resourceResolver.getResource(pngFavicon) == null) {
-                pngFavicon = null;
-            }
             if (resourceResolver.getResource(designPath + "/static.css") != null) {
                 staticDesignPath = designPath + "/static.css";
             }
+            loadFavicons(resourceResolver, designPath);
         }
         title = currentPage.getTitle();
         if (StringUtils.isEmpty(title)) {
             title = currentPage.getName();
         }
+    }
+
+    /**
+     * Loads the favicon paths for the various favicons into their respective variables.
+     * If the favicon exists at its path, then the path is stored in its variable, 
+     * otherwise a null value is stored in the respective variable. 
+     * @param resourceResolver The {@link ResourceResolver} to use for checking if the favicon exists under the specified {@code designPath}
+     * @param designPath The design path under which the favicon should be present
+     */
+    private void loadFavicons(ResourceResolver resourceResolver, String designPath) {
+        icoFavicon = getFaviconPath(resourceResolver, designPath, FN_ICO_FAVICON);
+        pngFavicon = getFaviconPath(resourceResolver, designPath, FN_PNG_FAVICON);
+        touchIcon60 = getFaviconPath(resourceResolver, designPath, FN_TOUCH_ICON_60);
+        touchIcon76 = getFaviconPath(resourceResolver, designPath, FN_TOUCH_ICON_76);
+        touchIcon120 = getFaviconPath(resourceResolver, designPath, FN_TOUCH_ICON_120);
+        touchIcon152 = getFaviconPath(resourceResolver, designPath, FN_TOUCH_ICON_152);
+    }
+
+    /**
+     * Generates the path for the given {@code faviconName}
+     * @param resourceResolver The {@link ResourceResolver} to use for checking if the favicon exists under the specified {@code designPath}
+     * @param designPath The design path under which the favicon with name {@code faviconName} should be present
+     * @param faviconName The name of the favicon for which the path is to be generated
+     * @return The path of the favicon ( which is path concatenation of {@code designPath} and {@code faviconName} if
+     * the favicon with {@code faviconName} exists under the given {@code designPath}, otherwise <br>
+     *     {@code null} if the favicon with given {@code faviconName} does not exist
+     */
+    private String getFaviconPath(ResourceResolver resourceResolver, String designPath, String faviconName) {
+        String path = designPath + "/"+ faviconName;
+        if (resourceResolver.getResource(path) == null) {
+            path = null;
+        }
+        return path;
     }
 
     /**
@@ -111,6 +149,22 @@ public class Head extends WCMUsePojo {
         return pngFavicon;
     }
 
+    public String getTouchIcon60() {
+        return touchIcon60;
+    }
+
+    public String getTouchIcon76() {
+        return touchIcon76;
+    }
+
+    public String getTouchIcon120() {
+        return touchIcon120;
+    }
+
+    public String getTouchIcon152() {
+        return touchIcon152;
+    }
+
     /**
      * Retrieves the page's title.
      *
@@ -119,4 +173,6 @@ public class Head extends WCMUsePojo {
     public String getTitle() {
         return title;
     }
+    
+    
 }
