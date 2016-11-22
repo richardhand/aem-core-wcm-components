@@ -53,6 +53,22 @@
                                         "plugins"               : {
                                             "jcr:primaryType": "nt:unstructured"
                                         }
+                                    },
+                                    "policy_1478854677328": {
+                                        "jcr:primaryType"       : "nt:unstructured",
+                                        "jcr:title"             : "images",
+                                        "allowedRenditionWidths": [
+                                            600
+                                        ],
+                                        "disableLazyLoading"    : "true",
+                                        "allowUpload"           : "true",
+                                        "sling:resourceType"    : "wcm/core/components/policy/policy",
+                                        "jcr:content"           : {
+                                            "jcr:primaryType": "nt:unstructured"
+                                        },
+                                        "plugins"               : {
+                                            "jcr:primaryType": "nt:unstructured"
+                                        }
                                     }
                                 }
                             }

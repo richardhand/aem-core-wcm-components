@@ -88,4 +88,27 @@ public interface Image {
      */
     boolean shouldDisplayCaptionPopup();
 
+    /**
+     * Returns {@code true} if the image is rendered only for decorative purposes (no link, no alt information).
+     *
+     * @return {@code true} if the image is decorative, {@code false} otherwise
+     */
+    boolean isDecorative();
+
+    /**
+     * Returns the file reference of the current image, if one exists.
+     *
+     * @return the file reference of the current image, if one exists, {@code null} otherwise
+     */
+    String getFileReference();
+
+    /**
+     * Returns the name of the file that represents the image.
+     *
+     * @return the name of the file that represents the image
+     */
+    String getFileName();
+
+
+
 }

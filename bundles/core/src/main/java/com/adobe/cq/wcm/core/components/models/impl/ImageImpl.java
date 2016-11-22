@@ -21,24 +21,26 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.jackrabbit.util.Text;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceMetadata;
-import org.apache.sling.api.resource.ValueMap;
-import org.apache.sling.api.scripting.SlingScriptHelper;
 import org.apache.sling.commons.mime.MimeTypeService;
 import org.apache.sling.commons.osgi.PropertiesUtil;
+import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.Source;
+import org.apache.sling.models.annotations.injectorspecific.InjectionStrategy;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 import org.apache.sling.models.annotations.injectorspecific.Self;
+import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.adobe.cq.wcm.core.components.models.Constants;
 import com.adobe.cq.wcm.core.components.models.Image;
+import com.day.cq.commons.jcr.JcrConstants;
 import com.day.cq.wcm.api.designer.Style;
-import com.day.jcr.vault.util.JcrConstants;
 
 @Model(adaptables = SlingHttpServletRequest.class, adapters = Image.class, resourceType = "wcm/core/components/image")
 public class ImageImpl implements Image {
@@ -52,29 +54,38 @@ public class ImageImpl implements Image {
     private Resource resource;
 
     @ScriptVariable
-    private ValueMap properties;
-
-    @ScriptVariable
     private Style currentStyle;
-
-    @ScriptVariable
-    private SlingScriptHelper sling;
 
     @Inject @Source("osgi-services")
     private MimeTypeService mimeTypeService;
 
+    @ValueMapValue(name = Constants.IMAGE_FILE_REFERENCE, injectionStrategy = InjectionStrategy.OPTIONAL)
     private String fileReference;
+
+    @ValueMapValue(name = Constants.IMAGE_IS_DECORATIVE, injectionStrategy = InjectionStrategy.OPTIONAL)
+    @Default(booleanValues = false)
+    private boolean isDecorative;
+
+    @ValueMapValue(name = Constants.IMAGE_DISPLAY_CAPTION_POPUP, injectionStrategy = InjectionStrategy.OPTIONAL)
+    @Default(booleanValues = false)
+    private boolean displayCaptionPopup;
+
+    @ValueMapValue(name = Constants.IMAGE_ALT, injectionStrategy = InjectionStrategy.OPTIONAL)
+    private String alt;
+
+    @ValueMapValue(name = JcrConstants.JCR_TITLE, injectionStrategy = InjectionStrategy.OPTIONAL)
+    private String title;
+
+    @ValueMapValue(name = Constants.IMAGE_LINK, injectionStrategy = InjectionStrategy.OPTIONAL)
+    private String linkURL;
+
+    @ValueMapValue(name = Constants.IMAGE_FILE_NAME, injectionStrategy = InjectionStrategy.OPTIONAL)
     private String fileName;
+
     private String extension;
     private String src;
     private String[] smartImages;
     private Integer[] smartSizes;
-
-    private boolean isDecorative;
-    private boolean displayCaptionPopup;
-    private String alt;
-    private String title;
-    private String linkURL;
 
     // content policy settings
     private Set<Integer> allowedRenditionWidths;
@@ -82,7 +93,6 @@ public class ImageImpl implements Image {
 
     @PostConstruct
     private void postConstruct() {
-        fileReference = properties.get(Constants.IMAGE_FILE_REFERENCE, "");
         if (StringUtils.isNotEmpty(fileReference)) {
             fileName = fileReference.substring(fileReference.lastIndexOf("/") + 1);
             int dotIndex;
@@ -92,7 +102,9 @@ public class ImageImpl implements Image {
         } else {
             Resource file = resource.getChild(Constants.IMAGE_CHILD_NODE_IMAGE_FILE);
             if (file != null) {
-                fileName = resource.getName();
+                if (StringUtils.isEmpty(fileName)) {
+                    fileName = resource.getName();
+                }
                 extension = mimeTypeService
                         .getExtension(PropertiesUtil.toString(file.getResourceMetadata().get(ResourceMetadata.CONTENT_TYPE), "image/jpeg"));
             }
@@ -101,23 +113,17 @@ public class ImageImpl implements Image {
             Set<Integer> supportedRenditionWidths = getSupportedRenditionWidths();
             smartImages = new String[supportedRenditionWidths.size()];
             int index = 0;
+            String escapedResourcePath = Text.escapePath(resource.getPath());
             for (Integer width : supportedRenditionWidths) {
-                smartImages[index++] = "\"" + request.getContextPath() + resource.getPath() + ".img." + width + "." + extension + "\"";
+                smartImages[index++] = "\"" + request.getContextPath() + escapedResourcePath + ".img." + width + "." + extension + "\"";
             }
-            smartSizes = supportedRenditionWidths.toArray(new Integer[0]);
+            smartSizes = supportedRenditionWidths.toArray(new Integer[supportedRenditionWidths.size()]);
             if (smartSizes.length == 0 || smartSizes.length >= 2) {
-                src = request.getContextPath() + resource.getPath() + ".img." + extension;
+                src = request.getContextPath() + escapedResourcePath + ".img." + extension;
             } else if (smartSizes.length == 1) {
-                src = request.getContextPath() + resource.getPath() + ".img." + smartSizes[0] + "." + extension;
+                src = request.getContextPath() + escapedResourcePath + ".img." + smartSizes[0] + "." + extension;
             }
             disableLazyLoading = currentStyle.get(Constants.IMAGE_LAZY_LOADING_ENABLED, false);
-            isDecorative = properties.get(Constants.IMAGE_IS_DECORATIVE, false);
-            displayCaptionPopup = properties.get(Constants.IMAGE_DISPLAY_CAPTION_POPUP, false);
-            if (!isDecorative) {
-                alt = properties.get(Constants.IMAGE_ALT, String.class);
-                linkURL = properties.get(Constants.IMAGE_LINK, String.class);
-            }
-            title = properties.get(JcrConstants.JCR_TITLE, String.class);
         }
 
     }
@@ -177,5 +183,20 @@ public class ImageImpl implements Image {
     @Override
     public boolean shouldDisplayCaptionPopup() {
         return displayCaptionPopup;
+    }
+
+    @Override
+    public String getFileReference() {
+        return fileReference;
+    }
+
+    @Override
+    public String getFileName() {
+        return fileName;
+    }
+
+    @Override
+    public boolean isDecorative() {
+        return isDecorative;
     }
 }
