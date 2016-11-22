@@ -74,10 +74,6 @@
                             jcr:primaryType="nt:unstructured"
                             left="[crop#identifier]"
                             right="[crop#unlaunch,crop#confirm]"/>
-                        <map
-                            jcr:primaryType="nt:unstructured"
-                            left="[map#rectangle,map#circle,map#polygon]"
-                            right="[map#unlaunch,map#confirm]"/>
                     </replacementToolbars>
                 </fullscreen>
             </ui>

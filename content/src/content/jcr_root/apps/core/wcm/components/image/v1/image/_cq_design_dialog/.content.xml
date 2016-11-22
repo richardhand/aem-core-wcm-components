@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
-      jcr:primaryType="nt:unstructured"
-      jcr:title="Image Design"
-      jcr:description="Image Design Dialog"
-      sling:resourceType="cq/gui/components/authoring/dialog">
+    jcr:primaryType="nt:unstructured"
+    jcr:title="Image Design"
+    jcr:description="Image Design Dialog"
+    sling:resourceType="cq/gui/components/authoring/dialog"
+    extraClientlibs="[core.wcm.components.image.v1.editor]">
     <content
         jcr:primaryType="nt:unstructured"
         sling:resourceType="granite/ui/components/coral/foundation/container">
@@ -28,30 +29,13 @@
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
                                         fieldDescription="Define a list of allowed widths in pixels for the image to automatically load the most appropriate width from the list."
-                                        fieldLabel="Allowed widths">
+                                        fieldLabel="Allowed widths"
+                                        granite:class="core-image-widths">
                                         <field
                                             jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="granite/ui/components/coral/foundation/form/select"
-                                            name="./allowedRenditionWidths">
-                                            <items jcr:primaryType="nt:unstructured">
-                                                <w320px
-                                                    jcr:primaryType="nt:unstructured"
-                                                    value="320"
-                                                    text="320 px"/>
-                                                <w476px
-                                                    jcr:primaryType="nt:unstructured"
-                                                    value="476"
-                                                    text="476 px"/>
-                                                <w480px
-                                                    jcr:primaryType="nt:unstructured"
-                                                    value="480"
-                                                    text="480 px"/>
-                                                <w620px
-                                                    jcr:primaryType="nt:unstructured"
-                                                    value="620"
-                                                    text="620 px"/>
-                                            </items>
-                                        </field>
+                                            sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
+                                            required="{Boolean}true"
+                                            name="./allowedRenditionWidths"/>
                                     </allowedWidths>
                                     <disableLazyLoading
                                         jcr:primaryType="nt:unstructured"
@@ -59,7 +43,8 @@
                                         fieldDescription="Don't defer the loading of images until they become visible."
                                         name="./disableLazyLoading"
                                         text="Disable lazy loading"
-                                        value="{Boolean}true"/>
+                                        value="{Boolean}true"
+                                        wrapperClass="core-image-disable-lazy"/>
                                 </items>
                             </content>
                         </items>
@@ -172,34 +157,6 @@
                                                     </configWrapper>
                                                 </items>
                                             </crop>
-                                            <map
-                                                granite:class="js-cq-IPEPlugin-group"
-                                                jcr:title="Image maps"
-                                                jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/container"
-                                                maximized="{Boolean}true">
-                                                <granite:data
-                                                    jcr:primaryType="nt:unstructured"
-                                                    features="launch,unlaunch,confirm"
-                                                    name="map"/>
-                                                <items jcr:primaryType="nt:unstructured">
-                                                    <rectangle
-                                                        jcr:title="Rectangle"
-                                                        jcr:primaryType="nt:unstructured"
-                                                        sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
-                                                        name="rectangle"/>
-                                                    <circle
-                                                        jcr:title="Circle"
-                                                        jcr:primaryType="nt:unstructured"
-                                                        sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
-                                                        name="circle"/>
-                                                    <polygon
-                                                        jcr:title="Polygon"
-                                                        jcr:primaryType="nt:unstructured"
-                                                        sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/pluginfeature"
-                                                        name="polygon"/>
-                                                </items>
-                                            </map>
                                         </items>
                                     </accordion>
                                 </items>
