@@ -31,6 +31,28 @@
 
     var jsonFile = ""
 
+    var commons = window.CQ.CoreComponentsIT.commons;
+
+    var executeBeforeTitleTest = new h.TestCase("Setup Before Test")
+        // create the test page using our own test template
+            .execFct(commons.createTestPage)
+            // add the form container component
+            .execFct(function (opts, done) {
+                commons.createComponent("core/wcm/components/form/formcontainer","formcontainer", done)
+            })
+
+            .execFct(function (opts, done) {
+                commons.createComponentInForm("core/wcm/components/form/text","text","formcontainer", done)
+            })
+
+            .execFct(function (opts, done) {
+                commons.createComponentInForm("core/wcm/components/form/button","button","formcontainer", done)
+            })
+
+            // open the page in the editor
+            .navigateTo("/editor.html" + commons.testPagePath + ".html")
+        ;
+
     var createFormContentNode = function(url){
         return $.ajax({
             url: url,
@@ -133,8 +155,7 @@
         ;
     }
 
-    window.CQ.CoreComponentsIT.FormContainer.NavigateToEditor = function (h,$) {
-        return new h.TestCase('Navigate to the edit page')
+    var NavigateToEditor = new h.TestCase('Navigate to the edit page')
             .navigateTo("/editor.html" + pageUrl + ".html")
             .assert.location("/editor.html" + pageUrl + ".html", true)
 
@@ -149,12 +170,12 @@
                    .wait(250),null, {timeout: 100}
             )
         ;
-    }
 
-    window.CQ.CoreComponentsIT.FormContainer.CheckFillMailForm = function (h,$) {
-        return new h.TestCase('Check the mail form')
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h,$, ".cq-Overlay.cq-draggable.cq-droptarget.cq-Overlay--placeholder"))
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.OpenFormType(h,$, 'Mail'))
+    var CheckFillMailForm = new h.TestCase('Check the mail form',{
+            execBefore: executeBeforeTitleTest
+            //,
+            //execAfter: commons.executeAfterTest
+    })
 
             //Fill in the From
             .fillInput(".action-type-dialog:not(.hide) >div:contains('From') >input", from_mail)
@@ -182,10 +203,9 @@
 
             .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
         ;
-    }
 
-    window.CQ.CoreComponentsIT.FormContainer.CheckMailPersistence = function (h,$) {
-        return new h.TestCase('Check the persistence of the mail addresses')
+
+    var CheckMailPersistence = new h.TestCase('Check the persistence of the mail addresses')
             .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h,$, ".cq-Overlay.cq-draggable.cq-droptarget.cq-Overlay--container"))
             .execTestCase(window.CQ.CoreComponentsIT.FormContainer.OpenFormType(h,$, 'Mail'))
 
@@ -204,10 +224,9 @@
 
             .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
         ;
-    }
 
-    window.CQ.CoreComponentsIT.FormContainer.CheckMailAddressNumber = function (h,$){
-        return new h.TestCase('Check the number of the mail addresses and the Delete button')
+
+    var CheckMailAddressNumber = new h.TestCase('Check the number of the mail addresses and the Delete button')
             .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h,$, ".cq-Overlay.cq-draggable.cq-droptarget.cq-Overlay--container"))
             .execTestCase(window.CQ.CoreComponentsIT.FormContainer.OpenFormType(h,$, 'Mail'))
 
@@ -240,19 +259,17 @@
 
             .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
         ;
-    }
 
-    window.CQ.CoreComponentsIT.FormContainer.CheckMailForm = function (h,$) {
-        return new h.TestCase('Check the mail form')
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.CheckFillMailForm(h,$))
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.CheckMailPersistence(h,$))
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.CheckMailAddressNumber(h,$))
+
+    var CheckMailForm = new h.TestCase('Check the mail form')
+            .execTestCase(CheckFillMailForm)
+            .execTestCase(CheckMailPersistence)
+            .execTestCase(CheckMailAddressNumber)
         ;
-    }
 
-    window.CQ.CoreComponentsIT.FormContainer.SetAndCheckThankYouPage = function (h,$) {
-        return new h.TestCase('Set the Thank you page')
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.NavigateToEditor(h,$))
+
+    var SetAndCheckThankYouPage = new h.TestCase('Set the Thank you page')
+            .execTestCase(NavigateToEditor)
             .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h,$, ".cq-Overlay.cq-draggable.cq-droptarget.cq-Overlay--container"))
             .execTestCase(window.CQ.CoreComponentsIT.FormContainer.OpenFormType(h,$,'Store Content'))
 
@@ -270,15 +287,14 @@
             .click("button.granite-pickerdialog-submit:contains('Select')")
             .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
 
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.SubmitFormContent(h,$))
+            .execTestCase(SubmitFormContent)
 
             //Check the redirection after the form submit
             .assert.location("/editor.html/content/we-retail/language-masters/en/user/account/sign-up/thank-you.html", true)
         ;
-    }
 
-    window.CQ.CoreComponentsIT.FormContainer.SubmitFormContent = function (h,$) {
-        return new h.TestCase('Submit the Form Content')
+
+    var SubmitFormContent = new h.TestCase('Submit the Form Content')
             //Submit the form content
             .click("button[data-layer='Preview']")
 
@@ -292,11 +308,10 @@
 
             .config.resetContext()
         ;
-    }
 
-    window.CQ.CoreComponentsIT.FormContainer.SetAndCheckStartWorkflow = function (h,$) {
-        return new h.TestCase('Set and check the Start Workflow')
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.NavigateToEditor(h,$))
+
+    var SetAndCheckStartWorkflow = new h.TestCase('Set and check the Start Workflow')
+            .execTestCase(NavigateToEditor)
             .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h,$, ".cq-Overlay.cq-draggable.cq-droptarget.cq-Overlay--container"))
             .execTestCase(window.CQ.CoreComponentsIT.FormContainer.OpenFormType(h,$,'Store Content'))
 
@@ -306,7 +321,7 @@
 
             .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
 
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.SubmitFormContent(h,$))
+            .execTestCase(SubmitFormContent)
 
             //Check if the workflow is started
             .navigateTo("/libs/cq/workflow/admin/console/content/instances.html")
@@ -321,12 +336,10 @@
                 return hobs.find(".foundation-collection-item.foundation-collection-navigator.coral-Table-row:contains('Publish Example'):first > td:contains('"+contentPath+"')")
             })
         ;
-    }
 
-    window.CQ.CoreComponentsIT.FormContainer.SetAndCheckContentPath = function (h,$) {
-        return new h.TestCase('Set and check the Content Path')
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.NavigateToEditor(h,$))
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h,$, ".cq-Overlay.cq-draggable.cq-droptarget.cq-Overlay--container"))
+    var SetAndCheckContentPath = new h.TestCase('Set and check the Content Path')
+            .execTestCase(NavigateToEditor)
+            .execTestCase(commons.tcOpenConfigureDialog)
             .execTestCase(window.CQ.CoreComponentsIT.FormContainer.OpenFormType(h,$,'Store Content'))
 
             //Set a different content path
@@ -335,7 +348,7 @@
 
             .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
 
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.SubmitFormContent(h,$))
+            .execTestCase(SubmitFormContent)
 
             //Check if data are saved in the Bulk Editor
             .navigateTo("/etc/importers/bulkeditor.html?rootPath=%2Fcontent%2Fusergenerated%2Fcore-components%2Fcore-components-page%2Fcq&initialSearch=true&contentMode=false&spc=true&cs=field_name&cv=field_name")
@@ -349,23 +362,21 @@
 
             .execTestCase(window.CQ.CoreComponentsIT.FormContainer.CheckDataStore(h, $, contentPath))
         ;
-    }
 
-    window.CQ.CoreComponentsIT.FormContainer.CheckStoreContentForm = function (h,$){
-        return new h.TestCase('Check the Store Content')
+
+    var CheckStoreContentForm = new h.TestCase('Check the Store Content')
             //Set and check the Content Path
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.SetAndCheckContentPath(h,$))
+            .execTestCase(SetAndCheckContentPath)
             //Set the "Thank You Page"
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.SetAndCheckThankYouPage(h,$))
+            .execTestCase(SetAndCheckThankYouPage)
             //Set the Start Workflow
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.SetAndCheckStartWorkflow(h,$))
+            .execTestCase(SetAndCheckStartWorkflow)
         ;
-    }
 
-    window.CQ.CoreComponentsIT.FormContainer.CheckAdvancedOptions = function (h,$) {
-        return new h.TestCase('Check Advanced Options')
 
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.NavigateToEditor(h,$))
+    var CheckAdvancedOptions = new h.TestCase('Check Advanced Options')
+
+            .execTestCase(NavigateToEditor)
 
             //Test the content path
             .execTestCase(window.CQ.CoreComponentsIT.FormContainer.CreateContentNode(h,$,"/content/usergenerated/core-components-new"))
@@ -394,15 +405,21 @@
 
             .config.resetContext()
         ;
-    }
+
 
     new h.TestSuite("Core-Components Tests - Form Container", {path:"/apps/core/wcm/tests/core-components-it/FormContainer.js",
-        execBefore: window.CQ.CoreComponentsIT.ExecuteBefore(h,$,window.CQ.CoreComponentsIT.FormContainer.DragDropFormContainer(h,$)),
-        execAfter:window.CQ.CoreComponentsIT.DeletePage(h, $,pageUrl),
-        register: true})
-        .addTestCase(window.CQ.CoreComponentsIT.FormContainer.CheckMailForm(h,$))
-        .addTestCase(window.CQ.CoreComponentsIT.FormContainer.CheckStoreContentForm(h,$))
-        .addTestCase(window.CQ.CoreComponentsIT.FormContainer.CheckAdvancedOptions(h,$))
+        execBefore:commons.executeBeforeTestSuite})
+
+        .addTestCase(CheckFillMailForm)
+        .addTestCase(CheckMailPersistence)
+        .addTestCase(CheckMailAddressNumber)
+        //Set and check the Content Path
+        .addTestCase(SetAndCheckContentPath)
+        //Set the "Thank You Page"
+        .addTestCase(SetAndCheckThankYouPage)
+        //Set the Start Workflow
+        .addTestCase(SetAndCheckStartWorkflow)
+        .addTestCase(CheckAdvancedOptions)
     ;
 
 }(hobs, jQuery));

@@ -16,30 +16,30 @@
 
 ;(function(h, $){
 
-    var pageUrl = window.CQ.CoreComponentsIT.pageRoot+"/page0";
+    var commons = window.CQ.CoreComponentsIT.commons;
 
-    /**
-     * Drag and Drop a Title component.
-     */
-    window.CQ.CoreComponentsIT.DragDropTitle = function (h, $) {
-        return new h.TestCase("Drag and drop the form button")
-            .execTestCase(window.CQ.CoreComponentsIT.CreatePage(h,$,pageUrl, "page0","CoreComponent TestPage",
-                "/conf/core-components/settings/wcm/templates/core-components"))
-            .execTestCase(window.CQ.CoreComponentsIT.DragDropComponent(h,$,"Core WCM Title Component",pageUrl))
+    var executeBeforeTitleTest = new h.TestCase("Setup Before Test")
+            // create the test page using our own test template
+            .execFct(commons.createTestPage)
+            // add the title component
+            .execFct(function (opts, done) {
+                commons.createComponent("core/wcm/components/title", done)
+            })
+            // open the page in the editor
+            .navigateTo("/editor.html" + commons.testPagePath + ".html")
         ;
-    }
 
     /**
-     * Check the Edit button for the Title component.
+     * Set the title value using the edit dialog.
      */
-    window.CQ.CoreComponentsIT.CheckEditButtonTest = function (h, $) {
-        return new h.TestCase("Check the edit button")
+    var setTitleValueUsingEditDialog = new h.TestCase("Set Title value using edit dialog",{
+            execBefore: executeBeforeTitleTest,
+            execAfter: commons.executeAfterTest})
+
             //click on the component to see the Editable Toolbar
-            .execTestCase(window.CQ.CoreComponentsIT.OpenEditableToolbar(h,$,".cq-Overlay.cq-draggable.cq-droptarget"))
-            .click(".coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title='Edit']")
-            //check de number of the button from the EditableToolbar
+            .execTestCase(commons.tcOpenEditDialog)
+            .click(".cq-editable-action[title='Edit']")
             .assert.isTrue(function() {return hobs.find(".title.aem-GridColumn .cmp.cmp-title","#ContentFrame")})
-            //.execFct(function() { hobs.find(".title.aem-GridColumn .cmp.cmp-title > h1","#ContentFrame").replaceWith("content test")})
 
             //get a new context
             .config.changeContext(function() {
@@ -56,56 +56,58 @@
             )
             //reset the new context
             .config.resetContext()
-
-            .click("#OverlayWrapper")
-            .click(".cq-Overlay.cq-draggable.cq-droptarget")
-            .click(".cq-Overlay.cq-draggable.cq-droptarget")
         ;
-    }
-
-    window.CQ.CoreComponentsIT.CheckTitleType = function (h, $, index, value) {
-        return new h.TestCase("Check title type")
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $, ".cq-Overlay.cq-draggable.cq-droptarget"))
-            .click(".cq-dialog-content.coral-FixedColumn .coral-Button")
-            .click(".coral-Overlay.coral3-Select-overlay.is-open .coral3-SelectList-item:eq("+index+")")
-            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
-            .assert.isTrue(function () {return h.find(".title.aem-GridColumn .cmp.cmp-title >"+ value,"#ContentFrame")})
-        ;
-    }
 
     /**
-     * Function used for checking the type and the size of the Title component.
+     * Set the title value using the design dialog.
      */
-    window.CQ.CoreComponentsIT.CheckTitleTypes = function (h, $) {
-        var titleType = new h.TestCase ("Check title types");
-        for (var i=0; i<= 6; i++) {
-            var value = h.find(".coral-Overlay.coral3-Select-overlay.is-open .coral3-SelectList-item:eq(" + i + ")").val()
-            titleType.execTestCase(window.CQ.CoreComponentsIT.CheckTitleType(h, $, i, value))
-        }
-        return titleType
-    }
+    var setTitleValueUsingDesignDialog = new h.TestCase("Set Title value using design dialog",{
+            execBefore: executeBeforeTitleTest,
+            execAfter: commons.executeAfterTest})
 
-    /**
-     * Check the Configure button for the Title component.
-     */
-    window.CQ.CoreComponentsIT.CheckTitleConfigureButtonTest = function (h, $){
-        return new h.TestCase("Check the Configure button")
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h, $, ".cq-Overlay.cq-draggable.cq-droptarget"))
+            .execTestCase(commons.tcOpenConfigureDialog)
             .assert.visible(".coral-Form-field.coral-Textfield[name='./jcr:title']")
-            .fillInput(".coral-Form-field.coral-Textfield[name='./jcr:title']","Content name")
+            .fillInput("[name='./jcr:title']","Content name")
             .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
-            //check the title type
-            .execTestCase(window.CQ.CoreComponentsIT.CheckTitleTypes(h, $))
-            //click on the fullscreen button
-            .execTestCase(window.CQ.CoreComponentsIT.OpenFullSreen(h,$))
-            //close the configure window
-            .execTestCase(window.CQ.CoreComponentsIT.CloseConfigureWindow(h,$))
         ;
-    }
+
+    /**
+     * Check the existance of all available title types.
+     */
+    var checkExistenceOfTitleTypes = new h.TestCase("Check the existence of all title types",{
+            execBefore: executeBeforeTitleTest,
+            execAfter: commons.executeAfterTest})
+
+            .execTestCase(commons.tcOpenConfigureDialog)
+            .click(".cq-dialog-content.coral-FixedColumn .coral-Button")
+            .assert.exist(".coral3-SelectList-item[value='h1']")
+            .assert.exist(".coral3-SelectList-item[value='h2']")
+            .assert.exist(".coral3-SelectList-item[value='h3']")
+            .assert.exist(".coral3-SelectList-item[value='h4']")
+            .assert.exist(".coral3-SelectList-item[value='h5']")
+            .assert.exist(".coral3-SelectList-item[value='h6']")
+            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
+    ;
+
+    /**
+     * Check the title type.
+     */
+    var checkTitleType = new h.TestCase("Check the title type",{
+            execBefore: executeBeforeTitleTest,
+            execAfter: commons.executeAfterTest})
+
+            .execTestCase(commons.tcOpenConfigureDialog)
+            .click(".cq-dialog-content.coral-FixedColumn .coral-Button")
+            .click(".coral3-SelectList-item[value='h5']")
+            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
+            .assert.isTrue(function () {return h.find(".title.aem-GridColumn .cmp.cmp-title > H5","#ContentFrame")})
+        ;
 
     new h.TestSuite("Core-Components Tests - Title", {path:"/apps/core/wcm/tests/core-components-it/Title.js",
-        execBefore: window.CQ.CoreComponentsIT.ExecuteBefore(h,$,window.CQ.CoreComponentsIT.DragDropTitle(h,$)), execAfter:window.CQ.CoreComponentsIT.DeletePage(h, $,pageUrl), register: true})
-        .addTestCase(window.CQ.CoreComponentsIT.CheckEditButtonTest(h, $))
-        .addTestCase(window.CQ.CoreComponentsIT.CheckTitleConfigureButtonTest(h, $))
+        execBefore:commons.executeBeforeTestSuite})
+        .addTestCase(setTitleValueUsingEditDialog)
+        .addTestCase(setTitleValueUsingDesignDialog)
+        .addTestCase(checkExistenceOfTitleTypes)
+        .addTestCase(checkTitleType)
     ;
 }(hobs, jQuery));

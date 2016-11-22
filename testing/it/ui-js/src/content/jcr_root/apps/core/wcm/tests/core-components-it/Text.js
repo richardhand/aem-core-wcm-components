@@ -15,26 +15,28 @@
  ******************************************************************************/
 ;(function (h, $) {
 
-    var pageUrl = window.CQ.CoreComponentsIT.pageRoot+ '/page0';
+    var testValue = '<b>This</b> is a <i>rich</i> <u>text</u>.'
+    var commons = window.CQ.CoreComponentsIT.commons;
 
-    /**
-     * Drag and Drop a Text component.
-     */
-    window.CQ.CoreComponentsIT.DragDropText = function (h, $) {
-        return new h.TestCase('Drag and drop the text component')
-            .execTestCase(window.CQ.CoreComponentsIT.CreatePage(h, $, pageUrl, 'page0', 'CoreComponent TestPage',
-                '/conf/core-components/settings/wcm/templates/core-components'))
-            .execTestCase(window.CQ.CoreComponentsIT.DragDropComponent(h, $, 'Core WCM Text Component', pageUrl));
-    };
+    var executeBeforeTextTest = new h.TestCase("Setup Before Test")
+        // create the test page using our own test template
+        .execFct(commons.createTestPage)
+        // add the text component
+        .execFct(function (opts, done) {
+            commons.createComponent("core/wcm/components/text", done)
+        })
+        // open the page in the editor
+        .navigateTo("/editor.html" + commons.testPagePath + ".html")
+        ;
 
     /**
      * Check the Edit button for the Text component.
      */
-    window.CQ.CoreComponentsIT.CheckEditButtonTest = function (h, $) {
-        var testValue = '<b>This</b> is a <i>rich</i> <u>text</u>.'
-        return new h.TestCase('Check the edit button')
-            .execTestCase(window.CQ.CoreComponentsIT.OpenEditableToolbar(h,$,'.cq-Overlay.cq-draggable.cq-droptarget'))
-            .click('.coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title="Edit"]')
+    var setTextValueUsingEditDialog = new h.TestCase('"Set Text value using edit dialog"',{
+            execBefore: executeBeforeTextTest,
+            execAfter: commons.executeAfterTest})
+
+            .execTestCase(commons.tcOpenEditDialog)
             .assert.isTrue(function() {return hobs.find('.title.aem-GridColumn .cmp.cmp-text','#ContentFrame')})
 
             //get a new context
@@ -44,18 +46,37 @@
             .execFct(function() {
                 hobs.find('.text.aem-GridColumn > p').html(testValue);
             })
+
+            .assert.isTrue(
+            function() {
+                var actualValue = hobs.find('.text.aem-GridColumn > p').html();
+                return actualValue === testValue;
+            }
+            )
             //reset the new context
             .config.resetContext()
+        ;
 
-            .click('#OverlayWrapper')
 
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h,$,".cq-Overlay.cq-draggable.cq-droptarget"))
+    var setTextValueUsingDesignDialog = new h.TestCase("Set Text value using design dialog",{
+            execBefore: executeBeforeTextTest,
+            execAfter: commons.executeAfterTest})
+
+            .execTestCase(commons.tcOpenConfigureDialog)
+
+            .fillInput(".coral-Form-field.coral-Textfield[name='./text']",'<p>'+testValue+'</p>')
+
+            .click('.cq-dialog-header-action.cq-dialog-submit.coral-Button.coral-Button--square[title="Done"]')
+
+            .execTestCase(commons.tcOpenConfigureDialog)
             .assert.isTrue(
                 function() {
                     var actualValue = hobs.find('.coral-RichText-editable.coral-Form-field.coral-Textfield.coral-Textfield--multiline.coral-RichText > p').html();
                     return actualValue === testValue;
                 }
-            ).click('.cq-dialog-header-action.cq-dialog-cancel.coral-Button.coral-Button--square[title="Cancel"]')
+            )
+            .click('.cq-dialog-header-action.cq-dialog-cancel.coral-Button.coral-Button--square[title="Cancel"]')
+
             .config.changeContext(
                 function() {
                     return hobs.find('iframe#ContentFrame').get(0);
@@ -63,20 +84,18 @@
             )
             .assert.isTrue(
                 function() {
-                    var actualValue = hobs.find('.section.text.aem-GridColumn > div.cmp.cmp-text > p').html();
+                    var actualValue = hobs.find('.text.aem-GridColumn >> p').html();
                     return actualValue === testValue;
                 }
             )
             .config.resetContext()
         ;
-    };
 
 
-    new h.TestSuite('Core-Components Tests - Text', {
-        path      : '/apps/core/wcm/tests/core-components-it/Text.js',
-        execBefore: window.CQ.CoreComponentsIT.ExecuteBefore(h, $, window.CQ.CoreComponentsIT.DragDropText(h, $)),
-        execAfter : window.CQ.CoreComponentsIT.DeletePage(h, $, pageUrl), register: true
+    new h.TestSuite('Core-Components Tests - Text', {path: '/apps/core/wcm/tests/core-components-it/Text.js',
+        execBefore:commons.executeBeforeTestSuite
     })
-        .addTestCase(window.CQ.CoreComponentsIT.CheckEditButtonTest(h, $))
+        .addTestCase(setTextValueUsingEditDialog)
+        .addTestCase(setTextValueUsingDesignDialog)
     ;
 }(hobs, jQuery));

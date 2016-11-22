@@ -16,7 +16,8 @@
 
 ns.js
 utils/Utils.js
-common/Common.js
+common/commons.js
+common/core_commons.js
 common/ConfigureTests.js
 common/CreatePages.js
 common/EditableToolbarTests.js
