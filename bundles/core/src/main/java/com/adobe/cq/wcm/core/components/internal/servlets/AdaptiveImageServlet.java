@@ -52,6 +52,7 @@ import com.day.image.Layer;
         property = {
                 "sling.servlet.selectors=" + AdaptiveImageServlet.DEFAULT_SELECTOR,
                 "sling.servlet.resourceTypes=core/wcm/components/image",
+                "sling.servlet.resourceTypes=core/wcm/components/image/v1/image",
                 "sling.servlet.extensions=jpg",
                 "sling.servlet.extensions=jpeg",
                 "sling.servlet.extensions=png",
