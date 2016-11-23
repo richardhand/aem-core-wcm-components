@@ -35,10 +35,10 @@ import com.adobe.granite.ui.components.ds.SimpleDataSource;
 
 @Model(adaptables = SlingHttpServletRequest.class,
     adapters = DataSourceModel.class,
-    resourceType = ConstraintTypeDatasource.RESOURCE_TYPE)
-public class ConstraintTypeDatasource extends DataSourceModel {
+    resourceType = TextFieldTypeDatasource.RESOURCE_TYPE)
+public class TextFieldTypeDatasource extends DataSourceModel {
 
-    protected final static String RESOURCE_TYPE = "core/wcm/components/form/text/datasource/constrainttypedatasource";
+    protected final static String RESOURCE_TYPE = "core/wcm/components/form/text/datasource/textfieldtypedatasource";
 
     @Self
     private SlingHttpServletRequest request;
@@ -49,7 +49,7 @@ public class ConstraintTypeDatasource extends DataSourceModel {
     @PostConstruct
     private void initModel() {
         List<Resource> constraintTypeResources = new ArrayList<>();
-        for(TextField.CONSTRAINT_TYPE type: TextField.CONSTRAINT_TYPE.values()) {
+        for(TextField.TYPE type: TextField.TYPE.values()) {
             constraintTypeResources.add(new ConstraintTypeResource(type.toString()));
         }
         SimpleDataSource actionTypeDataSource = new SimpleDataSource(constraintTypeResources.iterator());
@@ -67,7 +67,7 @@ public class ConstraintTypeDatasource extends DataSourceModel {
 
         @Override
         protected String getText() {
-            return name;
+            return StringUtils.capitalize(name);
         }
 
         @Override

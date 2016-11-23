@@ -45,13 +45,13 @@ public class TextFieldImpl implements TextField {
     private static final String PROP_DEFAULT_VALUE_DEFAULT = "";
     private static final boolean PROP_REQUIRED_DEFAULT = false;
     private static final String PROP_REQUIRED_MESSAGE_DEFAULT = "";
-    private static final CONSTRAINT_TYPE PROP_CONSTRAINT_DEFAULT = CONSTRAINT_TYPE.TEXT;
     private static final String PROP_CONSTRAINT_MESSAGE_DEFAULT = "";
     private static final boolean PROP_AUTOFOCUS_DEFAULT = false;
     private static final String PROP_SHOW_HIDE_EXPRESSION_DEFAULT = null;
-    private static final ELEMENT_TYPE PROP_TYPE_DEFAULT = ELEMENT_TYPE.INPUT;
+    private static final TYPE PROP_TYPE_DEFAULT = TYPE.TEXT;
     private static final String PROP_HELP_MESSAGE_DEFAULT = "";
     private static final boolean PROP_USE_PLACEHOLDER = false;
+    private static final Integer PROP_ROWS_DEFAULT = 2;
 
     private static final String PN_NAME = "name";
     private static final String PN_VALUE = "value";
@@ -63,13 +63,13 @@ public class TextFieldImpl implements TextField {
     private static final String PN_DEFAULT_VALUE = "defaultValue";
     private static final String PN_REQUIRED = "required";
     private static final String PN_REQUIRED_MESSAGE = "requiredMessage";
-    private static final String PN_CONSTRAINT = "constraintType";
     private static final String PN_CONSTRAINT_MESSAGE = "constraintMessage";
     private static final String PN_AUTOFOCUS = "autofocus";
     private static final String PN_SHOW_HIDE_EXPRESSION = "showHideExpression";
     private static final String PN_TYPE = "type";
     private static final String PN_HELP_MESSAGE = "helpMessage";
     private static final String PN_USE_PLACEHOLDER = "usePlaceholder";
+    private static final String PN_ROWS = "rows";
 
     @Self
     private SlingHttpServletRequest slingRequest;
@@ -110,9 +110,9 @@ public class TextFieldImpl implements TextField {
     }
 
     @Override
-    public ELEMENT_TYPE getType() {
+    public TYPE getType() {
         String type = properties.get(PN_TYPE, PROP_TYPE_DEFAULT.toString());
-        return ELEMENT_TYPE.valueOf(type.toUpperCase());
+        return TYPE.valueOf(type.toUpperCase());
     }
 
     @Override
@@ -171,13 +171,12 @@ public class TextFieldImpl implements TextField {
     }
 
     @Override
-    public CONSTRAINT_TYPE getConstraintType() {
-        String type = properties.get(PN_CONSTRAINT, PROP_CONSTRAINT_DEFAULT.toString());
-        return CONSTRAINT_TYPE.valueOf(type.toUpperCase());
+    public String getConstraintMessage() {
+        return properties.get(PN_CONSTRAINT_MESSAGE,PROP_CONSTRAINT_MESSAGE_DEFAULT);
     }
 
     @Override
-    public String getConstraintMessage() {
-        return properties.get(PN_CONSTRAINT_MESSAGE,PROP_CONSTRAINT_MESSAGE_DEFAULT);
+    public int getRows() {
+        return properties.get(PN_ROWS, PROP_ROWS_DEFAULT);
     }
 }

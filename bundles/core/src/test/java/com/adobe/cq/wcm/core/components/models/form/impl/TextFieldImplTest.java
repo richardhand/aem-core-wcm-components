@@ -16,8 +16,7 @@
 package com.adobe.cq.wcm.core.components.models.form.impl;
 
 import com.adobe.cq.wcm.core.components.models.form.TextField;
-import com.adobe.cq.wcm.core.components.models.form.TextField.CONSTRAINT_TYPE;
-import com.adobe.cq.wcm.core.components.models.form.TextField.ELEMENT_TYPE;
+import com.adobe.cq.wcm.core.components.models.form.TextField.TYPE;
 import com.day.cq.wcm.foundation.forms.FormStructureHelper;
 import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
 import io.wcm.testing.mock.aem.junit.AemContext;
@@ -81,10 +80,10 @@ public class TextFieldImplTest {
         assertEquals("",textField.getPlaceholder());
         assertEquals(false,textField.isReadOnly());
         assertEquals("",textField.getDefaultValue());
-        assertEquals(CONSTRAINT_TYPE.TEXT,textField.getConstraintType());
+        assertEquals(TYPE.TEXT,textField.getType());
         assertEquals("", textField.getConstraintMessage());
         assertEquals("",textField.getValue());
-        assertEquals(ELEMENT_TYPE.INPUT,textField.getType());
+        assertEquals(2, textField.getRows());
     }
 
     @Test
@@ -104,9 +103,9 @@ public class TextFieldImplTest {
         assertEquals("Custom help/placeholder message",textField.getPlaceholder());
         assertEquals(true,textField.isReadOnly());
         assertEquals("Custom default value",textField.getDefaultValue());
-        assertEquals(CONSTRAINT_TYPE.EMAIL,textField.getConstraintType());
+        assertEquals(TYPE.EMAIL,textField.getType());
         assertEquals("The value should be a valid email address", textField.getConstraintMessage());
         assertEquals("Prefilled Sample Input",textField.getValue());
-        assertEquals(ELEMENT_TYPE.TEXTAREA,textField.getType());
+        assertEquals(3, textField.getRows());
     }
 }

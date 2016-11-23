@@ -23,25 +23,14 @@ public interface TextField extends FormField{
     /**
      * the type of constraint on the input field
      */
-    enum CONSTRAINT_TYPE {
+    enum TYPE{
         TEXT,
+        TEXTAREA,
         EMAIL,
         TEL,
         DATE,
         NUMBER,
         PASSWORD;
-
-        public String toString() {
-            return this.name().toLowerCase();
-        }
-    }
-
-    /**
-     * the type of html element
-     */
-    enum ELEMENT_TYPE {
-        INPUT,
-        TEXTAREA;
 
         public String toString() {
             return this.name().toLowerCase();
@@ -61,15 +50,7 @@ public interface TextField extends FormField{
     String getDefaultValue();
 
     /**
-     * Gets the type of the input field such as date, email etc.
-     * The types are as defined under HTML5.
-     * @return the type of the field
-     * @see com.adobe.cq.wcm.core.components.models.form.TextField.ELEMENT_TYPE
-     */
-    CONSTRAINT_TYPE getConstraintType();
-
-    /**
-     * @return the message to be displayed when the constraint specified by {@link #getConstraintType()}
+     * @return the message to be displayed when the constraint specified by {@link #getType()}
      *      is not fulfilled
      */
     String getConstraintMessage();
@@ -85,7 +66,12 @@ public interface TextField extends FormField{
     /**
      * Gets the type of html element to use for rendering , textarea or input
      * @return the type of html element to use
-     * @see com.adobe.cq.wcm.core.components.models.form.TextField.ELEMENT_TYPE
+     * @see com.adobe.cq.wcm.core.components.models.form.TextField.TYPE
      */
-    ELEMENT_TYPE getType();
+    TYPE getType();
+
+    /**
+     * @return the number of rows the text area should display
+     */
+    int getRows();
 }
