@@ -37,7 +37,6 @@ public class TextFieldImpl implements TextField {
     protected static final String RESOURCE_TYPE = "core/wcm/components/form/text";
     private static final String PROP_NAME_DEFAULT = "text";
     private static final String PROP_VALUE_DEFAULT = "";
-    private static final String PROP_PLACEHOLDER_DEFAULT = "Text placeholder";
     private static final String PROP_TITLE_DEFAULT = "Text input field";
     private static final String PROP_DESCRIPTION_DEFAULT = "";
     private static final boolean PROP_HIDE_TITLE_DEFAULT = false;
@@ -50,12 +49,11 @@ public class TextFieldImpl implements TextField {
     private static final String PROP_SHOW_HIDE_EXPRESSION_DEFAULT = null;
     private static final TYPE PROP_TYPE_DEFAULT = TYPE.TEXT;
     private static final String PROP_HELP_MESSAGE_DEFAULT = "";
-    private static final boolean PROP_USE_PLACEHOLDER = false;
+    private static final boolean PROP_USE_PLACEHOLDER_DEFAULT = false;
     private static final Integer PROP_ROWS_DEFAULT = 2;
 
     private static final String PN_NAME = "name";
     private static final String PN_VALUE = "value";
-    private static final String PN_PLACEHOLDER = "placeholder";
     private static final String PN_TITLE = "jcr:title";
     private static final String PN_HIDE_TITLE = "hideTitle";
     private static final String PN_DESCRIPTION = "jcr:description";
@@ -162,12 +160,7 @@ public class TextFieldImpl implements TextField {
 
     @Override
     public String getPlaceholder() {
-        boolean usePlaceholder = properties.get(PN_USE_PLACEHOLDER, PROP_USE_PLACEHOLDER);
-        String placeholder = "";
-        if (usePlaceholder) {
-            placeholder = properties.get(PN_HELP_MESSAGE, PROP_HELP_MESSAGE_DEFAULT);
-        }
-        return placeholder;
+        return this.getHelpMessage();
     }
 
     @Override
@@ -178,5 +171,15 @@ public class TextFieldImpl implements TextField {
     @Override
     public int getRows() {
         return properties.get(PN_ROWS, PROP_ROWS_DEFAULT);
+    }
+
+    @Override
+    public boolean usePlaceholder() {
+        return properties.get(PN_USE_PLACEHOLDER, PROP_USE_PLACEHOLDER_DEFAULT);
+    }
+
+    @Override
+    public String getHelpMessage() {
+        return properties.get(PN_HELP_MESSAGE, PROP_HELP_MESSAGE_DEFAULT).trim();
     }
 }

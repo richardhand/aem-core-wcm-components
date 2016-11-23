@@ -19,10 +19,11 @@
         <label for="${textField.name}" hidden="${textField.isTitleHidden}">
             ${textField.title}
         </label>
+        <p data-sly-test="${!textField.usePlaceholder && textField.helpMessage}" class="help-block">${textField.helpMessage}</p>
         <textarea data-sly-test.useTextarea="${textField.type.name == 'TEXTAREA'}"
               type="${textField.constraintType}"
               id="${textField.name}"
-              placeholder="${textField.placeholder}"
+              placeholder="${textField.usePlaceholder ? textField.placeholder : ''}"
               name="${textField.name}"
               readonly="${textField.isReadOnly}"
               required="${textField.required}"
@@ -33,7 +34,7 @@
         <input data-sly-test="${!useTextarea}"
                type="${textField.type.name.toLowerCase}"
                id="${textField.name}"
-               placeholder="${textField.placeholder}"
+               placeholder="${textField.usePlaceholder ? textField.placeholder : ''}"
                name="${textField.name}"
                value="${textField.value}"
                readonly="${textField.isReadOnly}"

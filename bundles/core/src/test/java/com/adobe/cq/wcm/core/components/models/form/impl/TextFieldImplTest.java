@@ -84,6 +84,8 @@ public class TextFieldImplTest {
         assertEquals("", textField.getConstraintMessage());
         assertEquals("",textField.getValue());
         assertEquals(2, textField.getRows());
+        assertEquals(false, textField.usePlaceholder());
+        assertEquals("",textField.getHelpMessage());
     }
 
     @Test
@@ -107,5 +109,7 @@ public class TextFieldImplTest {
         assertEquals("The value should be a valid email address", textField.getConstraintMessage());
         assertEquals("Prefilled Sample Input",textField.getValue());
         assertEquals(3, textField.getRows());
+        assertEquals(true, textField.usePlaceholder());
+        assertEquals("Custom help/placeholder message", textField.getHelpMessage());
     }
 }

@@ -77,7 +77,6 @@
             "useTextarea": true,
             "value": "Prefilled Sample Input",
             "jcr:description": "Custom description",
-            "placeholder": "Custom placeholder",
             "hideTitle": true,
             "sling:resourceType": "core/wcm/components/form/text",
             "autofocus": true,
