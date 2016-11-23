@@ -17,14 +17,19 @@
 package com.adobe.cq.wcm.core.components.commons.forms.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.sling.api.resource.LoginException;
 import org.apache.sling.api.resource.ModifiableValueMap;
 import org.apache.sling.api.resource.PersistenceException;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,10 +42,11 @@ import com.day.cq.wcm.foundation.forms.FormStructureHelper;
 @Service(FormStructureHelper.class)
 public class FormStructureHelperImpl implements FormStructureHelper {
 
-    /**
-     * The logger.
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(FormStructureHelperImpl.class.getName());
+    private static final String SLING_SCRIPTING_USER = "sling-scripting";
+
+    @Reference
+    private ResourceResolverFactory resourceResolverFactory;
 
     @Override
     public Resource getFormResource(Resource resource) {
@@ -93,9 +99,35 @@ public class FormStructureHelperImpl implements FormStructureHelper {
     }
 
     private boolean isFormResource(Resource resource) {
-        String resourceSuperType = resource.getResourceSuperType();
-        return resource.getResourceType().startsWith(FormsConstants.RT_CORE_FORM_PREFIX) ||
-                resourceSuperType != null && resourceSuperType.startsWith(FormsConstants.RT_CORE_FORM_PREFIX);
+        if (resource.getResourceType().startsWith(FormsConstants.RT_CORE_FORM_PREFIX)) {
+            return true;
+        } else {
+            final ResourceResolver scriptResourceResolver = getScriptResourceResolver();
+            try {
+                if (ifFormResourceSuperType(scriptResourceResolver, resource)) {
+                    return true;
+                }
+            } finally {
+                if (scriptResourceResolver.isLive()) {
+                    scriptResourceResolver.close();
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean ifFormResourceSuperType(ResourceResolver scriptResourceResolver, Resource resource) {
+        boolean result = false;
+        Resource componentResource = scriptResourceResolver.getResource(resource.getResourceType());
+        String parentResourceType = scriptResourceResolver.getParentResourceType(componentResource);
+        while (!result && parentResourceType != null) {
+            if (parentResourceType.startsWith(FormsConstants.RT_CORE_FORM_PREFIX)) {
+                result = true;
+            } else {
+                parentResourceType = scriptResourceResolver.getParentResourceType(parentResourceType);
+            }
+        }
+        return result;
     }
 
     @Override
@@ -138,5 +170,18 @@ public class FormStructureHelperImpl implements FormStructureHelper {
             }
         }
         return null;
+    }
+
+    /**
+     * Get a {@link ResourceResolver} backed by the Sling scripting user so we can read properties from the search path
+     */
+    private ResourceResolver getScriptResourceResolver() {
+        final Map<String, Object> authenticationInfo = new HashMap<>();
+        authenticationInfo.put(ResourceResolverFactory.SUBSERVICE, SLING_SCRIPTING_USER);
+        try {
+            return resourceResolverFactory.getServiceResourceResolver(authenticationInfo);
+        } catch (LoginException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
