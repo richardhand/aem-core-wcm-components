@@ -53,9 +53,9 @@ public interface Image {
     String[] getSmartImages();
 
     /**
-     * Returns {@code true} if the image should be loaded lazily, {@false otherwise}.
+     * Returns {@code true} if the image should be loaded lazily, {@code false} otherwise.
      *
-     * @return {@code true} if the image should be loaded lazily, {@false otherwise}
+     * @return {@code true} if the image should be loaded lazily, {@code false} otherwise
      */
     boolean isLazyLoadingEnabled();
 
