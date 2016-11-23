@@ -21,7 +21,7 @@ package com.adobe.cq.wcm.core.components.models.form;
 public interface Button {
 
     /**
-     * Returns the type of the button.
+     * @return the type of the button.
      *
      * Possible values: 'button', 'submit' or 'reset'
      *
@@ -29,25 +29,24 @@ public interface Button {
     public String getType();
 
     /**
-     * Returns the title of the button.
+     * @return the title of the button.
      *
      */
     public String getTitle();
 
     /**
-     * Returns the CSS class(es) of the button.
+     * @return the CSS class(es) of the button.
      *
      */
     public String getCssClass();
 
     /**
-     * Checks if the button should be disabled.
-     *
+     * @return if the button should be disabled otherwise false
      */
     public boolean isDisabled();
 
     /**
-     * Returns the name of the button.
+     * @return the name of the button.
      *
      * Note: {'name':'value'} is sent as a request parameter when POST-ing the form
      *
@@ -55,7 +54,7 @@ public interface Button {
     public String getName();
 
     /**
-     * Returns the value of the button.
+     * @return the value of the button.
      *
      * Note: {'name':'value'} is sent as a request parameter when POST-ing the form
      *
@@ -63,8 +62,7 @@ public interface Button {
     public String getValue();
 
     /**
-     * Checks if the button should automatically get focus when the page loads.
-     *
+     * @return true if the button should automatically get focus when the page loads otherwise false
      */
     public boolean isAutofocus();
 
