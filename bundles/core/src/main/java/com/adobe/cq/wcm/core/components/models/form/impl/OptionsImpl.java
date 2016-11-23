@@ -16,13 +16,11 @@
 package com.adobe.cq.wcm.core.components.models.form.impl;
 
 import java.util.List;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Default;
-import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.Optional;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
@@ -30,9 +28,8 @@ import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 import com.adobe.cq.wcm.core.components.models.form.Options;
 
 @Model(adaptables = Resource.class,
-        adapters = {Options.class,OptionsImpl.class},
-        resourceType = OptionsImpl.RESOURCE_TYPE)
-@Exporter(name = "jackson", extensions = "json")
+       adapters = Options.class,
+       resourceType = OptionsImpl.RESOURCE_TYPE)
 public class OptionsImpl implements Options {
 
     protected static final String RESOURCE_TYPE = "core/wcm/components/form/options";
