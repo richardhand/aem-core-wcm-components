@@ -25,7 +25,7 @@ import org.apache.sling.api.resource.Resource;
 public interface Options {
 
     /**
-     * Returns the name of the options field.
+     * @return The name of the options field.
      *
      */
     public String getName();
@@ -41,18 +41,19 @@ public interface Options {
     /**
      * Checks if selection of multiple options is enabled.
      *
+     * @return true if multiple selection is possible otherwise false
      */
     public boolean multiSelection();
 
     /**
      * Checks if the options are collapsed into a dropdown.
      *
+     * @return true options are collapsed otherwise false
      */
     public boolean collapsed();
 
     /**
-     * Returns the CSS class(es) of the options.
-     *
+     * @return the CSS class(es) of the options.
      */
     public String getCssClass();
 
