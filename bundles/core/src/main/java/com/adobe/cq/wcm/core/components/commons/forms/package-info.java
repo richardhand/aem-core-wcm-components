@@ -16,4 +16,4 @@
 @Version("0.9.28")
 package com.adobe.cq.wcm.core.components.commons.forms;
 
-import aQute.bnd.annotation.Version;
+import org.osgi.annotation.versioning.Version;

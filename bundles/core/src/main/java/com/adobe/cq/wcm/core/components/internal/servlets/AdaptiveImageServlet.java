@@ -29,7 +29,11 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.metatype.annotations.AttributeDefinition;
+import org.osgi.service.metatype.annotations.Designate;
+import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,15 +48,19 @@ import com.day.image.Layer;
 
 @Component(
         service = Servlet.class,
-        name = "AEM Core WCM Components Adaptive Image Servlet",
+        configurationPid = "com.adobe.cq.wcm.core.components.internal.servlets.AdaptiveImageServlet",
         property = {
                 "sling.servlet.selectors=" + AdaptiveImageServlet.DEFAULT_SELECTOR,
                 "sling.servlet.resourceTypes=core/wcm/components/image",
+                "sling.servlet.resourceTypes=core/wcm/components/image/v1/image",
                 "sling.servlet.extensions=jpg",
                 "sling.servlet.extensions=jpeg",
                 "sling.servlet.extensions=png",
                 "sling.servlet.extensions=gif"
         }
+)
+@Designate(
+        ocd = AdaptiveImageServlet.Configuration.class
 )
 public class AdaptiveImageServlet extends AbstractImageServlet {
 
@@ -60,6 +68,25 @@ public class AdaptiveImageServlet extends AbstractImageServlet {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AdaptiveImageServlet.class);
     private ThreadLocal<Integer> threadLocalWidthSelector = new ThreadLocal<>();
+    private int defaultResizeWidth;
+
+    @ObjectClassDefinition(
+        name = "AEM Core WCM Components Adaptive Image Servlet Configuration",
+        description = "Adaptive Image Servlet configuration options"
+    )
+    @interface Configuration {
+
+        @AttributeDefinition(description = "In case the requested image contains no width information in the request and the image also " +
+                "doesn't have a content policy that defines the allowed rendition widths, then the image processed by this server will be" +
+                " resized to this configured width.")
+        int defaultResizeWidth() default 1280;
+
+    }
+
+    @Activate
+    protected void activate(Configuration configuration) {
+        defaultResizeWidth = configuration.defaultResizeWidth();
+    }
 
     @Override
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
@@ -104,13 +131,16 @@ public class AdaptiveImageServlet extends AbstractImageServlet {
             } else {
                 List<Integer> allowedRenditionWidths = getAllowedRenditionWidths(request);
                 if (!allowedRenditionWidths.isEmpty()) {
-                    LOGGER.error("The requested image has a content policy, however the request did not provide any width information.");
-                    response.sendError(HttpServletResponse.SC_NOT_FOUND);
-                    return;
+                    // resize to the first value of the allowedRenditionWidths
+                    int size = allowedRenditionWidths.get(0);
+                    LOGGER.debug("The image request contains no width information, but the image's content policy defines at least one " +
+                            "allowed width. Will resize the image to the first allowed width - {}px.", size);
+                    threadLocalWidthSelector.set(size);
                 } else {
-                    LOGGER.debug("The requested image has no content policy and no width information is present in the request. Will " +
-                            "return the original image.");
-                    threadLocalWidthSelector.set(0);
+                    // resize to the default value
+                    LOGGER.debug("The image request contains no width information and there's no information about the allowed widths in " +
+                            "the image's content policy. Will resize the image to {}px.", defaultResizeWidth);
+                    threadLocalWidthSelector.set(defaultResizeWidth);
                 }
             }
             super.doGet(request, response);

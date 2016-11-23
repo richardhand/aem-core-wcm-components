@@ -19,24 +19,16 @@
     var $window = $(window),
         devicePixelRatio = window.devicePixelRatio || 1;
 
-    function cqImage(element, options) {
+    function SmartImage(element, options) {
         var that = this,
             showsLazyLoader = false,
             image,
             updateMode;
 
-        function unescapeHTML(html) {
-            var text = $('<textarea />').html(html).text()
-            if (text === html) {
-                return text;
-            }
-            return unescapeHTML(text);
-        }
-
         function init() {
             var $noscript = element.find(options.noscriptSelector);
             if ($noscript && $noscript.length === 1) {
-                var $image = $(unescapeHTML($noscript.text().trim()));
+                var $image = $($noscript.text().trim());
                 var source = $image.attr(options.sourceAttribute);
                 $image.removeAttr(options.sourceAttribute);
                 $image.attr('data-src-disabled', source);
@@ -66,7 +58,7 @@
                     image.addClass(options.lazyLoaderClass);
                     updateMode = 'lazy';
                     setTimeout(that.update, 200);
-                    $window.bind('scroll.cqImage resize.cqImage update.cqImage', that.update);
+                    $window.bind('scroll.SmartImage resize.SmartImage update.SmartImage', that.update);
                 }
             } else {
                 initSmart();
@@ -80,7 +72,7 @@
                 } else {
                     updateMode = 'smart';
                     that.update();
-                    $window.bind('resize.cqImage update.cqImage', that.update);
+                    $window.bind('resize.SmartImage update.SmartImage', that.update);
                 }
             } else if (options.loadHidden || element.is(':visible')) {
                 image
@@ -89,7 +81,7 @@
             }
 
             if (showsLazyLoader) {
-                image.bind('load.cqImage', removeLazyLoader);
+                image.bind('load.SmartImage', removeLazyLoader);
             }
 
             if ('postInit' in that) {
@@ -118,22 +110,27 @@
             $.each(options.lazyLoaderStyle, function (property) {
                 image.css(property, ''); // removes the loader styles
             });
-            image.unbind('.cqImage', removeLazyLoader);
+            image.unbind('.SmartImage', removeLazyLoader);
             showsLazyLoader = false;
         }
 
         function isLazyVisible() {
-            var windowHeight = $window.height(),
-                scrollTop = $window.scrollTop(),
-                offsetTop = element.offset().top;
+            if (element.is(':hidden')) {
+                return false;
+            }
 
-            return (windowHeight + scrollTop + options.lazyThreshold > offsetTop);
+            var wt = $window.scrollTop(),
+                wb = wt + $window.height(),
+                et = element.offset().top,
+                eb = et + element.height();
+
+            return eb >= wt - options.lazyThreshold && et <= wb + options.lazyThreshold;
         }
 
         that.update = function (e) {
             if (updateMode === 'lazy') {
                 if (isLazyVisible()) {
-                    $window.unbind('.cqImage', that.update);
+                    $window.unbind('.SmartImage', that.update);
                     initSmart();
                 }
             } else if (updateMode === 'smart' && (options.loadHidden || element.is(':visible'))) {
@@ -156,17 +153,17 @@
         };
 
         element = $(element);
-        options = $.extend({}, cqImage.defaults, options);
+        options = $.extend({}, SmartImage.defaults, options);
         init();
     }
 
-    cqImage.defaults = {
+    SmartImage.defaults = {
         loadHidden: false,
         noscriptSelector: 'noscript',
         imageSelector: 'img',
         sourceAttribute: 'src',
         lazyEnabled: true,
-        lazyThreshold: 100,
+        lazyThreshold: 0,
         lazyEmptyPixel: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
         lazyLoaderClass: 'loading',
         lazyLoaderStyle: {
@@ -175,6 +172,12 @@
         }
     };
 
-    window.cqComponent.fn.cqImage = cqImage;
+    var $images = $('[data-cmp-image]');
+    var images = [];
+    $images.each(function () {
+        var imageElement = $(this),
+            imageOptions = imageElement.data('cmp-image');
+        images.push(new SmartImage(imageElement, imageOptions));
+    });
 
 })(jQuery);
