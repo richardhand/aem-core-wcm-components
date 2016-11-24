@@ -31,11 +31,11 @@ public class Head extends WCMUsePojo {
     public String staticDesignPath;
 
     private static final String FN_ICO_FAVICON = "favicon.ico";
-    private static final String FN_PNG_FAVICON = "weretail_favicon_32.png";
-    private static final String FN_TOUCH_ICON_60 = "weretail_touch-icon_60.png";
-    private static final String FN_TOUCH_ICON_76 = "weretail_touch-icon_76.png";
-    private static final String FN_TOUCH_ICON_120 = "weretail_touch-icon_120.png";
-    private static final String FN_TOUCH_ICON_152 = "weretail_touch-icon_152.png";
+    private static final String FN_PNG_FAVICON = "favicon_32.png";
+    private static final String FN_TOUCH_ICON_60 = "touch-icon_60.png";
+    private static final String FN_TOUCH_ICON_76 = "touch-icon_76.png";
+    private static final String FN_TOUCH_ICON_120 = "touch-icon_120.png";
+    private static final String FN_TOUCH_ICON_152 = "touch-icon_152.png";
 
     private String icoFavicon;
     private String pngFavicon;

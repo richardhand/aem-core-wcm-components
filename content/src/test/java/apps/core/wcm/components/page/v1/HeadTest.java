@@ -39,11 +39,11 @@ public class HeadTest extends WCMUsePojoBaseTest<Head> {
 
     public static final String DESIGN_PATH = "/etc/designs/mysite";
     public static final String FN_ICO_FAVICON = "favicon.ico";
-    public static final String FN_PNG_FAVICON = "weretail_favicon_32.png";
-    public static final String FN_TOUCH_ICON_60 = "weretail_touch-icon_60.png";
-    public static final String FN_TOUCH_ICON_76 = "weretail_touch-icon_76.png";
-    public static final String FN_TOUCH_ICON_120 = "weretail_touch-icon_120.png";
-    public static final String FN_TOUCH_ICON_152 = "weretail_touch-icon_152.png";
+    public static final String FN_PNG_FAVICON = "favicon_32.png";
+    public static final String FN_TOUCH_ICON_60 = "touch-icon_60.png";
+    public static final String FN_TOUCH_ICON_76 = "touch-icon_76.png";
+    public static final String FN_TOUCH_ICON_120 = "touch-icon_120.png";
+    public static final String FN_TOUCH_ICON_152 = "touch-icon_152.png";
 
     static {
         TEST_CONTENT_ROOT = "/content/mysite";
