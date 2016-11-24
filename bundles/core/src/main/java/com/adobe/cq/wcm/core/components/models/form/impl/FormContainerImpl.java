@@ -18,6 +18,7 @@ package com.adobe.cq.wcm.core.components.models.form.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
@@ -144,8 +145,13 @@ public class FormContainerImpl implements FormContainer {
     @Override
     public String getRedirect() {
         String redirect = properties.get(PN_REDIRECT_TYPE, String.class);
-        if (redirect != null && !redirect.endsWith(".html")) {
-            return redirect + ".html";
+        if (redirect != null) {
+            String contextPath = slingRequest.getContextPath();
+            if (StringUtils.isNotBlank(contextPath) && redirect.startsWith("/")) {
+                redirect = contextPath + redirect;
+            }
+
+            return !redirect.endsWith(".html") ? (redirect + ".html") : redirect;
         }
         return redirect;
     }

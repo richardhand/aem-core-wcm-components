@@ -64,7 +64,11 @@ public interface FormContainer {
     String getResourceTypeForDropArea();
 
     /**
-     * @return form submit redirect (used in redirect input field of form).
+     * This method returns the redirect url property of this form. If the current sling request has a non-blank context path, the context
+     * path is prepended to the redirect url if the redirect is an abolsute path starting with '/'. This method also appends ".html" to the
+     * redirect path.
+     * 
+     * @return The form redirect url (used in the :redirect hidden input field of the form).
      */
     String getRedirect();
 }
