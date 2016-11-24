@@ -26,6 +26,14 @@
     var TEXTFIELD_READONLYSELECTED_ALERT = ".cmp-form-textfield-readonlyselected-alert";
     var TEXTFIELD_REQUIREDSELECTED_ALERT = ".cmp-form-textfield-requiredselected-alert";
 
+    /**
+     * Toggles the display of the given element based on the actual and the expected values.
+     * If the actualValue is equal to the expectedValue , then the element is shown,
+     * otherwise the element is hidden
+     * @param element The html object to show/hide
+     * @param expectedValue The value to test against.
+     * @param actualValue The value to test.
+     */
     function checkAndDisplay(element, expectedValue, actualValue) {
         if (expectedValue === actualValue) {
             element.show();
@@ -34,6 +42,11 @@
         }
     }
 
+    /**
+     * Toggles the visibility of the Text field number of rows input field based on the type of the text field.
+     * If the type is textarea, the number of rows field is shown, otherwise it is hidden.
+     * @param dialog The dialog on which the operation is to be performed
+     */
     function handleTextarea(dialog) {
         var component = dialog.find(TEXTFIELD_TYPES)[0];
         var textfieldRows = dialog.find(TEXTFIELD_ROWS);
@@ -47,6 +60,12 @@
         });
     }
 
+    /**
+     * Toggles the visibility of the constraint message input field based on the type of the text field
+     * If the type of the text field is "text" or "textarea", the constraint message field is hidden,
+     * otherwise it is shown
+     * @param dialog The dialog on which the operation is to be performed
+     */
     function handleConstraintMessage(dialog) {
         var component = dialog.find(TEXTFIELD_TYPES)[0];
         var constraintMessage = dialog.find(TEXTFIELD_CONSTRAINTMESSAGE);
@@ -62,6 +81,12 @@
         });
     }
 
+    /**
+     * Toggles the visibility of the required message input field based on the "required" input field.
+     * If the "required" field is set, the required message field is shown,
+     * otherwise it is hidden.
+     * @param dialog The dialog on which the operation is to be performed
+     */
     function handleRequiredMessage(dialog) {
         var component = dialog.find(TEXTFIELD_REQUIRED)[0];
         var requiredMessage = dialog.find(TEXTFIELD_REQUIREDMESSAGE);
@@ -75,6 +100,15 @@
         });
     }
 
+    /**
+     * Handles the exclusion between the two checkbox components.
+     * Specifically, out of the two components, only one can be in checked state at a time.
+     * If component1 is "checked" and the component2 is also in checked state, the component2 is unchecked,
+     * and the alert is displayed.
+     * @param component1 The component which on being "checked" should uncheck(if in checked state) the component2
+     * @param component2 The component which should not be in checked state along with component1
+     * @param alert The html object to show if both the component2 is in checked state when the component1 is being "checked".
+     */
     function handleExclusion(component1, component2, alert) {
         component1.on("change", function () {
             if (this.checked && component2.checked) {
@@ -84,6 +118,10 @@
         });
     }
 
+    /**
+     * Initialise the conditional display of the various elements of the dialog
+     * @param dialog The dialog on which the operation is to be performed
+     */
     function initialise(dialog) {
         dialog = $(dialog);
         handleTextarea(dialog);
