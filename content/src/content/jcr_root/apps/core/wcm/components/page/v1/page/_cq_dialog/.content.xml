@@ -796,6 +796,13 @@
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="wcm/msm/components/coral/touch-ui/propertiesdialog/blueprint/livecopies"
                                                 path="${empty param.item ? requestPathInfo.suffix : param.item }"/>
+                                            <button
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/anchorbutton"
+                                                href="/libs/wcm/msm/gui/content/livecopies.html${empty param.item ? requestPathInfo.suffix : param.item}"
+                                                size="L"
+                                                text="All Live Copies"
+                                                variant="secondary"/>
                                         </items>
                                     </livecopies>
                                     <rolloutconfiguration
