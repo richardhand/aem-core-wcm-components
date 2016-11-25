@@ -79,7 +79,6 @@
             "jcr:description": "Custom description",
             "hideTitle": true,
             "sling:resourceType": "core/wcm/components/form/text",
-            "autofocus": true,
             "requiredMessage": "please fill the field",
             "usePlaceholder": "true",
             "rows": 3

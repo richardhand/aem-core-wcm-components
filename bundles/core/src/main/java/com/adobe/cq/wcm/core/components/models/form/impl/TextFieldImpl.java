@@ -45,7 +45,6 @@ public class TextFieldImpl implements TextField {
     private static final boolean PROP_REQUIRED_DEFAULT = false;
     private static final String PROP_REQUIRED_MESSAGE_DEFAULT = "";
     private static final String PROP_CONSTRAINT_MESSAGE_DEFAULT = "";
-    private static final boolean PROP_AUTOFOCUS_DEFAULT = false;
     private static final String PROP_SHOW_HIDE_EXPRESSION_DEFAULT = null;
     private static final TYPE PROP_TYPE_DEFAULT = TYPE.TEXT;
     private static final String PROP_HELP_MESSAGE_DEFAULT = "";
@@ -62,7 +61,6 @@ public class TextFieldImpl implements TextField {
     private static final String PN_REQUIRED = "required";
     private static final String PN_REQUIRED_MESSAGE = "requiredMessage";
     private static final String PN_CONSTRAINT_MESSAGE = "constraintMessage";
-    private static final String PN_AUTOFOCUS = "autofocus";
     private static final String PN_SHOW_HIDE_EXPRESSION = "showHideExpression";
     private static final String PN_TYPE = "type";
     private static final String PN_HELP_MESSAGE = "helpMessage";
@@ -146,11 +144,6 @@ public class TextFieldImpl implements TextField {
     @Override
     public String getDefaultValue() {
         return properties.get(PN_DEFAULT_VALUE,PROP_DEFAULT_VALUE_DEFAULT);
-    }
-
-    @Override
-    public boolean isAutofocus() {
-        return properties.get(PN_AUTOFOCUS,PROP_AUTOFOCUS_DEFAULT);
     }
 
     @Override

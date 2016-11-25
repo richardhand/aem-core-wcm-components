@@ -49,13 +49,6 @@ public interface FormField {
     String getDescription();
 
     /**
-     * Checks if the field should be auto-focused (the field automatically gets focus when the page loads)
-     * @return {@code true} if the field should be auto-focused <br>
-     *     {@code false} otherwise
-     */
-    boolean isAutofocus();
-
-    /**
      * Checks if the user must provide input for this field.
      * @return {@code true} if the field must have a input <br>
      *     {@code false} otherwise

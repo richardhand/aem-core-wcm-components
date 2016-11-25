@@ -73,7 +73,6 @@ public class TextFieldImplTest {
         assertEquals("Text input field",textField.getTitle());
         assertEquals(false,textField.isTitleHidden());
         assertEquals("",textField.getDescription());
-        assertEquals(false,textField.isAutofocus());
         assertEquals(false,textField.getRequired());
         assertEquals("",textField.getRequiredMessage());
         assertEquals(null,textField.getShowHideExpression());
@@ -98,7 +97,6 @@ public class TextFieldImplTest {
         assertEquals("Custom title",textField.getTitle());
         assertEquals(true,textField.isTitleHidden());
         assertEquals("Custom description",textField.getDescription());
-        assertEquals(true,textField.isAutofocus());
         assertEquals(true,textField.getRequired());
         assertEquals("please fill the field",textField.getRequiredMessage());
         assertEquals("((givenName.equals(\"\"Referees\"\")))",textField.getShowHideExpression());
