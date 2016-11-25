@@ -16,13 +16,13 @@
 <div class="cmp cmp-form-field"
      data-sly-use.textField="com.adobe.cq.wcm.core.components.models.form.TextField">
     <div class="form-group">
-        <label for="${textField.name}" hidden="${textField.isTitleHidden}">
+        <label for="${textField.id}" hidden="${textField.isTitleHidden}">
             ${textField.title}
         </label>
         <p data-sly-test="${!textField.usePlaceholder && textField.helpMessage}" class="help-block">${textField.helpMessage}</p>
         <textarea data-sly-test.useTextarea="${textField.type.name == 'TEXTAREA'}"
               type="${textField.constraintType}"
-              id="${textField.name}"
+              id="${textField.id}"
               placeholder="${textField.usePlaceholder ? textField.placeholder : ''}"
               name="${textField.name}"
               readonly="${textField.isReadOnly}"
@@ -33,7 +33,7 @@
             >${textField.value}</textarea>
         <input data-sly-test="${!useTextarea}"
                type="${textField.type.name.toLowerCase}"
-               id="${textField.name}"
+               id="${textField.id}"
                placeholder="${textField.usePlaceholder ? textField.placeholder : ''}"
                name="${textField.name}"
                value="${textField.value}"

@@ -83,6 +83,8 @@ public class TextFieldImpl implements TextField {
 
     private String [] prefillValues;
 
+    private String id = null;
+
     @PostConstruct
     protected void initModel() {
         slingRequest.setAttribute(FormsHelper.REQ_ATTR_FORM_STRUCTURE_HELPER,
@@ -91,6 +93,14 @@ public class TextFieldImpl implements TextField {
         if (prefillValues == null) {
             prefillValues = new String[]{this.getDefaultValue()};
         }
+    }
+
+    @Override
+    public String getId(){
+        if(id == null) {
+            id = this.getName() + System.currentTimeMillis();
+        }
+        return id;
     }
     
     @Override

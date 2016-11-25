@@ -22,6 +22,11 @@ package com.adobe.cq.wcm.core.components.models.form;
 public interface FormField {
 
     /**
+     * @return the id of the field
+     */
+    String getId();
+
+    /**
      * @return the name of the field
      */
     String getName();
