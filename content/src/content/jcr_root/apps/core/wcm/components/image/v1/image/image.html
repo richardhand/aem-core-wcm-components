@@ -15,6 +15,10 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <sly data-sly-use.image="com.adobe.cq.wcm.core.components.models.Image"
      data-sly-use.templates="core/wcm/components/commons/v1/templates.html">
+    <a data-sly-unwrap="${!image.link || image.isDecorative}"
+        href="${image.link}"
+        onclick="CQ_Analytics.record({event: 'imageClick', values: { imageLink: '${image.link @ context='scriptString'}', imageAsset:
+    '${image.fileReference @ context='scriptString'}', imageTitle: '${image.fileName @ context='scriptString'}' }, collect: false, options: { obj: this }, componentPath: '${resource.resourceType @ context='scriptString'}'})">
     <div data-sly-test="${image.src && image.smartSizes.length >= 2}"
          class="cmp cmp-image"
          data-cmp-image='{"smartSizes" : [${image.smartSizes}], "smartImages" : [${image.smartImages}], "lazyEnabled": ${image.isLazyLoadingEnabled}}'>
@@ -25,19 +29,14 @@
          data-cmp-image='${image.isLazyLoadingEnabled ? "{\"lazyEnabled\" : true}" : false}'>
         <sly data-sly-call="${imageTemplate @ image = image, useNoScript = image.isLazyLoadingEnabled}"></sly>
     </div>
+    </a>
     <small data-sly-test="${!image.shouldDisplayCaptionPopup && image.title}">${image.title}</small>
     <sly data-sly-test="${!image.src}" data-sly-call="${templates.placeholder @ isEmpty = true}"/>
 </sly>
 <template data-sly-template.imageTemplate="${@ image='The com.adobe.cq.wcm.core.components.models.Image model', useNoScript}">
-    <a  data-sly-test="${image.src}"
-        data-sly-unwrap="${!image.link || image.isDecorative}"
-        href="${image.link}"
-        onclick="CQ_Analytics.record({event: 'imageClick', values: { imageLink: '${image.link @ context='scriptString'}', imageAsset:
-    '${image.fileReference @ context='scriptString'}', imageTitle: '${image.fileName @ context='scriptString'}' }, collect: false, options: { obj: this }, componentPath: '${resource.resourceType @ context='scriptString'}'})">
     <noscript data-sly-unwrap="${!useNoScript}">
         <img src="${image.src}"
              alt="${image.isDecorative ? '' : image.alt}"
              title="${image.shouldDisplayCaptionPopup ? image.title : ''}"/>
     </noscript>
-    </a>
 </template>

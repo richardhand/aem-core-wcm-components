@@ -64,6 +64,7 @@ public class ImageImplTest {
         Page page = aemContext.currentPage(PAGE);
         slingBindings = (SlingBindings) aemContext.request().getAttribute(SlingBindings.class.getName());
         slingBindings.put(WCMBindings.CURRENT_PAGE, page);
+        slingBindings.put(WCMBindings.PAGE_MANAGER, aemContext.pageManager());
     }
 
     @Test

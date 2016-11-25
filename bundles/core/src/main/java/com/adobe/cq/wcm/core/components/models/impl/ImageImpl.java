@@ -40,6 +40,8 @@ import org.slf4j.LoggerFactory;
 import com.adobe.cq.wcm.core.components.models.Constants;
 import com.adobe.cq.wcm.core.components.models.Image;
 import com.day.cq.commons.jcr.JcrConstants;
+import com.day.cq.wcm.api.Page;
+import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.api.designer.Style;
 
 @Model(adaptables = SlingHttpServletRequest.class, adapters = Image.class, resourceType = "wcm/core/components/image")
@@ -55,6 +57,9 @@ public class ImageImpl implements Image {
 
     @ScriptVariable
     private Style currentStyle;
+
+    @ScriptVariable
+    private PageManager pageManager;
 
     @Inject @Source("osgi-services")
     private MimeTypeService mimeTypeService;
@@ -124,6 +129,11 @@ public class ImageImpl implements Image {
                 src = request.getContextPath() + escapedResourcePath + ".img." + smartSizes[0] + "." + extension;
             }
             disableLazyLoading = currentStyle.get(Constants.IMAGE_LAZY_LOADING_ENABLED, false);
+            Page page = pageManager.getPage(linkURL);
+            if (page != null) {
+                String vanityURL = page.getVanityUrl();
+                linkURL =  (vanityURL == null ? linkURL + ".html" : vanityURL);
+            }
         }
 
     }
