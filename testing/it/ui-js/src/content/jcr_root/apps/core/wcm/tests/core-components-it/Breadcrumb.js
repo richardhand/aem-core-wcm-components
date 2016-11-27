@@ -14,96 +14,216 @@
  *  limitations under the License.
  */
 
+/**
+ * Test for the breadcrumb component
+ */
 ;(function(h, $){
 
-
-    var pageUrl = window.CQ.CoreComponentsIT.pageRoot;
-
-    /**
-     * Data for the sample page.
-     */
-    var samplePage = {
-        title: "CoreComponent TestPage",
-        template: "/conf/core-components/settings/wcm/templates/core-components",
-        primaryType: "cq:PageContent",
-        resourceType: "wcm/foundation/components/page",
-        name: "page"
-
-    }
+    // shortcut
+    var c = window.CQ.CoreComponentsIT.commons;
 
     /**
-     * Function used for creating a number of pages.
+     * Before Test Case
      */
-    window.CQ.CoreComponentsIT.CreatePages = function (h, $, nrOfPages) {
-        var createPagesTestCase = new hobs.TestCase("Create Pages");
+    var tcExecuteBeforeTest = new h.TestCase("Create Sample Content")
+        // common set up
+        .execTestCase(c.tcExecuteBeforeTest)
 
-        for (var i=0; i< nrOfPages; i++) {
-            var pageName = samplePage.name+i;
-            var pageTitle = samplePage.title+i;
-            var template = samplePage.template;
+        // TODO : turn this into a loop or recursive
 
-            pageUrl+="/"+pageName
-            createPagesTestCase.execTestCase(window.CQ.CoreComponentsIT.CreatePage(h, $, pageUrl, pageName, pageTitle, template));
-        }
+        // create level 1
+        .execFct(function (opts,done) {
+            c.createPage(c.template, c.rootPage ,"level_1","level_1",done)
+        })
+        // create level 2
+        .execFct(function (opts,done) {
+            c.createPage(c.template, h.param("level_1")() ,"level_2","level_2",done)
+        })
+        // create level 3
+        .execFct(function (opts,done) {
+            c.createPage(c.template, h.param("level_2")() ,"level_3","level_3",done)
+        })
+        // create level 4
+        .execFct(function (opts,done) {
+            c.createPage(c.template, h.param("level_3")() ,"level_4","level_4",done)
+        })
+        // create level 5
+        .execFct(function (opts,done) {
+            c.createPage(c.template, h.param("level_4")() ,"level_5","level_5",done)
+        })
 
-        return createPagesTestCase;
-    }
+        // add the component to the deepest level
+        .execFct(function (opts, done){
+            c.addComponent(c.rtBreadcrumb, h.param("level_5")(opts)+c.relParentCompPath,"cmpPath",done)
+        })
+
+        // open the deepest level in the editor
+        .navigateTo("/editor.html%level_5%.html");
 
     /**
-     * Function used for deleting one page with all her child pages.
+     * After Test Case
      */
-    window.CQ.CoreComponentsIT.DeletePages = function (h, $, nrOfPages) {
-
-        return new hobs.TestCase("Delete Pages")
-            .execTestCase(window.CQ.CoreComponentsIT.DeletePage(h, $, window.CQ.CoreComponentsIT.pageRoot+"/"+samplePage.name+"0"));
-        ;
-    }
+    var tcExecuteAfterTest = new TestCase("Clean up after Test")
+        // common clean up
+        .execTestCase(c.tcExecuteAfterTest)
+        // delete the test page we created
+        .execFct(function (opts, done) {
+            c.deletePage(h.param("level_1")(opts), done);
+        });
 
     /**
-     * Drag and Drop a Breadcrumb component.
+     * Test: Set the Hide Current flag
      */
-    window.CQ.CoreComponentsIT.DragDropBreadcrumb = function (h, $) {
-        return new h.TestCase("Drag and drop the breadcrumb")
-            .execTestCase(window.CQ.CoreComponentsIT.CreatePages(h,$,4))
-            .execTestCase(window.CQ.CoreComponentsIT.DragDropComponent(h,$,"Core WCM Breadcrumb Component",pageUrl))
-        ;
-    };
+    var testHideCurrent = new h.TestCase("Check 'Hide Current' Flag",{
+        execBefore: tcExecuteBeforeTest,
+        execAfter: tcExecuteAfterTest})
+
+        // check first if current page is shown
+        .config.changeContext(c.getContentFrame)
+        // the li entry for current page
+        .assert.exist("li.breadcrumb-item--active:contains('level_5')",true)
+        .config.resetContext()
+
+        // Open the configuration dialog
+        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        // check the checkbox th make the current page hidden
+        .click(".coral-Checkbox-input[name='./hideCurrent']")
+        // Close the configuration dialog
+        .execTestCase(c.tcSaveConfigureDialog)
+        // got to the content frame
+        .config.changeContext(c.getContentFrame)
+
+        // the li entry for current page should not be found
+        .assert.exist("li.breadcrumb-item--active:contains('level_5')",false);
 
     /**
-     * Check the navigation level for the breadcrumb.
+     * Test: Set the Show Hidden flag
      */
-    window.CQ.CoreComponentsIT.CheckTheNavigationLevelTest = function (h, $) {
-        return new h.TestCase("Check the navigation level")
+    var testShowHidden = new TestCase("Check 'Show Hidden' Flag",{
+        execBefore: tcExecuteBeforeTest,
+        execAfter: tcExecuteAfterTest})
 
-            //decrement the navigation level to 1
-            .execTestCase(window.CQ.CoreComponentsIT.CheckNavigationLevel(h,$,".coral-Button[title='Decrement'","1",0,0))
-            //increment the navigation level to 2
-            .execTestCase(window.CQ.CoreComponentsIT.CheckNavigationLevel(h,$,".coral-Button[title='Increment'","2",4,1))
-            //increment the navigation level to 3
-            .execTestCase(window.CQ.CoreComponentsIT.CheckNavigationLevel(h,$,".coral-Button[title='Increment'","3",3,1))
-            //increment the navigation level to 4
-            .execTestCase(window.CQ.CoreComponentsIT.CheckNavigationLevel(h,$,".coral-Button[title='Increment'","4",2,1))
-            //increment the navigation level to 5
-            .execTestCase(window.CQ.CoreComponentsIT.CheckNavigationLevel(h,$,".coral-Button[title='Increment'","5",1,1))
-            //increment the navigation level to 6
-            .execTestCase(window.CQ.CoreComponentsIT.CheckNavigationLevel(h,$,".coral-Button[title='Increment'","6",0,1))
-            //check the Hide Current
-            .execTestCase(window.CQ.CoreComponentsIT.CheckNavigationLevel(h,$,".coral-Checkbox-input[name='./hideCurrent']","6",0,0))
-            //check the Show Hidden
-            .execTestCase(window.CQ.CoreComponentsIT.CheckNavigationLevel(h,$,".coral-Checkbox-input[name='./showHidden']","6",0,0))
-            //fill the navigation level
-            .execTestCase(window.CQ.CoreComponentsIT.FillNavigationLevel(h,$,".coral-Textfield.coral-InputGroup-input[id^='coral-id']","2",4,0))
-            //click on the fullscreen button
-            .execTestCase(window.CQ.CoreComponentsIT.OpenFullSreen(h,$))
-            //close the configure window
-            .execTestCase(window.CQ.CoreComponentsIT.CloseConfigureWindow(h,$))
-        ;
-    };
+        // TODO : should be moved to its own execBefore function
+        // set one of the pages has hidden first
+        .execFct(function(opts,done){
+            $.ajax({
+                url: h.param("level_3")(),
+                method: "POST",
+                complete:done,
+                // POST data to be send in the request
+                data: {
+                    "_charset_": "utf-8",
+                    "./jcr:content/hideInNav": "true"
+                }
+            })
+        })
+        // reload the page to make the change visible
+        .reload()
 
-    new h.TestSuite("Core-Components Tests - Breadcrumb", {path:"/apps/core/wcm/tests/core-components-it/Breadcrumb.js",
-        execBefore:window.CQ.CoreComponentsIT.ExecuteBefore(h,$,window.CQ.CoreComponentsIT.DragDropBreadcrumb(h,$)),
-        execAfter:window.CQ.CoreComponentsIT.DeletePages(h, $,4), register: true,})
-        .addTestCase(window.CQ.CoreComponentsIT.CheckTheNavigationLevelTest(h, $))
-    ;
+        // go to content frame
+        .config.changeContext(c.getContentFrame)
+        // verify level 3 is no longer available
+        .assert.exist("li.breadcrumb-item > a:contains('level_3')",false)
+        // go back to edit frame
+        .config.resetContext()
+
+        // Open the configuration dialog
+        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        // check the checkbox to show hidden pages
+        .click(".coral-Checkbox-input[name='./showHidden']")
+        // Close the configuration dialog
+        .execTestCase(c.tcSaveConfigureDialog)
+        // got to the content frame
+        .config.changeContext(c.getContentFrame)
+
+        // the level 3 should be visible again
+        .assert.exist("li.breadcrumb-item > a:contains('level_3')",true);
+
+    /**
+     * Test: Change the start level
+     */
+    var changeStartLevel = new TestCase("Change Start Level",{
+        execBefore: tcExecuteBeforeTest,
+        execAfter: tcExecuteAfterTest})
+
+        // check the current number of parent levels
+        .assert.isTrue(function(){
+            return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 5})
+
+        // Open the configuration dialog
+        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        // check the current config setting
+        .assert.isTrue(function(){
+            return h.find("input[name='./startLevel']").val() == 2})
+        // increase start level by 2
+        .fillInput("input[name='./startLevel']", 4)
+        // Close the configuration dialog
+        .execTestCase(c.tcSaveConfigureDialog)
+
+        // check the current number
+        .assert.isTrue(function(){
+            return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 3});
+
+    /**
+     * Test: Set the start level to lowest allowed value of 0.
+     * This shouldn't render anything since level 0 is not a valid page.
+     */
+    var setZeroStartLevel = new TestCase("Set Start Level to 0",{
+        execBefore: tcExecuteBeforeTest,
+        execAfter: tcExecuteAfterTest})
+
+        // check the current number of items
+        .assert.isTrue(function(){
+            return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 5})
+
+        // Open the configuration dialog
+        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        // set it to 0
+        .fillInput("input[name='./startLevel']", 0)
+        // Close the configuration dialog
+        .execTestCase(c.tcSaveConfigureDialog)
+
+        // 0 is an invalid start point it should render no breadcrumbs
+        .assert.isTrue(function(){
+            return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 0 &&
+                h.find("li.breadcrumb-item--active","iframe#ContentFrame").size() === 0
+        });
+
+    /**
+     * Test: Set the start level to the highest possible value 100.
+     * This shouldn't render anything since level 100 is higher the the current's page level.
+     */
+    var set100StartLevel = new TestCase("Set Start Level to 100",{
+        execBefore: tcExecuteBeforeTest,
+        execAfter: tcExecuteAfterTest})
+
+        // check the current number of items
+        .assert.isTrue(function(){
+            return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 5})
+
+        // Open the configuration dialog
+        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        // set it to 100
+        .fillInput("input[name='./startLevel']", 100)
+        // Close the configuration dialog
+        .execTestCase(c.tcSaveConfigureDialog)
+
+        // 100 is higher then current level so nothing should get rendered
+        .assert.isTrue(function(){
+            return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 0 &&
+                h.find("li.breadcrumb-item--active","iframe#ContentFrame").size() === 0
+        });
+
+    /**
+     * The main test suite.
+     */
+    new h.TestSuite("Core-Components - Breadcrumb", {path:"/apps/core/wcm/tests/core-components-it/Breadcrumb.js",
+        execBefore:c.tcExecuteBeforeTestSuite})
+
+        .addTestCase(testHideCurrent)
+        .addTestCase(testShowHidden)
+        .addTestCase(changeStartLevel)
+        .addTestCase(setZeroStartLevel)
+        .addTestCase(set100StartLevel);
 
 }(hobs, jQuery));
