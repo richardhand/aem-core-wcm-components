@@ -55,7 +55,7 @@
         // mandatory check
         if (parentPath == null || templatePath == null || pageName == null){
             console.log("createPage failed! mandatory parameter(s) missing!");
-            return;
+            done(); return;
         }
 
         // the ajax call
@@ -109,7 +109,7 @@
         // mandatory check
         if (pagePath == null ){
             console.log("deletePage failed! mandatory parameter(s) missing!");
-            return;
+            done(); return;
         }
         jQuery.ajax({
             url: pagePath,
@@ -141,7 +141,7 @@
         // mandatory check
         if (component == null || parentCompPath == null ){
             console.log("addComponent failed! mandatory parameter(s) missing!");
-            return;
+            done(); return;
         }
 
         // default settings
@@ -184,6 +184,11 @@
      * @param done              Mandatory. callback function when post has returned
      */
     c.editComponent = function (componentPath,data,done){
+        // check mandatory
+        if ( componentPath == null || data == null || done == null){
+            console.log("editComponent failed! Mandatory param(s) missing.");
+            done(); return;
+        }
         $.ajax({
             url: componentPath,
             method: "POST",
@@ -218,6 +223,7 @@
         // check mandatory
         if (url == null || dynParName == null || done == null){
             console.log("getJSON failed! Mandatory param(s) missing.")
+            done(); return;
         }
 
         // check defaults
@@ -264,8 +270,8 @@
             //click on the component to see the Editable Toolbar
             .click(".cq-Overlay.cq-draggable.cq-droptarget%dataPath%",{
                 before: function() {
-                       // set the data-path attribute so we target the correct component
-                        h.param("dataPath", "[data-path='" + h.param(cmpPath)() + "']");
+                    // set the data-path attribute so we target the correct component
+                    h.param("dataPath", "[data-path='" + h.param(cmpPath)() + "']");
                 }
             })
 
@@ -334,8 +340,8 @@
      * Common stuff that should be done before each test case starts.
      */
     c.tcExecuteBeforeTest = new TestCase("Common Set up");
-        // TODO: Make sure we start in edit mode on the page
-        // TODO: Start with hidden side panel
+    // TODO: Make sure we start in edit mode on the page
+    // TODO: Start with hidden side panel
 
     /**
      * Common stuff that should be done at the end of each test case.
@@ -348,8 +354,8 @@
      * Stuff that should be done before a testsuite starts
      */
     c.tcExecuteBeforeTestSuite =  new TestCase("Setup Before Testsuite")
-            // disable annoying tutorial popups
-            .execTestCase(hobs.steps.aem.commons.disableTutorials)
+        // disable annoying tutorial popups
+        .execTestCase(hobs.steps.aem.commons.disableTutorials)
 
 
 }(hobs, jQuery));
