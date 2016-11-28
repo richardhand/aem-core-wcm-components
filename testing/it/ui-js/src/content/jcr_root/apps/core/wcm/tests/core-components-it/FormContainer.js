@@ -185,8 +185,8 @@
      * switch to 'Mail' action to avoid this problem.
      */
     var setThankYouPage = new TestCase("Set 'Thank You' Page",{
-        execBefore: tcExecuteBeforeTest,
-        execAfter: tcExecuteAfterTest})
+        execBefore: tcExecuteBeforeTest/*,
+        execAfter: tcExecuteAfterTest*/})
 
         // open the config dialog
         .execTestCase(c.tcOpenConfigureDialog("containerPath"))
@@ -198,17 +198,11 @@
 
         // click on the browse button
         // TODO: Set value directly on the input field
-        // TODO: don't optional we.retail example content
         .click(".coral-Form-fieldwrapper.cmp-redirect-selection .coral-InputGroup-button >button")
-        // navigate to a thank you page from we.retail
-        .click("coral-columnview-item-content[title='we-retail']")
-        .click("coral-columnview-item-content[title='language-masters']")
-        .click("coral-columnview-item-content[title='en']")
-        .click("coral-columnview-item-content[title='user']")
-        .click("coral-columnview-item-content[title='account']")
-        .click("coral-columnview-item-content[title='sign-up']")
-        .click("coral-columnview-item-content[title='thank-you']")
-        .click("coral-columnview-item:contains('thank-you') .foundation-collection-item-thumbnail")
+        // use the test root page as target
+        .click("coral-columnview-item-content[title='core-components']")
+        .click("coral-columnview-item-content[title='core-components-page']")
+        .click("coral-columnview-item:contains('core-components-page') .foundation-collection-item-thumbnail")
         // click on select in the browse dialog
         .click("button.granite-pickerdialog-submit:contains('Select')")
         // close the dialog
@@ -218,9 +212,11 @@
         .config.changeContext(c.getContentFrame)
         // click on the submit button
         .click("button:contains('Submit')",{expectNav:true})
+        // go back to edit frame
+        .config.resetContext()
         // check if the thank you page is shown
         .assert.isTrue(function() {
-            return h.context().window.location.pathname.includes("thank-you");
+            return h.context().window.location.pathname.includes("core-components-page.html");
         });
 
     /**
