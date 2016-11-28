@@ -185,8 +185,8 @@
      * switch to 'Mail' action to avoid this problem.
      */
     var setThankYouPage = new TestCase("Set 'Thank You' Page",{
-        execBefore: tcExecuteBeforeTest/*,
-        execAfter: tcExecuteAfterTest*/})
+        execBefore: tcExecuteBeforeTest,
+        execAfter: tcExecuteAfterTest})
 
         // open the config dialog
         .execTestCase(c.tcOpenConfigureDialog("containerPath"))
