@@ -46,8 +46,8 @@
                 e.fileUpload._internalOnUploadLoad(e, e.item, status, e.content);
             })
             .one("coral-fileupload:load", function(e) {
-                var url = base + "/" + (function() {
-                        var name = file.name;
+                var url = base + (function() {
+                        var name = fileUpload.name;
                         if (name.indexOf(".") === 0) {
                             name = name.substring(1);
                         }
