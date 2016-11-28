@@ -186,7 +186,7 @@
      */
     var setThankYouPage = new TestCase("Set 'Thank You' Page",{
         execBefore: tcExecuteBeforeTest,
-        execAfter: tcExecuteAfterTest})
+         execAfter: tcExecuteAfterTest})
 
         // open the config dialog
         .execTestCase(c.tcOpenConfigureDialog("containerPath"))
@@ -195,16 +195,11 @@
         // select the store action
         .click(".coral3-SelectList-item[value='foundation/components/form/actions/store']")
         // set the thank you page
+        // NOTE: We need to simulate an 'enter' at the end otherwise autocompletion will open a suggestion box
+        // and take focus away, so we cant use fillInput
+        .simulate("foundation-autocomplete[name='./redirect'] input[type!='hidden']",  "key-sequence"  ,
+        {sequence: "/content/core-components/core-components-page{enter}"})
 
-        // click on the browse button
-        // TODO: Set value directly on the input field
-        .click(".coral-Form-fieldwrapper.cmp-redirect-selection .coral-InputGroup-button >button")
-        // use the test root page as target
-        .click("coral-columnview-item-content[title='core-components']")
-        .click("coral-columnview-item-content[title='core-components-page']")
-        .click("coral-columnview-item:contains('core-components-page') .foundation-collection-item-thumbnail")
-        // click on select in the browse dialog
-        .click("button.granite-pickerdialog-submit:contains('Select')")
         // close the dialog
         .execTestCase(c.tcSaveConfigureDialog)
 
@@ -225,7 +220,7 @@
      */
     var setMailAction = new TestCase("Test 'Mail' action",{
         execBefore: tcExecuteBeforeTest,
-         execAfter: tcExecuteAfterTest})
+        execAfter: tcExecuteAfterTest})
 
         // open the config dialog
         .execTestCase(c.tcOpenConfigureDialog("containerPath"))
@@ -283,8 +278,8 @@
         .assert.isTrue(function(){return h.param("json")().bcc[1] == bcc2});
 
     var startWorkflow = new TestCase("Start Workflow",{
-        execBefore: tcExecuteBeforeTest,
-        execAfter: tcExecuteAfterTest})
+            execBefore: tcExecuteBeforeTest,
+             execAfter: tcExecuteAfterTest})
             // open the config dialog
             .execTestCase(c.tcOpenConfigureDialog("containerPath"))
             // open action drop down
