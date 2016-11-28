@@ -339,7 +339,9 @@
     /**
      * Common stuff that should be done before each test case starts.
      */
-    c.tcExecuteBeforeTest = new TestCase("Common Set up");
+    c.tcExecuteBeforeTest = new TestCase("Common Set up")
+        // reset the context
+        .config.resetContext();
     // TODO: Make sure we start in edit mode on the page
     // TODO: Start with hidden side panel
 
