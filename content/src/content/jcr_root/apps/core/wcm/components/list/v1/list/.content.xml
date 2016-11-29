@@ -4,5 +4,4 @@
     jcr:description="Configurable collection of items or content"
     jcr:primaryType="cq:Component"
     jcr:title="List (v1)"
-    allowedParents="[*/parsys]"
     componentGroup=".core-wcm"/>

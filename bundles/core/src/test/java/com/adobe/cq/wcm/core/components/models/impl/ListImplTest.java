@@ -23,6 +23,7 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -81,15 +82,6 @@ public class ListImplTest {
         assertTrue(list.showDescription());
         assertTrue(list.showModificationDate());
         assertTrue(list.linkItem());
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testIllegalListType() throws Exception {
-        Resource resource = context.currentResource("/content/list/listTypes/illegalListType");
-        slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
-        slingBindings.put(WCMBindings.CURRENT_STYLE, new MockStyle(resource));
-        List list = context.request().adaptTo(List.class);
-        list.getListItems();
     }
 
     @Test
