@@ -31,7 +31,7 @@
                                         name="./actionType">
                                         <datasource
                                             jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="core/wcm/components/form/formcontainer/datasource/actiontypedatasource"/>
+                                            sling:resourceType="core/wcm/components/form/container/datasource/actiontypedatasource"/>
                                         <granite:data
                                             jcr:primaryType="nt:unstructured"
                                             cq-dialog-dropdown-showhide-target=".action-type-dialog"/>
@@ -43,7 +43,7 @@
                                         sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
                                         <datasource
                                             jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="core/wcm/components/form/formcontainer/datasource/actiontypesettingsdatasource"/>
+                                            sling:resourceType="core/wcm/components/form/container/datasource/actiontypesettingsdatasource"/>
                                     </advanced>
                                     <redirect
                                         jcr:primaryType="nt:unstructured"
@@ -62,7 +62,7 @@
                                         wrapperClass="hide cmp-workflow-selection">
                                         <datasource
                                             jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="core/wcm/components/form/formcontainer/datasource/workflowmodeldatasource"/>
+                                            sling:resourceType="core/wcm/components/form/container/datasource/workflowmodeldatasource"/>
                                     </workflowmodel>
                                 </items>
                             </column>
