@@ -74,7 +74,7 @@
     /**
      * Test: Set the Hide Current flag
      */
-    var testHideCurrent = new h.TestCase("Check 'Hide Current' Flag",{
+    var testHideCurrent = new h.TestCase("Check Hide Current Flag",{
         execBefore: tcExecuteBeforeTest,
         execAfter: tcExecuteAfterTest})
 
@@ -99,7 +99,7 @@
     /**
      * Test: Set the Show Hidden flag
      */
-    var testShowHidden = new TestCase("Check 'Show Hidden' Flag",{
+    var testShowHidden = new TestCase("Check Show Hidden Flag",{
         execBefore: tcExecuteBeforeTest,
         execAfter: tcExecuteAfterTest})
 
@@ -200,7 +200,6 @@
         // check the current number of items
         .assert.isTrue(function(){
             return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 5})
-
         // Open the configuration dialog
         .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
         // set it to 100
@@ -218,7 +217,8 @@
      * The main test suite.
      */
     new h.TestSuite("Core-Components - Breadcrumb", {path:"/apps/core/wcm/tests/core-components-it/Breadcrumb.js",
-        execBefore:c.tcExecuteBeforeTestSuite})
+        execBefore:c.tcExecuteBeforeTestSuite,
+        execInNewWindow : true})
 
         .addTestCase(testHideCurrent)
         .addTestCase(testShowHidden)

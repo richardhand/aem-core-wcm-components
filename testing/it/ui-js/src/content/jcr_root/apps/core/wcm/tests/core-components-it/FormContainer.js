@@ -59,7 +59,7 @@
             var data = {};
             data.name = "inputname";
             data.defaultValue = "inputvalue";
-            c.editComponent(h.param("inputPath")(), data,done);
+            c.editNodeProperties(h.param("inputPath")(), data,done);
         })
 
         // add a button to the form
@@ -72,7 +72,7 @@
             var data = {};
             data.type = "submit";
             data.title = "Submit";
-            c.editComponent(h.param("buttonPath")(), data,done);
+            c.editNodeProperties(h.param("buttonPath")(), data,done);
         })
 
         // open the page in the editor
@@ -95,7 +95,7 @@
     /**
      * Test: Check if the action 'Store Content' works.
      */
-    var storeContent = new TestCase("Test 'Store Content' action",{
+    var storeContent = new TestCase("Test Store Content action",{
         execBefore: tcExecuteBeforeTest,
         execAfter: tcExecuteAfterTest})
 
@@ -184,7 +184,7 @@
      * Once the thank you page option is available for all actions (See https://jira.corp.adobe.com/browse/CQ-106130)
      * switch to 'Mail' action to avoid this problem.
      */
-    var setThankYouPage = new TestCase("Set 'Thank You' Page",{
+    var setThankYouPage = new TestCase("Set Thank You Page",{
         execBefore: tcExecuteBeforeTest,
         execAfter: tcExecuteAfterTest})
 
@@ -218,7 +218,7 @@
      * Test: check if 'Mail' action works.
      *
      */
-    var setMailAction = new TestCase("Test 'Mail' action",{
+    var setMailAction = new TestCase("Test Mail action",{
         execBefore: tcExecuteBeforeTest,
         execAfter: tcExecuteAfterTest})
 
@@ -300,58 +300,63 @@
             // click on the submit button
             .click("button:contains('Submit')")
 
-            .execFct(function(opts,done){
-                c.getJSON(workflowInstances+".3.json","json",done);
-            })
-
             // find the workflow instance that is using our payload and is in running state
-            // TODO find a reliable way to find the started workflow
             .assert.isTrue(function() {
+
+                var found = false;
+
+                c.getJSON(workflowInstances+".3.json","json",check);
 
                 function check() {
                     var instances = h.param("json")();
                     for (var prop in instances) {
-                        // go through the instances
+                        // go through the instance sub objects
                         if (typeof instances[prop] === 'object') {
                             var instance = instances[prop];
-                            console.log("prop : " + prop);
-                            console.log("status : " + instance.status);
-                            console.log("payload : " + instance.data.payload.path);
+                            console.log("CHECKING prop : " + prop);
+                            console.log("CHECKING status : " + instance.status);
+                            console.log("CHECKING payload : " + instance.data.payload.path);
                             // if its the one with our payload and its in Running state , success
                             if (instance.status == "RUNNING" &&
                                 instance.data.payload.path == userContent + "/workflowpayload") {
-                                h.param("startedInstance", workflowInstances + "/" + prop);
-                                return true;
+                                console.log("FOUND prop : " + prop);
+                                console.log("FOUND status : " + instance.status);
+                                console.log("FOUND payload : " + instance.data.payload.path);
+
+                                found = true;
+
+                                var data = {};
+                                data.state = "ABORTED";
+                                data._charset_ = "utf-8";
+                                c.editNodeProperties( workflowInstances + "/" + prop,data);
+
+                                return;
                             }
                         }
                     }
+                    c.getJSON(workflowInstances+".3.json","json",check);
                     // not found
                     return false;
                 }
-                c.getJSON(workflowInstances+".3.json","json",check);
-            })
 
-            // abort the workflow
-            .execFct(function(opts,done){
-                var data = {};
-                data.state = "ABORTED";
-                data._charset_ = "utf-8";
-                c.editComponent(h.param("startedInstance")(),data,done);
+                check()
+
+                return found;
             })
-        ;
+      ;
 
     /**
      * The main test suite.
      */
     new h.TestSuite("Core-Components - Form Container",{path:"/apps/core/wcm/tests/core-components-it/FormContainer.js",
-        execBefore:c.tcExecuteBeforeTestSuite})
+        execBefore:c.tcExecuteBeforeTestSuite,
+        execInNewWindow : true})
 
         .addTestCase(storeContent)
         .addTestCase(setMailAction)
         .addTestCase(setContextPath)
         .addTestCase(setThankYouPage)
-        // TODO find a more reliable way to find the started workflow
-        //.addTestCase(startWorkflow)
+        .addTestCase(startWorkflow)
         // See https://jira.corp.adobe.com/browse/CQ-106130
         // TODO : write test for 'view data', its going to be moved from opening bulk editor to returning json
         // TODO : setting form identifier is going to be replaced by css styles

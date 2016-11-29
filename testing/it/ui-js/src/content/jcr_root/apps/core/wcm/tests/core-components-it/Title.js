@@ -154,7 +154,8 @@
      * The main test suite for Title component
      */
     new h.TestSuite("Core-Components - Title", {path:"/apps/core/wcm/tests/core-components-it/Title.js",
-        execBefore:c.tcExecuteBeforeTestSuite})
+        execBefore:c.tcExecuteBeforeTestSuite,
+        execInNewWindow : true})
 
         .addTestCase(setTitleValueUsingInlineEditor)
         .addTestCase(setTitleValueUsingConfigDialog)
