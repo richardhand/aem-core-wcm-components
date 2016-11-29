@@ -20,7 +20,7 @@
             ${textField.title}
         </label>
         <p data-sly-test="${!textField.usePlaceholder && textField.helpMessage}" class="help-block">${textField.helpMessage}</p>
-        <textarea data-sly-test.useTextarea="${textField.type.name == 'TEXTAREA'}"
+        <textarea data-sly-test.useTextarea="${textField.type == 'textarea'}"
               id="${textField.id}"
               placeholder="${textField.usePlaceholder && textField.placeholder}"
               name="${textField.name}"
