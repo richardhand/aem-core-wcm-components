@@ -46,7 +46,7 @@ public class TextFieldImpl implements TextField {
     private static final String PROP_REQUIRED_MESSAGE_DEFAULT = "";
     private static final String PROP_CONSTRAINT_MESSAGE_DEFAULT = "";
     private static final String PROP_SHOW_HIDE_EXPRESSION_DEFAULT = null;
-    private static final TYPE PROP_TYPE_DEFAULT = TYPE.TEXT;
+    private static final String PROP_TYPE_DEFAULT = "text";
     private static final String PROP_HELP_MESSAGE_DEFAULT = "";
     private static final boolean PROP_USE_PLACEHOLDER_DEFAULT = false;
     private static final Integer PROP_ROWS_DEFAULT = 2;
@@ -116,9 +116,8 @@ public class TextFieldImpl implements TextField {
     }
 
     @Override
-    public TYPE getType() {
-        String type = properties.get(PN_TYPE, PROP_TYPE_DEFAULT.toString());
-        return TYPE.valueOf(type.toUpperCase());
+    public String getType() {
+        return properties.get(PN_TYPE, PROP_TYPE_DEFAULT);
     }
 
     @Override

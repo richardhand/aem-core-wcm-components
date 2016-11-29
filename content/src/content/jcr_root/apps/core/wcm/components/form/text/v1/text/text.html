@@ -21,7 +21,6 @@
         </label>
         <p data-sly-test="${!textField.usePlaceholder && textField.helpMessage}" class="help-block">${textField.helpMessage}</p>
         <textarea data-sly-test.useTextarea="${textField.type.name == 'TEXTAREA'}"
-              type="${textField.constraintType}"
               id="${textField.id}"
               placeholder="${textField.usePlaceholder && textField.placeholder}"
               name="${textField.name}"
@@ -31,7 +30,7 @@
               rows="${textField.rows}"
             >${textField.value}</textarea>
         <input data-sly-test="${!useTextarea}"
-               type="${textField.type.name.toLowerCase}"
+               type="${textField.type}"
                id="${textField.id}"
                placeholder="${textField.usePlaceholder && textField.placeholder}"
                name="${textField.name}"

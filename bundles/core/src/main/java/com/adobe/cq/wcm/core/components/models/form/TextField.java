@@ -21,23 +21,6 @@ package com.adobe.cq.wcm.core.components.models.form;
 public interface TextField extends FormField{
 
     /**
-     * the type of constraint on the input field
-     */
-    enum TYPE{
-        TEXT,
-        TEXTAREA,
-        EMAIL,
-        TEL,
-        DATE,
-        NUMBER,
-        PASSWORD;
-
-        public String toString() {
-            return this.name().toLowerCase();
-        }
-    }
-
-    /**
      * checks if the field should be rendered read only on the page
      * @return {@code true} if the field should be read-only <br>
      *     {@code false} otherwise
@@ -64,11 +47,11 @@ public interface TextField extends FormField{
     String getValue();
 
     /**
-     * Gets the type of html element to use for rendering , textarea or input
-     * @return the type of html element to use
-     * @see com.adobe.cq.wcm.core.components.models.form.TextField.TYPE
+     * Gets the type of the input field such as text, textarea, date, email etc.
+     * The types other than textarea are as defined under HTML5.
+     * @return the type of the field
      */
-    TYPE getType();
+    String getType();
 
     /**
      * @return the number of rows the text area should display
