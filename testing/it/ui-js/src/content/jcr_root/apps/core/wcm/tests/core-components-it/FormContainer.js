@@ -16,393 +16,347 @@
 
 ;(function(h, $){
 
-    var pageUrl = window.CQ.CoreComponentsIT.pageRoot+"/page0";
-    var from_mail = "from@adobe.com"
-    var mail1 = "mail1@adobe.com"
-    var mail2 = "mail2@adobe.com"
-    var subject = "This is a subject"
+    // shortcut
+    var c = window.CQ.CoreComponentsIT.commons;
 
-    var textContent = "Text field content"
-    var formIdentifier = "content_core-components"
+    // root location where form content will be stored
+    var userContent = "/content/usergenerated/core-components";
 
-    var contentPath = "/content/usergenerated/core-components/core-components-page/cq/template"
-    var thankYouPagePath = "/content/we-retail/language-masters/en/user/account/sign-up/thank-you"
-    var loadPath = "/content/usergenerated/core-components-new/core-components-page/cq/timestamp"
+    var workflowInstances = "/etc/workflow/instances/server0/" + new Date().getFullYear() + "-" +
+        (new Date().getMonth()+1) + "-" + new Date().getDate();
 
-    var jsonFile = ""
+    // some test values
+    var from = "from@component.com";
+    var subject = "subject line";
+    var mailto1 = "mailto1@components.com";
+    var mailto2 = "mailto2@components.com";
+    var cc1 = "cc1@components.com";
+    var cc2 = "cc2@components.com";
+    var bcc1 = "bcc1@components.com";
+    var bcc2 = "bcc2@components.com";
 
-    var createFormContentNode = function(url){
-        return $.ajax({
-            url: url,
-            method: "POST",
-            data: {
-                "./jcr:primaryType": "sling:Folder",
-                "./sling:resourceType": "sling:Folder",
-                "./core-components-page/jcr:primaryType": "sling:Folder",
-                "./core-components-page/sling:resourceType": "sling:Folder",
-                "./core-components-page/cq/jcr:primaryType": "sling:Folder",
-                "./core-components-page/cq/formPath": "/content/core-components/core-components-page/page0/jcr:content/root/responsivegrid/formcontainer",
-                "./core-components-page/cq/sling:resourceType": "foundation/components/form/actions/showbulkeditor",
-                "./core-components-page/cq/timestamp/jcr:primaryType": "sling:Folder",
-                "./core-components-page/cq/timestamp/field_name": "The new text field content"
-            }
+    var tcExecuteBeforeTest = new TestCase("Setup Before Test")
+        // common set up
+        .execTestCase(c.tcExecuteBeforeTest)
+
+        // create the test page, store page path in 'testPagePath'
+        .execFct(function (opts, done) {
+            c.createPage(c.template, c.rootPage, 'page_' + Date.now(), "testPagePath", done)
         })
-    }
 
-    window.CQ.CoreComponentsIT.FormContainer.CreateContentNode = function (h, $, url) {
-        return new h.TestCase("Create a new node")
-            .execFct(function (opts, done) {
-                createFormContentNode(url).then(done);
-            })
-        ;
-    }
+        // add the form container component
+        .execFct(function (opts, done) {
+            c.addComponent(c.rtFormContainer, h.param("testPagePath")(opts) + c.relParentCompPath, "containerPath", done)
+        })
 
-    var getJsonFile = function(url) {
-        return $.ajax(url + ".json");
-    }
+        // inside the form add an form text input field
+        .execFct(function (opts, done) {
+            c.addComponent(c.rtFormText, h.param("containerPath")(opts) + "/", "inputPath", done)
+        })
 
-    window.CQ.CoreComponentsIT.FormContainer.CheckDataStore = function (h, $, url) {
-        return new h.TestCase("Create a page")
+        // set name and default value for the input field
+        .execFct(function (opts, done) {
+            var data = {};
+            data.name = "inputname";
+            data.defaultValue = "inputvalue";
+            c.editComponent(h.param("inputPath")(), data,done);
+        })
 
-            .execFct(function(opts, done) {
-                getJsonFile(url).done(function(response) {
-                    jsonFile = response;
-                    done();
-                });
-            })
+        // add a button to the form
+        .execFct(function (opts, done) {
+            c.addComponent(c.rtFormButton, h.param("containerPath")(opts) + "/", "buttonPath", done)
+        })
 
-            .assert.isTrue(function () {
-                code = true;
-                if (jsonFile === null || jsonFile === ""){
-                    code=false;
-                }
+        // make sure the button is a submit button
+        .execFct(function (opts, done) {
+            var data = {};
+            data.type = "submit";
+            data.title = "Submit";
+            c.editComponent(h.param("buttonPath")(), data,done);
+        })
 
-                return code;
-            })
-        ;
-    }
+        // open the page in the editor
+        .navigateTo("/editor.html%testPagePath%.html");
+
 
     /**
-     * Drag and Drop a Form Container component.
+     * After Test Case
      */
-    window.CQ.CoreComponentsIT.FormContainer.DragDropFormContainer = function (h, $) {
-        return new h.TestCase('Drag and drop the form container')
-            .execTestCase(window.CQ.CoreComponentsIT.CreatePage(h, $, pageUrl, 'page0', 'CoreComponent TestPage',
-                '/conf/core-components/settings/wcm/templates/core-components'))
-            .execTestCase(window.CQ.CoreComponentsIT.DragDropComponent(h, $, 'Core WCM Form Container Component', pageUrl))
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.DragDropFormComponentInContainer(h, $))
-        ;
-    }
+    var tcExecuteAfterTest = new TestCase("Clean up after Test")
+        // common clean up
+        .execTestCase(c.tcExecuteAfterTest)
+        // delete any user generated content
+        .execFct(function (opts,done){c.deletePage(userContent,done)})
+        // delete the test page we created
+        .execFct(function (opts, done) {
+            c.deletePage(h.param("testPagePath")(opts), done);
+        });
 
-    window.CQ.CoreComponentsIT.FormContainer.DragDropFormComponentInContainer = function (h, $) {
-        return new h.TestCase('Drag and drop a form component in the container')
-            .assert.exist(".coral-Masonry-item:contains('Core WCM Form Text field')")
-            .assert.exist("#OverlayWrapper .cq-Overlay--placeholder[data-path='/content/core-components/core-components-page/page0/jcr:content/root/responsivegrid/formcontainer/*']")
-            .cui.dragdrop(
-                ".coral-Masonry-item :contains('Core WCM Form Text field')",
-                "#OverlayWrapper .cq-Overlay--placeholder[data-path='/content/core-components/core-components-page/page0/jcr:content/root/responsivegrid/formcontainer/*']",
-                {delayBefore: 2500}
-            )
-            //Set the element name and the title for the Text field
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h,$,"div[data-path='/content/core-components/core-components-page/page0/jcr:content/root/responsivegrid/formcontainer/text']"))
-            .fillInput("input[name='./name']","field_name")
-            .fillInput("input[name='./jcr:title']", "Text fiels title")
-            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
+    /**
+     * Test: Check if the action 'Store Content' works.
+     */
+    var storeContent = new TestCase("Test 'Store Content' action",{
+        execBefore: tcExecuteBeforeTest,
+        execAfter: tcExecuteAfterTest})
 
-            .assert.exist(".coral-Masonry-item:contains('Core WCM Form Button Component')")
-            .cui.dragdrop(
-                ".coral-Masonry-item :contains('Core WCM Form Button Component')",
-                "#OverlayWrapper .cq-Overlay--placeholder[data-path='/content/core-components/core-components-page/page0/jcr:content/root/responsivegrid/formcontainer/*']",
-                {delayBefore: 2500}
-            )
-            //Set the type and the title pf the button
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h,$,"div[data-path='/content/core-components/core-components-page/page0/jcr:content/root/responsivegrid/formcontainer/button']"))
-            .assert.isTrue(function() {return hobs.find(".btn[type='button']","#ContentFrame")})
-            .click(".coral-Button:contains('Button')")
-            .click(".coral3-SelectList-item:contains('Submit')")
-            .fillInput("input[name='./title']", "Submit button")
-            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
-        ;
-    }
+        // open the edit dialog
+        .execTestCase(c.tcOpenConfigureDialog("containerPath"))
+        // store the content path JSON Url in  a hobbes param
+        .execFct(function(opts,done){
+            h.param("contentJsonUrl",h.find("input[name='./action']").val().slice(0,-1) + ".1.json");
+            done();
+        })
+        // open action drop down
+        .click(".coral-Form-field.cmp-action-type-selection.coral3-Select > button")
+        // select the store action
+        .click(".coral3-SelectList-item[value='foundation/components/form/actions/store']")
+        // close the dialog
+        .execTestCase(c.tcSaveConfigureDialog)
 
-    window.CQ.CoreComponentsIT.FormContainer.OpenFormType = function (h,$, formType) {
-        return new h.TestCase('Open the mail form')
-            .click(".coral-Tab:contains('Form')")
-            .click(".coral-Form-field.cmp-action-type-selection.coral3-Select >button")
-            .click(".coral3-SelectList-item:contains('"+formType+"')")
-        ;
-    }
+        //switch to the content frame
+        .config.changeContext(c.getContentFrame)
+        // click on the submit button
+        .click("button:contains('Submit')")
 
-    window.CQ.CoreComponentsIT.FormContainer.NavigateToEditor = function (h,$) {
-        return new h.TestCase('Navigate to the edit page')
-            .navigateTo("/editor.html" + pageUrl + ".html")
-            .assert.location("/editor.html" + pageUrl + ".html", true)
+        // get the json for the content node
+        .execFct(function(opts,done){
+            c.getJSON(h.param("contentJsonUrl")(opts),"json",done);
+        })
+        // check if the input value was saved
+        .assert.isTrue(function(){
+            // its stored in a child node with random name so we need to find it
+            var data = h.param("json")();
+            for (var prop in data) {
+                // its the only sub object
+                if (typeof data[prop] === 'object') {
+                    // check the value is there
+                    if (data[prop].inputname != null && data[prop].inputname == "inputvalue") {
+                        return true;
+                    }
+                }
+            }
+            // not found
+            return false;
+        });
 
-            .if(
-                function() { return h.find("button.is-selected:contains('Preview')").length != 0 },
-                new hobs.TestCase("Open SidePanel").click("button.editor-GlobalBar-item:contains('Edit')")
-                    .wait(250),null, {timeout: 100}
-            )
-            .if(
-                function() { return h.find('#SidePanel.sidepanel-closed').length != 0 },
-                new hobs.TestCase("Open SidePanel").click("button.toggle-sidepanel[title='Toggle Side Panel']")
-                   .wait(250),null, {timeout: 100}
-            )
-        ;
-    }
+    /**
+     * Test: set your own content path
+     */
+    var setContextPath = new TestCase("Set Content Path",{
+        execBefore: tcExecuteBeforeTest,
+        execAfter: tcExecuteAfterTest})
 
-    window.CQ.CoreComponentsIT.FormContainer.CheckFillMailForm = function (h,$) {
-        return new h.TestCase('Check the mail form')
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h,$, ".cq-Overlay.cq-draggable.cq-droptarget.cq-Overlay--placeholder"))
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.OpenFormType(h,$, 'Mail'))
+        // open the config dialog
+        .execTestCase(c.tcOpenConfigureDialog("containerPath"))
+        // open action drop down
+        .click(".coral-Form-field.cmp-action-type-selection.coral3-Select > button")
+        // select the store action
+        .click(".coral3-SelectList-item[value='foundation/components/form/actions/store']")
+        // we set our own context path
+        .fillInput("input[name='./action']",userContent + "/xxx")
+        // close the dialog
+        .execTestCase(c.tcSaveConfigureDialog)
 
-            //Fill in the From
-            .fillInput(".action-type-dialog:not(.hide) >div:contains('From') >input", from_mail)
+        //switch to the content frame
+        .config.changeContext(c.getContentFrame)
+        // click on the submit button
+        .click("button:contains('Submit')")
 
-            //Fill in the Mailto
-            .click(".action-type-dialog:not(.hide) >div:contains('Mailto') >coral-multifield >button")
-            .fillInput("input[name='./mailto']", mail1)
-            .click(".action-type-dialog:not(.hide) >div:contains('Mailto') >coral-multifield >button")
-            .fillInput("input[name='./mailto']:eq(1)", mail2)
+        // get the json for the content node
+        .execFct(function(opts,done){
+            c.getJSON(userContent + "/xxx.json","json",done);
+        })
+        // check if the input value was saved
+        .assert.isTrue(function(){
+            var data = h.param("json")();
+            if(data.inputname != null && data.inputname == "inputvalue") {
+                return true;
+            } else {
+                return false;
+            }
+        });
 
-            //Fill in the CC
-            .click(".action-type-dialog:not(.hide) >div:contains('CC'):not(:contains('BCC')) >coral-multifield >button")
-            .fillInput("input[name='./cc']", mail1)
-            .click(".action-type-dialog:not(.hide) >div:contains('CC'):not(:contains('BCC')) >coral-multifield >button")
-            .fillInput("input[name='./cc']:eq(1)", mail2)
+    /**
+     * Test: set the thank You page path
+     *
+     * NOTE: Timing problem. the clean up after this test is faster then the user content being stored
+     * so it not cleaned up reliably. Does not hurt but its not nice.
+     * Once the thank you page option is available for all actions (See https://jira.corp.adobe.com/browse/CQ-106130)
+     * switch to 'Mail' action to avoid this problem.
+     */
+    var setThankYouPage = new TestCase("Set 'Thank You' Page",{
+        execBefore: tcExecuteBeforeTest,
+        execAfter: tcExecuteAfterTest})
 
-            //Fill in the BCC
-            .click(".action-type-dialog:not(.hide) >div:contains('BCC') >coral-multifield >button")
-            .fillInput("input[name='./bcc']", mail1)
-            .click(".action-type-dialog:not(.hide) >div:contains('BCC') >coral-multifield >button")
-            .fillInput("input[name='./bcc']:eq(1)", mail2)
+        // open the config dialog
+        .execTestCase(c.tcOpenConfigureDialog("containerPath"))
+        // open action drop down
+        .click(".coral-Form-field.cmp-action-type-selection.coral3-Select > button")
+        // select the store action
+        .click(".coral3-SelectList-item[value='foundation/components/form/actions/store']")
+        // set the thank you page
+        // NOTE: We need to simulate an 'enter' at the end otherwise autocompletion will open a suggestion box
+        // and take focus away, so we cant use fillInput
+        .simulate("foundation-autocomplete[name='./redirect'] input[type!='hidden']",  "key-sequence"  ,
+        {sequence: "/content/core-components/core-components-page{enter}"})
 
-            //Fill in the Subject
-            .fillInput(".action-type-dialog:not(.hide) >div:contains('Subject') >input", subject)
+        // close the dialog
+        .execTestCase(c.tcSaveConfigureDialog)
 
-            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
-        ;
-    }
+        //switch to the content frame
+        .config.changeContext(c.getContentFrame)
+        // click on the submit button
+        .click("button:contains('Submit')",{expectNav:true})
+        // go back to edit frame
+        .config.resetContext()
+        // check if the thank you page is shown
+        .assert.isTrue(function() {
+            return h.context().window.location.pathname.includes("core-components-page.html");
+        });
 
-    window.CQ.CoreComponentsIT.FormContainer.CheckMailPersistence = function (h,$) {
-        return new h.TestCase('Check the persistence of the mail addresses')
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h,$, ".cq-Overlay.cq-draggable.cq-droptarget.cq-Overlay--container"))
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.OpenFormType(h,$, 'Mail'))
+    /**
+     * Test: check if 'Mail' action works.
+     *
+     */
+    var setMailAction = new TestCase("Test 'Mail' action",{
+        execBefore: tcExecuteBeforeTest,
+        execAfter: tcExecuteAfterTest})
 
-            .assert.isTrue(function() { return window.CQ.CoreComponentsIT.checkInputValue(h,"input[name='./from']", from_mail)})
+        // open the config dialog
+        .execTestCase(c.tcOpenConfigureDialog("containerPath"))
+        // open the action drop down (setting directly will not update dialog)
+        .click(".coral-Form-field.cmp-action-type-selection.coral3-Select > button")
+        // select mail action
+        .click(".coral3-SelectList-item[value='foundation/components/form/actions/mail']")
+        // wait for the dialog to update
+        .assert.visible("[name='./from']")
+        // set the 'from' field
+        .fillInput("[name='./from']",from)
+        // set the subject
+        .fillInput("[name='./subject']",subject)
 
-            .assert.isTrue(function() { return window.CQ.CoreComponentsIT.checkInputValue(h,"input[name='./mailto']:first", mail1)})
-            .assert.isTrue(function() { return window.CQ.CoreComponentsIT.checkInputValue(h,"input[name='./mailto']:eq(1)", mail2)})
+        //Fill in the Mailto
+        .click(".action-type-dialog:not(.hide) >div:contains('Mailto') >coral-multifield >button")
+        .fillInput("input[name='./mailto']", mailto1)
+        .click(".action-type-dialog:not(.hide) >div:contains('Mailto') >coral-multifield >button")
+        .fillInput("input[name='./mailto']:eq(1)", mailto2)
 
-            .assert.isTrue(function() { return window.CQ.CoreComponentsIT.checkInputValue(h,"input[name='./cc']:first", mail1)})
-            .assert.isTrue(function() { return window.CQ.CoreComponentsIT.checkInputValue(h,"input[name='./cc']:eq(1)", mail2)})
+        //Fill in the CC
+        .click(".action-type-dialog:not(.hide) >div:contains('CC'):not(:contains('BCC')) >coral-multifield >button")
+        .fillInput("input[name='./cc']", cc1)
+        .click(".action-type-dialog:not(.hide) >div:contains('CC'):not(:contains('BCC')) >coral-multifield >button")
+        .fillInput("input[name='./cc']:eq(1)", cc2)
 
-            .assert.isTrue(function() { return window.CQ.CoreComponentsIT.checkInputValue(h,"input[name='./bcc']:first", mail1)})
-            .assert.isTrue(function() { return window.CQ.CoreComponentsIT.checkInputValue(h,"input[name='./bcc']:eq(1)", mail2)})
+        //Fill in the BCC
+        .click(".action-type-dialog:not(.hide) >div:contains('BCC') >coral-multifield >button")
+        .fillInput("input[name='./bcc']", bcc1)
+        .click(".action-type-dialog:not(.hide) >div:contains('BCC') >coral-multifield >button")
+        .fillInput("input[name='./bcc']:eq(1)", bcc2)
 
-            .assert.isTrue(function() { return window.CQ.CoreComponentsIT.checkInputValue(h,"input[name='./subject']", subject)})
+        // save the dialog
+        .execTestCase(c.tcSaveConfigureDialog)
 
-            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
-        ;
-    }
+        // workaround: request the form property, does not exist yet. This way it will only continue once its
+        // written changes to the repo otherwise we are to fast
+        // TODO : implement some sort of polling
+        .execFct(function(opts,done){
+            c.getJSON(h.param("containerPath")()+"/from.json","json",done);
+        })
+        // get the json for the form container
+        .execFct(function(opts,done){
+            c.getJSON(h.param("containerPath")()+".json","json",done);
+        })
 
-    window.CQ.CoreComponentsIT.FormContainer.CheckMailAddressNumber = function (h,$){
-        return new h.TestCase('Check the number of the mail addresses and the Delete button')
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h,$, ".cq-Overlay.cq-draggable.cq-droptarget.cq-Overlay--container"))
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.OpenFormType(h,$, 'Mail'))
+        // check if the properties are stored
+        .assert.isTrue(function(){return h.param("json")().from == from})
+        .assert.isTrue(function(){return h.param("json")().subject == subject})
+        .assert.isTrue(function(){return h.param("json")().mailto[0] == mailto1})
+        .assert.isTrue(function(){return h.param("json")().mailto[1] == mailto2})
+        .assert.isTrue(function(){return h.param("json")().cc[0] == cc1})
+        .assert.isTrue(function(){return h.param("json")().cc[1] == cc2})
+        .assert.isTrue(function(){return h.param("json")().bcc[0] == bcc1})
+        .assert.isTrue(function(){return h.param("json")().bcc[1] == bcc2});
 
-            .assert.isTrue(function() { return window.CQ.CoreComponentsIT.checkNumberOfItems
-            (h,".action-type-dialog:not(.hide) >div:contains('Mailto') >> coral-Multifield-item", 2)})
-            .click(".action-type-dialog:not(.hide) >div:contains('Mailto') >> coral-Multifield-item.last-of-type > button.coral-Multifield-remove")
-            .assert.isTrue(function() { return window.CQ.CoreComponentsIT.checkNumberOfItems
-            (h,".action-type-dialog:not(.hide) >div:contains('Mailto') >> coral-Multifield-item", 1)})
-            .click(".action-type-dialog:not(.hide) >div:contains('Mailto') >> coral-Multifield-item.first-of-type > button.coral-Multifield-remove")
-            .assert.isTrue(function() { return window.CQ.CoreComponentsIT.checkNumberOfItems
-            (h,".action-type-dialog:not(.hide) >div:contains('Mailto') >> coral-Multifield-item", 0)})
-
-            .assert.isTrue(function() { return window.CQ.CoreComponentsIT.checkNumberOfItems
-            (h,".action-type-dialog:not(.hide) >div:contains('CC'):not(:contains('BCC')) >> coral-Multifield-item", 2)})
-            .click(".action-type-dialog:not(.hide) >div:contains('CC'):not(:contains('BCC')) >> coral-Multifield-item.last-of-type > button.coral-Multifield-remove")
-            .assert.isTrue(function() { return window.CQ.CoreComponentsIT.checkNumberOfItems
-            (h,".action-type-dialog:not(.hide) >div:contains('CC'):not(:contains('BCC')) >> coral-Multifield-item", 1)})
-            .click(".action-type-dialog:not(.hide) >div:contains('CC'):not(:contains('BCC')) >> coral-Multifield-item.first-of-type > button.coral-Multifield-remove")
-            .assert.isTrue(function() { return window.CQ.CoreComponentsIT.checkNumberOfItems
-            (h,".action-type-dialog:not(.hide) >div:contains('CC'):not(:contains('BCC')) >> coral-Multifield-item", 0)})
-
-            .assert.isTrue(function() { return window.CQ.CoreComponentsIT.checkNumberOfItems
-            (h,".action-type-dialog:not(.hide) >div:contains('BCC') >> coral-Multifield-item", 2)})
-            .click(".action-type-dialog:not(.hide) >div:contains('BCC') >> coral-Multifield-item.last-of-type > button.coral-Multifield-remove")
-            .assert.isTrue(function() { return window.CQ.CoreComponentsIT.checkNumberOfItems
-            (h,".action-type-dialog:not(.hide) >div:contains('BCC') >> coral-Multifield-item", 1)})
-            .click(".action-type-dialog:not(.hide) >div:contains('BCC') >> coral-Multifield-item.first-of-type > button.coral-Multifield-remove")
-            .assert.isTrue(function() { return window.CQ.CoreComponentsIT.checkNumberOfItems
-            (h,".action-type-dialog:not(.hide) >div:contains('BCC') >> coral-Multifield-item", 0)})
-
-            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
-        ;
-    }
-
-    window.CQ.CoreComponentsIT.FormContainer.CheckMailForm = function (h,$) {
-        return new h.TestCase('Check the mail form')
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.CheckFillMailForm(h,$))
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.CheckMailPersistence(h,$))
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.CheckMailAddressNumber(h,$))
-        ;
-    }
-
-    window.CQ.CoreComponentsIT.FormContainer.SetAndCheckThankYouPage = function (h,$) {
-        return new h.TestCase('Set the Thank you page')
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.NavigateToEditor(h,$))
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h,$, ".cq-Overlay.cq-draggable.cq-droptarget.cq-Overlay--container"))
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.OpenFormType(h,$,'Store Content'))
-
-            .click(".coral-Form-fieldwrapper.cmp-redirect-selection .coral-InputGroup-button >button")
-
-            .click("coral-columnview-item-content[title='we-retail']")
-            .click("coral-columnview-item-content[title='language-masters']")
-            .click("coral-columnview-item-content[title='en']")
-            .click("coral-columnview-item-content[title='user']")
-            .click("coral-columnview-item-content[title='account']")
-            .click("coral-columnview-item-content[title='sign-up']")
-            .click("coral-columnview-item-content[title='thank-you']")
-
-            .click("coral-columnview-item:contains('thank-you') .foundation-collection-item-thumbnail")
-            .click("button.granite-pickerdialog-submit:contains('Select')")
-            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
-
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.SubmitFormContent(h,$))
-
-            //Check the redirection after the form submit
-            .assert.location("/editor.html/content/we-retail/language-masters/en/user/account/sign-up/thank-you.html", true)
-        ;
-    }
-
-    window.CQ.CoreComponentsIT.FormContainer.SubmitFormContent = function (h,$) {
-        return new h.TestCase('Submit the Form Content')
-            //Submit the form content
-            .click("button[data-layer='Preview']")
-
-            //get a new context
-            .config.changeContext(function() {
-                return hobs.find("iframe#ContentFrame").get(0);
-            })
-
-            .fillInput("input[id='field_name']", textContent)
-            .click("button:contains('Submit button')")
-
-            .config.resetContext()
-        ;
-    }
-
-    window.CQ.CoreComponentsIT.FormContainer.SetAndCheckStartWorkflow = function (h,$) {
-        return new h.TestCase('Set and check the Start Workflow')
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.NavigateToEditor(h,$))
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h,$, ".cq-Overlay.cq-draggable.cq-droptarget.cq-Overlay--container"))
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.OpenFormType(h,$,'Store Content'))
-
-            //Set the Start Workflow
+    var startWorkflow = new TestCase("Start Workflow",{
+            execBefore: tcExecuteBeforeTest,
+            execAfter: tcExecuteAfterTest})
+            // open the config dialog
+            .execTestCase(c.tcOpenConfigureDialog("containerPath"))
+            // open action drop down
+            .click(".coral-Form-field.cmp-action-type-selection.coral3-Select > button")
+            // select the store action
+            .click(".coral3-SelectList-item[value='foundation/components/form/actions/store']")
+            // we set our own context path
+            .fillInput("input[name='./action']",userContent + "/workflowpayload")
+            // open the drop down
             .click(".coral-Form-fieldwrapper.cmp-workflow-selection:contains('Start Workflow') .coral-Button")
+            // select an workflow
             .click(".coral3-Select-overlay.is-open .coral3-SelectList-item:contains('Publish Example')")
+            // close the dialog
+            .execTestCase(c.tcSaveConfigureDialog)
 
-            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
+            //switch to the content frame
+            .config.changeContext(c.getContentFrame)
+            // click on the submit button
+            .click("button:contains('Submit')")
 
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.SubmitFormContent(h,$))
-
-            //Check if the workflow is started
-            .navigateTo("/libs/cq/workflow/admin/console/content/instances.html")
-            .assert.location("/libs/cq/workflow/admin/console/content/instances.html")
-            .assert.isTrue(function () {
-                return hobs.find(".foundation-collection-item.foundation-collection-navigator.coral-Table-row:contains('Publish Example')").length >=1;
+            .execFct(function(opts,done){
+                c.getJSON(workflowInstances+".3.json","json",done);
             })
-            .assert.isTrue(function () {
-                return hobs.find(".foundation-collection-item.foundation-collection-navigator.coral-Table-row:contains('Publish Example'):first > td:contains('RUNNING')")
+
+            // find the workflow instance that is using our payload and is in running state
+            // TODO find a reliable way to find the started workflow
+            .assert.isTrue(function() {
+
+                function check() {
+                    var instances = h.param("json")();
+                    for (var prop in instances) {
+                        // go through the instances
+                        if (typeof instances[prop] === 'object') {
+                            var instance = instances[prop];
+                            console.log("prop : " + prop);
+                            console.log("status : " + instance.status);
+                            console.log("payload : " + instance.data.payload.path);
+                            // if its the one with our payload and its in Running state , success
+                            if (instance.status == "RUNNING" &&
+                                instance.data.payload.path == userContent + "/workflowpayload") {
+                                h.param("startedInstance", workflowInstances + "/" + prop);
+                                return true;
+                            }
+                        }
+                    }
+                    // not found
+                    return false;
+                }
+                c.getJSON(workflowInstances+".3.json","json",check);
             })
-            .assert.isTrue(function () {
-                return hobs.find(".foundation-collection-item.foundation-collection-navigator.coral-Table-row:contains('Publish Example'):first > td:contains('"+contentPath+"')")
+
+            // abort the workflow
+            .execFct(function(opts,done){
+                var data = {};
+                data.state = "ABORTED";
+                data._charset_ = "utf-8";
+                c.editComponent(h.param("startedInstance")(),data,done);
             })
         ;
-    }
 
-    window.CQ.CoreComponentsIT.FormContainer.SetAndCheckContentPath = function (h,$) {
-        return new h.TestCase('Set and check the Content Path')
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.NavigateToEditor(h,$))
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h,$, ".cq-Overlay.cq-draggable.cq-droptarget.cq-Overlay--container"))
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.OpenFormType(h,$,'Store Content'))
+    /**
+     * The main test suite.
+     */
+    new h.TestSuite("Core-Components - Form Container",{path:"/apps/core/wcm/tests/core-components-it/FormContainer.js",
+        execBefore:c.tcExecuteBeforeTestSuite})
 
-            //Set a different content path
-            .fillInput("input[name='./action']",contentPath)
-            .assert.visible("button:contains('View Data')")
-
-            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
-
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.SubmitFormContent(h,$))
-
-            //Check if data are saved in the Bulk Editor
-            .navigateTo("/etc/importers/bulkeditor.html?rootPath=%2Fcontent%2Fusergenerated%2Fcore-components%2Fcore-components-page%2Fcq&initialSearch=true&contentMode=false&spc=true&cs=field_name&cv=field_name")
-            .assert.isTrue(window.CQ.CoreComponentsIT.compareLocation("/etc/importers/bulkeditor.html?rootPath=%2Fcontent%2Fusergenerated%2Fcore-components%2Fcore-components-page%2Fcq&initialSearch=true&contentMode=false&spc=true&cs=field_name&cv=field_name"))
-            .assert.isTrue(function (){
-                return hobs.find(".x-grid3-body:contains('"+textContent+"')")
-            })
-            .assert.isTrue(function (){
-                return hobs.find(".x-grid3-body:contains('"+contentPath+"')")
-            })
-
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.CheckDataStore(h, $, contentPath))
-        ;
-    }
-
-    window.CQ.CoreComponentsIT.FormContainer.CheckStoreContentForm = function (h,$){
-        return new h.TestCase('Check the Store Content')
-            //Set and check the Content Path
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.SetAndCheckContentPath(h,$))
-            //Set the "Thank You Page"
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.SetAndCheckThankYouPage(h,$))
-            //Set the Start Workflow
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.SetAndCheckStartWorkflow(h,$))
-        ;
-    }
-
-    window.CQ.CoreComponentsIT.FormContainer.CheckAdvancedOptions = function (h,$) {
-        return new h.TestCase('Check Advanced Options')
-
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.NavigateToEditor(h,$))
-
-            //Test the content path
-            .execTestCase(window.CQ.CoreComponentsIT.FormContainer.CreateContentNode(h,$,"/content/usergenerated/core-components-new"))
-
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h,$, ".cq-Overlay.cq-draggable.cq-droptarget.cq-Overlay--container"))
-            .click(".coral-Tab:contains('Advanced')")
-            .fillInput("input[name='./formid']",formIdentifier)
-            .fillInput("input[name='./loadPath']",loadPath)
-
-            .click(".cq-dialog-actions .coral-Icon.coral-Icon--check")
-
-            //get a new context
-            .config.changeContext(function() {
-                return hobs.find("iframe#ContentFrame").get(0);
-            })
-
-            .assert.isTrue(function () {
-                return hobs.find("form[id='"+formIdentifier+"'][name='"+formIdentifier+"']")
-            })
-
-            .assert.isTrue(function () {
-                return hobs.find("input[id='field_name']").filter(function() {
-                    return $(this).val() === "The new text field content";
-                })
-            })
-
-            .config.resetContext()
-        ;
-    }
-
-    new h.TestSuite("Core-Components Tests - Form Container", {path:"/apps/core/wcm/tests/core-components-it/FormContainer.js",
-        execBefore: window.CQ.CoreComponentsIT.ExecuteBefore(h,$,window.CQ.CoreComponentsIT.FormContainer.DragDropFormContainer(h,$)),
-        execAfter:window.CQ.CoreComponentsIT.DeletePage(h, $,pageUrl),
-        register: true})
-        .addTestCase(window.CQ.CoreComponentsIT.FormContainer.CheckMailForm(h,$))
-        .addTestCase(window.CQ.CoreComponentsIT.FormContainer.CheckStoreContentForm(h,$))
-        .addTestCase(window.CQ.CoreComponentsIT.FormContainer.CheckAdvancedOptions(h,$))
+        .addTestCase(storeContent)
+        .addTestCase(setMailAction)
+        .addTestCase(setContextPath)
+        .addTestCase(setThankYouPage)
+        // TODO find a more reliable way to find the started workflow
+        //.addTestCase(startWorkflow)
+        // See https://jira.corp.adobe.com/browse/CQ-106130
+        // TODO : write test for 'view data', its going to be moved from opening bulk editor to returning json
+        // TODO : setting form identifier is going to be replaced by css styles
+        // TODO : client validation not implemented yet
+        // NOTE : load path is going ot be removed
     ;
 
 }(hobs, jQuery));

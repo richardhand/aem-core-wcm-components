@@ -13,70 +13,140 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
+/**
+ * Tests for the core text component
+ */
 ;(function (h, $) {
 
-    var pageUrl = window.CQ.CoreComponentsIT.pageRoot+ '/page0';
+    // shortcut
+    var c = window.CQ.CoreComponentsIT.commons;
+
+    var testValue = '<b>This</b> is a <i>rich</i> <u>text</u>.';
 
     /**
-     * Drag and Drop a Text component.
+     * Before Test Case
      */
-    window.CQ.CoreComponentsIT.DragDropText = function (h, $) {
-        return new h.TestCase('Drag and drop the text component')
-            .execTestCase(window.CQ.CoreComponentsIT.CreatePage(h, $, pageUrl, 'page0', 'CoreComponent TestPage',
-                '/conf/core-components/settings/wcm/templates/core-components'))
-            .execTestCase(window.CQ.CoreComponentsIT.DragDropComponent(h, $, 'Core WCM Text Component', pageUrl));
-    };
+    var tcExecuteBeforeTest = new TestCase("Setup Before Test")
+        // common set up
+        .execTestCase(c.tcExecuteBeforeTest)
+        // create the test page, store page path in 'testPagePath'
+        .execFct(function (opts,done) {
+            c.createPage(c.template, c.rootPage ,'page_' + Date.now(),"testPagePath",done)
+        })
+        // add the component, store component path in 'cmpPath'
+        .execFct(function (opts, done){
+            c.addComponent(c.rtText, h.param("testPagePath")(opts)+c.relParentCompPath,"cmpPath",done)
+        })
+        // open the new page in the editor
+        .navigateTo("/editor.html%testPagePath%.html");
 
     /**
-     * Check the Edit button for the Text component.
+     * After Test Case
      */
-    window.CQ.CoreComponentsIT.CheckEditButtonTest = function (h, $) {
-        var testValue = '<b>This</b> is a <i>rich</i> <u>text</u>.'
-        return new h.TestCase('Check the edit button')
-            .execTestCase(window.CQ.CoreComponentsIT.OpenEditableToolbar(h,$,'.cq-Overlay.cq-draggable.cq-droptarget'))
-            .click('.coral-Button.coral-Button--quiet.cq-editable-action.coral-Button--square[title="Edit"]')
-            .assert.isTrue(function() {return hobs.find('.title.aem-GridColumn .cmp.cmp-text','#ContentFrame')})
+    var tcExecuteAfterTest = new TestCase("Clean up after Test")
+        // common clean up
+        .execTestCase(c.tcExecuteAfterTest)
+        // delete the test page we created
+        .execFct(function (opts, done) {
+            c.deletePage(h.param("testPagePath")(opts), done);
+        });
 
-            //get a new context
-            .config.changeContext(function() {
-                return hobs.find('iframe#ContentFrame').get(0);
-            })
-            .execFct(function() {
-                hobs.find('.text.aem-GridColumn > p').html(testValue);
-            })
-            //reset the new context
-            .config.resetContext()
+    /**
+     * Test: Check if text is stored/rendered correctly using the inline editor
+     */
+    var setTextValueUsingInlineEditor = new h.TestCase('Set text using inline editor',{
+        execBefore: tcExecuteBeforeTest,
+        execAfter: tcExecuteAfterTest})
 
-            .click('#OverlayWrapper')
+        // open the inline editor
+        .execTestCase(c.tcOpenInlineEditor("cmpPath"))
 
-            .execTestCase(window.CQ.CoreComponentsIT.OpenConfigureWindow(h,$,".cq-Overlay.cq-draggable.cq-droptarget"))
-            .assert.isTrue(
-                function() {
-                    var actualValue = hobs.find('.coral-RichText-editable.coral-Form-field.coral-Textfield.coral-Textfield--multiline.coral-RichText > p').html();
-                    return actualValue === testValue;
-                }
-            ).click('.cq-dialog-header-action.cq-dialog-cancel.coral-Button.coral-Button--square[title="Cancel"]')
-            .config.changeContext(
-                function() {
-                    return hobs.find('iframe#ContentFrame').get(0);
-                }
-            )
-            .assert.isTrue(
-                function() {
-                    var actualValue = hobs.find('.section.text.aem-GridColumn > div.cmp.cmp-text > p').html();
-                    return actualValue === testValue;
-                }
-            )
-            .config.resetContext()
-        ;
-    };
+        //switch to the content frame
+        .config.changeContext(c.getContentFrame)
 
+        // set the example text
+        .execFct(function() {
+            h.find('.text.aem-GridColumn p').html(testValue);
+        })
 
-    new h.TestSuite('Core-Components Tests - Text', {
-        path      : '/apps/core/wcm/tests/core-components-it/Text.js',
-        execBefore: window.CQ.CoreComponentsIT.ExecuteBefore(h, $, window.CQ.CoreComponentsIT.DragDropText(h, $)),
-        execAfter : window.CQ.CoreComponentsIT.DeletePage(h, $, pageUrl), register: true
-    })
-        .addTestCase(window.CQ.CoreComponentsIT.CheckEditButtonTest(h, $))
+        // switch back to edit frame
+        .config.resetContext()
+
+        // click on save on the inline editor toolbar
+        .execTestCase(c.tcSaveInlineEditor)
+
+        //switch to the content frame
+        .config.changeContext(c.getContentFrame)
+
+        // check if the text is rendered
+        .assert.isTrue(
+        function() {
+            var actualValue = h.find('.text.aem-GridColumn  p').html();
+            return actualValue === testValue;
+        })
+
+        // swith back to edit frame
+        .config.resetContext()
+
+        // reload the page, to see if the text really got saved
+        .navigateTo("/editor.html%testPagePath%.html")
+
+        //switch to the content frame
+        .config.changeContext(c.getContentFrame)
+
+        // check again if the text is still there
+        .assert.isTrue(
+        function() {
+            var actualValue = h.find('.text.aem-GridColumn  p').html();
+            return actualValue === testValue;
+        });
+
+    /**
+     * Test: Check if text is stored/rendered correctly using the config dialog.
+     *
+     */
+    var setTextValueUsingConfigDialog = new h.TestCase("Set text using config dialog",{
+        execBefore: tcExecuteBeforeTest,
+        execAfter: tcExecuteAfterTest})
+
+        // open the configuration dialog
+        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        // add some example text
+        .fillInput(".coral-Form-field.coral-Textfield[name='./text']",'<p>'+testValue+'</p>')
+        // close the dialog
+        .execTestCase(c.tcSaveConfigureDialog)
+
+        // switch to content frame
+        .config.changeContext(c.getContentFrame)
+
+        // check if text is rendered correctly
+        .assert.isTrue(function() {
+            var actualValue = h.find('.text.aem-GridColumn p').html();
+            return actualValue === testValue;
+        })
+
+        // go back to the top edit frame
+        .config.resetContext()
+
+        // reopen the dialog
+        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+
+        // check if the text is shown correctly in the config dialog
+        .assert.isTrue(
+        function() {
+            var actualValue = h.find('.coral-RichText-editable.coral-Form-field.coral-Textfield' +
+            '.coral-Textfield--multiline.coral-RichText > p').html();
+            return actualValue === testValue;
+        });
+
+    /**
+     * The main test suite for Text Component
+     */
+    new h.TestSuite('Core-Components - Text', {path: '/apps/core/wcm/tests/core-components-it/Text.js',
+        execBefore:c.tcExecuteBeforeTestSuite})
+
+        .addTestCase(setTextValueUsingInlineEditor)
+        .addTestCase(setTextValueUsingConfigDialog)
     ;
 }(hobs, jQuery));
