@@ -36,7 +36,7 @@
     // breadcrumb component
     c.rtBreadcrumb = "core/wcm/components/breadcrumb";
     // form container
-    c.rtFormContainer = "core/wcm/components/form/formcontainer";
+    c.rtFormContainer = "core/wcm/components/form/container";
     // form button
     c.rtFormButton = "core/wcm/components/form/button";
     // form button
@@ -177,17 +177,17 @@
     };
 
     /**
-     * Sets properties of a component.
+     * Sets properties of a repository node.
      *
-     * @param componentPath     Mandatory. absolute path to the component
-     * @param data              Mandatory. object with properties to be set on the component.
-     * @param done              Mandatory. callback function when post has returned
+     * @param componentPath     Mandatory. absolute path to the node
+     * @param data              Mandatory. object with properties to be set on the node.
+     * @param done              Optional. callback function when post has returned
      */
-    c.editComponent = function (componentPath,data,done){
+    c.editNodeProperties = function (componentPath,data,done){
         // check mandatory
-        if ( componentPath == null || data == null || done == null){
-            console.log("editComponent failed! Mandatory param(s) missing.");
-            done(); return;
+        if ( componentPath == null || data == null ){
+            console.log("editNodeProperties failed! Mandatory param(s) missing.");
+            if(done != null) done(); return;
         }
         $.ajax({
             url: componentPath,
@@ -197,9 +197,11 @@
         })
             // in case of failure
             .fail(function(jqXHR,textStatus,errorThrown){
-                console.log("editComponent failed: POST failed with " + textStatus + "," + errorThrown);
+                console.log("editNodeProperties failed: POST failed with " + textStatus + "," + errorThrown);
             })
-            .then(done)
+            .then(function(){
+                if(done != null) done();
+            })
     };
 
     /**
