@@ -221,7 +221,8 @@
      * Test: The main test suite
      */
     new h.TestSuite("Core Components - Form Button",{path:"/apps/core/wcm/tests/core-components-it/FormButton.js",
-        execBefore:c.tcExecuteBeforeTestSuite})
+        execBefore:c.tcExecuteBeforeTestSuite,
+        execInNewWindow : true})
 
         .addTestCase(createSubmitButton)
         .addTestCase(createResetButton)
