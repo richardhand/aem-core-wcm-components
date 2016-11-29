@@ -5,5 +5,4 @@
     jcr:primaryType="cq:Component"
     jcr:title="List (latest)"
     sling:resourceSuperType="core/wcm/components/list/v1/list"
-    allowedParents="[*/parsys]"
     componentGroup=".core-wcm"/>

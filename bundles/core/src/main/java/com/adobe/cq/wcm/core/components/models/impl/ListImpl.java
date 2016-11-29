@@ -183,11 +183,8 @@ public class ListImpl implements List {
     }
 
     private Source getListType() {
-        String listFromValue = properties.get(PN_SOURCE, currentStyle.get(PN_SOURCE, Source.CHILDREN.value));
+        String listFromValue = properties.get(PN_SOURCE, currentStyle.get(PN_SOURCE, StringUtils.EMPTY));
         Source listType = Source.fromString(listFromValue);
-        if (listType == null) {
-            throw new IllegalArgumentException();
-        }
         return listType;
     }
 
@@ -322,7 +319,8 @@ public class ListImpl implements List {
         CHILDREN("children"),
         STATIC("static"),
         SEARCH("search"),
-        TAGS("tags");
+        TAGS("tags"),
+        EMPTY(StringUtils.EMPTY);
 
         private String value;
 

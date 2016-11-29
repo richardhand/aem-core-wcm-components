@@ -32,18 +32,22 @@
                                 <items jcr:primaryType="nt:unstructured">
                                     <children
                                         jcr:primaryType="nt:unstructured"
+                                        granite:hide="${cqDesign.disableChildren}"
                                         text="Child pages"
                                         value="children"/>
                                     <static
                                         jcr:primaryType="nt:unstructured"
+                                        granite:hide="${cqDesign.disableStatic}"
                                         text="Fixed list"
                                         value="static"/>
                                     <search
                                         jcr:primaryType="nt:unstructured"
+                                        granite:hide="${cqDesign.disableSearch}"
                                         text="Search"
                                         value="search"/>
                                     <tags
                                         jcr:primaryType="nt:unstructured"
+                                        granite:hide="${cqDesign.disableTags}"
                                         text="Tags"
                                         value="tags"/>
                                 </items>

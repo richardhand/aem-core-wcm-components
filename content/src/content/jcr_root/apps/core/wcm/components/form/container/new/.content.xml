@@ -3,5 +3,5 @@
   jcr:description="New Paragraph - Form Container"
   jcr:primaryType="cq:Component"
   jcr:title="New Paragraph - Form Container Component"
-  sling:resourceSuperType="core/wcm/components/form/formcontainer/v1/formcontainer/new"
+  sling:resourceSuperType="core/wcm/components/form/container/v1/container/new"
   componentGroup=".hidden"/>

@@ -4,6 +4,6 @@
     jcr:description="Components Container allowing users to submit information"
     jcr:primaryType="cq:Component"
     jcr:title="Form Container (latest)"
-    sling:resourceSuperType="core/wcm/components/form/formcontainer/v1/formcontainer"
+    sling:resourceSuperType="core/wcm/components/form/container/v1/container"
     componentGroup=".core-wcm-form"
     cq:isContainer="{Boolean}true"/>
