@@ -37,7 +37,6 @@ public class TextFieldImpl implements TextField {
     protected static final String RESOURCE_TYPE = "core/wcm/components/form/text";
     private static final String PROP_NAME_DEFAULT = "text";
     private static final String PROP_VALUE_DEFAULT = "";
-    private static final String PROP_PLACEHOLDER_DEFAULT = "Text placeholder";
     private static final String PROP_TITLE_DEFAULT = "Text input field";
     private static final String PROP_DESCRIPTION_DEFAULT = "";
     private static final boolean PROP_HIDE_TITLE_DEFAULT = false;
@@ -45,17 +44,15 @@ public class TextFieldImpl implements TextField {
     private static final String PROP_DEFAULT_VALUE_DEFAULT = "";
     private static final boolean PROP_REQUIRED_DEFAULT = false;
     private static final String PROP_REQUIRED_MESSAGE_DEFAULT = "";
-    private static final CONSTRAINT_TYPE PROP_CONSTRAINT_DEFAULT = CONSTRAINT_TYPE.TEXT;
     private static final String PROP_CONSTRAINT_MESSAGE_DEFAULT = "";
-    private static final boolean PROP_AUTOFOCUS_DEFAULT = false;
     private static final String PROP_SHOW_HIDE_EXPRESSION_DEFAULT = null;
-    private static final ELEMENT_TYPE PROP_TYPE_DEFAULT = ELEMENT_TYPE.INPUT;
+    private static final String PROP_TYPE_DEFAULT = "text";
     private static final String PROP_HELP_MESSAGE_DEFAULT = "";
-    private static final boolean PROP_USE_PLACEHOLDER = false;
+    private static final boolean PROP_USE_PLACEHOLDER_DEFAULT = false;
+    private static final Integer PROP_ROWS_DEFAULT = 2;
 
     private static final String PN_NAME = "name";
     private static final String PN_VALUE = "value";
-    private static final String PN_PLACEHOLDER = "placeholder";
     private static final String PN_TITLE = "jcr:title";
     private static final String PN_HIDE_TITLE = "hideTitle";
     private static final String PN_DESCRIPTION = "jcr:description";
@@ -63,13 +60,12 @@ public class TextFieldImpl implements TextField {
     private static final String PN_DEFAULT_VALUE = "defaultValue";
     private static final String PN_REQUIRED = "required";
     private static final String PN_REQUIRED_MESSAGE = "requiredMessage";
-    private static final String PN_CONSTRAINT = "constraintType";
     private static final String PN_CONSTRAINT_MESSAGE = "constraintMessage";
-    private static final String PN_AUTOFOCUS = "autofocus";
     private static final String PN_SHOW_HIDE_EXPRESSION = "showHideExpression";
     private static final String PN_TYPE = "type";
     private static final String PN_HELP_MESSAGE = "helpMessage";
     private static final String PN_USE_PLACEHOLDER = "usePlaceholder";
+    private static final String PN_ROWS = "rows";
 
     @Self
     private SlingHttpServletRequest slingRequest;
@@ -85,6 +81,8 @@ public class TextFieldImpl implements TextField {
 
     private String [] prefillValues;
 
+    private String id = null;
+
     @PostConstruct
     protected void initModel() {
         slingRequest.setAttribute(FormsHelper.REQ_ATTR_FORM_STRUCTURE_HELPER,
@@ -93,6 +91,14 @@ public class TextFieldImpl implements TextField {
         if (prefillValues == null) {
             prefillValues = new String[]{this.getDefaultValue()};
         }
+    }
+
+    @Override
+    public String getId(){
+        if(id == null) {
+            id = this.getName() + System.currentTimeMillis();
+        }
+        return id;
     }
     
     @Override
@@ -110,9 +116,8 @@ public class TextFieldImpl implements TextField {
     }
 
     @Override
-    public ELEMENT_TYPE getType() {
-        String type = properties.get(PN_TYPE, PROP_TYPE_DEFAULT.toString());
-        return ELEMENT_TYPE.valueOf(type.toUpperCase());
+    public String getType() {
+        return properties.get(PN_TYPE, PROP_TYPE_DEFAULT);
     }
 
     @Override
@@ -141,11 +146,6 @@ public class TextFieldImpl implements TextField {
     }
 
     @Override
-    public boolean isAutofocus() {
-        return properties.get(PN_AUTOFOCUS,PROP_AUTOFOCUS_DEFAULT);
-    }
-
-    @Override
     public boolean getRequired() {
         return properties.get(PN_REQUIRED,PROP_REQUIRED_DEFAULT);
     }
@@ -162,22 +162,26 @@ public class TextFieldImpl implements TextField {
 
     @Override
     public String getPlaceholder() {
-        boolean usePlaceholder = properties.get(PN_USE_PLACEHOLDER, PROP_USE_PLACEHOLDER);
-        String placeholder = "";
-        if (usePlaceholder) {
-            placeholder = properties.get(PN_HELP_MESSAGE, PROP_HELP_MESSAGE_DEFAULT);
-        }
-        return placeholder;
-    }
-
-    @Override
-    public CONSTRAINT_TYPE getConstraintType() {
-        String type = properties.get(PN_CONSTRAINT, PROP_CONSTRAINT_DEFAULT.toString());
-        return CONSTRAINT_TYPE.valueOf(type.toUpperCase());
+        return this.getHelpMessage();
     }
 
     @Override
     public String getConstraintMessage() {
         return properties.get(PN_CONSTRAINT_MESSAGE,PROP_CONSTRAINT_MESSAGE_DEFAULT);
+    }
+
+    @Override
+    public int getRows() {
+        return properties.get(PN_ROWS, PROP_ROWS_DEFAULT);
+    }
+
+    @Override
+    public boolean usePlaceholder() {
+        return properties.get(PN_USE_PLACEHOLDER, PROP_USE_PLACEHOLDER_DEFAULT);
+    }
+
+    @Override
+    public String getHelpMessage() {
+        return properties.get(PN_HELP_MESSAGE, PROP_HELP_MESSAGE_DEFAULT).trim();
     }
 }

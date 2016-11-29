@@ -16,8 +16,6 @@
 package com.adobe.cq.wcm.core.components.models.form.impl;
 
 import com.adobe.cq.wcm.core.components.models.form.TextField;
-import com.adobe.cq.wcm.core.components.models.form.TextField.CONSTRAINT_TYPE;
-import com.adobe.cq.wcm.core.components.models.form.TextField.ELEMENT_TYPE;
 import com.day.cq.wcm.foundation.forms.FormStructureHelper;
 import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
 import io.wcm.testing.mock.aem.junit.AemContext;
@@ -74,17 +72,18 @@ public class TextFieldImplTest {
         assertEquals("Text input field",textField.getTitle());
         assertEquals(false,textField.isTitleHidden());
         assertEquals("",textField.getDescription());
-        assertEquals(false,textField.isAutofocus());
         assertEquals(false,textField.getRequired());
         assertEquals("",textField.getRequiredMessage());
         assertEquals(null,textField.getShowHideExpression());
         assertEquals("",textField.getPlaceholder());
         assertEquals(false,textField.isReadOnly());
         assertEquals("",textField.getDefaultValue());
-        assertEquals(CONSTRAINT_TYPE.TEXT,textField.getConstraintType());
+        assertEquals("text",textField.getType());
         assertEquals("", textField.getConstraintMessage());
         assertEquals("",textField.getValue());
-        assertEquals(ELEMENT_TYPE.INPUT,textField.getType());
+        assertEquals(2, textField.getRows());
+        assertEquals(false, textField.usePlaceholder());
+        assertEquals("",textField.getHelpMessage());
     }
 
     @Test
@@ -97,16 +96,17 @@ public class TextFieldImplTest {
         assertEquals("Custom title",textField.getTitle());
         assertEquals(true,textField.isTitleHidden());
         assertEquals("Custom description",textField.getDescription());
-        assertEquals(true,textField.isAutofocus());
         assertEquals(true,textField.getRequired());
         assertEquals("please fill the field",textField.getRequiredMessage());
         assertEquals("((givenName.equals(\"\"Referees\"\")))",textField.getShowHideExpression());
         assertEquals("Custom help/placeholder message",textField.getPlaceholder());
         assertEquals(true,textField.isReadOnly());
         assertEquals("Custom default value",textField.getDefaultValue());
-        assertEquals(CONSTRAINT_TYPE.EMAIL,textField.getConstraintType());
+        assertEquals("email",textField.getType());
         assertEquals("The value should be a valid email address", textField.getConstraintMessage());
         assertEquals("Prefilled Sample Input",textField.getValue());
-        assertEquals(ELEMENT_TYPE.TEXTAREA,textField.getType());
+        assertEquals(3, textField.getRows());
+        assertEquals(true, textField.usePlaceholder());
+        assertEquals("Custom help/placeholder message", textField.getHelpMessage());
     }
 }

@@ -22,6 +22,11 @@ package com.adobe.cq.wcm.core.components.models.form;
 public interface FormField {
 
     /**
+     * @return the id of the field
+     */
+    String getId();
+
+    /**
      * @return the name of the field
      */
     String getName();
@@ -42,13 +47,6 @@ public interface FormField {
      * @return The description of the field
      */
     String getDescription();
-
-    /**
-     * Checks if the field should be auto-focused (the field automatically gets focus when the page loads)
-     * @return {@code true} if the field should be auto-focused <br>
-     *     {@code false} otherwise
-     */
-    boolean isAutofocus();
 
     /**
      * Checks if the user must provide input for this field.
