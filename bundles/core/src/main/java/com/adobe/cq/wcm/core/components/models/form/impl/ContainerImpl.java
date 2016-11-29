@@ -18,7 +18,6 @@ package com.adobe.cq.wcm.core.components.models.form.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
@@ -31,17 +30,17 @@ import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 
-import com.adobe.cq.wcm.core.components.models.form.FormContainer;
+import com.adobe.cq.wcm.core.components.commons.forms.FormsConstants;
+import com.adobe.cq.wcm.core.components.models.form.Container;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
 
 @Model(adaptables = SlingHttpServletRequest.class,
-        adapters = FormContainer.class,
-        resourceType = FormContainerImpl.RESOURCE_TYPE)
-public class FormContainerImpl implements FormContainer {
+        adapters = Container.class,
+        resourceType = FormsConstants.RT_CORE_FORM_CONTAINER)
+public class ContainerImpl implements Container {
 
-    protected static final String RESOURCE_TYPE = "core/wcm/components/form/formcontainer";
     private static final String PN_ACTION_TYPE = "actionType";
     private static final String PN_METHOD = "method";
     private static final String PN_ENCTYPE = "enctype";

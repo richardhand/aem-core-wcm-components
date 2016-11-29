@@ -44,7 +44,7 @@ import static org.mockito.Mockito.when;
 public class WorkflowModelDataSourceTest {
 
     @Rule
-    public AemContext context = CoreComponentTestContext.createContext("/form/formcontainer/datasource/workflowmodeldatasource",
+    public AemContext context = CoreComponentTestContext.createContext("/form/container/datasource/workflowmodeldatasource",
             "/apps/workflowdatasource");
 
     @Mock

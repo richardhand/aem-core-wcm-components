@@ -1,0 +1,4 @@
+{
+    "jcr:primaryType": "nt:unstructured",
+    "sling:resourceType": "core/wcm/components/form/container/datasource/workflowmodeldatasource"
+}

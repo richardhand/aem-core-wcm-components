@@ -2,7 +2,7 @@
     "jcr:primaryType"         : "nt:unstructured",
     "actiontypedatasource": {
         "jcr:primaryType"   : "nt:unstructured",
-        "sling:resourceType": "core/wcm/components/form/formcontainer/datasource/actiontypedatasource"
+        "sling:resourceType": "core/wcm/components/form/container/datasource/actiontypedatasource"
     },
     "form"                    : {
         "jcr:primaryType": "nt:unstructured",

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-@Version("0.9.28")
+@Version("0.9.29")
 package com.adobe.cq.wcm.core.components.commons.forms;
 
 import org.osgi.annotation.versioning.Version;

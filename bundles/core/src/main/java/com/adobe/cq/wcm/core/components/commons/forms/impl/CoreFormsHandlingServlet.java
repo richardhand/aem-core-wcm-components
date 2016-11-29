@@ -52,7 +52,7 @@ import java.util.Set;
         description = "Accepts posting to a form container component and performs validations")
 @Service({Servlet.class, Filter.class})
 @Properties({
-        @Property(name = "sling.servlet.resourceTypes", value = {"core/wcm/components/form/formcontainer"}, propertyPrivate = true),
+        @Property(name = "sling.servlet.resourceTypes", value = {FormsConstants.RT_CORE_FORM_CONTAINER}, propertyPrivate = true),
         @Property(name = "sling.servlet.methods", value = "POST", propertyPrivate = true),
         @Property(name = "sling.servlet.selectors", value = CoreFormsHandlingServlet.SELECTOR, propertyPrivate = true),
         @Property(name = "sling.filter.scope", value = "request", propertyPrivate = true),

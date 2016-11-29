@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Component-Interface for the form container Sling Model
  */
-public interface FormContainer {
+public interface Container {
 
     /**
      * @return the action type of form.

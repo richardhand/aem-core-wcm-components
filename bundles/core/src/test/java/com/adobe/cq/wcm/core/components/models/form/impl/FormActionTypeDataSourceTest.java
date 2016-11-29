@@ -47,7 +47,7 @@ import static org.mockito.Mockito.when;
 public class FormActionTypeDataSourceTest {
 
     @Rule
-    public AemContext context = CoreComponentTestContext.createContext("/form/formcontainer/datasource/actiontypedatasource",
+    public AemContext context = CoreComponentTestContext.createContext("/form/container/datasource/actiontypedatasource",
             "/apps");
 
     @Mock

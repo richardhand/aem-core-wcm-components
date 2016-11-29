@@ -28,6 +28,7 @@ import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 
+import com.adobe.cq.wcm.core.components.commons.forms.FormsConstants;
 import com.adobe.cq.wcm.core.components.models.form.DataSourceModel;
 import com.adobe.granite.ui.components.ds.SimpleDataSource;
 import com.day.cq.wcm.foundation.forms.FormsManager;
@@ -37,7 +38,7 @@ import com.day.cq.wcm.foundation.forms.FormsManager;
        resourceType = FormActionTypeSettingsDataSource.RESOURCE_TYPE)
 public class FormActionTypeSettingsDataSource extends DataSourceModel {
 
-    protected final static String RESOURCE_TYPE = "core/wcm/components/form/formcontainer/datasource/actiontypesettingsdatasource";
+    protected final static String RESOURCE_TYPE = FormsConstants.RT_CORE_FORM_CONTAINER + "/datasource/actiontypesettingsdatasource";
 
     @Self
     private SlingHttpServletRequest request;

@@ -38,9 +38,9 @@ public class TextFieldImplTest {
 
     private static final String CONTAINING_PAGE = "/content/we-retail/demo-page";
 
-    private static final String TEXTINPUT1_PATH = CONTAINING_PAGE+"/jcr:content/root/responsivegrid/formcontainer/text";
+    private static final String TEXTINPUT1_PATH = CONTAINING_PAGE+"/jcr:content/root/responsivegrid/container/text";
 
-    private static final String TEXTINPUT2_PATH = CONTAINING_PAGE+"/jcr:content/root/responsivegrid/formcontainer/text_185087333";
+    private static final String TEXTINPUT2_PATH = CONTAINING_PAGE+"/jcr:content/root/responsivegrid/container/text_185087333";
 
     private static final String RESOURCE_PROPERTY = "resource";
 
