@@ -31,7 +31,7 @@
     <!-- P R O J E C T  D E S C R I P T I O N                                   -->
     <!-- ====================================================================== -->
     <artifactId>com.adobe.cq.wcm.core.components.content</artifactId>
-    <version>0.9.75-SNAPSHOT</version>
+    <version>0.9.77-SNAPSHOT</version>
     <packaging>content-package</packaging>
     <name>Adobe Experience Manager Core WCM Components Content Package</name>
 
