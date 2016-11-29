@@ -4,6 +4,5 @@
     jcr:description="Allows visitors to enter text information"
     jcr:primaryType="cq:Component"
     jcr:title="Text Field (latest)"
-    allowedParents="[*/form]"
     sling:resourceSuperType="core/wcm/components/form/text/v1/text"
     componentGroup=".core-wcm-form"/>

@@ -73,17 +73,15 @@
             "helpMessage": "Custom help/placeholder message",
             "required": true,
             "name": "Custom Name",
-            "type": "textarea",
+            "type": "email",
             "useTextarea": true,
             "value": "Prefilled Sample Input",
             "jcr:description": "Custom description",
-            "placeholder": "Custom placeholder",
             "hideTitle": true,
             "sling:resourceType": "core/wcm/components/form/text",
-            "autofocus": true,
             "requiredMessage": "please fill the field",
-            "constraintType": "email",
-            "usePlaceholder": "true"
+            "usePlaceholder": "true",
+            "rows": 3
           }
         }
       }

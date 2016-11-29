@@ -4,5 +4,4 @@
       jcr:description="Allows visitors to enter text information"
       jcr:primaryType="cq:Component"
       jcr:title="Text Field (v1)"
-      allowedParents="[*/form]"
       componentGroup=".core-wcm-form"/>
