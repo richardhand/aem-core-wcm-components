@@ -28,6 +28,7 @@ public class FormsConstants {
     /** The resource type for a form container. */
     public final static String RT_CORE_FORM_CONTAINER = RT_CORE_FORM_PREFIX + "container";
 
+    /** Array of all resource types for the form container, including versions */
     public final static String[] RT_ALL_CORE_FORM_CONTAINER = new String[] {
             RT_CORE_FORM_CONTAINER,
             RT_CORE_FORM_CONTAINER + "/v1/container"};
