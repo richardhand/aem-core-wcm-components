@@ -116,7 +116,7 @@
         //switch to the content frame
         .config.changeContext(c.getContentFrame)
         // click on the submit button
-        .click("button:contains('Submit')")
+        .click("button:contains('Submit')",{expectNav:true})
 
         // get the json for the content node
         .execFct(function(opts,done){
@@ -160,7 +160,7 @@
         //switch to the content frame
         .config.changeContext(c.getContentFrame)
         // click on the submit button
-        .click("button:contains('Submit')")
+        .click("button:contains('Submit')",{expectNav:true})
 
         // request json for the stored form content
         .execFct(function(opts,done){
