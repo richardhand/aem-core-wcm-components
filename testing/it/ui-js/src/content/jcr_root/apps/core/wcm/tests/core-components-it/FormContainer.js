@@ -164,7 +164,7 @@
 
         // request json for the stored form content
         .execFct(function(opts,done){
-            c.getJSON(userContent + "/xxx.1.json","json",done,20,500);
+            c.getJSON(userContent + "/xxx/inputname.1.json","json",done,20,500);
         })
         // check if the input value was saved
         .assert.isTrue(function(){
