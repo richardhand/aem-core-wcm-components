@@ -35,6 +35,12 @@
         } else {
             $actionBar.find(".cq-siteadmin-admin-properties-actions-livecopy").addClass("hide");
         }
+
+        if ($target.find(".js-cq-sites-PermissionsProperties").length > 0) {
+            $actionBar.find(".js-cq-sites-PermissionsProperties-action").removeClass("hide");
+        } else {
+            $actionBar.find(".js-cq-sites-PermissionsProperties-action").addClass("hide");
+        }
     });
 
 })(window, document, Granite.$, Granite);
