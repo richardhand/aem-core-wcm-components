@@ -278,79 +278,91 @@
         .assert.isTrue(function(){return h.param("json")().bcc[1] == bcc2});
 
     var startWorkflow = new TestCase("Start Workflow",{
-            execBefore: tcExecuteBeforeTest,
-            execAfter: tcExecuteAfterTest})
-            // open the config dialog
-            .execTestCase(c.tcOpenConfigureDialog("containerPath"))
-            // open action drop down
-            .click(".coral-Form-field.cmp-action-type-selection.coral3-Select > button")
-            // select the store action
-            .click(".coral3-SelectList-item[value='foundation/components/form/actions/store']")
-            // we set our own context path
-            .fillInput("input[name='./action']",userContent + "/workflowpayload")
-            // open the drop down
-            .click(".coral-Form-fieldwrapper.cmp-workflow-selection:contains('Start Workflow') .coral-Button")
-            // select an workflow
-            .click(".coral3-Select-overlay.is-open .coral3-SelectList-item:contains('Publish Example')")
-            // close the dialog
-            .execTestCase(c.tcSaveConfigureDialog)
+        execBefore: tcExecuteBeforeTest,
+         execAfter: tcExecuteAfterTest})
+        // open the config dialog
+        .execTestCase(c.tcOpenConfigureDialog("containerPath"))
+        // open action drop down
+        .click(".coral-Form-field.cmp-action-type-selection.coral3-Select > button")
+        // select the store action
+        .click(".coral3-SelectList-item[value='foundation/components/form/actions/store']")
+        // we set our own context path
+        .fillInput("input[name='./action']",userContent + "/workflowpayload")
+        // open the drop down
+        .click(".coral-Form-fieldwrapper.cmp-workflow-selection:contains('Start Workflow') .coral-Button")
+        // select an workflow
+        .click(".coral3-Select-overlay.is-open .coral3-SelectList-item:contains('Publish Example')")
+        // close the dialog
+        .execTestCase(c.tcSaveConfigureDialog)
 
-            //switch to the content frame
-            .config.changeContext(c.getContentFrame)
-            // click on the submit button
-            .click("button:contains('Submit')")
+        //switch to the content frame
+        .config.changeContext(c.getContentFrame)
+        // click on the submit button
+        .click("button:contains('Submit')")
 
-            // find the workflow instance that is using our payload and is in running state
-            .assert.isTrue(function() {
+        // find the workflow instance that is using our payload and is in running state
+        .execFct(function(opts,done) {
 
-                var found = false;
+            var timeout = 500;
+            var maxRetries = 10;
+            var retries = 0;
 
-                c.getJSON(workflowInstances+".3.json","json",check);
+            // the polling function
+            var poll = function(){
+                // request list of workflow instances (we don't know the exact path)
+                $.ajax({
+                    url: workflowInstances+  ".3.json",
+                    method: "GET",
+                    dataType: "json"
+                })
+                    .done(function(data){
+                        for (var prop in data) {
+                            // go through the instances
+                            if (typeof data[prop] === 'object') {
+                                // if its the one with our payload and its in Running state , success
+                                if (data[prop].status == "RUNNING" &&
+                                    data[prop].data.payload.path == userContent + "/workflowpayload") {
 
-                function check() {
-                    var instances = h.param("json")();
-                    for (var prop in instances) {
-                        // go through the instance sub objects
-                        if (typeof instances[prop] === 'object') {
-                            var instance = instances[prop];
-                            console.log("CHECKING prop : " + prop);
-                            console.log("CHECKING status : " + instance.status);
-                            console.log("CHECKING payload : " + instance.data.payload.path);
-                            // if its the one with our payload and its in Running state , success
-                            if (instance.status == "RUNNING" &&
-                                instance.data.payload.path == userContent + "/workflowpayload") {
-                                console.log("FOUND prop : " + prop);
-                                console.log("FOUND status : " + instance.status);
-                                console.log("FOUND payload : " + instance.data.payload.path);
-
-                                found = true;
-
-                                var data = {};
-                                data.state = "ABORTED";
-                                data._charset_ = "utf-8";
-                                c.editNodeProperties( workflowInstances + "/" + prop,data);
-
-                                return;
+                                    // abort the workflow to avoid trouble if test reruns
+                                    var props = {};
+                                    props.state = "ABORTED";
+                                    props._charset_ = "utf-8";
+                                    c.editNodeProperties(workflowInstances + "/" + prop, props);
+                                    // success
+                                    done();
+                                    return;
+                                }
                             }
                         }
-                    }
-                    c.getJSON(workflowInstances+".3.json","json",check);
-                    // not found
-                    return false;
-                }
 
-                check()
+                        // check if max retries was reached
+                        if (retries++ === maxRetries) {
+                            done(false,"Started Workflow instance could not be found!");
+                        }
+                        // set for next retry
+                        setTimeout(poll,timeout);
 
-                return found;
-            })
-      ;
+                    })
+                        .fail(function(jqXHR,textStatus,errorThrown) {
+                        // check if max retries was reached
+                        if (retries++ === maxRetries) {
+                               done(false,"Getting Workflow instances failed!: " + textStatus + "," + errorThrown);
+                        }
+                        // set for next retry
+                        setTimeout(poll,timeout);
+                    })
+            };
+
+            // start polling
+            poll();
+        });
 
     /**
      * The main test suite.
      */
     new h.TestSuite("Core-Components - Form Container",{path:"/apps/core/wcm/tests/core-components-it/FormContainer.js",
         execBefore:c.tcExecuteBeforeTestSuite,
-        execInNewWindow : true})
+        execInNewWindow : false})
 
         .addTestCase(storeContent)
         .addTestCase(setMailAction)
