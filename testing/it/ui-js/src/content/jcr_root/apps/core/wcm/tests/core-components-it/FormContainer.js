@@ -116,7 +116,7 @@
         //switch to the content frame
         .config.changeContext(c.getContentFrame)
         // click on the submit button
-        .click("button:contains('Submit')")
+        .click("button:contains('Submit')",{expectNav:true})
 
         // get the json for the content node
         .execFct(function(opts,done){
@@ -160,11 +160,11 @@
         //switch to the content frame
         .config.changeContext(c.getContentFrame)
         // click on the submit button
-        .click("button:contains('Submit')")
+        .click("button:contains('Submit')",{expectNav:true})
 
-        // get the json for the content node
+        // request json for the stored form content
         .execFct(function(opts,done){
-            c.getJSON(userContent + "/xxx.json","json",done);
+            c.getJSON(userContent + "/xxx/inputname.1.json","json",done,20,500);
         })
         // check if the input value was saved
         .assert.isTrue(function(){
@@ -277,86 +277,19 @@
         .assert.isTrue(function(){return h.param("json")().bcc[0] == bcc1})
         .assert.isTrue(function(){return h.param("json")().bcc[1] == bcc2});
 
-    var startWorkflow = new TestCase("Start Workflow",{
-            execBefore: tcExecuteBeforeTest,
-            execAfter: tcExecuteAfterTest})
-            // open the config dialog
-            .execTestCase(c.tcOpenConfigureDialog("containerPath"))
-            // open action drop down
-            .click(".coral-Form-field.cmp-action-type-selection.coral3-Select > button")
-            // select the store action
-            .click(".coral3-SelectList-item[value='foundation/components/form/actions/store']")
-            // we set our own context path
-            .fillInput("input[name='./action']",userContent + "/workflowpayload")
-            // open the drop down
-            .click(".coral-Form-fieldwrapper.cmp-workflow-selection:contains('Start Workflow') .coral-Button")
-            // select an workflow
-            .click(".coral3-Select-overlay.is-open .coral3-SelectList-item:contains('Publish Example')")
-            // close the dialog
-            .execTestCase(c.tcSaveConfigureDialog)
-
-            //switch to the content frame
-            .config.changeContext(c.getContentFrame)
-            // click on the submit button
-            .click("button:contains('Submit')")
-
-            // find the workflow instance that is using our payload and is in running state
-            .assert.isTrue(function() {
-
-                var found = false;
-
-                c.getJSON(workflowInstances+".3.json","json",check);
-
-                function check() {
-                    var instances = h.param("json")();
-                    for (var prop in instances) {
-                        // go through the instance sub objects
-                        if (typeof instances[prop] === 'object') {
-                            var instance = instances[prop];
-                            console.log("CHECKING prop : " + prop);
-                            console.log("CHECKING status : " + instance.status);
-                            console.log("CHECKING payload : " + instance.data.payload.path);
-                            // if its the one with our payload and its in Running state , success
-                            if (instance.status == "RUNNING" &&
-                                instance.data.payload.path == userContent + "/workflowpayload") {
-                                console.log("FOUND prop : " + prop);
-                                console.log("FOUND status : " + instance.status);
-                                console.log("FOUND payload : " + instance.data.payload.path);
-
-                                found = true;
-
-                                var data = {};
-                                data.state = "ABORTED";
-                                data._charset_ = "utf-8";
-                                c.editNodeProperties( workflowInstances + "/" + prop,data);
-
-                                return;
-                            }
-                        }
-                    }
-                    c.getJSON(workflowInstances+".3.json","json",check);
-                    // not found
-                    return false;
-                }
-
-                check()
-
-                return found;
-            })
-      ;
-
     /**
      * The main test suite.
      */
-    new h.TestSuite("Core-Components - Form Container",{path:"/apps/core/wcm/tests/core-components-it/FormContainer.js",
+    new h.TestSuite("Core Components - Form Container",{path:"/apps/core/wcm/tests/core-components-it/FormContainer.js",
         execBefore:c.tcExecuteBeforeTestSuite,
-        execInNewWindow : true})
+        execInNewWindow : false})
 
         .addTestCase(storeContent)
         .addTestCase(setMailAction)
         .addTestCase(setContextPath)
         .addTestCase(setThankYouPage)
-        .addTestCase(startWorkflow)
+        // NOTE: its not possible to test reliably if the test workflow has been started so no workflow test
+        //.addTestCase(startWorkflow)
         // See https://jira.corp.adobe.com/browse/CQ-106130
         // TODO : write test for 'view data', its going to be moved from opening bulk editor to returning json
         // TODO : setting form identifier is going to be replaced by css styles

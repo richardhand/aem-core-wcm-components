@@ -96,7 +96,6 @@
             .then(function(){
                 if (done != null) done();
             })
-
     };
 
     /**
@@ -339,13 +338,36 @@
         .click(".coral-Button[title='Save']");
 
     /**
+     * sets the edit mode for the editor page. If its already in this mode , nothing happens.
+     * If not, it will set the mode and do a reload.
+     *
+     * @param mode  Mandatory Allowed values : Edit, Layouting, Scaffolding, Developer, Targeting
+     */
+    c.tcSetEditMode = function(mode){
+
+        // check the correct mode is already set
+        if (h.find("button.editor-GlobalBar-layerCurrent.is-selected[data-layer='" + mode + "'") == 1){
+            return new TestCase("Edit mode is already set to "   + mode);
+        }
+        return new TestCase("Setting Edit Mode to " + mode)
+            // set the new edit mode
+            .config.resetContext()
+            // open the dropdown
+            .click("a.editor-GlobalBar-layerSwitcher")
+            // wait for the mode to appear in the drop down
+            .assert.visible(".coral-BasicList-item-content:contains('" + mode + "')")
+            // click it, some mode changes make a reload, so wait for it
+            .click(".coral-BasicList-item-content:contains('" + mode + "')",{expectNav: true})
+            // to be on the save side we reload again (thats why timewarp mode is not an option for this method)
+            .reload();
+    };
+
+    /**
      * Common stuff that should be done before each test case starts.
      */
     c.tcExecuteBeforeTest = new TestCase("Common Set up")
         // reset the context
         .config.resetContext();
-    // TODO: Make sure we start in edit mode on the page
-    // TODO: Start with hidden side panel
 
     /**
      * Common stuff that should be done at the end of each test case.
@@ -360,6 +382,5 @@
     c.tcExecuteBeforeTestSuite =  new TestCase("Setup Before Testsuite")
         // disable annoying tutorial popups
         .execTestCase(hobs.steps.aem.commons.disableTutorials)
-
 
 }(hobs, jQuery));

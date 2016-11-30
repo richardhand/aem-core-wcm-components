@@ -15,10 +15,20 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.commons.forms.impl;
 
-import com.adobe.cq.wcm.core.components.commons.forms.FormsConstants;
-import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
-import com.day.cq.wcm.foundation.forms.FormsHandlingServletHelper;
-import com.day.cq.wcm.foundation.security.SaferSlingPostValidator;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Dictionary;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.Servlet;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
@@ -31,17 +41,10 @@ import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.commons.osgi.OsgiUtil;
 import org.osgi.service.component.ComponentContext;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.Servlet;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import java.io.IOException;
-import java.util.Dictionary;
-import java.util.HashSet;
-import java.util.Set;
+import com.adobe.cq.wcm.core.components.commons.forms.FormsConstants;
+import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
+import com.day.cq.wcm.foundation.forms.FormsHandlingServletHelper;
+import com.day.cq.wcm.foundation.security.SaferSlingPostValidator;
 
 /**
  * This forms handling servlet accepts POSTs to a form container
@@ -52,7 +55,8 @@ import java.util.Set;
         description = "Accepts posting to a form container component and performs validations")
 @Service({Servlet.class, Filter.class})
 @Properties({
-        @Property(name = "sling.servlet.resourceTypes", value = {FormsConstants.RT_CORE_FORM_CONTAINER}, propertyPrivate = true),
+        @Property(name = "sling.servlet.resourceTypes", value = { FormsConstants.RT_CORE_FORM_CONTAINER,
+                FormsConstants.RT_CORE_FORM_CONTAINER_V1 }, propertyPrivate = true),
         @Property(name = "sling.servlet.methods", value = "POST", propertyPrivate = true),
         @Property(name = "sling.servlet.selectors", value = CoreFormsHandlingServlet.SELECTOR, propertyPrivate = true),
         @Property(name = "sling.filter.scope", value = "request", propertyPrivate = true),
@@ -67,9 +71,7 @@ public class CoreFormsHandlingServlet
     protected static final String EXTENSION = "html";
     protected static final String SELECTOR = "form";
 
-    private Set<String> formResourceTypes = new HashSet<String>(){{
-        add(FormsConstants.RT_CORE_FORM_CONTAINER);
-    }};
+    private Set<String> formResourceTypes = new HashSet<String>(Arrays.asList(FormsConstants.RT_ALL_CORE_FORM_CONTAINER));
 
     @Property(value = {},
             label = "Parameter Name Whitelist",
