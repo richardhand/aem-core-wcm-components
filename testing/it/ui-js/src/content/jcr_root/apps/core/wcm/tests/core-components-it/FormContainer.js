@@ -162,9 +162,9 @@
         // click on the submit button
         .click("button:contains('Submit')")
 
-        // get the json for the content node
+        // request json for the stored form content
         .execFct(function(opts,done){
-            c.getJSON(userContent + "/xxx.json","json",done);
+            c.getJSON(userContent + "/xxx.1.json","json",done,20,500);
         })
         // check if the input value was saved
         .assert.isTrue(function(){
@@ -360,7 +360,7 @@
     /**
      * The main test suite.
      */
-    new h.TestSuite("Core-Components - Form Container",{path:"/apps/core/wcm/tests/core-components-it/FormContainer.js",
+    new h.TestSuite("Core Components - Form Container",{path:"/apps/core/wcm/tests/core-components-it/FormContainer.js",
         execBefore:c.tcExecuteBeforeTestSuite,
         execInNewWindow : false})
 
