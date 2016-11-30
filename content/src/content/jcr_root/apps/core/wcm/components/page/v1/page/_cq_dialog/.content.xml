@@ -306,41 +306,9 @@
                                         </items>
                                     </templates>
                                     <authenticationrequirement
-                                        cq:showOnCreate="{Boolean}false"
                                         jcr:primaryType="nt:unstructured"
-                                        jcr:title="Authentication Requirement"
-                                        sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
-                                        <items jcr:primaryType="nt:unstructured">
-                                            <enable
-                                                jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                                fieldDescription="You might need to configure a Closed User Group in the Permission tab."
-                                                name="./cq:authenticationRequired"
-                                                renderReadOnly="{Boolean}true"
-                                                text="Enable"
-                                                value="true">
-                                                <granite:data
-                                                    jcr:primaryType="nt:unstructured"
-                                                    cq-msm-lockable="cq:authenticationRequired"/>
-                                            </enable>
-                                            <deleteenable
-                                                jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/hidden"
-                                                name="./cq:authenticationRequired@Delete"
-                                                value="true"/>
-                                            <loginpage
-                                                jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
-                                                fieldLabel="Login Page"
-                                                name="./granite:loginPath"
-                                                renderReadOnly="{Boolean}true"
-                                                rootPath="/content">
-                                                <granite:data
-                                                    jcr:primaryType="nt:unstructured"
-                                                    cq-msm-lockable="granite:loginPath"/>
-                                            </loginpage>
-                                        </items>
-                                    </authenticationrequirement>
+                                        sling:resourceType="granite/ui/components/foundation/include"
+                                        path="foundation/components/page/cq:dialog/content/items/tabs/items/advanced/items/column/items/authenticationrequirement"/>
                                     <export
                                         cq:showOnCreate="{Boolean}false"
                                         jcr:primaryType="nt:unstructured"
