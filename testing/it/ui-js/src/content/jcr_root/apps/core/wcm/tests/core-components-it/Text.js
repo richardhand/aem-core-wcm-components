@@ -143,7 +143,7 @@
     /**
      * The main test suite for Text Component
      */
-    new h.TestSuite('Core-Components - Text', {path: '/apps/core/wcm/tests/core-components-it/Text.js',
+    new h.TestSuite('Core Components - Text', {path: '/apps/core/wcm/tests/core-components-it/Text.js',
         execBefore:c.tcExecuteBeforeTestSuite,
         execInNewWindow : false})
 

@@ -216,7 +216,7 @@
     /**
      * The main test suite.
      */
-    new h.TestSuite("Core-Components - Breadcrumb", {path:"/apps/core/wcm/tests/core-components-it/Breadcrumb.js",
+    new h.TestSuite("Core Components - Breadcrumb", {path:"/apps/core/wcm/tests/core-components-it/Breadcrumb.js",
         execBefore:c.tcExecuteBeforeTestSuite,
         execInNewWindow : false})
 

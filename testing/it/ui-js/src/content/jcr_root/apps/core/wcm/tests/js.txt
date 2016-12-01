@@ -17,9 +17,11 @@
 ns.js
 common/commons.js
 core-components-it/FormContainer.js
-core-components-it/Breadcrumb.js
 core-components-it/FormButton.js
+core-components-it/FormText.js
+core-components-it/Breadcrumb.js
 core-components-it/Title.js
 core-components-it/Text.js
+
 
 

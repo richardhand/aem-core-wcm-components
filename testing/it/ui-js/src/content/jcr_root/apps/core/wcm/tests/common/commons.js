@@ -42,6 +42,13 @@
     // form button
     c.rtFormText = "core/wcm/components/form/text";
 
+    // selectors
+
+    // configuration dialog
+    c.selConfigDialog = ".cq-dialog.foundation-form.foundation-layout-form";
+    // save button on a configuration dialog
+    c.selSaveConfDialogButton = ".cq-dialog-actions .coral-Button[title='Done']";
+
     /**
      * Creates a CQ page via POST request, the same as send by the create page wizard.
      *
@@ -223,8 +230,8 @@
     c.getJSON = function(url,dynParName,done,maxRetries,timeout){
         // check mandatory
         if (url == null || dynParName == null || done == null){
-            console.log("getJSON failed! Mandatory param(s) missing.")
-            done(); return;
+            done(false,"getJSON failed! Mandatory param(s) missing.");
+            return;
         }
 
         // check defaults
@@ -243,13 +250,12 @@
             })
                 .done(function(data){
                     h.param(dynParName,data);
-                    done();
+                    done(true);
                 })
                 .fail(function(jqXHR,textStatus,errorThrown){
                     // check if max retries was reached
                     if (retries++ === maxRetries){
-                        console.log("getJSON failed! GET failed with " + textStatus + "," + errorThrown);
-                        done();
+                        done(false,"getJSON failed! GET failed with " + textStatus + "," + errorThrown);
                         return;
                     }
                     // set for next retry
@@ -281,9 +287,21 @@
             // click on the 'configure' button
             .click(".coral-Button.cq-editable-action[title='Configure']")
             // verify the dialog has become visible
-            .asserts.visible(".cq-dialog.foundation-form.foundation-layout-form");
+            .asserts.visible(c.selConfigDialog);
     };
 
+    /**
+     * Helper test case: switch the config dialog tab
+     */
+    c.switchConfigTab = function(tabTitle){
+        return new TestCase("Switch Config Tab to " +  tabTitle)
+            // click on the tab
+            .click("coral-tab > coral-tab-label:contains('"+ tabTitle + "')")
+            // check if its selected
+            .assert.isTrue(function(){
+                return h.find("coral-tab[selected] > coral-tab-label:contains('"+ tabTitle + "')").size() == 1
+            })
+    };
 
     /**
      * Closes any open configuration dialog
@@ -295,10 +313,11 @@
         function(){ return hobs.context().window.location.pathname.startsWith("/mnt/override")}
         ,
         TestCase("Close Fullscreen Dialog")
-            .click(".cq-dialog-actions .coral-Button[title='Done']",{expectNav:true})
+            // NOTE: this will cause test to fail if the dialog can't be closed e.g. due to missing mandatory values
+            .click(c.selSaveConfDialogButton,{expectNav:true})
         ,
         TestCase("Close Modal Dialog")
-            .click(".cq-dialog-actions .coral-Button[title='Done']",{expectNav:false})
+            .click(c.selSaveConfDialogButton,{expectNav:false})
         ,{ timeout:10 });
 
 
