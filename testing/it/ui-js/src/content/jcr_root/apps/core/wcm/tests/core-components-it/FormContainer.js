@@ -152,6 +152,8 @@
         .click(".coral-Form-field.cmp-action-type-selection.coral3-Select > button")
         // select the store action
         .click(".coral3-SelectList-item[value='foundation/components/form/actions/store']")
+        // check if the input field has become visible
+        .assert.visible("input[name='./action']")
         // we set our own context path
         .fillInput("input[name='./action']",userContent + "/xxx")
         // close the dialog
@@ -164,11 +166,12 @@
 
         // request json for the stored form content
         .execFct(function(opts,done){
-            c.getJSON(userContent + "/xxx/inputname.1.json","json",done,20,500);
+            c.getJSON(userContent + "/xxx/inputname.1.json","formContentJson",done,20,500);
         })
         // check if the input value was saved
         .assert.isTrue(function(){
-            var data = h.param("json")();
+
+            var data = h.param("formContentJson")();
             if(data.inputname != null && data.inputname == "inputvalue") {
                 return true;
             } else {
