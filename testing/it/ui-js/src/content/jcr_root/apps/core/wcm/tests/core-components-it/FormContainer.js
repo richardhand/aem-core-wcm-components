@@ -92,6 +92,17 @@
             c.deletePage(h.param("testPagePath")(opts), done);
         });
 
+    var selectActionType = function(actionType){
+        return new TestCase("Select Action Type")
+            // open action drop down
+            .click("coral-select[name='./actionType'] > button")
+            // check if the dropdown has become visible
+            .assert.visible("coral-select[name='./actionType'] coral-selectlist")
+            // select the store action
+            .click("coral-select[name='./actionType'] coral-selectlist " +
+            "coral-selectlist-item[value='" + actionType + "']")
+
+    };
     /**
      * Test: Check if the action 'Store Content' works.
      */
@@ -101,15 +112,13 @@
 
         // open the edit dialog
         .execTestCase(c.tcOpenConfigureDialog("containerPath"))
+        // select action type
+        .execTestCase(selectActionType("foundation/components/form/actions/store"))
         // store the content path JSON Url in  a hobbes param
         .execFct(function(opts,done){
             h.param("contentJsonUrl",h.find("input[name='./action']").val().slice(0,-1) + ".1.json");
             done();
         })
-        // open action drop down
-        .click(".coral-Form-field.cmp-action-type-selection.coral3-Select > button")
-        // select the store action
-        .click(".coral3-SelectList-item[value='foundation/components/form/actions/store']")
         // close the dialog
         .execTestCase(c.tcSaveConfigureDialog)
 
@@ -148,10 +157,8 @@
 
         // open the config dialog
         .execTestCase(c.tcOpenConfigureDialog("containerPath"))
-        // open action drop down
-        .click(".coral-Form-field.cmp-action-type-selection.coral3-Select > button")
-        // select the store action
-        .click(".coral3-SelectList-item[value='foundation/components/form/actions/store']")
+        // select action type
+        .execTestCase(selectActionType("foundation/components/form/actions/store"))
         // check if the input field has become visible
         .assert.visible("input[name='./action']")
         // we set our own context path
@@ -168,9 +175,9 @@
         .execFct(function(opts,done){
             c.getJSON(userContent + "/xxx/inputname.1.json","formContentJson",done,20,500);
         })
+
         // check if the input value was saved
         .assert.isTrue(function(){
-
             var data = h.param("formContentJson")();
             if(data.inputname != null && data.inputname == "inputvalue") {
                 return true;
@@ -193,10 +200,8 @@
 
         // open the config dialog
         .execTestCase(c.tcOpenConfigureDialog("containerPath"))
-        // open action drop down
-        .click(".coral-Form-field.cmp-action-type-selection.coral3-Select > button")
-        // select the store action
-        .click(".coral3-SelectList-item[value='foundation/components/form/actions/store']")
+        // select action type
+        .execTestCase(selectActionType("foundation/components/form/actions/store"))
         // set the thank you page
         // NOTE: We need to simulate an 'enter' at the end otherwise autocompletion will open a suggestion box
         // and take focus away, so we cant use fillInput
@@ -227,10 +232,8 @@
 
         // open the config dialog
         .execTestCase(c.tcOpenConfigureDialog("containerPath"))
-        // open the action drop down (setting directly will not update dialog)
-        .click(".coral-Form-field.cmp-action-type-selection.coral3-Select > button")
-        // select mail action
-        .click(".coral3-SelectList-item[value='foundation/components/form/actions/mail']")
+        // select action type
+        .execTestCase(selectActionType("foundation/components/form/actions/mail"))
         // wait for the dialog to update
         .assert.visible("[name='./from']")
         // set the 'from' field
