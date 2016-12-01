@@ -161,6 +161,8 @@
         .execTestCase(selectActionType("foundation/components/form/actions/store"))
         // check if the input field has become visible
         .assert.visible("input[name='./action']")
+        // ugly ugly ugly
+        .wait(2000)
         // we set our own context path
         .fillInput("input[name='./action']",userContent + "/xxx")
         // close the dialog
