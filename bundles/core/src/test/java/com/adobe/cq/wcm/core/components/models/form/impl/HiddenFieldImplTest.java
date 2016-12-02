@@ -42,8 +42,6 @@ public class HiddenFieldImplTest {
 
     private static final String HIDDENINPUT2_PATH = CONTAINING_PAGE + "/jcr:content/root/responsivegrid/container/hidden_2";
 
-    private static final String HIDDENINPUT3_PATH = CONTAINING_PAGE + "/jcr:content/root/responsivegrid/container/hidden_3";
-
     private static final String RESOURCE_PROPERTY = "resource";
 
     @Rule
