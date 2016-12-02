@@ -41,6 +41,7 @@ public class HiddenFieldImpl implements HiddenField {
 
     private static final String PN_NAME = "name";
     private static final String PN_VALUE = "value";
+    private static final String PN_ID = "id";
 
     @Self
     private SlingHttpServletRequest slingRequest;
@@ -71,7 +72,10 @@ public class HiddenFieldImpl implements HiddenField {
     @Override
     public String getId() {
         if (id == null) {
-            id = this.getName() + System.currentTimeMillis();
+            id = properties.get(PN_ID, String.class);
+            if (id == null || id.trim().isEmpty()) {
+                id = this.getName() + System.currentTimeMillis();
+            }
         }
         return id;
     }
