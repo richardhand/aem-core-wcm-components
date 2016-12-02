@@ -28,6 +28,7 @@
                                     value="button"/>
                             <submit
                                     jcr:primaryType="nt:unstructured"
+                                    selected="{Boolean}true"
                                     text="Submit"
                                     value="submit"/>
                         </items>
