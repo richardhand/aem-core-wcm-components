@@ -88,7 +88,7 @@ public class SocialMediaHelper extends WCMUsePojo {
      * Returns {@code true} if Pinterest sharing is enabled in page configuration, {@code false} otherwise.
      */
     public boolean isPinterestEnabled() {
-        return facebookEnabled;
+        return pinterestEnabled;
     }
 
     /**
