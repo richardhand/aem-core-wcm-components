@@ -20,13 +20,17 @@ import java.util.Map;
 
 import org.junit.Rule;
 import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.testing.mock.sling.junit.SlingContext;
 
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
+
 import io.wcm.testing.mock.aem.junit.AemContext;
+
 import com.adobe.cq.wcm.core.components.models.form.Button;
 
 public class ButtonImplTest {
@@ -36,42 +40,37 @@ public class ButtonImplTest {
 
     /**
      * Tests an empty button.
-     *
+     * <p>
      * Note: the test button is created by the {@link SlingContext}.
+     * </p>
      */
     @Test
     public void testEmptyButton() throws Exception {
-        Map<String,Object> properties = new HashMap<>();
-        properties.put("type", "reset");
+        Map<String, Object> properties = new HashMap<>();
         properties.put("sling:resourceType", "core/wcm/components/form/button");
         Resource buttonRes = context.create().resource("/content/button", properties);
         Button button = buttonRes.adaptTo(Button.class);
-        assertEquals("reset", button.getType());
-        assertEquals("", button.getTitle());
-        assertEquals("", button.getCssClass());
-        assertTrue(!button.isDisabled());
-        assertEquals("", button.getName());
+        assertEquals("submit", button.getType());
+        assertEquals("Submit", button.getCaption());
+        assertEquals("button", button.getName());
         assertEquals("", button.getValue());
-        assertTrue(!button.isAutofocus());
     }
 
     /**
      * Tests a fully configured button.
-     *
+     * <p>
      * Note: the test button is loaded from a JSON file by the {@link SlingContext}.
+     * </p>
      */
     @Test
     public void testJsonButton() throws Exception {
         Resource buttonsRes = context.currentResource("/content/buttons");
         Resource buttonRes1 = buttonsRes.getChild("button1");
         Button button = buttonRes1.adaptTo(Button.class);
-        assertEquals("submit", button.getType());
-        assertEquals("title1", button.getTitle());
-        assertEquals("class1 class2", button.getCssClass());
-        assertTrue(button.isDisabled());
+        assertEquals("button", button.getType());
+        assertEquals("button caption", button.getCaption());
         assertEquals("name1", button.getName());
         assertEquals("value1", button.getValue());
-        assertTrue(button.isAutofocus());
     }
 
 }

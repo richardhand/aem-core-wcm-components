@@ -22,48 +22,31 @@ public interface Button {
 
     /**
      * @return the type of the button.
-     *
-     * Possible values: 'button', 'submit' or 'reset'
-     *
+     * <p>
+     * Possible values: 'button', 'submit'
+     * </p>
      */
     public String getType();
 
     /**
-     * @return the title of the button.
-     *
+     * @return the caption of the button (text displayed on the button).
      */
-    public String getTitle();
-
-    /**
-     * @return the CSS class(es) of the button.
-     *
-     */
-    public String getCssClass();
-
-    /**
-     * @return if the button should be disabled otherwise false
-     */
-    public boolean isDisabled();
+    public String getCaption();
 
     /**
      * @return the name of the button.
-     *
+     * <p>
      * Note: {'name':'value'} is sent as a request parameter when POST-ing the form
-     *
+     * </p>
      */
     public String getName();
 
     /**
      * @return the value of the button.
-     *
+     * <p>
      * Note: {'name':'value'} is sent as a request parameter when POST-ing the form
-     *
+     * </p>
      */
     public String getValue();
-
-    /**
-     * @return true if the button should automatically get focus when the page loads otherwise false
-     */
-    public boolean isAutofocus();
 
 }

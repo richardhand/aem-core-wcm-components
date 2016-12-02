@@ -9,12 +9,9 @@
         "jcr:createdBy"      : "admin",
         "jcr:primaryType"    : "nt:unstructured",
         "sling:resourceType" : "core/wcm/components/form/button",
-        "type"               : "submit",
-        "title"              : "title1",
-        "cssClass"           : "class1 class2",
-        "disabled"           : "true",
+        "caption"            : "button caption",
         "name"               : "name1",
         "value"              : "value1",
-        "autofocus"          : "true"
+        "type"               : "button"
     }
 }
