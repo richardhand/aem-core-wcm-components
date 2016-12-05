@@ -70,7 +70,7 @@ public class HiddenFieldImplTest {
         HiddenField hiddenField = context.request().adaptTo(HiddenField.class);
         assertEquals("hidden", hiddenField.getName());
         assertEquals("", hiddenField.getValue());
-        assertNotNull(hiddenField.getId());
+        assertEquals("", hiddenField.getId());
     }
 
     @Test
@@ -81,6 +81,6 @@ public class HiddenFieldImplTest {
         HiddenField hiddenField = context.request().adaptTo(HiddenField.class);
         assertEquals("Custom_Name", hiddenField.getName());
         assertEquals("Custom value", hiddenField.getValue());
-        assertNotNull(hiddenField.getId());
+        assertEquals("hidden-field-id", hiddenField.getId());
     }
 }

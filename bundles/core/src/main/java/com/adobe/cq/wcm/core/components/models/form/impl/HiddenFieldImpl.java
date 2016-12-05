@@ -38,6 +38,7 @@ public class HiddenFieldImpl implements HiddenField {
 
     private static final String PROP_NAME_DEFAULT = "hidden";
     private static final String PROP_VALUE_DEFAULT = "";
+    private static final String PROP_ID_DEFAULT = "";
 
     private static final String PN_NAME = "name";
     private static final String PN_VALUE = "value";
@@ -57,8 +58,6 @@ public class HiddenFieldImpl implements HiddenField {
 
     private String[] prefillValues;
 
-    private String id = null;
-
     @PostConstruct
     protected void initModel() {
         slingRequest.setAttribute(FormsHelper.REQ_ATTR_FORM_STRUCTURE_HELPER,
@@ -71,13 +70,7 @@ public class HiddenFieldImpl implements HiddenField {
 
     @Override
     public String getId() {
-        if (id == null) {
-            id = properties.get(PN_ID, String.class);
-            if (id == null || id.trim().isEmpty()) {
-                id = this.getName() + System.currentTimeMillis();
-            }
-        }
-        return id;
+        return properties.get(PN_ID, PROP_ID_DEFAULT);
     }
 
     @Override
