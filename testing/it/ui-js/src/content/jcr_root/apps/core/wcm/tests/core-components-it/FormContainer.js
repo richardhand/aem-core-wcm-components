@@ -161,10 +161,10 @@
         .execTestCase(selectActionType("foundation/components/form/actions/store"))
         // check if the input field has become visible
         .assert.visible("input[name='./action']")
-        // ugly ugly ugly
-        .wait(2000)
         // we set our own context path
         .fillInput("input[name='./action']",userContent + "/xxx")
+        // ugly ugly ugly
+        .wait(2000)
         // close the dialog
         .execTestCase(c.tcSaveConfigureDialog)
 
@@ -175,7 +175,7 @@
 
         // request json for the stored form content
         .execFct(function(opts,done){
-            c.getJSON(userContent + "/xxx/inputname.1.json","formContentJson",done,20,500);
+            c.getJSON(userContent + "/xxx/inputname.1.json","formContentJson",done,30,500);
         })
 
         // check if the input value was saved
