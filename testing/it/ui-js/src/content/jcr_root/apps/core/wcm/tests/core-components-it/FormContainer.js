@@ -163,8 +163,6 @@
         .assert.visible("input[name='./action']")
         // we set our own context path
         .fillInput("input[name='./action']",userContent + "/xxx")
-        // ugly ugly ugly
-        .wait(2000)
         // close the dialog
         .execTestCase(c.tcSaveConfigureDialog)
 
