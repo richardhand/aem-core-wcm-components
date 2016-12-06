@@ -15,28 +15,41 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.models.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.junit.Rule;
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import org.apache.sling.api.resource.Resource;
-import org.apache.sling.testing.mock.sling.junit.SlingContext;
-
-import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
-
 import io.wcm.testing.mock.aem.junit.AemContext;
 
+import org.apache.sling.i18n.ResourceBundleProvider;
+import org.apache.sling.i18n.impl.RootResourceBundle;
+import org.apache.sling.testing.mock.sling.junit.SlingContext;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.mockito.Mockito;
+
+import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
 import com.adobe.cq.wcm.core.components.models.form.Button;
+
+import static org.junit.Assert.assertEquals;
 
 public class ButtonImplTest {
 
+    private static String ROOT_PATH = "/content/buttons";
+
+    private static String EMPTY_BUTTON_PATH = ROOT_PATH + "/button";
+
+    private static String BUTTON1_PATH = ROOT_PATH + "/button1";
+
     @Rule
     public AemContext context = CoreComponentTestContext.createContext("/form/button", "/content/buttons");
+
+    private RootResourceBundle rootResourceBundle = new RootResourceBundle();
+
+    @Before
+    public void setUp() {
+        ResourceBundleProvider resourceBundleProvider = Mockito.mock(ResourceBundleProvider.class);
+        context.registerService(ResourceBundleProvider.class, resourceBundleProvider);
+        Mockito.when(resourceBundleProvider.getResourceBundle(null)).thenReturn(rootResourceBundle);
+        Mockito.when(resourceBundleProvider.getResourceBundle(null, null)).thenReturn(rootResourceBundle);
+    }
 
     /**
      * Tests an empty button.
@@ -46,10 +59,8 @@ public class ButtonImplTest {
      */
     @Test
     public void testEmptyButton() throws Exception {
-        Map<String, Object> properties = new HashMap<>();
-        properties.put("sling:resourceType", "core/wcm/components/form/button");
-        Resource buttonRes = context.create().resource("/content/button", properties);
-        Button button = buttonRes.adaptTo(Button.class);
+        context.currentResource(EMPTY_BUTTON_PATH);
+        Button button = context.request().adaptTo(Button.class);
         assertEquals("submit", button.getType());
         assertEquals("Submit", button.getCaption());
         assertEquals("button", button.getName());
@@ -64,9 +75,8 @@ public class ButtonImplTest {
      */
     @Test
     public void testJsonButton() throws Exception {
-        Resource buttonsRes = context.currentResource("/content/buttons");
-        Resource buttonRes1 = buttonsRes.getChild("button1");
-        Button button = buttonRes1.adaptTo(Button.class);
+        context.currentResource(BUTTON1_PATH);
+        Button button = context.request().adaptTo(Button.class);
         assertEquals("button", button.getType());
         assertEquals("button caption", button.getCaption());
         assertEquals("name1", button.getName());

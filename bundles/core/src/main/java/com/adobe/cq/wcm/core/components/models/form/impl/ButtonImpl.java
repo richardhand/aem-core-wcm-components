@@ -15,15 +15,19 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.models.form.impl;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.lang.StringUtils;
-import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
 import com.adobe.cq.wcm.core.components.models.form.Button;
+import com.day.cq.i18n.I18n;
 
-@Model(adaptables = Resource.class,
+@Model(adaptables = SlingHttpServletRequest.class,
         adapters = Button.class,
         resourceType = ButtonImpl.RESOURCE_TYPE)
 public class ButtonImpl implements Button {
@@ -48,6 +52,16 @@ public class ButtonImpl implements Button {
     @Default(values = "")
     private String value;
 
+    @Self
+    private SlingHttpServletRequest request;
+
+    private I18n i18n;
+
+    @PostConstruct
+    protected void initModel() {
+        i18n = new I18n(request);
+    }
+
     @Override
     public String getType() {
         return this.type;
@@ -56,7 +70,7 @@ public class ButtonImpl implements Button {
     @Override
     public String getCaption() {
         if (this.caption == null || this.caption.trim().isEmpty()) {
-            this.caption = StringUtils.capitalize(this.getType());
+            this.caption = i18n.getVar(StringUtils.capitalize(this.getType()));
         }
         return this.caption;
     }
