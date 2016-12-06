@@ -64,10 +64,6 @@
         //check that the caption on the button should be "Submit"
         .asserts.isTrue(function () {
             return h.find(".btn", "#ContentFrame").text().trim() == "Submit"
-        })
-        //check that the name of the button should be "button"
-        .asserts.isTrue(function () {
-            return h.find("[name='button']", "#ContentFrame").size() == 1
         });
 
     /**

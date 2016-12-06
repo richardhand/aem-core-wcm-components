@@ -45,7 +45,7 @@ public class ButtonImpl implements Button {
     private String caption;
 
     @ValueMapValue
-    @Default(values = "button")
+    @Default(values = "")
     private String name;
 
     @ValueMapValue

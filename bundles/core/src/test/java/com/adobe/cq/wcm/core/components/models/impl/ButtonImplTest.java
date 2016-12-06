@@ -63,7 +63,7 @@ public class ButtonImplTest {
         Button button = context.request().adaptTo(Button.class);
         assertEquals("submit", button.getType());
         assertEquals("Submit", button.getCaption());
-        assertEquals("button", button.getName());
+        assertEquals("", button.getName());
         assertEquals("", button.getValue());
     }
 
