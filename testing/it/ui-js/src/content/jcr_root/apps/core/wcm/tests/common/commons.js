@@ -33,6 +33,8 @@
     c.rtText  =  "core/wcm/components/text";
     // text component
     c.rtTitle  =  "core/wcm/components/title";
+    // text component
+    c.rtList  =  "core/wcm/components/list";
     // breadcrumb component
     c.rtBreadcrumb = "core/wcm/components/breadcrumb";
     // form container
@@ -301,6 +303,17 @@
             .assert.isTrue(function(){
                 return h.find("coral-tab[selected] > coral-tab-label:contains('"+ tabTitle + "')").size() == 1
             })
+    };
+
+    c.useDialogSelect = function(name,value){
+        return new TestCase("Set Select for '" + name + "' to '" + value + "'")
+            // open action drop down
+            .click("coral-select[name='" + name + "'] > button")
+            // check if the dropdown has become visible
+            .assert.visible("coral-select[name='" + name + "'] coral-selectlist")
+            // select the store action
+            .click("coral-select[name='" + name + "'] coral-selectlist " +
+            "coral-selectlist-item[value='" + value + "']")
     };
 
     /**
