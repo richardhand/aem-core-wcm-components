@@ -58,13 +58,13 @@
      * @param parentPath Mandatory. Path to the parent page e.g. "/content/we-retail/language-masters/en"
      * @param pageName Mandatory. Page name to be set for the page.
      * @param dynParName Optional. Hobbes dynamic param to store the generated page path.
-     * @param done Optional. Callback to be executed when async method has finished.
+     * @param done Mandatory. Callback to be executed when async method has finished.
      */
     c.createPage = function (templatePath, parentPath, pageName, dynParName, done) {
         // mandatory check
-        if (parentPath == null || templatePath == null || pageName == null){
-            console.log("createPage failed! mandatory parameter(s) missing!");
-            done(); return;
+        if (parentPath == null || templatePath == null || pageName == null || done == null){
+            if(done) done(false,"createPage failed! mandatory parameter(s) missing!");
+            return;
         }
 
         // the ajax call
@@ -89,7 +89,7 @@
                 // if the page already existed it will stupidly postfix it with a number this can lead to problems
                 // so at least we should log a warning
                 if (pageName != name ){
-                    console.log("createPage failed! page was created with different name!");
+                    done(false,"createPage failed! page was created with different name!");
                 }
                 // store the page path and name as dynamic data for reuse in hobs functions
                 if (dynParName != null) {
@@ -99,11 +99,11 @@
             // request fails
             .fail(function (jqXHR,textStatus,errorThrown){
                 // log an error
-                console.log("createPage failed! POST failed with: " + textStatus + "," + errorThrown);
+                done(false,"createPage failed! POST failed with: " + textStatus + "," + errorThrown);
             })
             // always executed, fail or success
             .then(function(){
-                if (done != null) done();
+                done(true);
             })
     };
 
@@ -115,9 +115,9 @@
      */
     c.deletePage = function(pagePath,done){
         // mandatory check
-        if (pagePath == null ){
-            console.log("deletePage failed! mandatory parameter(s) missing!");
-            done(); return;
+        if (pagePath == null || done == null ){
+            if(done) done(false, "deletePage failed! mandatory parameter(s) missing!");
+            return;
         }
         jQuery.ajax({
             url: pagePath,
@@ -127,11 +127,11 @@
             }
         })
             .fail(function(jqXHR,textStatus,errorThrown){
-                console.log("deletePage failed: POST failed with " + textStatus + "," + errorThrown);
+                done(false,"deletePage failed: POST failed with " + textStatus + "," + errorThrown);
             })
             // always executed, fail or success
             .then(function(){
-                if (done != null) {done();}
+                done(true);
             })
     };
 
@@ -141,15 +141,15 @@
      * @param component          mandatory components resource type
      * @param parentCompPath     mandatory absolute path to the parent component
      * @param dynParName         optional name of hobbes param to store the new components absolute path
-     * @param done               optional call back to execute when async method has finished
+     * @param done               mandatory call back to execute when async method has finished
      * @param nameHint           optional hint for the component nodes name, if empty component name is taken
      * @param order              optional where to place component e.g. 'before product_grid', if empty, 'last' is used
      */
     c.addComponent = function(component, parentCompPath,dynParName, done, nameHint , order){
         // mandatory check
-        if (component == null || parentCompPath == null ){
-            console.log("addComponent failed! mandatory parameter(s) missing!");
-            done(); return;
+        if (component == null || parentCompPath == null || done == null ){
+            if(done) done(false,"addComponent failed! mandatory parameter(s) missing!");
+            return;
         }
 
         // default settings
@@ -176,11 +176,11 @@
             })
             // in case of failure
             .fail(function(jqXHR,textStatus,errorThrown){
-                console.log("addComponent failed: POST failed with " + textStatus + "," + errorThrown);
+                done(false,"addComponent failed: POST failed with " + textStatus + "," + errorThrown);
             })
             // always executed, fail or success
             .then(function(){
-                if (done != null) {done();}
+                done(true);
             })
     };
 
@@ -189,13 +189,13 @@
      *
      * @param componentPath     Mandatory. absolute path to the node
      * @param data              Mandatory. object with properties to be set on the node.
-     * @param done              Optional. callback function when post has returned
+     * @param done              Mandatory. callback function when post has returned
      */
     c.editNodeProperties = function (componentPath,data,done){
         // check mandatory
-        if ( componentPath == null || data == null ){
-            console.log("editNodeProperties failed! Mandatory param(s) missing.");
-            if(done != null) done(); return;
+        if ( componentPath == null || data == null || done == null){
+            if(done) done(false,"editNodeProperties failed! Mandatory param(s) missing.");
+            return;
         }
         $.ajax({
             url: componentPath,
@@ -205,10 +205,42 @@
         })
             // in case of failure
             .fail(function(jqXHR,textStatus,errorThrown){
-                console.log("editNodeProperties failed: POST failed with " + textStatus + "," + errorThrown);
+                done(false,"editNodeProperties failed: POST failed with " + textStatus + "," + errorThrown);
             })
             .then(function(){
-                if(done != null) done();
+                done(true);
+            })
+    };
+
+    /**
+     * Adds a tag in default namespace
+     *
+     * @param tag   Mandatory. the tag to be added
+     * @param done  Mandatory. the callback to execute when post returns
+     */
+    c.addTag = function(tag,done){
+        // mandatory check
+        if (tag == null|| done == null ){
+            if (done) done(false,"addTag failed! Mandatory param(s) missing.");
+            return;
+        }
+        jQuery.ajax({
+            url: "/bin/tagcommand",
+            method: "POST",
+            data: {
+                "cmd": "createTagByTitle",
+                "tag": tag,
+                "locale": "en",
+                "_charset_": "utf-8"
+
+            }
+        })
+            .fail(function(jqXHR,textStatus,errorThrown){
+                done(false,"addTag failed: POST failed with " + textStatus + "," + errorThrown);
+            })
+            // always executed, fail or success
+            .then(function(){
+                done(true);
             })
     };
 
@@ -232,7 +264,7 @@
     c.getJSON = function(url,dynParName,done,maxRetries,timeout){
         // check mandatory
         if (url == null || dynParName == null || done == null){
-            done(false,"getJSON failed! Mandatory param(s) missing.");
+            if(done) done(false,"getJSON failed! Mandatory param(s) missing.");
             return;
         }
 
@@ -295,7 +327,7 @@
     /**
      * Helper test case: switch the config dialog tab
      */
-    c.switchConfigTab = function(tabTitle){
+    c.tcSwitchConfigTab = function(tabTitle){
         return new TestCase("Switch Config Tab to " +  tabTitle)
             // click on the tab
             .click("coral-tab > coral-tab-label:contains('"+ tabTitle + "')")
@@ -305,7 +337,7 @@
             })
     };
 
-    c.useDialogSelect = function(name,value){
+    c.tcUseDialogSelect = function(name,value){
         return new TestCase("Set Select for '" + name + "' to '" + value + "'")
             // open action drop down
             .click("coral-select[name='" + name + "'] > button")
