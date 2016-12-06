@@ -40,12 +40,18 @@
                             fieldLabel="Caption"
                             name="./caption"/>
                     <name
+                            granite:class="cmp-form-button-name"
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                             fieldDescription="The name of the button, which is submitted with the form data"
                             fieldLabel="Name"
-                            name="./name"/>
+                            name="./name">
+                        <granite:data
+                                jcr:primaryType="nt:unstructured"
+                                error-message="When providing a button value, a name must also be provided"/>
+                    </name>
                     <value
+                            granite:class="cmp-form-button-value"
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                             fieldDescription="The value of the button, which is submitted with the form data"
