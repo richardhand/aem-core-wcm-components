@@ -354,7 +354,7 @@
         // set mandatory fields
         .execTestCase(setMandatoryFields)
         // switch the tab
-        .execTestCase(c.switchConfigTab(("About")))
+        .execTestCase(c.tcSwitchConfigTab(("About")))
         // set the help message
         .fillInput("input[name='./helpMessage']",helpMessage)
         // close the edit dialog
@@ -379,7 +379,7 @@
         // set mandatory fields
         .execTestCase(setMandatoryFields)
         // switch the tab
-        .execTestCase(c.switchConfigTab(("About")))
+        .execTestCase(c.tcSwitchConfigTab(("About")))
         // set the help message
         .fillInput("input[name='./helpMessage']",helpMessage)
         // check the 'help text as placeholder' flag
@@ -442,7 +442,7 @@
         // set mandatory fields
         .execTestCase(setMandatoryFields)
         // switch the tab
-        .execTestCase(c.switchConfigTab(("Constraints")))
+        .execTestCase(c.tcSwitchConfigTab(("Constraints")))
         // check the 'Make read only' flag
         .click("input[type='checkbox'][name='./readOnly'")
         // close the edit dialog
@@ -478,7 +478,7 @@
         // set mandatory fields
         .execTestCase(setMandatoryFields)
         // switch the tab
-        .execTestCase(c.switchConfigTab(("Constraints")))
+        .execTestCase(c.tcSwitchConfigTab(("Constraints")))
         // check the 'Required' flag
         .click("input[type='checkbox'][name='./required'")
         // set the required message
@@ -524,7 +524,7 @@
         // set the type to textarea
         .execTestCase(setInputType("email"))
         // switch the tab
-        .execTestCase(c.switchConfigTab(("Constraints")))
+        .execTestCase(c.tcSwitchConfigTab(("Constraints")))
         // set the required message
         .fillInput("textarea[name='./constraintMessage']",requiredMessage)
         // close the edit dialog
