@@ -32,6 +32,8 @@
     var defaultValue = "Uncharted";
     // help message
     var helpMessage = "Skyrim";
+    // required message
+    var requiredMessage = "Attack ships on fire off the shoulder of Orion";
 
 
     /**
@@ -352,7 +354,7 @@
         // set mandatory fields
         .execTestCase(setMandatoryFields)
         // switch the tab
-        .execTestCase(c.switchConfigTab(("About")))
+        .execTestCase(c.tcSwitchConfigTab(("About")))
         // set the help message
         .fillInput("input[name='./helpMessage']",helpMessage)
         // close the edit dialog
@@ -370,14 +372,14 @@
      */
     var setHelpMessageAsPlaceholder = new h.TestCase("Set Help Text as Placeholder",{
         execBefore: tcExecuteBeforeTest,
-         execAfter: tcExecuteAfterTest})
+        execAfter: tcExecuteAfterTest})
 
         // Open the edit dialog
         .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
         // set mandatory fields
         .execTestCase(setMandatoryFields)
         // switch the tab
-        .execTestCase(c.switchConfigTab(("About")))
+        .execTestCase(c.tcSwitchConfigTab(("About")))
         // set the help message
         .fillInput("input[name='./helpMessage']",helpMessage)
         // check the 'help text as placeholder' flag
@@ -429,6 +431,112 @@
             return h.find("coral-select[name='./type'] coral-selectlist-item[value='password']").size() == 1});
 
     /**
+     * Test : test read only setting
+     */
+    var setReadOnly = new h.TestCase("Set Read Only",{
+        execBefore: tcExecuteBeforeTest,
+        execAfter: tcExecuteAfterTest})
+
+        // Open the edit dialog
+        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        // set mandatory fields
+        .execTestCase(setMandatoryFields)
+        // switch the tab
+        .execTestCase(c.tcSwitchConfigTab(("Constraints")))
+        // check the 'Make read only' flag
+        .click("input[type='checkbox'][name='./readOnly'")
+        // close the edit dialog
+        .execTestCase(c.tcSaveConfigureDialog)
+
+        //Check if input field is set to read only
+        .asserts.isTrue(function() {
+            return h.find("input[type='text'][name='" + elemName + "'][readonly]", "#ContentFrame").size() == 1;
+        })
+
+        // also check text area
+        // Open the edit dialog
+        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        // set the type to textarea
+        .execTestCase(setInputType("textarea"))
+        // close the edit dialog
+        .execTestCase(c.tcSaveConfigureDialog)
+
+        //Check if input field is set to read only
+        .asserts.isTrue(function() {
+            return h.find("textarea[name='" + elemName + "'][readonly]", "#ContentFrame").size() == 1;
+        });
+
+    /**
+     * Test : test required setting
+     */
+    var setRequired = new h.TestCase("Set Required",{
+        execBefore: tcExecuteBeforeTest,
+        execAfter: tcExecuteAfterTest})
+
+        // Open the edit dialog
+        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        // set mandatory fields
+        .execTestCase(setMandatoryFields)
+        // switch the tab
+        .execTestCase(c.tcSwitchConfigTab(("Constraints")))
+        // check the 'Required' flag
+        .click("input[type='checkbox'][name='./required'")
+        // set the required message
+        .fillInput("textarea[name='./requiredMessage']",requiredMessage)
+        // close the edit dialog
+        .execTestCase(c.tcSaveConfigureDialog)
+
+        //Check if input field is set to read only
+        .asserts.isTrue(function() {
+            return h.find("input[type='text'][name='" + elemName + "'][required]", "#ContentFrame").size() == 1;
+        })
+
+        // also check text area
+        // Open the edit dialog
+        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        // set the type to textarea
+        .execTestCase(setInputType("textarea"))
+        // close the edit dialog
+        .execTestCase(c.tcSaveConfigureDialog)
+
+        //Check if text area field is set to read only
+        .asserts.isTrue(function() {
+            return h.find("textarea[name='" + elemName + "'][required]", "#ContentFrame").size() == 1;
+        })
+
+        //Check if input field is set to read only
+        .asserts.isTrue(function() {
+            return h.find("textarea[name='" + elemName + "'][required-message='"+requiredMessage+"']",
+                    "#ContentFrame").size() == 1;
+        });
+
+    /**
+     * Test : test contstraint message
+     */
+    var setConstraintMessage = new h.TestCase("Set Constraint Message",{
+        execBefore: tcExecuteBeforeTest,
+        execAfter: tcExecuteAfterTest})
+
+        // Open the edit dialog
+        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        // set mandatory fields
+        .execTestCase(setMandatoryFields)
+        // set the type to textarea
+        .execTestCase(setInputType("email"))
+        // switch the tab
+        .execTestCase(c.tcSwitchConfigTab(("Constraints")))
+        // set the required message
+        .fillInput("textarea[name='./constraintMessage']",requiredMessage)
+        // close the edit dialog
+        .execTestCase(c.tcSaveConfigureDialog)
+
+        //Check if input field is set to read only
+        .asserts.isTrue(function() {
+            return h.find("input[name='" + elemName + "'][constraint-message='"+requiredMessage+"']",
+                    "#ContentFrame").size() == 1;
+        });
+
+    /**
      * The main test suite for Text Component
      */
     new h.TestSuite('Core Components - Form Text', {path: '/apps/core/wcm/tests/core-components-it/FormText.js',
@@ -449,5 +557,8 @@
         .addTestCase(createPassword)
         .addTestCase(setHelpMessage)
         .addTestCase(setHelpMessageAsPlaceholder)
+        .addTestCase(setReadOnly)
+        .addTestCase(setRequired)
+        .addTestCase(setConstraintMessage)
     ;
 }(hobs, jQuery));

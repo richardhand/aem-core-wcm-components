@@ -305,70 +305,10 @@
                                             </allowedtemplates>
                                         </items>
                                     </templates>
-                                    <cug
-                                        cq:showOnCreate="{Boolean}false"
+                                    <authenticationrequirement
                                         jcr:primaryType="nt:unstructured"
-                                        jcr:title="Closed User Group"
-                                        sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
-                                        <items jcr:primaryType="nt:unstructured">
-                                            <enable
-                                                jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                                name="./cq:cugEnabled"
-                                                renderReadOnly="{Boolean}true"
-                                                text="Enabled"
-                                                value="true">
-                                                <granite:data
-                                                    jcr:primaryType="nt:unstructured"
-                                                    cq-msm-lockable="cq:cugEnabled"/>
-                                            </enable>
-                                            <deleteenable
-                                                jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/hidden"
-                                                name="./cq:cugEnabled@Delete"
-                                                value="true"/>
-                                            <loginpage
-                                                jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
-                                                fieldLabel="Login Page"
-                                                name="./cq:cugLoginPage"
-                                                renderReadOnly="{Boolean}true"
-                                                rootPath="/content">
-                                                <granite:data
-                                                    jcr:primaryType="nt:unstructured"
-                                                    cq-msm-lockable="cq:cugLoginPage"/>
-                                            </loginpage>
-                                            <admittedgroups
-                                                jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
-                                                fieldLabel="Admitted Groups"
-                                                renderReadOnly="{Boolean}true">
-                                                <granite:data
-                                                    jcr:primaryType="nt:unstructured"
-                                                    cq-msm-lockable="cq:cugPrincipals"/>
-                                                <field
-                                                    jcr:primaryType="nt:unstructured"
-                                                    sling:resourceType="granite/ui/components/coral/foundation/form/select"
-                                                    name="./cq:cugPrincipals">
-                                                    <datasource
-                                                        jcr:primaryType="nt:unstructured"
-                                                        sling:resourceType="granite/ui/components/coral/foundation/authorizable/selectdatasource"
-                                                        query="\{&quot;selector&quot;: &quot;group&quot;}"/>
-                                                </field>
-                                            </admittedgroups>
-                                            <realm
-                                                jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                fieldDescription="Leave empty to use the page title"
-                                                fieldLabel="Realm"
-                                                name="./cq:cugRealm"
-                                                renderReadOnly="{Boolean}true">
-                                                <granite:data
-                                                    jcr:primaryType="nt:unstructured"
-                                                    cq-msm-lockable="cq:cugRealm"/>
-                                            </realm>
-                                        </items>
-                                    </cug>
+                                        sling:resourceType="granite/ui/components/foundation/include"
+                                        path="/mnt/overlay/foundation/components/page/cq:dialog/content/items/tabs/items/advanced/items/column/items/authenticationrequirement"/>
                                     <export
                                         cq:showOnCreate="{Boolean}false"
                                         jcr:primaryType="nt:unstructured"

@@ -65,16 +65,19 @@
 
         // set the example text
         .execFct(function() {
-            hobs.find(".title.aem-GridColumn .cmp.cmp-title  h1").html("Content test")
+            h.find(".title.aem-GridColumn .cmp.cmp-title  h1").html("Content test")
         })
 
-        // remove the focus so it triggers  the post request
-        .simulate(".title.aem-GridColumn .cmp.cmp-title  h1","blur")
+        // stop inline editing by setting the flag
+        .execFct(function(opts,done){
+            h.find(".title.aem-GridColumn .cmp.cmp-title  h1").attr("contenteditable",'false');
+            done();
+        })
 
         // check if text is rendered
         .assert.isTrue(
         function() {
-            var actualValue = hobs.find('.title.aem-GridColumn .cmp.cmp-title  h1').html();
+            var actualValue = h.find('.title.aem-GridColumn .cmp.cmp-title  h1').html();
             return actualValue === "Content test";
         })
 
@@ -90,10 +93,9 @@
         // check if text is rendered
         .assert.isTrue(
         function() {
-            var actualValue = hobs.find('.title.aem-GridColumn .cmp.cmp-title  h1').html();
+            var actualValue = h.find('.title.aem-GridColumn .cmp.cmp-title  h1').html();
             return actualValue === "Content test";
-        }
-    );
+        });
 
     /**
      * Test: Set the title value using the design dialog.

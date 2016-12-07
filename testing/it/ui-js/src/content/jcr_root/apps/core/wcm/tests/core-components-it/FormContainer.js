@@ -92,17 +92,6 @@
             c.deletePage(h.param("testPagePath")(opts), done);
         });
 
-    var selectActionType = function(actionType){
-        return new TestCase("Select Action Type")
-            // open action drop down
-            .click("coral-select[name='./actionType'] > button")
-            // check if the dropdown has become visible
-            .assert.visible("coral-select[name='./actionType'] coral-selectlist")
-            // select the store action
-            .click("coral-select[name='./actionType'] coral-selectlist " +
-            "coral-selectlist-item[value='" + actionType + "']")
-
-    };
     /**
      * Test: Check if the action 'Store Content' works.
      */
@@ -113,7 +102,7 @@
         // open the edit dialog
         .execTestCase(c.tcOpenConfigureDialog("containerPath"))
         // select action type
-        .execTestCase(selectActionType("foundation/components/form/actions/store"))
+        .execTestCase(c.tcUseDialogSelect("./actionType","foundation/components/form/actions/store"))
         // store the content path JSON Url in  a hobbes param
         .execFct(function(opts,done){
             h.param("contentJsonUrl",h.find("input[name='./action']").val().slice(0,-1) + ".1.json");
@@ -158,11 +147,9 @@
         // open the config dialog
         .execTestCase(c.tcOpenConfigureDialog("containerPath"))
         // select action type
-        .execTestCase(selectActionType("foundation/components/form/actions/store"))
+        .execTestCase(c.tcUseDialogSelect("./actionType","foundation/components/form/actions/store"))
         // check if the input field has become visible
         .assert.visible("input[name='./action']")
-        // ugly ugly ugly
-        .wait(2000)
         // we set our own context path
         .fillInput("input[name='./action']",userContent + "/xxx")
         // close the dialog
@@ -203,7 +190,7 @@
         // open the config dialog
         .execTestCase(c.tcOpenConfigureDialog("containerPath"))
         // select action type
-        .execTestCase(selectActionType("foundation/components/form/actions/store"))
+        .execTestCase(c.tcUseDialogSelect("./actionType","foundation/components/form/actions/store"))
         // set the thank you page
         // NOTE: We need to simulate an 'enter' at the end otherwise autocompletion will open a suggestion box
         // and take focus away, so we cant use fillInput
@@ -235,7 +222,7 @@
         // open the config dialog
         .execTestCase(c.tcOpenConfigureDialog("containerPath"))
         // select action type
-        .execTestCase(selectActionType("foundation/components/form/actions/mail"))
+        .execTestCase(c.tcUseDialogSelect("./actionType","foundation/components/form/actions/mail"))
         // wait for the dialog to update
         .assert.visible("[name='./from']")
         // set the 'from' field
