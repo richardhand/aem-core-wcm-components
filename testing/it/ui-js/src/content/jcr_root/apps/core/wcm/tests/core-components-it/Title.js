@@ -65,19 +65,16 @@
 
         // set the example text
         .execFct(function() {
-            h.find(".title.aem-GridColumn .cmp.cmp-title  h1").html("Content test")
+            h.find(".cmp.cmp-title  h1").html("Content test")
         })
 
-        // stop inline editing by setting the flag
-        .execFct(function(opts,done){
-            h.find(".title.aem-GridColumn .cmp.cmp-title  h1").attr("contenteditable",'false');
-            done();
-        })
+        // remove the focus so it triggers the post request
+        .simulate(".cmp.cmp-title  h1","blur")
 
         // check if text is rendered
         .assert.isTrue(
         function() {
-            var actualValue = h.find('.title.aem-GridColumn .cmp.cmp-title  h1').html();
+            var actualValue = h.find('.cmp.cmp-title  h1').html();
             return actualValue === "Content test";
         })
 
@@ -93,7 +90,7 @@
         // check if text is rendered
         .assert.isTrue(
         function() {
-            var actualValue = h.find('.title.aem-GridColumn .cmp.cmp-title  h1').html();
+            var actualValue = h.find('.cmp.cmp-title  h1').html();
             return actualValue === "Content test";
         });
 
@@ -116,7 +113,7 @@
 
         // check if text is rendered correctly
         .assert.isTrue(function() {
-            var actualValue = h.find('.title.aem-GridColumn h1').html();
+            var actualValue = h.find('.cmp.cmp-title h1').html();
             return actualValue === "Content name";
         });
 
@@ -150,7 +147,7 @@
         .execTestCase(c.tcSaveConfigureDialog)
 
         .assert.isTrue(function () {
-            return h.find(".title.aem-GridColumn .cmp.cmp-title  h5","#ContentFrame").size() == 1});
+            return h.find(".cmp.cmp-title  h5","#ContentFrame").size() == 1});
 
     /**
      * The main test suite for Title component
