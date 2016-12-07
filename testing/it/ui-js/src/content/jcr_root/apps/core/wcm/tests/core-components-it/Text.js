@@ -148,6 +148,8 @@
         execInNewWindow : false})
 
         .addTestCase(setTextValueUsingInlineEditor)
-        .addTestCase(setTextValueUsingConfigDialog)
+        // Disabling the following test case following the removal of edit dialog as per CQ-107717
+        // To be enabled later when the edit dialog is back.
+        //.addTestCase(setTextValueUsingConfigDialog)
     ;
 }(hobs, jQuery));
