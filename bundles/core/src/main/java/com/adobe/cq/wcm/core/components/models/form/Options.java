@@ -25,36 +25,43 @@ import org.apache.sling.api.resource.Resource;
 public interface Options {
 
     /**
+     * @return the current {@link Resource}
+     */
+    Resource getResource();
+
+    /**
      * @return The name of the options field.
-     *
      */
     public String getName();
 
     /**
      * Returns the list of all the options.
      *
-     * @return {@link List} of {@link Resource}s
-     *
+     * @return {@link List} of {@link OptionItem}s
      */
-    public List<Resource> getOptionItems();
+    List<OptionItem> getOptionItems();
 
     /**
-     * Checks if selection of multiple options is enabled.
-     *
-     * @return true if multiple selection is possible otherwise false
+     * @return unique identifier for the form element
      */
-    public boolean multiSelection();
+    String getId();
 
     /**
-     * Checks if the options are collapsed into a dropdown.
-     *
-     * @return true options are collapsed otherwise false
+     * @return the message for the help block
      */
-    public boolean collapsed();
+    String getHelpMessage();
 
     /**
-     * @return the CSS class(es) of the options.
+     * @return the caption for the options element
      */
-    public String getCssClass();
+    String getCaption();
+
+    /**
+     * @return the type of the options element.
+     *
+     * Possible values: checkbox, radio, drop-down, multi-drop-down
+     */
+    String getType();
+
 
 }

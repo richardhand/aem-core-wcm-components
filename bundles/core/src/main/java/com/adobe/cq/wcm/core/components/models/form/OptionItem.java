@@ -13,8 +13,37 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+package com.adobe.cq.wcm.core.components.models.form;
 
-@Version("1.1.0")
-package com.adobe.cq.wcm.core.components.commons;
+import org.apache.sling.api.resource.Resource;
 
-import org.osgi.annotation.versioning.Version;
+/**
+ * Interface of an item for the {@link Options} form element
+ */
+public interface OptionItem {
+
+    /**
+     * @return the {@link Resource} of the option item
+     */
+    Resource getResource();
+
+    /**
+     * @return {@code true} if item should be initial selected, otherwise {@code false}
+     */
+    boolean isSelected();
+
+    /**
+     * @return {@code true} if item should be disabled and therefore not clickable, otherwise {@code false}
+     */
+    boolean isDisabled();
+
+    /**
+     * @return value of this item
+     */
+    String getValue();
+
+    /**
+     * @return text for this item
+     */
+    String getText();
+}

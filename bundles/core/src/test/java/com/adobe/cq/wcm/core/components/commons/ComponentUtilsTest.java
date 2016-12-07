@@ -23,6 +23,7 @@ import org.junit.Test;
 import io.wcm.testing.mock.aem.junit.AemContext;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class ComponentUtilsTest {
 
@@ -41,5 +42,17 @@ public class ComponentUtilsTest {
         assertEquals("default", ComponentUtils.getComponentTitle(resource, "default"));
         resource = context.currentResource("/content/list/jcr:content/sidebar/list-static");
         assertEquals("List Component", ComponentUtils.getComponentTitle(resource, "default"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetEmptyId() throws Exception {
+        ComponentUtils.getId(null);
+    }
+
+    @Test
+    public void testGetId() throws Exception {
+        Resource resource = context.currentResource("/content/list/jcr:content/sidebar/list-children");
+        String id = ComponentUtils.getId(resource.getPath());
+        assertNotNull(id);
     }
 }
