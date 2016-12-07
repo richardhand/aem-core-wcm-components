@@ -13,7 +13,7 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-package com.adobe.cq.wcm.core.components.models.form.impl;
+package com.adobe.cq.wcm.core.components.models.form.impl.v1;
 
 import java.util.List;
 
@@ -22,11 +22,12 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.sling.api.resource.Resource;
+
+import com.adobe.cq.wcm.core.components.models.form.OptionItem;
 import io.wcm.testing.mock.aem.junit.AemContext;
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
 import com.adobe.cq.wcm.core.components.models.form.Options;
@@ -40,24 +41,29 @@ public class OptionsImplTest {
     public void testOptionsField() throws Exception {
         Resource optionsRes = context.currentResource("/content/options");
         Options options = optionsRes.adaptTo(Options.class);
-        List<Resource> optionItems = options.getOptionItems();
+        List<OptionItem> optionItems = options.getOptionItems();
         assertEquals("name1", options.getName());
-        assertTrue(options.multiSelection());
-        assertFalse(options.collapsed());
-        assertEquals("class1", options.getCssClass());
+        assertEquals("caption1", options.getCaption());
+        assertEquals("helpMessage1", options.getHelpMessage());
         assertNotNull(optionItems);
         assertTrue(optionItems.size() == 3);
 
         // test the first option item
-        Resource item0 = optionItems.get(0);
-        ValueMap props = item0.adaptTo(ValueMap.class);
-        String text = props.get("text", String.class);
-        String value = props.get("value", String.class);
-        String selected = props.get("selected", String.class);
-        assertEquals("t1", text);
-        assertEquals("v1", value);
-        assertEquals("true", selected);
+        OptionItem item = optionItems.get(0);
+        evaluateOptionItem(item, "t1", "v1", true, true);
+        item = optionItems.get(1);
+        evaluateOptionItem(item, "t2", "v2", true, false);
+        item = optionItems.get(2);
+        evaluateOptionItem(item, "t3", "v3", false, false);
 
+    }
+
+
+    private void evaluateOptionItem(OptionItem item, String text, String value, boolean selected, boolean disabled) {
+        assertEquals(text, item.getText());
+        assertEquals(value, item.getValue());
+        assertEquals(selected, item.isSelected());
+        assertEquals(disabled, item.isDisabled());
     }
 
 }

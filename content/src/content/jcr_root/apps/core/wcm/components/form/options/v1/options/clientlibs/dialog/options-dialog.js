@@ -15,13 +15,14 @@
  ******************************************************************************/
 (function ($, Granite, ns, $document) {
 
-    var FORM_OPTIONS_DIALOG_SELECTOR = ".core-wcm-form-options-v1",
+    var FORM_OPTIONS_DIALOG_SELECTOR   = ".core-wcm-form-options-v1",
         MULTI_SELECTION_FIELD_SELECTOR = "./multiSelection",
-        OPTION_SELECTED_SELECTOR = "./selected",
-        MULTIFIELD_ADD_BUTTON_SELECTOR = "coral-multifield-add",
-        CHECKBOX_SELECTOR = "coral-checkbox",
-        RADIO_SELECTOR = "coral-radio",
-        GRANITE_UI_FOUNDATION_FIELD = "foundation-field";
+        OPTION_SELECTED_SELECTOR       = "./selected",
+        MULTIFIELD_ADD_BUTTON_SELECTOR = "[coral-multifield-add]",
+        CHECKBOX_SELECTOR              = "coral-checkbox",
+        RADIO_SELECTOR                 = "coral-radio",
+        OPTION_TYPE_ELEMENT_SELECTOR   = ".cmp-form-options-type",
+        GRANITE_UI_FOUNDATION_FIELD    = "foundation-field";
 
     /**
      * Toggles checkboxes <-> radio buttons of the dialog depending on the value of the "./multiSelection" input field:
@@ -30,21 +31,21 @@
      *
      * The transformation only applies to checkboxes / radio buttons named "./selected".
      */
-    function toggleRadioCheckbox($dialog, initializeSelection) {
-        // get the 'multiSelection' value
-        var isMultiSelection = $dialog.find("input[name='" + MULTI_SELECTION_FIELD_SELECTOR + "']").is(":checked");
+    function toggleRadioCheckbox($dialog, component) {
+
+        var value = component.value,
+            isMultiSelection = (!(value === "dropdown" || value === "radio"));
 
         // toggle the 'selected' input, which is either a checkbox or a radio button
-        $dialog.find("input[name='" + OPTION_SELECTED_SELECTOR + "']").each(function() {
-            var $input = $(this),
-                $checkbox = $input.closest(CHECKBOX_SELECTOR),
+        $dialog.find("input[name='" + OPTION_SELECTED_SELECTOR + "']").each(function () {
+            var $input      = $(this),
+                $checkbox   = $input.closest(CHECKBOX_SELECTOR),
                 checkboxAPI = $checkbox.adaptTo(GRANITE_UI_FOUNDATION_FIELD),
-                $radio = $input.closest(RADIO_SELECTOR),
-                radioAPI = $radio.adaptTo(GRANITE_UI_FOUNDATION_FIELD);
-            // uncheck all the checkboxes / radio buttons
-            if (initializeSelection) {
-                $input.attr("checked", false);
-            }
+                $radio      = $input.closest(RADIO_SELECTOR),
+                radioAPI    = $radio.adaptTo(GRANITE_UI_FOUNDATION_FIELD);
+
+
+
             // if multiple selection of options is possible, display the checkboxes and hide/disable the radio buttons
             if (isMultiSelection) {
                 $checkbox.show();
@@ -57,7 +58,7 @@
                 if (radioAPI) {
                     radioAPI.setDisabled(true);
                 }
-            // if multiple selection of options is possible, hide/disable the checkboxes and display the radio buttons
+                // if multiple selection of options is possible, hide/disable the checkboxes and display the radio buttons
             } else {
                 $checkbox.hide();
                 $radio.show();
@@ -73,32 +74,22 @@
         });
     }
 
-    // toggle radio <-> checkbox when the multi-selection field is checked/unchecked
-    $document.on("click", "[name='" + MULTI_SELECTION_FIELD_SELECTOR + "']", function(){
-        var $dialog = $(this).closest(FORM_OPTIONS_DIALOG_SELECTOR);
-        toggleRadioCheckbox($dialog, true);
-    });
-
-    // toggle radio <-> checkbox when adding a new multifield item
-    $document.on("click", "[" + MULTIFIELD_ADD_BUTTON_SELECTOR + "]", function(){
-        var $dialog = $(this).closest(FORM_OPTIONS_DIALOG_SELECTOR);
-        toggleRadioCheckbox($dialog, false);
-    });
-
-    // toggle radio <-> checkbox when the dialog is ready
-    $document.on("dialog-ready", function() {
-        var $dialog = $(this).find(FORM_OPTIONS_DIALOG_SELECTOR);
-        Coral.commons.ready($dialog, function() {
-            toggleRadioCheckbox($dialog, false);
-        });
-    });
-
-    // toggle radio <-> checkbox when the dialog is opened in full screen
-    $document.ready(function() {
-        var $dialog = $(this).find(FORM_OPTIONS_DIALOG_SELECTOR);
-        Coral.commons.ready($dialog, function() {
-            toggleRadioCheckbox($dialog, false);
-        });
+    $document.on("foundation-contentloaded", function (e) {
+        var $dialog = $(e.target);
+        if ($dialog.find(OPTION_TYPE_ELEMENT_SELECTOR).length > 0) {
+            var $addButton = $(e.target).find(MULTIFIELD_ADD_BUTTON_SELECTOR);
+            $(OPTION_TYPE_ELEMENT_SELECTOR, e.target).each(function (i, element) {
+                Coral.commons.ready(element, function (component) {
+                    toggleRadioCheckbox($dialog, component);
+                    component.on("change", function () {
+                        toggleRadioCheckbox($dialog, component);
+                    });
+                    $addButton.on("click", function(){
+                        toggleRadioCheckbox($dialog, component);
+                    });
+                });
+            });
+        }
     });
 
 }(jQuery, Granite, Granite.author, jQuery(document)));

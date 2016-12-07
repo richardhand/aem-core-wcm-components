@@ -15,37 +15,28 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.models.form;
 
-import java.util.List;
-
 /**
- * Interface for the Form Options Sling Model
+ * Interface of an item for the {@link Options} form element
  */
-public interface Options {
+public interface OptionItem {
 
     /**
-     * @return The name of the options field.
+     * @return {@code true} if item should be initial selected, otherwise {@code false}
      */
-    public String getName();
+    boolean isSelected();
 
     /**
-     * Returns the list of all the options.
-     *
-     * @return {@link List} of {@link OptionItem}s
+     * @return {@code true} if item should be disabled and therefore not clickable, otherwise {@code false}
      */
-    List<OptionItem> getOptionItems();
+    boolean isDisabled();
 
     /**
-     * @return unique identifier for the form element
+     * @return value of this item
      */
-    String getId();
+    String getValue();
 
     /**
-     * @return the message for the help block
+     * @return text for this item
      */
-    String getHelpMessage();
-
-    /**
-     * @return the caption for the options element
-     */
-    String getCaption();
+    String getText();
 }

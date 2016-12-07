@@ -5,6 +5,8 @@
   "jcr:lastModifiedBy": "admin",
   "jcr:created": "Wed Nov 02 2016 15:32:37 GMT+0100",
   "name": "name1",
+  "caption": "caption1",
+  "helpMessage" : "helpMessage1",
   "multiSelection": "true",
   "jcr:lastModified": "Wed Nov 09 2016 14:50:06 GMT+0100",
   "sling:resourceType": "core/wcm/components/form/options",
@@ -14,7 +16,8 @@
       "jcr:primaryType": "nt:unstructured",
       "text": "t1",
       "value": "v1",
-      "selected": "true"
+      "selected": "true",
+      "disabled": "true"
     },
     "item1": {
       "jcr:primaryType": "nt:unstructured",
@@ -25,8 +28,7 @@
     "item2": {
       "jcr:primaryType": "nt:unstructured",
       "text": "t3",
-      "value": "v3",
-      "selected": "false"
+      "value": "v3"
     }
   }
 }
