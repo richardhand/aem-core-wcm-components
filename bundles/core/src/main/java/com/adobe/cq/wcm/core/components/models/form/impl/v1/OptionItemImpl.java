@@ -18,32 +18,38 @@ package com.adobe.cq.wcm.core.components.models.form.impl.v1;
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.Self;
+import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
 import com.adobe.cq.wcm.core.components.models.form.OptionItem;
 
+@Model(adaptables = Resource.class, adapters = OptionItem.class)
 public class OptionItemImpl implements OptionItem {
 
-    private static final String PN_TEXT = "text";
-    private static final String PN_VALUE = "value";
-    private static final String PN_DISABLED = "disabled";
-    private static final String PN_SELECTED = "selected";
-
+    @ValueMapValue
     private String text;
+
+    @ValueMapValue
     private String value;
+
+    @ValueMapValue(optional = true)
     private boolean disabled;
+
+    @ValueMapValue(optional = true)
     private boolean selected;
 
-    public OptionItemImpl(Resource resource) {
-        ValueMap valueMap = resource.adaptTo(ValueMap.class);
-        this.text = valueMap.get(PN_TEXT, StringUtils.EMPTY);
-        this.value = valueMap.get(PN_VALUE, StringUtils.EMPTY);
-        this.disabled = valueMap.get(PN_DISABLED, false);
-        this.selected = valueMap.get(PN_SELECTED, false);
-    }
+    @Self
+    private Resource resource;
 
     @Override
     public String getText() {
         return text;
+    }
+
+    @Override
+    public Resource getResource() {
+        return resource;
     }
 
     @Override

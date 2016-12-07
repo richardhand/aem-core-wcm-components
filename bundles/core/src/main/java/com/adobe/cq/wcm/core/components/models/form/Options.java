@@ -17,10 +17,17 @@ package com.adobe.cq.wcm.core.components.models.form;
 
 import java.util.List;
 
+import org.apache.sling.api.resource.Resource;
+
 /**
  * Interface for the Form Options Sling Model
  */
 public interface Options {
+
+    /**
+     * @return the current {@link Resource}
+     */
+    Resource getResource();
 
     /**
      * @return The name of the options field.
@@ -48,4 +55,13 @@ public interface Options {
      * @return the caption for the options element
      */
     String getCaption();
+
+    /**
+     * @return the type of the options element.
+     *
+     * Possible values: checkbox, radio, drop-down, multi-drop-down
+     */
+    String getType();
+
+
 }

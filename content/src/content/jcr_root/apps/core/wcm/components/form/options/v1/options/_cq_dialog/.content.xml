@@ -43,11 +43,11 @@
                                     <dropdown
                                         jcr:primaryType="nt:unstructured"
                                         text="Drop-down"
-                                        value="dropdown"/>
+                                        value="drop-down"/>
                                     <multiDropDown
                                         jcr:primaryType="nt:unstructured"
                                         text="Multi-select drop-down"
-                                        value="multi-dropdown"/>
+                                        value="multi-drop-down"/>
                                 </items>
                             </optionTypes>
                             <caption
@@ -76,8 +76,8 @@
                                     sling:resourceType="granite/ui/components/coral/foundation/container"
                                     name="./optionitems">
                                     <items jcr:primaryType="nt:unstructured">
-                                        <radiogroup
-                                            granite:class="multifield-composite-item"
+                                        <option
+                                            granite:class="cmp-form-option-item-multifield-composite-item"
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/coral/foundation/container">
                                             <items jcr:primaryType="nt:unstructured">
@@ -108,13 +108,6 @@
                                                     text="Disabled"
                                                     granite:class="cmp-form-option-item-disabled"
                                                     value="{Boolean}true"/>
-                                            </items>
-                                        </radiogroup>
-                                        <option
-                                            granite:class="cmp-form-option-item-multifield-composite-item"
-                                            jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="granite/ui/components/coral/foundation/container">
-                                            <items jcr:primaryType="nt:unstructured">
                                                 <value
                                                     jcr:primaryType="nt:unstructured"
                                                     sling:resourceType="granite/ui/components/coral/foundation/form/textfield"

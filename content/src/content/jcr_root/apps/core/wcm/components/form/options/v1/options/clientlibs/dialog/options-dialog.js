@@ -15,9 +15,7 @@
  ******************************************************************************/
 (function ($, Granite, ns, $document) {
 
-    var FORM_OPTIONS_DIALOG_SELECTOR   = ".core-wcm-form-options-v1",
-        MULTI_SELECTION_FIELD_SELECTOR = "./multiSelection",
-        OPTION_SELECTED_SELECTOR       = "./selected",
+    var OPTION_SELECTED_SELECTOR       = "./selected",
         MULTIFIELD_ADD_BUTTON_SELECTOR = "[coral-multifield-add]",
         CHECKBOX_SELECTOR              = "coral-checkbox",
         RADIO_SELECTOR                 = "coral-radio",
@@ -34,7 +32,7 @@
     function toggleRadioCheckbox($dialog, component) {
 
         var value = component.value,
-            isMultiSelection = (!(value === "dropdown" || value === "radio"));
+            isMultiSelection = (!(value === "drop-down" || value === "radio"));
 
         // toggle the 'selected' input, which is either a checkbox or a radio button
         $dialog.find("input[name='" + OPTION_SELECTED_SELECTOR + "']").each(function () {
@@ -43,8 +41,6 @@
                 checkboxAPI = $checkbox.adaptTo(GRANITE_UI_FOUNDATION_FIELD),
                 $radio      = $input.closest(RADIO_SELECTOR),
                 radioAPI    = $radio.adaptTo(GRANITE_UI_FOUNDATION_FIELD);
-
-
 
             // if multiple selection of options is possible, display the checkboxes and hide/disable the radio buttons
             if (isMultiSelection) {
@@ -77,19 +73,20 @@
     $document.on("foundation-contentloaded", function (e) {
         var $dialog = $(e.target);
         if ($dialog.find(OPTION_TYPE_ELEMENT_SELECTOR).length > 0) {
-            var $addButton = $(e.target).find(MULTIFIELD_ADD_BUTTON_SELECTOR);
             $(OPTION_TYPE_ELEMENT_SELECTOR, e.target).each(function (i, element) {
                 Coral.commons.ready(element, function (component) {
                     toggleRadioCheckbox($dialog, component);
                     component.on("change", function () {
                         toggleRadioCheckbox($dialog, component);
                     });
-                    $addButton.on("click", function(){
+                    $document.on("foundation-field-change", function (e) {
                         toggleRadioCheckbox($dialog, component);
                     });
                 });
             });
         }
     });
+
+
 
 }(jQuery, Granite, Granite.author, jQuery(document)));

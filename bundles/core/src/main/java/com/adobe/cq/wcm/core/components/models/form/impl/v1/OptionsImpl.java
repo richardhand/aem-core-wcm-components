@@ -17,15 +17,23 @@ package com.adobe.cq.wcm.core.components.models.form.impl.v1;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.Optional;
+import org.apache.sling.models.annotations.Via;
+import org.apache.sling.models.annotations.injectorspecific.ChildResource;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.adobe.cq.wcm.core.components.commons.ComponentUtils;
 import com.adobe.cq.wcm.core.components.models.form.OptionItem;
 import com.adobe.cq.wcm.core.components.models.form.Options;
 
@@ -36,8 +44,12 @@ public class OptionsImpl implements Options {
 
     protected static final String RESOURCE_TYPE = "core/wcm/components/form/options/v1/options";
     private static final String OPTION_ITEMS_PATH = "optionitems";
+    private static final Logger log = LoggerFactory.getLogger(OptionsImpl.class);
+    protected static final String PN_TYPE = "type";
 
-    private List<OptionItem> optionItems;
+    @ChildResource(optional = true)
+    @Named(OPTION_ITEMS_PATH)
+    private List<Resource> itemResources;
 
     @ValueMapValue(optional = true)
     private String name;
@@ -48,9 +60,13 @@ public class OptionsImpl implements Options {
     @ValueMapValue(optional = true)
     private String caption;
 
+    @ValueMapValue(name = OptionsImpl.PN_TYPE, optional = true)
+    private String typeString;
+
     @Self
     private Resource resource;
 
+    private List<OptionItem> optionItems;
     private String id;
 
     @Override
@@ -63,10 +79,12 @@ public class OptionsImpl implements Options {
 
     private void populateOptionItems() {
         this.optionItems = new ArrayList<>();
-        Resource optionItemsResource = resource.getChild(OPTION_ITEMS_PATH);
-        if(optionItemsResource != null) {
-            for(Resource itemResource: optionItemsResource.getChildren()) {
-                optionItems.add(new OptionItemImpl(itemResource));
+        if(itemResources != null) {
+            for(Resource itemResource: itemResources) {
+                OptionItem optionItem = itemResource.adaptTo(OptionItem.class);
+                if(optionItem != null) {
+                    optionItems.add(optionItem);
+                }
             }
         }
     }
@@ -84,15 +102,57 @@ public class OptionsImpl implements Options {
         return name;
     }
 
+    @Override
     public String getHelpMessage() {
         return helpMessage;
     }
 
+    @Override
     public String getCaption() {
         return caption;
     }
 
+    @Override
+    public String getType() {
+        return Type.fromString(typeString).getValue();
+    }
+
+    @Override
+    public Resource getResource() {
+        return resource;
+    }
+
     private void populateId() {
-        id = String.valueOf(resource.getPath().hashCode());
+        try {
+            id = ComponentUtils.getId(resource.getPath());
+        } catch (IllegalArgumentException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    public enum Type {
+        CHECKBOX("checkbox"),
+        RADIO("radio"),
+        DROP_DOWN("drop-down"),
+        MULTI_DROP_DOWN("multi-drop-down");
+
+        private String value;
+
+        Type(String value) {
+            this.value = value;
+        }
+
+        public static Type fromString(String value) {
+            for(Type type : Type.values()) {
+                if(StringUtils.equals(value, type.value)) {
+                    return type;
+                }
+            }
+            return CHECKBOX;
+        }
+
+        public String getValue() {
+            return value;
+        }
     }
 }
