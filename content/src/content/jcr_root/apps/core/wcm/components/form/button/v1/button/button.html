@@ -14,9 +14,12 @@
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <sly data-sly-use.button="com.adobe.cq.wcm.core.components.models.form.Button">
-  <div class="cmp cmp-btn">
-    <button type="${button.type}" class="btn ${button.cssClass}" name="${button.name}" value="${button.value}" disabled="${button.disabled}" autofocus="${button.autofocus}">
-      ${button.title}
-    </button>
-  </div>
+    <div class="cmp cmp-button">
+        <button type="${button.type}"
+                class="btn"
+                name="${button.name}"
+                value="${button.value}">
+            ${button.caption}
+        </button>
+    </div>
 </sly>

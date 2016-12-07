@@ -15,35 +15,34 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.models.form.impl;
 
-import org.apache.sling.api.resource.Resource;
+import javax.annotation.PostConstruct;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
 import com.adobe.cq.wcm.core.components.models.form.Button;
+import com.day.cq.i18n.I18n;
 
-@Model(adaptables = Resource.class,
+@Model(adaptables = SlingHttpServletRequest.class,
         adapters = Button.class,
         resourceType = ButtonImpl.RESOURCE_TYPE)
 public class ButtonImpl implements Button {
 
     public static final String RESOURCE_TYPE = "core/wcm/components/form/button";
 
+    private static final String PROP_TYPE_DEFAULT = "submit";
+
     @ValueMapValue
-    @Default(values = "")
+    @Default(values = PROP_TYPE_DEFAULT)
     private String type;
 
     @ValueMapValue
-    @Default(values = "")
-    private String title;
-
-    @ValueMapValue
-    @Default(values = "")
-    private String cssClass;
-
-    @ValueMapValue
-    @Default(booleanValues = false)
-    private boolean disabled;
+    @Default(values = {})
+    private String caption;
 
     @ValueMapValue
     @Default(values = "")
@@ -53,29 +52,29 @@ public class ButtonImpl implements Button {
     @Default(values = "")
     private String value;
 
-    @ValueMapValue
-    @Default(booleanValues = false)
-    private boolean autofocus;
+    @Self
+    private SlingHttpServletRequest request;
+
+    private I18n i18n;
+
+    @PostConstruct
+    protected void initModel() {
+        i18n = new I18n(request);
+    }
 
     @Override
     public String getType() {
-        return type;
+        return this.type;
     }
 
     @Override
-    public String getTitle() {
-        return title;
+    public String getCaption() {
+        if (this.caption == null || this.caption.trim().isEmpty()) {
+            this.caption = i18n.getVar(StringUtils.capitalize(this.getType()));
+        }
+        return this.caption;
     }
 
-    @Override
-    public String getCssClass() {
-        return cssClass;
-    }
-
-    @Override
-    public boolean isDisabled() {
-        return disabled;
-    }
 
     @Override
     public String getName() {
@@ -87,13 +86,7 @@ public class ButtonImpl implements Button {
         return value;
     }
 
-    @Override
-    public boolean isAutofocus() {
-        return autofocus;
-    }
-
     public static enum Type {
-        RESET("reset"),
         SUBMIT("submit"),
         BUTTON("button");
 

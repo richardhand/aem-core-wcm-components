@@ -51,47 +51,41 @@
         });
 
     /**
-     * Test: Create a submit button
+     * Test: Check the attributes of the default button rendered without any customisations via the edit dialog
      */
-    var createSubmitButton = new h.TestCase("Create a Submit Button",{
+    var checkDefaultButtonAttributes = new h.TestCase("Check Default Button Attributes", {
         execBefore: tcExecuteBeforeTest,
         execAfter: tcExecuteAfterTest})
 
-        // Open the edit dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
-        //change the type of the button
-        .click(".coral-Button:contains('Button')")
-        .click(".coral3-SelectList-item:contains('Submit')")
-        //set the button text
-        .fillInput("[name='./title']","SUBMIT")
-        // close the edit dialog
-        .execTestCase(c.tcSaveConfigureDialog)
-
-        //Check if the button tag is rendered with the correct type
-        .asserts.isTrue(function() {
-            return h.find(".btn[type='Submit']","#ContentFrame").size() == 1
+        //check that the type of button should be "submit"
+        .asserts.isTrue(function () {
+            return h.find(".btn[type='submit']", "#ContentFrame").size() == 1
+        })
+        //check that the caption on the button should be "Submit"
+        .asserts.isTrue(function () {
+            return h.find(".btn", "#ContentFrame").text().trim() == "Submit"
         });
 
     /**
-     * Test: Create a reset button
+     * Test: Create a button
      */
-    var createResetButton = new h.TestCase("Create a Reset Button",{
+    var createButton = new h.TestCase("Create a Button",{
         execBefore: tcExecuteBeforeTest,
         execAfter: tcExecuteAfterTest})
 
         // Open the edit dialog
         .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
         //change the type of the button
-        .click(".coral-Button:contains('Button')")
-        .click(".coral3-SelectList-item:contains('Reset')")
+        .click(".coral-Button:contains('Submit')")
+        .click(".coral3-SelectList-item:contains('Button')")
         //set the button text
-        .fillInput("[name='./title']","RESET")
+        .fillInput("[name='./caption']","BUTTON")
         // close the edit dialog
         .execTestCase(c.tcSaveConfigureDialog)
 
         //Check if the button tag is rendered with the correct type
-        .asserts.isTrue(function() {
-            return h.find(".btn[type='Reset']","#ContentFrame").size() == 1
+        .asserts.isTrue(function () {
+            return h.find(".btn[type='Button']","#ContentFrame").size() == 1
         });
 
     /**
@@ -104,55 +98,13 @@
         // Open the edit dialog
         .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
         //set the button text
-        .fillInput("[name='./title']","Test Button")
+        .fillInput("[name='./caption']","Test Button")
         // close the edit dialog
         .execTestCase(c.tcSaveConfigureDialog)
 
         //Check if the button tag is rendered with the correct type
         .asserts.isTrue(function() {
             return h.find(".btn","#ContentFrame").text().trim() == "Test Button"
-        });
-
-    /**
-     * Test: Set css class
-     */
-    var setButtonCss = new h.TestCase("Set CSS for Button",{
-        execBefore: tcExecuteBeforeTest,
-        execAfter: tcExecuteAfterTest})
-
-        // Open the edit dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
-        //set the button text
-        .fillInput("[name='./cssClass']","dummyCSS")
-        // set title of button
-        .fillInput("[name='./title']","Test CSS")
-        // close the edit dialog
-        .execTestCase(c.tcSaveConfigureDialog)
-
-        //Check if the button tag is rendered with the correct type
-        .asserts.isTrue(function() {
-            return h.find(".btn.dummyCSS","#ContentFrame").size() == 1
-        });
-
-    /**
-     * Test: Set button as disabled
-     */
-    var setButtonDisabled = new h.TestCase("Set Button as Disabled",{
-        execBefore: tcExecuteBeforeTest,
-        execAfter: tcExecuteAfterTest})
-
-        // Open the edit dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
-        //set the checkbox
-        .click("[name='./disabled']")
-        // set button title
-        .fillInput("[name='./title']","DISABLE ME")
-        // close the edit dialog
-        .execTestCase(c.tcSaveConfigureDialog)
-
-        //Check if the button tag is rendered with the correct type
-        .asserts.isTrue(function() {
-            return h.find("[disabled]","#ContentFrame").size() == 1
         });
 
     /**
@@ -167,7 +119,7 @@
         //set the button text
         .fillInput("[name='./name']","button1")
         // set button title
-        .fillInput("[name='./title']","BUTTON WITH NAME")
+        .fillInput("[name='./caption']","BUTTON WITH NAME")
         // close the edit dialog
         .execTestCase(c.tcSaveConfigureDialog)
         //Check if the button tag is rendered with the correct type
@@ -187,7 +139,7 @@
         //set the button text
         .fillInput("[name='./value']","thisisthevalue")
         // set button title
-        .fillInput("[name='./title']","BUTTON WITH VALUE")
+        .fillInput("[name='./caption']","BUTTON WITH VALUE")
         // close the edit dialog
         .execTestCase(c.tcSaveConfigureDialog)
 
@@ -197,39 +149,15 @@
         });
 
     /**
-     * Test: Set autofocus on button
-     */
-    var setButtonAutoFocus = new h.TestCase("Set Autofocus on Button",{
-        execBefore: tcExecuteBeforeTest,
-        execAfter: tcExecuteAfterTest})
-
-        // Open the edit dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
-        //set the checkbox
-        .click("[name='./autofocus']")
-        // set title
-        .fillInput("[name='./title']","AUTOFOCUS")
-        // close the edit dialog
-        .execTestCase(c.tcSaveConfigureDialog)
-
-        //Check if the button tag is rendered with the correct type
-        .asserts.isTrue(function() {
-            return h.find("[autofocus]","#ContentFrame").size() == 1
-        });
-
-    /**
      * Test: The main test suite
      */
     new h.TestSuite("Core Components - Form Button",{path:"/apps/core/wcm/tests/core-components-it/FormButton.js",
         execBefore:c.tcExecuteBeforeTestSuite,
         execInNewWindow : false})
 
-        .addTestCase(createSubmitButton)
-        .addTestCase(createResetButton)
+        .addTestCase(checkDefaultButtonAttributes)
+        .addTestCase(createButton)
         .addTestCase(setButtonText)
-        .addTestCase(setButtonCss)
-        .addTestCase(setButtonDisabled)
         .addTestCase(setButtonName)
         .addTestCase(setButtonValue)
-        .addTestCase(setButtonAutoFocus);
 })(hobs, jQuery);

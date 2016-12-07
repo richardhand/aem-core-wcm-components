@@ -28,48 +28,35 @@
                                     value="button"/>
                             <submit
                                     jcr:primaryType="nt:unstructured"
+                                    selected="{Boolean}true"
                                     text="Submit"
                                     value="submit"/>
-                            <reset
-                                    jcr:primaryType="nt:unstructured"
-                                    text="Reset"
-                                    value="reset"/>
                         </items>
                     </type>
-                    <title
+                    <caption
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                            fieldLabel="Title"
-                            name="./title"/>
-                    <class
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                            fieldLabel="Class"
-                            name="./cssClass"/>
-                    <disabled
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                            fieldDescription="Disable the button"
-                            text="Disable"
-                            value="{Boolean}true"
-                            name="./disabled"/>
+                            fieldDescription="Text displayed on the button, if none provided, it defaults to the button type"
+                            fieldLabel="Caption"
+                            name="./caption"/>
                     <name
+                            granite:class="cmp-form-button-name"
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                            fieldDescription="The name of the button, which is submitted with the form data"
                             fieldLabel="Name"
-                            name="./name"/>
+                            name="./name">
+                        <granite:data
+                                jcr:primaryType="nt:unstructured"
+                                error-message="When providing a button value, a name must also be provided"/>
+                    </name>
                     <value
+                            granite:class="cmp-form-button-value"
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                            fieldDescription="The value of the button, which is submitted with the form data"
                             fieldLabel="Value"
                             name="./value"/>
-                    <autofocus
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                            fieldDescription="Focus on the button when the page loads"
-                            text="Autofocus"
-                            value="{Boolean}true"
-                            name="./autofocus"/>
                 </items>
             </column>
         </items>

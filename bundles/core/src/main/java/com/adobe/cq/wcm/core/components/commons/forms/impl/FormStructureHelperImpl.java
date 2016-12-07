@@ -92,7 +92,7 @@ public class FormStructureHelperImpl implements FormStructureHelper {
             Button button = resource.adaptTo(Button.class);
             if (button != null) {
                 ButtonImpl.Type type = ButtonImpl.Type.fromString(button.getType());
-                if (type != null && (type == ButtonImpl.Type.RESET || type == ButtonImpl.Type.SUBMIT)) {
+                if (type != null && type == ButtonImpl.Type.SUBMIT) {
                     return false;
                 }
             }

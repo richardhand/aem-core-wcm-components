@@ -13,8 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+(function ($, channel, Coral) {
+    'use strict';
 
-@Version("3.0.0")
-package com.adobe.cq.wcm.core.components.models.form;
+    var BUTTON_NAME = ".cmp-form-button-name";
+    var BUTTON_VALUE = ".cmp-form-button-value";
+    var PROP_ERROR_MESSAGE = "error-message";
 
-import org.osgi.annotation.versioning.Version;
+    $.validator.register({
+        selector: BUTTON_NAME,
+        validate: function (el) {
+            var valueInput = el.closest("form").find(BUTTON_VALUE);
+            if (valueInput.val() !== "") {
+                if (el.val() === "") {
+                    return el.data(PROP_ERROR_MESSAGE);
+                }
+            }
+        }
+    });
+
+})(jQuery, jQuery(document), Coral);
+
