@@ -466,18 +466,7 @@
                                 <items jcr:primaryType="nt:unstructured">
                                     <configurations
                                         jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="cq/cloudserviceconfigs/components/configurations">
-                                        <inheritFromParent
-                                            jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                            checked="false"
-                                            granite:class="js-cloudServices-Configs--inherit--checkbox"
-                                            cq-msm-lockable="cq:cloudserviceconfigs"
-                                            deleteHint="{Boolean}false"
-                                            renderReadOnly="{Boolean}true"
-                                            renderReadOnlyUnchecked="{Boolean}true"
-                                            text="Inherited from {0}"/>
-                                    </configurations>
+                                        sling:resourceType="cq/cloudserviceconfigs/components/configurations"/>
                                 </items>
                             </column>
                         </items>
