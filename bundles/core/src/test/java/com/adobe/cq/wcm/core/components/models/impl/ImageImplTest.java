@@ -28,6 +28,7 @@ import org.junit.Test;
 
 import com.adobe.cq.sightly.WCMBindings;
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
+import com.adobe.cq.wcm.core.components.context.MockStyle;
 import com.adobe.cq.wcm.core.components.models.Image;
 import com.adobe.cq.wcm.core.components.testing.MockAdapterFactory;
 import com.day.cq.wcm.api.Page;
@@ -117,49 +118,14 @@ public class ImageImplTest {
         Resource resource = aemContext.currentResource(resourcePath);
         ContentPolicyMapping mapping = resource.adaptTo(ContentPolicyMapping.class);
         ContentPolicy contentPolicy = mapping.getPolicy();
-        slingBindings.put(WCMBindings.CURRENT_STYLE, new MockedStyle(contentPolicy.getProperties()));
+        Resource contentPolicyResource = aemContext.resourceResolver().getResource(contentPolicy.getPath());
+        Style style = new MockStyle(contentPolicyResource, contentPolicyResource.adaptTo(ValueMap.class));
+        slingBindings.put(WCMBindings.CURRENT_STYLE, style);
         slingBindings.put(SlingBindings.RESOURCE, resource);
         MockSlingHttpServletRequest request = aemContext.request();
         request.setContextPath(CONTEXT_PATH);
         request.setResource(resource);
         return request.adaptTo(Image.class);
-    }
-
-    private class MockedStyle extends ValueMapDecorator implements Style {
-
-        MockedStyle(ValueMap properties) {
-            super(properties);
-        }
-
-        @Override
-        public Design getDesign() {
-            return null;
-        }
-
-        @Override
-        public String getPath() {
-            return null;
-        }
-
-        @Override
-        public Cell getCell() {
-            return null;
-        }
-
-        @Override
-        public Resource getDefiningResource(String s) {
-            return null;
-        }
-
-        @Override
-        public String getDefiningPath(String s) {
-            return null;
-        }
-
-        @Override
-        public Style getSubStyle(String s) {
-            return null;
-        }
     }
 
 }
