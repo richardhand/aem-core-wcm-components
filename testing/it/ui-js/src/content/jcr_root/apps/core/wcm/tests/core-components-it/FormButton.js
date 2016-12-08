@@ -137,6 +137,8 @@
         // Open the edit dialog
         .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
         //set the button text
+        .fillInput("[name='./name']","button1")
+        //set the button text
         .fillInput("[name='./value']","thisisthevalue")
         // set button title
         .fillInput("[name='./caption']","BUTTON WITH VALUE")
