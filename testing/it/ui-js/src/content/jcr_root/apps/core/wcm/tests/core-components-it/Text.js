@@ -103,44 +103,6 @@
         });
 
     /**
-     * Test: Check if text is stored/rendered correctly using the config dialog.
-     *
-     */
-    var setTextValueUsingConfigDialog = new h.TestCase("Set text using config dialog",{
-        execBefore: tcExecuteBeforeTest,
-        execAfter: tcExecuteAfterTest})
-
-        // open the configuration dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
-        // add some example text
-        .fillInput(".coral-Form-field.coral-Textfield[name='./text']",'<p>'+testValue+'</p>')
-        // close the dialog
-        .execTestCase(c.tcSaveConfigureDialog)
-
-        // switch to content frame
-        .config.changeContext(c.getContentFrame)
-
-        // check if text is rendered correctly
-        .assert.isTrue(function() {
-            var actualValue = h.find('.text.aem-GridColumn p').html();
-            return actualValue === testValue;
-        })
-
-        // go back to the top edit frame
-        .config.resetContext()
-
-        // reopen the dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
-
-        // check if the text is shown correctly in the config dialog
-        .assert.isTrue(
-        function() {
-            var actualValue = h.find('.coral-RichText-editable.coral-Form-field.coral-Textfield' +
-            '.coral-Textfield--multiline.coral-RichText > p').html();
-            return actualValue === testValue;
-        });
-
-    /**
      * The main test suite for Text Component
      */
     new h.TestSuite('Core Components - Text', {path: '/apps/core/wcm/tests/core-components-it/Text.js',
@@ -148,8 +110,5 @@
         execInNewWindow : false})
 
         .addTestCase(setTextValueUsingInlineEditor)
-        // Disabling the following test case following the removal of edit dialog as per CQ-107717
-        // To be enabled later when the edit dialog is back.
-        //.addTestCase(setTextValueUsingConfigDialog)
     ;
 }(hobs, jQuery));
