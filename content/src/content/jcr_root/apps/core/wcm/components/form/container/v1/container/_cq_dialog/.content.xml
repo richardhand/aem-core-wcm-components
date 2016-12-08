@@ -35,7 +35,6 @@
                             <advanced
                                 granite:id="cmp-action-type-settings"
                                 jcr:primaryType="nt:unstructured"
-                                jcr:title="Action Settings"
                                 sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
                                 <datasource
                                     jcr:primaryType="nt:unstructured"
