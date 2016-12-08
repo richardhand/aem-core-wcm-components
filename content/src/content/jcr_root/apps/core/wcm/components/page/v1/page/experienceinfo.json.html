@@ -13,14 +13,13 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<sly data-sly-use.experienceInfo="ExperienceInfo">
+<json data-sly-use.page="com.adobe.cq.wcm.core.components.models.Page" data-sly-unwrap>
 {
-    "id": "${experienceInfo.id @ context='scriptString'}",
+    "id": "${resource.parent.name @ context='scriptString'}",
     "type": "page",
-    "description": "${experienceInfo.description @ context='scriptString'}",
-    "experienceTitle": "${experienceInfo.experienceTitle @ context='scriptString'}",
-    "analyzeUrl": "${experienceInfo.analyzeUrl @ context='uri'}",
-    "simulateUrl": "",
-    "lastModifiedDate": "${experienceInfo.lastModifiedDate @ context='scriptString'}"
+    "description": "${pageProperties['jcr:description'] @ context='scriptString'}",
+    "experienceTitle": "${pageProperties['jcr:title'] || resource.parent.name @ context='scriptString'}",
+    "analyzeUrl": "${resource.parent.path @ context='uri'}",
+    "lastModifiedDate": "${page.lastModifiedDate @ context='scriptString'}"
 }
-</sly>
+</json>

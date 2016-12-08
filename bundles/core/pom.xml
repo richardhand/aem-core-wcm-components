@@ -220,6 +220,11 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>com.day.cq</groupId>
             <artifactId>cq-quickstart</artifactId>
             <classifier>apis</classifier>

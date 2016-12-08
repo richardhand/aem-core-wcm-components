@@ -13,51 +13,37 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<head data-sly-use.head="Head"
-      data-sly-use.headlibRenderer="headlibs.html"
-      data-sly-use.author="Author"
+<template data-sly-template.headPortlet="${ @ page }">
+<head data-sly-use.headlibRenderer="headlibs.html"
       data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta data-sly-test.keywords="${head.keywords}" name="keywords" content="${keywords}"/>
+    <meta data-sly-test.keywords="${page.keywords}" name="keywords" content="${keywords}"/>
     <meta data-sly-test.description="${properties['jcr:description']}" name="description" content="${description}"/>
     <sly data-sly-include="/libs/portal/api-transfer.jsp" />
-    <sly data-sly-call="${headlibRenderer.headlibs @ designPath=head.designPath, staticDesignPath=head.staticDesignPath}" />
-    <!--/* Outputs the WCM initialization code. If WCM mode is disabled nothing is rendered */-->
-    <sly data-sly-test.wcmModeNotDisabledAndTouch="${!wcmmode.isDisabled && author.isTouchAuthoring}"
-         data-sly-call="${clientLib.all @ categories='cq.authoring.page'}" />
-    <sly data-sly-test.wcmModeNotDisabledAndClassic="${!wcmmode.isDisabled && !author.isTouchAuthoring}"
-         data-sly-call="${clientLib.all @ categories='cq.wcm.edit'}" />
-    <script data-sly-test="${wcmModeNotDisabledAndClassic}" type="text/javascript">
-        (function() {
-
-            var cfg = ${author.getUndoConfig @ context='unsafe'};
-            cfg.pagePath = "${currentPage.path @ context='uri'}";
-
-            if (CQClientLibraryManager.channelCB() != "touch") {
-                cfg.enabled = ${wcmmode.isEdit @ context="scriptString"};
-                CQ.undo.UndoManager.initialize(cfg);
-                CQ.Ext.onReady(function() {
-                    CQ.undo.UndoManager.detectCachedPage((new Date()).getTime());
-                });
-            }
-        })();
-
-        CQ.WCM.launchSidekick("${currentPage.path @ context='uri'}", {
-            propsDialog: "${author.getDialogPath @ context='uri'}",
-            locked: ${currentPage.locked @ context="scriptString"}
-        });
-    </script>
-    <!--/* WCM initialization code end */-->
+    <sly data-sly-call="${headlibRenderer.headlibs @ designPath=page.designPath, staticDesignPath=page.staticDesignPath}" />
     <!--/* For IE 9 and below. ICO should be 32x32 pixels in size */-->
-    <sly data-sly-test.icoFavicon="${head.ICOFavicon}">
+    <sly data-sly-test.icoFavicon="${page.ICOFavicon}">
         <!--[if IE]><link rel="shortcut icon" href="${icoFavicon}"><![endif]-->
     </sly>
     <!--/* Firefox, Chrome, Safari, IE 11+ and Opera. 196x196 pixels in size. */-->
-    <sly data-sly-test.pngFavicon="${head.PNGFavicon}">
+    <sly data-sly-test.pngFavicon="${page.PNGFavicon}">
         <link rel="icon" type="image/png" href="${pngFavicon}">
     </sly>
     <sly data-sly-test="${!pngFavicon && icoFavicon}">
         <link rel="icon" href="${icoFavicon}">
     </sly>
-    <title>${head.title}</title>
+    <sly data-sly-test.touchIcon60="${page.touchIcon60}">
+        <link rel="apple-touch-icon" href="${touchIcon60}">
+    </sly>
+    <sly data-sly-test.touchIcon76="${page.touchIcon76}">
+        <link rel="apple-touch-icon" sizes="76x76" href="${touchIcon76}">
+    </sly>
+    <sly data-sly-test.touchIcon120="${page.touchIcon120}">
+        <link rel="apple-touch-icon" sizes="120x120" href="${touchIcon120}">
+    </sly>
+    <sly data-sly-test.touchIcon152="${page.touchIcon152}">
+        <link rel="apple-touch-icon" sizes="152x152" href="${touchIcon152}">
+    </sly>
+    <title>${page.title}</title>
 </head>
+</template>
