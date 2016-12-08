@@ -14,7 +14,7 @@
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <!DOCTYPE HTML>
-<html>
-    <sly data-sly-include="head.portlet.html" />
+<html data-sly-use.page="com.adobe.cq.wcm.core.components.models.Page" data-sly-use.head="head.portlet.html">
+    <sly data-sly-call="${head.headPortlet @ page = page}" />
     <sly data-sly-include="body.portlet.html" />
 </html>

@@ -13,14 +13,21 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<template data-sly-template.headlibs="${@ designPath, staticDesignPath}"
-          data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html"
-          data-sly-use.templateEditor="TemplateEditor">
+<template data-sly-template.headlibs="${@ designPath, staticDesignPath, templateCategories}"
+          data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html">
     <sly data-sly-call="${clientLib.css @ categories='core.wcm.components'}"/>
     <sly data-sly-call="${clientLib.all @ categories='cq.foundation-main'}"/>
+    <sly data-sly-test="${!wcmmode.isDisabled}" data-sly-call="${clientLib.all @ categories = [
+        'wcm.foundation.allowedcomponents',
+        'cq.pagetypes.html5page',
+        'cq.authoring.page',
+        'cq.wcm.foundation-main',
+        'cq.shared'
+        ]
+    }" />
     <sly data-sly-include="/libs/cq/cloudserviceconfigs/components/servicelibs/servicelibs.jsp"/>
-    <sly data-sly-test="${templateEditor.templateCategories}"
-         data-sly-call="${clientLib.css @ categories=templateEditor.templateCategories}"/>
+    <sly data-sly-test="${templateCategories}"
+         data-sly-call="${clientLib.css @ categories=templateCategories}"/>
     <link data-sly-test="${staticDesignPath}" href="${staticDesignPath}" rel="stylesheet" type="text/css" />
     <link data-sly-test="${designPath}" href="${designPath}" rel="stylesheet" type="text/css" />
 </template>

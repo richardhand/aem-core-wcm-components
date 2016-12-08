@@ -16,6 +16,7 @@
 package com.adobe.cq.wcm.core.components.context;
 
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.testing.resourceresolver.MockValueMap;
 
 import com.day.cq.wcm.api.designer.Cell;
@@ -29,6 +30,10 @@ public class MockStyle extends MockValueMap implements Style {
 
     public MockStyle(Resource resource) {
         super(resource);
+    }
+
+    public MockStyle(Resource resource, ValueMap valueMap) {
+        super(resource, valueMap);
     }
 
     @Override
