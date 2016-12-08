@@ -17,16 +17,12 @@ package com.adobe.cq.wcm.core.components.models.form.impl.v1;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
+
 import javax.inject.Named;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.resource.Resource;
-import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
-import org.apache.sling.models.annotations.Optional;
-import org.apache.sling.models.annotations.Via;
 import org.apache.sling.models.annotations.injectorspecific.ChildResource;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
@@ -82,7 +78,7 @@ public class OptionsImpl implements Options {
         if(itemResources != null) {
             for(Resource itemResource: itemResources) {
                 OptionItem optionItem = itemResource.adaptTo(OptionItem.class);
-                if(optionItem != null) {
+                if (optionItem != null && (optionItem.isDisabled() || StringUtils.isNotBlank(optionItem.getValue()))) {
                     optionItems.add(optionItem);
                 }
             }

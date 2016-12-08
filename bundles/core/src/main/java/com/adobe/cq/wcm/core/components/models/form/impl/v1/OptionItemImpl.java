@@ -15,9 +15,7 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.models.form.impl.v1;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.resource.Resource;
-import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
@@ -30,7 +28,7 @@ public class OptionItemImpl implements OptionItem {
     @ValueMapValue
     private String text;
 
-    @ValueMapValue
+    @ValueMapValue(optional = true)
     private String value;
 
     @ValueMapValue(optional = true)
