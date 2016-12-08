@@ -16,7 +16,7 @@
 <div data-sly-use.options="com.adobe.cq.wcm.core.components.models.form.Options"
      data-sly-use.template="core/wcm/components/commons/v1/templates.html"
      data-sly-test.isNotEmpty="${options.optionItems.size}"
-     class="cmp cmp-options">
+     class="cmp cmp-options--${options.type}">
   <fieldset class="form-group" data-sly-test="${options.type == 'checkbox' || options.type == 'radio'}">
     <legend>${options.caption}</legend>
     <p class="help-block" data-sly-test="${options.helpMessage}">${options.helpMessage}</p>
