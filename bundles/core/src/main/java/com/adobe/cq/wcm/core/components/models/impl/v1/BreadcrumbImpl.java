@@ -22,17 +22,21 @@ import javax.annotation.PostConstruct;
 
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 
 import com.adobe.cq.wcm.core.components.NavigationItem;
 import com.adobe.cq.wcm.core.components.models.Breadcrumb;
+import com.adobe.cq.wcm.core.components.models.Constants;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.designer.Style;
 
 @Model(adaptables = SlingHttpServletRequest.class,
        adapters = Breadcrumb.class,
        resourceType = BreadcrumbImpl.RESOURCE_TYPE)
+@Exporter(name = Constants.EXPORTER_NAME,
+          extensions = Constants.EXPORTER_EXTENSION)
 public class BreadcrumbImpl implements Breadcrumb {
 
     protected static final String RESOURCE_TYPE = "core/wcm/components/breadcrumb/v1/breadcrumb";

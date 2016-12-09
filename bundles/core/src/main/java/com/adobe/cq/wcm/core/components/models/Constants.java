@@ -28,4 +28,8 @@ public final class Constants {
     public static final String IMAGE_LINK = "linkURL";
     public static final String IMAGE_IS_DECORATIVE = "isDecorative";
     public static final String IMAGE_DISPLAY_CAPTION_POPUP = "displayCaptionPopup";
+
+    public static final String EXPORTER_NAME = "jackson";
+    public static final String EXPORTER_EXTENSION = "json";
+
 }

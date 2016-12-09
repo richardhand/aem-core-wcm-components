@@ -20,17 +20,21 @@ import javax.annotation.PostConstruct;
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.models.annotations.Default;
+import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
 import com.adobe.cq.wcm.core.components.commons.forms.FormsConstants;
+import com.adobe.cq.wcm.core.components.models.Constants;
 import com.adobe.cq.wcm.core.components.models.form.Button;
 import com.day.cq.i18n.I18n;
 
 @Model(adaptables = SlingHttpServletRequest.class,
-        adapters = Button.class,
-        resourceType = ButtonImpl.RESOURCE_TYPE)
+       adapters = Button.class,
+       resourceType = ButtonImpl.RESOURCE_TYPE)
+@Exporter(name = Constants.EXPORTER_NAME,
+          extensions = Constants.EXPORTER_EXTENSION)
 public class ButtonImpl implements Button {
 
     protected static final String RESOURCE_TYPE = FormsConstants.RT_CORE_FORM_BUTTON + "/v1/button";

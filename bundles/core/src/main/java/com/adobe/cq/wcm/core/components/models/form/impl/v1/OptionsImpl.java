@@ -22,6 +22,7 @@ import javax.inject.Named;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.ChildResource;
 import org.apache.sling.models.annotations.injectorspecific.Self;
@@ -30,12 +31,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.adobe.cq.wcm.core.components.commons.ComponentUtils;
+import com.adobe.cq.wcm.core.components.models.Constants;
 import com.adobe.cq.wcm.core.components.models.form.OptionItem;
 import com.adobe.cq.wcm.core.components.models.form.Options;
 
 @Model(adaptables = Resource.class,
        adapters = Options.class,
        resourceType = OptionsImpl.RESOURCE_TYPE)
+@Exporter(name = Constants.EXPORTER_NAME,
+          extensions = Constants.EXPORTER_EXTENSION)
 public class OptionsImpl implements Options {
 
     protected static final String RESOURCE_TYPE = "core/wcm/components/form/options/v1/options";
@@ -59,7 +63,8 @@ public class OptionsImpl implements Options {
     @ValueMapValue(optional = true)
     private String caption;
 
-    @ValueMapValue(name = OptionsImpl.PN_TYPE, optional = true)
+    @ValueMapValue(name = OptionsImpl.PN_TYPE,
+                   optional = true)
     private String typeString;
 
     @Self
@@ -70,7 +75,7 @@ public class OptionsImpl implements Options {
 
     @Override
     public List<OptionItem> getOptionItems() {
-        if(optionItems == null) {
+        if (optionItems == null) {
             populateOptionItems();
         }
         return optionItems;
@@ -78,8 +83,8 @@ public class OptionsImpl implements Options {
 
     private void populateOptionItems() {
         this.optionItems = new ArrayList<>();
-        if(itemResources != null) {
-            for(Resource itemResource: itemResources) {
+        if (itemResources != null) {
+            for (Resource itemResource : itemResources) {
                 OptionItem optionItem = itemResource.adaptTo(OptionItem.class);
                 if (optionItem != null && (optionItem.isDisabled() || StringUtils.isNotBlank(optionItem.getValue()))) {
                     optionItems.add(optionItem);
@@ -90,7 +95,7 @@ public class OptionsImpl implements Options {
 
     @Override
     public String getId() {
-        if(id == null) {
+        if (id == null) {
             populateId();
         }
         return id;
@@ -142,8 +147,8 @@ public class OptionsImpl implements Options {
         }
 
         public static Type fromString(String value) {
-            for(Type type : Type.values()) {
-                if(StringUtils.equals(value, type.value)) {
+            for (Type type : Type.values()) {
+                if (StringUtils.equals(value, type.value)) {
                     return type;
                 }
             }

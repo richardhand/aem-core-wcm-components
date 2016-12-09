@@ -32,6 +32,7 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.models.annotations.Default;
+import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.InjectionStrategy;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
@@ -41,6 +42,7 @@ import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.adobe.cq.wcm.core.components.models.Constants;
 import com.adobe.cq.wcm.core.components.models.List;
 import com.adobe.cq.wcm.core.components.models.ListItem;
 import com.day.cq.commons.RangeIterator;
@@ -57,6 +59,8 @@ import com.day.cq.wcm.api.designer.Style;
 @Model(adaptables = SlingHttpServletRequest.class,
        adapters = List.class,
        resourceType = ListImpl.RESOURCE_TYPE)
+@Exporter(name = Constants.EXPORTER_NAME,
+          extensions = Constants.EXPORTER_EXTENSION)
 public class ListImpl implements List {
 
     protected static final String RESOURCE_TYPE = "core/wcm/components/list/v1/list";

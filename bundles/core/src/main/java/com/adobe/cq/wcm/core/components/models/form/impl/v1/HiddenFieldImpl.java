@@ -21,17 +21,21 @@ import javax.inject.Inject;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 
+import com.adobe.cq.wcm.core.components.models.Constants;
 import com.adobe.cq.wcm.core.components.models.form.HiddenField;
 import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
 
 @Model(adaptables = SlingHttpServletRequest.class,
-        adapters = HiddenField.class,
-        resourceType = HiddenFieldImpl.RESOURCE_TYPE)
+       adapters = HiddenField.class,
+       resourceType = HiddenFieldImpl.RESOURCE_TYPE)
+@Exporter(name = Constants.EXPORTER_NAME,
+          extensions = Constants.EXPORTER_EXTENSION)
 public class HiddenFieldImpl implements HiddenField {
 
     protected static final String RESOURCE_TYPE = "core/wcm/components/form/hidden/v1/hidden";

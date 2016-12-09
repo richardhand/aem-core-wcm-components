@@ -18,11 +18,13 @@ package com.adobe.cq.wcm.core.components.models.impl.v1;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
 import com.adobe.cq.wcm.core.components.commons.AuthoringUtils;
+import com.adobe.cq.wcm.core.components.models.Constants;
 import com.adobe.cq.wcm.core.components.models.Title;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.designer.Style;
@@ -30,6 +32,8 @@ import com.day.cq.wcm.api.designer.Style;
 @Model(adaptables = SlingHttpServletRequest.class,
        adapters = Title.class,
        resourceType = TitleImpl.RESOURCE_TYPE)
+@Exporter(name = Constants.EXPORTER_NAME,
+          extensions = Constants.EXPORTER_EXTENSION)
 public class TitleImpl implements Title {
 
     protected static final String RESOURCE_TYPE = "core/wcm/components/title/v1/title";
