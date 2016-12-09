@@ -23,11 +23,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 
 import com.adobe.cq.wcm.core.components.commons.forms.FormsConstants;
+import com.adobe.cq.wcm.core.components.models.Constants;
 import com.adobe.cq.wcm.core.components.models.form.DataSourceModel;
 import com.adobe.granite.ui.components.ds.SimpleDataSource;
 import com.adobe.granite.workflow.WorkflowException;
@@ -37,6 +39,8 @@ import com.adobe.granite.workflow.model.WorkflowModel;
 @Model(adaptables = SlingHttpServletRequest.class,
        adapters = DataSourceModel.class,
        resourceType = WorkflowModelDataSource.RESOURCE_TYPE)
+@Exporter(name = Constants.EXPORTER_NAME,
+          extensions = Constants.EXPORTER_EXTENSION)
 public class WorkflowModelDataSource extends DataSourceModel {
 
     protected final static String RESOURCE_TYPE = FormsConstants.RT_CORE_FORM_CONTAINER_V1 + "/datasource/workflowmodeldatasource";
@@ -51,7 +55,7 @@ public class WorkflowModelDataSource extends DataSourceModel {
     private void initModel() throws WorkflowException {
         WorkflowSession workflowSession = resourceResolver.adaptTo(WorkflowSession.class);
         ArrayList<Resource> resources = new ArrayList<>();
-        if(workflowSession != null) {
+        if (workflowSession != null) {
             WorkflowModel[] models = workflowSession.getModels();
             for (WorkflowModel model : models) {
                 resources.add(new WorkflowModelResource(model));

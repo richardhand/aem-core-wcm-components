@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2016 Adobe Systems Incorporated
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,10 +27,12 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.InjectionStrategy;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 
+import com.adobe.cq.wcm.core.components.models.Constants;
 import com.adobe.cq.wcm.core.components.models.Page;
 import com.day.cq.tagging.Tag;
 import com.day.cq.wcm.api.NameConstants;
@@ -39,11 +41,11 @@ import com.day.cq.wcm.api.designer.Design;
 import com.day.cq.wcm.api.policies.ContentPolicy;
 import com.day.cq.wcm.api.policies.ContentPolicyMapping;
 
-@Model(
-        adaptables = SlingHttpServletRequest.class,
-        adapters = Page.class,
-        resourceType = PageImpl.RESOURCE_TYPE
-)
+@Model(adaptables = SlingHttpServletRequest.class,
+       adapters = Page.class,
+       resourceType = PageImpl.RESOURCE_TYPE)
+@Exporter(name = Constants.EXPORTER_NAME,
+          extensions = Constants.EXPORTER_EXTENSION)
 public class PageImpl implements Page {
 
     protected static final String RESOURCE_TYPE = "core/wcm/components/page/v1/page";
@@ -184,7 +186,7 @@ public class PageImpl implements Page {
     }
 
     private String getFaviconPath(String designPath, String faviconName) {
-        String path = designPath + "/"+ faviconName;
+        String path = designPath + "/" + faviconName;
         if (resolver.getResource(path) == null) {
             return null;
         }
@@ -194,9 +196,9 @@ public class PageImpl implements Page {
     private void populateTemplateCategories() {
         List<String> categories = new ArrayList<>();
         Template template = currentPage.getTemplate();
-        if(template != null && template.hasStructureSupport()) {
+        if (template != null && template.hasStructureSupport()) {
             Resource templateResource = template.adaptTo(Resource.class);
-            if(templateResource != null) {
+            if (templateResource != null) {
                 addDefaultTemplateEditorClientLib(templateResource, categories);
                 addPolicyClientLibs(templateResource, categories);
             }
@@ -205,7 +207,7 @@ public class PageImpl implements Page {
     }
 
     private void addDefaultTemplateEditorClientLib(Resource templateResource, List<String> categories) {
-        if(currentPage.getPath().startsWith(templateResource.getPath())) {
+        if (currentPage.getPath().startsWith(templateResource.getPath())) {
             categories.add(DEFAULT_TEMPLATE_EDITOR_CLIENT_LIB);
         }
     }
@@ -213,9 +215,9 @@ public class PageImpl implements Page {
     private void addPolicyClientLibs(Resource templateResource, List<String> categories) {
         Resource pageContentPolicyMapping = templateResource.getChild(POLICIES_MAPPING_PATH);
         ContentPolicyMapping contentPolicyMapping = pageContentPolicyMapping.adaptTo(ContentPolicyMapping.class);
-        if(contentPolicyMapping != null) {
+        if (contentPolicyMapping != null) {
             ContentPolicy policy = contentPolicyMapping.getPolicy();
-            if(policy != null) {
+            if (policy != null) {
                 String[] clientLibs = policy.getProperties().get(PN_CLIENTLIBS, ArrayUtils.EMPTY_STRING_ARRAY);
                 Collections.addAll(categories, clientLibs);
             }

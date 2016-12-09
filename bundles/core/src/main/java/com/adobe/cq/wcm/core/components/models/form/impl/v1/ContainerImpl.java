@@ -26,19 +26,23 @@ import org.apache.sling.api.SlingConstants;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 
 import com.adobe.cq.wcm.core.components.commons.forms.FormsConstants;
+import com.adobe.cq.wcm.core.components.models.Constants;
 import com.adobe.cq.wcm.core.components.models.form.Container;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
 
 @Model(adaptables = SlingHttpServletRequest.class,
-        adapters = Container.class,
-        resourceType = ContainerImpl.RESOURCE_TYPE)
+       adapters = Container.class,
+       resourceType = ContainerImpl.RESOURCE_TYPE)
+@Exporter(name = Constants.EXPORTER_NAME,
+          extensions = Constants.EXPORTER_EXTENSION)
 public class ContainerImpl implements Container {
 
     protected static final String RESOURCE_TYPE = FormsConstants.RT_CORE_FORM_CONTAINER_V1;
@@ -60,15 +64,15 @@ public class ContainerImpl implements Container {
 
     @ScriptVariable
     private Page currentPage;
-    
+
     private String method;
-    
+
     private String enctype;
-    
+
     private String action;
-    
+
     private String id;
-    
+
     private String name;
 
     private List<Resource> formFields;
@@ -85,12 +89,13 @@ public class ContainerImpl implements Container {
     protected void initModel() {
         slingRequest.setAttribute(FormsHelper.REQ_ATTR_FORM_STRUCTURE_HELPER,
                 formStructureHelperFactory.getFormStructureHelper(resource));
-        this.method = properties.get(PN_METHOD,PROP_METHOD_DEFAULT);
-        this.enctype = properties.get(PN_ENCTYPE,PROP_ENCTYPE_DEFAULT);
-        this.action = currentPage.getPath()+".html";
+        this.method = properties.get(PN_METHOD, PROP_METHOD_DEFAULT);
+        this.enctype = properties.get(PN_ENCTYPE, PROP_ENCTYPE_DEFAULT);
+        this.action = currentPage.getPath() + ".html";
         String formId = properties.get("id", "");
-        if(StringUtils.isEmpty(formId))
+        if (StringUtils.isEmpty(formId)) {
             formId = FormsHelper.getFormId(slingRequest);
+        }
         this.id = formId;
         this.name = formId;
     }
@@ -114,7 +119,7 @@ public class ContainerImpl implements Container {
     }
 
     @Override
-    public String getMethod(){
+    public String getMethod() {
         return this.method;
     }
 
@@ -124,7 +129,7 @@ public class ContainerImpl implements Container {
     }
 
     @Override
-    public String getId(){
+    public String getId() {
         return this.id;
     }
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2016 Adobe Systems Incorporated
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,6 +28,7 @@ import org.apache.sling.api.resource.ResourceMetadata;
 import org.apache.sling.commons.mime.MimeTypeService;
 import org.apache.sling.commons.osgi.PropertiesUtil;
 import org.apache.sling.models.annotations.Default;
+import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.Source;
 import org.apache.sling.models.annotations.injectorspecific.InjectionStrategy;
@@ -44,7 +45,11 @@ import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.api.designer.Style;
 
-@Model(adaptables = SlingHttpServletRequest.class, adapters = Image.class, resourceType = ImageImpl.RESOURCE_TYPE)
+@Model(adaptables = SlingHttpServletRequest.class,
+       adapters = Image.class,
+       resourceType = ImageImpl.RESOURCE_TYPE)
+@Exporter(name = Constants.EXPORTER_NAME,
+          extensions = Constants.EXPORTER_EXTENSION)
 public class ImageImpl implements Image {
 
     protected static final String RESOURCE_TYPE = "wcm/core/components/image/v1/image";
@@ -63,30 +68,38 @@ public class ImageImpl implements Image {
     @ScriptVariable
     private PageManager pageManager;
 
-    @Inject @Source("osgi-services")
+    @Inject
+    @Source("osgi-services")
     private MimeTypeService mimeTypeService;
 
-    @ValueMapValue(name = Constants.IMAGE_FILE_REFERENCE, injectionStrategy = InjectionStrategy.OPTIONAL)
+    @ValueMapValue(name = Constants.IMAGE_FILE_REFERENCE,
+                   injectionStrategy = InjectionStrategy.OPTIONAL)
     private String fileReference;
 
-    @ValueMapValue(name = Constants.IMAGE_IS_DECORATIVE, injectionStrategy = InjectionStrategy.OPTIONAL)
+    @ValueMapValue(name = Constants.IMAGE_IS_DECORATIVE,
+                   injectionStrategy = InjectionStrategy.OPTIONAL)
     @Default(booleanValues = false)
     private boolean isDecorative;
 
-    @ValueMapValue(name = Constants.IMAGE_DISPLAY_CAPTION_POPUP, injectionStrategy = InjectionStrategy.OPTIONAL)
+    @ValueMapValue(name = Constants.IMAGE_DISPLAY_CAPTION_POPUP,
+                   injectionStrategy = InjectionStrategy.OPTIONAL)
     @Default(booleanValues = false)
     private boolean displayCaptionPopup;
 
-    @ValueMapValue(name = Constants.IMAGE_ALT, injectionStrategy = InjectionStrategy.OPTIONAL)
+    @ValueMapValue(name = Constants.IMAGE_ALT,
+                   injectionStrategy = InjectionStrategy.OPTIONAL)
     private String alt;
 
-    @ValueMapValue(name = JcrConstants.JCR_TITLE, injectionStrategy = InjectionStrategy.OPTIONAL)
+    @ValueMapValue(name = JcrConstants.JCR_TITLE,
+                   injectionStrategy = InjectionStrategy.OPTIONAL)
     private String title;
 
-    @ValueMapValue(name = Constants.IMAGE_LINK, injectionStrategy = InjectionStrategy.OPTIONAL)
+    @ValueMapValue(name = Constants.IMAGE_LINK,
+                   injectionStrategy = InjectionStrategy.OPTIONAL)
     private String linkURL;
 
-    @ValueMapValue(name = Constants.IMAGE_FILE_NAME, injectionStrategy = InjectionStrategy.OPTIONAL)
+    @ValueMapValue(name = Constants.IMAGE_FILE_NAME,
+                   injectionStrategy = InjectionStrategy.OPTIONAL)
     private String fileName;
 
     private String extension;
@@ -134,7 +147,7 @@ public class ImageImpl implements Image {
             Page page = pageManager.getPage(linkURL);
             if (page != null) {
                 String vanityURL = page.getVanityUrl();
-                linkURL =  (vanityURL == null ? linkURL + ".html" : vanityURL);
+                linkURL = (vanityURL == null ? linkURL + ".html" : vanityURL);
             }
         }
 
