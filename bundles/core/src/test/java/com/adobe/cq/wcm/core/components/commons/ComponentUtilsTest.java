@@ -46,13 +46,13 @@ public class ComponentUtilsTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetEmptyId() throws Exception {
-        ComponentUtils.getId(null);
+        ComponentUtils.getId(null, null);
     }
 
     @Test
     public void testGetId() throws Exception {
         Resource resource = context.currentResource("/content/list/jcr:content/sidebar/list-children");
-        String id = ComponentUtils.getId(resource.getPath());
+        String id = ComponentUtils.getId(null, resource.getPath());
         assertNotNull(id);
     }
 }
