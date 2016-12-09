@@ -20,7 +20,8 @@
     "use strict";
 
     var ACTION_TYPE_SETTINGS_SELECTOR = "#cmp-action-type-settings",
-        ACTION_TYPE_ELEMENT_SELECTOR  = ".cmp-action-type-selection";
+        ACTION_TYPE_ELEMENT_SELECTOR  = ".cmp-action-type-selection",
+        $WORKFLOW_SELECT_ELEMENT_SELECTOR = ".cmp-workflow-container coral-select";
 
     $(document).on("foundation-contentloaded", function (e) {
         if ($(e.target).find(ACTION_TYPE_ELEMENT_SELECTOR).length > 0) {
@@ -37,33 +38,50 @@
             });
             showHide($(".cq-dialog-dropdown-showhide", e.target));
         }
+        if ($(e.target).find($WORKFLOW_SELECT_ELEMENT_SELECTOR).length > 0) {
+            $($WORKFLOW_SELECT_ELEMENT_SELECTOR, e.target).each(function (i, element) {
+                var target = $(element).data("cqDialogDropdownShowhideTarget");
+                if (target) {
+                    Coral.commons.ready(element, function (component) {
+                        showHideWorkflowTitle(component, target);
+                        component.on("change", function () {
+                            showHideWorkflowTitle(component, target);
+                        });
+                    });
+                }
+            });
+            showHideWorkflowTitle($(".cq-dialog-dropdown-showhide", e.target));
+        }
     });
+
+    function showHideWorkflowTitle(component, target) {
+        var value = component.value,
+            $target = $(target);
+
+        setVisibilityAndHandleFieldValidation($target, true);
+        $target.find("[data-reverseshowhidetargetvalue='" + value + "']").each(function(index, element){
+            var $element = $(element);
+            setVisibilityAndHandleFieldValidation($element.closest(target), false);
+        });
+    }
 
     function showHide(component, target) {
         var value              = component.value,
             $target            = $(target),
-            $workflowSelection = $(".cmp-workflow-selection"),
+            $workflowContainer = $(".cmp-workflow-container"),
             $redirectSelection = $(".cmp-redirect-selection");
 
-        $target.not(".hide").addClass("hide").each(function (i, element) {
-            $(element).find('input[aria-required=true]').each(function (index, element) {
-                toggleValidation($(element));
-            })
-        });
-
-        $workflowSelection.addClass("hide");
-        $redirectSelection.addClass("hide");
+        setVisibilityAndHandleFieldValidation($target.not(".hide"), false);
+        setVisibilityAndHandleFieldValidation($workflowContainer, false);
+        setVisibilityAndHandleFieldValidation($redirectSelection, false);
 
         $target.closest(ACTION_TYPE_SETTINGS_SELECTOR).addClass("hide");
 
         $(target).filter("[data-showhidetargetvalue='" + value + "']").each(function (index, element) {
             var $element = $(element);
-            $element.removeClass("hide");
-            $element.find('input[aria-required=false]').each(function (index, element) {
-                toggleValidation($(element));
-            });
+            setVisibilityAndHandleFieldValidation($element, true);
 
-            showHideOptional($element, $workflowSelection, "usesworkflow");
+            showHideOptional($element, $workflowContainer, "usesworkflow");
             showHideOptional($element, $redirectSelection, "usesredirect");
             $element.closest(ACTION_TYPE_SETTINGS_SELECTOR).removeClass("hide");
         });
@@ -72,7 +90,33 @@
     function showHideOptional($element, $optional, data) {
         var showOptional = $element.data(data);
         if (showOptional) {
-            $optional.removeClass("hide");
+            setVisibilityAndHandleFieldValidation($optional, true);
+        }
+    }
+
+    /**
+     * Shows or hides an element based on parameter "show" and toggles validations if needed. If element
+     * is being shown, all VISIBLE fields inside it whose validation is false would be changed to set the validation
+     * to true. If element is being hidden, all fields inside it whose validation is true would be changed to
+     * set validation to false.
+     *
+     * @param $element - element to show or hide
+     * @param show - true to show the element
+     */
+    function setVisibilityAndHandleFieldValidation($element, show) {
+        if (show) {
+            $element.removeClass("hide");
+            $element.find('input[aria-required=false]').each(function (index, field) {
+                var $field = $(field);
+                if ($field.is(":visible")) {
+                    toggleValidation($field);
+                }
+            });
+        } else {
+            $element.addClass("hide");
+            $element.find('input[aria-required=true]').each(function (index, field) {
+                toggleValidation($(field));
+            });
         }
     }
 
