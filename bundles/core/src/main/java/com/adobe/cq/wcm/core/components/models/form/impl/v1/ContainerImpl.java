@@ -14,7 +14,7 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-package com.adobe.cq.wcm.core.components.models.form.impl;
+package com.adobe.cq.wcm.core.components.models.form.impl.v1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +38,10 @@ import com.day.cq.wcm.foundation.forms.FormsHelper;
 
 @Model(adaptables = SlingHttpServletRequest.class,
         adapters = Container.class,
-        resourceType = FormsConstants.RT_CORE_FORM_CONTAINER)
+        resourceType = ContainerImpl.RESOURCE_TYPE)
 public class ContainerImpl implements Container {
+
+    protected static final String RESOURCE_TYPE = FormsConstants.RT_CORE_FORM_CONTAINER_V1;
 
     private static final String PN_ACTION_TYPE = "actionType";
     private static final String PN_METHOD = "method";

@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
 
 import com.adobe.cq.wcm.core.components.commons.forms.FormsConstants;
 import com.adobe.cq.wcm.core.components.models.form.Button;
-import com.adobe.cq.wcm.core.components.models.form.impl.ButtonImpl;
+import com.adobe.cq.wcm.core.components.models.form.impl.v1.ButtonImpl;
 import com.day.cq.wcm.foundation.forms.FormStructureHelper;
 
 @Component(immediate = true)
@@ -87,8 +87,8 @@ public class FormStructureHelperImpl implements FormStructureHelper {
 
     private boolean isNoButtonElement(Resource resource) {
         String resourceSuperType = resource.getResourceSuperType();
-        if (resource.getResourceType().startsWith(ButtonImpl.RESOURCE_TYPE) ||
-                resourceSuperType != null && resourceSuperType.startsWith(ButtonImpl.RESOURCE_TYPE)) {
+        if (resource.getResourceType().startsWith(FormsConstants.RT_CORE_FORM_BUTTON) ||
+                resourceSuperType != null && resourceSuperType.startsWith(FormsConstants.RT_CORE_FORM_BUTTON)) {
             Button button = resource.adaptTo(Button.class);
             if (button != null) {
                 ButtonImpl.Type type = ButtonImpl.Type.fromString(button.getType());

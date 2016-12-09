@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.adobe.cq.wcm.core.components.models.impl;
+package com.adobe.cq.wcm.core.components.models.impl.v1;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,7 +46,7 @@ import com.day.cq.wcm.api.policies.ContentPolicyMapping;
 )
 public class PageImpl implements Page {
 
-    public static final String RESOURCE_TYPE = "core/wcm/components/page";
+    protected static final String RESOURCE_TYPE = "core/wcm/components/page/v1/page";
 
     @ScriptVariable
     private com.day.cq.wcm.api.Page currentPage;

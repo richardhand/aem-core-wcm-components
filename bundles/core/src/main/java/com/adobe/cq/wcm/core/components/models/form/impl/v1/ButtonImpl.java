@@ -13,7 +13,7 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-package com.adobe.cq.wcm.core.components.models.form.impl;
+package com.adobe.cq.wcm.core.components.models.form.impl.v1;
 
 import javax.annotation.PostConstruct;
 
@@ -24,6 +24,7 @@ import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
+import com.adobe.cq.wcm.core.components.commons.forms.FormsConstants;
 import com.adobe.cq.wcm.core.components.models.form.Button;
 import com.day.cq.i18n.I18n;
 
@@ -32,7 +33,7 @@ import com.day.cq.i18n.I18n;
         resourceType = ButtonImpl.RESOURCE_TYPE)
 public class ButtonImpl implements Button {
 
-    public static final String RESOURCE_TYPE = "core/wcm/components/form/button";
+    protected static final String RESOURCE_TYPE = FormsConstants.RT_CORE_FORM_BUTTON + "/v1/button";
 
     private static final String PROP_TYPE_DEFAULT = "submit";
 

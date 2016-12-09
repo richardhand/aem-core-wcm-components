@@ -14,16 +14,14 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-package com.adobe.cq.wcm.core.components.models.form.impl;
+package com.adobe.cq.wcm.core.components.models.form.impl.v1;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
-import org.apache.sling.api.resource.NonExistingResource;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.models.annotations.Model;
@@ -37,11 +35,10 @@ import com.day.cq.wcm.foundation.forms.FormsManager;
 
 @Model(adaptables = SlingHttpServletRequest.class,
        adapters = DataSourceModel.class,
-       resourceType = FormActionTypeDataSource.RESOURCE_TYPE)
-public class FormActionTypeDataSource extends DataSourceModel {
+       resourceType = FormActionTypeSettingsDataSource.RESOURCE_TYPE)
+public class FormActionTypeSettingsDataSource extends DataSourceModel {
 
-    protected final static String RESOURCE_TYPE = FormsConstants.RT_CORE_FORM_CONTAINER + "/datasource/actiontypedatasource";
-    public static final String NN_DIALOG = "cq:dialog";
+    protected final static String RESOURCE_TYPE = FormsConstants.RT_CORE_FORM_CONTAINER_V1 + "/datasource/actiontypesettingsdatasource";
 
     @Self
     private SlingHttpServletRequest request;
@@ -51,43 +48,24 @@ public class FormActionTypeDataSource extends DataSourceModel {
 
     @PostConstruct
     private void initModel() {
-        SimpleDataSource actionTypeDataSource = new SimpleDataSource(getActionTypeResources().iterator());
-        initDataSource(request, actionTypeDataSource);
+        SimpleDataSource actionTypeSettingsDataSource = new SimpleDataSource(getSettingsDialogs().iterator());
+        initDataSource(request, actionTypeSettingsDataSource);
     }
 
-    private List<Resource> getActionTypeResources() {
-        List<Resource> actionTypeResources = new ArrayList<>();
+    private List<Resource> getSettingsDialogs() {
+        List<Resource> actionTypeSettingsResources = new ArrayList<>();
         FormsManager formsManager = resourceResolver.adaptTo(FormsManager.class);
         if (formsManager != null) {
             Iterator<FormsManager.ComponentDescription> actions = formsManager.getActions();
             while (actions.hasNext()) {
-                FormsManager.ComponentDescription description = actions.next();
-                Resource dialogResource = resourceResolver.getResource(description.getResourceType() + "/" + NN_DIALOG);
+                FormsManager.ComponentDescription componentDescription = actions.next();
+                Resource dialogResource = resourceResolver.getResource(componentDescription.getResourceType() + "/" +
+                        FormsConstants.NN_DIALOG);
                 if (dialogResource != null) {
-                    actionTypeResources.add(new ActionTypeResource(description));
+                    actionTypeSettingsResources.add(dialogResource);
                 }
             }
         }
-        return actionTypeResources;
-    }
-
-    public class ActionTypeResource extends TextValueDataResourceSource {
-
-        private final FormsManager.ComponentDescription description;
-
-        public ActionTypeResource(FormsManager.ComponentDescription description) {
-            super(resourceResolver, StringUtils.EMPTY, NonExistingResource.RESOURCE_TYPE_NON_EXISTING);
-            this.description = description;
-        }
-
-        @Override
-        protected String getText() {
-            return description.getTitle();
-        }
-
-        @Override
-        protected String getValue() {
-            return description.getResourceType();
-        }
+        return actionTypeSettingsResources;
     }
 }
