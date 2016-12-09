@@ -14,7 +14,7 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-package com.adobe.cq.wcm.core.components.models.impl;
+package com.adobe.cq.wcm.core.components.models.impl.v1;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -33,7 +33,7 @@ import com.adobe.cq.wcm.core.components.models.Text;
        resourceType = TextImpl.RESOURCE_TYPE)
 public class TextImpl implements Text {
 
-    public static final String RESOURCE_TYPE = "core/wcm/components/text";
+    protected static final String RESOURCE_TYPE = "core/wcm/components/text/v1/text";
 
     @Inject
     private Resource resource;

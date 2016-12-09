@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.adobe.cq.wcm.core.components.models.impl;
+package com.adobe.cq.wcm.core.components.models.impl.v1;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -44,8 +44,10 @@ import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.api.designer.Style;
 
-@Model(adaptables = SlingHttpServletRequest.class, adapters = Image.class, resourceType = "wcm/core/components/image")
+@Model(adaptables = SlingHttpServletRequest.class, adapters = Image.class, resourceType = ImageImpl.RESOURCE_TYPE)
 public class ImageImpl implements Image {
+
+    protected static final String RESOURCE_TYPE = "wcm/core/components/image/v1/image";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageImpl.class);
 

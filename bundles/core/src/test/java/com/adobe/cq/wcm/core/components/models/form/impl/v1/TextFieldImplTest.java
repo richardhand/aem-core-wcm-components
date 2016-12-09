@@ -13,7 +13,7 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-package com.adobe.cq.wcm.core.components.models.form.impl;
+package com.adobe.cq.wcm.core.components.models.form.impl.v1;
 
 import com.adobe.cq.wcm.core.components.models.form.TextField;
 import com.day.cq.wcm.foundation.forms.FormStructureHelper;

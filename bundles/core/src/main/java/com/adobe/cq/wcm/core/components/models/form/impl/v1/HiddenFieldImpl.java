@@ -13,7 +13,7 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-package com.adobe.cq.wcm.core.components.models.form.impl;
+package com.adobe.cq.wcm.core.components.models.form.impl.v1;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -34,7 +34,7 @@ import com.day.cq.wcm.foundation.forms.FormsHelper;
         resourceType = HiddenFieldImpl.RESOURCE_TYPE)
 public class HiddenFieldImpl implements HiddenField {
 
-    protected static final String RESOURCE_TYPE = "core/wcm/components/form/hidden";
+    protected static final String RESOURCE_TYPE = "core/wcm/components/form/hidden/v1/hidden";
 
     private static final String PROP_NAME_DEFAULT = "hidden";
     private static final String PROP_VALUE_DEFAULT = "";

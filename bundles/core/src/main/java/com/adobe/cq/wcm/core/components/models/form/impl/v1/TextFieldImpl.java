@@ -13,7 +13,7 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-package com.adobe.cq.wcm.core.components.models.form.impl;
+package com.adobe.cq.wcm.core.components.models.form.impl.v1;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -34,7 +34,8 @@ import com.day.cq.wcm.foundation.forms.FormsHelper;
     resourceType = TextFieldImpl.RESOURCE_TYPE)
 public class TextFieldImpl implements TextField {
 
-    protected static final String RESOURCE_TYPE = "core/wcm/components/form/text";
+    protected static final String RESOURCE_TYPE = "core/wcm/components/form/text/v1/text";
+
     private static final String PROP_NAME_DEFAULT = "text";
     private static final String PROP_VALUE_DEFAULT = "";
     private static final String PROP_TITLE_DEFAULT = "Text input field";

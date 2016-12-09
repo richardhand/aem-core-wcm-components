@@ -14,9 +14,11 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-package com.adobe.cq.wcm.core.components.models.form.impl;
+package com.adobe.cq.wcm.core.components.models.form.impl.v1;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang.StringUtils;
@@ -31,16 +33,14 @@ import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 import com.adobe.cq.wcm.core.components.commons.forms.FormsConstants;
 import com.adobe.cq.wcm.core.components.models.form.DataSourceModel;
 import com.adobe.granite.ui.components.ds.SimpleDataSource;
-import com.adobe.granite.workflow.WorkflowException;
-import com.adobe.granite.workflow.WorkflowSession;
-import com.adobe.granite.workflow.model.WorkflowModel;
+import com.day.cq.wcm.foundation.forms.FormsManager;
 
 @Model(adaptables = SlingHttpServletRequest.class,
        adapters = DataSourceModel.class,
-       resourceType = WorkflowModelDataSource.RESOURCE_TYPE)
-public class WorkflowModelDataSource extends DataSourceModel {
+       resourceType = FormActionTypeDataSource.RESOURCE_TYPE)
+public class FormActionTypeDataSource extends DataSourceModel {
 
-    protected final static String RESOURCE_TYPE = FormsConstants.RT_CORE_FORM_CONTAINER + "/datasource/workflowmodeldatasource";
+    protected final static String RESOURCE_TYPE = FormsConstants.RT_CORE_FORM_CONTAINER_V1 + "/datasource/actiontypedatasource";
 
     @Self
     private SlingHttpServletRequest request;
@@ -49,36 +49,44 @@ public class WorkflowModelDataSource extends DataSourceModel {
     private ResourceResolver resourceResolver;
 
     @PostConstruct
-    private void initModel() throws WorkflowException {
-        WorkflowSession workflowSession = resourceResolver.adaptTo(WorkflowSession.class);
-        ArrayList<Resource> resources = new ArrayList<>();
-        if(workflowSession != null) {
-            WorkflowModel[] models = workflowSession.getModels();
-            for (WorkflowModel model : models) {
-                resources.add(new WorkflowModelResource(model));
-            }
-        }
-        SimpleDataSource dataSource = new SimpleDataSource(resources.iterator());
-        initDataSource(request, dataSource);
+    private void initModel() {
+        SimpleDataSource actionTypeDataSource = new SimpleDataSource(getActionTypeResources().iterator());
+        initDataSource(request, actionTypeDataSource);
     }
 
-    public class WorkflowModelResource extends TextValueDataResourceSource {
+    private List<Resource> getActionTypeResources() {
+        List<Resource> actionTypeResources = new ArrayList<>();
+        FormsManager formsManager = resourceResolver.adaptTo(FormsManager.class);
+        if (formsManager != null) {
+            Iterator<FormsManager.ComponentDescription> actions = formsManager.getActions();
+            while (actions.hasNext()) {
+                FormsManager.ComponentDescription description = actions.next();
+                Resource dialogResource = resourceResolver.getResource(description.getResourceType() + "/" + FormsConstants.NN_DIALOG);
+                if (dialogResource != null) {
+                    actionTypeResources.add(new ActionTypeResource(description));
+                }
+            }
+        }
+        return actionTypeResources;
+    }
 
-        private final WorkflowModel model;
+    public class ActionTypeResource extends TextValueDataResourceSource {
 
-        public WorkflowModelResource(WorkflowModel model) {
+        private final FormsManager.ComponentDescription description;
+
+        public ActionTypeResource(FormsManager.ComponentDescription description) {
             super(resourceResolver, StringUtils.EMPTY, NonExistingResource.RESOURCE_TYPE_NON_EXISTING);
-            this.model = model;
+            this.description = description;
         }
 
         @Override
         protected String getText() {
-            return model.getTitle();
+            return description.getTitle();
         }
 
         @Override
         protected String getValue() {
-            return model.getId();
+            return description.getResourceType();
         }
     }
 }

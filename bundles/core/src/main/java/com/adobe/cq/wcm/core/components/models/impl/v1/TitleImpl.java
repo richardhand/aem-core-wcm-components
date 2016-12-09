@@ -14,7 +14,7 @@
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-package com.adobe.cq.wcm.core.components.models.impl;
+package com.adobe.cq.wcm.core.components.models.impl.v1;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -31,7 +31,8 @@ import com.day.cq.wcm.api.designer.Style;
        adapters = Title.class,
        resourceType = TitleImpl.RESOURCE_TYPE)
 public class TitleImpl implements Title {
-    protected static final String RESOURCE_TYPE = "core/wcm/components/title";
+
+    protected static final String RESOURCE_TYPE = "core/wcm/components/title/v1/title";
 
     private static final String PROP_TITLE = "jcr:title";
     private static final String PROP_DEFAULT_TYPE = "defaultType";
@@ -42,8 +43,7 @@ public class TitleImpl implements Title {
     @ScriptVariable
     private Style currentStyle;
 
-    @ValueMapValue(optional = true,
-                   name = PROP_TITLE)
+    @ValueMapValue(optional = true, name = PROP_TITLE)
     private String title;
 
     @ValueMapValue(optional = true)

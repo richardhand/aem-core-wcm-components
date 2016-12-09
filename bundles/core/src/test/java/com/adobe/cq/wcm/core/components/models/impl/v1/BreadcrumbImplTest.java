@@ -14,7 +14,7 @@
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-package com.adobe.cq.wcm.core.components.models.impl;
+package com.adobe.cq.wcm.core.components.models.impl.v1;
 
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ValueMap;
@@ -22,13 +22,13 @@ import org.apache.sling.api.scripting.SlingBindings;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import com.adobe.cq.sightly.WCMBindings;
 import com.adobe.cq.wcm.core.components.NavigationItem;
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
 import com.adobe.cq.wcm.core.components.context.MockStyle;
 import com.adobe.cq.wcm.core.components.models.Breadcrumb;
+import com.adobe.cq.wcm.core.components.models.impl.v1.BreadcrumbImpl;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.designer.Style;
 import io.wcm.testing.mock.aem.junit.AemContext;

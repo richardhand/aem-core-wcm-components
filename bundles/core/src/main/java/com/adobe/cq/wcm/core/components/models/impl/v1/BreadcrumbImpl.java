@@ -13,7 +13,7 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-package com.adobe.cq.wcm.core.components.models.impl;
+package com.adobe.cq.wcm.core.components.models.impl.v1;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,7 +35,8 @@ import com.day.cq.wcm.api.designer.Style;
        resourceType = BreadcrumbImpl.RESOURCE_TYPE)
 public class BreadcrumbImpl implements Breadcrumb {
 
-    public static final String RESOURCE_TYPE = "core/wcm/components/breadcrumb";
+    protected static final String RESOURCE_TYPE = "core/wcm/components/breadcrumb/v1/breadcrumb";
+
     protected static final boolean PROP_SHOW_HIDDEN_DEFAULT = false;
     protected static final String PN_SHOW_HIDDEN = "showHidden";
     protected static final String PN_DEFAULT_SHOW_HIDDEN = "defaultShowHidden";

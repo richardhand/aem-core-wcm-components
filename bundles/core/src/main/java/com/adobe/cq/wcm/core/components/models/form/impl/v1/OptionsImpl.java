@@ -39,9 +39,11 @@ import com.adobe.cq.wcm.core.components.models.form.Options;
 public class OptionsImpl implements Options {
 
     protected static final String RESOURCE_TYPE = "core/wcm/components/form/options/v1/options";
+    protected static final String PN_TYPE = "type";
+
     private static final String OPTION_ITEMS_PATH = "optionitems";
     private static final Logger log = LoggerFactory.getLogger(OptionsImpl.class);
-    protected static final String PN_TYPE = "type";
+
     private static final String ID_PREFIX = "form-options";
 
     @ChildResource(optional = true)

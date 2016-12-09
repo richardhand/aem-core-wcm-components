@@ -15,14 +15,13 @@
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-package com.adobe.cq.wcm.core.components.models.form.impl;
+package com.adobe.cq.wcm.core.components.models.form.impl.v1;
 
 import java.util.ArrayList;
 import javax.annotation.Nullable;
 
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
-import org.apache.sling.api.resource.ValueMap;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -37,8 +36,6 @@ import com.day.cq.wcm.foundation.forms.FormsManager;
 import com.google.common.base.Function;
 import io.wcm.testing.mock.aem.junit.AemContext;
 
-import static com.adobe.cq.wcm.core.components.models.form.impl.TextValueDataResourceSource.PN_TEXT;
-import static com.adobe.cq.wcm.core.components.models.form.impl.TextValueDataResourceSource.PN_VALUE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;

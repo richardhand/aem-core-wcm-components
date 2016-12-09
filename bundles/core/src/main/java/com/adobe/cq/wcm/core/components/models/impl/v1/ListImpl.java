@@ -13,9 +13,8 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-package com.adobe.cq.wcm.core.components.models.impl;
+package com.adobe.cq.wcm.core.components.models.impl.v1;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,7 +24,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import javax.annotation.PostConstruct;
 import javax.jcr.RepositoryException;
-import javax.jcr.Session;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -47,8 +45,6 @@ import com.adobe.cq.wcm.core.components.models.List;
 import com.adobe.cq.wcm.core.components.models.ListItem;
 import com.day.cq.commons.RangeIterator;
 import com.day.cq.search.Predicate;
-import com.day.cq.search.Query;
-import com.day.cq.search.QueryBuilder;
 import com.day.cq.search.SimpleSearch;
 import com.day.cq.search.result.Hit;
 import com.day.cq.search.result.SearchResult;
@@ -63,7 +59,8 @@ import com.day.cq.wcm.api.designer.Style;
        resourceType = ListImpl.RESOURCE_TYPE)
 public class ListImpl implements List {
 
-    protected static final String RESOURCE_TYPE = "core/wcm/components/list";
+    protected static final String RESOURCE_TYPE = "core/wcm/components/list/v1/list";
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ListImpl.class);
 
     private static final String PN_SOURCE = "listFrom";

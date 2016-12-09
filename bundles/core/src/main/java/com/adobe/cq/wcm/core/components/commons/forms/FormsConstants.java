@@ -29,4 +29,9 @@ public class FormsConstants {
 
     /** Array of all resource types for the form container, including versions */
     public final static String[] RT_ALL_CORE_FORM_CONTAINER = { RT_CORE_FORM_CONTAINER, RT_CORE_FORM_CONTAINER_V1 };
+
+    /** Node-name of the touch based dialog for form actions */
+    public static final String NN_DIALOG = "cq:dialog";
+
+    public final static String RT_CORE_FORM_BUTTON = "core/wcm/components/form/button";
 }
