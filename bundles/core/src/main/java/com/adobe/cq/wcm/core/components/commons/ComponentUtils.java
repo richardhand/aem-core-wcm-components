@@ -42,14 +42,19 @@ public final class ComponentUtils {
     /**
      * Generates unique IDs for {@code HTML} id attribute
      *
+     * @param prefix for the id (optional)
      * @param path of the resource
      * @return {@link String} hash as unique id of the given path
      * @throws IllegalArgumentException if path is empty or null
      */
-    public static String getId(String path) throws IllegalArgumentException {
+    public static String getId(String prefix, String path) throws IllegalArgumentException {
         if(StringUtils.isEmpty(path)) {
             throw new IllegalArgumentException("Path is empty or null");
         }
-        return String.valueOf(path.hashCode());
+        String id = String.valueOf(Math.abs(path.hashCode()));
+        if(StringUtils.isNotEmpty(prefix)) {
+            id = prefix + "-" + id;
+        }
+        return id;
     }
 }

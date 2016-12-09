@@ -42,6 +42,7 @@ public class OptionsImpl implements Options {
     private static final String OPTION_ITEMS_PATH = "optionitems";
     private static final Logger log = LoggerFactory.getLogger(OptionsImpl.class);
     protected static final String PN_TYPE = "type";
+    private static final String ID_PREFIX = "form-options";
 
     @ChildResource(optional = true)
     @Named(OPTION_ITEMS_PATH)
@@ -120,7 +121,7 @@ public class OptionsImpl implements Options {
 
     private void populateId() {
         try {
-            id = ComponentUtils.getId(resource.getPath());
+            id = ComponentUtils.getId(ID_PREFIX, resource.getPath());
         } catch (IllegalArgumentException e) {
             log.error(e.getMessage());
         }
