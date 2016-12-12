@@ -32,8 +32,6 @@
     var mailto2 = "mailto2@components.com";
     var cc1 = "cc1@components.com";
     var cc2 = "cc2@components.com";
-    var bcc1 = "bcc1@components.com";
-    var bcc2 = "bcc2@components.com";
 
     var tcExecuteBeforeTest = new TestCase("Setup Before Test")
         // common set up
@@ -231,27 +229,22 @@
         .fillInput("[name='./subject']",subject)
 
         //Fill in the Mailto
-        .click(".action-type-dialog:not(.hide) >div:contains('Mailto') >coral-multifield >button")
+        .click("coral-multifield[data-granite-coral-multifield-name='./mailto'] > button")
         .fillInput("input[name='./mailto']", mailto1)
-        .click(".action-type-dialog:not(.hide) >div:contains('Mailto') >coral-multifield >button")
+        .click("coral-multifield[data-granite-coral-multifield-name='./mailto'] > button")
         .fillInput("input[name='./mailto']:eq(1)", mailto2)
 
         //Fill in the CC
-        .click(".action-type-dialog:not(.hide) >div:contains('CC'):not(:contains('BCC')) >coral-multifield >button")
+        .click("coral-multifield[data-granite-coral-multifield-name='./cc'] > button")
         .fillInput("input[name='./cc']", cc1)
-        .click(".action-type-dialog:not(.hide) >div:contains('CC'):not(:contains('BCC')) >coral-multifield >button")
+        .click("coral-multifield[data-granite-coral-multifield-name='./cc'] > button")
         .fillInput("input[name='./cc']:eq(1)", cc2)
 
-        //Fill in the BCC
-        .click(".action-type-dialog:not(.hide) >div:contains('BCC') >coral-multifield >button")
-        .fillInput("input[name='./bcc']", bcc1)
-        .click(".action-type-dialog:not(.hide) >div:contains('BCC') >coral-multifield >button")
-        .fillInput("input[name='./bcc']:eq(1)", bcc2)
 
         // save the dialog
         .execTestCase(c.tcSaveConfigureDialog)
 
-        // workaround: request the form property, does not exist yet. This way it will only continue once its
+        // workaround: request the 'from' property, does not exist yet. This way it will only continue once its
         // written changes to the repo otherwise we are to fast
         // TODO : implement some sort of polling
         .execFct(function(opts,done){
@@ -268,9 +261,7 @@
         .assert.isTrue(function(){return h.param("json")().mailto[0] == mailto1})
         .assert.isTrue(function(){return h.param("json")().mailto[1] == mailto2})
         .assert.isTrue(function(){return h.param("json")().cc[0] == cc1})
-        .assert.isTrue(function(){return h.param("json")().cc[1] == cc2})
-        .assert.isTrue(function(){return h.param("json")().bcc[0] == bcc1})
-        .assert.isTrue(function(){return h.param("json")().bcc[1] == bcc2});
+        .assert.isTrue(function(){return h.param("json")().cc[1] == cc2});
 
     /**
      * The main test suite.
@@ -289,7 +280,6 @@
         // TODO : write test for 'view data', its going to be moved from opening bulk editor to returning json
         // TODO : setting form identifier is going to be replaced by css styles
         // TODO : client validation not implemented yet
-        // NOTE : load path is going ot be removed
     ;
 
 }(hobs, jQuery));
