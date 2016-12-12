@@ -43,6 +43,8 @@
     c.rtFormButton = "core/wcm/components/form/button";
     // form button
     c.rtFormText = "core/wcm/components/form/text";
+    // form option
+    c.rtFormOptions = "core/wcm/components/form/options"
 
     // selectors
 
