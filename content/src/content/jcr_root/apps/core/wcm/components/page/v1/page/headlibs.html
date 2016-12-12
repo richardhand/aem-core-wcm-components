@@ -15,7 +15,6 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <template data-sly-template.headlibs="${@ designPath, staticDesignPath, templateCategories}"
           data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html">
-    <sly data-sly-call="${clientLib.css @ categories='core.wcm.components'}"/>
     <sly data-sly-call="${clientLib.all @ categories='cq.foundation-main'}"/>
     <sly data-sly-test="${!wcmmode.isDisabled}" data-sly-call="${clientLib.all @ categories = [
         'wcm.foundation.allowedcomponents',
