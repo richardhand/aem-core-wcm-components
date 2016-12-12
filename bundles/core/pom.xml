@@ -18,13 +18,13 @@
     <parent>
         <groupId>com.adobe.cq</groupId>
         <artifactId>com.adobe.cq.wcm.core.components.parent</artifactId>
-        <version>0.9.40</version>
+        <version>0.9.42</version>
         <relativePath>../../parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>com.adobe.cq.wcm.core.components.core</artifactId>
-    <version>0.9.67-SNAPSHOT</version>
+    <version>0.9.69-SNAPSHOT</version>
     <packaging>bundle</packaging>
 
     <name>Adobe Experience Manager Core WCM Components Core Bundle</name>
@@ -197,6 +197,14 @@
             <artifactId>org.apache.sling.models.api</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.day.cq.wcm</groupId>
             <artifactId>cq-wcm-foundation</artifactId>
             <version>5.10.44</version>
@@ -229,7 +237,8 @@
             <artifactId>cq-quickstart</artifactId>
             <classifier>apis</classifier>
         </dependency>
-        
+
+
     </dependencies>
 
 </project>

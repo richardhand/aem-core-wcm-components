@@ -18,8 +18,10 @@ package com.adobe.cq.wcm.core.components.models.impl.v1;
 import java.text.DateFormat;
 import java.util.Calendar;
 
+import com.adobe.cq.wcm.core.components.commons.jackson.impl.PageSerializer;
 import com.adobe.cq.wcm.core.components.models.ListItem;
 import com.day.cq.wcm.api.Page;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class ListItemImpl implements ListItem {
 
@@ -40,6 +42,7 @@ public class ListItemImpl implements ListItem {
     }
 
     @Override
+    @JsonSerialize(using = PageSerializer.class)
     public Page getPage() {
         return page;
     }
