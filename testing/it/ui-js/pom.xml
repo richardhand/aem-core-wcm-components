@@ -177,7 +177,7 @@
         <dependency>
             <groupId>com.adobe.qe</groupId>
             <artifactId>com.adobe.qe.ui-testing-commons</artifactId>
-            <version>6.3.32</version>
+            <version>6.3.38</version>
             <type>zip</type>
         </dependency>
     </dependencies>
