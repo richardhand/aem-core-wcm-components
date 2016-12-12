@@ -31,10 +31,12 @@
     // core component resource types
     // text component
     c.rtText  =  "core/wcm/components/text";
-    // text component
+    // title component
     c.rtTitle  =  "core/wcm/components/title";
-    // text component
+    // list component
     c.rtList  =  "core/wcm/components/list";
+    // image component
+    c.rtImage  =  "core/wcm/components/image";
     // breadcrumb component
     c.rtBreadcrumb = "core/wcm/components/breadcrumb";
     // form container
