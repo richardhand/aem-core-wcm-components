@@ -73,6 +73,7 @@
                     updateMode = 'smart';
                     that.update();
                     $window.bind('resize.SmartImage update.SmartImage', that.update);
+                    image.removeAttr('data-src-disabled');
                 }
             } else if (options.loadHidden || element.is(':visible')) {
                 image
@@ -177,6 +178,7 @@
     $images.each(function () {
         var imageElement = $(this),
             imageOptions = imageElement.data('cmp-image');
+        imageElement.removeAttr('data-cmp-image');
         images.push(new SmartImage(imageElement, imageOptions));
     });
 
