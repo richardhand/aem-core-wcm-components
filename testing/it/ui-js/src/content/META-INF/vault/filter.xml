@@ -18,7 +18,7 @@
     <!-- Sample content -->
     <filter root="/conf/core-components"/>
     <filter root="/content/core-components"/>
-    <filter root="/content/core-components/core-components-page"/>
+    <filter root="/content/dam/core-components"/>
 
     <!-- Hobbes IT folder -->
     <filter root="/apps/core/wcm/tests"/>
