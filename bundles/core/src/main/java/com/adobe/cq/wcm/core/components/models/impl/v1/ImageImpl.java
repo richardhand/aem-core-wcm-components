@@ -52,7 +52,7 @@ import com.day.cq.wcm.api.designer.Style;
           extensions = Constants.EXPORTER_EXTENSION)
 public class ImageImpl implements Image {
 
-    protected static final String RESOURCE_TYPE = "wcm/core/components/image/v1/image";
+    protected static final String RESOURCE_TYPE = "core/wcm/components/image/v1/image";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageImpl.class);
 
