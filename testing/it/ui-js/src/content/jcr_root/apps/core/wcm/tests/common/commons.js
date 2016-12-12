@@ -31,10 +31,12 @@
     // core component resource types
     // text component
     c.rtText  =  "core/wcm/components/text";
-    // text component
+    // title component
     c.rtTitle  =  "core/wcm/components/title";
-    // text component
+    // list component
     c.rtList  =  "core/wcm/components/list";
+    // image component
+    c.rtImage  =  "core/wcm/components/image";
     // breadcrumb component
     c.rtBreadcrumb = "core/wcm/components/breadcrumb";
     // form container
@@ -302,6 +304,43 @@
         poll();
     };
 
+    c.openSidePanel = function(done){
+
+        maxRetries = 5;
+        timeout = 500;
+
+        // retry counter
+        var retries = 0;
+
+        // the polling function
+        var poll = function(){
+            // if the panel is closed
+            if (h.find("#SidePanel.sidepanel-closed").size() == 1) {
+                // click on the toggle button, wait for the click to finish, then check
+                click(".toggle-sidepanel.editor-GlobalBar-item").exec().then(
+                    function (){
+                        // check if the panel is open
+                        if (h.find("#SidePanel.sidepanel-opened").size() == 1){
+                            done(true);
+                        } else {
+                            // check if max retries was reached
+                            if (retries++ === maxRetries){
+                                done(false,"Opening the Side Panel failed!");
+                                return;
+                            }
+                            // set for next retry
+                            setTimeout(poll,timeout);
+                        }
+                    }
+                )
+            }
+            done();
+
+        };
+        // start polling
+        poll();
+    };
+
     /**
      * Opens the configuration dialog for a component. Uses 'data-path' attribute to identify the correct
      * component.
@@ -433,14 +472,18 @@
      */
     c.tcExecuteBeforeTest = new TestCase("Common Set up")
         // reset the context
-        .config.resetContext();
+        .config.resetContext()
+        // make sure the  side panel starts  closed
+        .execTestCase(h.steps.aem.commons.closeSidePanel);
 
     /**
      * Common stuff that should be done at the end of each test case.
      */
     c.tcExecuteAfterTest = new TestCase("Common Clean Up")
         // reset the context
-        .config.resetContext();
+        .config.resetContext()
+        // make sure the side panel is closed
+        .execTestCase(h.steps.aem.commons.closeSidePanel);
 
     /**
      * Stuff that should be done before a testsuite starts

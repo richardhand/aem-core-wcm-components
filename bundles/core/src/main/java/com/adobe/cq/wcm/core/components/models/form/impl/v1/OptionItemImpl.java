@@ -16,13 +16,18 @@
 package com.adobe.cq.wcm.core.components.models.form.impl.v1;
 
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
+import com.adobe.cq.wcm.core.components.models.Constants;
 import com.adobe.cq.wcm.core.components.models.form.OptionItem;
 
-@Model(adaptables = Resource.class, adapters = OptionItem.class)
+@Model(adaptables = Resource.class,
+       adapters = OptionItem.class)
+@Exporter(name = Constants.EXPORTER_NAME,
+          extensions = Constants.EXPORTER_EXTENSION)
 public class OptionItemImpl implements OptionItem {
 
     @ValueMapValue
