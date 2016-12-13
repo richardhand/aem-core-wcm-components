@@ -14,10 +14,10 @@
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <sly data-sly-use.hiddenField="com.adobe.cq.wcm.core.components.models.form.HiddenField">
-    <div data-sly-test.showPlaceholder="${wcmmode.edit || wcmmode.preview}" class="cq-placeholder"
+    <div data-sly-test="${wcmmode.edit || wcmmode.preview}" class="cq-placeholder"
          data-emptytext="Hidden Field - ${hiddenField.name}">
     </div>
-    <input data-sly-test="${!showPlaceholder}"
+    <input
            type="hidden"
            id="${hiddenField.id}"
            name="${hiddenField.name}"
