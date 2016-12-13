@@ -60,8 +60,8 @@ public class TitleImpl implements Title {
         if (text == null) {
             text = title;
             if (StringUtils.isEmpty(text) && !AuthoringUtils.isPageOfAuthoredTemplate(currentPage)) {
-                text = StringUtils.defaultIfEmpty(currentPage.getTitle(),
-                        StringUtils.defaultIfEmpty(currentPage.getPageTitle(), currentPage.getName()));
+                text = StringUtils.defaultIfEmpty(currentPage.getPageTitle(),
+                        StringUtils.defaultIfEmpty(currentPage.getTitle(), currentPage.getName()));
             }
         }
         return text;
