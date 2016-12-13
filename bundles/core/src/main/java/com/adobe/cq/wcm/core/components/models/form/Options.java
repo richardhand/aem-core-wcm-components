@@ -63,5 +63,19 @@ public interface Options {
      */
     String getType();
 
+    /**
+     * @return The source where the options are defined.
+     */
+    String getSource();
+
+    /**
+     * @return The path of the static list that defines the options
+     */
+    String getFromList();
+
+    /**
+     * @return The resource type of the datasource that defines the options.
+     */
+    String getFromDatasource();
 
 }

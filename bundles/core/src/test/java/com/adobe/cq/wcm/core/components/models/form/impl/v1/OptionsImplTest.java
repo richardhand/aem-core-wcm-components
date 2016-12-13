@@ -17,7 +17,10 @@ package com.adobe.cq.wcm.core.components.models.form.impl.v1;
 
 import java.util.List;
 
+import com.adobe.cq.sightly.WCMBindings;
 import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.api.scripting.SlingBindings;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -34,19 +37,30 @@ import com.adobe.cq.wcm.core.components.models.form.Options;
 
 public class OptionsImplTest {
 
+    private static final String RESOURCE_PROPERTY = "resource";
+
     @Rule
     public AemContext context = CoreComponentTestContext.createContext("/form/options", "/content/options");
+
+    private SlingBindings slingBindings;
+
+    @Before
+    public void setUp() {
+        slingBindings = (SlingBindings) context.request().getAttribute(SlingBindings.class.getName());
+    }
 
     @Test
     public void testCheckboxOptionsType() throws Exception {
         Resource optionsRes = context.currentResource("/content/options/checkbox");
-        Options options = optionsRes.adaptTo(Options.class);
+        slingBindings.put(WCMBindings.PROPERTIES, optionsRes.adaptTo(ValueMap.class));
+        slingBindings.put(RESOURCE_PROPERTY, optionsRes);
+        Options options = context.request().adaptTo(Options.class);
+        List<OptionItem> optionItems = options.getOptionItems();
         assertEquals("name1", options.getName());
         assertEquals("caption1", options.getCaption());
         assertEquals("helpMessage1", options.getHelpMessage());
         assertEquals("checkbox", options.getType());
 
-        List<OptionItem> optionItems = options.getOptionItems();
         assertNotNull(optionItems);
         assertTrue(optionItems.size() == 3);
 
@@ -62,21 +76,27 @@ public class OptionsImplTest {
     @Test
     public void testRadioOptionsType() throws Exception {
         Resource optionsRes = context.currentResource("/content/options/radio");
-        Options options = optionsRes.adaptTo(Options.class);
+        slingBindings.put(WCMBindings.PROPERTIES, optionsRes.adaptTo(ValueMap.class));
+        slingBindings.put(RESOURCE_PROPERTY, optionsRes);
+        Options options = context.request().adaptTo(Options.class);
         assertEquals("radio", options.getType());
     }
 
     @Test
     public void testDropDownOptionsType() throws Exception {
         Resource optionsRes = context.currentResource("/content/options/drop-down");
-        Options options = optionsRes.adaptTo(Options.class);
+        slingBindings.put(WCMBindings.PROPERTIES, optionsRes.adaptTo(ValueMap.class));
+        slingBindings.put(RESOURCE_PROPERTY, optionsRes);
+        Options options = context.request().adaptTo(Options.class);
         assertEquals("drop-down", options.getType());
     }
 
     @Test
     public void testMulitDropDownOptionsType() throws Exception {
         Resource optionsRes = context.currentResource("/content/options/multi-drop-down");
-        Options options = optionsRes.adaptTo(Options.class);
+        slingBindings.put(WCMBindings.PROPERTIES, optionsRes.adaptTo(ValueMap.class));
+        slingBindings.put(RESOURCE_PROPERTY, optionsRes);
+        Options options = context.request().adaptTo(Options.class);
         assertEquals("multi-drop-down", options.getType());
     }
 

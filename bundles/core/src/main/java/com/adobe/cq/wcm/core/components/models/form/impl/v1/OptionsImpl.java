@@ -16,37 +16,47 @@
 package com.adobe.cq.wcm.core.components.models.form.impl.v1;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Named;
+import javax.servlet.RequestDispatcher;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.api.SlingHttpServletResponse;
+import org.apache.sling.api.request.RequestDispatcherOptions;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Exporter;
+import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.ChildResource;
 import org.apache.sling.models.annotations.injectorspecific.Self;
+import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.adobe.granite.ui.components.ds.DataSource;
+import com.adobe.granite.ui.components.ds.SimpleDataSource;
 import com.adobe.cq.wcm.core.components.commons.ComponentUtils;
 import com.adobe.cq.wcm.core.components.models.Constants;
 import com.adobe.cq.wcm.core.components.models.form.OptionItem;
 import com.adobe.cq.wcm.core.components.models.form.Options;
 
-@Model(adaptables = Resource.class,
+@Model(adaptables = SlingHttpServletRequest.class,
        adapters = Options.class,
        resourceType = OptionsImpl.RESOURCE_TYPE)
 @Exporter(name = Constants.EXPORTER_NAME,
           extensions = Constants.EXPORTER_EXTENSION)
 public class OptionsImpl implements Options {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(OptionsImpl.class);
+
     protected static final String RESOURCE_TYPE = "core/wcm/components/form/options/v1/options";
     protected static final String PN_TYPE = "type";
 
     private static final String OPTION_ITEMS_PATH = "optionitems";
-    private static final Logger log = LoggerFactory.getLogger(OptionsImpl.class);
 
     private static final String ID_PREFIX = "form-options";
 
@@ -67,11 +77,29 @@ public class OptionsImpl implements Options {
                    optional = true)
     private String typeString;
 
-    @Self
+    @SlingObject
     private Resource resource;
 
     private List<OptionItem> optionItems;
     private String id;
+
+    @ValueMapValue(optional = true)
+    private String source;
+
+    @ValueMapValue(optional = true)
+    private String fromList;
+
+    @ValueMapValue(optional = true)
+    private String fromDatasource;
+
+    @Self
+    private SlingHttpServletRequest request;
+
+    @SlingObject
+    private SlingHttpServletResponse response;
+
+    @SlingObject
+    private ResourceResolver resolver;
 
     @Override
     public List<OptionItem> getOptionItems() {
@@ -79,18 +107,6 @@ public class OptionsImpl implements Options {
             populateOptionItems();
         }
         return optionItems;
-    }
-
-    private void populateOptionItems() {
-        this.optionItems = new ArrayList<>();
-        if (itemResources != null) {
-            for (Resource itemResource : itemResources) {
-                OptionItem optionItem = itemResource.adaptTo(OptionItem.class);
-                if (optionItem != null && (optionItem.isDisabled() || StringUtils.isNotBlank(optionItem.getValue()))) {
-                    optionItems.add(optionItem);
-                }
-            }
-        }
     }
 
     @Override
@@ -126,11 +142,100 @@ public class OptionsImpl implements Options {
         return resource;
     }
 
+    @Override
+    public String getSource() {
+        Source from = Source.getSource(source);
+        if (from != null) {
+            return from.getElement();
+        }
+        return null;
+    }
+
+    @Override
+    public String getFromList() {
+        return fromList;
+    }
+
+    @Override
+    public String getFromDatasource() {
+        return fromDatasource;
+    }
+
+
+    /* ------------------------ Internal stuff -------------------------------------------- */
+
+    private void populateOptionItems() {
+        this.optionItems = new ArrayList<>();
+        if (StringUtils.equals(source, Source.DATASOURCE.getElement()) && StringUtils.isNotEmpty(fromDatasource)) {
+            populateOptionItemsFromDatasource();
+        } else if (StringUtils.equals(source, Source.LIST.getElement()) && StringUtils.isNotEmpty(fromList)) {
+            populateOptionItemsFromList();
+        } else {
+            populateOptionItemsFromLocal();
+        }
+    }
+
+    private void populateOptionItemsFromLocal() {
+        if (itemResources != null) {
+            for (Resource itemResource : itemResources) {
+                OptionItem optionItem = itemResource.adaptTo(OptionItem.class);
+                if (optionItem != null && (optionItem.isDisabled() || StringUtils.isNotBlank(optionItem.getValue()))) {
+                    optionItems.add(optionItem);
+                }
+            }
+        }
+    }
+
+    private void populateOptionItemsFromList() {
+        Resource parent = resolver.getResource(fromList);
+        if (parent != null) {
+            for(Resource itemResource: parent.getChildren()) {
+                OptionItem optionItem = itemResource.adaptTo(OptionItem.class);
+                if (optionItem != null && (optionItem.isDisabled() || StringUtils.isNotBlank(optionItem.getValue()))) {
+                    optionItems.add(optionItem);
+                }
+            }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void populateOptionItemsFromDatasource() {
+
+        // build the options by running the datasource code (the list is set as a request attribute)
+        RequestDispatcherOptions opts = new RequestDispatcherOptions();
+        opts.setForceResourceType(fromDatasource);
+        RequestDispatcher dispatcher = request.getRequestDispatcher(resource, opts);
+        try {
+            if (dispatcher != null) {
+                dispatcher.include(request, response);
+            } else {
+                LOGGER.error("Failed to include the datasource at " + fromDatasource);
+            }
+        } catch (Exception e) {
+            LOGGER.error("Failed to include the datasource at " + fromDatasource, e);
+        }
+
+        // retrieve the datasource from the request and adapt it to form options
+        SimpleDataSource dataSource = (SimpleDataSource) request.getAttribute(DataSource.class.getName());
+        if (dataSource != null) {
+            Iterator<Resource> itemIterator = dataSource.iterator();
+            if (itemIterator != null) {
+                while (itemIterator.hasNext()) {
+                    Resource item = itemIterator.next();
+                    OptionItem optionItem = item.adaptTo(OptionItem.class);
+                    if (optionItem != null && (optionItem.isDisabled() || StringUtils.isNotBlank(optionItem.getValue()))) {
+                        optionItems.add(optionItem);
+                    }
+                }
+            }
+        }
+    }
+
     private void populateId() {
         try {
             id = ComponentUtils.getId(ID_PREFIX, resource.getPath());
         } catch (IllegalArgumentException e) {
-            log.error(e.getMessage());
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -159,4 +264,31 @@ public class OptionsImpl implements Options {
             return value;
         }
     }
+
+    private enum Source {
+
+        LOCAL("local"),
+        LIST("list"),
+        DATASOURCE("datasource");
+
+        private String element;
+
+        Source(String element) {
+            this.element = element;
+        }
+
+        private static Source getSource(String value) {
+            for (Source source : values()) {
+                if (StringUtils.equalsIgnoreCase(source.element, value)) {
+                    return source;
+                }
+            }
+            return null;
+        }
+
+        public String getElement() {
+            return element;
+        }
+    }
+
 }
