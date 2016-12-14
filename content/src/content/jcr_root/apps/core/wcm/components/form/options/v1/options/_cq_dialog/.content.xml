@@ -69,7 +69,7 @@
                                     sling:resourceType="granite/ui/components/coral/foundation/form/select"
                                     fieldLabel="Source"
                                     granite:class="cmp-form-options-source cq-dialog-dropdown-showhide"
-                                    fieldDescription="Set the source of the options."
+                                    fieldDescription="Source of the options."
                                     name="./source">
                                 <granite:data
                                         jcr:primaryType="nt:unstructured"
@@ -77,15 +77,15 @@
                                 <items jcr:primaryType="nt:unstructured">
                                     <local
                                             jcr:primaryType="nt:unstructured"
-                                            text="local"
+                                            text="Local"
                                             value="local"/>
                                     <list
                                             jcr:primaryType="nt:unstructured"
-                                            text="list"
+                                            text="List"
                                             value="list"/>
                                     <datasource
                                             jcr:primaryType="nt:unstructured"
-                                            text="datasource"
+                                            text="Datasource"
                                             value="datasource"/>
                                 </items>
                             </source>
@@ -99,9 +99,9 @@
                                 <items jcr:primaryType="nt:unstructured">
                                     <fromList
                                             jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                            sling:resourceType="granite/ui/components/coral/foundation/form/pathbrowser"
                                             fieldLabel="List"
-                                            fieldDescription="Options are defined by a static list."
+                                            fieldDescription="Path of the static list."
                                             name="./fromList"/>
                                 </items>
                             </fromList>
@@ -117,7 +117,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                                             fieldLabel="Datasource"
-                                            fieldDescription="Options are defined by a data source."
+                                            fieldDescription="Resource type of the datasource."
                                             name="./fromDatasource"/>
                                 </items>
                             </fromDatasource>
