@@ -174,60 +174,6 @@
         });
 
     /**
-     * Test: Check the View Data button.
-     */
-    var checkViewDataButton = new TestCase("Test the View Data button",{
-        execBefore: tcExecuteBeforeTest,
-        execAfter: tcExecuteAfterTest})
-
-        //open the edit dialog
-        .execTestCase(c.tcOpenConfigureDialog("containerPath"))
-        //select action type
-        .execTestCase(c.tcUseDialogSelect("./actionType","foundation/components/form/actions/store"))
-        //store the content path JSON Url in  a hobbes param
-        .execFct(function(opts,done){
-            h.param("contentJsonUrl",h.find("input[name='./action']").val().slice(0,-1) + ".1.json");
-            done();
-        })
-        //close the dialog
-        .execTestCase(c.tcSaveConfigureDialog)
-
-        //switch to the content frame
-        .config.changeContext(c.getContentFrame)
-        //click on the submit button
-        .click("button:contains('Submit')",{expectNav:true})
-
-        .config.resetContext()
-        //open the edit dialog
-        .execTestCase(c.tcOpenConfigureDialog("containerPath"))
-        //click on the View Data button
-        .click("button:contains('View Data')")
-        // close the dialog
-        .execTestCase(c.tcSaveConfigureDialog)
-
-        //get the json for the content node
-        .execFct(function(opts,done){
-            c.getJSON(h.param("contentJsonUrl")(opts),"json",done);
-        })
-        // check if the input value was saved
-        .assert.isTrue(function(){
-            // its stored in a child node with random name so we need to find it
-            var data = h.param("json")();
-            for (var prop in data) {
-                // its the only sub object
-                if (typeof data[prop] === 'object') {
-                    // check the value is there
-                    if (data[prop].inputname != null && data[prop].inputname == "inputvalue") {
-                        return true;
-                    }
-                }
-            }
-            // not found
-            return false;
-        })
-    ;
-
-    /**
      * Test: set the thank You page path
      *
      * NOTE: Timing problem. the clean up after this test is faster then the user content being stored
@@ -325,10 +271,10 @@
         execInNewWindow : false})
 
         .addTestCase(storeContent)
-        .addTestCase(checkViewDataButton)
         .addTestCase(setMailAction)
         .addTestCase(setContextPath)
         .addTestCase(setThankYouPage)
+        //The View Data button can't be tested because it tries to open a new window and this can't be tested with hobbes
         // NOTE: its not possible to test reliably if the test workflow has been started so no workflow test
         //.addTestCase(startWorkflow)
         // See https://jira.corp.adobe.com/browse/CQ-106130

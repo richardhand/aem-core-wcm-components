@@ -47,6 +47,8 @@
     c.rtFormText = "core/wcm/components/form/text";
     // form option
     c.rtFormOptions = "core/wcm/components/form/options"
+    // hidden field
+    c.rtFormHidden  = "core/wcm/components/form/hidden"
 
     // selectors
 
