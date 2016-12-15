@@ -19,6 +19,9 @@
     // shortcut
     var c = window.CQ.CoreComponentsIT.commons;
 
+    // root location where form content will be stored
+    var userContent = "/content/usergenerated/core-components";
+
     var tcExecuteBeforeTest = new TestCase("Setup Before Test")
         //common set up
         .execTestCase(c.tcExecuteBeforeTest)
@@ -68,15 +71,15 @@
         .execFct(function (opts, done) {
             //create the option component
             var data = {};
-            data.name = "optionName";
-            data.type = "checkbox";
-            data["./optionitems/item0/selected"] = "true"
-            data["./optionitems/item0/text"] = "text1"
-            data["./optionitems/item0/value"] = "value1"
+            data["./name"] = "optionName";
+            data["./type"] = "checkbox";
+            data["./optionitems/item0/selected"] = "true";
+            data["./optionitems/item0/text"] = "text1";
+            data["./optionitems/item0/value"] = "value1";
 
-            data["./optionitems/item1/selected"] = "false"
-            data["./optionitems/item1/text"] = "text2"
-            data["./optionitems/item1/value"] = "value2"
+            data["./optionitems/item1/selected"] = "false";
+            data["./optionitems/item1/text"] = "text2";
+            data["./optionitems/item1/value"] = "value2";
             c.editNodeProperties(h.param("optionPath")(), data,done);
         })
 
@@ -103,11 +106,11 @@
     // common clean up
         .execTestCase(c.tcExecuteAfterTest)
         // delete any user generated content
-        //.execFct(function (opts,done){c.deletePage(userContent,done)})
+        .execFct(function (opts,done){c.deletePage(userContent,done)})
         // delete the test page we created
-        //.execFct(function (opts, done) {
-        //    c.deletePage(h.param("testPagePath")(opts), done);
-        //});
+        .execFct(function (opts, done) {
+            c.deletePage(h.param("testPagePath")(opts), done);
+        });
 
     /**
      * Test: Check if the action 'Store Content' works.
@@ -165,7 +168,7 @@
     /**
      * The main test suite.
      */
-    new h.TestSuite("Core Components - Form Components",{path:"/apps/core/wcm/tests/core-components-it/FormComponents.js",
+    new h.TestSuite("Core Components - Form Submit",{path:"/apps/core/wcm/tests/core-components-it/FormComponents.js",
         execBefore:c.tcExecuteBeforeTestSuite,
         execInNewWindow : false})
 
