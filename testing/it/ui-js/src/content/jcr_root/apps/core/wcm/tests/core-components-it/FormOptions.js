@@ -43,9 +43,9 @@
         .execFct(function (opts,done) {
             c.createPage(c.template, c.rootPage ,'page_' + Date.now(),"testPagePath",done)
         })
-        //add the component, store component path in 'cmpPath'
+        //add the component, store component path in 'optionPath'
         .execFct(function (opts, done){
-            c.addComponent(c.rtFormOptions, h.param("testPagePath")(opts)+c.relParentCompPath,"cmpPath",done)
+            c.addComponent(c.rtFormOptions, h.param("testPagePath")(opts)+c.relParentCompPath,"optionPath",done)
         })
         //open the new page in the editor
         .navigateTo("/editor.html%testPagePath%.html");
@@ -103,7 +103,7 @@
         execAfter: tcExecuteAfterTest})
 
         //open the edit dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        .execTestCase(c.tcOpenConfigureDialog("optionPath"))
         .click(c.selSaveConfDialogButton,{expectNav:false})
         //check if the dialog is still open
         .asserts.visible(c.selConfigDialog)
@@ -125,7 +125,7 @@
         execAfter: tcExecuteAfterTest})
 
         //open the edit dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        .execTestCase(c.tcOpenConfigureDialog("optionPath"))
         //set the mandatory fields
         .execTestCase(setMandatoryFields)
         //add one option
@@ -147,7 +147,7 @@
         execAfter: tcExecuteAfterTest})
 
         //open the edit dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        .execTestCase(c.tcOpenConfigureDialog("optionPath"))
         //set the mandatory fields
         .execTestCase(setMandatoryFields)
         //add one option
@@ -169,7 +169,7 @@
         execAfter: tcExecuteAfterTest})
 
         //open the edit dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        .execTestCase(c.tcOpenConfigureDialog("optionPath"))
         //set the mandatory fields
         .execTestCase(setMandatoryFields)
         //add one option
@@ -193,7 +193,7 @@
         execAfter: tcExecuteAfterTest})
 
         //open the edit dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        .execTestCase(c.tcOpenConfigureDialog("optionPath"))
         //set the mandatory fields
         .execTestCase(setMandatoryFields)
         //set the option type to checkbox
@@ -217,7 +217,7 @@
         execAfter: tcExecuteAfterTest})
 
         //open the edit dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        .execTestCase(c.tcOpenConfigureDialog("optionPath"))
         //set the mandatory fields
         .execTestCase(setMandatoryFields)
         //set the option type to radio button
@@ -241,7 +241,7 @@
         execAfter: tcExecuteAfterTest})
 
         //open the edit dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        .execTestCase(c.tcOpenConfigureDialog("optionPath"))
         //set the mandatory fields
         .execTestCase(setMandatoryFields)
         //set the option type to drop-down
@@ -265,7 +265,7 @@
         execAfter: tcExecuteAfterTest})
 
         //open the edit dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        .execTestCase(c.tcOpenConfigureDialog("optionPath"))
         //set the mandatory fields
         .execTestCase(setMandatoryFields)
         //set the option type to multi-select drop-down
@@ -285,7 +285,7 @@
         execBefore: tcExecuteBeforeTest,
         execAfter: tcExecuteAfterTest})
         //open the edit dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        .execTestCase(c.tcOpenConfigureDialog("optionPath"))
         //set the option type to checkbox
         .execTestCase(setOptionType("checkbox"))
         //set the mandatory fields
@@ -306,7 +306,7 @@
         execBefore: tcExecuteBeforeTest,
         execAfter: tcExecuteAfterTest})
         //open the edit dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        .execTestCase(c.tcOpenConfigureDialog("optionPath"))
         //set the option type to radio
         .execTestCase(setOptionType("radio"))
         //set the mandatory fields
@@ -327,7 +327,7 @@
         execBefore: tcExecuteBeforeTest,
         execAfter: tcExecuteAfterTest})
         //open the edit dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        .execTestCase(c.tcOpenConfigureDialog("optionPath"))
         //set the option type to drop-down
         .execTestCase(setOptionType("drop-down"))
         //set the mandatory fields
@@ -348,7 +348,7 @@
         execBefore: tcExecuteBeforeTest,
         execAfter: tcExecuteAfterTest})
         //open the edit dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        .execTestCase(c.tcOpenConfigureDialog("optionPath"))
         //set the option type to multi-select drop-down
         .execTestCase(setOptionType("multi-drop-down"))
         //set the mandatory fields
@@ -369,7 +369,7 @@
         execBefore: tcExecuteBeforeTest,
         execAfter: tcExecuteAfterTest})
         //open the edit dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        .execTestCase(c.tcOpenConfigureDialog("optionPath"))
         //set the option type to checkbox
         .execTestCase(setOptionType("checkbox"))
         //set the mandatory fields
@@ -390,7 +390,7 @@
         execBefore: tcExecuteBeforeTest,
         execAfter: tcExecuteAfterTest})
         //open the edit dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        .execTestCase(c.tcOpenConfigureDialog("optionPath"))
         //set the option type to radio
         .execTestCase(setOptionType("radio"))
         //set the mandatory fields
@@ -411,7 +411,7 @@
         execBefore: tcExecuteBeforeTest,
         execAfter: tcExecuteAfterTest})
         //open the edit dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        .execTestCase(c.tcOpenConfigureDialog("optionPath"))
         //set the option type to drop-down
         .execTestCase(setOptionType("drop-down"))
         //set the mandatory fields
@@ -432,7 +432,7 @@
         execBefore: tcExecuteBeforeTest,
         execAfter: tcExecuteAfterTest})
         //open the edit dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        .execTestCase(c.tcOpenConfigureDialog("optionPath"))
         //set the option type to multi-select drop-down
         .execTestCase(setOptionType("multi-drop-down"))
         //set the mandatory fields
