@@ -20,18 +20,19 @@
         onclick="CQ_Analytics.record({event: 'imageClick', values: { imageLink: '${image.link @ context='scriptString'}', imageAsset:
     '${image.fileReference @ context='scriptString'}', imageTitle: '${image.fileName @ context='scriptString'}' }, collect: false, options: { obj: this }, componentPath: '${resource.resourceType @ context='scriptString'}'})">
     <div data-sly-test="${image.src && image.smartSizes.length >= 2}"
-         class="cmp cmp-image"
+         class="cmp cmp-image cq-dd-image"
          data-cmp-image='{"smartSizes" : [${image.smartSizes}], "smartImages" : [${image.smartImages}], "lazyEnabled": ${image.isLazyLoadingEnabled}}'>
         <sly data-sly-call="${imageTemplate @ image = image, useNoScript = true}"></sly>
     </div>
     <div data-sly-test="${image.src && image.smartSizes.length < 2}"
-         class="cmp cmp-image"
+         class="cmp cmp-image cq-dd-image"
          data-cmp-image='${image.isLazyLoadingEnabled ? "{\"lazyEnabled\" : true}" : false}'>
         <sly data-sly-call="${imageTemplate @ image = image, useNoScript = image.isLazyLoadingEnabled}"></sly>
     </div>
     </a>
     <small data-sly-test="${!image.shouldDisplayCaptionPopup && image.title}">${image.title}</small>
-    <sly data-sly-test="${!image.src}" data-sly-call="${templates.placeholder @ isEmpty = true}"/>
+    <sly data-sly-test="${!image.src}"
+         data-sly-call="${templates.placeholder @ isEmpty = true, attrClass = 'cq-placeholder cq-dd-image'}"/>
 </sly>
 <template data-sly-template.imageTemplate="${@ image='The com.adobe.cq.wcm.core.components.models.Image model', useNoScript}">
     <noscript data-sly-unwrap="${!useNoScript}">
