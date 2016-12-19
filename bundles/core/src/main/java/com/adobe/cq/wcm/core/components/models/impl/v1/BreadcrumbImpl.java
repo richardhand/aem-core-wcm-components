@@ -26,9 +26,9 @@ import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 
-import com.adobe.cq.wcm.core.components.NavigationItem;
 import com.adobe.cq.wcm.core.components.models.Breadcrumb;
 import com.adobe.cq.wcm.core.components.models.Constants;
+import com.adobe.cq.wcm.core.components.models.NavigationItem;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.designer.Style;
 
@@ -96,7 +96,11 @@ public class BreadcrumbImpl implements Breadcrumb {
                     break;
                 }
                 if (checkIfNotHidden(page)) {
-                    breadcrumbItems.add(new NavigationItem(page, isActivePage));
+                    NavigationItem navigationItem = page.adaptTo(NavigationItem.class);
+                    if (navigationItem != null) {
+                        navigationItem.setActive(isActivePage);
+                        breadcrumbItems.add(navigationItem);
+                    }
                 }
                 startLevel++;
             } else {

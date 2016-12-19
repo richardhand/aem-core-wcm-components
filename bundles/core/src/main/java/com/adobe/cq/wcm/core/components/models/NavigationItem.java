@@ -14,40 +14,12 @@
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-package com.adobe.cq.wcm.core.components;
-
-import org.apache.commons.lang.StringUtils;
+package com.adobe.cq.wcm.core.components.models;
 
 import com.day.cq.wcm.api.Page;
 
-/**
- * POJO for a navigation item. Holds navigation title, link and active state of the {@link Page}
- */
-public class NavigationItem {
 
-    private final String title;
-    private final String link;
-    private final Page page;
-    private final boolean active;
-
-    public NavigationItem(Page page, boolean active) {
-        this.page = page;
-        this.active = active;
-        this.title = populateTitle();
-        this.link = page.getPath();
-    }
-
-    private String populateTitle() {
-        String title;
-        if (StringUtils.isNotEmpty(page.getNavigationTitle())) {
-            title = page.getNavigationTitle();
-        } else if (StringUtils.isNotEmpty(page.getTitle())) {
-            title = page.getTitle();
-        } else {
-            title = page.getName();
-        }
-        return title;
-    }
+public interface NavigationItem {
 
     /**
      * Returns the navigation title of the {@link Page}. If no navigation title is present it first falls back to the page title and then to
@@ -55,25 +27,24 @@ public class NavigationItem {
      *
      * @return Navigation title
      */
-    public String getTitle() {
-        return title;
-    }
+    public String getTitle();
 
     /**
      * Returns the link to the related {@link Page}.
      *
      * @return Page path
      */
-    public String getLink() {
-        return link;
-    }
+    public String getLink();
 
     /**
      * Gets the active information of the current page
      *
      * @return true if it is the current page, otherwise false
      */
-    public boolean isActive() {
-        return active;
-    }
+    public boolean isActive();
+
+    /**
+     * @param active {@code true} if the page element should be marked as active element
+     */
+    void setActive(boolean active);
 }

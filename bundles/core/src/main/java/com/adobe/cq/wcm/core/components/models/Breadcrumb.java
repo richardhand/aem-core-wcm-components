@@ -17,8 +17,6 @@ package com.adobe.cq.wcm.core.components.models;
 
 import java.util.Collection;
 
-import com.adobe.cq.wcm.core.components.NavigationItem;
-
 /**
  * Component-Interface for the breadcrumb Sling Model
  */
