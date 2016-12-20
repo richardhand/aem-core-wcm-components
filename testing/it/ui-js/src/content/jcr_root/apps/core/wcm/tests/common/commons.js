@@ -83,7 +83,8 @@
                 "parentPath": parentPath,
                 "_charset_": "utf-8",
                 "./jcr:title": pageName,
-                "pageName": pageName
+                "pageName": pageName,
+                "./sling:resourceType": "core/wcm/tests/components/test-page"
             }
         })
             // when the request was successful
