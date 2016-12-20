@@ -18,7 +18,7 @@
       data-sly-use.head="head.html"
       data-sly-use.footer="footer.html">
     <head data-sly-call="${head.head @ page = page}"></head>
-    <body>
+    <body data-component="${resource.resourceType}">
         <sly data-sly-include="body.socialmedia_begin.html"/>
         <sly data-sly-include="body.html"/>
         <sly data-sly-call="${footer.footer @ page = page}"/>

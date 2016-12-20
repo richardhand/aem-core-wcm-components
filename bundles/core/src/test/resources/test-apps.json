@@ -170,20 +170,6 @@
                     "jcr:uuid": "0238cfaf-8ab9-4797-a35b-e21b56fbf935"
                 }
             },
-            "analytics": {
-                "jcr:primaryType": "nt:unstructured",
-                "cq:trackevents": [
-                    "listItemClicked",
-                    "listNewsItemClicked",
-                    "listTeaserItemClicked",
-                    "listNextPage",
-                    "listPreviousPage"
-                ],
-                "cq:trackvars": [
-                    "listItemPath",
-                    "listPageStart"
-                ]
-            },
             "templates": {
                 "jcr:primaryType": "sling:Folder",
                 "jcr:createdBy": "admin",
