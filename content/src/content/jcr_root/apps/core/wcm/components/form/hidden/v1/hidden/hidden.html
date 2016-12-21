@@ -15,5 +15,5 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <input data-sly-use.hiddenField="com.adobe.cq.wcm.core.components.models.form.HiddenField"
        data-sly-use.templates="core/wcm/components/commons/v1/templates.html"
-       data-sly-call="${templates.placeholder @ isEmpty = true, class, emptyTextAppend = hiddenField.name}"
+       data-sly-call="${templates.placeholder @ isEmpty = true, classAppend, emptyTextAppend = hiddenField.name}"
        type="hidden" id="${hiddenField.id}" name="${hiddenField.name}" value="${hiddenField.value}" />

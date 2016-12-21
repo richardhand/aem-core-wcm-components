@@ -14,8 +14,8 @@
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 
-<sly data-sly-template.placeholder="${@ isEmpty, class, emptyTextAppend}">
+<sly data-sly-template.placeholder="${@ isEmpty, classAppend, emptyTextAppend}">
     <div data-sly-test="${(wcmmode.edit || wcmmode.preview) && isEmpty}"
-         class="cq-placeholder${class && ' '}${class}"
+         class="cq-placeholder ${classAppend}"
          data-emptytext="${component.properties.jcr:title}${emptyTextAppend && ' - '}${emptyTextAppend}"></div>
 </sly>
