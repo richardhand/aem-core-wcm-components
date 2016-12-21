@@ -32,7 +32,7 @@
     </a>
     <small data-sly-test="${!image.shouldDisplayCaptionPopup && image.title}">${image.title}</small>
     <sly data-sly-test="${!image.src}"
-         data-sly-call="${templates.placeholder @ isEmpty = true, attrClass = 'cq-placeholder cq-dd-image'}"/>
+         data-sly-call="${templates.placeholder @ isEmpty = true, class = 'cq-dd-image'}"/>
 </sly>
 <template data-sly-template.imageTemplate="${@ image='The com.adobe.cq.wcm.core.components.models.Image model', useNoScript}">
     <noscript data-sly-unwrap="${!useNoScript}">
