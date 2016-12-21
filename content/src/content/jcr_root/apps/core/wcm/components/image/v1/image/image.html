@@ -22,12 +22,12 @@
     <div data-sly-test="${image.src && image.smartSizes.length >= 2}"
          class="cmp cmp-image cq-dd-image"
          data-cmp-image='{"smartSizes" : [${image.smartSizes}], "smartImages" : [${image.smartImages}], "lazyEnabled": ${image.isLazyLoadingEnabled}}'>
-        <sly data-sly-call="${imageTemplate @ image = image, useNoScript = true}"></sly>
+        <sly data-sly-call="${imageTemplate @ image = image, useNoScript = true}"/>
     </div>
     <div data-sly-test="${image.src && image.smartSizes.length < 2}"
          class="cmp cmp-image cq-dd-image"
          data-cmp-image='${image.isLazyLoadingEnabled ? "{\"lazyEnabled\" : true}" : false}'>
-        <sly data-sly-call="${imageTemplate @ image = image, useNoScript = image.isLazyLoadingEnabled}"></sly>
+        <sly data-sly-call="${imageTemplate @ image = image, useNoScript = image.isLazyLoadingEnabled}"/>
     </div>
     </a>
     <small data-sly-test="${!image.shouldDisplayCaptionPopup && image.title}">${image.title}</small>
