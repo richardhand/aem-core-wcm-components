@@ -24,7 +24,7 @@
     <parent>
         <artifactId>com.adobe.cq.wcm.core.components.parent</artifactId>
         <groupId>com.adobe.cq</groupId>
-        <version>0.9.30</version>
+        <version>0.9.44</version>
         <relativePath>../../../parent/pom.xml</relativePath>
     </parent>
 
@@ -133,25 +133,11 @@
                 <artifactId>content-package-maven-plugin</artifactId>
                 <extensions>true</extensions>
                 <configuration>
+                    <targetURL>http://${aem.host}:${aem.port}${aem.contextPath}/crx/packmgr/service.jsp</targetURL>
                     <group>${vault.package.group}</group>
                     <requiresRoot>true</requiresRoot>
-
-                    <properties>
-                        <acHandling>overwrite</acHandling>
-                        <created>${buildNumber}</created>
-                        <createdBy>Adobe Systems Incorporated</createdBy>
-                    </properties>
-
                     <filterSource>${basedir}/src/content/META-INF/vault/filter.xml</filterSource>
-
                     <prefix>/</prefix>
-
-                    <archive>
-                        <manifestEntries>
-                            <BuildVersion>${project.version}.${BUILD_NUMBER}</BuildVersion>
-                        </manifestEntries>
-                    </archive>
-
                     <subPackages>
                         <subPackage>
                             <groupId>com.adobe.qe</groupId>
@@ -159,20 +145,81 @@
                             <filter>true</filter>
                         </subPackage>
                     </subPackages>
-
                     <dependencies>
                         <dependency>
                             <group>day/cq60/product</group>
                             <name>cq-content</name>
                             <version>[6.1.76,)</version>
                         </dependency>
-
                     </dependencies>
                 </configuration>
             </plugin>
         </plugins>
     </build>
 
+    <!-- ====================================================================== -->
+    <!-- P R O F I L E S                                                        -->
+    <!-- ====================================================================== -->
+    <profiles>
+        <profile>
+            <id>autoInstallPackage</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.day.jcr.vault</groupId>
+                        <artifactId>content-package-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>install-package</id>
+                                <goals>
+                                    <goal>install</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <targetURL>http://${aem.host}:${aem.port}${aem.contextPath}/crx/packmgr/service.jsp</targetURL>
+                            <failOnError>true</failOnError>
+                            <failOnMissingEmbed>true</failOnMissingEmbed>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>autoInstallPackagePublish</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.day.jcr.vault</groupId>
+                        <artifactId>content-package-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>install-package</id>
+                                <goals>
+                                    <goal>install</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <targetURL>http://${aem.publish.host}:${aem.publish.port}${aem.contextPath}/crx/packmgr/service.jsp</targetURL>
+                            <failOnError>true</failOnError>
+                            <failOnMissingEmbed>true</failOnMissingEmbed>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <!-- ====================================================================== -->
+    <!-- D E P E N D E N C I E S                                                -->
+    <!-- ====================================================================== -->
     <dependencies>
         <dependency>
             <groupId>com.adobe.qe</groupId>
@@ -181,5 +228,4 @@
             <type>zip</type>
         </dependency>
     </dependencies>
-
 </project>

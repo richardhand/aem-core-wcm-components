@@ -23,7 +23,7 @@
     <parent>
         <groupId>com.adobe.cq</groupId>
         <artifactId>com.adobe.cq.wcm.core.components.parent</artifactId>
-        <version>0.9.38</version>
+        <version>0.9.44</version>
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
 
@@ -116,6 +116,7 @@
                 <artifactId>content-package-maven-plugin</artifactId>
                 <extensions>true</extensions>
                 <configuration>
+                    <targetURL>http://${aem.host}:${aem.port}${aem.contextPath}/crx/packmgr/service.jsp</targetURL>
                     <builtContentDirectory>target/${project.artifactId}</builtContentDirectory>
                     <filterSource>${basedir}/src/content/META-INF/vault/filter.xml</filterSource>
                     <verbose>true</verbose>
@@ -153,7 +154,7 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <targetURL>http://${aem.host}:${aem.port}/crx/packmgr/service.jsp</targetURL>
+                            <targetURL>http://${aem.host}:${aem.port}${aem.contextPath}/crx/packmgr/service.jsp</targetURL>
                             <failOnError>true</failOnError>
                             <failOnMissingEmbed>true</failOnMissingEmbed>
                         </configuration>
@@ -180,7 +181,7 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <targetURL>http://${aem.publish.host}:${aem.publish.port}/crx/packmgr/service.jsp</targetURL>
+                            <targetURL>http://${aem.publish.host}:${aem.publish.port}${aem.contextPath}/crx/packmgr/service.jsp</targetURL>
                             <failOnError>true</failOnError>
                             <failOnMissingEmbed>true</failOnMissingEmbed>
                         </configuration>
