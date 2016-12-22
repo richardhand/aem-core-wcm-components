@@ -76,6 +76,7 @@ public class OptionsImpl implements Options {
     @ValueMapValue(name = OptionsImpl.PN_TYPE,
                    optional = true)
     private String typeString;
+    private String typeValue;
 
     @SlingObject
     private Resource resource;
@@ -134,7 +135,10 @@ public class OptionsImpl implements Options {
 
     @Override
     public String getType() {
-        return Type.fromString(typeString).getValue();
+        if (typeValue == null) {
+            typeValue = Type.fromString(typeString).getValue();
+        }
+        return typeValue;
     }
 
     @Override

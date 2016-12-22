@@ -65,7 +65,7 @@ public interface Container {
 
     /**
      * This method returns the redirect url property of this form. If the current sling request has a non-blank context path, the context
-     * path is prepended to the redirect url if the redirect is an abolsute path starting with '/'. This method also appends ".html" to the
+     * path is prepended to the redirect url if the redirect is an absolute path starting with '/'. This method also appends ".html" to the
      * redirect path.
      * 
      * @return The form redirect url (used in the :redirect hidden input field of the form).

@@ -40,10 +40,13 @@ public class ButtonImpl implements Button {
     protected static final String RESOURCE_TYPE = FormsConstants.RT_CORE_FORM_BUTTON + "/v1/button";
 
     private static final String PROP_TYPE_DEFAULT = "submit";
+    private static final String PN_TYPE = "type";
 
-    @ValueMapValue
+    @ValueMapValue(name = PN_TYPE)
     @Default(values = PROP_TYPE_DEFAULT)
-    private String type;
+    private String typeString;
+
+    private Type type;
 
     @ValueMapValue
     @Default(values = {})
@@ -65,17 +68,18 @@ public class ButtonImpl implements Button {
     @PostConstruct
     protected void initModel() {
         i18n = new I18n(request);
+        type = Type.fromString(typeString);
     }
 
     @Override
-    public String getType() {
+    public Type getType() {
         return this.type;
     }
 
     @Override
     public String getCaption() {
         if (this.caption == null || this.caption.trim().isEmpty()) {
-            this.caption = i18n.getVar(StringUtils.capitalize(this.getType()));
+            this.caption = i18n.getVar(StringUtils.capitalize(this.typeString));
         }
         return this.caption;
     }
@@ -89,25 +93,5 @@ public class ButtonImpl implements Button {
     @Override
     public String getValue() {
         return value;
-    }
-
-    public static enum Type {
-        SUBMIT("submit"),
-        BUTTON("button");
-
-        private String value;
-
-        Type(String value) {
-            this.value = value;
-        }
-
-        public static Type fromString(String value) {
-            for (Type type : values()) {
-                if (type.value.equals(value)) {
-                    return type;
-                }
-            }
-            return null;
-        }
     }
 }

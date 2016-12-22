@@ -67,6 +67,7 @@ public class PageImpl implements Page {
     private String staticDesignPath;
     private String title;
     private String[] templateCategories = new String[0];
+    private String lastModifiedDate;
 
     private static final String FN_ICO_FAVICON = "favicon.ico";
     private static final String FN_PNG_FAVICON = "favicon_32.png";
@@ -118,7 +119,10 @@ public class PageImpl implements Page {
 
     @Override
     public String getLastModifiedDate() {
-        return pageProperties.get(NameConstants.PN_PAGE_LAST_MOD, String.class);
+        if (lastModifiedDate == null) {
+            lastModifiedDate = pageProperties.get(NameConstants.PN_PAGE_LAST_MOD, String.class);
+        }
+        return lastModifiedDate;
     }
 
     @Override

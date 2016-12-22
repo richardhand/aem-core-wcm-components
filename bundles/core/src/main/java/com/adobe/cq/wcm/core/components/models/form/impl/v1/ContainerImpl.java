@@ -19,15 +19,15 @@ package com.adobe.cq.wcm.core.components.models.form.impl.v1;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingConstants;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
-import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.OSGiService;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 
@@ -37,6 +37,7 @@ import com.adobe.cq.wcm.core.components.models.form.Container;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
+import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
 @Model(adaptables = SlingHttpServletRequest.class,
        adapters = Container.class,
@@ -47,9 +48,6 @@ public class ContainerImpl implements Container {
 
     protected static final String RESOURCE_TYPE = FormsConstants.RT_CORE_FORM_CONTAINER_V1;
 
-    private static final String PN_ACTION_TYPE = "actionType";
-    private static final String PN_METHOD = "method";
-    private static final String PN_ENCTYPE = "enctype";
     private static final String PN_RESOURCE_TYPE = "sling:" + SlingConstants.PROPERTY_RESOURCE_TYPE;
     private static final String PN_REDIRECT_TYPE = "redirect";
 
@@ -60,49 +58,63 @@ public class ContainerImpl implements Container {
     private SlingHttpServletRequest slingRequest;
 
     @ScriptVariable
-    private ValueMap properties;
-
-    @ScriptVariable
     private Page currentPage;
 
+    @ValueMapValue
+    @Default(values = PROP_METHOD_DEFAULT)
     private String method;
 
+    @ValueMapValue
+    @Default(values = PROP_ENCTYPE_DEFAULT)
     private String enctype;
 
-    private String action;
-
+    @ValueMapValue
+    @Default(values = "")
     private String id;
 
+    @ValueMapValue(optional = true)
+    private String actionType;
+
+    @ValueMapValue(name = PN_RESOURCE_TYPE)
+    @Default(values = "")
+    private String dropAreaResourceType;
+
+    @ValueMapValue(name = PN_REDIRECT_TYPE, optional = true)
+    private String redirectURL;
+
     private String name;
-
+    private String action;
     private List<Resource> formFields;
-
     private List<String> formFieldResourcePaths;
 
     @ScriptVariable
     private Resource resource;
 
-    @Inject
+    @OSGiService
     private FormStructureHelperFactory formStructureHelperFactory;
 
     @PostConstruct
     protected void initModel() {
         slingRequest.setAttribute(FormsHelper.REQ_ATTR_FORM_STRUCTURE_HELPER,
                 formStructureHelperFactory.getFormStructureHelper(resource));
-        this.method = properties.get(PN_METHOD, PROP_METHOD_DEFAULT);
-        this.enctype = properties.get(PN_ENCTYPE, PROP_ENCTYPE_DEFAULT);
         this.action = currentPage.getPath() + ".html";
-        String formId = properties.get("id", "");
-        if (StringUtils.isEmpty(formId)) {
-            formId = FormsHelper.getFormId(slingRequest);
+        if (StringUtils.isEmpty(id)) {
+            id = FormsHelper.getFormId(slingRequest);
         }
-        this.id = formId;
-        this.name = formId;
+        this.name = id;
+        this.dropAreaResourceType += "/new";
+        if (redirectURL != null) {
+            String contextPath = slingRequest.getContextPath();
+            if (StringUtils.isNotBlank(contextPath) && redirectURL.startsWith("/")) {
+                redirectURL = contextPath + redirectURL;
+            }
+            redirectURL = !redirectURL.endsWith(".html") ? (redirectURL + ".html") : redirectURL;
+        }
     }
 
     @Override
     public String getActionType() {
-        return properties.get(PN_ACTION_TYPE, String.class);
+        return actionType;
     }
 
     @Override
@@ -110,7 +122,7 @@ public class ContainerImpl implements Container {
         if (formFieldResourcePaths == null) {
             formFields = new ArrayList<Resource>();
             formFieldResourcePaths = new ArrayList<String>();
-            for (Resource child : slingRequest.getResource().getChildren()) {
+            for (Resource child : resource.getChildren()) {
                 formFields.add(child);
                 formFieldResourcePaths.add(child.getPath());
             }
@@ -145,20 +157,11 @@ public class ContainerImpl implements Container {
 
     @Override
     public String getResourceTypeForDropArea() {
-        return properties.get(PN_RESOURCE_TYPE, "") + "/new";
+        return dropAreaResourceType;
     }
 
     @Override
     public String getRedirect() {
-        String redirect = properties.get(PN_REDIRECT_TYPE, String.class);
-        if (redirect != null) {
-            String contextPath = slingRequest.getContextPath();
-            if (StringUtils.isNotBlank(contextPath) && redirect.startsWith("/")) {
-                redirect = contextPath + redirect;
-            }
-
-            return !redirect.endsWith(".html") ? (redirect + ".html") : redirect;
-        }
-        return redirect;
+        return redirectURL;
     }
 }

@@ -61,7 +61,7 @@ public class ButtonImplTest {
     public void testEmptyButton() throws Exception {
         context.currentResource(EMPTY_BUTTON_PATH);
         Button button = context.request().adaptTo(Button.class);
-        assertEquals("submit", button.getType());
+        assertEquals(Button.Type.SUBMIT, button.getType());
         assertEquals("Submit", button.getCaption());
         assertEquals("", button.getName());
         assertEquals("", button.getValue());
@@ -77,7 +77,7 @@ public class ButtonImplTest {
     public void testJsonButton() throws Exception {
         context.currentResource(BUTTON1_PATH);
         Button button = context.request().adaptTo(Button.class);
-        assertEquals("button", button.getType());
+        assertEquals(Button.Type.BUTTON, button.getType());
         assertEquals("button caption", button.getCaption());
         assertEquals("name1", button.getName());
         assertEquals("value1", button.getValue());

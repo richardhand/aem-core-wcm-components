@@ -21,32 +21,61 @@ package com.adobe.cq.wcm.core.components.models.form;
 public interface Button {
 
     /**
+     * Defines button type.
+     */
+    enum Type {
+        /**
+         * Button type used to submit forms.
+         */
+        SUBMIT("submit"),
+        /**
+         * Normal button.
+         */
+        BUTTON("button");
+
+        private String value;
+
+        Type(String value) {
+            this.value = value;
+        }
+
+        public static Type fromString(String value) {
+            for (Type type : values()) {
+                if (type.value.equals(value)) {
+                    return type;
+                }
+            }
+            return null;
+        }
+    }
+
+    /**
      * @return the type of the button.
      * <p>
      * Possible values: 'button', 'submit'
      * </p>
      */
-    public String getType();
+    Type getType();
 
     /**
      * @return the caption of the button (text displayed on the button).
      */
-    public String getCaption();
+    String getCaption();
 
     /**
-     * @return the name of the button.
+     * @return value of the HTML <code>name</code> attribute.
      * <p>
-     * Note: {'name':'value'} is sent as a request parameter when POST-ing the form
+     * Note: <code>{'name':'value'}</code> is sent as a request parameter when POST-ing the form
      * </p>
      */
-    public String getName();
+    String getName();
 
     /**
-     * @return the value of the button.
+     * @return value of the HTML <code>value</code> attribute.
      * <p>
-     * Note: {'name':'value'} is sent as a request parameter when POST-ing the form
+     * Note: <code>{'name':'value'}</code> is sent as a request parameter when POST-ing the form
      * </p>
      */
-    public String getValue();
+    String getValue();
 
 }

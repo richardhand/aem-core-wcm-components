@@ -91,7 +91,7 @@ public class FormStructureHelperImpl implements FormStructureHelper {
                 resourceSuperType != null && resourceSuperType.startsWith(FormsConstants.RT_CORE_FORM_BUTTON)) {
             Button button = resource.adaptTo(Button.class);
             if (button != null) {
-                ButtonImpl.Type type = ButtonImpl.Type.fromString(button.getType());
+                ButtonImpl.Type type = button.getType();
                 if (type != null && type == ButtonImpl.Type.SUBMIT) {
                     return false;
                 }

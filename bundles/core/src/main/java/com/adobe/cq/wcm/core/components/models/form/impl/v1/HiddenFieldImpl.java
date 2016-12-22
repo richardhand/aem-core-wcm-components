@@ -16,13 +16,13 @@
 package com.adobe.cq.wcm.core.components.models.form.impl.v1;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
-import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.OSGiService;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 
@@ -30,6 +30,7 @@ import com.adobe.cq.wcm.core.components.models.Constants;
 import com.adobe.cq.wcm.core.components.models.form.HiddenField;
 import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
+import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
 @Model(adaptables = SlingHttpServletRequest.class,
        adapters = HiddenField.class,
@@ -44,20 +45,26 @@ public class HiddenFieldImpl implements HiddenField {
     private static final String PROP_VALUE_DEFAULT = "";
     private static final String PROP_ID_DEFAULT = "";
 
-    private static final String PN_NAME = "name";
     private static final String PN_VALUE = "value";
-    private static final String PN_ID = "id";
 
     @Self
     private SlingHttpServletRequest slingRequest;
 
-    @ScriptVariable
-    private ValueMap properties;
+    @ValueMapValue
+    @Default(values = PROP_ID_DEFAULT)
+    private String id;
+
+    @ValueMapValue
+    @Default(values = PROP_NAME_DEFAULT)
+    private String name;
+
+    @ValueMapValue(optional = true)
+    private String value;
 
     @ScriptVariable
     private Resource resource;
 
-    @Inject
+    @OSGiService
     private FormStructureHelperFactory formStructureHelperFactory;
 
     private String[] prefillValues;
@@ -70,24 +77,23 @@ public class HiddenFieldImpl implements HiddenField {
         if (prefillValues == null || prefillValues.length == 0) {
             prefillValues = new String[]{PROP_VALUE_DEFAULT};
         }
+        if (value == null) {
+            value = prefillValues[0];
+        }
     }
 
     @Override
     public String getId() {
-        return properties.get(PN_ID, PROP_ID_DEFAULT);
+        return id;
     }
 
     @Override
     public String getName() {
-        return properties.get(PN_NAME, PROP_NAME_DEFAULT);
+        return name;
     }
 
     @Override
     public String getValue() {
-        String value = properties.get(PN_VALUE, String.class);
-        if (value == null) {
-            value = prefillValues[0];
-        }
         return value;
     }
 }
