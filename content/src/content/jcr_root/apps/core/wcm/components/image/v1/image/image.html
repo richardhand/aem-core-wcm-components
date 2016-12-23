@@ -17,8 +17,7 @@
      data-sly-use.templates="core/wcm/components/commons/v1/templates.html">
     <a data-sly-unwrap="${!image.link || image.isDecorative}"
         href="${image.link}"
-        onclick="CQ_Analytics.record({event: 'imageClick', values: { imageLink: '${image.link @ context='scriptString'}', imageAsset:
-    '${image.fileReference @ context='scriptString'}', imageTitle: '${image.fileName @ context='scriptString'}' }, collect: false, options: { obj: this }, componentPath: '${resource.resourceType @ context='scriptString'}'})">
+        data-title="${image.title}" data-asset="${image.fileReference}" data-component="${resource.resourceType}">
     <div data-sly-test="${image.src && image.smartSizes.length >= 2}"
          class="cmp cmp-image cq-dd-image"
          data-cmp-image='{"smartSizes" : [${image.smartSizes}], "smartImages" : [${image.smartImages}], "lazyEnabled": ${image.isLazyLoadingEnabled}}'>
