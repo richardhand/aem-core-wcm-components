@@ -16,12 +16,9 @@
 <template data-sly-template.item="${@ list, listItem}">
     <p>
         <a href="${listItem.page.path @ extension='html'}" data-sly-unwrap="${!list.linkItem}" data-component="${resource.resourceType}">
-            <span>${listItem.page.title || listItem.page.name}</span>
-            <span data-sly-test="${list.showModificationDate}">&ndash; ${listItem.modificationDateString}</span>
+            <span class="cmp-list--item-title">${listItem.page.pageTitle || listItem.page.title || listItem.page.name}</span>
+            <span data-sly-test="${list.showModificationDate}" class="cmp-list--item-date">${listItem.modificationDateString}</span>
         </a>
-        <sly data-sly-test="${list.showDescription}">
-            <br/>
-            <span class="teaser-description">${listItem.page.description}</span>
-        </sly>
+        <span data-sly-test="${list.showDescription}" class="cmp-list--item-description">${listItem.page.description}</span>
     </p>
 </template>
