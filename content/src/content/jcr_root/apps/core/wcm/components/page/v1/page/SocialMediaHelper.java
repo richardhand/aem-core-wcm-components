@@ -25,6 +25,7 @@ import com.adobe.cq.commerce.common.PriceFilter;
 import com.adobe.cq.sightly.WCMUsePojo;
 import com.adobe.cq.xf.social.ExperienceFragmentSocialVariation;
 import com.day.cq.commons.Externalizer;
+import com.day.cq.commons.ImageResource;
 import com.day.cq.wcm.api.Page;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -364,7 +365,11 @@ public class SocialMediaHelper extends WCMUsePojo {
 
         @Override
         public String getImage() {
-            String image = product.getImage().getFileReference();
+            final ImageResource imageResource = product.getImage();
+            if (imageResource == null)
+                return super.getImage();
+
+            String image = imageResource.getFileReference();
             if (StringUtils.isBlank(image)) {
                 image = super.getImage();
             } else {
