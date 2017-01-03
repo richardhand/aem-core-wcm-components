@@ -311,7 +311,10 @@ public class ListImpl implements List {
     }
 
     private Page getRootPage() {
-        String parentPath = properties.get(PN_PARENT_PAGE, currentPage.getPath());
+        String parentPath = properties.get(PN_PARENT_PAGE, String.class);
+        if(StringUtils.isEmpty(parentPath)) {
+            parentPath = currentPage.getPath();
+        }
         return pageManager.getContainingPage(resourceResolver.getResource(parentPath));
     }
 
