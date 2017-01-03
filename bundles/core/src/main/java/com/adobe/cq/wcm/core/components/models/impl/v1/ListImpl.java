@@ -70,6 +70,7 @@ public class ListImpl implements List {
     private static final String PN_SOURCE = "listFrom";
     private static final String PN_PAGES = "pages";
     private static final String PN_PARENT_PAGE = "parentPage";
+    private static final String PN_TAGS_PARENT_PAGE = "tagsSearchRoot";
     private static final String PN_TAGS = "tags";
     private static final String PN_TAGS_MATCH = "tagsMatch";
     private static final int LIMIT_DEFAULT = 100;
@@ -225,7 +226,7 @@ public class ListImpl implements List {
 
     private void populateChildListItems() {
         listItems = new ArrayList<>();
-        Page rootPage = getRootPage();
+        Page rootPage = getRootPage(PN_PARENT_PAGE);
         if (rootPage != null) {
             collectChildren(rootPage.getDepth(), rootPage);
         }
@@ -247,7 +248,7 @@ public class ListImpl implements List {
         String[] tags = properties.get(PN_TAGS, new String[0]);
         boolean matchAny = properties.get(PN_TAGS_MATCH, TAGS_MATCH_ANY_VALUE).equals(TAGS_MATCH_ANY_VALUE);
         if (ArrayUtils.isNotEmpty(tags)) {
-            Page rootPage = getRootPage();
+            Page rootPage = getRootPage(PN_TAGS_PARENT_PAGE);
             if (rootPage != null) {
                 TagManager tagManager = resourceResolver.adaptTo(TagManager.class);
                 RangeIterator<Resource> resourceRangeIterator = tagManager.find(rootPage.getPath(), tags, matchAny);
@@ -310,11 +311,8 @@ public class ListImpl implements List {
         }
     }
 
-    private Page getRootPage() {
-        String parentPath = properties.get(PN_PARENT_PAGE, String.class);
-        if(StringUtils.isEmpty(parentPath)) {
-            parentPath = currentPage.getPath();
-        }
+    private Page getRootPage(String fieldName) {
+        String parentPath = properties.get(fieldName, currentPage.getPath());
         return pageManager.getContainingPage(resourceResolver.getResource(parentPath));
     }
 

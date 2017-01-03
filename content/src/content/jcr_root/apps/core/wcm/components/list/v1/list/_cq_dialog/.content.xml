@@ -186,7 +186,7 @@
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
                                                 fieldDescription="Leave empty to use current page"
                                                 fieldLabel="Parent page"
-                                                name="./parentPage"
+                                                name="./tagsSearchRoot"
                                                 rootPath="/content"/>
                                             <tags
                                                 jcr:primaryType="nt:unstructured"

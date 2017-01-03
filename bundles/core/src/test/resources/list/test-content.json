@@ -109,7 +109,7 @@
             "jcr:primaryType"   : "nt:unstructured",
             "sling:resourceType": "core/wcm/components/list",
             "listFrom"          : "tags",
-            "parentPage"        : "/content/list/pages/page_1",
+            "tagsSearchRoot"    : "/content/list/pages/page_1",
             "tags"              : [
                 "list:test_category/test_tag"
             ]

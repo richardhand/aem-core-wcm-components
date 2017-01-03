@@ -344,7 +344,7 @@
         // set the content path
         .execTestCase(c.tcUseDialogSelect("./listFrom", "tags"))
         // set parent page
-        .simulate("foundation-autocomplete[name='./parentPage'] input[type!='hidden']", "key-sequence",
+        .simulate("foundation-autocomplete[name='./tagsSearchRoot'] input[type!='hidden']", "key-sequence",
         {sequence: "%parentPath%{enter}"})
         // search for 2 tags
         .simulate("span[data-property-path='./tags'] input[type!='hidden']", "key-sequence",
@@ -380,7 +380,7 @@
         // set the content path
         .execTestCase(c.tcUseDialogSelect("./listFrom", "tags"))
         // set parent page
-        .simulate("foundation-autocomplete[name='./parentPage'] input[type!='hidden']", "key-sequence",
+        .simulate("foundation-autocomplete[name='./tagsSearchRoot'] input[type!='hidden']", "key-sequence",
         {sequence: "%parentPath%{enter}"})
         // search for 2 tags
         .simulate("span[data-property-path='./tags'] input[type!='hidden']", "key-sequence",
