@@ -31,7 +31,7 @@
     <!-- P R O J E C T  D E S C R I P T I O N                                   -->
     <!-- ====================================================================== -->
     <artifactId>com.adobe.cq.wcm.core.components.content</artifactId>
-    <version>0.9.131-SNAPSHOT</version>
+    <version>0.9.135-SNAPSHOT</version>
     <packaging>content-package</packaging>
     <name>Adobe Experience Manager Core WCM Components Content Package</name>
 
@@ -230,14 +230,6 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.adobe.cq</groupId>
-            <artifactId>cq-experience-fragments</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.adobe.cq</groupId>
-            <artifactId>cq-experience-fragments-social</artifactId>
         </dependency>
 
         <!-- Testing -->
