@@ -13,13 +13,11 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<sly data-sly-use.button="com.adobe.cq.wcm.core.components.models.form.Button">
-    <div class="cmp cmp-button">
-        <button type="${button.type}"
-                class="btn"
-                name="${button.name}"
-                value="${button.value}">
-            ${button.caption}
-        </button>
-    </div>
-</sly>
+<div class="cmp cmp-button" data-sly-use.button="com.adobe.cq.wcm.core.components.models.form.Button">
+    <button type="${button.type}"
+            class="btn"
+            name="${button.name}"
+            value="${button.value}">
+        ${button.caption}
+    </button>
+</div>
