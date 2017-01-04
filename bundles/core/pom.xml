@@ -165,6 +165,15 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.adobe.cq</groupId>
+            <artifactId>cq-experience-fragments</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.adobe.cq</groupId>
+            <artifactId>cq-experience-fragments-social</artifactId>
+        </dependency>
+
 
         <!-- for testing we need the new ResourceTypeBasedResourcePicker -->
         <dependency>

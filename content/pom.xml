@@ -231,14 +231,6 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.adobe.cq</groupId>
-            <artifactId>cq-experience-fragments</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.adobe.cq</groupId>
-            <artifactId>cq-experience-fragments-social</artifactId>
-        </dependency>
 
         <!-- Testing -->
         <dependency>

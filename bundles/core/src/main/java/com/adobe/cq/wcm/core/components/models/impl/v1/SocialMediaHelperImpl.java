@@ -13,7 +13,7 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-package apps.core.wcm.components.page.v1.page;
+package com.adobe.cq.wcm.core.components.models.impl.v1;
 
 import com.adobe.cq.commerce.api.CommerceException;
 import com.adobe.cq.commerce.api.CommerceService;
@@ -22,18 +22,27 @@ import com.adobe.cq.commerce.api.PriceInfo;
 import com.adobe.cq.commerce.api.Product;
 import com.adobe.cq.commerce.common.CommerceHelper;
 import com.adobe.cq.commerce.common.PriceFilter;
-import com.adobe.cq.sightly.WCMUsePojo;
+import com.adobe.cq.wcm.core.components.models.SocialMediaHelper;
 import com.adobe.cq.xf.social.ExperienceFragmentSocialVariation;
 import com.day.cq.commons.Externalizer;
 import com.day.cq.commons.ImageResource;
 import com.day.cq.wcm.api.Page;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.OSGiService;
+import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
+import org.apache.sling.models.annotations.injectorspecific.Self;
+import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.PostConstruct;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -42,8 +51,13 @@ import java.util.Map;
 /**
  * Helper class for page functionality related to page sharing by user on social media platforms.
  */
-public class SocialMediaHelper extends WCMUsePojo {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SocialMediaHelper.class);
+@Model(adaptables = SlingHttpServletRequest.class,
+        adapters = SocialMediaHelper.class,
+        resourceType = {SocialMediaHelperImpl.MODEL_RESOURCE_TYPE_PAGE, SocialMediaHelperImpl.MODEL_RESOURCE_TYPE_SHARING})
+public class SocialMediaHelperImpl implements SocialMediaHelper {
+    static final String MODEL_RESOURCE_TYPE_PAGE = "core/wcm/components/page/v1/page";
+    static final String MODEL_RESOURCE_TYPE_SHARING = "core/wcm/components/sharing/v1/sharing";
+    private static final Logger LOGGER = LoggerFactory.getLogger(SocialMediaHelperImpl.class);
     private static final String SHARING_COMPONENT = "core/wcm/components/sharing";
     private static final String PN_SOCIAL_MEDIA = "socialMedia";
     private static final String PN_VARIANT_PATH = "variantPath";
@@ -58,6 +72,22 @@ public class SocialMediaHelper extends WCMUsePojo {
     private static final String OG_DESCRIPTION = "og:description";
     private static final String OG_PRODUCT_PRICE_AMOUNT = "product:price:amount";
     private static final String OG_PRODUCT_PRICE_CURRENCY = "product:price:currency";
+
+    @ScriptVariable
+    private Page currentPage = null;
+
+    @Self
+    private SlingHttpServletRequest request = null;
+
+    @ScriptVariable
+    private SlingHttpServletResponse response = null;
+
+    @SlingObject
+    private ResourceResolver resourceResolver = null;
+
+    @OSGiService
+    private Externalizer externalizer = null;
+
     //lazy variable, use hasSharingComponent() method for accessing it
     private Boolean hasSharingComponent;
     private boolean facebookEnabled;
@@ -118,9 +148,8 @@ public class SocialMediaHelper extends WCMUsePojo {
     }
 
     //*************** IMPLEMENTATION *******************
-    @Override
-    public void activate() throws Exception {
-        Page currentPage = getCurrentPage();
+    @PostConstruct
+    public void postConstruct() throws Exception {
         ValueMap pageProperties = currentPage.getProperties();
         String[] socialMedia = pageProperties.get(PN_SOCIAL_MEDIA, String[].class);
         facebookEnabled = ArrayUtils.contains(socialMedia, PV_FACEBOOK);
@@ -132,7 +161,7 @@ public class SocialMediaHelper extends WCMUsePojo {
     //Private accessor for hasSharingComponent field providing lazy initialization.
     private boolean hasSharingComponent() {
         if (hasSharingComponent == null) {
-            hasSharingComponent = hasSharingComponent(getCurrentPage().getContentResource());
+            hasSharingComponent = hasSharingComponent(currentPage.getContentResource());
         }
         return hasSharingComponent;
     }
@@ -162,7 +191,7 @@ public class SocialMediaHelper extends WCMUsePojo {
         metadata = new LinkedHashMap<>();
         if (socialMediaEnabled) {
             WebsiteMetadata websiteMetadata = createMetadataProvider();
-            put(OG_TITLE, websiteMetadata.getTitle());
+            put(OG_TITLE, websiteMetadata.getTitle() + " - v1");
             put(OG_URL, websiteMetadata.getURL());
             put(OG_TYPE, websiteMetadata.getTypeName());
             put(OG_SITE_NAME, websiteMetadata.getSiteName());
@@ -190,7 +219,6 @@ public class SocialMediaHelper extends WCMUsePojo {
      * Instantiates the suitable metadata provider based on the contents of the current page.
      */
     private WebsiteMetadata createMetadataProvider() {
-        Page currentPage = getCurrentPage();
         Product product = CommerceHelper.findCurrentProduct(currentPage);
         ExperienceFragmentSocialVariation smVariant = findExperienceFragmentSocialVariation();
         if (product == null) {
@@ -209,7 +237,7 @@ public class SocialMediaHelper extends WCMUsePojo {
     }
 
     private ExperienceFragmentSocialVariation findExperienceFragmentSocialVariation() {
-        Page variantPage = getPageManager().getPage(variantPath);
+        Page variantPage = currentPage.getPageManager().getPage(variantPath);
         if (variantPage == null)
             return null;
 
@@ -243,11 +271,6 @@ public class SocialMediaHelper extends WCMUsePojo {
         private static final String PN_IMAGE_FILE_JCR_CONTENT = "image/file/jcr:content";
         private static final String PN_JCR_LAST_MODIFIED = "jcr:lastModified";
         private static final String PN_JCR_TITLE = "jcr:title";
-        private Page currentPage;
-
-        public WebsiteMetadataProvider() {
-            this.currentPage = getCurrentPage();
-        }
 
         @Override
         public String getTitle() {
@@ -260,10 +283,9 @@ public class SocialMediaHelper extends WCMUsePojo {
 
         @Override
         public String getURL() {
-            Externalizer externalizer = getSlingScriptHelper().getService(Externalizer.class);
-            String pagePath = getCurrentPage().getPath();
-            String extension = getRequest().getRequestPathInfo().getExtension();
-            String url = externalizer.publishLink(getResourceResolver(), pagePath) + "." + extension;
+            String pagePath = currentPage.getPath();
+            String extension = request.getRequestPathInfo().getExtension();
+            String url = externalizer.publishLink(resourceResolver, pagePath) + "." + extension;
             return url;
         }
 
@@ -280,8 +302,7 @@ public class SocialMediaHelper extends WCMUsePojo {
         @Override
         public String getImage() {
             String image = getThumbnailUrl(currentPage, 800, 480);
-            Externalizer externalizer = getSlingScriptHelper().getService(Externalizer.class);
-            image = externalizer.publishLink(getResourceResolver(), image);
+            image = externalizer.publishLink(resourceResolver, image);
             return image;
         }
 
@@ -372,8 +393,7 @@ public class SocialMediaHelper extends WCMUsePojo {
             if (StringUtils.isBlank(image)) {
                 image = super.getImage();
             } else {
-                Externalizer externalizer = getSlingScriptHelper().getService(Externalizer.class);
-                image = externalizer.publishLink(getResourceResolver(), image);
+                image = externalizer.publishLink(resourceResolver, image);
             }
             return image;
         }
@@ -416,8 +436,8 @@ public class SocialMediaHelper extends WCMUsePojo {
         }
 
         private void initPriceInfo() throws CommerceException {
-            CommerceService commerceService = getResourceResolver().getResource(product.getPath()).adaptTo(CommerceService.class);
-            CommerceSession commerceSession = commerceService.login(getRequest(), getResponse());
+            CommerceService commerceService = resourceResolver.getResource(product.getPath()).adaptTo(CommerceService.class);
+            CommerceSession commerceSession = commerceService.login(request, response);
             List<PriceInfo> priceInfoList = commerceSession.getProductPriceInfo(product, new PriceFilter("UNIT"));
             if (!priceInfoList.isEmpty()) {
                 priceInfo = priceInfoList.get(0);
@@ -450,8 +470,7 @@ public class SocialMediaHelper extends WCMUsePojo {
 
             String image = variation.getImagePath();
             if (StringUtils.isNotBlank(image)) {
-                Externalizer externalizer = getSlingScriptHelper().getService(Externalizer.class);
-                image = externalizer.publishLink(getResourceResolver(), image);
+                image = externalizer.publishLink(resourceResolver, image);
                 return image;
             }
 
