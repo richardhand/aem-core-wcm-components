@@ -15,11 +15,13 @@
  ******************************************************************************/
 package com.adobe.cq.wcm.core.components.models.impl.v1;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.jackrabbit.util.ISO8601;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.testing.mock.sling.servlet.MockSlingHttpServletRequest;
@@ -37,7 +39,9 @@ import io.wcm.testing.mock.aem.junit.AemContext;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 public class PageImplTest {
 
@@ -73,10 +77,12 @@ public class PageImplTest {
     }
 
     @Test
-    public void testGetLastModifiedDate() {
+    public void testGetLastModifiedDate() throws ParseException {
         Page page = getPageUnderTest(PAGE);
-        assertEquals(ISO8601.parse("2016-01-20T10:33:36.000+01:00").getTime(),
-                ISO8601.parse(page.getLastModifiedDate()).getTime());
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        calendar.setTime(sdf.parse("2016-01-20T10:33:36.000+0100"));
+        assertEquals(page.getLastModifiedDate(), calendar);
     }
 
     @Test
@@ -120,9 +126,9 @@ public class PageImplTest {
     }
 
     @Test
-    public void testGetTemplateCategories() throws Exception {
+    public void testGetTemplateClientLibsCategories() throws Exception {
         Page page = getPageUnderTest(PAGE);
-        assertEquals("we-retail.product-page", page.getTemplateCategories()[0]);
+        assertEquals("we-retail.product-page", page.getTemplateClientLibsCategories()[0]);
     }
 
     private Page getPageUnderTest(String pagePath) {

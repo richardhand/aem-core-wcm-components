@@ -125,7 +125,7 @@ public class ListImpl implements List {
     private String startIn;
     private SortOrder sortOrder;
     private OrderBy orderBy;
-    private DateFormat dateFormat;
+    private String dateFormatString;
 
     private boolean showDescription;
     private boolean showModificationDate;
@@ -151,12 +151,7 @@ public class ListImpl implements List {
         showModificationDate = properties.get(
                 PN_SHOW_MODIFICATION_DATE, currentStyle.get(PN_SHOW_MODIFICATION_DATE, SHOW_MODIFICATION_DATE_DEFAULT));
         linkItem = properties.get(PN_LINK_ITEM, currentStyle.get(PN_LINK_ITEM, LINK_ITEM_DEFAULT));
-        try {
-            dateFormat = new SimpleDateFormat(properties.get(PN_DATA_FORMAT, currentStyle.get(PN_DATA_FORMAT, PN_DATA_FORMAT_DEFAULT)),
-                    request.getLocale());
-        } catch (IllegalArgumentException e) {
-            dateFormat = new SimpleDateFormat(PN_DATA_FORMAT_DEFAULT);
-        }
+        dateFormatString = properties.get(PN_DATA_FORMAT, currentStyle.get(PN_DATA_FORMAT, PN_DATA_FORMAT_DEFAULT));
 
     }
 
@@ -182,6 +177,11 @@ public class ListImpl implements List {
     @Override
     public boolean showModificationDate() {
         return showModificationDate;
+    }
+
+    @Override
+    public String getDateFormatString() {
+        return dateFormatString;
     }
 
     private Source getListType() {
@@ -219,7 +219,7 @@ public class ListImpl implements List {
         for (String path : pagesPaths) {
             Page page = pageManager.getContainingPage(path);
             if (page != null) {
-                listItems.add(new ListItemImpl(page, dateFormat));
+                listItems.add(new ListItemImpl(page));
             }
         }
     }
@@ -236,7 +236,7 @@ public class ListImpl implements List {
         Iterator<Page> childIterator = parent.listChildren();
         while (childIterator.hasNext()) {
             Page child = childIterator.next();
-            listItems.add(new ListItemImpl(child, dateFormat));
+            listItems.add(new ListItemImpl(child));
             if (child.getDepth() - startLevel < childDepth) {
                 collectChildren(startLevel, child);
             }
@@ -256,7 +256,7 @@ public class ListImpl implements List {
                     while (resourceRangeIterator.hasNext()) {
                         Page containingPage = pageManager.getContainingPage(resourceRangeIterator.next());
                         if (containingPage != null) {
-                            listItems.add(new ListItemImpl(containingPage, dateFormat));
+                            listItems.add(new ListItemImpl(containingPage));
                         }
                     }
                 }
@@ -286,7 +286,7 @@ public class ListImpl implements List {
         for (Hit hit : result.getHits()) {
             Page containingPage = pageManager.getContainingPage(hit.getResource());
             if (containingPage != null) {
-                listItems.add(new ListItemImpl(containingPage, dateFormat));
+                listItems.add(new ListItemImpl(containingPage));
             }
         }
     }

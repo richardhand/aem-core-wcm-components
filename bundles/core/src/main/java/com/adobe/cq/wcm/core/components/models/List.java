@@ -41,4 +41,9 @@ public interface List {
      * @return true if modification date should be shown otherwise false
      */
     boolean showModificationDate();
+
+    /**
+     * @return format to use for the display of the last modification date.
+     */
+    String getDateFormatString();
 }
