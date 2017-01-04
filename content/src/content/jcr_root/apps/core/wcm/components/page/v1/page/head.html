@@ -14,40 +14,27 @@
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <template data-sly-template.head="${ @ page }">
-<meta http-equiv="content-type" content="text/html; charset=UTF-8"
-      data-sly-use.headlibRenderer="headlibs.html"
-      data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html"/>
-<meta data-sly-test.keywords="${page.keywords}" name="keywords" content="${keywords}"/>
-<meta data-sly-test.description="${properties['jcr:description']}" name="description" content="${description}"/>
-<sly data-sly-include="head.socialmedia.html" />
-<sly data-sly-call="${headlibRenderer.headlibs @
-                            designPath         = page.designPath,
-                            staticDesignPath   = page.staticDesignPath,
-                            templateCategories = page.templateCategories}" />
-<sly data-sly-include="customheaderlibs.html" />
-<!--/* For IE 9 and below. ICO should be 32x32 pixels in size */-->
-<sly data-sly-test.icoFavicon="${page.ICOFavicon}">
-    <!--[if IE]><link rel="shortcut icon" href="${icoFavicon}"/><![endif]-->
-</sly>
-<!--/* Firefox, Chrome, Safari, IE 11+ and Opera. 196x196 pixels in size. */-->
-<sly data-sly-test.pngFavicon="${page.PNGFavicon}">
-    <link rel="icon" type="image/png" href="${pngFavicon}"/>
-</sly>
-<sly data-sly-test="${!pngFavicon && icoFavicon}">
-    <link rel="icon" href="${icoFavicon}"/>
-</sly>
-
-<sly data-sly-test.touchIcon60="${page.touchIcon60}">
-    <link rel="apple-touch-icon" href="${touchIcon60}"/>
-</sly>
-<sly data-sly-test.touchIcon76="${page.touchIcon76}">
-    <link rel="apple-touch-icon" sizes="76x76" href="${touchIcon76}"/>
-</sly>
-<sly data-sly-test.touchIcon120="${page.touchIcon120}">
-    <link rel="apple-touch-icon" sizes="120x120" href="${touchIcon120}"/>
-</sly>
-<sly data-sly-test.touchIcon152="${page.touchIcon152}">
-    <link rel="apple-touch-icon" sizes="152x152" href="${touchIcon152}"/>
-</sly>
-<title>${page.title}</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"
+          data-sly-use.headlibRenderer="headlibs.html"
+          data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html"/>
+    <meta data-sly-test.keywords="${page.keywords}" name="keywords" content="${keywords}"/>
+    <meta data-sly-test.description="${properties['jcr:description']}" name="description" content="${description}"/>
+    <sly data-sly-include="head.socialmedia.html" />
+    <sly data-sly-call="${headlibRenderer.headlibs @
+                                designPath         = page.designPath,
+                                staticDesignPath   = page.staticDesignPath,
+                                templateCategories = page.templateCategories}" />
+    <sly data-sly-include="customheaderlibs.html" />
+    <!--/* For IE 9 and below. ICO should be 32x32 pixels in size */-->
+    <sly data-sly-test.icoFavicon="${page.ICOFavicon}">
+        <!--[if IE]><link rel="shortcut icon" href="${icoFavicon}"/><![endif]-->
+    </sly>
+    <!--/* Firefox, Chrome, Safari, IE 11+ and Opera. 196x196 pixels in size. */-->
+    <link rel="icon" type="image/png" href="${pngFavicon}" data-sly-test.pngFavicon="${page.PNGFavicon}"/>
+    <link rel="icon" href="${icoFavicon}" data-sly-test="${!pngFavicon && icoFavicon}"/>
+    <link rel="apple-touch-icon" href="${touchIcon60}" data-sly-test.touchIcon60="${page.touchIcon60}"/>
+    <link rel="apple-touch-icon" sizes="76x76" href="${touchIcon76}" data-sly-test.touchIcon76="${page.touchIcon76}"/>
+    <link rel="apple-touch-icon" sizes="120x120" href="${touchIcon120}" data-sly-test.touchIcon120="${page.touchIcon120}"/>
+    <link rel="apple-touch-icon" sizes="152x152" href="${touchIcon152}" data-sly-test.touchIcon152="${page.touchIcon152}"/>
+    <title>${page.title}</title>
 </template>
