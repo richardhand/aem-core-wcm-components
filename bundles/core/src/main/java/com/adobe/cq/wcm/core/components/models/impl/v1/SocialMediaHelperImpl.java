@@ -53,9 +53,8 @@ import java.util.Map;
  */
 @Model(adaptables = SlingHttpServletRequest.class,
         adapters = SocialMediaHelper.class,
-        resourceType = {SocialMediaHelperImpl.MODEL_RESOURCE_TYPE_PAGE, SocialMediaHelperImpl.MODEL_RESOURCE_TYPE_SHARING})
+        resourceType = SocialMediaHelperImpl.MODEL_RESOURCE_TYPE_SHARING)
 public class SocialMediaHelperImpl implements SocialMediaHelper {
-    static final String MODEL_RESOURCE_TYPE_PAGE = "core/wcm/components/page/v1/page";
     static final String MODEL_RESOURCE_TYPE_SHARING = "core/wcm/components/sharing/v1/sharing";
     private static final Logger LOGGER = LoggerFactory.getLogger(SocialMediaHelperImpl.class);
     private static final String SHARING_COMPONENT = "core/wcm/components/sharing";
