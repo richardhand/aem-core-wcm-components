@@ -42,7 +42,6 @@ public class ListItemImpl implements ListItem {
     }
 
     @Override
-    @JsonSerialize(using = PageSerializer.class)
     public Page getPage() {
         return page;
     }
