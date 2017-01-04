@@ -29,7 +29,6 @@ import com.day.cq.commons.ImageResource;
 import com.day.cq.wcm.api.Page;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.jackrabbit.util.Text;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ValueMap;
 import org.slf4j.Logger;
@@ -262,7 +261,7 @@ public class SocialMediaHelper extends WCMUsePojo {
         @Override
         public String getURL() {
             Externalizer externalizer = getSlingScriptHelper().getService(Externalizer.class);
-            String pagePath = Text.escapePath(getCurrentPage().getPath());
+            String pagePath = getCurrentPage().getPath();
             String extension = getRequest().getRequestPathInfo().getExtension();
             String url = externalizer.publishLink(getResourceResolver(), pagePath) + "." + extension;
             return url;
@@ -297,7 +296,7 @@ public class SocialMediaHelper extends WCMUsePojo {
                 }
             }
 
-            return Text.escapePath(page.getPath()) + ".thumb." + width + "." + height + ".png?ck=" + ck;
+            return page.getPath() + ".thumb." + width + "." + height + ".png?ck=" + ck;
         }
 
 
@@ -374,7 +373,6 @@ public class SocialMediaHelper extends WCMUsePojo {
                 image = super.getImage();
             } else {
                 Externalizer externalizer = getSlingScriptHelper().getService(Externalizer.class);
-                image= Text.escapePath(image);
                 image = externalizer.publishLink(getResourceResolver(), image);
             }
             return image;
@@ -453,7 +451,6 @@ public class SocialMediaHelper extends WCMUsePojo {
             String image = variation.getImagePath();
             if (StringUtils.isNotBlank(image)) {
                 Externalizer externalizer = getSlingScriptHelper().getService(Externalizer.class);
-                image= Text.escapePath(image);
                 image = externalizer.publishLink(getResourceResolver(), image);
                 return image;
             }
