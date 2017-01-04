@@ -16,10 +16,10 @@
 <div data-sly-use.breadcrumb="com.adobe.cq.wcm.core.components.models.Breadcrumb"
      data-sly-use.template="core/wcm/components/commons/v1/templates.html" class="cmp cmp-breadcrumb">
     <ol class="breadcrumb" data-sly-list.navItem="${breadcrumb.breadcrumbItems}">
-        <li class="breadcrumb-item" data-sly-test="${!navItem.active}">
+        <li class="breadcrumb-item" data-sly-test.inactive="${!navItem.active}">
             <a href="${navItem.link @ extension='html'}" data-component="${resource.resourceType}">${navItem.title}</a>
         </li>
-        <li class="breadcrumb-item--active" data-sly-test="${navItem.active}">${navItem.title}</li>
+        <li class="breadcrumb-item--active" data-sly-test="${!inactive}">${navItem.title}</li>
     </ol>
 </div>
 <sly data-sly-call="${template.placeholder @ isEmpty=breadcrumb.breadcrumbItems.size == 0}"/>
