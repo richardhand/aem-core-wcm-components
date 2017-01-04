@@ -14,9 +14,9 @@
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <template data-sly-template.footer="${ @ page}">
-<sly data-sly-resource="${'cloudservices' @ resourceType='cq/cloudserviceconfigs/components/servicecomponents'}"/>
-<sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html"
-     data-sly-test.templateCategories="${page.templateCategories}"
-     data-sly-call="${clientLib.js @ categories=templateCategories}"/>
-<sly data-sly-include="customfooterlibs.html"/>
+    <sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html"
+         data-sly-test.templateCategories="${page.templateCategories}"
+         data-sly-call="${clientLib.js @ categories=templateCategories}"/>
+    <sly data-sly-include="customfooterlibs.html"/>
+    <sly data-sly-resource="${'cloudservices' @ resourceType='cq/cloudserviceconfigs/components/servicecomponents'}"/>
 </template>
