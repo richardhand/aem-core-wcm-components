@@ -59,13 +59,6 @@ public interface TextField extends FormField{
     int getRows();
 
     /**
-     * checks if the text field placeholder should be used for rendering the help message
-     * @return {@code true} if the help message should be rendered as placeholder <br>
-     *     {@code false} if the help message should be displayed independently outside the text field
-     */
-    boolean usePlaceholder();
-
-    /**
      * @return the help message desribing the contents of the text field
      */
     String getHelpMessage();
