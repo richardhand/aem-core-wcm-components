@@ -441,7 +441,8 @@
                                                     filter="folderOrVariant"
                                                     fieldDescription="Choose the social media variation of experience fragment to be used for generating page meta data for social media."
                                                     renderReadOnly="{Boolean}true"
-                                                    translateOptions="{Boolean}false">
+                                                    translateOptions="{Boolean}false"
+                                                    variant="sm">
                                                 <granite:data
                                                         jcr:primaryType="nt:unstructured"
                                                         cq-msm-lockable="fragmentPath"/>
