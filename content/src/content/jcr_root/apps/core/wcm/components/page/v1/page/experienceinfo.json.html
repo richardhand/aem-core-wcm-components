@@ -20,6 +20,6 @@
     "description": "${pageProperties['jcr:description'] @ context='scriptString'}",
     "experienceTitle": "${pageProperties['jcr:title'] || resource.parent.name @ context='scriptString'}",
     "analyzeUrl": "${resource.parent.path @ context='uri'}",
-    "lastModifiedDate": "${page.lastModifiedDate @ context='scriptString'}"
+    "lastModifiedDate": "${'yyyy-MM-dd\'T\'HH:mm:ss.SSSXXX' @ format=page.lastModifiedDate}"
 }
 </json>

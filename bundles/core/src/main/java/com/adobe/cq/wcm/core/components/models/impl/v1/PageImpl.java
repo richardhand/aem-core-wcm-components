@@ -16,6 +16,7 @@
 package com.adobe.cq.wcm.core.components.models.impl.v1;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -66,8 +67,8 @@ public class PageImpl implements Page {
     private String designPathCSS;
     private String staticDesignPath;
     private String title;
-    private String[] templateCategories = new String[0];
-    private String lastModifiedDate;
+    private String[] templateClientLibsCategories = new String[0];
+    private Calendar lastModifiedDate;
 
     private static final String FN_ICO_FAVICON = "favicon.ico";
     private static final String FN_PNG_FAVICON = "favicon_32.png";
@@ -108,7 +109,7 @@ public class PageImpl implements Page {
             }
             loadFavicons(designPath);
         }
-        populateTemplateCategories();
+        populateTemplateClientLibsCategories();
     }
 
 
@@ -118,9 +119,9 @@ public class PageImpl implements Page {
     }
 
     @Override
-    public String getLastModifiedDate() {
+    public Calendar getLastModifiedDate() {
         if (lastModifiedDate == null) {
-            lastModifiedDate = pageProperties.get(NameConstants.PN_PAGE_LAST_MOD, String.class);
+            lastModifiedDate = pageProperties.get(NameConstants.PN_PAGE_LAST_MOD, Calendar.class);
         }
         return lastModifiedDate;
     }
@@ -176,8 +177,8 @@ public class PageImpl implements Page {
     }
 
     @Override
-    public String[] getTemplateCategories() {
-        return templateCategories;
+    public String[] getTemplateClientLibsCategories() {
+        return templateClientLibsCategories;
     }
 
     private void loadFavicons(String designPath) {
@@ -197,7 +198,7 @@ public class PageImpl implements Page {
         return path;
     }
 
-    private void populateTemplateCategories() {
+    private void populateTemplateClientLibsCategories() {
         List<String> categories = new ArrayList<>();
         Template template = currentPage.getTemplate();
         if (template != null && template.hasStructureSupport()) {
@@ -207,7 +208,7 @@ public class PageImpl implements Page {
                 addPolicyClientLibs(templateResource, categories);
             }
         }
-        templateCategories = categories.toArray(new String[categories.size()]);
+        templateClientLibsCategories = categories.toArray(new String[categories.size()]);
     }
 
     private void addDefaultTemplateEditorClientLib(Resource templateResource, List<String> categories) {

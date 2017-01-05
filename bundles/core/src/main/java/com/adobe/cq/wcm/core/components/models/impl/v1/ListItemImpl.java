@@ -15,9 +15,6 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.models.impl.v1;
 
-import java.text.DateFormat;
-import java.util.Calendar;
-
 import com.adobe.cq.wcm.core.components.commons.jackson.impl.PageSerializer;
 import com.adobe.cq.wcm.core.components.models.ListItem;
 import com.day.cq.wcm.api.Page;
@@ -27,18 +24,9 @@ public class ListItemImpl implements ListItem {
 
 
     private Page page;
-    private DateFormat dateFormat;
 
-    public ListItemImpl(Page page, DateFormat dateFormat) {
+    public ListItemImpl(Page page) {
         this.page = page;
-        this.dateFormat = dateFormat;
-    }
-
-    @Override
-    public String getModificationDateString() {
-        Calendar lastModified = page.getLastModified();
-        dateFormat.setCalendar(lastModified);
-        return dateFormat.format(lastModified.getTime());
     }
 
     @Override

@@ -15,6 +15,8 @@
  ******************************************************************************/
 package com.adobe.cq.wcm.core.components.models;
 
+import java.util.Calendar;
+
 /**
  * Defines the {@code Page} Sling Model used for the {@code /apps/core/wcm/components/page} component.
  */
@@ -28,11 +30,11 @@ public interface Page {
     String getLanguage();
 
     /**
-     * Returns the last modified date of this page, formatted as a ISO8601 string.
+     * Returns the last modified date of this page.
      *
-     * @return the last modified date as a ISO8601 string
+     * @return {@link Calendar} representing the last modified date
      */
-    String getLastModifiedDate();
+    Calendar getLastModifiedDate();
 
     /**
      * Returns an array with the page's keywords.
@@ -114,6 +116,6 @@ public interface Page {
      * @return an array of client libraries categories; the array can be empty if the page doesn't have an associated template or if the
      * template has no client libraries
      */
-    String[] getTemplateCategories();
+    String[] getTemplateClientLibsCategories();
 
 }

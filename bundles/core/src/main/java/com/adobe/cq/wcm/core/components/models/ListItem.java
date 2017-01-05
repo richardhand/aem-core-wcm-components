@@ -15,19 +15,12 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.models;
 
-import java.util.Calendar;
-
 import com.day.cq.wcm.api.Page;
 
 /**
  * Interface for a single item of the {@link List} model
  */
 public interface ListItem {
-
-    /**
-     * @return modifaction date as configured date {@link String}
-     */
-    String getModificationDateString();
 
     /**
      * @return {@link Page} object of the related list item
