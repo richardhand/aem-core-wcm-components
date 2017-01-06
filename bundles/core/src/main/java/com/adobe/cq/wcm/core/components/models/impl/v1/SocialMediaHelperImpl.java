@@ -191,7 +191,7 @@ public class SocialMediaHelperImpl implements SocialMediaHelper {
         metadata = new LinkedHashMap<>();
         if (socialMediaEnabled) {
             WebsiteMetadata websiteMetadata = createMetadataProvider();
-            put(OG_TITLE, websiteMetadata.getTitle() + " - v1");
+            put(OG_TITLE, websiteMetadata.getTitle());
             put(OG_URL, websiteMetadata.getURL());
             put(OG_TYPE, websiteMetadata.getTypeName());
             put(OG_SITE_NAME, websiteMetadata.getSiteName());
