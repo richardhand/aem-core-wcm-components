@@ -309,9 +309,14 @@ public class SocialMediaHelperImpl implements SocialMediaHelper {
 
             ValueMap metadata = page.getProperties(PN_IMAGE_FILE_JCR_CONTENT);
             if (metadata != null) {
-                Calendar cal = metadata.get(JcrConstants.JCR_LASTMODIFIED, Calendar.class);
-                if (cal != null) {
-                    ck = "" + (cal.getTimeInMillis() / 1000);
+                Calendar imageLastModified = metadata.get(JcrConstants.JCR_LASTMODIFIED, Calendar.class);
+                Calendar pageLastModified = page.getLastModified();
+                if (pageLastModified != null && pageLastModified.after(imageLastModified)) {
+                    ck += pageLastModified.getTimeInMillis() / 1000;
+                } else if (imageLastModified != null){
+                    ck += imageLastModified.getTimeInMillis() / 1000;
+                } else if (pageLastModified != null){
+                    ck += pageLastModified.getTimeInMillis() / 1000;
                 }
             }
 
