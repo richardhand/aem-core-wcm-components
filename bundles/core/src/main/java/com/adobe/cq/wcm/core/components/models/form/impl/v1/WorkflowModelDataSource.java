@@ -28,7 +28,7 @@ import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 
-import com.adobe.cq.wcm.core.components.commons.forms.FormsConstants;
+import com.adobe.cq.wcm.core.components.commons.form.FormConstants;
 import com.adobe.cq.wcm.core.components.models.Constants;
 import com.adobe.cq.wcm.core.components.models.form.DataSourceModel;
 import com.adobe.granite.ui.components.ds.SimpleDataSource;
@@ -43,7 +43,7 @@ import com.adobe.granite.workflow.model.WorkflowModel;
           extensions = Constants.EXPORTER_EXTENSION)
 public class WorkflowModelDataSource extends DataSourceModel {
 
-    protected final static String RESOURCE_TYPE = FormsConstants.RT_CORE_FORM_CONTAINER_V1 + "/datasource/workflowmodeldatasource";
+    protected final static String RESOURCE_TYPE = FormConstants.RT_CORE_FORM_CONTAINER_V1 + "/datasource/workflowmodeldatasource";
 
     @Self
     private SlingHttpServletRequest request;

@@ -23,11 +23,11 @@ import javax.annotation.PostConstruct;
 import javax.servlet.ServletException;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.sling.api.SlingConstants;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.request.RequestPathInfo;
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.jcr.resource.JcrResourceConstants;
 import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
@@ -39,7 +39,7 @@ import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.adobe.cq.wcm.core.components.commons.forms.FormsConstants;
+import com.adobe.cq.wcm.core.components.commons.form.FormConstants;
 import com.adobe.cq.wcm.core.components.models.Constants;
 import com.adobe.cq.wcm.core.components.models.form.Container;
 import com.day.cq.wcm.api.Page;
@@ -56,11 +56,11 @@ import static com.day.cq.wcm.foundation.forms.FormsConstants.SCRIPT_FORM_SERVER_
           extensions = Constants.EXPORTER_EXTENSION)
 public class ContainerImpl implements Container {
 
-    protected static final String RESOURCE_TYPE = FormsConstants.RT_CORE_FORM_CONTAINER_V1;
+    protected static final String RESOURCE_TYPE = FormConstants.RT_CORE_FORM_CONTAINER_V1;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ContainerImpl.class);
-    private static final String PN_RESOURCE_TYPE = "sling:" + SlingConstants.PROPERTY_RESOURCE_TYPE;
-    private static final String PN_REDIRECT_TYPE = "redirect";
+    private static final String PN_RESOURCE_TYPE = JcrResourceConstants.SLING_RESOURCE_TYPE_PROPERTY;
+    private static final String PN_REDIRECT_URL = "redirect";
     private static final String PROP_METHOD_DEFAULT = "POST";
     private static final String PROP_ENCTYPE_DEFAULT = "multipart/form-data";
     private static final String INIT_SCRIPT = "init";
@@ -93,8 +93,8 @@ public class ContainerImpl implements Container {
     @Default(values = "")
     private String dropAreaResourceType;
 
-    @ValueMapValue(name = PN_REDIRECT_TYPE,
-                   optional = true)
+    @ValueMapValue(name = PN_REDIRECT_URL,
+            optional = true)
     private String redirectURL;
 
     private String name;
