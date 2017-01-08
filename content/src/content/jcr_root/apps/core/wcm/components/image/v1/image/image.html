@@ -17,7 +17,7 @@
      data-sly-use.templates="core/wcm/components/commons/v1/templates.html">
     <a data-sly-unwrap="${!image.link || image.isDecorative}"
         href="${image.link}"
-        data-title="${image.title}" data-asset="${image.fileReference}" data-component="${resource.resourceType}">
+        data-title="${image.title}" data-asset="${image.fileReference}">
     <div data-sly-test="${image.src && image.smartSizes.length >= 2}"
          class="cmp cmp-image cq-dd-image"
          data-cmp-image='{"smartSizes" : [${image.smartSizes}], "smartImages" : [${image.smartImages}], "lazyEnabled": ${image.isLazyLoadingEnabled}}'>

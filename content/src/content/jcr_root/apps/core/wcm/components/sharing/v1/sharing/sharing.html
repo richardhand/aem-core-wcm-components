@@ -18,7 +18,6 @@
      data-sly-call="${template.placeholder @ isEmpty=!socialMedia.socialMediaEnabled}"/>
 <div data-sly-test="${socialMedia.facebookEnabled}"
      class="fb-share-button"
-     data-component="${resource.resourceType}"
      data-href="${socialMedia.metadata.og:url}"
      data-layout="button_count"
      data-size="small"
@@ -29,5 +28,4 @@
    data-pin-count="beside"
    data-pin-save="true"
    data-pin-media="${socialMedia.metadata.og:image}"
-   data-component="${resource.resourceType}"
    href="https://www.pinterest.com/pin/create/button/"></a>
