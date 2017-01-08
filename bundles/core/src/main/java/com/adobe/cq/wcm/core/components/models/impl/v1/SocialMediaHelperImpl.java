@@ -26,6 +26,7 @@ import com.adobe.cq.wcm.core.components.models.SocialMediaHelper;
 import com.adobe.cq.xf.social.ExperienceFragmentSocialVariation;
 import com.day.cq.commons.Externalizer;
 import com.day.cq.commons.ImageResource;
+import com.day.cq.commons.jcr.JcrConstants;
 import com.day.cq.wcm.api.Page;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -189,7 +190,7 @@ public class SocialMediaHelperImpl implements SocialMediaHelper {
         metadata = new LinkedHashMap<>();
         if (socialMediaEnabled) {
             WebsiteMetadata websiteMetadata = createMetadataProvider();
-            put(OG_TITLE, websiteMetadata.getTitle() + " - v1");
+            put(OG_TITLE, websiteMetadata.getTitle());
             put(OG_URL, websiteMetadata.getURL());
             put(OG_TYPE, websiteMetadata.getTypeName());
             put(OG_SITE_NAME, websiteMetadata.getSiteName());
@@ -266,9 +267,7 @@ public class SocialMediaHelperImpl implements SocialMediaHelper {
     }
 
     private class WebsiteMetadataProvider implements WebsiteMetadata {
-        private static final String PN_IMAGE_FILE_JCR_CONTENT = "image/file/jcr:content";
-        private static final String PN_JCR_LAST_MODIFIED = "jcr:lastModified";
-        private static final String PN_JCR_TITLE = "jcr:title";
+        private static final String PN_IMAGE_FILE_JCR_CONTENT = "image/file/" + JcrConstants.JCR_CONTENT;
 
         @Override
         public String getTitle() {
@@ -309,9 +308,14 @@ public class SocialMediaHelperImpl implements SocialMediaHelper {
 
             ValueMap metadata = page.getProperties(PN_IMAGE_FILE_JCR_CONTENT);
             if (metadata != null) {
-                Calendar cal = metadata.get(PN_JCR_LAST_MODIFIED, Calendar.class);
-                if (cal != null) {
-                    ck = "" + (cal.getTimeInMillis() / 1000);
+                Calendar imageLastModified = metadata.get(JcrConstants.JCR_LASTMODIFIED, Calendar.class);
+                Calendar pageLastModified = page.getLastModified();
+                if (pageLastModified != null && pageLastModified.after(imageLastModified)) {
+                    ck += pageLastModified.getTimeInMillis() / 1000;
+                } else if (imageLastModified != null){
+                    ck += imageLastModified.getTimeInMillis() / 1000;
+                } else if (pageLastModified != null){
+                    ck += pageLastModified.getTimeInMillis() / 1000;
                 }
             }
 
@@ -339,7 +343,7 @@ public class SocialMediaHelperImpl implements SocialMediaHelper {
             if (content == null)
                 return null;
 
-            String title = content.getValueMap().get(PN_JCR_TITLE, String.class);
+            String title = content.getValueMap().get(JcrConstants.JCR_TITLE, String.class);
             if (StringUtils.isBlank(title))
                 return null;
 

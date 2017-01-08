@@ -20,10 +20,16 @@ import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
 import io.wcm.testing.mock.aem.junit.AemContext;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.sling.api.request.RequestDispatcherOptions;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.scripting.SlingBindings;
+import org.apache.sling.servlethelpers.MockRequestDispatcherFactory;
+import org.apache.sling.testing.mock.sling.servlet.MockSlingHttpServletRequest;
 import org.junit.*;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import com.adobe.cq.sightly.WCMBindings;
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
@@ -32,9 +38,14 @@ import com.day.cq.wcm.api.Page;
 
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.when;
 
+@RunWith(MockitoJUnitRunner.class)
 public class ContainerImplTest {
 
     private static final String CONTAINING_PAGE = "/content/we-retail/demo-page";
@@ -51,26 +62,38 @@ public class ContainerImplTest {
     public AemContext context = CoreComponentTestContext.createContext("/form/container", "/content/we-retail/demo-page");
     
     private SlingBindings slingBindings;
+
+    @Mock
+    private FormStructureHelperFactory formStructureHelperFactory;
+
+    @Mock
+    private FormStructureHelper formStructureHelper;
+
+    @Mock
+    private MockRequestDispatcherFactory requestDispatcherFactory;
+
+    @Mock
+    private RequestDispatcher requestDispatcher;
     
     @Before
     public void setUp() {
         Page page = context.currentPage(CONTAINING_PAGE);
         slingBindings = (SlingBindings) context.request().getAttribute(SlingBindings.class.getName());
         slingBindings.put(WCMBindings.CURRENT_PAGE, page);
-        context.registerService(FormStructureHelperFactory.class, new FormStructureHelperFactory(){
-            @Override
-            public FormStructureHelper getFormStructureHelper(Resource formElement) {
-                return null;
-            }
-        });
+        context.registerService(FormStructureHelperFactory.class, formStructureHelperFactory);
     }
     
     @Test
     public void testFormWithCustomAttributesAndFields() {
         Resource resource = context.currentResource(FORM1_PATH);
+        when(formStructureHelperFactory.getFormStructureHelper(resource)).thenReturn(formStructureHelper);
         slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
         slingBindings.put(RESOURCE_PROPERTY,resource);
-        Container container = context.request().adaptTo(Container.class);
+        MockSlingHttpServletRequest request = context.request();
+        request.setRequestDispatcherFactory(requestDispatcherFactory);
+        when(requestDispatcherFactory.getRequestDispatcher((Resource)any(), (RequestDispatcherOptions)any()))
+                .thenReturn(requestDispatcher);
+        Container container = request.adaptTo(Container.class);
         assertEquals(container.getActionType(), "foundation/components/form/actions/store");
         assertEquals(container.getEnctype(),"application/x-www-form-urlencoded");
         assertEquals(container.getMethod(),"GET");

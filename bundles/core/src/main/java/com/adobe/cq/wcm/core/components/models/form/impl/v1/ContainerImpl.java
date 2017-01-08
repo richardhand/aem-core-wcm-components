@@ -16,13 +16,17 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.models.form.impl.v1;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.servlet.ServletException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingConstants;
 import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.api.SlingHttpServletResponse;
+import org.apache.sling.api.request.RequestPathInfo;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Exporter;
@@ -30,14 +34,20 @@ import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.OSGiService;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 import org.apache.sling.models.annotations.injectorspecific.Self;
+import org.apache.sling.models.annotations.injectorspecific.SlingObject;
+import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.adobe.cq.wcm.core.components.commons.forms.FormsConstants;
 import com.adobe.cq.wcm.core.components.models.Constants;
 import com.adobe.cq.wcm.core.components.models.form.Container;
 import com.day.cq.wcm.api.Page;
+import com.day.cq.wcm.foundation.forms.FormStructureHelper;
 import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
-import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
+
+import static com.day.cq.wcm.foundation.forms.FormsConstants.SCRIPT_FORM_SERVER_VALIDATION;
 
 @Model(adaptables = SlingHttpServletRequest.class,
        adapters = Container.class,
@@ -48,14 +58,18 @@ public class ContainerImpl implements Container {
 
     protected static final String RESOURCE_TYPE = FormsConstants.RT_CORE_FORM_CONTAINER_V1;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ContainerImpl.class);
     private static final String PN_RESOURCE_TYPE = "sling:" + SlingConstants.PROPERTY_RESOURCE_TYPE;
     private static final String PN_REDIRECT_TYPE = "redirect";
-
     private static final String PROP_METHOD_DEFAULT = "POST";
     private static final String PROP_ENCTYPE_DEFAULT = "multipart/form-data";
+    private static final String INIT_SCRIPT = "init";
 
     @Self
-    private SlingHttpServletRequest slingRequest;
+    private SlingHttpServletRequest request;
+
+    @SlingObject
+    private SlingHttpServletResponse response;
 
     @ScriptVariable
     private Page currentPage;
@@ -79,7 +93,8 @@ public class ContainerImpl implements Container {
     @Default(values = "")
     private String dropAreaResourceType;
 
-    @ValueMapValue(name = PN_REDIRECT_TYPE, optional = true)
+    @ValueMapValue(name = PN_REDIRECT_TYPE,
+                   optional = true)
     private String redirectURL;
 
     private String name;
@@ -95,20 +110,34 @@ public class ContainerImpl implements Container {
 
     @PostConstruct
     protected void initModel() {
-        slingRequest.setAttribute(FormsHelper.REQ_ATTR_FORM_STRUCTURE_HELPER,
-                formStructureHelperFactory.getFormStructureHelper(resource));
+        FormStructureHelper formStructureHelper = formStructureHelperFactory.getFormStructureHelper(resource);
+        request.setAttribute(FormsHelper.REQ_ATTR_FORM_STRUCTURE_HELPER, formStructureHelper);
         this.action = currentPage.getPath() + ".html";
         if (StringUtils.isEmpty(id)) {
-            id = FormsHelper.getFormId(slingRequest);
+            id = FormsHelper.getFormId(request);
         }
         this.name = id;
         this.dropAreaResourceType += "/new";
         if (redirectURL != null) {
-            String contextPath = slingRequest.getContextPath();
+            String contextPath = request.getContextPath();
             if (StringUtils.isNotBlank(contextPath) && redirectURL.startsWith("/")) {
                 redirectURL = contextPath + redirectURL;
             }
             redirectURL = !redirectURL.endsWith(".html") ? (redirectURL + ".html") : redirectURL;
+        }
+        runActionTypeInit(formStructureHelper);
+    }
+
+    private void runActionTypeInit(FormStructureHelper formStructureHelper) {
+        final RequestPathInfo requestPathInfo = request.getRequestPathInfo();
+        if (response != null && !StringUtils.equals(requestPathInfo.getSelectorString(),
+                SCRIPT_FORM_SERVER_VALIDATION) && StringUtils.isNotEmpty(actionType)) {
+            final Resource formStart = formStructureHelper.getFormResource(request.getResource());
+            try {
+                FormsHelper.runAction(actionType, INIT_SCRIPT, formStart, request, response);
+            } catch (IOException | ServletException e) {
+                LOGGER.error(e.getMessage());
+            }
         }
     }
 

@@ -432,15 +432,17 @@
                                                     </pinterest>
                                                 </items>
                                             </field>
-                                            <variantpath jcr:primaryType="nt:unstructured"
-                                                          sling:resourceType="cq/experience-fragments/editor/components/xffield"
-                                                         cq:showOnCreate="{Boolean}true"
-                                                          name="./variantPath"
-                                                          fieldLabel="Preferred XF variation"
-                                                          filter="folderOrVariant"
-                                                          fieldDescription="Choose the social media variation of experience fragment to be used for generating page meta data for social media."
-                                                          renderReadOnly="{Boolean}true"
-                                                          translateOptions="{Boolean}false">
+                                            <variantpath
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="cq/experience-fragments/editor/components/xffield"
+                                                    cq:showOnCreate="{Boolean}true"
+                                                    name="./variantPath"
+                                                    fieldLabel="Preferred XF variation"
+                                                    filter="folderOrVariant"
+                                                    fieldDescription="Choose the social media variation of experience fragment to be used for generating page meta data for social media."
+                                                    renderReadOnly="{Boolean}true"
+                                                    translateOptions="{Boolean}false"
+                                                    variant="sm">
                                                 <granite:data
                                                         jcr:primaryType="nt:unstructured"
                                                         cq-msm-lockable="fragmentPath"/>
