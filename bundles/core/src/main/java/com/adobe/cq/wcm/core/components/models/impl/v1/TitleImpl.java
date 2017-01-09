@@ -23,7 +23,6 @@ import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
-import com.adobe.cq.wcm.core.components.commons.AuthoringUtils;
 import com.adobe.cq.wcm.core.components.models.Constants;
 import com.adobe.cq.wcm.core.components.models.Title;
 import com.day.cq.wcm.api.Page;
@@ -53,18 +52,12 @@ public class TitleImpl implements Title {
     @ValueMapValue(optional = true)
     private String type;
 
-    private String text;
-
     @Override
-    public String getText() {
-        if (text == null) {
-            text = title;
-            if (StringUtils.isEmpty(text) && !AuthoringUtils.isPageOfAuthoredTemplate(currentPage)) {
-                text = StringUtils.defaultIfEmpty(currentPage.getPageTitle(),
-                        StringUtils.defaultIfEmpty(currentPage.getTitle(), currentPage.getName()));
-            }
+    public String getTitle() {
+        if (StringUtils.isEmpty(title)) {
+            title = StringUtils.defaultIfEmpty(currentPage.getPageTitle(), currentPage.getTitle());
         }
-        return text;
+        return title;
     }
 
     @Override

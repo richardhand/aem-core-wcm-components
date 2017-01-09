@@ -16,7 +16,7 @@
 <template data-sly-template.footer="${ @ page}">
 <sly data-sly-resource="${'cloudservices' @ resourceType='cq/cloudserviceconfigs/components/servicecomponents'}"/>
 <sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html"
-     data-sly-test.templateClientLibsCategories="${page.templateClientLibsCategories}"
-     data-sly-call="${clientLib.js @ categories=templateClientLibsCategories}"/>
+     data-sly-test.clientlibCategories="${page.clientLibCategories}"
+     data-sly-call="${clientLib.js @ categories=clientlibCategories}"/>
 <sly data-sly-include="customfooterlibs.html"/>
 </template>

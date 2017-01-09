@@ -23,7 +23,7 @@
 <sly data-sly-call="${headlibRenderer.headlibs @
                             designPath         = page.designPath,
                             staticDesignPath   = page.staticDesignPath,
-                            templateClientLibsCategories = page.templateClientLibsCategories}" />
+                            clientLibCategories = page.clientLibCategories}" />
 <sly data-sly-include="customheaderlibs.html" />
 <!--/* For IE 9 and below. ICO should be 32x32 pixels in size */-->
 <sly data-sly-test.icoFavicon="${page.ICOFavicon}">

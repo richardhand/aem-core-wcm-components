@@ -25,7 +25,7 @@ import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
-import com.adobe.cq.wcm.core.components.commons.forms.FormsConstants;
+import com.adobe.cq.wcm.core.components.commons.form.FormConstants;
 import com.adobe.cq.wcm.core.components.models.Constants;
 import com.adobe.cq.wcm.core.components.models.form.Button;
 import com.day.cq.i18n.I18n;
@@ -37,7 +37,7 @@ import com.day.cq.i18n.I18n;
           extensions = Constants.EXPORTER_EXTENSION)
 public class ButtonImpl implements Button {
 
-    protected static final String RESOURCE_TYPE = FormsConstants.RT_CORE_FORM_BUTTON + "/v1/button";
+    protected static final String RESOURCE_TYPE = FormConstants.RT_CORE_FORM_BUTTON + "/v1/button";
 
     private static final String PROP_TYPE_DEFAULT = "submit";
     private static final String PN_TYPE = "type";

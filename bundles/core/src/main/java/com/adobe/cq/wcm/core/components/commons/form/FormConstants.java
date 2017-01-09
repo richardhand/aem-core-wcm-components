@@ -13,24 +13,21 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-package com.adobe.cq.wcm.core.components.commons.forms;
+package com.adobe.cq.wcm.core.components.commons.form;
 
 /**
  * Some constants for the form components.
  */
-public class FormsConstants {
+public class FormConstants {
 
     /** The prefix for all core form related resource types.*/
     public final static String RT_CORE_FORM_PREFIX = "core/wcm/components/form/";
 
-    /** The resource type for a form container. */
-    public final static String RT_CORE_FORM_CONTAINER = RT_CORE_FORM_PREFIX + "container";
-
     /** The resource type for form container version 1. */
-    public final static String RT_CORE_FORM_CONTAINER_V1 = RT_CORE_FORM_CONTAINER + "/v1/container";
+    public final static String RT_CORE_FORM_CONTAINER_V1 = RT_CORE_FORM_PREFIX + "container/v1/container";
 
     /** Array of all resource types for the form container, including versions */
-    public final static String[] RT_ALL_CORE_FORM_CONTAINER = { RT_CORE_FORM_CONTAINER, RT_CORE_FORM_CONTAINER_V1 };
+    public final static String[] RT_ALL_CORE_FORM_CONTAINER = { RT_CORE_FORM_CONTAINER_V1 };
 
     /** Node-name of the touch based dialog for form actions */
     public static final String NN_DIALOG = "cq:dialog";

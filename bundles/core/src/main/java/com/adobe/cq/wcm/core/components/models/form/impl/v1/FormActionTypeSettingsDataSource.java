@@ -29,7 +29,7 @@ import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 
-import com.adobe.cq.wcm.core.components.commons.forms.FormsConstants;
+import com.adobe.cq.wcm.core.components.commons.form.FormConstants;
 import com.adobe.cq.wcm.core.components.models.Constants;
 import com.adobe.cq.wcm.core.components.models.form.DataSourceModel;
 import com.adobe.granite.ui.components.ds.SimpleDataSource;
@@ -42,7 +42,7 @@ import com.day.cq.wcm.foundation.forms.FormsManager;
           extensions = Constants.EXPORTER_EXTENSION)
 public class FormActionTypeSettingsDataSource extends DataSourceModel {
 
-    protected final static String RESOURCE_TYPE = FormsConstants.RT_CORE_FORM_CONTAINER_V1 + "/datasource/actiontypesettingsdatasource";
+    protected final static String RESOURCE_TYPE = FormConstants.RT_CORE_FORM_CONTAINER_V1 + "/datasource/actiontypesettingsdatasource";
 
     @Self
     private SlingHttpServletRequest request;
@@ -64,7 +64,7 @@ public class FormActionTypeSettingsDataSource extends DataSourceModel {
             while (actions.hasNext()) {
                 FormsManager.ComponentDescription componentDescription = actions.next();
                 Resource dialogResource = resourceResolver.getResource(componentDescription.getResourceType() + "/" +
-                        FormsConstants.NN_DIALOG);
+                        FormConstants.NN_DIALOG);
                 if (dialogResource != null) {
                     actionTypeSettingsResources.add(dialogResource);
                 }
