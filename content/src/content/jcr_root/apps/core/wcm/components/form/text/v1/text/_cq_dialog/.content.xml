@@ -76,6 +76,12 @@
                                             fieldLabel="Label"
                                             name="./jcr:title"
                                             required="{Boolean}true"/>
+                                    <hideTitle jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                        fieldDescription="Whether to display the label for the input field"
+                                        name="./hideTitle"
+                                        text="Hide the label"
+                                        value="true"/>
                                     <name
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/coral/foundation/form/textfield"

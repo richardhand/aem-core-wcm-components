@@ -109,6 +109,11 @@ public interface Image {
      */
     String getFileName();
 
-
+    /**
+     * Returns the JSON for smart image functionality.
+     *
+     * @return the JSON for the smart image functionality
+     */
+    String getJson();
 
 }

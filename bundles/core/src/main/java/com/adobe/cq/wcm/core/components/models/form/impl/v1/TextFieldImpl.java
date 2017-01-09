@@ -87,6 +87,9 @@ public class TextFieldImpl implements TextField {
     private String[] prefillValues;
 
     private String id = null;
+    private String title;
+    private String helpMessage;
+    private String placeholder;
 
     @PostConstruct
     protected void initModel() {
@@ -95,6 +98,16 @@ public class TextFieldImpl implements TextField {
         prefillValues = FormsHelper.getValues(slingRequest, resource);
         if (prefillValues == null) {
             prefillValues = new String[]{this.getDefaultValue()};
+        }
+        boolean hideTitle = properties.get(PN_HIDE_TITLE, PROP_HIDE_TITLE_DEFAULT);
+        boolean usePlaceholder = properties.get(PN_USE_PLACEHOLDER, PROP_USE_PLACEHOLDER_DEFAULT);
+
+        if(!hideTitle) {
+            title = properties.get(PN_TITLE, PROP_TITLE_DEFAULT);
+        }
+        helpMessage = properties.get(PN_HELP_MESSAGE, PROP_HELP_MESSAGE_DEFAULT);
+        if(usePlaceholder) {
+            placeholder = helpMessage;
         }
     }
 
@@ -127,12 +140,7 @@ public class TextFieldImpl implements TextField {
 
     @Override
     public String getTitle() {
-        return properties.get(PN_TITLE, PROP_TITLE_DEFAULT);
-    }
-
-    @Override
-    public boolean isTitleHidden() {
-        return properties.get(PN_HIDE_TITLE, PROP_HIDE_TITLE_DEFAULT);
+        return title;
     }
 
     @Override
@@ -167,7 +175,7 @@ public class TextFieldImpl implements TextField {
 
     @Override
     public String getPlaceholder() {
-        return this.getHelpMessage();
+        return placeholder;
     }
 
     @Override
@@ -181,12 +189,7 @@ public class TextFieldImpl implements TextField {
     }
 
     @Override
-    public boolean usePlaceholder() {
-        return properties.get(PN_USE_PLACEHOLDER, PROP_USE_PLACEHOLDER_DEFAULT);
-    }
-
-    @Override
     public String getHelpMessage() {
-        return properties.get(PN_HELP_MESSAGE, PROP_HELP_MESSAGE_DEFAULT).trim();
+        return helpMessage;
     }
 }

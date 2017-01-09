@@ -15,7 +15,7 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <div data-sly-use.title="com.adobe.cq.wcm.core.components.models.Title"
      data-sly-use.template="core/wcm/components/commons/v1/templates.html"
-     data-sly-test="${title.title || (wcmmode.edit || wcmmode.preview)}" class="cmp cmp-title">
-    <h1 data-sly-element="${title.element}">${title.title}</h1>
+     data-sly-test="${title.text || wcmmode.edit || wcmmode.preview}" class="cmp cmp-title">
+    <h1 data-sly-element="${title.element}">${title.text}</h1>
 </div>
 <sly data-sly-call="${template.placeholder @ isEmpty=!title.text}"/>

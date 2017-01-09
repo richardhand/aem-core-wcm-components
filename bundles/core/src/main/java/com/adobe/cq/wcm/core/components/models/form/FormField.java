@@ -37,13 +37,6 @@ public interface FormField {
     String getTitle();
 
     /**
-     * Checks if the title should be hidden on the page or not.
-     * @return {@code true} if the title should be hidden <br>
-     *     {@code false} otherwise
-     */
-    boolean isTitleHidden();
-
-    /**
      * @return The description of the field
      */
     String getDescription();

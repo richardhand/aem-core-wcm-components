@@ -78,15 +78,16 @@ public class ImageImplTest {
         assertEquals(ResourceUtil.getName(IMAGE_FILE_REFERENCE), image.getFileName());
         assertFalse(image.isDecorative());
         assertTrue(image.isLazyLoadingEnabled());
+        assertEquals("{\"smartImages\":[\"/core/content/test/jcr%3acontent/root/image.img.600.png\",\"/core/content/test/jcr%3acontent/root/image.img.700.png\",\"/core/content/test/jcr%3acontent/root/image.img.800.png\"],\"smartSizes\":[600,700,800],\"lazyEnabled\":true}", image.getJson());
         assertFalse(image.shouldDisplayCaptionPopup());
         assertEquals(IMAGE_LINK, image.getLink());
         assertEquals(CONTEXT_PATH + escapedResourcePath + ".img.png", image.getSrc());
         assertArrayEquals(new Integer[] {600, 700, 800}, image.getSmartSizes());
         assertArrayEquals(
                 new String[] {
-                        "\"" + CONTEXT_PATH + escapedResourcePath + ".img.600.png\"",
-                        "\"" + CONTEXT_PATH + escapedResourcePath + ".img.700.png\"",
-                        "\"" + CONTEXT_PATH + escapedResourcePath + ".img.800.png\""
+                        CONTEXT_PATH + escapedResourcePath + ".img.600.png",
+                        CONTEXT_PATH + escapedResourcePath + ".img.700.png",
+                        CONTEXT_PATH + escapedResourcePath + ".img.800.png"
                 },
                 image.getSmartImages()
         );
@@ -108,7 +109,7 @@ public class ImageImplTest {
         assertArrayEquals(new Integer[] {600}, image.getSmartSizes());
         assertArrayEquals(
                 new String[] {
-                        "\"" + CONTEXT_PATH + escapedResourcePath + ".img.600.png\""
+                        CONTEXT_PATH + escapedResourcePath + ".img.600.png"
                 },
                 image.getSmartImages()
         );

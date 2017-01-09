@@ -14,11 +14,11 @@
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <template data-sly-template.item="${@ list, listItem}">
-    <p>
-        <a href="${listItem.page.path @ extension='html'}" data-sly-unwrap="${!list.linkItem}" data-component="${resource.resourceType}">
+    <article>
+        <a href="${listItem.page.path @ extension='html'}" data-sly-unwrap="${!list.linkItem}">
             <span class="cmp-list--item-title">${listItem.page.pageTitle || listItem.page.title || listItem.page.name}</span>
             <span data-sly-test="${list.showModificationDate}" class="cmp-list--item-date">${list.dateFormatString @ format=listItem.page.lastModified}</span>
         </a>
         <span data-sly-test="${list.showDescription}" class="cmp-list--item-description">${listItem.page.description}</span>
-    </p>
+    </article>
 </template>

@@ -33,6 +33,7 @@ import com.day.cq.wcm.api.Page;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class TextFieldImplTest {
 
@@ -70,31 +71,28 @@ public class TextFieldImplTest {
         TextField textField = context.request().adaptTo(TextField.class);
         assertEquals("text",textField.getName());
         assertEquals("Text input field",textField.getTitle());
-        assertEquals(false,textField.isTitleHidden());
         assertEquals("",textField.getDescription());
         assertEquals(false,textField.getRequired());
         assertEquals("",textField.getRequiredMessage());
         assertEquals(null,textField.getShowHideExpression());
-        assertEquals("",textField.getPlaceholder());
+        assertNull(textField.getPlaceholder());
         assertEquals(false,textField.isReadOnly());
         assertEquals("",textField.getDefaultValue());
         assertEquals("text",textField.getType());
         assertEquals("", textField.getConstraintMessage());
         assertEquals("",textField.getValue());
         assertEquals(2, textField.getRows());
-        assertEquals(false, textField.usePlaceholder());
         assertEquals("",textField.getHelpMessage());
     }
 
     @Test
-    public void testInputWithCusomtDataAndAttributes() {
+    public void testInputWithCustomDataAndAttributes() {
         Resource resource = context.currentResource(TEXTINPUT2_PATH);
         slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
         slingBindings.put(RESOURCE_PROPERTY, resource);
         TextField textField = context.request().adaptTo(TextField.class);
         assertEquals("Custom Name", textField.getName());
-        assertEquals("Custom title",textField.getTitle());
-        assertEquals(true,textField.isTitleHidden());
+        assertNull(textField.getTitle());
         assertEquals("Custom description",textField.getDescription());
         assertEquals(true,textField.getRequired());
         assertEquals("please fill the field",textField.getRequiredMessage());
@@ -106,7 +104,6 @@ public class TextFieldImplTest {
         assertEquals("The value should be a valid email address", textField.getConstraintMessage());
         assertEquals("Prefilled Sample Input",textField.getValue());
         assertEquals(3, textField.getRows());
-        assertEquals(true, textField.usePlaceholder());
         assertEquals("Custom help/placeholder message", textField.getHelpMessage());
     }
 }

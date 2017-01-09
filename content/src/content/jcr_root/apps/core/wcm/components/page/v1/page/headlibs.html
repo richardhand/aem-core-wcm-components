@@ -16,7 +16,7 @@
 <template data-sly-template.headlibs="${@ designPath, staticDesignPath, clientlibCategories}"
           data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html">
     <sly data-sly-call="${clientLib.all @ categories='cq.foundation-main'}"/>
-    <sly data-sly-test="${!wcmmode.isDisabled}" data-sly-call="${clientLib.all @ categories = [
+    <sly data-sly-test="${!wcmmode.disabled}" data-sly-call="${clientLib.all @ categories = [
         'wcm.foundation.allowedcomponents',
         'cq.pagetypes.html5page',
         'cq.authoring.page',

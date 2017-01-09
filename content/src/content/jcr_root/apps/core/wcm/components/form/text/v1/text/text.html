@@ -16,29 +16,27 @@
 <div class="cmp cmp-form-field"
      data-sly-use.textField="com.adobe.cq.wcm.core.components.models.form.TextField">
     <div class="form-group">
-        <label for="${textField.id}" hidden="${textField.isTitleHidden}">
+        <label for="${textField.id}" data-sly-test="${textField.title}">
             ${textField.title}
         </label>
-        <p data-sly-test="${!textField.usePlaceholder && textField.helpMessage}" class="help-block">${textField.helpMessage}</p>
+        <p data-sly-test="${!textField.placeholder && textField.helpMessage}" class="help-block">${textField.helpMessage}</p>
         <textarea data-sly-test.useTextarea="${textField.type == 'textarea'}"
               id="${textField.id}"
-              placeholder="${textField.usePlaceholder && textField.placeholder}"
+              placeholder="${textField.placeholder}"
               name="${textField.name}"
-              readonly="${textField.isReadOnly}"
+              readonly="${textField.readOnly}"
               required="${textField.required}"
-              required-message="${textField.requiredMessage}"
-              rows="${textField.rows}"
-            >${textField.value}</textarea>
+              data-cmp-required="${textField.requiredMessage}"
+              rows="${textField.rows}">${textField.value}</textarea>
         <input data-sly-test="${!useTextarea}"
                type="${textField.type}"
                id="${textField.id}"
-               placeholder="${textField.usePlaceholder && textField.placeholder}"
+               placeholder="${textField.placeholder}"
                name="${textField.name}"
                value="${textField.value}"
-               readonly="${textField.isReadOnly}"
+               readonly="${textField.readOnly}"
                required="${textField.required}"
-               required-message="${textField.requiredMessage}"
-               constraint-message="${textField.constraintMessage}"
-                />
+               data-cmp-required="${textField.requiredMessage}"
+               data-cmp-constraint="${textField.constraintMessage}"/>
     </div>
 </div>

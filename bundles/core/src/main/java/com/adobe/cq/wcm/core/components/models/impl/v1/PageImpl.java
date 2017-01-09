@@ -69,6 +69,7 @@ public class PageImpl implements Page {
     private String title;
     private String[] clientLibCategories = new String[0];
     private Calendar lastModifiedDate;
+    private String templateName;
 
     private static final String FN_ICO_FAVICON = "favicon.ico";
     private static final String FN_PNG_FAVICON = "favicon_32.png";
@@ -110,6 +111,19 @@ public class PageImpl implements Page {
             loadFavicons(designPath);
         }
         populateClientLibCategories();
+        templateName = extractTemplateName();
+    }
+
+    private String extractTemplateName() {
+        String templateName = null;
+        String templatePath = pageProperties.get(NameConstants.PN_TEMPLATE, String.class);
+        if (StringUtils.isNotEmpty(templatePath)) {
+            int i = templatePath.lastIndexOf("/");
+            if (i > 0) {
+                templateName = templatePath.substring(i + 1);
+            }
+        }
+        return templateName;
     }
 
 
@@ -174,6 +188,11 @@ public class PageImpl implements Page {
     @Override
     public String getTitle() {
         return title;
+    }
+
+    @Override
+    public String getTemplateName() {
+        return templateName;
     }
 
     @Override

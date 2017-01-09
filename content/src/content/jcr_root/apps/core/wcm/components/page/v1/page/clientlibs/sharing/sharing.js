@@ -13,18 +13,10 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-.cmp-list {
-  
-  & ul {
-    list-style: none;
-    padding: 0;
-  }
-
-  &--item-description {
-    display: block;
-  }
-
-  &--item-date::before {
-    content: "\2013\00a0";
-  }
-}
+(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.7";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
