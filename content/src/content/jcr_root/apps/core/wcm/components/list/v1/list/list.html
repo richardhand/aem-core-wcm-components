@@ -17,8 +17,8 @@
      data-sly-use.template="core/wcm/components/commons/v1/templates.html"
      data-sly-use.itemTemplate="list_item.html"
      class="cmp cmp-list">
-    <ul class="list" data-sly-list.listItem="${list.listItems}">
-        <li data-sly-call="${itemTemplate.item @ list = list, listItem = listItem}" class="list-item"></li>
+    <ul data-sly-list.listItem="${list.listItems}">
+        <li data-sly-call="${itemTemplate.item @ list = list, listItem = listItem}"></li>
     </ul>
 </div>
 <sly data-sly-call="${template.placeholder @ isEmpty=list.listItems.size == 0}"/>
