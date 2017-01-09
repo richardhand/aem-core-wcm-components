@@ -15,6 +15,8 @@
  ******************************************************************************/
 package com.adobe.cq.wcm.core.components.models.impl.v1;
 
+import java.util.Map;
+
 import org.apache.jackrabbit.util.Text;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceUtil;
@@ -37,6 +39,7 @@ import com.day.cq.wcm.api.designer.Design;
 import com.day.cq.wcm.api.designer.Style;
 import com.day.cq.wcm.api.policies.ContentPolicy;
 import com.day.cq.wcm.api.policies.ContentPolicyMapping;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.wcm.testing.mock.aem.junit.AemContext;
 
 import static org.junit.Assert.*;
@@ -69,7 +72,7 @@ public class ImageImplTest {
     }
 
     @Test
-    public void testImageWithTwoOrMoreSmartSizes() {
+    public void testImageWithTwoOrMoreSmartSizes() throws Exception {
         String escapedResourcePath = Text.escapePath(IMAGE_PATH);
         Image image = getImageUnderTest(IMAGE_PATH);
         assertEquals(IMAGE_TITLE_ALT, image.getAlt());
@@ -78,7 +81,9 @@ public class ImageImplTest {
         assertEquals(ResourceUtil.getName(IMAGE_FILE_REFERENCE), image.getFileName());
         assertFalse(image.isDecorative());
         assertTrue(image.isLazyLoadingEnabled());
-        assertEquals("{\"smartImages\":[\"/core/content/test/jcr%3acontent/root/image.img.600.png\",\"/core/content/test/jcr%3acontent/root/image.img.700.png\",\"/core/content/test/jcr%3acontent/root/image.img.800.png\"],\"smartSizes\":[600,700,800],\"lazyEnabled\":true}", image.getJson());
+        String expectedJson = "{\"smartImages\":[\"/core/content/test/jcr%3acontent/root/image.img.600.png\"," +
+                "\"/core/content/test/jcr%3acontent/root/image.img.700.png\",\"/core/content/test/jcr%3acontent/root/image.img.800.png\"],\"smartSizes\":[600,700,800],\"lazyEnabled\":true}";
+        compareJSON(expectedJson, image.getJson());
         assertFalse(image.shouldDisplayCaptionPopup());
         assertEquals(IMAGE_LINK, image.getLink());
         assertEquals(CONTEXT_PATH + escapedResourcePath + ".img.png", image.getSrc());
@@ -91,6 +96,13 @@ public class ImageImplTest {
                 },
                 image.getSmartImages()
         );
+    }
+
+    private void compareJSON(String expectedJson, String json) throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map expectedMap = objectMapper.readValue(expectedJson, Map.class);
+        Map jsonMap = objectMapper.readValue(json, Map.class);
+        assertEquals(expectedMap, jsonMap);
     }
 
     @Test
