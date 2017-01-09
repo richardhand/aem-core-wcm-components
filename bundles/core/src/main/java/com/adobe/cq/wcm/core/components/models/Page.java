@@ -116,6 +116,6 @@ public interface Page {
      * @return an array of client libraries categories; the array can be empty if the page doesn't have an associated template or if the
      * template has no client libraries
      */
-    String[] getTemplateClientLibsCategories();
+    String[] getClientLibCategories();
 
 }

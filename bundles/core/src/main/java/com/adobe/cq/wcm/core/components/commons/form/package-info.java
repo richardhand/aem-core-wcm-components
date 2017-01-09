@@ -14,6 +14,6 @@
  * limitations under the License.
  ******************************************************************************/
 @Version("0.12.0")
-package com.adobe.cq.wcm.core.components.commons.forms;
+package com.adobe.cq.wcm.core.components.commons.form;
 
 import org.osgi.annotation.versioning.Version;

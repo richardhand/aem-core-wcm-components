@@ -23,11 +23,11 @@
     <sly data-sly-call="${headlibRenderer.headlibs @
                                 designPath         = page.designPath,
                                 staticDesignPath   = page.staticDesignPath,
-                                templateClientLibsCategories = page.templateClientLibsCategories}" />
+                                clientLibCategories = page.clientLibCategories}" />
     <sly data-sly-include="customheaderlibs.html" />
     <!--/* For IE 9 and below. ICO should be 32x32 pixels in size */-->
     <sly data-sly-test.icoFavicon="${page.ICOFavicon}">
-            <!--[if IE]><link rel="shortcut icon" href="${icoFavicon}"/><![endif]-->
+        <!--[if IE]><link rel="shortcut icon" href="${icoFavicon}"/><![endif]-->
     </sly>
     <!--/* Firefox, Chrome, Safari, IE 11+ and Opera. 196x196 pixels in size. */-->
     <link rel="icon" type="image/png" href="${pngFavicon}" data-sly-test.pngFavicon="${page.PNGFavicon}"/>

@@ -26,7 +26,7 @@ public interface Title {
      *
      * @return {@link String} of the text
      */
-    String getText();
+    String getTitle();
 
     /**
      * Returns the element (h1-h6) which can be used for the markup

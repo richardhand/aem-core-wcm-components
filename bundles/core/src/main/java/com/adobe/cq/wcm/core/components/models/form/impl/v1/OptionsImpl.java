@@ -39,7 +39,6 @@ import org.slf4j.LoggerFactory;
 
 import com.adobe.granite.ui.components.ds.DataSource;
 import com.adobe.granite.ui.components.ds.SimpleDataSource;
-import com.adobe.cq.wcm.core.components.commons.ComponentUtils;
 import com.adobe.cq.wcm.core.components.models.Constants;
 import com.adobe.cq.wcm.core.components.models.form.OptionItem;
 import com.adobe.cq.wcm.core.components.models.form.Options;
@@ -236,11 +235,7 @@ public class OptionsImpl implements Options {
     }
 
     private void populateId() {
-        try {
-            id = ComponentUtils.getId(ID_PREFIX, resource.getPath());
-        } catch (IllegalArgumentException e) {
-            LOGGER.error(e.getMessage());
-        }
+        id = ID_PREFIX + "-" + String.valueOf(Math.abs(resource.getPath().hashCode()));
     }
 
     public enum Type {

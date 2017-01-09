@@ -126,9 +126,9 @@ public class PageImplTest {
     }
 
     @Test
-    public void testGetTemplateClientLibsCategories() throws Exception {
+    public void testGetClientLibCategories() throws Exception {
         Page page = getPageUnderTest(PAGE);
-        assertEquals("we-retail.product-page", page.getTemplateClientLibsCategories()[0]);
+        assertEquals("we-retail.product-page", page.getClientLibCategories()[0]);
     }
 
     private Page getPageUnderTest(String pagePath) {

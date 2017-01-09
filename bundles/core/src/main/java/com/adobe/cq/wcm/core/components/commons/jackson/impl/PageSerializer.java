@@ -24,7 +24,16 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
+/**
+ * JSON Serializer for {@link Page}. Provides a JSON created from page properties.
+ */
 public class PageSerializer extends StdSerializer<Page> {
+
+    private static final String JSON_KEY_NAME = "name";
+    private static final String JSON_KEY_TITLE = "title";
+    private static final String JSON_KEY_PAGE_TITLE = "pageTitle";
+    private static final String JSON_KEY_PATH = "path";
+    private static final String JSON_KEY_DESCRIPTION = "description";
 
     public PageSerializer() {
         this(null);
@@ -47,11 +56,11 @@ public class PageSerializer extends StdSerializer<Page> {
 
     private Map<String, String> getPageProperties(Page page) {
         Map<String, String> properties = new HashMap<>();
-        properties.put("name", page.getName());
-        properties.put("title", page.getTitle());
-        properties.put("pageTitle", page.getPageTitle());
-        properties.put("path", page.getPath());
-        properties.put("description", page.getDescription());
+        properties.put(JSON_KEY_NAME, page.getName());
+        properties.put(JSON_KEY_TITLE, page.getTitle());
+        properties.put(JSON_KEY_PAGE_TITLE, page.getPageTitle());
+        properties.put(JSON_KEY_PATH, page.getPath());
+        properties.put(JSON_KEY_DESCRIPTION, page.getDescription());
         return properties;
     }
 }

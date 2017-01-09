@@ -14,7 +14,7 @@
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-package com.adobe.cq.wcm.core.components.commons.forms.impl;
+package com.adobe.cq.wcm.core.components.commons.form.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +33,7 @@ import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.adobe.cq.wcm.core.components.commons.forms.FormsConstants;
+import com.adobe.cq.wcm.core.components.commons.form.FormConstants;
 import com.adobe.cq.wcm.core.components.models.form.Button;
 import com.adobe.cq.wcm.core.components.models.form.impl.v1.ButtonImpl;
 import com.day.cq.wcm.foundation.forms.FormStructureHelper;
@@ -56,7 +56,7 @@ public class FormStructureHelperImpl implements FormStructureHelper {
         if (resource.getPath().lastIndexOf("/") == 0) {
             return null;
         }
-        for (String resourceType : FormsConstants.RT_ALL_CORE_FORM_CONTAINER) {
+        for (String resourceType : FormConstants.RT_ALL_CORE_FORM_CONTAINER) {
             if (resource.isResourceType(resourceType)) {
                 return resource;
             }
@@ -67,7 +67,7 @@ public class FormStructureHelperImpl implements FormStructureHelper {
     @Override
     public Iterable<Resource> getFormElements(Resource resource) {
         final List<Resource> list = new ArrayList<>();
-        if (resource.isResourceType(FormsConstants.RT_CORE_FORM_CONTAINER)) {
+        if (resource.isResourceType(FormConstants.RT_CORE_FORM_CONTAINER_V1)) {
             for (Resource child : resource.getChildren()) {
                 filterFormElements(child, list);
             }
@@ -87,8 +87,8 @@ public class FormStructureHelperImpl implements FormStructureHelper {
 
     private boolean isNoButtonElement(Resource resource) {
         String resourceSuperType = resource.getResourceSuperType();
-        if (resource.getResourceType().startsWith(FormsConstants.RT_CORE_FORM_BUTTON) ||
-                resourceSuperType != null && resourceSuperType.startsWith(FormsConstants.RT_CORE_FORM_BUTTON)) {
+        if (resource.getResourceType().startsWith(FormConstants.RT_CORE_FORM_BUTTON) ||
+                resourceSuperType != null && resourceSuperType.startsWith(FormConstants.RT_CORE_FORM_BUTTON)) {
             Button button = resource.adaptTo(Button.class);
             if (button != null) {
                 ButtonImpl.Type type = button.getType();
@@ -101,7 +101,7 @@ public class FormStructureHelperImpl implements FormStructureHelper {
     }
 
     private boolean isFormResource(Resource resource) {
-        if (resource.getResourceType().startsWith(FormsConstants.RT_CORE_FORM_PREFIX)) {
+        if (resource.getResourceType().startsWith(FormConstants.RT_CORE_FORM_PREFIX)) {
             return true;
         } else {
             final ResourceResolver scriptResourceResolver = getScriptResourceResolver();
@@ -123,7 +123,7 @@ public class FormStructureHelperImpl implements FormStructureHelper {
         Resource componentResource = scriptResourceResolver.getResource(resource.getResourceType());
         String parentResourceType = scriptResourceResolver.getParentResourceType(componentResource);
         while (!result && parentResourceType != null) {
-            if (parentResourceType.startsWith(FormsConstants.RT_CORE_FORM_PREFIX)) {
+            if (parentResourceType.startsWith(FormConstants.RT_CORE_FORM_PREFIX)) {
                 result = true;
             } else {
                 parentResourceType = scriptResourceResolver.getParentResourceType(parentResourceType);
@@ -141,7 +141,7 @@ public class FormStructureHelperImpl implements FormStructureHelper {
     public Resource updateFormStructure(Resource formResource) {
         if (formResource != null) {
             ResourceResolver resolver = formResource.getResourceResolver();
-            if (formResource.isResourceType(FormsConstants.RT_CORE_FORM_CONTAINER)) {
+            if (formResource.isResourceType(FormConstants.RT_CORE_FORM_CONTAINER_V1)) {
                 // add default action type, form id and action path
                 ModifiableValueMap formProperties = formResource.adaptTo(ModifiableValueMap.class);
                 if (formProperties != null) {
