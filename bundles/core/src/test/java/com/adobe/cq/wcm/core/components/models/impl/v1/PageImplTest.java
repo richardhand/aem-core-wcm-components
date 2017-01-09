@@ -39,9 +39,7 @@ import io.wcm.testing.mock.aem.junit.AemContext;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class PageImplTest {
 
@@ -129,6 +127,12 @@ public class PageImplTest {
     public void testGetClientLibCategories() throws Exception {
         Page page = getPageUnderTest(PAGE);
         assertEquals("we-retail.product-page", page.getClientLibCategories()[0]);
+    }
+
+    @Test
+    public void testGetTemplateName() throws Exception {
+        Page page = getPageUnderTest(PAGE);
+        assertEquals("product-page", page.getTemplateName());
     }
 
     private Page getPageUnderTest(String pagePath) {

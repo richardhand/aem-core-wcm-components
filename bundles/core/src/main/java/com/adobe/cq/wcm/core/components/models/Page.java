@@ -118,4 +118,11 @@ public interface Page {
      */
     String[] getClientLibCategories();
 
+    /**
+     * Returns the template name of the current template.
+     *
+     * @return template name of the current template
+     */
+    String getTemplateName();
+
 }
