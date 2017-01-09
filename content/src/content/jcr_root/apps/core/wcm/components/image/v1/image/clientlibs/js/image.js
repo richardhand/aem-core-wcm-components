@@ -19,30 +19,28 @@
     var $window = $(window),
         devicePixelRatio = window.devicePixelRatio || 1;
 
-    function SmartImage(element, options) {
+    function SmartImage($noScriptElement, options) {
         var that = this,
             showsLazyLoader = false,
             image,
+            $container,
             updateMode;
 
         function init() {
-            var $noscript = element.find(options.noscriptSelector);
-            if ($noscript && $noscript.length === 1) {
-                var $image = $($noscript.text().trim());
-                var source = $image.attr(options.sourceAttribute);
-                $image.removeAttr(options.sourceAttribute);
-                $image.attr('data-src-disabled', source);
-                $noscript.remove();
-                element.append($image);
-            }
+            var $image = $($noScriptElement.text().trim());
+            var source = $image.attr(options.sourceAttribute);
+            $image.removeAttr(options.sourceAttribute);
+            $image.attr('data-src-disabled', source);
+            $noScriptElement.remove();
+            $container.append($image);
 
-            if (element.is(options.imageSelector)) {
-                image = element;
+            if ($container.is(options.imageSelector)) {
+                image = $container;
             } else {
-                image = element.find(options.imageSelector);
+                image = $container.find(options.imageSelector);
             }
 
-            that.element = element;
+            that.$container = $container;
             that.options = options;
             that.image = image;
 
@@ -75,7 +73,7 @@
                     $window.bind('resize.SmartImage update.SmartImage', that.update);
                     image.removeAttr('data-src-disabled');
                 }
-            } else if (options.loadHidden || element.is(':visible')) {
+            } else if (options.loadHidden || $container.is(':visible')) {
                 image
                     .attr(options.sourceAttribute, image.attr('data-src-disabled'))
                     .removeAttr('data-src-disabled');
@@ -116,14 +114,14 @@
         }
 
         function isLazyVisible() {
-            if (element.is(':hidden')) {
+            if ($container.is(':hidden')) {
                 return false;
             }
 
             var wt = $window.scrollTop(),
                 wb = wt + $window.height(),
-                et = element.offset().top,
-                eb = et + element.height();
+                et = $container.offset().top,
+                eb = et + $container.height();
 
             return eb >= wt - options.lazyThreshold && et <= wb + options.lazyThreshold;
         }
@@ -134,8 +132,8 @@
                     $window.unbind('.SmartImage', that.update);
                     initSmart();
                 }
-            } else if (updateMode === 'smart' && (options.loadHidden || element.is(':visible'))) {
-                var optimalSize = element.width() * devicePixelRatio,
+            } else if (updateMode === 'smart' && (options.loadHidden || $container.is(':visible'))) {
+                var optimalSize = $container.width() * devicePixelRatio,
                     len = options.smartSizes.length,
                     key = 0;
 
@@ -153,15 +151,15 @@
             }
         };
 
-        element = $(element);
         options = $.extend({}, SmartImage.defaults, options);
+        $container = $noScriptElement.closest(options.containerSelector);
         init();
     }
 
     SmartImage.defaults = {
         loadHidden: false,
-        noscriptSelector: 'noscript',
         imageSelector: 'img',
+        containerSelector: '.cmp-image',
         sourceAttribute: 'src',
         lazyEnabled: true,
         lazyThreshold: 0,
@@ -176,10 +174,10 @@
     var $images = $('[data-cmp-image]');
     var images = [];
     $images.each(function () {
-        var imageElement = $(this),
-            imageOptions = imageElement.data('cmp-image');
-        imageElement.removeAttr('data-cmp-image');
-        images.push(new SmartImage(imageElement, imageOptions));
+        var $noScriptElement = $(this),
+            imageOptions = $noScriptElement.data('cmp-image');
+        $noScriptElement.removeAttr('data-cmp-image');
+        images.push(new SmartImage($noScriptElement, imageOptions));
     });
 
 })(jQuery);

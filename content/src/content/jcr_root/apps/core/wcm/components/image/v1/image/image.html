@@ -13,30 +13,20 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<sly data-sly-use.image="com.adobe.cq.wcm.core.components.models.Image"
-     data-sly-use.templates="core/wcm/components/commons/v1/templates.html">
+<div data-sly-use.image="com.adobe.cq.wcm.core.components.models.Image"
+     data-sly-use.templates="core/wcm/components/commons/v1/templates.html"
+     data-sly-test="${image.src}"
+     class="cmp cmp-image${wcmmode.disabled ? '' : ' cq-dd-image'}">
     <a data-sly-unwrap="${!image.link || image.isDecorative}"
-        href="${image.link}"
-        data-title="${image.title}" data-asset="${image.fileReference}">
-    <div data-sly-test="${image.src && image.smartSizes.length >= 2}"
-         class="cmp cmp-image cq-dd-image"
-         data-cmp-image='{"smartSizes" : [${image.smartSizes}], "smartImages" : [${image.smartImages}], "lazyEnabled": ${image.isLazyLoadingEnabled}}'>
-        <sly data-sly-call="${imageTemplate @ image = image, useNoScript = true}"/>
-    </div>
-    <div data-sly-test="${image.src && image.smartSizes.length < 2}"
-         class="cmp cmp-image cq-dd-image"
-         data-cmp-image='${image.isLazyLoadingEnabled ? "{\"lazyEnabled\" : true}" : false}'>
-        <sly data-sly-call="${imageTemplate @ image = image, useNoScript = image.isLazyLoadingEnabled}"/>
-    </div>
+       href="${image.link}"
+       data-title="${image.title || image.alt}" data-asset="${image.fileReference}">
+        <noscript data-sly-unwrap="${image.smartSizes.length < 2 && !image.isLazyLoadingEnabled}"
+                  data-cmp-image="${image.json}">
+            <img src="${image.src}"
+                 alt="${image.alt || (image.titleAsPopup && image.title) || true}"
+                 title="${image.titleAsPopup && image.title}"/>
+        </noscript>
     </a>
-    <small data-sly-test="${!image.shouldDisplayCaptionPopup && image.title}">${image.title}</small>
-    <sly data-sly-test="${!image.src}"
-         data-sly-call="${templates.placeholder @ isEmpty = true, classAppend = 'cq-dd-image'}"/>
-</sly>
-<template data-sly-template.imageTemplate="${@ image='The com.adobe.cq.wcm.core.components.models.Image model', useNoScript}">
-    <noscript data-sly-unwrap="${!useNoScript}">
-        <img src="${image.src}"
-             alt="${image.isDecorative ? '' : image.alt}"
-             title="${image.shouldDisplayCaptionPopup ? image.title : ''}"/>
-    </noscript>
-</template>
+    <span class="cmp-image--title" data-sly-test="${!image.titleAsPopup && image.title}">${image.title}</span>
+</div>
+<sly data-sly-call="${templates.placeholder @ isEmpty = !image.src, classAppend = 'cq-dd-image'}"/>

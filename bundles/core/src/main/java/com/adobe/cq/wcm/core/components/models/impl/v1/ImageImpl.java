@@ -15,7 +15,10 @@
  ******************************************************************************/
 package com.adobe.cq.wcm.core.components.models.impl.v1;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -25,6 +28,8 @@ import org.apache.jackrabbit.util.Text;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceMetadata;
+import org.apache.sling.commons.json.JSONArray;
+import org.apache.sling.commons.json.JSONObject;
 import org.apache.sling.commons.mime.MimeTypeService;
 import org.apache.sling.commons.osgi.PropertiesUtil;
 import org.apache.sling.models.annotations.Default;
@@ -104,15 +109,16 @@ public class ImageImpl implements Image {
 
     private String extension;
     private String src;
-    private String[] smartImages;
-    private Integer[] smartSizes;
+    private String[] smartImages = new String[]{};
+    private Integer[] smartSizes = new Integer[]{};
+    private String json;
 
     // content policy settings
     private Set<Integer> allowedRenditionWidths;
     private boolean disableLazyLoading;
 
     @PostConstruct
-    private void postConstruct() {
+    protected void initModel() {
         if (StringUtils.isNotEmpty(fileReference)) {
             fileName = fileReference.substring(fileReference.lastIndexOf("/") + 1);
             int dotIndex;
@@ -135,7 +141,7 @@ public class ImageImpl implements Image {
             int index = 0;
             String escapedResourcePath = Text.escapePath(resource.getPath());
             for (Integer width : supportedRenditionWidths) {
-                smartImages[index++] = "\"" + request.getContextPath() + escapedResourcePath + ".img." + width + "." + extension + "\"";
+                smartImages[index++] = request.getContextPath() + escapedResourcePath + ".img." + width + "." + extension;
             }
             smartSizes = supportedRenditionWidths.toArray(new Integer[supportedRenditionWidths.size()]);
             if (smartSizes.length == 0 || smartSizes.length >= 2) {
@@ -150,7 +156,15 @@ public class ImageImpl implements Image {
                 linkURL = (vanityURL == null ? linkURL + ".html" : vanityURL);
             }
         }
+        buildJson();
+    }
 
+    private void buildJson() {
+        Map<String, Object> objectMap = new HashMap<>();
+        objectMap.put("smartSizes", new JSONArray(Arrays.asList(smartSizes)));
+        objectMap.put("smartImages", new JSONArray(Arrays.asList(smartImages)));
+        objectMap.put("lazyEnabled", !disableLazyLoading);
+        json = new JSONObject(objectMap).toString();
     }
 
     @Override
@@ -218,6 +232,11 @@ public class ImageImpl implements Image {
     @Override
     public String getFileName() {
         return fileName;
+    }
+
+    @Override
+    public String getJson() {
+        return json;
     }
 
     @Override
