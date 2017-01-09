@@ -27,7 +27,7 @@
                                 name="./actionType">
                                 <datasource
                                     jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="core/wcm/components/form/container/datasource/actiontypedatasource"/>
+                                    sling:resourceType="core/wcm/components/form/container/v1/container/datasource/actiontypedatasource"/>
                                 <granite:data
                                     jcr:primaryType="nt:unstructured"
                                     cq-dialog-dropdown-showhide-target=".action-type-dialog"/>
@@ -38,7 +38,7 @@
                                 sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
                                 <datasource
                                     jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="core/wcm/components/form/container/datasource/actiontypesettingsdatasource"/>
+                                    sling:resourceType="core/wcm/components/form/container/v1/container/datasource/actiontypesettingsdatasource"/>
                             </advanced>
                             <workflowcontainer
                                 jcr:primaryType="nt:unstructured"
@@ -54,7 +54,7 @@
                                             name="./workflowModel">
                                         <datasource
                                                 jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="core/wcm/components/form/container/datasource/workflowmodeldatasource"/>
+                                                sling:resourceType="core/wcm/components/form/container/v1/container/datasource/workflowmodeldatasource"/>
                                         <granite:data
                                                 jcr:primaryType="nt:unstructured"
                                                 cq-dialog-dropdown-showhide-target=".cmp-workflow-title"/>

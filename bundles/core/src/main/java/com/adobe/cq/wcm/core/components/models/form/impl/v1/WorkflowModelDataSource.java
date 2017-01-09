@@ -43,7 +43,7 @@ import com.adobe.granite.workflow.model.WorkflowModel;
           extensions = Constants.EXPORTER_EXTENSION)
 public class WorkflowModelDataSource extends DataSourceModel {
 
-    protected final static String RESOURCE_TYPE = FormConstants.RT_CORE_FORM_CONTAINER_V1 + "/datasource/workflowmodeldatasource";
+    public final static String RESOURCE_TYPE = FormConstants.RT_CORE_FORM_CONTAINER_V1 + "/datasource/workflowmodeldatasource";
 
     @Self
     private SlingHttpServletRequest request;
