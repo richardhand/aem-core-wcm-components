@@ -67,7 +67,7 @@ public class PageImpl implements Page {
     private String designPathCSS;
     private String staticDesignPath;
     private String title;
-    private String[] templateClientLibsCategories = new String[0];
+    private String[] clientLibCategories = new String[0];
     private Calendar lastModifiedDate;
 
     private static final String FN_ICO_FAVICON = "favicon.ico";
@@ -109,7 +109,7 @@ public class PageImpl implements Page {
             }
             loadFavicons(designPath);
         }
-        populateTemplateClientLibsCategories();
+        populateClientLibCategories();
     }
 
 
@@ -177,8 +177,8 @@ public class PageImpl implements Page {
     }
 
     @Override
-    public String[] getTemplateClientLibsCategories() {
-        return templateClientLibsCategories;
+    public String[] getClientLibCategories() {
+        return clientLibCategories;
     }
 
     private void loadFavicons(String designPath) {
@@ -198,7 +198,7 @@ public class PageImpl implements Page {
         return path;
     }
 
-    private void populateTemplateClientLibsCategories() {
+    private void populateClientLibCategories() {
         List<String> categories = new ArrayList<>();
         Template template = currentPage.getTemplate();
         if (template != null && template.hasStructureSupport()) {
@@ -208,7 +208,7 @@ public class PageImpl implements Page {
                 addPolicyClientLibs(templateResource, categories);
             }
         }
-        templateClientLibsCategories = categories.toArray(new String[categories.size()]);
+        clientLibCategories = categories.toArray(new String[categories.size()]);
     }
 
     private void addDefaultTemplateEditorClientLib(Resource templateResource, List<String> categories) {
