@@ -24,7 +24,7 @@ public class FormConstants {
     public final static String RT_CORE_FORM_PREFIX = "core/wcm/components/form/";
 
     /** The resource type for form container version 1. */
-    public final static String RT_CORE_FORM_CONTAINER_V1 = RT_CORE_FORM_PREFIX + "/container/v1/container";
+    public final static String RT_CORE_FORM_CONTAINER_V1 = RT_CORE_FORM_PREFIX + "container/v1/container";
 
     /** Array of all resource types for the form container, including versions */
     public final static String[] RT_ALL_CORE_FORM_CONTAINER = { RT_CORE_FORM_CONTAINER_V1 };
