@@ -498,8 +498,8 @@
      * Test: set max item
      */
     var setMaxItems = new h.TestCase('Set Max Items', {
-        execBefore: tcExecuteBeforeTest/*,
-        execAfter: tcExecuteAfterTest*/})
+        execBefore: tcExecuteBeforeTest,
+        execAfter: tcExecuteAfterTest})
 
         // open the configuration dialog
         .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
