@@ -24,6 +24,7 @@
             showsLazyLoader = false,
             image,
             $container,
+            $anchor,
             updateMode;
 
         function init() {
@@ -32,7 +33,7 @@
             $image.removeAttr(options.sourceAttribute);
             $image.attr('data-src-disabled', source);
             $noScriptElement.remove();
-            $container.append($image);
+            $container.prepend($image);
 
             if ($container.is(options.imageSelector)) {
                 image = $container;
@@ -153,6 +154,10 @@
 
         options = $.extend({}, SmartImage.defaults, options);
         $container = $noScriptElement.closest(options.containerSelector);
+        $anchor = $('a', $container);
+        if($anchor.length) {
+            $container = $anchor;
+        }
         init();
     }
 

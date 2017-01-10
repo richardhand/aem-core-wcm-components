@@ -124,7 +124,7 @@
         // switch to content frame
         .config.changeContext(c.getContentFrame)
         // click on the image
-        .click("div.cmp-image",{expectNav: true})
+        .click("div.cmp-image img",{expectNav: true})
         // go back to top frame
         .config.resetContext()
         // check if the url is correct
@@ -152,7 +152,7 @@
         .config.changeContext(c.getContentFrame)
         // check if the caption is rendered with <small> tag
         .asserts.isTrue(function(){
-            return h.find("div.cmp-image + small:contains('" + captionText + "')").size() == 1
+            return h.find("span.cmp-image--title:contains('" + captionText + "')").size() == 1
         });
 
     /**

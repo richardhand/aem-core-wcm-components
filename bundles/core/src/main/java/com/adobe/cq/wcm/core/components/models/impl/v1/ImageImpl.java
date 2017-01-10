@@ -89,7 +89,7 @@ public class ImageImpl implements Image {
     @ValueMapValue(name = Constants.IMAGE_DISPLAY_CAPTION_POPUP,
                    injectionStrategy = InjectionStrategy.OPTIONAL)
     @Default(booleanValues = false)
-    private boolean displayCaptionPopup;
+    private boolean titleAsPopup;
 
     @ValueMapValue(name = Constants.IMAGE_ALT,
                    injectionStrategy = InjectionStrategy.OPTIONAL)
@@ -220,8 +220,8 @@ public class ImageImpl implements Image {
     }
 
     @Override
-    public boolean shouldDisplayCaptionPopup() {
-        return displayCaptionPopup;
+    public boolean isTitleAsPopup() {
+        return titleAsPopup;
     }
 
     @Override

@@ -86,7 +86,7 @@ public interface Image {
      *
      * @return {@code true} if the caption should be displayed as a popup
      */
-    boolean shouldDisplayCaptionPopup();
+    boolean isTitleAsPopup();
 
     /**
      * Returns {@code true} if the image is rendered only for decorative purposes (no link, no alt information).
