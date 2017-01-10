@@ -13,7 +13,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<sly data-sly-test.isEmpty="${!text.text}" data-sly-call="${templates.placeholder @ isEmpty = true}"
-     data-sly-use.text="com.adobe.cq.wcm.core.components.models.Text"
+<sly data-sly-use.text="com.adobe.cq.wcm.core.components.models.Text"
      data-sly-use.templates="core/wcm/components/commons/v1/templates.html"/>
-<text class="cmp cmp-text" data-sly-element="${text.isRichText ? 'div' : 'p'}" data-sly-test="${!isEmpty}">${text.text @ context=text.displayContext}</text>
+<text class="cmp cmp-text" data-sly-element="${text.isRichText ? 'div' : 'p'}" data-sly-test="${text.text}">${text.text @ context=text.displayContext}</text>
+<sly data-sly-call="${templates.placeholder @ isEmpty = !text.text}"/>
