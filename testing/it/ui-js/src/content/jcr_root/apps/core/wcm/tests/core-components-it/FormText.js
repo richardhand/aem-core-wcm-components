@@ -506,7 +506,7 @@
 
         //Check if input field is set to read only
         .asserts.isTrue(function() {
-            return h.find("textarea[name='" + elemName + "'][required-message='"+requiredMessage+"']",
+            return h.find("textarea[name='" + elemName + "'][data-cmp-required='"+requiredMessage+"']",
                     "#ContentFrame").size() == 1;
         });
 
@@ -532,7 +532,7 @@
 
         //Check if input field is set to read only
         .asserts.isTrue(function() {
-            return h.find("input[name='" + elemName + "'][constraint-message='"+requiredMessage+"']",
+            return h.find("input[name='" + elemName + "'][data-cmp-constraint='"+requiredMessage+"']",
                     "#ContentFrame").size() == 1;
         });
 
