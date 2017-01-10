@@ -81,7 +81,7 @@
         // check first if current page is shown
         .config.changeContext(c.getContentFrame)
         // the li entry for current page
-        .assert.exist("li.breadcrumb-item--active:contains('level_5')",true)
+        .assert.exist("li.breadcrumb-item.active:contains('level_5')",true)
         .config.resetContext()
 
         // Open the configuration dialog
@@ -94,7 +94,7 @@
         .config.changeContext(c.getContentFrame)
 
         // the li entry for current page should not be found
-        .assert.exist("li.breadcrumb-item--active:contains('level_5')",false);
+        .assert.exist("li.breadcrumb-item.active:contains('level_5')",false);
 
     /**
      * Test: Set the Show Hidden flag
@@ -186,7 +186,7 @@
         // 0 is an invalid start point it should render no breadcrumbs
         .assert.isTrue(function(){
             return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 0 &&
-                h.find("li.breadcrumb-item--active","iframe#ContentFrame").size() === 0
+                h.find("li.breadcrumb-item.active","iframe#ContentFrame").size() === 0
         });
 
     /**
@@ -210,7 +210,7 @@
         // 100 is higher then current level so nothing should get rendered
         .assert.isTrue(function(){
             return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 0 &&
-                h.find("li.breadcrumb-item--active","iframe#ContentFrame").size() === 0
+                h.find("li.breadcrumb-item.active","iframe#ContentFrame").size() === 0
         });
 
     /**
