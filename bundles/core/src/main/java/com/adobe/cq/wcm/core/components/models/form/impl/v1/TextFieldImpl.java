@@ -89,7 +89,7 @@ public class TextFieldImpl implements TextField {
     private String id = null;
 
     @PostConstruct
-    protected void initModel() {
+    private void initModel() {
         slingRequest.setAttribute(FormsHelper.REQ_ATTR_FORM_STRUCTURE_HELPER,
                 formStructureHelperFactory.getFormStructureHelper(resource));
         prefillValues = FormsHelper.getValues(slingRequest, resource);

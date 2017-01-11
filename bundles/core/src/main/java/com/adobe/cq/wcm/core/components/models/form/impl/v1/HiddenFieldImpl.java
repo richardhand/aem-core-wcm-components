@@ -70,7 +70,7 @@ public class HiddenFieldImpl implements HiddenField {
     private String[] prefillValues;
 
     @PostConstruct
-    protected void initModel() {
+    private void initModel() {
         slingRequest.setAttribute(FormsHelper.REQ_ATTR_FORM_STRUCTURE_HELPER,
                 formStructureHelperFactory.getFormStructureHelper(resource));
         prefillValues = FormsHelper.getValues(slingRequest, resource);

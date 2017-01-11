@@ -109,7 +109,7 @@ public class ContainerImpl implements Container {
     private FormStructureHelperFactory formStructureHelperFactory;
 
     @PostConstruct
-    protected void initModel() {
+    private void initModel() {
         FormStructureHelper formStructureHelper = formStructureHelperFactory.getFormStructureHelper(resource);
         request.setAttribute(FormsHelper.REQ_ATTR_FORM_STRUCTURE_HELPER, formStructureHelper);
         this.action = currentPage.getPath() + ".html";
