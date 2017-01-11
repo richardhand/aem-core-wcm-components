@@ -37,6 +37,7 @@ import com.adobe.cq.wcm.core.components.commons.form.FormConstants;
 import com.adobe.cq.wcm.core.components.models.form.Button;
 import com.adobe.cq.wcm.core.components.models.form.impl.v1.ButtonImpl;
 import com.day.cq.wcm.foundation.forms.FormStructureHelper;
+import com.day.cq.wcm.foundation.forms.FormsConstants;
 
 @Component(immediate = true)
 @Service(FormStructureHelper.class)
@@ -146,19 +147,19 @@ public class FormStructureHelperImpl implements FormStructureHelper {
                 ModifiableValueMap formProperties = formResource.adaptTo(ModifiableValueMap.class);
                 if (formProperties != null) {
                     try {
-                        if (formProperties.get(com.day.cq.wcm.foundation.forms.FormsConstants.START_PROPERTY_ACTION_TYPE,
+                        if (formProperties.get(FormsConstants.START_PROPERTY_ACTION_TYPE,
                                 String.class) == null) {
-                            formProperties.put(com.day.cq.wcm.foundation.forms.FormsConstants.START_PROPERTY_ACTION_TYPE,
-                                    com.day.cq.wcm.foundation.forms.FormsConstants.DEFAULT_ACTION_TYPE);
+                            formProperties.put(FormsConstants.START_PROPERTY_ACTION_TYPE,
+                                    FormsConstants.DEFAULT_ACTION_TYPE);
                             String defaultContentPath = "/content/usergenerated" +
                                     formResource.getPath().replaceAll("^.content", "").replaceAll("jcr.content.*", "") +
                                     "cq-gen" + System.currentTimeMillis() + "/";
-                            formProperties.put(com.day.cq.wcm.foundation.forms.FormsConstants.START_PROPERTY_ACTION_PATH,
+                            formProperties.put(FormsConstants.START_PROPERTY_ACTION_PATH,
                                     defaultContentPath);
                         }
-                        if (formProperties.get(com.day.cq.wcm.foundation.forms.FormsConstants.START_PROPERTY_FORMID,
+                        if (formProperties.get(FormsConstants.START_PROPERTY_FORMID,
                                 String.class) == null) {
-                            formProperties.put(com.day.cq.wcm.foundation.forms.FormsConstants.START_PROPERTY_FORMID,
+                            formProperties.put(FormsConstants.START_PROPERTY_FORMID,
                                     formResource.getPath().replaceAll("[/:.]", "_"));
                         }
                         resolver.commit();
