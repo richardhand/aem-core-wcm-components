@@ -13,30 +13,26 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<div class="cmp cmp-form-field"
-     data-sly-use.textField="com.adobe.cq.wcm.core.components.models.form.TextField">
-    <div class="form-group">
-        <label for="${textField.id}" data-sly-test="${textField.title}">
-            ${textField.title}
-        </label>
-        <p data-sly-test="${!textField.placeholder && textField.helpMessage}" class="help-block">${textField.helpMessage}</p>
-        <textarea data-sly-test.useTextarea="${textField.type == 'textarea'}"
-              id="${textField.id}"
-              placeholder="${textField.placeholder}"
-              name="${textField.name}"
-              readonly="${textField.readOnly}"
-              required="${textField.required}"
-              data-cmp-required="${textField.requiredMessage}"
-              rows="${textField.rows}">${textField.value}</textarea>
-        <input data-sly-test="${!useTextarea}"
-               type="${textField.type}"
-               id="${textField.id}"
-               placeholder="${textField.placeholder}"
-               name="${textField.name}"
-               value="${textField.value}"
-               readonly="${textField.readOnly}"
-               required="${textField.required}"
-               data-cmp-required="${textField.requiredMessage}"
-               data-cmp-constraint="${textField.constraintMessage}"/>
-    </div>
+<div data-sly-use.textField="com.adobe.cq.wcm.core.components.models.form.TextField"
+     class="form-group">
+    <label for="${textField.id}" data-sly-test="${textField.title}">${textField.title}</label>
+    <p data-sly-test="${!textField.placeholder && textField.helpMessage}" class="help-block">${textField.helpMessage}</p>
+    <textarea data-sly-test.useTextarea="${textField.type == 'textarea'}"
+          id="${textField.id}"
+          placeholder="${textField.placeholder}"
+          name="${textField.name}"
+          readonly="${textField.readOnly}"
+          required="${textField.required}"
+          data-cmp-required="${textField.requiredMessage}"
+          rows="${textField.rows}">${textField.value}</textarea>
+    <input data-sly-test="${!useTextarea}"
+           type="${textField.type}"
+           id="${textField.id}"
+           placeholder="${textField.placeholder}"
+           name="${textField.name}"
+           value="${textField.value}"
+           readonly="${textField.readOnly}"
+           required="${textField.required}"
+           data-cmp-required="${textField.requiredMessage}"
+           data-cmp-constraint="${textField.constraintMessage}"/>
 </div>

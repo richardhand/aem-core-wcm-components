@@ -67,7 +67,7 @@
 
         // set the example text
         .execFct(function() {
-            h.find('.text.aem-GridColumn p').html(testValue);
+            h.find('.cmp-text.aem-GridColumn p').html(testValue);
         })
 
         // switch back to edit frame
@@ -82,7 +82,7 @@
         // check if the text is rendered
         .assert.isTrue(
         function() {
-            var actualValue = h.find('.text.aem-GridColumn  p').html();
+            var actualValue = h.find('.cmp-text.aem-GridColumn  p').html();
             return actualValue === testValue;
         })
 
@@ -98,7 +98,7 @@
         // check again if the text is still there
         .assert.isTrue(
         function() {
-            var actualValue = h.find('.text.aem-GridColumn  p').html();
+            var actualValue = h.find('.cmp-text.aem-GridColumn  p').html();
             return actualValue === testValue;
         });
 

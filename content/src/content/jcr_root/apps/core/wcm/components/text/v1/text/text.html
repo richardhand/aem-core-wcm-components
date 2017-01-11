@@ -15,5 +15,5 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <sly data-sly-use.text="com.adobe.cq.wcm.core.components.models.Text"
      data-sly-use.templates="core/wcm/components/commons/v1/templates.html"/>
-<text class="cmp cmp-text" data-sly-element="${text.isRichText ? 'div' : 'p'}" data-sly-test="${text.text}">${text.text @ context=text.displayContext}</text>
+<p data-sly-test="${text.text}" data-sly-unwrap="${text.isRichText}">${text.text @ context=text.displayContext}</p>
 <sly data-sly-call="${templates.placeholder @ isEmpty = !text.text}"></sly>

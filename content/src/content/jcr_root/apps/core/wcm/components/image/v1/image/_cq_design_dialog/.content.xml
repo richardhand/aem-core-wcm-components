@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:description="Image Design Dialog"
     jcr:primaryType="nt:unstructured"
     jcr:title="Image Design"
-    jcr:description="Image Design Dialog"
     sling:resourceType="cq/gui/components/authoring/dialog"
     extraClientlibs="[core.wcm.components.image.v1.editor]">
     <content
@@ -26,18 +26,18 @@
                                 margin="{Boolean}false">
                                 <items jcr:primaryType="nt:unstructured">
                                     <allowedWidths
+                                        granite:class="core-image-widths"
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
                                         fieldDescription="Define a list of allowed widths in pixels for the image to automatically load the most appropriate width from the list."
-                                        fieldLabel="Allowed widths"
-                                        granite:class="core-image-widths">
+                                        fieldLabel="Allowed widths">
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
-                                            required="{Boolean}true"
                                             defaultValue="{Long}1280"
                                             min="{Long}0"
-                                            name="./allowedRenditionWidths"/>
+                                            name="./allowedRenditionWidths"
+                                            required="{Boolean}true"/>
                                     </allowedWidths>
                                     <disableLazyLoading
                                         jcr:primaryType="nt:unstructured"
@@ -91,20 +91,20 @@
                                             </source>
                                             <orientation
                                                 granite:class="js-cq-IPEPlugin-group"
-                                                jcr:title="Orientation"
                                                 jcr:primaryType="nt:unstructured"
+                                                jcr:title="Orientation"
                                                 sling:resourceType="granite/ui/components/coral/foundation/container"
                                                 maximized="{Boolean}true">
                                                 <items jcr:primaryType="nt:unstructured">
                                                     <rotate
-                                                        jcr:title="Rotate"
                                                         jcr:primaryType="nt:unstructured"
+                                                        jcr:title="Rotate"
                                                         sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/plugin"
                                                         features="right"
                                                         name="rotate"/>
                                                     <flip
-                                                        jcr:title="Flip"
                                                         jcr:primaryType="nt:unstructured"
+                                                        jcr:title="Flip"
                                                         sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/plugin"
                                                         features="horizontal,vertical"
                                                         name="flip"/>
@@ -112,14 +112,14 @@
                                             </orientation>
                                             <crop
                                                 granite:class="js-cq-IPEPlugin-group"
-                                                jcr:title="Cropping"
                                                 jcr:primaryType="nt:unstructured"
+                                                jcr:title="Cropping"
                                                 sling:resourceType="granite/ui/components/coral/foundation/container"
                                                 maximized="{Boolean}true">
                                                 <items jcr:primaryType="nt:unstructured">
                                                     <crop
-                                                        jcr:title="Allow crop"
                                                         jcr:primaryType="nt:unstructured"
+                                                        jcr:title="Allow crop"
                                                         sling:resourceType="cq/gui/components/authoring/dialog/inplaceediting/configuration/plugin"
                                                         features="*"
                                                         name="crop"/>
@@ -131,8 +131,8 @@
                                                             granite:class="cq-AspectRatio"
                                                             jcr:primaryType="nt:unstructured"
                                                             sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
-                                                            fieldLabel="Aspect ratios"
-                                                            composite="{Boolean}true">
+                                                            composite="{Boolean}true"
+                                                            fieldLabel="Aspect ratios">
                                                             <field
                                                                 granite:class="cq-AspectRatio-field"
                                                                 jcr:primaryType="nt:unstructured"
@@ -150,8 +150,8 @@
                                                                         jcr:primaryType="nt:unstructured"
                                                                         sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
                                                                         fieldLabel="Ratio"
-                                                                        name="ratio"
                                                                         min="0"
+                                                                        name="ratio"
                                                                         step="0.0001"/>
                                                                 </items>
                                                             </field>

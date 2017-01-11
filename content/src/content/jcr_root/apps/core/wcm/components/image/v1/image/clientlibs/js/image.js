@@ -25,6 +25,7 @@
             image,
             $container,
             $anchor,
+            $dropContainer,
             updateMode;
 
         function init() {
@@ -153,7 +154,12 @@
         };
 
         options = $.extend({}, SmartImage.defaults, options);
-        $container = $noScriptElement.closest(options.containerSelector);
+        $dropContainer = $noScriptElement.closest('.cq-dd-image');
+        if($dropContainer.length) {
+            $container = $dropContainer;
+        } else {
+            $container = $noScriptElement.closest(options.containerSelector);
+        }
         $anchor = $('a', $container);
         if($anchor.length) {
             $container = $anchor;

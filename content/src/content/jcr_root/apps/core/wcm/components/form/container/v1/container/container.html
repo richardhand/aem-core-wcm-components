@@ -13,16 +13,14 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<div data-sly-use.container="com.adobe.cq.wcm.core.components.models.form.Container"
-     data-sly-use.template="core/wcm/components/commons/v1/templates.html"
-     class="cmp cmp-form">
-    <form method="${container.method}" action="${container.action}" id="${container.id}" name="${container.name}"
-          enctype="${container.enctype}">
-        <input type="hidden" name=":formstart" value="${resource.path}"/>
-        <input data-sly-test="${container.redirect}" type="hidden" name=":redirect" value="${container.redirect}"/>
-        <sly data-sly-repeat="${container.formFieldResourcePaths}" data-sly-resource="${item}"></sly>
-        <sly data-sly-resource="${resource.path @ resourceType=container.resourceTypeForDropArea, appendPath='/*'}"
-             data-sly-test="${wcmmode.edit}"></sly>
-    </form>
-</div>
+<form data-sly-use.container="com.adobe.cq.wcm.core.components.models.form.Container"
+      data-sly-use.template="core/wcm/components/commons/v1/templates.html"
+      method="${container.method}" action="${container.action}" id="${container.id}" name="${container.name}"
+      enctype="${container.enctype}">
+    <input type="hidden" name=":formstart" value="${resource.path}"/>
+    <input data-sly-test="${container.redirect}" type="hidden" name=":redirect" value="${container.redirect}"/>
+    <sly data-sly-repeat="${container.formFieldResourcePaths}" data-sly-resource="${item}"></sly>
+    <sly data-sly-resource="${resource.path @ resourceType=container.resourceTypeForDropArea, appendPath='/*'}"
+         data-sly-test="${wcmmode.edit}"></sly>
+</form>
 <sly data-sly-call="${template.placeholder @ isEmpty=true}"></sly>
