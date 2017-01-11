@@ -43,23 +43,24 @@ import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.adobe.cq.wcm.core.components.internal.servlets.AdaptiveImageServlet;
 import com.adobe.cq.wcm.core.components.models.Constants;
 import com.adobe.cq.wcm.core.components.models.Image;
+import com.day.cq.commons.DownloadResource;
+import com.day.cq.commons.ImageResource;
 import com.day.cq.commons.jcr.JcrConstants;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.api.designer.Style;
 
-@Model(adaptables = SlingHttpServletRequest.class,
-       adapters = Image.class,
-       resourceType = ImageImpl.RESOURCE_TYPE)
-@Exporter(name = Constants.EXPORTER_NAME,
-          extensions = Constants.EXPORTER_EXTENSION)
+@Model(adaptables = SlingHttpServletRequest.class, adapters = Image.class, resourceType = ImageImpl.RESOURCE_TYPE)
+@Exporter(name = Constants.EXPORTER_NAME, extensions = Constants.EXPORTER_EXTENSION)
 public class ImageImpl implements Image {
 
-    protected static final String RESOURCE_TYPE = "core/wcm/components/image/v1/image";
+    public static final String RESOURCE_TYPE = "core/wcm/components/image/v1/image";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageImpl.class);
+    private static final String DOT = ".";
 
     @Self
     private SlingHttpServletRequest request;
@@ -77,34 +78,27 @@ public class ImageImpl implements Image {
     @Source("osgi-services")
     private MimeTypeService mimeTypeService;
 
-    @ValueMapValue(name = Constants.IMAGE_FILE_REFERENCE,
-                   injectionStrategy = InjectionStrategy.OPTIONAL)
+    @ValueMapValue(name = DownloadResource.PN_REFERENCE, injectionStrategy = InjectionStrategy.OPTIONAL)
     private String fileReference;
 
-    @ValueMapValue(name = Constants.IMAGE_IS_DECORATIVE,
-                   injectionStrategy = InjectionStrategy.OPTIONAL)
+    @ValueMapValue(name = PN_IS_DECORATIVE, injectionStrategy = InjectionStrategy.OPTIONAL)
     @Default(booleanValues = false)
     private boolean isDecorative;
 
-    @ValueMapValue(name = Constants.IMAGE_DISPLAY_CAPTION_POPUP,
-                   injectionStrategy = InjectionStrategy.OPTIONAL)
+    @ValueMapValue(name = PN_DISPLAY_CAPTION_POPUP, injectionStrategy = InjectionStrategy.OPTIONAL)
     @Default(booleanValues = false)
     private boolean titleAsPopup;
 
-    @ValueMapValue(name = Constants.IMAGE_ALT,
-                   injectionStrategy = InjectionStrategy.OPTIONAL)
+    @ValueMapValue(name = ImageResource.PN_ALT, injectionStrategy = InjectionStrategy.OPTIONAL)
     private String alt;
 
-    @ValueMapValue(name = JcrConstants.JCR_TITLE,
-                   injectionStrategy = InjectionStrategy.OPTIONAL)
+    @ValueMapValue(name = JcrConstants.JCR_TITLE, injectionStrategy = InjectionStrategy.OPTIONAL)
     private String title;
 
-    @ValueMapValue(name = Constants.IMAGE_LINK,
-                   injectionStrategy = InjectionStrategy.OPTIONAL)
+    @ValueMapValue(name = ImageResource.PN_LINK_URL, injectionStrategy = InjectionStrategy.OPTIONAL)
     private String linkURL;
 
-    @ValueMapValue(name = Constants.IMAGE_FILE_NAME,
-                   injectionStrategy = InjectionStrategy.OPTIONAL)
+    @ValueMapValue(name = DownloadResource.PN_FILE_NAME, injectionStrategy = InjectionStrategy.OPTIONAL)
     private String fileName;
 
     private String extension;
@@ -118,15 +112,15 @@ public class ImageImpl implements Image {
     private boolean disableLazyLoading;
 
     @PostConstruct
-    protected void initModel() {
+    private void initModel() {
         if (StringUtils.isNotEmpty(fileReference)) {
             fileName = fileReference.substring(fileReference.lastIndexOf("/") + 1);
             int dotIndex;
-            if ((dotIndex = fileReference.lastIndexOf(".")) != -1) {
+            if ((dotIndex = fileReference.lastIndexOf(DOT)) != -1) {
                 extension = fileReference.substring(dotIndex + 1);
             }
         } else {
-            Resource file = resource.getChild(Constants.IMAGE_CHILD_NODE_IMAGE_FILE);
+            Resource file = resource.getChild(DownloadResource.NN_FILE);
             if (file != null) {
                 if (StringUtils.isEmpty(fileName)) {
                     fileName = resource.getName();
@@ -138,18 +132,22 @@ public class ImageImpl implements Image {
         if (StringUtils.isNotEmpty(fileName)) {
             Set<Integer> supportedRenditionWidths = getSupportedRenditionWidths();
             smartImages = new String[supportedRenditionWidths.size()];
+            smartSizes = new Integer[supportedRenditionWidths.size()];
             int index = 0;
             String escapedResourcePath = Text.escapePath(resource.getPath());
             for (Integer width : supportedRenditionWidths) {
-                smartImages[index++] = request.getContextPath() + escapedResourcePath + ".img." + width + "." + extension;
+                smartImages[index] = request.getContextPath() + escapedResourcePath + DOT + AdaptiveImageServlet.DEFAULT_SELECTOR + DOT +
+                        width + DOT + extension;
+                smartSizes[index] = width;
+                index++;
             }
-            smartSizes = supportedRenditionWidths.toArray(new Integer[supportedRenditionWidths.size()]);
             if (smartSizes.length == 0 || smartSizes.length >= 2) {
-                src = request.getContextPath() + escapedResourcePath + ".img." + extension;
+                src = request.getContextPath() + escapedResourcePath + DOT + AdaptiveImageServlet.DEFAULT_SELECTOR + DOT + extension;
             } else if (smartSizes.length == 1) {
-                src = request.getContextPath() + escapedResourcePath + ".img." + smartSizes[0] + "." + extension;
+                src = request.getContextPath() + escapedResourcePath + DOT + AdaptiveImageServlet.DEFAULT_SELECTOR + DOT + smartSizes[0] +
+                        DOT + extension;
             }
-            disableLazyLoading = currentStyle.get(Constants.IMAGE_LAZY_LOADING_ENABLED, false);
+            disableLazyLoading = currentStyle.get(PN_DESIGN_LAZY_LOADING_ENABLED, false);
             Page page = pageManager.getPage(linkURL);
             if (page != null) {
                 String vanityURL = page.getVanityUrl();
@@ -159,31 +157,6 @@ public class ImageImpl implements Image {
         buildJson();
     }
 
-    private void buildJson() {
-        Map<String, Object> objectMap = new HashMap<>();
-        objectMap.put("smartSizes", new JSONArray(Arrays.asList(smartSizes)));
-        objectMap.put("smartImages", new JSONArray(Arrays.asList(smartImages)));
-        objectMap.put("lazyEnabled", !disableLazyLoading);
-        json = new JSONObject(objectMap).toString();
-    }
-
-    @Override
-    public Set<Integer> getSupportedRenditionWidths() {
-        if (allowedRenditionWidths == null) {
-            allowedRenditionWidths = new LinkedHashSet<>();
-            String[] supportedWidthsConfig = currentStyle.get(Constants.IMAGE_DESIGN_ALLOWED_RENDITION_WIDTHS, new String[0]);
-            for (String width : supportedWidthsConfig) {
-                try {
-                    allowedRenditionWidths.add(Integer.parseInt(width));
-                } catch (NumberFormatException e) {
-                    LOGGER.error(String.format("Invalid width detected (%s) for content policy configuration.", width), e);
-                }
-            }
-        }
-        return allowedRenditionWidths;
-    }
-
-
     @Override
     public String getSrc() {
         return src;
@@ -192,11 +165,6 @@ public class ImageImpl implements Image {
     @Override
     public Integer[] getSmartSizes() {
         return smartSizes;
-    }
-
-    @Override
-    public String[] getSmartImages() {
-        return smartImages;
     }
 
     @Override
@@ -242,5 +210,28 @@ public class ImageImpl implements Image {
     @Override
     public boolean isDecorative() {
         return isDecorative;
+    }
+
+    private void buildJson() {
+        Map<String, Object> objectMap = new HashMap<>();
+        objectMap.put("smartSizes", new JSONArray(Arrays.asList(smartSizes)));
+        objectMap.put("smartImages", new JSONArray(Arrays.asList(smartImages)));
+        objectMap.put("lazyEnabled", !disableLazyLoading);
+        json = new JSONObject(objectMap).toString();
+    }
+
+    private Set<Integer> getSupportedRenditionWidths() {
+        if (allowedRenditionWidths == null) {
+            allowedRenditionWidths = new LinkedHashSet<>();
+            String[] supportedWidthsConfig = currentStyle.get(PN_DESIGN_ALLOWED_RENDITION_WIDTHS, new String[0]);
+            for (String width : supportedWidthsConfig) {
+                try {
+                    allowedRenditionWidths.add(Integer.parseInt(width));
+                } catch (NumberFormatException e) {
+                    LOGGER.error(String.format("Invalid width detected (%s) for content policy configuration.", width), e);
+                }
+            }
+        }
+        return allowedRenditionWidths;
     }
 }

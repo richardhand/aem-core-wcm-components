@@ -15,19 +15,30 @@
  ******************************************************************************/
 package com.adobe.cq.wcm.core.components.models;
 
-import java.util.Set;
-
 /**
  * Defines the {@code Image} Sling Model used for the {@code /apps/core/wcm/components/image} component.
  */
 public interface Image {
 
     /**
-     * Returns the set of supported width for adaptive images.
-     *
-     * @return the set of supported widths for adaptive images
+     * Name of the configuration policy property that will store the allowed rendition widths for an image.
      */
-    Set<Integer> getSupportedRenditionWidths();
+    String PN_DESIGN_ALLOWED_RENDITION_WIDTHS = "allowedRenditionWidths";
+
+    /**
+     * Name of the configuration policy property that will indicate if lazy loading should be disabled.
+     */
+    String PN_DESIGN_LAZY_LOADING_ENABLED = "disableLazyLoading";
+
+    /**
+     * Name of the resource property that will indicate if the image is decorative.
+     */
+    String PN_IS_DECORATIVE = "isDecorative";
+
+    /**
+     * Name of the resource property that will indicate if the image's caption will be rendered as a popup.
+     */
+    String PN_DISPLAY_CAPTION_POPUP = "displayCaptionPopup";
 
     /**
      * Returns the value for the {@code src} attribute of the image.
@@ -43,14 +54,6 @@ public interface Image {
      * component's design
      */
     Integer[] getSmartSizes();
-
-    /**
-     * Returns an array of URLs for smart images, if the component's design provides an array of allowed rendition widths.
-     *
-     * @return the array of URLs for smart images, or an empty array if the component's design doesn't provide an array of allowed
-     * rendition widths
-     */
-    String[] getSmartImages();
 
     /**
      * Returns {@code true} if the image should be loaded lazily, {@code false} otherwise.
@@ -110,7 +113,13 @@ public interface Image {
     String getFileName();
 
     /**
-     * Returns the JSON for smart image functionality.
+     * Returns a JSON object used for the smart image functionality. The object provides the following properties:
+     *
+     * <ul>
+     *     <li>{@code smartSizes} - array of integers, representing the available image widths</li>
+     *     <li>{@code smartImages} - array of strings, providing the URLs for the available image renditions</li>
+     *     <li>{@code lazyEnabled} - boolean, specifying if the image should be rendered lazily or not</li>
+     * </ul>
      *
      * @return the JSON for the smart image functionality
      */

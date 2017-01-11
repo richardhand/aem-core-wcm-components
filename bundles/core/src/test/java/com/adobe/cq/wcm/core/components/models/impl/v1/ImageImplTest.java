@@ -22,7 +22,6 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.scripting.SlingBindings;
-import org.apache.sling.api.wrappers.ValueMapDecorator;
 import org.apache.sling.testing.mock.sling.servlet.MockSlingHttpServletRequest;
 import org.junit.Before;
 import org.junit.Rule;
@@ -34,8 +33,6 @@ import com.adobe.cq.wcm.core.components.context.MockStyle;
 import com.adobe.cq.wcm.core.components.models.Image;
 import com.adobe.cq.wcm.core.components.testing.MockAdapterFactory;
 import com.day.cq.wcm.api.Page;
-import com.day.cq.wcm.api.designer.Cell;
-import com.day.cq.wcm.api.designer.Design;
 import com.day.cq.wcm.api.designer.Style;
 import com.day.cq.wcm.api.policies.ContentPolicy;
 import com.day.cq.wcm.api.policies.ContentPolicyMapping;
@@ -87,15 +84,6 @@ public class ImageImplTest {
         assertFalse(image.isTitleAsPopup());
         assertEquals(IMAGE_LINK, image.getLink());
         assertEquals(CONTEXT_PATH + escapedResourcePath + ".img.png", image.getSrc());
-        assertArrayEquals(new Integer[] {600, 700, 800}, image.getSmartSizes());
-        assertArrayEquals(
-                new String[] {
-                        CONTEXT_PATH + escapedResourcePath + ".img.600.png",
-                        CONTEXT_PATH + escapedResourcePath + ".img.700.png",
-                        CONTEXT_PATH + escapedResourcePath + ".img.800.png"
-                },
-                image.getSmartImages()
-        );
     }
 
     private void compareJSON(String expectedJson, String json) throws Exception {
@@ -106,7 +94,7 @@ public class ImageImplTest {
     }
 
     @Test
-    public void testImageWithOneSmartSize() {
+    public void testImageWithOneSmartSize() throws Exception {
         String escapedResourcePath = Text.escapePath(IMAGE3_PATH);
         Image image = getImageUnderTest(IMAGE3_PATH);
         assertEquals(IMAGE_TITLE_ALT, image.getAlt());
@@ -118,13 +106,9 @@ public class ImageImplTest {
         assertFalse("Image should not display a caption popup.", image.isTitleAsPopup());
         assertEquals(IMAGE_LINK, image.getLink());
         assertEquals(CONTEXT_PATH + escapedResourcePath + ".img.600.png", image.getSrc());
-        assertArrayEquals(new Integer[] {600}, image.getSmartSizes());
-        assertArrayEquals(
-                new String[] {
-                        CONTEXT_PATH + escapedResourcePath + ".img.600.png"
-                },
-                image.getSmartImages()
-        );
+        String expectedJson = "{\"smartImages\":[\"/core/content/test/jcr%3acontent/root/image3.img.600.png\"],\"smartSizes\":[600]," +
+                "\"lazyEnabled\":false}";
+        compareJSON(expectedJson, image.getJson());
     }
 
     private Image getImageUnderTest(String resourcePath) {

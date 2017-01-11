@@ -37,7 +37,7 @@ import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.adobe.cq.wcm.core.components.models.Constants;
+import com.adobe.cq.wcm.core.components.models.impl.v1.ImageImpl;
 import com.day.cq.wcm.api.components.ComponentContext;
 import com.day.cq.wcm.api.policies.ContentPolicy;
 import com.day.cq.wcm.api.policies.ContentPolicyManager;
@@ -52,7 +52,7 @@ import com.day.image.Layer;
         property = {
                 "sling.servlet.selectors=" + AdaptiveImageServlet.DEFAULT_SELECTOR,
                 "sling.servlet.resourceTypes=core/wcm/components/image",
-                "sling.servlet.resourceTypes=core/wcm/components/image/v1/image",
+                "sling.servlet.resourceTypes=" + ImageImpl.RESOURCE_TYPE,
                 "sling.servlet.extensions=jpg",
                 "sling.servlet.extensions=jpeg",
                 "sling.servlet.extensions=png",
@@ -185,8 +185,8 @@ public class AdaptiveImageServlet extends AbstractImageServlet {
         ComponentContext componentContext = WCMUtils.getComponentContext(request);
         ContentPolicy contentPolicy = policyManager.getPolicy(componentContext);
         if (contentPolicy != null) {
-            String[] allowedRenditionWidths = contentPolicy.getProperties().get(Constants.IMAGE_DESIGN_ALLOWED_RENDITION_WIDTHS, new
-                    String[0]);
+            String[] allowedRenditionWidths = contentPolicy.getProperties()
+                    .get(com.adobe.cq.wcm.core.components.models.Image.PN_DESIGN_ALLOWED_RENDITION_WIDTHS, new String[0]);
             for (String width : allowedRenditionWidths) {
                 try {
                    list.add(Integer.parseInt(width));
