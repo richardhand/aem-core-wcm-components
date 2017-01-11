@@ -148,7 +148,7 @@
 
         // check the current number of parent levels
         .assert.isTrue(function(){
-            return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 5})
+            return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 6})
 
         // Open the configuration dialog
         .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
@@ -162,7 +162,7 @@
 
         // check the current number
         .assert.isTrue(function(){
-            return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 3});
+            return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 4});
 
     /**
      * Test: Set the start level to lowest allowed value of 0.
@@ -174,7 +174,7 @@
 
         // check the current number of items
         .assert.isTrue(function(){
-            return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 5})
+            return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 6})
 
         // Open the configuration dialog
         .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
@@ -199,7 +199,7 @@
 
         // check the current number of items
         .assert.isTrue(function(){
-            return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 5})
+            return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 6})
         // Open the configuration dialog
         .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
         // set it to 100
