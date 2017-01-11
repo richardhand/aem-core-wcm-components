@@ -20,8 +20,9 @@
           enctype="${container.enctype}">
         <input type="hidden" name=":formstart" value="${resource.path}"/>
         <input data-sly-test="${container.redirect}" type="hidden" name=":redirect" value="${container.redirect}"/>
-        <sly data-sly-repeat="${container.formFieldResourcePaths}" data-sly-resource="${item}"/>
-        <sly data-sly-resource="${resource.path @ resourceType=container.resourceTypeForDropArea, appendPath='/*'}" data-sly-test="${wcmmode.edit}"/>
+        <sly data-sly-repeat="${container.formFieldResourcePaths}" data-sly-resource="${item}"></sly>
+        <sly data-sly-resource="${resource.path @ resourceType=container.resourceTypeForDropArea, appendPath='/*'}"
+             data-sly-test="${wcmmode.edit}"></sly>
     </form>
 </div>
-<sly data-sly-call="${template.placeholder @ isEmpty=true}"/>
+<sly data-sly-call="${template.placeholder @ isEmpty=true}"></sly>
