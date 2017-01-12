@@ -15,7 +15,7 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <sly data-sly-use.template="core/wcm/components/commons/v1/templates.html"
      data-sly-use.socialMedia="com.adobe.cq.wcm.core.components.models.SocialMediaHelper"
-     data-sly-call="${template.placeholder @ isEmpty=!socialMedia.socialMediaEnabled}"/>
+     data-sly-call="${template.placeholder @ isEmpty=!socialMedia.socialMediaEnabled}"></sly>
 <div data-sly-test="${socialMedia.facebookEnabled}"
      class="fb-share-button"
      data-href="${socialMedia.metadata.og:url}"
