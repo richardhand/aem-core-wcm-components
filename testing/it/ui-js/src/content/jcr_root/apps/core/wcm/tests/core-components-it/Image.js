@@ -81,7 +81,7 @@
 
         // verify that the surrounding script tag has been removed and the img tag is there
         .asserts.isTrue(function () {
-            return h.find("div.cmp-image > img[src$='"+ h.param("testPagePath")() +
+            return h.find("div.cmp-image img[src$='"+ h.param("testPagePath")() +
                 "/_jcr_content/root/responsivegrid/image.img.jpg']", "#ContentFrame").size() == 1;
         });
 
@@ -101,7 +101,7 @@
 
         // verify that alt text is there
         .asserts.isTrue(function () {
-            return h.find("div.cmp-image > img[alt='"+altText +"']", "#ContentFrame").size() == 1;
+            return h.find("div.cmp-image img[alt='"+altText +"']", "#ContentFrame").size() == 1;
         });
 
     /**
@@ -177,7 +177,7 @@
         .config.changeContext(c.getContentFrame)
         // check if the caption is rendered with <small> tag
         .asserts.isTrue(function(){
-            return h.find("div.cmp-image > img[title='" + captionText + "']").size() == 1
+            return h.find("div.cmp-image img[title='" + captionText + "']").size() == 1
         });
 
     /**

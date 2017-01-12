@@ -20,7 +20,7 @@
               data-sly-test="${options.type == 'checkbox' || options.type == 'radio'}">
         <legend>${options.caption}</legend>
         <p class="help-block" data-sly-test="${options.helpMessage}">${options.helpMessage}</p>
-        <div class="${options.type}" data-sly-repeat.optionItem="${options.optionItems}">
+        <div class="${options.type}-item" data-sly-repeat.optionItem="${options.optionItems}">
             <label>
               <input type="${options.type}" name="${options.name}" value="${optionItem.value}"
                      checked="${optionItem.selected}" disabled="${optionItem.disabled}"/>
