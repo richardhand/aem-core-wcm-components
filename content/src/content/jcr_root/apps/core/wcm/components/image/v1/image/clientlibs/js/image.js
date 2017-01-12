@@ -154,17 +154,19 @@
         };
 
         options = $.extend({}, SmartImage.defaults, options);
-        $dropContainer = $noScriptElement.closest('.cq-dd-image');
-        if($dropContainer.length) {
-            $container = $dropContainer;
-        } else {
-            $container = $noScriptElement.closest(options.containerSelector);
+
+        $container = $noScriptElement.closest(options.containerSelector);
+        if($container.length) {
+            $dropContainer = $noScriptElement.closest('.cq-dd-image');
+            if($dropContainer.length) {
+                $container = $dropContainer;
+            }
+            $anchor = $('a', $container);
+            if($anchor.length) {
+                $container = $anchor;
+            }
+            init();
         }
-        $anchor = $('a', $container);
-        if($anchor.length) {
-            $container = $anchor;
-        }
-        init();
     }
 
     SmartImage.defaults = {
