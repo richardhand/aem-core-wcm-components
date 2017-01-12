@@ -21,15 +21,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Reference;
-import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.resource.LoginException;
 import org.apache.sling.api.resource.ModifiableValueMap;
 import org.apache.sling.api.resource.PersistenceException;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,8 +38,10 @@ import com.adobe.cq.wcm.core.components.models.form.impl.v1.ButtonImpl;
 import com.day.cq.wcm.foundation.forms.FormStructureHelper;
 import com.day.cq.wcm.foundation.forms.FormsConstants;
 
-@Component(immediate = true)
-@Service(FormStructureHelper.class)
+@Component(
+        immediate = true,
+        service = FormStructureHelper.class
+)
 public class FormStructureHelperImpl implements FormStructureHelper {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FormStructureHelperImpl.class.getName());
