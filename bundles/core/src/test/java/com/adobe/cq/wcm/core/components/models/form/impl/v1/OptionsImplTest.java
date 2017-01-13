@@ -59,7 +59,7 @@ public class OptionsImplTest {
         assertEquals("name1", options.getName());
         assertEquals("caption1", options.getCaption());
         assertEquals("helpMessage1", options.getHelpMessage());
-        assertEquals("checkbox", options.getType());
+        assertEquals(Options.Type.CHECKBOX, options.getType());
 
         assertNotNull(optionItems);
         assertTrue(optionItems.size() == 3);
@@ -79,7 +79,7 @@ public class OptionsImplTest {
         slingBindings.put(WCMBindings.PROPERTIES, optionsRes.adaptTo(ValueMap.class));
         slingBindings.put(RESOURCE_PROPERTY, optionsRes);
         Options options = context.request().adaptTo(Options.class);
-        assertEquals("radio", options.getType());
+        assertEquals(Options.Type.RADIO, options.getType());
     }
 
     @Test
@@ -88,7 +88,7 @@ public class OptionsImplTest {
         slingBindings.put(WCMBindings.PROPERTIES, optionsRes.adaptTo(ValueMap.class));
         slingBindings.put(RESOURCE_PROPERTY, optionsRes);
         Options options = context.request().adaptTo(Options.class);
-        assertEquals("drop-down", options.getType());
+        assertEquals(Options.Type.DROP_DOWN, options.getType());
     }
 
     @Test
@@ -97,7 +97,7 @@ public class OptionsImplTest {
         slingBindings.put(WCMBindings.PROPERTIES, optionsRes.adaptTo(ValueMap.class));
         slingBindings.put(RESOURCE_PROPERTY, optionsRes);
         Options options = context.request().adaptTo(Options.class);
-        assertEquals("multi-drop-down", options.getType());
+        assertEquals(Options.Type.MULTI_DROP_DOWN, options.getType());
     }
 
     private void evaluateOptionItem(OptionItem item, String text, String value, boolean selected, boolean disabled) {
