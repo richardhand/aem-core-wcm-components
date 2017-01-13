@@ -51,11 +51,6 @@ public class OptionItemImpl implements OptionItem {
     }
 
     @Override
-    public Resource getResource() {
-        return resource;
-    }
-
-    @Override
     public boolean isSelected() {
         return selected;
     }
