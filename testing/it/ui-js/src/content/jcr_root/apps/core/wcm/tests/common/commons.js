@@ -30,25 +30,25 @@
 
     // core component resource types
     // text component
-    c.rtText  =  "core/wcm/components/text";
+    c.rtText  =  "core/wcm/components/text/v1/text";
     // title component
-    c.rtTitle  =  "core/wcm/components/title";
+    c.rtTitle  =  "core/wcm/components/title/v1/title";
     // list component
-    c.rtList  =  "core/wcm/components/list";
+    c.rtList  =  "core/wcm/components/list/v1/list";
     // image component
-    c.rtImage  =  "core/wcm/components/image";
+    c.rtImage  =  "core/wcm/components/image/v1/image";
     // breadcrumb component
-    c.rtBreadcrumb = "core/wcm/components/breadcrumb";
+    c.rtBreadcrumb = "core/wcm/components/breadcrumb/v1/breadcrumb";
     // form container
-    c.rtFormContainer = "core/wcm/components/form/container";
+    c.rtFormContainer = "core/wcm/components/form/container/v1/container";
     // form button
-    c.rtFormButton = "core/wcm/components/form/button";
+    c.rtFormButton = "core/wcm/components/form/button/v1/button";
     // form button
-    c.rtFormText = "core/wcm/components/form/text";
+    c.rtFormText = "core/wcm/components/form/text/v1/text";
     // form option
-    c.rtFormOptions = "core/wcm/components/form/options"
+    c.rtFormOptions = "core/wcm/components/form/options/v1/options";
     // hidden field
-    c.rtFormHidden  = "core/wcm/components/form/hidden"
+    c.rtFormHidden  = "core/wcm/components/form/hidden/v1/hidden"
 
     // selectors
 
