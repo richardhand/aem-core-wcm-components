@@ -75,7 +75,8 @@ public class OptionsImpl implements Options {
     @ValueMapValue(name = OptionsImpl.PN_TYPE,
                    optional = true)
     private String typeString;
-    private String typeValue;
+
+    private Type type;
 
     @SlingObject
     private Resource resource;
@@ -83,8 +84,11 @@ public class OptionsImpl implements Options {
     private List<OptionItem> optionItems;
     private String id;
 
-    @ValueMapValue(optional = true)
-    private String source;
+    @ValueMapValue(optional = true,
+                    name = "source")
+    private String sourceString;
+
+    private Source source;
 
     @ValueMapValue(optional = true)
     private String fromList;
@@ -133,48 +137,32 @@ public class OptionsImpl implements Options {
     }
 
     @Override
-    public String getType() {
-        if (typeValue == null) {
-            typeValue = Type.fromString(typeString).getValue();
-        }
-        return typeValue;
+    public Type getType() {
+        type = Options.Type.fromString(typeString);
+        return type;
     }
 
-    @Override
-    public Resource getResource() {
-        return resource;
-    }
-
-    @Override
-    public String getSource() {
-        Source from = Source.getSource(source);
-        if (from != null) {
-            return from.getElement();
-        }
-        return null;
-    }
-
-    @Override
-    public String getFromList() {
-        return fromList;
-    }
-
-    @Override
-    public String getFromDatasource() {
-        return fromDatasource;
-    }
 
 
     /* ------------------------ Internal stuff -------------------------------------------- */
 
+
     private void populateOptionItems() {
         this.optionItems = new ArrayList<>();
-        if (StringUtils.equals(source, Source.DATASOURCE.getElement()) && StringUtils.isNotEmpty(fromDatasource)) {
-            populateOptionItemsFromDatasource();
-        } else if (StringUtils.equals(source, Source.LIST.getElement()) && StringUtils.isNotEmpty(fromList)) {
-            populateOptionItemsFromList();
-        } else {
+        source = Source.getSource(sourceString);
+        if (source == null) {
             populateOptionItemsFromLocal();
+        } else {
+            switch (source) {
+                case DATASOURCE:
+                    populateOptionItemsFromDatasource();
+                    break;
+                case LIST:
+                    populateOptionItemsFromList();
+                    break;
+                default:
+                    populateOptionItemsFromLocal();
+            }
         }
     }
 
@@ -190,6 +178,9 @@ public class OptionsImpl implements Options {
     }
 
     private void populateOptionItemsFromList() {
+        if (StringUtils.isEmpty(fromList)) {
+            return;
+        }
         Resource parent = resolver.getResource(fromList);
         if (parent != null) {
             for(Resource itemResource: parent.getChildren()) {
@@ -203,7 +194,9 @@ public class OptionsImpl implements Options {
 
     @SuppressWarnings("unchecked")
     private void populateOptionItemsFromDatasource() {
-
+        if (StringUtils.isEmpty(fromDatasource)) {
+            return;
+        }
         // build the options by running the datasource code (the list is set as a request attribute)
         RequestDispatcherOptions opts = new RequestDispatcherOptions();
         opts.setForceResourceType(fromDatasource);
@@ -238,34 +231,7 @@ public class OptionsImpl implements Options {
         id = ID_PREFIX + "-" + String.valueOf(Math.abs(resource.getPath().hashCode()));
     }
 
-    public enum Type {
-        CHECKBOX("checkbox"),
-        RADIO("radio"),
-        DROP_DOWN("drop-down"),
-        MULTI_DROP_DOWN("multi-drop-down");
-
-        private String value;
-
-        Type(String value) {
-            this.value = value;
-        }
-
-        public static Type fromString(String value) {
-            for (Type type : Type.values()) {
-                if (StringUtils.equals(value, type.value)) {
-                    return type;
-                }
-            }
-            return CHECKBOX;
-        }
-
-        public String getValue() {
-            return value;
-        }
-    }
-
     private enum Source {
-
         LOCAL("local"),
         LIST("list"),
         DATASOURCE("datasource");
@@ -285,7 +251,7 @@ public class OptionsImpl implements Options {
             return null;
         }
 
-        public String getElement() {
+        private String getElement() {
             return element;
         }
     }
