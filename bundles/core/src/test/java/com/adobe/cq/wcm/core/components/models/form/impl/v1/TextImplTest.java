@@ -70,7 +70,7 @@ public class TextImplTest {
         slingBindings.put(RESOURCE_PROPERTY, resource);
         Text text = context.request().adaptTo(Text.class);
         assertEquals("text", text.getName());
-        assertEquals("Text input field", text.getCaption());
+        assertEquals("Text input field", text.getTitle());
         assertEquals(false, text.isRequired());
         assertEquals("", text.getRequiredMessage());
         assertEquals(false, text.isReadOnly());
@@ -89,7 +89,7 @@ public class TextImplTest {
         slingBindings.put(RESOURCE_PROPERTY, resource);
         Text text = context.request().adaptTo(Text.class);
         assertEquals("Custom Name", text.getName());
-        assertEquals("Custom Caption", text.getCaption());
+        assertEquals("Custom title", text.getTitle());
         assertEquals(true, text.isRequired());
         assertEquals("please fill the field", text.getRequiredMessage());
         assertEquals(true, text.isReadOnly());

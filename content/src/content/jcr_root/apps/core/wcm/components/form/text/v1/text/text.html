@@ -15,7 +15,7 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <div data-sly-use.text="com.adobe.cq.wcm.core.components.models.form.Text"
      class="form-group">
-    <label for="${text.id}" data-sly-test="${text.caption}">${text.caption}</label>
+    <label for="${text.id}" data-sly-test="${text.title}">${text.title}</label>
     <p data-sly-test="${!text.placeholder && text.helpMessage}" class="help-block">${text.helpMessage}</p>
     <textarea data-sly-test.useTextarea="${text.type == 'textarea'}"
           id="${text.id}"

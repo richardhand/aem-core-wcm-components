@@ -43,10 +43,10 @@ public interface Field {
     String getValue();
 
     /**
-     * @return the caption of the field (text displayed on the field).
-     * Implementations can return empty string if caption is not required.
+     * @return the title of the field (text displayed on the field).
+     * Implementations can return empty string if title is not required.
      */
-    String getCaption();
+    String getTitle();
 
     /**
      * @return the message for the help block.

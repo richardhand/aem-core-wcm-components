@@ -98,7 +98,7 @@
         // Open the edit dialog
         .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
         //set the button text
-        .fillInput("[name='./caption']","Test Button")
+        .fillInput("[name='./jcr:title']","Test Button")
         // close the edit dialog
         .execTestCase(c.tcSaveConfigureDialog)
 

@@ -17,6 +17,7 @@ package com.adobe.cq.wcm.core.components.models.form.impl.v1;
 
 
 import com.adobe.cq.wcm.core.components.models.form.Field;
+import com.day.cq.commons.jcr.JcrConstants;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
@@ -31,8 +32,8 @@ public abstract class AbstractFieldImpl implements Field {
     @Default(values = {})
     protected String id;
 
-    @ValueMapValue(optional = true)
-    protected String caption;
+    @ValueMapValue(optional = true, name = JcrConstants.JCR_TITLE)
+    protected String title;
 
     @ValueMapValue(optional = true)
     protected String name;
@@ -50,7 +51,7 @@ public abstract class AbstractFieldImpl implements Field {
 
     protected abstract String getDefaultValue();
 
-    protected abstract String getDefaultCaption();
+    protected abstract String getDefaultTitle();
 
     @SlingObject
     private Resource resource;
@@ -80,10 +81,10 @@ public abstract class AbstractFieldImpl implements Field {
     }
 
     @Override
-    public String getCaption() {
-        if (caption == null) {
-            caption = getDefaultCaption();
+    public String getTitle() {
+        if (title == null) {
+            title = getDefaultTitle();
         }
-        return caption;
+        return title;
     }
 }

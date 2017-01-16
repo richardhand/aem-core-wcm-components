@@ -33,12 +33,12 @@
                                 value="submit"/>
                         </items>
                     </type>
-                    <caption
+                    <title
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                         fieldDescription="Text displayed on the button, if none provided, it defaults to the button type"
-                        fieldLabel="Caption"
-                        name="./caption"/>
+                        fieldLabel="Title"
+                        name="./jcr:title"/>
                     <name
                         granite:class="cmp-form-button-name"
                         jcr:primaryType="nt:unstructured"

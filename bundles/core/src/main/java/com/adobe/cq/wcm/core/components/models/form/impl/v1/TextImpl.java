@@ -186,7 +186,7 @@ public class TextImpl extends AbstractFieldImpl implements Text {
     }
 
     @Override
-    protected String getDefaultCaption() {
+    protected String getDefaultTitle() {
         return PROP_CAPTION_DEFAULT;
     }
 

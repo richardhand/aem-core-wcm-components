@@ -73,8 +73,8 @@
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                                         fieldDescription="Label of this field"
-                                        fieldLabel="Caption"
-                                        name="./caption"
+                                        fieldLabel="Label"
+                                        name="./jcr:title"
                                         required="{Boolean}true"/>
                                     <name
                                         jcr:primaryType="nt:unstructured"

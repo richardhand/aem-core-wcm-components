@@ -63,6 +63,7 @@
           },
           "text_185087333": {
             "jcr:primaryType": "nt:unstructured",
+            "jcr:title": "Custom title",
             "jcr:createdBy": "admin",
             "jcr:created": "Wed Oct 05 2016 16:28:06 GMT+0530",
             "constraintMessage": "The value should be a valid email address",
@@ -74,7 +75,6 @@
             "name": "Custom Name",
             "type": "email",
             "useTextarea": true,
-            "caption": "Custom Caption",
             "value": "Prefilled Sample Input",
             "sling:resourceType": "core/wcm/components/form/text",
             "requiredMessage": "please fill the field",

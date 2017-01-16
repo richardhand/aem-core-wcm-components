@@ -19,12 +19,10 @@ import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
-import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.Self;
-import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
 import com.adobe.cq.wcm.core.components.commons.form.FormConstants;
@@ -78,11 +76,11 @@ public class ButtonImpl extends AbstractFieldImpl implements Button {
     }
 
     @Override
-    public String getCaption() {
-        if (this.caption == null || this.caption.trim().isEmpty()) {
-            this.caption = i18n.getVar(StringUtils.capitalize(this.typeString));
+    public String getTitle() {
+        if (this.title == null || this.title.trim().isEmpty()) {
+            this.title = i18n.getVar(StringUtils.capitalize(this.typeString));
         }
-        return this.caption;
+        return this.title;
     }
 
     @Override
@@ -96,7 +94,7 @@ public class ButtonImpl extends AbstractFieldImpl implements Button {
     }
 
     @Override
-    protected String getDefaultCaption() {
+    protected String getDefaultTitle() {
         return "";
     }
 }
