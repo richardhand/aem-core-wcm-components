@@ -25,7 +25,7 @@
                   data-cmp-image="${image.json}">
             <img src="${image.src}"
                  alt="${image.alt || (image.titleAsPopup && image.title) || true}"
-                 title="${image.titleAsPopup && image.title}"/>
+                 title="${image.titlePopup && image.title}"/>
         </noscript>
     </a>
     <span class="cmp-image--title" data-sly-test="${!image.titleAsPopup && image.title}">${image.title}</span>

@@ -41,6 +41,21 @@ public interface Image {
     String PN_DISPLAY_CAPTION_POPUP = "displayCaptionPopup";
 
     /**
+     * Name of the JSON property that will store the smart sizes for smart loading.
+     */
+    String JSON_SMART_SIZES = "smartSizes";
+
+    /**
+     * Name of the JSON property that will store the smart images for smart loading.
+     */
+    String JSON_SMART_IMAGES = "smartImages";
+
+    /**
+     * Name of the JSON property that will indicate if the image should be loaded lazily.
+     */
+    String JSON_LAZY_ENABLED = "lazyEnabled";
+
+    /**
      * Returns the value for the {@code src} attribute of the image.
      *
      * @return the image's URL
@@ -53,7 +68,7 @@ public interface Image {
      * @return the array of allowed rendition widths, or an empty array if the allowed renditions widths have not been configured for the
      * component's design
      */
-    Integer[] getSmartSizes();
+    int[] getSmartSizes();
 
     /**
      * Returns {@code true} if the image should be loaded lazily, {@code false} otherwise.
@@ -89,7 +104,7 @@ public interface Image {
      *
      * @return {@code true} if the caption should be displayed as a popup
      */
-    boolean isTitleAsPopup();
+    boolean isTitlePopup();
 
     /**
      * Returns {@code true} if the image is rendered only for decorative purposes (no link, no alt information).
@@ -116,9 +131,9 @@ public interface Image {
      * Returns a JSON object used for the smart image functionality. The object provides the following properties:
      *
      * <ul>
-     *     <li>{@code smartSizes} - array of integers, representing the available image widths</li>
-     *     <li>{@code smartImages} - array of strings, providing the URLs for the available image renditions</li>
-     *     <li>{@code lazyEnabled} - boolean, specifying if the image should be rendered lazily or not</li>
+     *     <li>{@link #JSON_SMART_SIZES} - array of integers, representing the available image widths</li>
+     *     <li>{@link #JSON_SMART_IMAGES} - array of strings, providing the URLs for the available image renditions</li>
+     *     <li>{@link #JSON_LAZY_ENABLED} - boolean, specifying if the image should be rendered lazily or not</li>
      * </ul>
      *
      * @return the JSON for the smart image functionality

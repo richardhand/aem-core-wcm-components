@@ -81,7 +81,7 @@ public class ImageImplTest {
         String expectedJson = "{\"smartImages\":[\"/core/content/test/jcr%3acontent/root/image.img.600.png\"," +
                 "\"/core/content/test/jcr%3acontent/root/image.img.700.png\",\"/core/content/test/jcr%3acontent/root/image.img.800.png\"],\"smartSizes\":[600,700,800],\"lazyEnabled\":true}";
         compareJSON(expectedJson, image.getJson());
-        assertFalse(image.isTitleAsPopup());
+        assertFalse(image.isTitlePopup());
         assertEquals(IMAGE_LINK, image.getLink());
         assertEquals(CONTEXT_PATH + escapedResourcePath + ".img.png", image.getSrc());
     }
@@ -103,7 +103,7 @@ public class ImageImplTest {
         assertEquals(IMAGE_BINARY_NAME, image.getFileName());
         assertFalse("Did not expect a decorative image.", image.isDecorative());
         assertFalse("Image should not load lazily.", image.isLazyLoadingEnabled());
-        assertFalse("Image should not display a caption popup.", image.isTitleAsPopup());
+        assertFalse("Image should not display a caption popup.", image.isTitlePopup());
         assertEquals(IMAGE_LINK, image.getLink());
         assertEquals(CONTEXT_PATH + escapedResourcePath + ".img.600.png", image.getSrc());
         String expectedJson = "{\"smartImages\":[\"/core/content/test/jcr%3acontent/root/image3.img.600.png\"],\"smartSizes\":[600]," +

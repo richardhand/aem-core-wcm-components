@@ -23,6 +23,7 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.jackrabbit.util.Text;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -30,6 +31,7 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceMetadata;
 import org.apache.sling.commons.json.JSONArray;
 import org.apache.sling.commons.json.JSONObject;
+import org.apache.sling.commons.json.io.JSONStringer;
 import org.apache.sling.commons.mime.MimeTypeService;
 import org.apache.sling.commons.osgi.PropertiesUtil;
 import org.apache.sling.models.annotations.Default;
@@ -58,6 +60,7 @@ import com.day.cq.wcm.api.designer.Style;
 public class ImageImpl implements Image {
 
     public static final String RESOURCE_TYPE = "core/wcm/components/image/v1/image";
+    public static final String MIME_TYPE_IMAGE_JPEG = "image/jpeg";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageImpl.class);
     private static final String DOT = ".";
@@ -104,7 +107,7 @@ public class ImageImpl implements Image {
     private String extension;
     private String src;
     private String[] smartImages = new String[]{};
-    private Integer[] smartSizes = new Integer[]{};
+    private int[] smartSizes = new int[0];
     private String json;
 
     // content policy settings
@@ -125,14 +128,15 @@ public class ImageImpl implements Image {
                 if (StringUtils.isEmpty(fileName)) {
                     fileName = resource.getName();
                 }
-                extension = mimeTypeService
-                        .getExtension(PropertiesUtil.toString(file.getResourceMetadata().get(ResourceMetadata.CONTENT_TYPE), "image/jpeg"));
+                extension = mimeTypeService.getExtension(
+                        PropertiesUtil.toString(file.getResourceMetadata().get(ResourceMetadata.CONTENT_TYPE), MIME_TYPE_IMAGE_JPEG)
+                );
             }
         }
         if (StringUtils.isNotEmpty(fileName)) {
             Set<Integer> supportedRenditionWidths = getSupportedRenditionWidths();
             smartImages = new String[supportedRenditionWidths.size()];
-            smartSizes = new Integer[supportedRenditionWidths.size()];
+            smartSizes = new int[supportedRenditionWidths.size()];
             int index = 0;
             String escapedResourcePath = Text.escapePath(resource.getPath());
             for (Integer width : supportedRenditionWidths) {
@@ -163,7 +167,7 @@ public class ImageImpl implements Image {
     }
 
     @Override
-    public Integer[] getSmartSizes() {
+    public int[] getSmartSizes() {
         return smartSizes;
     }
 
@@ -188,7 +192,7 @@ public class ImageImpl implements Image {
     }
 
     @Override
-    public boolean isTitleAsPopup() {
+    public boolean isTitlePopup() {
         return titleAsPopup;
     }
 
@@ -214,9 +218,9 @@ public class ImageImpl implements Image {
 
     private void buildJson() {
         Map<String, Object> objectMap = new HashMap<>();
-        objectMap.put("smartSizes", new JSONArray(Arrays.asList(smartSizes)));
-        objectMap.put("smartImages", new JSONArray(Arrays.asList(smartImages)));
-        objectMap.put("lazyEnabled", !disableLazyLoading);
+        objectMap.put(Image.JSON_SMART_SIZES, new JSONArray(Arrays.asList(ArrayUtils.toObject(smartSizes))));
+        objectMap.put(Image.JSON_SMART_IMAGES, new JSONArray(Arrays.asList(smartImages)));
+        objectMap.put(Image.JSON_LAZY_ENABLED, !disableLazyLoading);
         json = new JSONObject(objectMap).toString();
     }
 
