@@ -19,10 +19,12 @@ import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.Self;
+import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
 import com.adobe.cq.wcm.core.components.commons.form.FormConstants;
@@ -35,30 +37,19 @@ import com.day.cq.i18n.I18n;
        resourceType = ButtonImpl.RESOURCE_TYPE)
 @Exporter(name = Constants.EXPORTER_NAME,
           extensions = Constants.EXPORTER_EXTENSION)
-public class ButtonImpl implements Button {
+public class ButtonImpl extends AbstractFieldImpl implements Button {
 
     protected static final String RESOURCE_TYPE = FormConstants.RT_CORE_FORM_BUTTON + "/v1/button";
 
     private static final String PROP_TYPE_DEFAULT = "submit";
     private static final String PN_TYPE = "type";
+    private static final String ID_PREFIX = "form-button";
 
     @ValueMapValue(name = PN_TYPE)
     @Default(values = PROP_TYPE_DEFAULT)
     private String typeString;
 
     private Type type;
-
-    @ValueMapValue
-    @Default(values = {})
-    private String caption;
-
-    @ValueMapValue
-    @Default(values = "")
-    private String name;
-
-    @ValueMapValue
-    @Default(values = "")
-    private String value;
 
     @Self
     private SlingHttpServletRequest request;
@@ -69,6 +60,16 @@ public class ButtonImpl implements Button {
     protected void initModel() {
         i18n = new I18n(request);
         type = Type.fromString(typeString);
+    }
+
+    @Override
+    protected String getIDPrefix() {
+        return ID_PREFIX;
+    }
+
+    @Override
+    public String getHelpMessage() {
+        return "";
     }
 
     @Override
@@ -84,14 +85,18 @@ public class ButtonImpl implements Button {
         return this.caption;
     }
 
-
     @Override
-    public String getName() {
-        return name;
+    protected String getDefaultName() {
+        return "";
     }
 
     @Override
-    public String getValue() {
-        return value;
+    protected String getDefaultValue() {
+        return  "";
+    }
+
+    @Override
+    protected String getDefaultCaption() {
+        return "";
     }
 }

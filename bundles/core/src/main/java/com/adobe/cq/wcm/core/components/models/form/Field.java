@@ -19,49 +19,39 @@ package com.adobe.cq.wcm.core.components.models.form;
  * A base interface to be extended by all the different types of form fields.
  * It contains commons attributes to be present in  all the form fields.
  */
-public interface FormField {
+public interface Field {
 
     /**
-     * @return the id of the field
+     * @return unique identifier for the field
      */
     String getId();
 
     /**
-     * @return the name of the field
+     * @return value of the HTML <code>name</code> attribute.
+     * <p>
+     * Note: <code>{'name':'value'}</code> is sent as a request parameter when POST-ing the form
+     * </p>
      */
     String getName();
 
     /**
-     * @return the title (label) of the field
+     * @return value of the HTML <code>value</code> attribute.
+     * <p>
+     * Note: <code>{'name':'value'}</code> is sent as a request parameter when POST-ing the form
+     * </p>
      */
-    String getTitle();
+    String getValue();
 
     /**
-     * @return The description of the field
+     * @return the caption of the field (text displayed on the field).
+     * Implementations can return empty string if caption is not required.
      */
-    String getDescription();
+    String getCaption();
 
     /**
-     * Checks if the user must provide input for this field.
-     * @return {@code true} if the field must have a input <br>
-     *     {@code false} otherwise
+     * @return the message for the help block.
+     * Implementations can return empty string if help message is not required.
      */
-    boolean getRequired();
+    String getHelpMessage();
 
-    /**
-     * @return The message to be displayed if the field is required
-     *          but has not been filled by the user
-     * @see #getRequired() 
-     */
-    String getRequiredMessage();
-
-    /**
-     * @return The expression to be evaluated to check if the field should be shown or be hidden on the page.
-     */
-    String getShowHideExpression();
-
-    /**
-     * @return value of placeholder attribute. 
-     */
-    String getPlaceholder();
 }
