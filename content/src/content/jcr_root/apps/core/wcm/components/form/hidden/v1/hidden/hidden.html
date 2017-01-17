@@ -13,7 +13,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<input data-sly-use.hiddenField="com.adobe.cq.wcm.core.components.models.form.HiddenField"
+<input data-sly-use.field="com.adobe.cq.wcm.core.components.models.form.Field"
        data-sly-use.templates="core/wcm/components/commons/v1/templates.html"
-       data-sly-call="${templates.placeholder @ isEmpty = true, classAppend, emptyTextAppend = hiddenField.name}"
-       type="hidden" id="${hiddenField.id}" name="${hiddenField.name}" value="${hiddenField.value}" />
+       data-sly-call="${templates.placeholder @ isEmpty = true, classAppend, emptyTextAppend = field.name}"
+       type="hidden" id="${field.id}" name="${field.name}" value="${field.value}" />

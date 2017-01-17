@@ -16,23 +16,42 @@
 package com.adobe.cq.wcm.core.components.models.form;
 
 /**
- * The form hidden field
+ * A base interface to be extended by all the different types of form fields.
+ * It contains commons attributes to be present in  all the form fields.
  */
-public interface HiddenField {
+public interface Field {
 
     /**
-     * @return the id of the field
+     * @return unique identifier for the field
      */
     String getId();
 
     /**
-     * @return the name of the field
+     * @return value of the HTML <code>name</code> attribute.
+     * <p>
+     * Note: <code>{'name':'value'}</code> is sent as a request parameter when POST-ing the form
+     * </p>
      */
     String getName();
 
     /**
-     * the value of the field
-     * @return
+     * @return value of the HTML <code>value</code> attribute.
+     * <p>
+     * Note: <code>{'name':'value'}</code> is sent as a request parameter when POST-ing the form
+     * </p>
      */
     String getValue();
+
+    /**
+     * @return the title of the field (text displayed on the field).
+     * Implementations can return null if title is not required.
+     */
+    String getTitle();
+
+    /**
+     * @return the message for the help block.
+     * Implementations can return null if help message is not required.
+     */
+    String getHelpMessage();
+
 }

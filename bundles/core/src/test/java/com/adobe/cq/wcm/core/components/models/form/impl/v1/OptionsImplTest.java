@@ -57,7 +57,7 @@ public class OptionsImplTest {
         Options options = context.request().adaptTo(Options.class);
         List<OptionItem> optionItems = options.getOptionItems();
         assertEquals("name1", options.getName());
-        assertEquals("caption1", options.getCaption());
+        assertEquals("jcr:title1", options.getTitle());
         assertEquals("helpMessage1", options.getHelpMessage());
         assertEquals(Options.Type.CHECKBOX, options.getType());
 

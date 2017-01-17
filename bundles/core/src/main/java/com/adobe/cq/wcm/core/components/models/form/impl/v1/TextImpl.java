@@ -18,65 +18,45 @@ package com.adobe.cq.wcm.core.components.models.form.impl.v1;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import com.adobe.cq.wcm.core.components.models.form.Text;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
-import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 
 import com.adobe.cq.wcm.core.components.models.Constants;
-import com.adobe.cq.wcm.core.components.models.form.TextField;
 import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
+import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
 @Model(adaptables = SlingHttpServletRequest.class,
-       adapters = TextField.class,
-       resourceType = TextFieldImpl.RESOURCE_TYPE)
+       adapters = Text.class,
+       resourceType = TextImpl.RESOURCE_TYPE)
 @Exporter(name = Constants.EXPORTER_NAME,
           extensions = Constants.EXPORTER_EXTENSION)
-public class TextFieldImpl implements TextField {
+public class TextImpl extends AbstractFieldImpl implements Text {
 
     protected static final String RESOURCE_TYPE = "core/wcm/components/form/text/v1/text";
 
+    private static final String ID_PREFIX = "form-text";
     private static final String PROP_NAME_DEFAULT = "text";
     private static final String PROP_VALUE_DEFAULT = "";
     private static final String PROP_TITLE_DEFAULT = "Text input field";
-    private static final String PROP_DESCRIPTION_DEFAULT = "";
-    private static final boolean PROP_HIDE_TITLE_DEFAULT = false;
     private static final boolean PROP_READONLY_DEFAULT = false;
     private static final String PROP_DEFAULT_VALUE_DEFAULT = "";
     private static final boolean PROP_REQUIRED_DEFAULT = false;
     private static final String PROP_REQUIRED_MESSAGE_DEFAULT = "";
     private static final String PROP_CONSTRAINT_MESSAGE_DEFAULT = "";
-    private static final String PROP_SHOW_HIDE_EXPRESSION_DEFAULT = null;
     private static final String PROP_TYPE_DEFAULT = "text";
     private static final String PROP_HELP_MESSAGE_DEFAULT = "";
     private static final boolean PROP_USE_PLACEHOLDER_DEFAULT = false;
-    private static final Integer PROP_ROWS_DEFAULT = 2;
-
-    private static final String PN_NAME = "name";
-    private static final String PN_VALUE = "value";
-    private static final String PN_TITLE = "jcr:title";
-    private static final String PN_HIDE_TITLE = "hideTitle";
-    private static final String PN_DESCRIPTION = "jcr:description";
-    private static final String PN_READONLY = "readOnly";
-    private static final String PN_DEFAULT_VALUE = "defaultValue";
-    private static final String PN_REQUIRED = "required";
-    private static final String PN_REQUIRED_MESSAGE = "requiredMessage";
-    private static final String PN_CONSTRAINT_MESSAGE = "constraintMessage";
-    private static final String PN_SHOW_HIDE_EXPRESSION = "showHideExpression";
-    private static final String PN_TYPE = "type";
-    private static final String PN_HELP_MESSAGE = "helpMessage";
-    private static final String PN_USE_PLACEHOLDER = "usePlaceholder";
-    private static final String PN_ROWS = "rows";
+    private static final int PROP_ROWS_DEFAULT = 2;
 
     @Self
     private SlingHttpServletRequest slingRequest;
-
-    @ScriptVariable
-    private ValueMap properties;
 
     @ScriptVariable
     private Resource resource;
@@ -87,9 +67,43 @@ public class TextFieldImpl implements TextField {
     private String[] prefillValues;
 
     private String id = null;
-    private String title;
+
+    @ValueMapValue
+    @Default(values = PROP_HELP_MESSAGE_DEFAULT)
     private String helpMessage;
     private String placeholder;
+
+    @ValueMapValue
+    @Default(booleanValues = PROP_USE_PLACEHOLDER_DEFAULT)
+    private boolean usePlaceholder;
+
+    @ValueMapValue
+    @Default(values = PROP_TYPE_DEFAULT)
+    private String type;
+
+    @ValueMapValue
+    @Default(booleanValues = PROP_READONLY_DEFAULT)
+    private boolean readOnly;
+
+    @ValueMapValue
+    @Default(values = PROP_DEFAULT_VALUE_DEFAULT)
+    private String defaultValue;
+
+    @ValueMapValue
+    @Default(booleanValues = PROP_REQUIRED_DEFAULT)
+    private boolean required;
+
+    @ValueMapValue
+    @Default(values = PROP_REQUIRED_MESSAGE_DEFAULT)
+    private String requiredMessage;
+
+    @ValueMapValue
+    @Default(values = PROP_CONSTRAINT_MESSAGE_DEFAULT)
+    private String constraintMessage;
+
+    @ValueMapValue
+    @Default(intValues = PROP_ROWS_DEFAULT)
+    private int rows;
 
     @PostConstruct
     protected void initModel() {
@@ -99,13 +113,6 @@ public class TextFieldImpl implements TextField {
         if (prefillValues == null) {
             prefillValues = new String[]{this.getDefaultValue()};
         }
-        boolean hideTitle = properties.get(PN_HIDE_TITLE, PROP_HIDE_TITLE_DEFAULT);
-        boolean usePlaceholder = properties.get(PN_USE_PLACEHOLDER, PROP_USE_PLACEHOLDER_DEFAULT);
-
-        if(!hideTitle) {
-            title = properties.get(PN_TITLE, PROP_TITLE_DEFAULT);
-        }
-        helpMessage = properties.get(PN_HELP_MESSAGE, PROP_HELP_MESSAGE_DEFAULT);
         if(usePlaceholder) {
             placeholder = helpMessage;
         }
@@ -120,13 +127,8 @@ public class TextFieldImpl implements TextField {
     }
 
     @Override
-    public String getName() {
-        return properties.get(PN_NAME, PROP_NAME_DEFAULT);
-    }
-
-    @Override
     public String getValue() {
-        String value = properties.get(PN_VALUE, PROP_VALUE_DEFAULT);
+        String value = super.getValue();
         if (value.equals(PROP_VALUE_DEFAULT) && prefillValues.length > 0) {
             value = prefillValues[0];
         }
@@ -134,43 +136,13 @@ public class TextFieldImpl implements TextField {
     }
 
     @Override
-    public String getType() {
-        return properties.get(PN_TYPE, PROP_TYPE_DEFAULT);
-    }
-
-    @Override
-    public String getTitle() {
-        return title;
-    }
-
-    @Override
-    public String getDescription() {
-        return properties.get(PN_DESCRIPTION, PROP_DESCRIPTION_DEFAULT);
-    }
-
-    @Override
     public boolean isReadOnly() {
-        return properties.get(PN_READONLY, PROP_READONLY_DEFAULT);
+        return readOnly;
     }
 
     @Override
     public String getDefaultValue() {
-        return properties.get(PN_DEFAULT_VALUE, PROP_DEFAULT_VALUE_DEFAULT);
-    }
-
-    @Override
-    public boolean getRequired() {
-        return properties.get(PN_REQUIRED, PROP_REQUIRED_DEFAULT);
-    }
-
-    @Override
-    public String getRequiredMessage() {
-        return properties.get(PN_REQUIRED_MESSAGE, PROP_REQUIRED_MESSAGE_DEFAULT);
-    }
-
-    @Override
-    public String getShowHideExpression() {
-        return properties.get(PN_SHOW_HIDE_EXPRESSION, PROP_SHOW_HIDE_EXPRESSION_DEFAULT);
+        return defaultValue;
     }
 
     @Override
@@ -179,17 +151,47 @@ public class TextFieldImpl implements TextField {
     }
 
     @Override
+    public boolean isRequired() {
+        return required;
+    }
+
+    @Override
+    public String getRequiredMessage() {
+        return requiredMessage;
+    }
+
+    @Override
     public String getConstraintMessage() {
-        return properties.get(PN_CONSTRAINT_MESSAGE, PROP_CONSTRAINT_MESSAGE_DEFAULT);
+        return constraintMessage;
     }
 
     @Override
     public int getRows() {
-        return properties.get(PN_ROWS, PROP_ROWS_DEFAULT);
+        return rows;
     }
 
     @Override
     public String getHelpMessage() {
         return helpMessage;
+    }
+
+    @Override
+    protected String getIDPrefix() {
+        return ID_PREFIX;
+    }
+
+    @Override
+    protected String getDefaultName() {
+        return PROP_NAME_DEFAULT;
+    }
+
+    @Override
+    protected String getDefaultTitle() {
+        return PROP_TITLE_DEFAULT;
+    }
+
+    @Override
+    public String getType() {
+        return type;
     }
 }

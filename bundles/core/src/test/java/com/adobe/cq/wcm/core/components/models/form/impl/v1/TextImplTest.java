@@ -15,7 +15,7 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.models.form.impl.v1;
 
-import com.adobe.cq.wcm.core.components.models.form.TextField;
+import com.adobe.cq.wcm.core.components.models.form.Text;
 import com.day.cq.wcm.foundation.forms.FormStructureHelper;
 import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
 import io.wcm.testing.mock.aem.junit.AemContext;
@@ -35,7 +35,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-public class TextFieldImplTest {
+public class TextImplTest {
 
     private static final String CONTAINING_PAGE = "/content/we-retail/demo-page";
 
@@ -68,21 +68,18 @@ public class TextFieldImplTest {
         Resource resource = context.currentResource(TEXTINPUT1_PATH);
         slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
         slingBindings.put(RESOURCE_PROPERTY, resource);
-        TextField textField = context.request().adaptTo(TextField.class);
-        assertEquals("text",textField.getName());
-        assertEquals("Text input field",textField.getTitle());
-        assertEquals("",textField.getDescription());
-        assertEquals(false,textField.getRequired());
-        assertEquals("",textField.getRequiredMessage());
-        assertEquals(null,textField.getShowHideExpression());
-        assertNull(textField.getPlaceholder());
-        assertEquals(false,textField.isReadOnly());
-        assertEquals("",textField.getDefaultValue());
-        assertEquals("text",textField.getType());
-        assertEquals("", textField.getConstraintMessage());
-        assertEquals("",textField.getValue());
-        assertEquals(2, textField.getRows());
-        assertEquals("",textField.getHelpMessage());
+        Text text = context.request().adaptTo(Text.class);
+        assertEquals("text", text.getName());
+        assertEquals("Text input field", text.getTitle());
+        assertEquals(false, text.isRequired());
+        assertEquals("", text.getRequiredMessage());
+        assertEquals(false, text.isReadOnly());
+        assertEquals("", text.getDefaultValue());
+        assertEquals("text", text.getType());
+        assertEquals("", text.getConstraintMessage());
+        assertEquals("", text.getValue());
+        assertEquals(2, text.getRows());
+        assertEquals("", text.getHelpMessage());
     }
 
     @Test
@@ -90,20 +87,17 @@ public class TextFieldImplTest {
         Resource resource = context.currentResource(TEXTINPUT2_PATH);
         slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
         slingBindings.put(RESOURCE_PROPERTY, resource);
-        TextField textField = context.request().adaptTo(TextField.class);
-        assertEquals("Custom Name", textField.getName());
-        assertNull(textField.getTitle());
-        assertEquals("Custom description",textField.getDescription());
-        assertEquals(true,textField.getRequired());
-        assertEquals("please fill the field",textField.getRequiredMessage());
-        assertEquals("((givenName.equals(\"\"Referees\"\")))",textField.getShowHideExpression());
-        assertEquals("Custom help/placeholder message",textField.getPlaceholder());
-        assertEquals(true,textField.isReadOnly());
-        assertEquals("Custom default value",textField.getDefaultValue());
-        assertEquals("email",textField.getType());
-        assertEquals("The value should be a valid email address", textField.getConstraintMessage());
-        assertEquals("Prefilled Sample Input",textField.getValue());
-        assertEquals(3, textField.getRows());
-        assertEquals("Custom help/placeholder message", textField.getHelpMessage());
+        Text text = context.request().adaptTo(Text.class);
+        assertEquals("Custom Name", text.getName());
+        assertEquals("Custom title", text.getTitle());
+        assertEquals(true, text.isRequired());
+        assertEquals("please fill the field", text.getRequiredMessage());
+        assertEquals(true, text.isReadOnly());
+        assertEquals("Custom default value", text.getDefaultValue());
+        assertEquals("email", text.getType());
+        assertEquals("The value should be a valid email address", text.getConstraintMessage());
+        assertEquals("Prefilled Sample Input", text.getValue());
+        assertEquals(3, text.getRows());
+        assertEquals("Custom help/placeholder message", text.getHelpMessage());
     }
 }
