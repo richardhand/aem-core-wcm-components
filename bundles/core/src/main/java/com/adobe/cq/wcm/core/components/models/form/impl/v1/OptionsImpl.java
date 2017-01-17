@@ -48,7 +48,7 @@ import com.adobe.cq.wcm.core.components.models.form.Options;
        resourceType = OptionsImpl.RESOURCE_TYPE)
 @Exporter(name = Constants.EXPORTER_NAME,
           extensions = Constants.EXPORTER_EXTENSION)
-public class OptionsImpl implements Options {
+public class OptionsImpl extends AbstractFieldImpl implements Options {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OptionsImpl.class);
 
@@ -64,13 +64,7 @@ public class OptionsImpl implements Options {
     private List<Resource> itemResources;
 
     @ValueMapValue(optional = true)
-    private String name;
-
-    @ValueMapValue(optional = true)
     private String helpMessage;
-
-    @ValueMapValue(optional = true)
-    private String caption;
 
     @ValueMapValue(name = OptionsImpl.PN_TYPE,
                    optional = true)
@@ -114,26 +108,8 @@ public class OptionsImpl implements Options {
     }
 
     @Override
-    public String getId() {
-        if (id == null) {
-            populateId();
-        }
-        return id;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
     public String getHelpMessage() {
         return helpMessage;
-    }
-
-    @Override
-    public String getCaption() {
-        return caption;
     }
 
     @Override
@@ -142,7 +118,29 @@ public class OptionsImpl implements Options {
         return type;
     }
 
+    @Override
+    protected String getIDPrefix() {
+        return ID_PREFIX;
+    }
 
+    @Override
+    public String getValue() {
+        return getDefaultValue();
+    }
+    @Override
+    protected String getDefaultName() {
+        return null;
+    }
+
+    @Override
+    protected String getDefaultValue() {
+        return null;
+    }
+
+    @Override
+    protected String getDefaultTitle() {
+        return null;
+    }
 
     /* ------------------------ Internal stuff -------------------------------------------- */
 
@@ -225,10 +223,6 @@ public class OptionsImpl implements Options {
                 }
             }
         }
-    }
-
-    private void populateId() {
-        id = ID_PREFIX + "-" + String.valueOf(Math.abs(resource.getPath().hashCode()));
     }
 
     private enum Source {

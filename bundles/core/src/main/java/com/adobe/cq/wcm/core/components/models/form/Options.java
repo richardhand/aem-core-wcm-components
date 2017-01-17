@@ -22,7 +22,7 @@ import org.apache.commons.lang.StringUtils;
 /**
  * Interface for the Form Options Sling Model
  */
-public interface Options {
+public interface Options extends Field {
 
     /**
      * Defines the Options type.
@@ -56,31 +56,11 @@ public interface Options {
     }
 
     /**
-     * @return The name of the options field.
-     */
-    String getName();
-
-    /**
      * Returns the list of all the options.
      *
      * @return {@link List} of {@link OptionItem}s
      */
     List<OptionItem> getOptionItems();
-
-    /**
-     * @return unique identifier for the form element
-     */
-    String getId();
-
-    /**
-     * @return the message for the help block
-     */
-    String getHelpMessage();
-
-    /**
-     * @return the caption for the options element
-     */
-    String getCaption();
 
     /**
      * @return the type of the options element.

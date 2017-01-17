@@ -69,7 +69,7 @@
      */
     var setMandatoryFields = new h.TestCase("Set Mandatory Fields")
         //set mandatory label text
-        .fillInput("[name='./caption']",label)
+        .fillInput("[name='./jcr:title']",label)
         // and the mandatory element name
         .fillInput("[name='./name']",elemName);
 
