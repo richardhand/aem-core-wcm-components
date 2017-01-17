@@ -67,7 +67,7 @@ public class ButtonImpl extends AbstractFieldImpl implements Button {
 
     @Override
     public String getHelpMessage() {
-        return "";
+        return null;
     }
 
     @Override
@@ -95,6 +95,6 @@ public class ButtonImpl extends AbstractFieldImpl implements Button {
 
     @Override
     protected String getDefaultTitle() {
-        return "";
+        return null;
     }
 }

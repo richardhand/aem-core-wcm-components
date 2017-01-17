@@ -17,9 +17,9 @@ package com.adobe.cq.wcm.core.components.models.form.impl.v1;
 
 import javax.annotation.PostConstruct;
 
+import com.adobe.cq.wcm.core.components.models.form.Field;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
-import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.OSGiService;
@@ -27,39 +27,24 @@ import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 
 import com.adobe.cq.wcm.core.components.models.Constants;
-import com.adobe.cq.wcm.core.components.models.form.HiddenField;
 import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
-import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
 @Model(adaptables = SlingHttpServletRequest.class,
-       adapters = HiddenField.class,
-       resourceType = HiddenFieldImpl.RESOURCE_TYPE)
+       adapters = Field.class,
+       resourceType = HiddenImpl.RESOURCE_TYPE)
 @Exporter(name = Constants.EXPORTER_NAME,
           extensions = Constants.EXPORTER_EXTENSION)
-public class HiddenFieldImpl implements HiddenField {
+public class HiddenImpl extends AbstractFieldImpl implements Field {
 
     protected static final String RESOURCE_TYPE = "core/wcm/components/form/hidden/v1/hidden";
 
     private static final String PROP_NAME_DEFAULT = "hidden";
     private static final String PROP_VALUE_DEFAULT = "";
-    private static final String PROP_ID_DEFAULT = "";
-
-    private static final String PN_VALUE = "value";
+    private static final String ID_PREFIX = "form-hidden";
 
     @Self
     private SlingHttpServletRequest slingRequest;
-
-    @ValueMapValue
-    @Default(values = PROP_ID_DEFAULT)
-    private String id;
-
-    @ValueMapValue
-    @Default(values = PROP_NAME_DEFAULT)
-    private String name;
-
-    @ValueMapValue(optional = true)
-    private String value;
 
     @ScriptVariable
     private Resource resource;
@@ -83,17 +68,32 @@ public class HiddenFieldImpl implements HiddenField {
     }
 
     @Override
-    public String getId() {
-        return id;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
     public String getValue() {
         return value;
+    }
+
+    @Override
+    protected String getIDPrefix() {
+        return ID_PREFIX;
+    }
+
+    @Override
+    protected String getDefaultName() {
+        return PROP_NAME_DEFAULT;
+    }
+
+    @Override
+    public String getHelpMessage() {
+        return null;
+    }
+
+    @Override
+    protected String getDefaultValue() {
+        return PROP_VALUE_DEFAULT;
+    }
+
+    @Override
+    protected String getDefaultTitle() {
+        return null;
     }
 }

@@ -15,6 +15,7 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.models.form.impl.v1;
 
+import com.adobe.cq.wcm.core.components.models.form.Field;
 import io.wcm.testing.mock.aem.junit.AemContext;
 
 import org.apache.sling.api.resource.Resource;
@@ -26,7 +27,6 @@ import org.junit.Test;
 
 import com.adobe.cq.sightly.WCMBindings;
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
-import com.adobe.cq.wcm.core.components.models.form.HiddenField;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.foundation.forms.FormStructureHelper;
 import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
@@ -34,7 +34,7 @@ import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class HiddenFieldImplTest {
+public class HiddenImplTest {
 
     private static final String CONTAINING_PAGE = "/content/we-retail/demo-page";
 
@@ -67,7 +67,7 @@ public class HiddenFieldImplTest {
         Resource resource = context.currentResource(HIDDENINPUT1_PATH);
         slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
         slingBindings.put(RESOURCE_PROPERTY, resource);
-        HiddenField hiddenField = context.request().adaptTo(HiddenField.class);
+        Field hiddenField = context.request().adaptTo(Field.class);
         assertEquals("hidden", hiddenField.getName());
         assertEquals("", hiddenField.getValue());
         assertEquals("", hiddenField.getId());
@@ -78,7 +78,7 @@ public class HiddenFieldImplTest {
         Resource resource = context.currentResource(HIDDENINPUT2_PATH);
         slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
         slingBindings.put(RESOURCE_PROPERTY, resource);
-        HiddenField hiddenField = context.request().adaptTo(HiddenField.class);
+        Field hiddenField = context.request().adaptTo(Field.class);
         assertEquals("Custom_Name", hiddenField.getName());
         assertEquals("Custom value", hiddenField.getValue());
         assertEquals("hidden-field-id", hiddenField.getId());

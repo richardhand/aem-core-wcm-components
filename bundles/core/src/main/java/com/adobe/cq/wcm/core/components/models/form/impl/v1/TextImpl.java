@@ -44,7 +44,7 @@ public class TextImpl extends AbstractFieldImpl implements Text {
     private static final String ID_PREFIX = "form-text";
     private static final String PROP_NAME_DEFAULT = "text";
     private static final String PROP_VALUE_DEFAULT = "";
-    private static final String PROP_CAPTION_DEFAULT = "Text input field";
+    private static final String PROP_TITLE_DEFAULT = "Text input field";
     private static final boolean PROP_READONLY_DEFAULT = false;
     private static final String PROP_DEFAULT_VALUE_DEFAULT = "";
     private static final boolean PROP_REQUIRED_DEFAULT = false;
@@ -187,7 +187,7 @@ public class TextImpl extends AbstractFieldImpl implements Text {
 
     @Override
     protected String getDefaultTitle() {
-        return PROP_CAPTION_DEFAULT;
+        return PROP_TITLE_DEFAULT;
     }
 
     @Override
