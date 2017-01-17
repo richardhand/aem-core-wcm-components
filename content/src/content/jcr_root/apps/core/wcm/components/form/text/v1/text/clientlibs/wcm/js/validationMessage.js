@@ -16,8 +16,8 @@
 (function ($, channel) {
     'use strict';
     var INPUT_FIELD = ".cmp-form-field input",
-        REQUIRED_MSG_ATTRIBUTE = "required-message",
-        CONSTRAINT_MSG_ATTRIBUTE = "constraint-message";
+        REQUIRED_MSG_ATTRIBUTE = "data-cmp-required",
+        CONSTRAINT_MSG_ATTRIBUTE = "data-cmp-constraint";
 
     channel.ready(function () {
         $(INPUT_FIELD).each(function (index) {
@@ -32,7 +32,7 @@
                         e.target.setCustomValidity(this.getAttribute(REQUIRED_MSG_ATTRIBUTE));
                     }
                 }
-            }
+            };
             this.oninput = function (e) {
                 e.target.setCustomValidity("");
             }
