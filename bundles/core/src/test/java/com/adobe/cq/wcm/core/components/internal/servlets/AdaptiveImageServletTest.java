@@ -60,7 +60,7 @@ public class AdaptiveImageServletTest {
 
     private static final String TEST_ROOT = "/content";
     private static final String PAGE = TEST_ROOT + "/test";
-    private static final String IMAGE_PATH = PAGE + "/jcr:content/root/image";
+    private static final String IMAGE0_PATH = PAGE + "/jcr:content/root/image0";
     private static final String IMAGE1_PATH = PAGE + "/jcr:content/root/image1";
     private static final String IMAGE2_PATH = PAGE + "/jcr:content/root/image2";
     private static final String IMAGE_BINARY_NAME = "Adobe_Systems_logo_and_wordmark.svg.png";
@@ -97,7 +97,7 @@ public class AdaptiveImageServletTest {
     @Test
     public void testRequestWithWidthDesignAllowed() throws Exception {
         MockSlingHttpServletResponse response = spy(aemContext.response());
-        MockSlingHttpServletRequest request = prepareRequest(IMAGE_PATH, "img.800", "png");
+        MockSlingHttpServletRequest request = prepareRequest(IMAGE0_PATH, "img.800", "png");
         ComponentContext componentContext = mock(ComponentContext.class);
         request.setAttribute(ComponentContext.CONTEXT_ATTR_NAME, componentContext);
         ContentPolicyMapping mapping = request.getResource().adaptTo(ContentPolicyMapping.class);
@@ -116,7 +116,7 @@ public class AdaptiveImageServletTest {
     @Test
     public void testRequestWithWidthDesignNotAllowed() throws Exception {
         MockSlingHttpServletResponse response = spy(aemContext.response());
-        MockSlingHttpServletRequest request = prepareRequest(IMAGE_PATH, "img.1000", "png");
+        MockSlingHttpServletRequest request = prepareRequest(IMAGE0_PATH, "img.1000", "png");
         ComponentContext componentContext = mock(ComponentContext.class);
         request.setAttribute(ComponentContext.CONTEXT_ATTR_NAME, componentContext);
         ContentPolicyMapping mapping = request.getResource().adaptTo(ContentPolicyMapping.class);
@@ -132,7 +132,7 @@ public class AdaptiveImageServletTest {
     @Test
     public void testRequestWithWidthNoDesign() throws Exception {
         MockSlingHttpServletResponse response = spy(aemContext.response());
-        MockSlingHttpServletRequest request = prepareRequest(IMAGE_PATH, "img.800", "png");
+        MockSlingHttpServletRequest request = prepareRequest(IMAGE0_PATH, "img.800", "png");
         activateServlet(servlet);
         servlet.doGet(request, response);
         assertEquals("Expected a 404 response when the request contains width information but no content policy has been defined.",
@@ -143,7 +143,7 @@ public class AdaptiveImageServletTest {
     @Test
     public void testRequestNoWidthWithDesign() throws Exception {
         MockSlingHttpServletResponse response = spy(aemContext.response());
-        MockSlingHttpServletRequest request = prepareRequest(IMAGE_PATH, "img", "png");
+        MockSlingHttpServletRequest request = prepareRequest(IMAGE0_PATH, "img", "png");
         ComponentContext componentContext = mock(ComponentContext.class);
         request.setAttribute(ComponentContext.CONTEXT_ATTR_NAME, componentContext);
         ContentPolicyMapping mapping = request.getResource().adaptTo(ContentPolicyMapping.class);
@@ -163,7 +163,7 @@ public class AdaptiveImageServletTest {
     @Test
     public void testRequestNoWidthNoDesign() throws Exception {
         MockSlingHttpServletResponse response = spy(aemContext.response());
-        MockSlingHttpServletRequest request = prepareRequest(IMAGE_PATH, "img", "png");
+        MockSlingHttpServletRequest request = prepareRequest(IMAGE0_PATH, "img", "png");
         activateServlet(servlet);
         servlet.doGet(request, response);
         verify(response).setContentType("image/png");
@@ -177,7 +177,7 @@ public class AdaptiveImageServletTest {
     @Test
     public void testWrongNumberOfSelectors() throws Exception {
         MockSlingHttpServletResponse response = spy(aemContext.response());
-        MockSlingHttpServletRequest request = prepareRequest(IMAGE_PATH, "img.1.1", "png");
+        MockSlingHttpServletRequest request = prepareRequest(IMAGE0_PATH, "img.1.1", "png");
         activateServlet(servlet);
         servlet.doGet(request, response);
         assertEquals("Expected a 404 response when the request has more selectors than expected.",
@@ -188,7 +188,7 @@ public class AdaptiveImageServletTest {
     @Test
     public void testInvalidWidthSelector() throws Exception {
         MockSlingHttpServletResponse response = spy(aemContext.response());
-        MockSlingHttpServletRequest request = prepareRequest(IMAGE_PATH, "img.full", "png");
+        MockSlingHttpServletRequest request = prepareRequest(IMAGE0_PATH, "img.full", "png");
         activateServlet(servlet);
         servlet.doGet(request, response);
         assertEquals("Expected a 404 response when the request has an invalid width selector.",

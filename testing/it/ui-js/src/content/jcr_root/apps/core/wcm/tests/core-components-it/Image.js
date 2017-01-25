@@ -169,7 +169,7 @@
         // set caption text
         .fillInput("input[name='./jcr:title']",captionText)
         // check the 'Caption as Pop Up' flag
-        .click("input[type='checkbox'][name='./displayCaptionPopup']")
+        .click("input[type='checkbox'][name='./displayPopupTitle']")
         // save the dialog
         .execTestCase(c.tcSaveConfigureDialog)
 

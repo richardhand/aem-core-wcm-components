@@ -38,7 +38,7 @@ public interface Image {
     /**
      * Name of the resource property that will indicate if the image's caption will be rendered as a popup.
      */
-    String PN_DISPLAY_CAPTION_POPUP = "displayCaptionPopup";
+    String PN_DISPLAY_POPUP_TITLE = "displayPopupTitle";
 
     /**
      * Name of the JSON property that will store the smart sizes for smart loading.
@@ -61,21 +61,6 @@ public interface Image {
      * @return the image's URL
      */
     String getSrc();
-
-    /**
-     * Returns the array of allowed rendition widths, if one was defined for the component's design.
-     *
-     * @return the array of allowed rendition widths, or an empty array if the allowed renditions widths have not been configured for the
-     * component's design
-     */
-    int[] getSmartSizes();
-
-    /**
-     * Returns {@code true} if the image should be loaded lazily, {@code false} otherwise.
-     *
-     * @return {@code true} if the image should be loaded lazily, {@code false} otherwise
-     */
-    boolean isLazyLoadingEnabled();
 
     /**
      * Returns the value for the image's {@code alt} attribute, if one was set.
@@ -104,14 +89,7 @@ public interface Image {
      *
      * @return {@code true} if the caption should be displayed as a popup
      */
-    boolean isTitlePopup();
-
-    /**
-     * Returns {@code true} if the image is rendered only for decorative purposes (no link, no alt information).
-     *
-     * @return {@code true} if the image is decorative, {@code false} otherwise
-     */
-    boolean isDecorative();
+    boolean displayPopupTitle();
 
     /**
      * Returns the file reference of the current image, if one exists.
@@ -119,13 +97,6 @@ public interface Image {
      * @return the file reference of the current image, if one exists, {@code null} otherwise
      */
     String getFileReference();
-
-    /**
-     * Returns the name of the file that represents the image.
-     *
-     * @return the name of the file that represents the image
-     */
-    String getFileName();
 
     /**
      * Returns a JSON object used for the smart image functionality. The object provides the following properties:
