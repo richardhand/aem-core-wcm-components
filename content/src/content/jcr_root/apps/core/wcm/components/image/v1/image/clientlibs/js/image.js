@@ -29,7 +29,7 @@
             updateMode;
 
         function init() {
-            var $image = $($noScriptElement.text().trim());
+            var $image = $(decodeNoScript($noScriptElement.text().trim()));
             var source = $image.attr(options.sourceAttribute);
             $image.removeAttr(options.sourceAttribute);
             $image.attr('data-src-disabled', source);
@@ -193,4 +193,31 @@
         images.push(new SmartImage($noScriptElement, imageOptions));
     });
 
+    var grids = document.getElementsByClassName('aem-Grid'),
+        config = {subtree: true, childList: true, characterData: true},
+        observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+                if (mutation.addedNodes.length > 0) {
+                    mutation.addedNodes.forEach(function (addedNode) {
+                        addedNode.querySelectorAll('noscript[data-cmp-image]').forEach(function(noScriptElement) {
+                            var $noScriptElement = $(noScriptElement),
+                                imageOptions = $noScriptElement.data('cmp-image');
+                            $noScriptElement.removeAttr('data-cmp-image');
+                            images.push(new SmartImage($noScriptElement, imageOptions));
+                        });
+                    });
+                }
+            });
+        });
+
+    [].slice.call(grids).forEach(function (grid) {
+        observer.observe(grid, config);
+    });
+
+    // After drag'n drop of images to a parsys the img tag inside of the noScript tag is encoded.
+    function decodeNoScript(text){
+        text = text.replace(/&amp;lt;/g, '<');
+        text = text.replace(/&amp;gt;/g, '>');
+        return text;
+    }
 })(jQuery);
