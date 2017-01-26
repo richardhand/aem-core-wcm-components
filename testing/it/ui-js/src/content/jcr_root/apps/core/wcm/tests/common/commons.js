@@ -476,8 +476,16 @@
     c.tcExecuteBeforeTest = new TestCase("Common Set up")
         // reset the context
         .config.resetContext()
-        // make sure the  side panel starts  closed
-        .execTestCase(h.steps.aem.commons.closeSidePanel);
+
+        .navigateTo("/content/core-components/core-components-page.html")
+        .execFct(function(opts) {
+            // make sure we start in edit mode
+            $.cookie('cq-editor-layer.page', 'Edit', { path : "/" });
+            // make sure the  side panel starts  closed
+            $.cookie('cq-editor-sidepanel', 'closed', { path : "/" });
+        })
+        // editing cookies requires a reload
+        .reloadPage();
 
     /**
      * Common stuff that should be done at the end of each test case.

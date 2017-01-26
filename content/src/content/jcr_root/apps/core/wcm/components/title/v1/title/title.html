@@ -13,7 +13,8 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<h1 data-sly-element="${title.element}" data-sly-use.title="com.adobe.cq.wcm.core.components.models.Title"
+<h1 data-sly-use.title="com.adobe.cq.wcm.core.components.models.Title"
     data-sly-use.template="core/wcm/components/commons/v1/templates.html"
-    data-sly-test="${title.title}">${title.title}</h1>
-<sly data-sly-call="${template.placeholder @ isEmpty=!title.title}"></sly>
+    data-sly-element="${title.type}"
+    data-sly-test.text="${title.text}">${text}</h1>
+<sly data-sly-call="${template.placeholder @ isEmpty=!text}"></sly>

@@ -61,8 +61,8 @@ public class TitleImplTest {
         Resource resource = context.currentResource(TITLE_RESOURCE_JCR_TITLE);
         slingBindings.put(WCMBindings.CURRENT_STYLE, new MockStyle(resource));
         underTest = context.request().adaptTo(Title.class);
-        assertEquals("Hello World", underTest.getTitle());
-        assertNull(underTest.getElement());
+        assertEquals("Hello World", underTest.getText());
+        assertNull(underTest.getType());
     }
 
     @Test
@@ -70,18 +70,18 @@ public class TitleImplTest {
         Resource resource = context.currentResource(TITLE_RESOURCE_JCR_TITLE_TYPE);
         slingBindings.put(WCMBindings.CURRENT_STYLE, new MockStyle(resource));
         underTest = context.request().adaptTo(Title.class);
-        assertEquals("Hello World", underTest.getTitle());
-        assertEquals("h2", underTest.getElement());
+        assertEquals("Hello World", underTest.getText());
+        assertEquals("h2", underTest.getType());
     }
 
     @Test
     public void testGetTitleResourcePageStyleType() {
         context.currentResource(TITLE_NOPROPS);
         Style style = Mockito.mock(Style.class);
-        when(style.get("defaultType", String.class)).thenReturn("h2");
+        when(style.get(Title.PN_DESIGN_DEFAULT_TYPE, String.class)).thenReturn("h2");
         slingBindings.put(WCMBindings.CURRENT_STYLE, style);
         underTest = context.request().adaptTo(Title.class);
-        assertEquals("h2", underTest.getElement());
+        assertEquals("h2", underTest.getType());
     }
 
     @Test
@@ -89,6 +89,6 @@ public class TitleImplTest {
         Resource resource = context.currentResource(TITLE_WRONGTYPE);
         slingBindings.put(WCMBindings.CURRENT_STYLE, new MockStyle(resource));
         underTest = context.request().adaptTo(Title.class);
-        assertNull(underTest.getElement());
+        assertNull(underTest.getType());
     }
 }

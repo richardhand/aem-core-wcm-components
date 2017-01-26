@@ -79,8 +79,4 @@
             </ui>
         </config>
     </cq:inplaceEditing>
-    <cq:listeners
-        jcr:primaryType="cq:EditListenersConfig"
-        afteredit="REFRESH_PAGE"
-        aftermove="REFRESH_PAGE"/>
 </jcr:root>

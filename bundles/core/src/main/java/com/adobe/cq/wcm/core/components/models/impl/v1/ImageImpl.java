@@ -31,7 +31,6 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceMetadata;
 import org.apache.sling.commons.json.JSONArray;
 import org.apache.sling.commons.json.JSONObject;
-import org.apache.sling.commons.json.io.JSONStringer;
 import org.apache.sling.commons.mime.MimeTypeService;
 import org.apache.sling.commons.osgi.PropertiesUtil;
 import org.apache.sling.models.annotations.Default;
@@ -88,9 +87,9 @@ public class ImageImpl implements Image {
     @Default(booleanValues = false)
     private boolean isDecorative;
 
-    @ValueMapValue(name = PN_DISPLAY_CAPTION_POPUP, injectionStrategy = InjectionStrategy.OPTIONAL)
+    @ValueMapValue(name = PN_DISPLAY_POPUP_TITLE, injectionStrategy = InjectionStrategy.OPTIONAL)
     @Default(booleanValues = false)
-    private boolean titleAsPopup;
+    private boolean displayPopupTitle;
 
     @ValueMapValue(name = ImageResource.PN_ALT, injectionStrategy = InjectionStrategy.OPTIONAL)
     private String alt;
@@ -100,9 +99,6 @@ public class ImageImpl implements Image {
 
     @ValueMapValue(name = ImageResource.PN_LINK_URL, injectionStrategy = InjectionStrategy.OPTIONAL)
     private String linkURL;
-
-    @ValueMapValue(name = DownloadResource.PN_FILE_NAME, injectionStrategy = InjectionStrategy.OPTIONAL)
-    private String fileName;
 
     private String extension;
     private String src;
@@ -116,24 +112,23 @@ public class ImageImpl implements Image {
 
     @PostConstruct
     private void initModel() {
+        boolean hasContent = false;
         if (StringUtils.isNotEmpty(fileReference)) {
-            fileName = fileReference.substring(fileReference.lastIndexOf("/") + 1);
             int dotIndex;
             if ((dotIndex = fileReference.lastIndexOf(DOT)) != -1) {
                 extension = fileReference.substring(dotIndex + 1);
             }
+            hasContent = true;
         } else {
             Resource file = resource.getChild(DownloadResource.NN_FILE);
             if (file != null) {
-                if (StringUtils.isEmpty(fileName)) {
-                    fileName = resource.getName();
-                }
                 extension = mimeTypeService.getExtension(
                         PropertiesUtil.toString(file.getResourceMetadata().get(ResourceMetadata.CONTENT_TYPE), MIME_TYPE_IMAGE_JPEG)
                 );
+                hasContent = true;
             }
         }
-        if (StringUtils.isNotEmpty(fileName)) {
+        if (hasContent) {
             Set<Integer> supportedRenditionWidths = getSupportedRenditionWidths();
             smartImages = new String[supportedRenditionWidths.size()];
             smartSizes = new int[supportedRenditionWidths.size()];
@@ -152,13 +147,17 @@ public class ImageImpl implements Image {
                         DOT + extension;
             }
             disableLazyLoading = currentStyle.get(PN_DESIGN_LAZY_LOADING_ENABLED, false);
-            Page page = pageManager.getPage(linkURL);
-            if (page != null) {
-                String vanityURL = page.getVanityUrl();
-                linkURL = (vanityURL == null ? linkURL + ".html" : vanityURL);
+            if (!isDecorative) {
+                Page page = pageManager.getPage(linkURL);
+                if (page != null) {
+                    String vanityURL = page.getVanityUrl();
+                    linkURL = (vanityURL == null ? linkURL + ".html" : vanityURL);
+                }
+            } else {
+                linkURL = null;
             }
+            buildJson();
         }
-        buildJson();
     }
 
     @Override
@@ -167,13 +166,8 @@ public class ImageImpl implements Image {
     }
 
     @Override
-    public int[] getSmartSizes() {
-        return smartSizes;
-    }
-
-    @Override
-    public boolean isLazyLoadingEnabled() {
-        return !disableLazyLoading;
+    public boolean displayPopupTitle() {
+        return displayPopupTitle;
     }
 
     @Override
@@ -192,28 +186,13 @@ public class ImageImpl implements Image {
     }
 
     @Override
-    public boolean isTitlePopup() {
-        return titleAsPopup;
-    }
-
-    @Override
     public String getFileReference() {
         return fileReference;
     }
 
     @Override
-    public String getFileName() {
-        return fileName;
-    }
-
-    @Override
     public String getJson() {
         return json;
-    }
-
-    @Override
-    public boolean isDecorative() {
-        return isDecorative;
     }
 
     private void buildJson() {
