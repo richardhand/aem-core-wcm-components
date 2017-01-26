@@ -652,7 +652,7 @@
             <dependency>
                 <groupId>com.day.cq</groupId>
                 <artifactId>cq-quickstart</artifactId>
-                <version>6.2.0</version>
+                <version>6.3.0-load17</version>
                 <classifier>apis</classifier>
                 <scope>provided</scope>
             </dependency>
