@@ -193,25 +193,29 @@
         images.push(new SmartImage($noScriptElement, imageOptions));
     });
 
-    var grids = document.getElementsByClassName('aem-Grid'),
-        config = {subtree: true, childList: true, characterData: true},
-        observer = new MutationObserver(function (mutations) {
-            mutations.forEach(function (mutation) {
-                if (mutation.addedNodes.length > 0) {
-                    mutation.addedNodes.forEach(function (addedNode) {
-                        addedNode.querySelectorAll('noscript[data-cmp-image]').forEach(function(noScriptElement) {
+    var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
+    var body = document.querySelector('body');
+    var observer = new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutation) {
+            if (mutation.addedNodes.length > 0) {
+                mutation.addedNodes.forEach(function (addedNode) {
+                    if(addedNode.querySelectorAll) {
+                        addedNode.querySelectorAll('noscript[data-cmp-image]').forEach(function (noScriptElement) {
                             var $noScriptElement = $(noScriptElement),
-                                imageOptions = $noScriptElement.data('cmp-image');
+                                imageOptions     = $noScriptElement.data('cmp-image');
                             $noScriptElement.removeAttr('data-cmp-image');
                             images.push(new SmartImage($noScriptElement, imageOptions));
                         });
-                    });
-                }
-            });
+                    }
+                });
+            }
         });
+    });
 
-    [].slice.call(grids).forEach(function (grid) {
-        observer.observe(grid, config);
+    observer.observe(body, {
+        subtree: true,
+        childList: true,
+        characterData: true
     });
 
     // After drag'n drop of images to a parsys the img tag inside of the noScript tag is encoded.
