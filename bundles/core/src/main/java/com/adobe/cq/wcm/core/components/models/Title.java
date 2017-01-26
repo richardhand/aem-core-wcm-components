@@ -17,21 +17,28 @@
 package com.adobe.cq.wcm.core.components.models;
 
 /**
- * Component-Interface for the title Sling Model
+ * Defines the {@code Title} Sling Model used for the {@code /apps/core/wcm/components/title} component.
  */
 public interface Title {
 
     /**
-     * Returns the text to be displayed as title
+     * Name of the configuration policy property that will store the default value for this title's HTML element type.
      *
-     * @return {@link String} of the text
+     * @see #getType()
      */
-    String getTitle();
+    String PN_DESIGN_DEFAULT_TYPE = "type";
 
     /**
-     * Returns the element (h1-h6) which can be used for the markup
+     * Returns the text to be displayed as title.
      *
-     * @return {@link String} of the element
+     * @return the title's text
      */
-    String getElement();
+    String getText();
+
+    /**
+     * Returns the HTML element type (h1-h6) which can be used for the markup.
+     *
+     * @return the element type
+     */
+    String getType();
 }

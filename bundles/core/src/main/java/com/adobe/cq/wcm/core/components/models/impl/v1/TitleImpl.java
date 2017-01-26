@@ -25,20 +25,15 @@ import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
 import com.adobe.cq.wcm.core.components.models.Constants;
 import com.adobe.cq.wcm.core.components.models.Title;
+import com.day.cq.commons.jcr.JcrConstants;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.designer.Style;
 
-@Model(adaptables = SlingHttpServletRequest.class,
-       adapters = Title.class,
-       resourceType = TitleImpl.RESOURCE_TYPE)
-@Exporter(name = Constants.EXPORTER_NAME,
-          extensions = Constants.EXPORTER_EXTENSION)
+@Model(adaptables = SlingHttpServletRequest.class, adapters = Title.class, resourceType = TitleImpl.RESOURCE_TYPE)
+@Exporter(name = Constants.EXPORTER_NAME, extensions = Constants.EXPORTER_EXTENSION)
 public class TitleImpl implements Title {
 
     protected static final String RESOURCE_TYPE = "core/wcm/components/title/v1/title";
-
-    private static final String PROP_TITLE = "jcr:title";
-    private static final String PROP_DEFAULT_TYPE = "defaultType";
 
     @ScriptVariable
     private Page currentPage;
@@ -46,14 +41,14 @@ public class TitleImpl implements Title {
     @ScriptVariable
     private Style currentStyle;
 
-    @ValueMapValue(optional = true, name = PROP_TITLE)
+    @ValueMapValue(optional = true, name = JcrConstants.JCR_TITLE)
     private String title;
 
     @ValueMapValue(optional = true)
     private String type;
 
     @Override
-    public String getTitle() {
+    public String getText() {
         if (StringUtils.isEmpty(title)) {
             title = StringUtils.defaultIfEmpty(currentPage.getPageTitle(), currentPage.getTitle());
         }
@@ -61,10 +56,10 @@ public class TitleImpl implements Title {
     }
 
     @Override
-    public String getElement() {
+    public String getType() {
         Heading heading = Heading.getHeading(type);
         if (heading == null) {
-            heading = Heading.getHeading(currentStyle.get(PROP_DEFAULT_TYPE, String.class));
+            heading = Heading.getHeading(currentStyle.get(PN_DESIGN_DEFAULT_TYPE, String.class));
         }
         if (heading != null) {
             return heading.getElement();
