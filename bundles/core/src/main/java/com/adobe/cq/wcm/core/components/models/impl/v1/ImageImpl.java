@@ -44,6 +44,7 @@ import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.adobe.cq.sightly.SightlyWCMMode;
 import com.adobe.cq.wcm.core.components.internal.servlets.AdaptiveImageServlet;
 import com.adobe.cq.wcm.core.components.models.Constants;
 import com.adobe.cq.wcm.core.components.models.Image;
@@ -52,6 +53,7 @@ import com.day.cq.commons.ImageResource;
 import com.day.cq.commons.jcr.JcrConstants;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
+import com.day.cq.wcm.api.WCMMode;
 import com.day.cq.wcm.api.designer.Style;
 
 @Model(adaptables = SlingHttpServletRequest.class, adapters = Image.class, resourceType = ImageImpl.RESOURCE_TYPE)
@@ -75,6 +77,9 @@ public class ImageImpl implements Image {
 
     @ScriptVariable
     private PageManager pageManager;
+
+    @ScriptVariable
+    private SightlyWCMMode wcmmode;
 
     @Inject
     @Source("osgi-services")
@@ -146,6 +151,12 @@ public class ImageImpl implements Image {
                 src = request.getContextPath() + escapedResourcePath + DOT + AdaptiveImageServlet.DEFAULT_SELECTOR + DOT + smartSizes[0] +
                         DOT + extension;
             }
+
+            // cache breaker for edit mode to refresh image after drag-and-drop
+            if(wcmmode.isEdit()) {
+                src = src + "?" + System.currentTimeMillis();
+            }
+
             disableLazyLoading = currentStyle.get(PN_DESIGN_LAZY_LOADING_ENABLED, false);
             if (!isDecorative) {
                 Page page = pageManager.getPage(linkURL);

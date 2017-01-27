@@ -197,10 +197,13 @@
     var body = document.querySelector('body');
     var observer = new MutationObserver(function (mutations) {
         mutations.forEach(function (mutation) {
-            if (mutation.addedNodes.length > 0) {
-                mutation.addedNodes.forEach(function (addedNode) {
+            // needed for IE
+            var nodesArray = [].slice.call(mutation.addedNodes);
+            if (nodesArray.length > 0) {
+                nodesArray.forEach(function (addedNode) {
                     if(addedNode.querySelectorAll) {
-                        addedNode.querySelectorAll('noscript[data-cmp-image]').forEach(function (noScriptElement) {
+                        var noScriptArray = [].slice.call(addedNode.querySelectorAll('noscript[data-cmp-image]'));
+                        noScriptArray.forEach(function (noScriptElement) {
                             var $noScriptElement = $(noScriptElement),
                                 imageOptions     = $noScriptElement.data('cmp-image');
                             $noScriptElement.removeAttr('data-cmp-image');
@@ -218,7 +221,7 @@
         characterData: true
     });
 
-    // After drag'n drop of images to a parsys the img tag inside of the noScript tag is encoded.
+    // after drag'n drop of images to a parsys the img tag inside of the noScript tag is encoded.
     function decodeNoScript(text){
         text = text.replace(/&amp;lt;/g, '<');
         text = text.replace(/&amp;gt;/g, '>');

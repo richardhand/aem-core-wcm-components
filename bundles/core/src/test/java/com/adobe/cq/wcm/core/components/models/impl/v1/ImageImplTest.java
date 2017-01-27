@@ -29,6 +29,7 @@ import org.mockito.Matchers;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import com.adobe.cq.sightly.SightlyWCMMode;
 import com.adobe.cq.sightly.WCMBindings;
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
 import com.adobe.cq.wcm.core.components.context.MockStyle;
@@ -70,6 +71,7 @@ public class ImageImplTest {
         Page page = aemContext.currentPage(PAGE);
         slingBindings = (SlingBindings) aemContext.request().getAttribute(SlingBindings.class.getName());
         slingBindings.put(WCMBindings.CURRENT_PAGE, page);
+        slingBindings.put(WCMBindings.WCM_MODE, new SightlyWCMMode(aemContext.request()));
         slingBindings.put(WCMBindings.PAGE_MANAGER, aemContext.pageManager());
     }
 
