@@ -17,26 +17,28 @@ package com.adobe.cq.wcm.core.components.commons.form.impl;
 
 import java.io.IOException;
 import javax.annotation.Nonnull;
+import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 
-import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
+import org.osgi.service.component.annotations.Component;
 
 import com.adobe.cq.wcm.core.components.models.form.DataSourceModel;
 import com.adobe.cq.wcm.core.components.models.form.impl.v1.FormActionTypeDataSource;
 import com.adobe.cq.wcm.core.components.models.form.impl.v1.FormActionTypeSettingsDataSource;
 import com.adobe.cq.wcm.core.components.models.form.impl.v1.WorkflowModelDataSource;
 
-@SlingServlet(
-        resourceTypes = {
-                FormActionTypeDataSource.RESOURCE_TYPE,
-                FormActionTypeSettingsDataSource.RESOURCE_TYPE,
-                WorkflowModelDataSource.RESOURCE_TYPE
-        },
-        methods = "GET",
-        extensions = "html"
+@Component(
+        service = { Servlet.class },
+        property = {
+                "sling.servlet.resourceTypes="+FormActionTypeDataSource.RESOURCE_TYPE,
+                "sling.servlet.resourceTypes="+FormActionTypeSettingsDataSource.RESOURCE_TYPE,
+                "sling.servlet.resourceTypes="+WorkflowModelDataSource.RESOURCE_TYPE,
+                "sling.servlet.methods=GET",
+                "sling.servlet.extensions=html"
+        }
 )
 public class FormContainerDataSourceServlet extends SlingSafeMethodsServlet {
 
