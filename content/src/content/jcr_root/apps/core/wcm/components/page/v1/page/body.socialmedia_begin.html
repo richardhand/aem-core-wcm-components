@@ -13,16 +13,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<sly data-sly-use.socialMedia="com.adobe.cq.wcm.core.components.models.SocialMediaHelper"
-     data-sly-test="${socialMedia.hasFacebookSharing}">
-    <!-- Facebook script -->
-    <div id="fb-root"></div>
-    <script>(function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.7";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-    </script>
-</sly>
+<div id="fb-root" data-sly-use.socialMedia="com.adobe.cq.wcm.core.components.models.SocialMediaHelper"
+     data-sly-test.facebookSharing="${socialMedia.hasFacebookSharing}"
+     data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html"></div>
+<sly data-sly-call="${clientLib.js @ categories='core.wcm.components.page.v1.sharing'}" data-sly-test="${facebookSharing}"></sly>

@@ -422,28 +422,28 @@
 
         // check if they are listed in the right order
         .asserts.isTrue(function () {
-            return h.find("div.cmp-list li.list-item span:eq(0)", "#ContentFrame").text().trim() == "page_1";
+            return h.find("div.cmp-list li span:eq(0)", "#ContentFrame").text().trim() == "page_1";
         })
         .asserts.isTrue(function () {
-            return h.find("div.cmp-list li.list-item span:eq(1)", "#ContentFrame").text().trim() == "page_2";
+            return h.find("div.cmp-list li span:eq(1)", "#ContentFrame").text().trim() == "page_2";
         })
         .asserts.isTrue(function () {
-            return h.find("div.cmp-list li.list-item span:eq(2)", "#ContentFrame").text().trim() == "page_3";
+            return h.find("div.cmp-list li span:eq(2)", "#ContentFrame").text().trim() == "page_3";
         })
         .asserts.isTrue(function () {
-            return h.find("div.cmp-list li.list-item span:eq(3)", "#ContentFrame").text().trim() == "page_4";
+            return h.find("div.cmp-list li span:eq(3)", "#ContentFrame").text().trim() == "page_4";
         })
         .asserts.isTrue(function () {
-            return h.find("div.cmp-list li.list-item span:eq(4)", "#ContentFrame").text().trim() == "page_5";
+            return h.find("div.cmp-list li span:eq(4)", "#ContentFrame").text().trim() == "page_5";
         })
         .asserts.isTrue(function () {
-            return h.find("div.cmp-list li.list-item span:eq(5)", "#ContentFrame").text().trim() == "sub_2_1";
+            return h.find("div.cmp-list li span:eq(5)", "#ContentFrame").text().trim() == "sub_2_1";
         })
         .asserts.isTrue(function () {
-            return h.find("div.cmp-list li.list-item span:eq(6)", "#ContentFrame").text().trim() == "sub_2_2";
+            return h.find("div.cmp-list li span:eq(6)", "#ContentFrame").text().trim() == "sub_2_2";
         })
         .asserts.isTrue(function () {
-            return h.find("div.cmp-list li.list-item span:eq(7)", "#ContentFrame").text().trim() == "sub_4_1";
+            return h.find("div.cmp-list li span:eq(7)", "#ContentFrame").text().trim() == "sub_4_1";
         });
 
     /**
@@ -470,28 +470,28 @@
 
         // check if they are listed in the right order
         .asserts.isTrue(function () {
-            return h.find("div.cmp-list li.list-item span:eq(0)", "#ContentFrame").text().trim() == "sub_4_1";
+            return h.find("div.cmp-list li span:eq(0)", "#ContentFrame").text().trim() == "sub_4_1";
         })
         .asserts.isTrue(function () {
-            return h.find("div.cmp-list li.list-item span:eq(1)", "#ContentFrame").text().trim() == "sub_2_2";
+            return h.find("div.cmp-list li span:eq(1)", "#ContentFrame").text().trim() == "sub_2_2";
         })
         .asserts.isTrue(function () {
-            return h.find("div.cmp-list li.list-item span:eq(2)", "#ContentFrame").text().trim() == "sub_2_1";
+            return h.find("div.cmp-list li span:eq(2)", "#ContentFrame").text().trim() == "sub_2_1";
         })
         .asserts.isTrue(function () {
-            return h.find("div.cmp-list li.list-item span:eq(3)", "#ContentFrame").text().trim() == "page_5";
+            return h.find("div.cmp-list li span:eq(3)", "#ContentFrame").text().trim() == "page_5";
         })
         .asserts.isTrue(function () {
-            return h.find("div.cmp-list li.list-item span:eq(4)", "#ContentFrame").text().trim() == "page_4";
+            return h.find("div.cmp-list li span:eq(4)", "#ContentFrame").text().trim() == "page_4";
         })
         .asserts.isTrue(function () {
-            return h.find("div.cmp-list li.list-item span:eq(5)", "#ContentFrame").text().trim() == "page_3";
+            return h.find("div.cmp-list li span:eq(5)", "#ContentFrame").text().trim() == "page_3";
         })
         .asserts.isTrue(function () {
-            return h.find("div.cmp-list li.list-item span:eq(6)", "#ContentFrame").text().trim() == "page_2";
+            return h.find("div.cmp-list li span:eq(6)", "#ContentFrame").text().trim() == "page_2";
         })
         .asserts.isTrue(function () {
-            return h.find("div.cmp-list li.list-item span:eq(7)", "#ContentFrame").text().trim() == "page_1";
+            return h.find("div.cmp-list li span:eq(7)", "#ContentFrame").text().trim() == "page_1";
         });
 
     /**
@@ -513,7 +513,7 @@
 
         // by default there should be 8
         .asserts.isTrue(function () {
-            return h.find("div.cmp-list li.list-item", "#ContentFrame").size() == 8;
+            return h.find("div.cmp-list li", "#ContentFrame").size() == 8;
         })
 
         // open the configuration dialog
@@ -525,7 +525,7 @@
 
         // now it should only render 4 entries
         .asserts.isTrue(function () {
-            return h.find("div.cmp-list li.list-item", "#ContentFrame").size() == 4;
+            return h.find("div.cmp-list li", "#ContentFrame").size() == 4;
         });
 
     /**
@@ -570,11 +570,11 @@
 
         // page 5 should be at 7th place
         .asserts.isTrue(function () {
-            return h.find("div.cmp-list li.list-item span:eq(6)", "#ContentFrame").text().trim()=="Modified Page 5";
+            return h.find("div.cmp-list li span:eq(6)", "#ContentFrame").text().trim()=="Modified Page 5";
         })
         // page 1 should be at 8th place
         .asserts.isTrue(function () {
-            return h.find("div.cmp-list li.list-item span:eq(7)", "#ContentFrame").text().trim()=="Modified Page 1";
+            return h.find("div.cmp-list li span:eq(7)", "#ContentFrame").text().trim()=="Modified Page 1";
         });
 
     /**
@@ -619,11 +619,11 @@
 
         // page 2 should be at first place
         .asserts.isTrue(function () {
-            return h.find("div.cmp-list li.list-item span:eq(0)", "#ContentFrame").text().trim()=="Modified Page 2";
+            return h.find("div.cmp-list li span:eq(0)", "#ContentFrame").text().trim()=="Modified Page 2";
         })
         // page 3 should be at second place
         .asserts.isTrue(function () {
-            return h.find("div.cmp-list li.list-item span:eq(1)", "#ContentFrame").text().trim()=="Modified Page 3";
+            return h.find("div.cmp-list li span:eq(1)", "#ContentFrame").text().trim()=="Modified Page 3";
         });
 
 

@@ -20,9 +20,6 @@ package com.adobe.cq.wcm.core.components.models;
  */
 public interface Text {
 
-    String CONTEXT_TEXT = "text";
-    String CONTEXT_HTML = "html";
-
     /**
      * Retrieves the text value to be displayed.
      *
@@ -36,13 +33,4 @@ public interface Text {
      * @return {@code true} if the text is rich (HTML formatting), {@code false otherwise}
      */
     boolean isRichText();
-
-    /**
-     * Returns the HTL display context that will be applied. If the text is rich the returned value is
-     * {@link #CONTEXT_HTML}, otherwise this method will return {@link #CONTEXT_TEXT}.
-     *
-     * @return {@link #CONTEXT_HTML} or {@link #CONTEXT_TEXT}
-     * @see #isRichText()
-     */
-    String getDisplayContext();
 }

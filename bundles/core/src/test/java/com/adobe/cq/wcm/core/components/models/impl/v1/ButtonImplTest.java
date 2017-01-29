@@ -62,7 +62,7 @@ public class ButtonImplTest {
         context.currentResource(EMPTY_BUTTON_PATH);
         Button button = context.request().adaptTo(Button.class);
         assertEquals(Button.Type.SUBMIT, button.getType());
-        assertEquals("Submit", button.getCaption());
+        assertEquals("Submit", button.getTitle());
         assertEquals("", button.getName());
         assertEquals("", button.getValue());
     }
@@ -78,7 +78,7 @@ public class ButtonImplTest {
         context.currentResource(BUTTON1_PATH);
         Button button = context.request().adaptTo(Button.class);
         assertEquals(Button.Type.BUTTON, button.getType());
-        assertEquals("button caption", button.getCaption());
+        assertEquals("button title", button.getTitle());
         assertEquals("name1", button.getName());
         assertEquals("value1", button.getValue());
     }

@@ -76,8 +76,6 @@
             "type": "email",
             "useTextarea": true,
             "value": "Prefilled Sample Input",
-            "jcr:description": "Custom description",
-            "hideTitle": true,
             "sling:resourceType": "core/wcm/components/form/text",
             "requiredMessage": "please fill the field",
             "usePlaceholder": "true",

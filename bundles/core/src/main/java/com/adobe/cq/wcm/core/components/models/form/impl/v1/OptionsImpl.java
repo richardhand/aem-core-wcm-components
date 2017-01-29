@@ -48,7 +48,7 @@ import com.adobe.cq.wcm.core.components.models.form.Options;
        resourceType = OptionsImpl.RESOURCE_TYPE)
 @Exporter(name = Constants.EXPORTER_NAME,
           extensions = Constants.EXPORTER_EXTENSION)
-public class OptionsImpl implements Options {
+public class OptionsImpl extends AbstractFieldImpl implements Options {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OptionsImpl.class);
 
@@ -64,18 +64,13 @@ public class OptionsImpl implements Options {
     private List<Resource> itemResources;
 
     @ValueMapValue(optional = true)
-    private String name;
-
-    @ValueMapValue(optional = true)
     private String helpMessage;
-
-    @ValueMapValue(optional = true)
-    private String caption;
 
     @ValueMapValue(name = OptionsImpl.PN_TYPE,
                    optional = true)
     private String typeString;
-    private String typeValue;
+
+    private Type type;
 
     @SlingObject
     private Resource resource;
@@ -83,8 +78,11 @@ public class OptionsImpl implements Options {
     private List<OptionItem> optionItems;
     private String id;
 
-    @ValueMapValue(optional = true)
-    private String source;
+    @ValueMapValue(optional = true,
+                    name = "source")
+    private String sourceString;
+
+    private Source source;
 
     @ValueMapValue(optional = true)
     private String fromList;
@@ -110,71 +108,59 @@ public class OptionsImpl implements Options {
     }
 
     @Override
-    public String getId() {
-        if (id == null) {
-            populateId();
-        }
-        return id;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
     public String getHelpMessage() {
         return helpMessage;
     }
 
     @Override
-    public String getCaption() {
-        return caption;
+    public Type getType() {
+        type = Options.Type.fromString(typeString);
+        return type;
     }
 
     @Override
-    public String getType() {
-        if (typeValue == null) {
-            typeValue = Type.fromString(typeString).getValue();
-        }
-        return typeValue;
+    protected String getIDPrefix() {
+        return ID_PREFIX;
     }
 
     @Override
-    public Resource getResource() {
-        return resource;
+    public String getValue() {
+        return getDefaultValue();
     }
-
     @Override
-    public String getSource() {
-        Source from = Source.getSource(source);
-        if (from != null) {
-            return from.getElement();
-        }
+    protected String getDefaultName() {
         return null;
     }
 
     @Override
-    public String getFromList() {
-        return fromList;
+    protected String getDefaultValue() {
+        return null;
     }
 
     @Override
-    public String getFromDatasource() {
-        return fromDatasource;
+    protected String getDefaultTitle() {
+        return null;
     }
-
 
     /* ------------------------ Internal stuff -------------------------------------------- */
 
+
     private void populateOptionItems() {
         this.optionItems = new ArrayList<>();
-        if (StringUtils.equals(source, Source.DATASOURCE.getElement()) && StringUtils.isNotEmpty(fromDatasource)) {
-            populateOptionItemsFromDatasource();
-        } else if (StringUtils.equals(source, Source.LIST.getElement()) && StringUtils.isNotEmpty(fromList)) {
-            populateOptionItemsFromList();
-        } else {
+        source = Source.getSource(sourceString);
+        if (source == null) {
             populateOptionItemsFromLocal();
+        } else {
+            switch (source) {
+                case DATASOURCE:
+                    populateOptionItemsFromDatasource();
+                    break;
+                case LIST:
+                    populateOptionItemsFromList();
+                    break;
+                default:
+                    populateOptionItemsFromLocal();
+            }
         }
     }
 
@@ -190,6 +176,9 @@ public class OptionsImpl implements Options {
     }
 
     private void populateOptionItemsFromList() {
+        if (StringUtils.isEmpty(fromList)) {
+            return;
+        }
         Resource parent = resolver.getResource(fromList);
         if (parent != null) {
             for(Resource itemResource: parent.getChildren()) {
@@ -203,7 +192,9 @@ public class OptionsImpl implements Options {
 
     @SuppressWarnings("unchecked")
     private void populateOptionItemsFromDatasource() {
-
+        if (StringUtils.isEmpty(fromDatasource)) {
+            return;
+        }
         // build the options by running the datasource code (the list is set as a request attribute)
         RequestDispatcherOptions opts = new RequestDispatcherOptions();
         opts.setForceResourceType(fromDatasource);
@@ -234,38 +225,7 @@ public class OptionsImpl implements Options {
         }
     }
 
-    private void populateId() {
-        id = ID_PREFIX + "-" + String.valueOf(Math.abs(resource.getPath().hashCode()));
-    }
-
-    public enum Type {
-        CHECKBOX("checkbox"),
-        RADIO("radio"),
-        DROP_DOWN("drop-down"),
-        MULTI_DROP_DOWN("multi-drop-down");
-
-        private String value;
-
-        Type(String value) {
-            this.value = value;
-        }
-
-        public static Type fromString(String value) {
-            for (Type type : Type.values()) {
-                if (StringUtils.equals(value, type.value)) {
-                    return type;
-                }
-            }
-            return CHECKBOX;
-        }
-
-        public String getValue() {
-            return value;
-        }
-    }
-
     private enum Source {
-
         LOCAL("local"),
         LIST("list"),
         DATASOURCE("datasource");
@@ -285,7 +245,7 @@ public class OptionsImpl implements Options {
             return null;
         }
 
-        public String getElement() {
+        private String getElement() {
             return element;
         }
     }

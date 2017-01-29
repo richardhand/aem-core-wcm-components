@@ -61,7 +61,7 @@
         .asserts.isTrue(function () {
             return h.find(".btn[type='submit']", "#ContentFrame").size() == 1
         })
-        //check that the caption on the button should be "Submit"
+        //check that the title on the button should be "Submit"
         .asserts.isTrue(function () {
             return h.find(".btn", "#ContentFrame").text().trim() == "Submit"
         });
@@ -79,7 +79,7 @@
         .click(".coral-Button:contains('Submit')")
         .click(".coral3-SelectList-item:contains('Button')")
         //set the button text
-        .fillInput("[name='./caption']","BUTTON")
+        .fillInput("[name='./jcr:title']","BUTTON")
         // close the edit dialog
         .execTestCase(c.tcSaveConfigureDialog)
 
@@ -98,7 +98,7 @@
         // Open the edit dialog
         .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
         //set the button text
-        .fillInput("[name='./caption']","Test Button")
+        .fillInput("[name='./jcr:title']","Test Button")
         // close the edit dialog
         .execTestCase(c.tcSaveConfigureDialog)
 
@@ -119,7 +119,7 @@
         //set the button text
         .fillInput("[name='./name']","button1")
         // set button title
-        .fillInput("[name='./caption']","BUTTON WITH NAME")
+        .fillInput("[name='./jcr:title']","BUTTON WITH NAME")
         // close the edit dialog
         .execTestCase(c.tcSaveConfigureDialog)
         //Check if the button tag is rendered with the correct type
@@ -141,7 +141,7 @@
         //set the button text
         .fillInput("[name='./value']","thisisthevalue")
         // set button title
-        .fillInput("[name='./caption']","BUTTON WITH VALUE")
+        .fillInput("[name='./jcr:title']","BUTTON WITH VALUE")
         // close the edit dialog
         .execTestCase(c.tcSaveConfigureDialog)
 

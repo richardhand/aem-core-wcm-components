@@ -100,11 +100,6 @@ public class ContainerImplTest {
         assertTrue(StringUtils.isNotBlank(container.getName()));
         assertTrue(StringUtils.isNotBlank(container.getId()));
         assertEquals(container.getAction(),CONTAINING_PAGE+".html");
-        List<String> fieldPaths = container.getFormFieldResourcePaths();
-        assertEquals(fieldPaths.size(),formFields.length);
-        for(int i=0;i<fieldPaths.size();i++){
-            assertEquals(fieldPaths.get(i),FORM1_PATH+"/"+formFields[i]);   
-        }
     }
     
     @Test
@@ -119,7 +114,5 @@ public class ContainerImplTest {
         assertEquals(container.getName(),"demo-page");
         assertEquals(container.getId(),"demo-page");
         assertEquals(container.getAction(),"/content/usergenerated/we-retail/demo-page/cq-gen1475666626866/");
-        List<String> fieldPaths = container.getFormFieldResourcePaths();
-        assertEquals(fieldPaths.size(),0);
     }
 }

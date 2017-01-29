@@ -42,7 +42,7 @@ import com.day.cq.wcm.foundation.forms.FormsManager;
           extensions = Constants.EXPORTER_EXTENSION)
 public class FormActionTypeSettingsDataSource extends DataSourceModel {
 
-    protected final static String RESOURCE_TYPE = FormConstants.RT_CORE_FORM_CONTAINER_V1 + "/datasource/actiontypesettingsdatasource";
+    public final static String RESOURCE_TYPE = FormConstants.RT_CORE_FORM_CONTAINER_DATASOURCE_V1 + "/actionsetting";
 
     @Self
     private SlingHttpServletRequest request;

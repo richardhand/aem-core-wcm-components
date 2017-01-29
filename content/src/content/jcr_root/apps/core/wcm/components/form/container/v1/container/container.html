@@ -13,18 +13,15 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<div data-sly-use.container="com.adobe.cq.wcm.core.components.models.form.Container"
-     data-sly-use.template="core/wcm/components/commons/v1/templates.html"
-     class="cmp cmp-form">
-    <form method="${container.method}" action="${container.action}" id="${container.id}" name="${container.name}"
-          enctype="${container.enctype}">
-        <input type="hidden" name=":formstart" value="${resource.path}">
-        <input data-sly-test="${container.redirect}" type="hidden" name=":redirect" value="${container.redirect}"/>
-        <sly data-sly-list="${container.formFieldResourcePaths}">
-            <div data-sly-resource="${item}"></div>
-        </sly>
-        <div data-sly-resource="${resource.path @ resourceType=container.resourceTypeForDropArea, appendPath='/*'}"
-             class="new section"></div>
-    </form>
-</div>
-<sly data-sly-call="${template.placeholder @ isEmpty=true}"/>
+<form data-sly-use.container="com.adobe.cq.wcm.core.components.models.form.Container"
+      data-sly-use.grid="com.day.cq.wcm.foundation.model.responsivegrid.ResponsiveGrid"
+      method="${container.method}" action="${container.action}" id="${container.id}" name="${container.name}"
+      enctype="${container.enctype}"
+      class="${grid.cssClass}">
+    <input type="hidden" name=":formstart" value="${resource.path}"/>
+    <input data-sly-test="${container.redirect}" type="hidden" name=":redirect" value="${container.redirect}"/>
+    <sly data-sly-repeat.paragraph="${grid.paragraphs}"
+         data-sly-resource="${paragraph.path @ resourceType=paragraph.resourceType, decorationTagName='div', cssClassName=paragraph.cssClass}"></sly>
+    <sly data-sly-resource="${resource.path @ resourceType=container.resourceTypeForDropArea, appendPath='/*', cssClassName='new section aem-Grid-newComponent'}"
+         data-sly-test="${wcmmode.edit}"></sly>
+</form>

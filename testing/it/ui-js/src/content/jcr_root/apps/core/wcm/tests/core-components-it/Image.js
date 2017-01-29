@@ -81,7 +81,7 @@
 
         // verify that the surrounding script tag has been removed and the img tag is there
         .asserts.isTrue(function () {
-            return h.find("div.cmp-image > img[src$='"+ h.param("testPagePath")() +
+            return h.find("div.cmp-image img[src$='"+ h.param("testPagePath")() +
                 "/_jcr_content/root/responsivegrid/image.img.jpg']", "#ContentFrame").size() == 1;
         });
 
@@ -101,7 +101,7 @@
 
         // verify that alt text is there
         .asserts.isTrue(function () {
-            return h.find("div.cmp-image > img[alt='"+altText +"']", "#ContentFrame").size() == 1;
+            return h.find("div.cmp-image img[alt='"+altText +"']", "#ContentFrame").size() == 1;
         });
 
     /**
@@ -124,7 +124,7 @@
         // switch to content frame
         .config.changeContext(c.getContentFrame)
         // click on the image
-        .click("div.cmp-image",{expectNav: true})
+        .click("div.cmp-image img",{expectNav: true})
         // go back to top frame
         .config.resetContext()
         // check if the url is correct
@@ -152,7 +152,7 @@
         .config.changeContext(c.getContentFrame)
         // check if the caption is rendered with <small> tag
         .asserts.isTrue(function(){
-            return h.find("div.cmp-image + small:contains('" + captionText + "')").size() == 1
+            return h.find("span.cmp-image--title:contains('" + captionText + "')").size() == 1
         });
 
     /**
@@ -169,7 +169,7 @@
         // set caption text
         .fillInput("input[name='./jcr:title']",captionText)
         // check the 'Caption as Pop Up' flag
-        .click("input[type='checkbox'][name='./displayCaptionPopup']")
+        .click("input[type='checkbox'][name='./displayPopupTitle']")
         // save the dialog
         .execTestCase(c.tcSaveConfigureDialog)
 
@@ -177,7 +177,7 @@
         .config.changeContext(c.getContentFrame)
         // check if the caption is rendered with <small> tag
         .asserts.isTrue(function(){
-            return h.find("div.cmp-image > img[title='" + captionText + "']").size() == 1
+            return h.find("div.cmp-image img[title='" + captionText + "']").size() == 1
         });
 
     /**

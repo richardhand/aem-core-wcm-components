@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0"
-    xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="nt:unstructured"
     jcr:title="Form Options"
     sling:resourceType="cq/gui/components/authoring/dialog"
@@ -25,11 +24,11 @@
                                 level="{Long}3"
                                 text="Main"/>
                             <optionTypes
+                                granite:class="cmp-form-options-type"
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/coral/foundation/form/select"
-                                fieldLabel="Type"
-                                granite:class="cmp-form-options-type"
                                 fieldDescription="Set the type of the form field."
+                                fieldLabel="Type"
                                 name="./type">
                                 <items jcr:primaryType="nt:unstructured">
                                     <checkbox
@@ -50,148 +49,146 @@
                                         value="multi-drop-down"/>
                                 </items>
                             </optionTypes>
-                            <caption
+                            <title
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                fieldLabel="Caption"
                                 fieldDescription="Legend to describe the role of the field."
-                                required="{Boolean}true"
-                                name="./caption"/>
+                                fieldLabel="Title"
+                                name="./jcr:title"
+                                required="{Boolean}true"/>
                             <name
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                fieldLabel="Name"
                                 fieldDescription="The name of the field, which is submitted with the form data."
-                                required="{Boolean}true"
-                                name="./name"/>
+                                fieldLabel="Name"
+                                name="./name"
+                                required="{Boolean}true"/>
                             <source
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/coral/foundation/form/select"
-                                    fieldLabel="Source"
-                                    granite:class="cmp-form-options-source cq-dialog-dropdown-showhide"
-                                    fieldDescription="Source of the options."
-                                    name="./source">
+                                granite:class="cmp-form-options-source cq-dialog-dropdown-showhide"
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                fieldDescription="Source of the options."
+                                fieldLabel="Source"
+                                name="./source">
                                 <granite:data
-                                        jcr:primaryType="nt:unstructured"
-                                        cq-dialog-dropdown-showhide-target=".list-option-listfrom-showhide-target"/>
+                                    jcr:primaryType="nt:unstructured"
+                                    cq-dialog-dropdown-showhide-target=".list-option-listfrom-showhide-target"/>
                                 <items jcr:primaryType="nt:unstructured">
                                     <local
-                                            jcr:primaryType="nt:unstructured"
-                                            text="Local"
-                                            value="local"/>
+                                        jcr:primaryType="nt:unstructured"
+                                        text="Local"
+                                        value="local"/>
                                     <list
-                                            jcr:primaryType="nt:unstructured"
-                                            text="List"
-                                            value="list"/>
+                                        jcr:primaryType="nt:unstructured"
+                                        text="List"
+                                        value="list"/>
                                     <datasource
-                                            jcr:primaryType="nt:unstructured"
-                                            text="Datasource"
-                                            value="datasource"/>
+                                        jcr:primaryType="nt:unstructured"
+                                        text="Datasource"
+                                        value="datasource"/>
                                 </items>
                             </source>
                             <fromList
-                                    granite:class="hide list-option-listfrom-showhide-target foundation-layout-util-vmargin"
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/coral/foundation/container">
+                                granite:class="hide list-option-listfrom-showhide-target foundation-layout-util-vmargin"
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/container">
                                 <granite:data
-                                        jcr:primaryType="nt:unstructured"
-                                        showhidetargetvalue="list"/>
+                                    jcr:primaryType="nt:unstructured"
+                                    showhidetargetvalue="list"/>
                                 <items jcr:primaryType="nt:unstructured">
                                     <fromList
-                                            jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="granite/ui/components/coral/foundation/form/pathbrowser"
-                                            fieldLabel="List"
-                                            fieldDescription="Path of the static list."
-                                            name="./fromList"/>
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/pathbrowser"
+                                        fieldDescription="Path of the static list."
+                                        fieldLabel="List"
+                                        name="./fromList"/>
                                 </items>
                             </fromList>
                             <fromDatasource
-                                    granite:class="hide list-option-listfrom-showhide-target foundation-layout-util-vmargin"
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/coral/foundation/container">
+                                granite:class="hide list-option-listfrom-showhide-target foundation-layout-util-vmargin"
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/container">
                                 <granite:data
-                                        jcr:primaryType="nt:unstructured"
-                                        showhidetargetvalue="datasource"/>
+                                    jcr:primaryType="nt:unstructured"
+                                    showhidetargetvalue="datasource"/>
                                 <items jcr:primaryType="nt:unstructured">
                                     <fromDatasource
-                                            jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                            fieldLabel="Datasource"
-                                            fieldDescription="Resource type of the datasource."
-                                            name="./fromDatasource"/>
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                        fieldDescription="Resource type of the datasource."
+                                        fieldLabel="Datasource"
+                                        name="./fromDatasource"/>
                                 </items>
                             </fromDatasource>
                             <fromLocal
-                                    granite:class="hide list-option-listfrom-showhide-target foundation-layout-util-vmargin"
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/coral/foundation/container">
-                            <granite:data
+                                granite:class="hide list-option-listfrom-showhide-target foundation-layout-util-vmargin"
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/container">
+                                <granite:data
                                     jcr:primaryType="nt:unstructured"
                                     showhidetargetvalue="local"/>
                                 <items jcr:primaryType="nt:unstructured">
                                     <options
-                                            jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
-                                            composite="{Boolean}true"
-                                            fieldDescription="Define the different options"
-                                            fieldLabel="Options"
-                                            renderReadOnly="{Boolean}true">
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                        composite="{Boolean}true"
+                                        fieldDescription="Define the different options"
+                                        fieldLabel="Options"
+                                        renderReadOnly="{Boolean}true">
                                         <field
-                                                jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="granite/ui/components/coral/foundation/container"
-                                                name="./optionitems">
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/container"
+                                            name="./optionitems">
                                             <items jcr:primaryType="nt:unstructured">
                                                 <option
-                                                        granite:class="cmp-form-option-item-multifield-composite-item"
-                                                        jcr:primaryType="nt:unstructured"
-                                                        sling:resourceType="granite/ui/components/coral/foundation/container">
+                                                    granite:class="cmp-form-option-item-multifield-composite-item"
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/container">
                                                     <items jcr:primaryType="nt:unstructured">
                                                         <checked
-                                                                jcr:primaryType="nt:unstructured"
-                                                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                                                name="./selected"
-                                                                text="Active"
-                                                                granite:class="cmp-form-option-item-active"
-                                                                uncheckedValue="false"
-                                                                value="{Boolean}true"/>
+                                                            granite:class="cmp-form-option-item-active"
+                                                            jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                                            name="./selected"
+                                                            text="Active"
+                                                            uncheckedValue="false"
+                                                            value="{Boolean}true"/>
                                                         <selected
-                                                                jcr:primaryType="nt:unstructured"
-                                                                sling:resourceType="granite/ui/components/coral/foundation/form/radiogroup"
-                                                                name="./selected"
-                                                                vertical="{Boolean}true">
+                                                            jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="granite/ui/components/coral/foundation/form/radiogroup"
+                                                            name="./selected"
+                                                            vertical="{Boolean}true">
                                                             <items jcr:primaryType="nt:unstructured">
                                                                 <active
-                                                                        jcr:primaryType="nt:unstructured"
-                                                                        text="Active"
-                                                                        value="{Boolean}true"/>
+                                                                    jcr:primaryType="nt:unstructured"
+                                                                    text="Active"
+                                                                    value="{Boolean}true"/>
                                                             </items>
                                                         </selected>
                                                         <disabled
-                                                                jcr:primaryType="nt:unstructured"
-                                                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                                                name="./disabled"
-                                                                text="Disabled"
-                                                                granite:class="cmp-form-option-item-disabled"
-                                                                value="{Boolean}true"/>
+                                                            granite:class="cmp-form-option-item-disabled"
+                                                            jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                                            name="./disabled"
+                                                            text="Disabled"
+                                                            value="{Boolean}true"/>
                                                         <value
-                                                                jcr:primaryType="nt:unstructured"
-                                                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                                fieldLabel="Value"
-                                                                name="./value"/>
+                                                            jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                            fieldLabel="Value"
+                                                            name="./value"/>
                                                         <text
-                                                                jcr:primaryType="nt:unstructured"
-                                                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                                fieldLabel="Text"
-                                                                name="./text"/>
+                                                            jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                            fieldLabel="Text"
+                                                            name="./text"/>
                                                     </items>
                                                 </option>
                                             </items>
                                         </field>
                                     </options>
-
                                 </items>
                             </fromLocal>
-
                             <aboutHeading
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/coral/foundation/heading"
@@ -200,8 +197,8 @@
                             <description
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                fieldLabel="Help message"
                                 fieldDescription="A hint for the user of what can be entered in the field."
+                                fieldLabel="Help message"
                                 name="./helpMessage"/>
                         </items>
                     </columns>

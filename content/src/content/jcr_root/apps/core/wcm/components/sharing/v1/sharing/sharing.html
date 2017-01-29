@@ -13,22 +13,19 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<div data-sly-use.socialMedia="com.adobe.cq.wcm.core.components.models.SocialMediaHelper"
-     class="${!socialMedia.socialMediaEnabled && 'cq-placeholder'}"
-     data-emptytext="${!socialMedia.socialMediaEnabled && 'Social Media Sharing'}">
-    <div data-sly-test="${socialMedia.facebookEnabled}"
-         class="fb-share-button"
-         data-component="${resource.resourceType}"
-         data-href="${socialMedia.metadata.og:url}"
-         data-layout="button_count"
-         data-size="small"
-         data-mobile-iframe="false">
-    </div>
-    <a data-sly-test="${socialMedia.pinterestEnabled}"
-       data-pin-do="buttonPin"
-       data-pin-count="beside"
-       data-pin-save="true"
-       data-pin-media="${socialMedia.metadata.og:image}"
-       data-component="${resource.resourceType}"
-       href="https://www.pinterest.com/pin/create/button/"></a>
+<sly data-sly-use.template="core/wcm/components/commons/v1/templates.html"
+     data-sly-use.socialMedia="com.adobe.cq.wcm.core.components.models.SocialMediaHelper"
+     data-sly-call="${template.placeholder @ isEmpty=!socialMedia.socialMediaEnabled}"></sly>
+<div data-sly-test="${socialMedia.facebookEnabled}"
+     class="fb-share-button"
+     data-href="${socialMedia.metadata.og:url}"
+     data-layout="button_count"
+     data-size="small"
+     data-mobile-iframe="false">
 </div>
+<a data-sly-test="${socialMedia.pinterestEnabled}"
+   data-pin-do="buttonPin"
+   data-pin-count="beside"
+   data-pin-save="true"
+   data-pin-media="${socialMedia.metadata.og:image}"
+   href="https://www.pinterest.com/pin/create/button/"></a>

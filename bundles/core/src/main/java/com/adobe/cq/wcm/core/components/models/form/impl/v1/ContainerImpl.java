@@ -17,7 +17,6 @@
 package com.adobe.cq.wcm.core.components.models.form.impl.v1;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletException;
@@ -144,19 +143,6 @@ public class ContainerImpl implements Container {
     @Override
     public String getActionType() {
         return actionType;
-    }
-
-    @Override
-    public List<String> getFormFieldResourcePaths() {
-        if (formFieldResourcePaths == null) {
-            formFields = new ArrayList<Resource>();
-            formFieldResourcePaths = new ArrayList<String>();
-            for (Resource child : resource.getChildren()) {
-                formFields.add(child);
-                formFieldResourcePaths.add(child.getPath());
-            }
-        }
-        return formFieldResourcePaths;
     }
 
     @Override

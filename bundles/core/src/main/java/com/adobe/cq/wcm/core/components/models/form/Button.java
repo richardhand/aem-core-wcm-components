@@ -18,7 +18,7 @@ package com.adobe.cq.wcm.core.components.models.form;
 /**
  * Interface for the Button Sling Model
  */
-public interface Button {
+public interface Button extends Field {
 
     /**
      * Defines button type.
@@ -45,7 +45,7 @@ public interface Button {
                     return type;
                 }
             }
-            return null;
+            return SUBMIT;
         }
     }
 
@@ -56,26 +56,5 @@ public interface Button {
      * </p>
      */
     Type getType();
-
-    /**
-     * @return the caption of the button (text displayed on the button).
-     */
-    String getCaption();
-
-    /**
-     * @return value of the HTML <code>name</code> attribute.
-     * <p>
-     * Note: <code>{'name':'value'}</code> is sent as a request parameter when POST-ing the form
-     * </p>
-     */
-    String getName();
-
-    /**
-     * @return value of the HTML <code>value</code> attribute.
-     * <p>
-     * Note: <code>{'name':'value'}</code> is sent as a request parameter when POST-ing the form
-     * </p>
-     */
-    String getValue();
 
 }

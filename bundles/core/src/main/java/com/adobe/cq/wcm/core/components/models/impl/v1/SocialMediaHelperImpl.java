@@ -54,11 +54,10 @@ import java.util.Map;
  */
 @Model(adaptables = SlingHttpServletRequest.class,
         adapters = SocialMediaHelper.class,
-        resourceType = SocialMediaHelperImpl.MODEL_RESOURCE_TYPE_SHARING)
+        resourceType = SocialMediaHelperImpl.RESOURCE_TYPE)
 public class SocialMediaHelperImpl implements SocialMediaHelper {
-    static final String MODEL_RESOURCE_TYPE_SHARING = "core/wcm/components/sharing/v1/sharing";
+    static final String RESOURCE_TYPE = "core/wcm/components/sharing/v1/sharing";
     private static final Logger LOGGER = LoggerFactory.getLogger(SocialMediaHelperImpl.class);
-    private static final String SHARING_COMPONENT = "core/wcm/components/sharing";
     private static final String PN_SOCIAL_MEDIA = "socialMedia";
     private static final String PN_VARIANT_PATH = "variantPath";
     private static final String PV_FACEBOOK = "facebook";
@@ -174,7 +173,7 @@ public class SocialMediaHelperImpl implements SocialMediaHelper {
      * @return {@code true} if the sharing vomponent was found, {@code false} otherwise
      */
     private boolean hasSharingComponent(final Resource resource) {
-        if (resource.isResourceType(SHARING_COMPONENT))
+        if (resource.isResourceType(RESOURCE_TYPE))
             return true;
 
         for (Resource child : resource.getChildren())

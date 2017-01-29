@@ -81,7 +81,7 @@
         // check first if current page is shown
         .config.changeContext(c.getContentFrame)
         // the li entry for current page
-        .assert.exist("li.breadcrumb-item--active:contains('level_5')",true)
+        .assert.exist("li.breadcrumb-item.active:contains('level_5')",true)
         .config.resetContext()
 
         // Open the configuration dialog
@@ -94,7 +94,7 @@
         .config.changeContext(c.getContentFrame)
 
         // the li entry for current page should not be found
-        .assert.exist("li.breadcrumb-item--active:contains('level_5')",false);
+        .assert.exist("li.breadcrumb-item.active:contains('level_5')",false);
 
     /**
      * Test: Set the Show Hidden flag
@@ -148,7 +148,7 @@
 
         // check the current number of parent levels
         .assert.isTrue(function(){
-            return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 5})
+            return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 6})
 
         // Open the configuration dialog
         .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
@@ -162,7 +162,7 @@
 
         // check the current number
         .assert.isTrue(function(){
-            return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 3});
+            return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 4});
 
     /**
      * Test: Set the start level to lowest allowed value of 0.
@@ -174,7 +174,7 @@
 
         // check the current number of items
         .assert.isTrue(function(){
-            return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 5})
+            return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 6})
 
         // Open the configuration dialog
         .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
@@ -186,7 +186,7 @@
         // 0 is an invalid start point it should render no breadcrumbs
         .assert.isTrue(function(){
             return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 0 &&
-                h.find("li.breadcrumb-item--active","iframe#ContentFrame").size() === 0
+                h.find("li.breadcrumb-item.active","iframe#ContentFrame").size() === 0
         });
 
     /**
@@ -199,7 +199,7 @@
 
         // check the current number of items
         .assert.isTrue(function(){
-            return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 5})
+            return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 6})
         // Open the configuration dialog
         .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
         // set it to 100
@@ -210,7 +210,7 @@
         // 100 is higher then current level so nothing should get rendered
         .assert.isTrue(function(){
             return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 0 &&
-                h.find("li.breadcrumb-item--active","iframe#ContentFrame").size() === 0
+                h.find("li.breadcrumb-item.active","iframe#ContentFrame").size() === 0
         });
 
     /**

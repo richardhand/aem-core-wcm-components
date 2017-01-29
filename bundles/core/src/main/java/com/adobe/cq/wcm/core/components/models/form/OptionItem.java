@@ -15,20 +15,13 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.models.form;
 
-import org.apache.sling.api.resource.Resource;
-
 /**
  * Interface of an item for the {@link Options} form element
  */
 public interface OptionItem {
 
     /**
-     * @return the {@link Resource} of the option item
-     */
-    Resource getResource();
-
-    /**
-     * @return {@code true} if item should be initial selected, otherwise {@code false}
+     * @return {@code true} if item should be initially selected, otherwise {@code false}
      */
     boolean isSelected();
 

@@ -17,22 +17,43 @@ package com.adobe.cq.wcm.core.components.models.form;
 
 import java.util.List;
 
-import org.apache.sling.api.resource.Resource;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Interface for the Form Options Sling Model
  */
-public interface Options {
+public interface Options extends Field {
 
     /**
-     * @return the current {@link Resource}
+     * Defines the Options type.
+     *
+     * Possible values: checkbox, radio, drop-down, multi-drop-down
      */
-    Resource getResource();
+    enum Type {
+        CHECKBOX("checkbox"),
+        RADIO("radio"),
+        DROP_DOWN("drop-down"),
+        MULTI_DROP_DOWN("multi-drop-down");
 
-    /**
-     * @return The name of the options field.
-     */
-    public String getName();
+        private String value;
+
+        Type(String value) {
+            this.value = value;
+        }
+
+        public static Type fromString(String value) {
+            for (Type type : Type.values()) {
+                if (StringUtils.equals(value, type.value)) {
+                    return type;
+                }
+            }
+            return CHECKBOX;
+        }
+
+        public String getValue() {
+            return value;
+        }
+    }
 
     /**
      * Returns the list of all the options.
@@ -42,40 +63,10 @@ public interface Options {
     List<OptionItem> getOptionItems();
 
     /**
-     * @return unique identifier for the form element
-     */
-    String getId();
-
-    /**
-     * @return the message for the help block
-     */
-    String getHelpMessage();
-
-    /**
-     * @return the caption for the options element
-     */
-    String getCaption();
-
-    /**
      * @return the type of the options element.
      *
      * Possible values: checkbox, radio, drop-down, multi-drop-down
      */
-    String getType();
-
-    /**
-     * @return The source where the options are defined.
-     */
-    String getSource();
-
-    /**
-     * @return The path of the static list that defines the options
-     */
-    String getFromList();
-
-    /**
-     * @return The resource type of the datasource that defines the options.
-     */
-    String getFromDatasource();
+    Type getType();
 
 }

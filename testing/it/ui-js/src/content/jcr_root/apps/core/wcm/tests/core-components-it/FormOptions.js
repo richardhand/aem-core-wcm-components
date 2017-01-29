@@ -24,8 +24,8 @@
 
     //element name
     var elemName = "form_options";
-    //caption value
-    var caption = "Options";
+    //title value
+    var title = "Options";
     //help message
     var helpMessage = "This is an help message"
     //value for 'value' field
@@ -65,8 +65,8 @@
      * Helper test case: set the mandatory fields
      */
     var setMandatoryFields = new h.TestCase("Set Mandatory Fields")
-        //set the mandatory caption text
-        .fillInput("[name='./caption']",caption)
+        //set the mandatory title text
+        .fillInput("[name='./jcr:title']",title)
         //set the mandatory element name
         .fillInput("[name='./name']",elemName);
 
@@ -109,7 +109,7 @@
         .asserts.visible(c.selConfigDialog)
         //check if label marked as invalid
         .asserts.isTrue(function() {
-            return h.find("input[name='./caption'].is-invalid").size() == 1
+            return h.find("input[name='./jcr:title'].is-invalid").size() == 1
         })
         //check if element name is marked as invalid
         .asserts.isTrue(function() {
@@ -118,9 +118,9 @@
     ;
 
     /**
-     * Test: Set caption text
+     * Test: Set title text
      */
-    var setCaption = new h.TestCase("Set Caption",{
+    var setTitle = new h.TestCase("Set title",{
         execBefore: tcExecuteBeforeTest,
         execAfter: tcExecuteAfterTest})
 
@@ -133,9 +133,9 @@
         //close the edit dialog
         .execTestCase(c.tcSaveConfigureDialog)
 
-        //check if the caption is rendered
+        //check if the title is rendered
         .asserts.isTrue(function() {
-            return h.find("legend","#ContentFrame").text().trim() == caption
+            return h.find("legend","#ContentFrame").text().trim() == title
         })
     ;
 
@@ -205,7 +205,7 @@
 
         //check if the option type is set to checkbox
         .asserts.isTrue(function() {
-            return h.find(".checkbox","#ContentFrame").size() == 1;
+            return h.find(".form-group.checkbox","#ContentFrame").size() == 1;
         })
     ;
 
@@ -229,7 +229,7 @@
 
         //check if the option type is set to radio button
         .asserts.isTrue(function() {
-            return h.find(".radio","#ContentFrame").size() == 1;
+            return h.find(".form-group.radio","#ContentFrame").size() == 1;
         })
     ;
 
@@ -253,7 +253,7 @@
 
         //check if the option type is set to drop-down
         .asserts.isTrue(function() {
-            return h.find(".cmp-options--drop-down","#ContentFrame").size() == 1;
+            return h.find(".form-group.drop-down","#ContentFrame").size() == 1;
         })
     ;
 
@@ -277,7 +277,7 @@
 
         //check if the option type is set to multi-select drop-down
         .asserts.isTrue(function() {
-            return h.find(".cmp-options--multi-drop-down","#ContentFrame").size() == 1;
+            return h.find(".form-group.multi-drop-down","#ContentFrame").size() == 1;
         })
     ;
 
@@ -454,7 +454,7 @@
         execInNewWindow : false})
 
         .addTestCase(checkMandatoryFields)
-        .addTestCase(setCaption)
+        .addTestCase(setTitle)
         .addTestCase(setElementName)
         .addTestCase(setHelpMessage)
         .addTestCase(setCheckbox)

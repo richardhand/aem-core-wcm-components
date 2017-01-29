@@ -15,19 +15,45 @@
  ******************************************************************************/
 package com.adobe.cq.wcm.core.components.models;
 
-import java.util.Set;
-
 /**
  * Defines the {@code Image} Sling Model used for the {@code /apps/core/wcm/components/image} component.
  */
 public interface Image {
 
     /**
-     * Returns the set of supported width for adaptive images.
-     *
-     * @return the set of supported widths for adaptive images
+     * Name of the configuration policy property that will store the allowed rendition widths for an image.
      */
-    Set<Integer> getSupportedRenditionWidths();
+    String PN_DESIGN_ALLOWED_RENDITION_WIDTHS = "allowedRenditionWidths";
+
+    /**
+     * Name of the configuration policy property that will indicate if lazy loading should be disabled.
+     */
+    String PN_DESIGN_LAZY_LOADING_ENABLED = "disableLazyLoading";
+
+    /**
+     * Name of the resource property that will indicate if the image is decorative.
+     */
+    String PN_IS_DECORATIVE = "isDecorative";
+
+    /**
+     * Name of the resource property that will indicate if the image's caption will be rendered as a popup.
+     */
+    String PN_DISPLAY_POPUP_TITLE = "displayPopupTitle";
+
+    /**
+     * Name of the JSON property that will store the smart sizes for smart loading.
+     */
+    String JSON_SMART_SIZES = "smartSizes";
+
+    /**
+     * Name of the JSON property that will store the smart images for smart loading.
+     */
+    String JSON_SMART_IMAGES = "smartImages";
+
+    /**
+     * Name of the JSON property that will indicate if the image should be loaded lazily.
+     */
+    String JSON_LAZY_ENABLED = "lazyEnabled";
 
     /**
      * Returns the value for the {@code src} attribute of the image.
@@ -35,29 +61,6 @@ public interface Image {
      * @return the image's URL
      */
     String getSrc();
-
-    /**
-     * Returns the array of allowed rendition widths, if one was defined for the component's design.
-     *
-     * @return the array of allowed rendition widths, or an empty array if the allowed renditions widths have not been configured for the
-     * component's design
-     */
-    Integer[] getSmartSizes();
-
-    /**
-     * Returns an array of URLs for smart images, if the component's design provides an array of allowed rendition widths.
-     *
-     * @return the array of URLs for smart images, or an empty array if the component's design doesn't provide an array of allowed
-     * rendition widths
-     */
-    String[] getSmartImages();
-
-    /**
-     * Returns {@code true} if the image should be loaded lazily, {@code false} otherwise.
-     *
-     * @return {@code true} if the image should be loaded lazily, {@code false} otherwise
-     */
-    boolean isLazyLoadingEnabled();
 
     /**
      * Returns the value for the image's {@code alt} attribute, if one was set.
@@ -86,14 +89,7 @@ public interface Image {
      *
      * @return {@code true} if the caption should be displayed as a popup
      */
-    boolean shouldDisplayCaptionPopup();
-
-    /**
-     * Returns {@code true} if the image is rendered only for decorative purposes (no link, no alt information).
-     *
-     * @return {@code true} if the image is decorative, {@code false} otherwise
-     */
-    boolean isDecorative();
+    boolean displayPopupTitle();
 
     /**
      * Returns the file reference of the current image, if one exists.
@@ -103,12 +99,16 @@ public interface Image {
     String getFileReference();
 
     /**
-     * Returns the name of the file that represents the image.
+     * Returns a JSON object used for the smart image functionality. The object provides the following properties:
      *
-     * @return the name of the file that represents the image
+     * <ul>
+     *     <li>{@link #JSON_SMART_SIZES} - array of integers, representing the available image widths</li>
+     *     <li>{@link #JSON_SMART_IMAGES} - array of strings, providing the URLs for the available image renditions</li>
+     *     <li>{@link #JSON_LAZY_ENABLED} - boolean, specifying if the image should be rendered lazily or not</li>
+     * </ul>
+     *
+     * @return the JSON for the smart image functionality
      */
-    String getFileName();
-
-
+    String getJson();
 
 }

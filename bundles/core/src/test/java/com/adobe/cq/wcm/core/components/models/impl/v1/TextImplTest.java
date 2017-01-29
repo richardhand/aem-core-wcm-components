@@ -39,7 +39,6 @@ public class TextImplTest {
         Text text = getTestedText("rich-text");
         assertEquals("<p>rich</p>", text.getText());
         assertTrue(text.isRichText());
-        assertEquals(Text.CONTEXT_HTML, text.getDisplayContext());
     }
 
     @Test
@@ -47,7 +46,6 @@ public class TextImplTest {
         Text text = getTestedText("plain-text");
         assertEquals("plain", text.getText());
         assertFalse(text.isRichText());
-        assertEquals(Text.CONTEXT_TEXT, text.getDisplayContext());
     }
 
     @Test
@@ -55,7 +53,6 @@ public class TextImplTest {
         Text text = getTestedText("empty-text");
         assertNull(text.getText());
         assertFalse(text.isRichText());
-        assertEquals(Text.CONTEXT_TEXT, text.getDisplayContext());
     }
 
     private Text getTestedText(String path) {

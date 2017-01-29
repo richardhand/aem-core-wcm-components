@@ -27,7 +27,7 @@
                                 name="./actionType">
                                 <datasource
                                     jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="core/wcm/components/form/container/datasource/actiontypedatasource"/>
+                                    sling:resourceType="core/wcm/components/form/container/v1/datasource/actiontype"/>
                                 <granite:data
                                     jcr:primaryType="nt:unstructured"
                                     cq-dialog-dropdown-showhide-target=".action-type-dialog"/>
@@ -38,38 +38,38 @@
                                 sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
                                 <datasource
                                     jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="core/wcm/components/form/container/datasource/actiontypesettingsdatasource"/>
+                                    sling:resourceType="core/wcm/components/form/container/v1/datasource/actionsetting"/>
                             </advanced>
                             <workflowcontainer
+                                granite:class="hide cmp-workflow-container"
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/coral/foundation/container"
-                                granite:class="hide cmp-workflow-container">
+                                sling:resourceType="granite/ui/components/coral/foundation/container">
                                 <items jcr:primaryType="nt:unstructured">
                                     <workflowmodel
-                                            jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="granite/ui/components/coral/foundation/form/select"
-                                            emptyOption="{Boolean}true"
-                                            fieldLabel="Start Workflow"
-                                            fieldDescription="Whether a workflow should be started with the stored content as payload."
-                                            name="./workflowModel">
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                        emptyOption="{Boolean}true"
+                                        fieldDescription="Whether a workflow should be started with the stored content as payload."
+                                        fieldLabel="Start Workflow"
+                                        name="./workflowModel">
                                         <datasource
-                                                jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="core/wcm/components/form/container/datasource/workflowmodeldatasource"/>
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="core/wcm/components/form/container/v1/datasource/workflowmodel"/>
                                         <granite:data
-                                                jcr:primaryType="nt:unstructured"
-                                                cq-dialog-dropdown-showhide-target=".cmp-workflow-title"/>
+                                            jcr:primaryType="nt:unstructured"
+                                            cq-dialog-dropdown-showhide-target=".cmp-workflow-title"/>
                                     </workflowmodel>
                                     <workflowTitle
-                                            jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                            required="{Boolean}true"
-                                            fieldLabel="Workflow Title"
-                                            fieldDescription="Title for the workflow."
-                                            wrapperClass="hide cmp-workflow-title"
-                                            name="./workflowTitle">
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                        fieldDescription="Title for the workflow."
+                                        fieldLabel="Workflow Title"
+                                        name="./workflowTitle"
+                                        required="{Boolean}true"
+                                        wrapperClass="hide cmp-workflow-title">
                                         <granite:data
-                                                jcr:primaryType="nt:unstructured"
-                                                reverseshowhidetargetvalue=""/>
+                                            jcr:primaryType="nt:unstructured"
+                                            reverseshowhidetargetvalue=""/>
                                     </workflowTitle>
                                 </items>
                             </workflowcontainer>
