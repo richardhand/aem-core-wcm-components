@@ -266,7 +266,7 @@ public class ListImpl implements List {
 
     private void populateSearchListItems() {
         listItems = new ArrayList<>();
-        if (!StringUtils.isEmpty(query)) {
+        if (!StringUtils.isBlank(query)) {
             SimpleSearch search = resource.adaptTo(SimpleSearch.class);
             if (search != null) {
                 search.setQuery(query);

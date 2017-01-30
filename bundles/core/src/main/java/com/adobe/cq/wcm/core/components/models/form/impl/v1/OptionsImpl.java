@@ -176,7 +176,7 @@ public class OptionsImpl extends AbstractFieldImpl implements Options {
     }
 
     private void populateOptionItemsFromList() {
-        if (StringUtils.isEmpty(fromList)) {
+        if (StringUtils.isBlank(fromList)) {
             return;
         }
         Resource parent = resolver.getResource(fromList);
@@ -192,7 +192,7 @@ public class OptionsImpl extends AbstractFieldImpl implements Options {
 
     @SuppressWarnings("unchecked")
     private void populateOptionItemsFromDatasource() {
-        if (StringUtils.isEmpty(fromDatasource)) {
+        if (StringUtils.isBlank(fromDatasource)) {
             return;
         }
         // build the options by running the datasource code (the list is set as a request attribute)

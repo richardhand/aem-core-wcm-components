@@ -91,7 +91,7 @@ public class PageImpl implements Page {
     @PostConstruct
     private void initModel() {
         title = currentPage.getTitle();
-        if (StringUtils.isEmpty(title)) {
+        if (StringUtils.isBlank(title)) {
             title = currentPage.getName();
         }
         Tag[] tags = currentPage.getTags();
