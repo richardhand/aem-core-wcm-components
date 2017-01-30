@@ -60,7 +60,7 @@ public interface Options extends Field {
      *
      * @return {@link List} of {@link OptionItem}s
      */
-    List<OptionItem> getOptionItems();
+    List<OptionItem> getItems();
 
     /**
      * @return the type of the options element.

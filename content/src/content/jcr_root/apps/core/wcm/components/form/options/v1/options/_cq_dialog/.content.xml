@@ -101,7 +101,7 @@
                                         sling:resourceType="granite/ui/components/coral/foundation/form/pathbrowser"
                                         fieldDescription="Path of the static list."
                                         fieldLabel="List"
-                                        name="./fromList"/>
+                                        name="./listPath"/>
                                 </items>
                             </fromList>
                             <fromDatasource
@@ -117,7 +117,7 @@
                                         sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                                         fieldDescription="Resource type of the datasource."
                                         fieldLabel="Datasource"
-                                        name="./fromDatasource"/>
+                                        name="./datasourceRT"/>
                                 </items>
                             </fromDatasource>
                             <fromLocal
@@ -138,7 +138,7 @@
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/coral/foundation/container"
-                                            name="./optionitems">
+                                            name="./items">
                                             <items jcr:primaryType="nt:unstructured">
                                                 <option
                                                     granite:class="cmp-form-option-item-multifield-composite-item"

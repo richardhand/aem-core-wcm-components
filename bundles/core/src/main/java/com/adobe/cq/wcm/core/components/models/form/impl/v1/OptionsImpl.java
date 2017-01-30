@@ -55,7 +55,7 @@ public class OptionsImpl extends AbstractFieldImpl implements Options {
     protected static final String RESOURCE_TYPE = "core/wcm/components/form/options/v1/options";
     protected static final String PN_TYPE = "type";
 
-    private static final String OPTION_ITEMS_PATH = "optionitems";
+    private static final String OPTION_ITEMS_PATH = "items";
 
     private static final String ID_PREFIX = "form-options";
 
@@ -85,10 +85,10 @@ public class OptionsImpl extends AbstractFieldImpl implements Options {
     private Source source;
 
     @ValueMapValue(optional = true)
-    private String fromList;
+    private String listPath;
 
     @ValueMapValue(optional = true)
-    private String fromDatasource;
+    private String datasourceRT;
 
     @Self
     private SlingHttpServletRequest request;
@@ -100,7 +100,7 @@ public class OptionsImpl extends AbstractFieldImpl implements Options {
     private ResourceResolver resolver;
 
     @Override
-    public List<OptionItem> getOptionItems() {
+    public List<OptionItem> getItems() {
         if (optionItems == null) {
             populateOptionItems();
         }
@@ -142,6 +142,8 @@ public class OptionsImpl extends AbstractFieldImpl implements Options {
         return null;
     }
 
+
+
     /* ------------------------ Internal stuff -------------------------------------------- */
 
 
@@ -176,10 +178,10 @@ public class OptionsImpl extends AbstractFieldImpl implements Options {
     }
 
     private void populateOptionItemsFromList() {
-        if (StringUtils.isEmpty(fromList)) {
+        if (StringUtils.isEmpty(listPath)) {
             return;
         }
-        Resource parent = resolver.getResource(fromList);
+        Resource parent = resolver.getResource(listPath);
         if (parent != null) {
             for(Resource itemResource: parent.getChildren()) {
                 OptionItem optionItem = itemResource.adaptTo(OptionItem.class);
@@ -192,21 +194,21 @@ public class OptionsImpl extends AbstractFieldImpl implements Options {
 
     @SuppressWarnings("unchecked")
     private void populateOptionItemsFromDatasource() {
-        if (StringUtils.isEmpty(fromDatasource)) {
+        if (StringUtils.isEmpty(datasourceRT)) {
             return;
         }
         // build the options by running the datasource code (the list is set as a request attribute)
         RequestDispatcherOptions opts = new RequestDispatcherOptions();
-        opts.setForceResourceType(fromDatasource);
+        opts.setForceResourceType(datasourceRT);
         RequestDispatcher dispatcher = request.getRequestDispatcher(resource, opts);
         try {
             if (dispatcher != null) {
                 dispatcher.include(request, response);
             } else {
-                LOGGER.error("Failed to include the datasource at " + fromDatasource);
+                LOGGER.error("Failed to include the datasource at " + datasourceRT);
             }
         } catch (Exception e) {
-            LOGGER.error("Failed to include the datasource at " + fromDatasource, e);
+            LOGGER.error("Failed to include the datasource at " + datasourceRT, e);
         }
 
         // retrieve the datasource from the request and adapt it to form options

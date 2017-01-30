@@ -73,13 +73,13 @@
             var data = {};
             data["./name"] = "optionName";
             data["./type"] = "checkbox";
-            data["./optionitems/item0/selected"] = "true";
-            data["./optionitems/item0/text"] = "text1";
-            data["./optionitems/item0/value"] = "value1";
+            data["./items/item0/selected"] = "true";
+            data["./items/item0/text"] = "text1";
+            data["./items/item0/value"] = "value1";
 
-            data["./optionitems/item1/selected"] = "false";
-            data["./optionitems/item1/text"] = "text2";
-            data["./optionitems/item1/value"] = "value2";
+            data["./items/item1/selected"] = "false";
+            data["./items/item1/text"] = "text2";
+            data["./items/item1/value"] = "value2";
             c.editNodeProperties(h.param("optionPath")(), data,done);
         })
 
