@@ -58,7 +58,7 @@
         .execFct(function (opts, done) {
             var data = {};
             data.name = "hiddenName";
-            data.defaultValue = "hiddenValue";
+            data.value = "hiddenValue";
             c.editNodeProperties(h.param("hiddenPath")(), data,done);
         })
 
