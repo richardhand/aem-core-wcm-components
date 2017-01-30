@@ -18,7 +18,7 @@ package com.adobe.cq.wcm.core.components.models;
 import java.util.Collection;
 
 /**
- * Component interface for the list sling model
+ * Defines the {@code List} Sling Model used for the {@code /apps/core/wcm/components/list} component.
  */
 public interface List {
 

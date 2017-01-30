@@ -16,7 +16,7 @@
 package com.adobe.cq.wcm.core.components.models.form;
 
 /**
- * Interface for the Button Sling Model
+ * Defines the {@code Button} Sling Model used for the {@code /apps/core/wcm/components/button} component.
  */
 public interface Button extends Field {
 

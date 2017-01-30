@@ -18,7 +18,9 @@ package com.adobe.cq.wcm.core.components.models;
 
 import com.day.cq.wcm.api.Page;
 
-
+/**
+ * Interface for a single item of the {@link Breadcrumb} model
+ */
 public interface NavigationItem {
 
     /**

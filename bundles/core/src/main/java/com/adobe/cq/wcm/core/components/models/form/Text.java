@@ -16,7 +16,7 @@
 package com.adobe.cq.wcm.core.components.models.form;
 
 /**
- * The form text field
+ * Defines the form {@code Text} Sling Model used for the {@code /apps/core/wcm/components/form/text} component.
  */
 public interface Text extends Field {
 
