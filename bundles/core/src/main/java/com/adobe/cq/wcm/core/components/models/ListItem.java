@@ -15,11 +15,14 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.models;
 
+import org.osgi.annotation.versioning.ConsumerType;
+
 import com.day.cq.wcm.api.Page;
 
 /**
  * Interface for a single item of the {@link List} model
  */
+@ConsumerType
 public interface ListItem {
 
     /**

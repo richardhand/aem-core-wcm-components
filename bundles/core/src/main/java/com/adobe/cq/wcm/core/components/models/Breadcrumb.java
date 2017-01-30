@@ -17,9 +17,12 @@ package com.adobe.cq.wcm.core.components.models;
 
 import java.util.Collection;
 
+import org.osgi.annotation.versioning.ConsumerType;
+
 /**
  * Defines the {@code Breadcrumb} Sling Model used for the {@code /apps/core/wcm/components/breadcrumb} component.
  */
+@ConsumerType
 public interface Breadcrumb {
 
     /**

@@ -15,9 +15,12 @@
  ******************************************************************************/
 package com.adobe.cq.wcm.core.components.models;
 
+import org.osgi.annotation.versioning.ConsumerType;
+
 /**
  * Defines the {@code Image} Sling Model used for the {@code /apps/core/wcm/components/image} component.
  */
+@ConsumerType
 public interface Image {
 
     /**

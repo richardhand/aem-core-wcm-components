@@ -16,9 +16,12 @@
 
 package com.adobe.cq.wcm.core.components.models;
 
+import org.osgi.annotation.versioning.ConsumerType;
+
 /**
  * Defines the {@code Title} Sling Model used for the {@code /apps/core/wcm/components/title} component.
  */
+@ConsumerType
 public interface Title {
 
     /**
