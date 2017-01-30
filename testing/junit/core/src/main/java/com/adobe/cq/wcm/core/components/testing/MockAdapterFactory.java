@@ -15,30 +15,14 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.testing;
 
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Property;
-import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.adapter.AdapterFactory;
 import org.apache.sling.api.resource.Resource;
 import org.osgi.annotation.versioning.ProviderType;
 
 import com.day.cq.wcm.api.policies.ContentPolicyMapping;
 
-
-@Component
-@Service(AdapterFactory.class)
 @ProviderType
 public class MockAdapterFactory implements AdapterFactory {
-
-    @Property(name = AdapterFactory.ADAPTABLE_CLASSES)
-    private static final String[] ADAPTABLES = {
-            Resource.class.getName()
-    };
-
-    @Property(name = AdapterFactory.ADAPTER_CLASSES)
-    private static final String[] ADAPTERS = {
-            ContentPolicyMapping.class.getName()
-    };
 
     @Override
     @SuppressWarnings("unchecked")

@@ -17,7 +17,6 @@ package com.adobe.cq.wcm.core.components.commons.form.impl;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Dictionary;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,18 +28,17 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import org.apache.felix.scr.annotations.Activate;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Properties;
-import org.apache.felix.scr.annotations.Property;
-import org.apache.felix.scr.annotations.Reference;
-import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.OptingServlet;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.commons.osgi.PropertiesUtil;
-import org.osgi.service.component.ComponentContext;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.metatype.annotations.AttributeDefinition;
+import org.osgi.service.metatype.annotations.Designate;
+import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 
 import com.adobe.cq.wcm.core.components.commons.form.FormConstants;
 import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
@@ -52,21 +50,40 @@ import com.day.cq.wcm.foundation.security.SaferSlingPostValidator;
  * but only if the selector "form" and the extension "html" is used.
  */
 @SuppressWarnings("serial")
-@Component(metatype = true, label = "Core Form Handling Servlet",
-        description = "Accepts posting to a form container component and performs validations")
-@Service({Servlet.class, Filter.class})
-@Properties({
-        @Property(name = "sling.servlet.resourceTypes", value = { FormConstants.RT_CORE_FORM_CONTAINER_V1 }, propertyPrivate = true),
-        @Property(name = "sling.servlet.methods", value = "POST", propertyPrivate = true),
-        @Property(name = "sling.servlet.selectors", value = CoreFormHandlingServlet.SELECTOR, propertyPrivate = true),
-        @Property(name = "sling.filter.scope", value = "request", propertyPrivate = true),
-        @Property(name = "service.ranking", intValue = 610, propertyPrivate = true),
-        @Property(name = "service.description", value = "Core Form Handling Servlet")
-
-})
+@Component(
+        service = {Servlet.class, Filter.class},
+        configurationPid = "com.adobe.cq.wcm.core.components.commons.forms.impl.CoreFormsHandlingServlet",
+        property = {
+                "sling.servlet.resourceTypes=" + FormConstants.RT_CORE_FORM_CONTAINER_V1,
+                "sling.servlet.methods=POST",
+                "sling.servlet.selectors=" + CoreFormHandlingServlet.SELECTOR,
+                "sling.filter.scope=request",
+                "service.ranking:Integer=610",
+        }
+)
+@Designate(
+        ocd = CoreFormHandlingServlet.Configuration.class
+)
 public class CoreFormHandlingServlet
         extends SlingAllMethodsServlet
         implements OptingServlet, Filter {
+
+    @ObjectClassDefinition(
+            name = "Core Form Handling Servlet",
+            description = "Accepts posting to a form container component and performs validations"
+    )
+    @interface Configuration {
+        @AttributeDefinition(
+                name = "Parameter Name Whitelist",
+                description = "List of name expressions that will pass request validation. A validation error will occur " +
+                        "if any posted parameters are not in the whitelist and not defined on the form."
+        ) String[] name_whitelist() default {};
+
+        @AttributeDefinition(
+                name = "Allow Expressoins",
+                description = "Evaluate expressions on form submissions."
+        ) boolean allow_expressions() default true;
+    }
 
     private static final String EXTENSION = "html";
     private static final Boolean PROP_ALLOW_EXPRESSION_DEFAULT = true;
@@ -75,19 +92,10 @@ public class CoreFormHandlingServlet
 
     private Set<String> formResourceTypes = new HashSet<String>(Arrays.asList(FormConstants.RT_ALL_CORE_FORM_CONTAINER));
 
-    @Property(value = {},
-            label = "Parameter Name Whitelist",
-            description = "List of name expressions that will pass request validation. A validation error will occur " +
-                    "if any posted parameters are not in the whitelist and not defined on the form.")
-    private static final String DATA_NAME_WHITELIST = "name.whitelist";
     private String[] dataNameWhitelist;
 
     private FormsHandlingServletHelper formsHandlingServletHelper;
 
-    @Property(boolValue = true,
-            label = "Allow Expressions",
-            description = "Evaluate expressions on form submissions.")
-    public final static String ALLOW_EXPRESSIONS = "allow.expressions";
     private boolean allowExpressions;
 
     @Reference
@@ -97,10 +105,10 @@ public class CoreFormHandlingServlet
     private FormStructureHelperFactory formStructureHelperFactory;
 
     @Activate
-    protected void activate(ComponentContext componentContext) {
-        Dictionary<String, Object> properties = componentContext.getProperties();
-        dataNameWhitelist = PropertiesUtil.toStringArray(properties.get(DATA_NAME_WHITELIST));
-        allowExpressions = PropertiesUtil.toBoolean(properties.get(ALLOW_EXPRESSIONS), PROP_ALLOW_EXPRESSION_DEFAULT);
+    protected void activate(Configuration configuration) {
+
+        dataNameWhitelist = PropertiesUtil.toStringArray(configuration.name_whitelist());
+        allowExpressions = PropertiesUtil.toBoolean(configuration.allow_expressions(), PROP_ALLOW_EXPRESSION_DEFAULT);
         formsHandlingServletHelper = new FormsHandlingServletHelper(dataNameWhitelist, validator, formResourceTypes,
                 allowExpressions, formStructureHelperFactory);
     }

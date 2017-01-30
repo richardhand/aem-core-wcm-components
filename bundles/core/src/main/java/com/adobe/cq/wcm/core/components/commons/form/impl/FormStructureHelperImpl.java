@@ -21,15 +21,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Reference;
-import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.resource.LoginException;
 import org.apache.sling.api.resource.ModifiableValueMap;
 import org.apache.sling.api.resource.PersistenceException;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,9 +36,12 @@ import com.adobe.cq.wcm.core.components.commons.form.FormConstants;
 import com.adobe.cq.wcm.core.components.models.form.Button;
 import com.adobe.cq.wcm.core.components.models.form.impl.v1.ButtonImpl;
 import com.day.cq.wcm.foundation.forms.FormStructureHelper;
+import com.day.cq.wcm.foundation.forms.FormsConstants;
 
-@Component(immediate = true)
-@Service(FormStructureHelper.class)
+@Component(
+        immediate = true,
+        service = FormStructureHelper.class
+)
 public class FormStructureHelperImpl implements FormStructureHelper {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FormStructureHelperImpl.class.getName());
@@ -146,19 +148,19 @@ public class FormStructureHelperImpl implements FormStructureHelper {
                 ModifiableValueMap formProperties = formResource.adaptTo(ModifiableValueMap.class);
                 if (formProperties != null) {
                     try {
-                        if (formProperties.get(com.day.cq.wcm.foundation.forms.FormsConstants.START_PROPERTY_ACTION_TYPE,
+                        if (formProperties.get(FormsConstants.START_PROPERTY_ACTION_TYPE,
                                 String.class) == null) {
-                            formProperties.put(com.day.cq.wcm.foundation.forms.FormsConstants.START_PROPERTY_ACTION_TYPE,
-                                    com.day.cq.wcm.foundation.forms.FormsConstants.DEFAULT_ACTION_TYPE);
+                            formProperties.put(FormsConstants.START_PROPERTY_ACTION_TYPE,
+                                    FormsConstants.DEFAULT_ACTION_TYPE);
                             String defaultContentPath = "/content/usergenerated" +
                                     formResource.getPath().replaceAll("^.content", "").replaceAll("jcr.content.*", "") +
                                     "cq-gen" + System.currentTimeMillis() + "/";
-                            formProperties.put(com.day.cq.wcm.foundation.forms.FormsConstants.START_PROPERTY_ACTION_PATH,
+                            formProperties.put(FormsConstants.START_PROPERTY_ACTION_PATH,
                                     defaultContentPath);
                         }
-                        if (formProperties.get(com.day.cq.wcm.foundation.forms.FormsConstants.START_PROPERTY_FORMID,
+                        if (formProperties.get(FormsConstants.START_PROPERTY_FORMID,
                                 String.class) == null) {
-                            formProperties.put(com.day.cq.wcm.foundation.forms.FormsConstants.START_PROPERTY_FORMID,
+                            formProperties.put(FormsConstants.START_PROPERTY_FORMID,
                                     formResource.getPath().replaceAll("[/:.]", "_"));
                         }
                         resolver.commit();

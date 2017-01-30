@@ -55,7 +55,7 @@ public class ButtonImpl extends AbstractFieldImpl implements Button {
     private I18n i18n;
 
     @PostConstruct
-    protected void initModel() {
+    private void initModel() {
         i18n = new I18n(request);
         type = Type.fromString(typeString);
     }

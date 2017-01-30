@@ -18,12 +18,10 @@ package com.adobe.cq.wcm.core.components.commons.jackson.impl;
 import com.day.cq.wcm.api.Page;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.models.jacksonexporter.ModuleProvider;
+import org.osgi.service.component.annotations.Component;
 
 @Component
-@Service
 public class PageModuleProvider implements ModuleProvider {
 
     private SimpleModule module;
