@@ -26,7 +26,7 @@ public interface Options extends Field {
 
     /**
      * Defines the Options type.
-     *
+     * <br>
      * Possible values: checkbox, radio, drop-down, multi-drop-down
      */
     enum Type {
@@ -64,7 +64,7 @@ public interface Options extends Field {
 
     /**
      * @return the type of the options element.
-     *
+     * <br>
      * Possible values: checkbox, radio, drop-down, multi-drop-down
      */
     Type getType();

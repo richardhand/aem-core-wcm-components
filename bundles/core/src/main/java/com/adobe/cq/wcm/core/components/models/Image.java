@@ -56,44 +56,37 @@ public interface Image {
     String JSON_LAZY_ENABLED = "lazyEnabled";
 
     /**
-     * Returns the value for the {@code src} attribute of the image.
+     * Gets the value for the {@code src} attribute of the image.
      *
      * @return the image's URL
      */
     String getSrc();
 
     /**
-     * Returns the value for the image's {@code alt} attribute, if one was set.
-     *
-     * @return the value, if one was set, or {@code null}
+     * @return the value for the image's {@code alt} attribute, if one was set, or {@code null}
      */
     String getAlt();
 
     /**
-     * Returns the value for the image's {@code title} attribute, if one was set.
-     *
-     * @return the value, if one was set, or {@code null}
+     * @return the value for the image's {@code title} attribute, if one was set, or {@code null}
      */
     String getTitle();
 
     /**
-     * Returns the image's link URL, if one was set.
-     *
      * @return the image's link URL, if one was set, or {@code null}
      */
     String getLink();
 
     /**
-     * Returns {@code true} if the image should display its caption as a popup (through the <code>&lt;img&gt;</code> {@code title}
+     * Checks if the image should display its caption as a popup (through the <code>&lt;img&gt;</code> {@code title}
      * attribute).
      *
-     * @return {@code true} if the caption should be displayed as a popup
+     * @return {@code true} if the caption should be displayed as a popup,
+     * <br>{@code false} otherwise
      */
     boolean displayPopupTitle();
 
     /**
-     * Returns the file reference of the current image, if one exists.
-     *
      * @return the file reference of the current image, if one exists, {@code null} otherwise
      */
     String getFileReference();

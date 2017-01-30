@@ -44,13 +44,17 @@ public interface Field {
 
     /**
      * @return the title of the field (text displayed on the field).
+     * <p>
      * Implementations can return null if title is not required.
+     * </p>
      */
     String getTitle();
 
     /**
      * @return the message for the help block.
+     * <p>
      * Implementations can return null if help message is not required.
+     * </p>
      */
     String getHelpMessage();
 

@@ -34,7 +34,7 @@ public interface NavigationItem {
     /**
      * Returns the link to the related {@link Page}.
      *
-     * @return Page path
+     * @return {@code String} representing the Page path
      */
     public String getLink();
 
