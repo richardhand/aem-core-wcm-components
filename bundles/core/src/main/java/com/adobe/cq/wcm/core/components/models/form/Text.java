@@ -22,7 +22,9 @@ public interface Text extends Field {
 
     /**
      * Checks if the user must provide input for this field.
-     * @return {@code true} if the field must have a input <br>
+     *
+     * @return {@code true} if the field must have a input
+     * <br>
      * {@code false} otherwise
      */
     boolean isRequired();
@@ -41,7 +43,9 @@ public interface Text extends Field {
 
     /**
      * checks if the field should be rendered read only on the page
-     * @return {@code true} if the field should be read-only <br>
+     *
+     * @return {@code true} if the field should be read-only
+     * <br>
      * {@code false} otherwise
      */
     boolean isReadOnly();
@@ -60,6 +64,7 @@ public interface Text extends Field {
     /**
      * Gets the type of the input field such as text, textarea, date, email etc.
      * The types other than textarea are as defined under HTML5.
+     *
      * @return the type of the field
      */
     String getType();

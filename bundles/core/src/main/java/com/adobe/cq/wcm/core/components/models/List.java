@@ -23,22 +23,22 @@ import java.util.Collection;
 public interface List {
 
     /**
-     * @return collection of {@link ListItem}s
+     * @return {@link Collection} of {@link ListItem}s
      */
     Collection<ListItem> getListItems();
 
     /**
-     * @return true if the page should be linked otherwise false
+     * @return {@code true} if the page should be linked otherwise {@code false}
      */
     boolean linkItem();
 
     /**
-     * @return true if description should be shown otherwise flase
+     * @return {@code true} if description should be shown otherwise {@code false}
      */
     boolean showDescription();
 
     /**
-     * @return true if modification date should be shown otherwise false
+     * @return {@code true} if modification date should be shown otherwise {@code false}
      */
     boolean showModificationDate();
 
