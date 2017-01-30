@@ -148,7 +148,7 @@ public class SocialMediaHelperImpl implements SocialMediaHelper {
 
     //*************** IMPLEMENTATION *******************
     @PostConstruct
-    private void postConstruct() throws Exception {
+    private void initModel() throws Exception {
         ValueMap pageProperties = currentPage.getProperties();
         String[] socialMedia = pageProperties.get(PN_SOCIAL_MEDIA, String[].class);
         facebookEnabled = ArrayUtils.contains(socialMedia, PV_FACEBOOK);

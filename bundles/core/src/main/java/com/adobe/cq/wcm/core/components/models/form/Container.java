@@ -16,7 +16,7 @@
 package com.adobe.cq.wcm.core.components.models.form;
 
 /**
- * Component-Interface for the form container Sling Model
+ * Defines the form {@code Container} Sling Model used for the {@code /apps/core/wcm/components/form/container} component.
  */
 public interface Container {
 

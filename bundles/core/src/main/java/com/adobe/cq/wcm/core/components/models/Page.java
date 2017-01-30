@@ -30,9 +30,7 @@ public interface Page {
     String getLanguage();
 
     /**
-     * Returns the last modified date of this page.
-     *
-     * @return {@link Calendar} representing the last modified date
+     * @return {@link Calendar} representing the last modified date of this page
      */
     Calendar getLastModifiedDate();
 
@@ -104,9 +102,7 @@ public interface Page {
     String getTouchIcon152();
 
     /**
-     * Retrieves the page's title.
-     *
-     * @return the page title
+     * @return the page's title
      */
     String getTitle();
 
@@ -119,9 +115,7 @@ public interface Page {
     String[] getClientLibCategories();
 
     /**
-     * Returns the template name of the current template.
-     *
-     * @return template name of the current template
+     * @return the template name of the current template
      */
     String getTemplateName();
 

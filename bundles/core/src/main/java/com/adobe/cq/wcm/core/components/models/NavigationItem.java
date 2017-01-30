@@ -18,7 +18,9 @@ package com.adobe.cq.wcm.core.components.models;
 
 import com.day.cq.wcm.api.Page;
 
-
+/**
+ * Interface for a single item of the {@link Breadcrumb} model
+ */
 public interface NavigationItem {
 
     /**
@@ -32,7 +34,7 @@ public interface NavigationItem {
     /**
      * Returns the link to the related {@link Page}.
      *
-     * @return Page path
+     * @return {@code String} representing the Page path
      */
     public String getLink();
 

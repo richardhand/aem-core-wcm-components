@@ -18,27 +18,27 @@ package com.adobe.cq.wcm.core.components.models;
 import java.util.Collection;
 
 /**
- * Component interface for the list sling model
+ * Defines the {@code List} Sling Model used for the {@code /apps/core/wcm/components/list} component.
  */
 public interface List {
 
     /**
-     * @return collection of {@link ListItem}s
+     * @return {@link Collection} of {@link ListItem}s
      */
     Collection<ListItem> getListItems();
 
     /**
-     * @return true if the page should be linked otherwise false
+     * @return {@code true} if the page should be linked otherwise {@code false}
      */
     boolean linkItem();
 
     /**
-     * @return true if description should be shown otherwise flase
+     * @return {@code true} if description should be shown otherwise {@code false}
      */
     boolean showDescription();
 
     /**
-     * @return true if modification date should be shown otherwise false
+     * @return {@code true} if modification date should be shown otherwise {@code false}
      */
     boolean showModificationDate();
 

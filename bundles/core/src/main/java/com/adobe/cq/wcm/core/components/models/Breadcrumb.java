@@ -18,7 +18,7 @@ package com.adobe.cq.wcm.core.components.models;
 import java.util.Collection;
 
 /**
- * Component-Interface for the breadcrumb Sling Model
+ * Defines the {@code Breadcrumb} Sling Model used for the {@code /apps/core/wcm/components/breadcrumb} component.
  */
 public interface Breadcrumb {
 

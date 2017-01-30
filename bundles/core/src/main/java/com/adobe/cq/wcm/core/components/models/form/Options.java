@@ -20,13 +20,13 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * Interface for the Form Options Sling Model
+ * Defines the form {@code Options} Sling Model used for the {@code /apps/core/wcm/components/form/options} component.
  */
 public interface Options extends Field {
 
     /**
      * Defines the Options type.
-     *
+     * <br>
      * Possible values: checkbox, radio, drop-down, multi-drop-down
      */
     enum Type {
@@ -64,7 +64,7 @@ public interface Options extends Field {
 
     /**
      * @return the type of the options element.
-     *
+     * <br>
      * Possible values: checkbox, radio, drop-down, multi-drop-down
      */
     Type getType();

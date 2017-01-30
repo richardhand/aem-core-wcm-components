@@ -89,7 +89,7 @@ public class PageImpl implements Page {
     private String touchIcon152;
 
     @PostConstruct
-    private void postConstruct() {
+    private void initModel() {
         title = currentPage.getTitle();
         if (StringUtils.isEmpty(title)) {
             title = currentPage.getName();

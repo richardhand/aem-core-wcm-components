@@ -16,7 +16,7 @@
 package com.adobe.cq.wcm.core.components.models.form;
 
 /**
- * Interface of an item for the {@link Options} form element
+ * Interface for a single item of the {@link Options} form element
  */
 public interface OptionItem {
 
