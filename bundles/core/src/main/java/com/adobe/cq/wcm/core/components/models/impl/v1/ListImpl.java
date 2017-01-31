@@ -15,8 +15,6 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.models.impl.v1;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -84,8 +82,8 @@ public class ListImpl implements List {
     private static final String PN_SEARCH_IN = "searchIn";
     private static final String PN_SORT_ORDER = "sortOrder";
     private static final String PN_ORDER_BY = "orderBy";
-    private static final String PN_DATA_FORMAT_DEFAULT = "yyyy-MM-dd";
-    private static final String PN_DATA_FORMAT = "dateFormat";
+    private static final String PN_DATE_FORMAT_DEFAULT = "yyyy-MM-dd";
+    private static final String PN_DATE_FORMAT = "dateFormat";
     private static final String TAGS_MATCH_ANY_VALUE = "any";
 
     @ScriptVariable
@@ -151,7 +149,7 @@ public class ListImpl implements List {
         showModificationDate = properties.get(
                 PN_SHOW_MODIFICATION_DATE, currentStyle.get(PN_SHOW_MODIFICATION_DATE, SHOW_MODIFICATION_DATE_DEFAULT));
         linkItem = properties.get(PN_LINK_ITEM, currentStyle.get(PN_LINK_ITEM, LINK_ITEM_DEFAULT));
-        dateFormatString = properties.get(PN_DATA_FORMAT, currentStyle.get(PN_DATA_FORMAT, PN_DATA_FORMAT_DEFAULT));
+        dateFormatString = properties.get(PN_DATE_FORMAT, currentStyle.get(PN_DATE_FORMAT, PN_DATE_FORMAT_DEFAULT));
 
     }
 
@@ -266,7 +264,7 @@ public class ListImpl implements List {
 
     private void populateSearchListItems() {
         listItems = new ArrayList<>();
-        if (!StringUtils.isEmpty(query)) {
+        if (!StringUtils.isBlank(query)) {
             SimpleSearch search = resource.adaptTo(SimpleSearch.class);
             if (search != null) {
                 search.setQuery(query);

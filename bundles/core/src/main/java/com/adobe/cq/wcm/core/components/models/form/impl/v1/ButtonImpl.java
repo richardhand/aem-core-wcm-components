@@ -77,7 +77,7 @@ public class ButtonImpl extends AbstractFieldImpl implements Button {
 
     @Override
     public String getTitle() {
-        if (this.title == null || this.title.trim().isEmpty()) {
+        if (StringUtils.isBlank(this.title)) {
             this.title = i18n.getVar(StringUtils.capitalize(this.typeString));
         }
         return this.title;

@@ -69,12 +69,21 @@ public class FormStructureHelperImpl implements FormStructureHelper {
     @Override
     public Iterable<Resource> getFormElements(Resource resource) {
         final List<Resource> list = new ArrayList<>();
-        if (resource.isResourceType(FormConstants.RT_CORE_FORM_CONTAINER_V1)) {
+        if (isFormContainer(resource)) {
             for (Resource child : resource.getChildren()) {
                 filterFormElements(child, list);
             }
         }
         return list;
+    }
+
+    private boolean isFormContainer(Resource resource) {
+        for (String resourceType : FormConstants.RT_ALL_CORE_FORM_CONTAINER) {
+            if (resource.isResourceType(resourceType)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void filterFormElements(Resource resource, List<Resource> list) {
@@ -143,7 +152,7 @@ public class FormStructureHelperImpl implements FormStructureHelper {
     public Resource updateFormStructure(Resource formResource) {
         if (formResource != null) {
             ResourceResolver resolver = formResource.getResourceResolver();
-            if (formResource.isResourceType(FormConstants.RT_CORE_FORM_CONTAINER_V1)) {
+            if (isFormContainer(formResource)) {
                 // add default action type, form id and action path
                 ModifiableValueMap formProperties = formResource.adaptTo(ModifiableValueMap.class);
                 if (formProperties != null) {

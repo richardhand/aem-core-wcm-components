@@ -76,18 +76,18 @@ public class BreadcrumbImpl implements Breadcrumb {
     public Collection<NavigationItem> getBreadcrumbItems() {
         if (breadcrumbItems == null) {
             breadcrumbItems = new ArrayList<>();
-            createBreadcrumbItems(breadcrumbItems);
+            createBreadcrumbItems();
         }
         return breadcrumbItems;
     }
 
-    private List<NavigationItem> createBreadcrumbItems(List<NavigationItem> breadcrumbItems) {
+    private List<NavigationItem> createBreadcrumbItems() {
         int currentLevel = currentPage.getDepth();
-        addNavigationItems(breadcrumbItems, currentLevel);
+        addNavigationItems(currentLevel);
         return breadcrumbItems;
     }
 
-    private void addNavigationItems(List<NavigationItem> breadcrumbItems, int currentLevel) {
+    private void addNavigationItems(int currentLevel) {
         while (startLevel < currentLevel) {
             Page page = currentPage.getAbsoluteParent(startLevel);
             if (page != null) {

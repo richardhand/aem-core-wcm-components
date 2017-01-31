@@ -39,7 +39,7 @@ public interface Title {
     String getText();
 
     /**
-     * Returns the HTML element type (h1-h6) which can be used for the markup.
+     * Returns the HTML element type (h1-h6) used for the markup.
      *
      * @return the element type
      */

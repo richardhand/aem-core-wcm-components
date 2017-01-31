@@ -49,7 +49,7 @@ public class TitleImpl implements Title {
 
     @Override
     public String getText() {
-        if (StringUtils.isEmpty(title)) {
+        if (StringUtils.isBlank(title)) {
             title = StringUtils.defaultIfEmpty(currentPage.getPageTitle(), currentPage.getTitle());
         }
         return title;

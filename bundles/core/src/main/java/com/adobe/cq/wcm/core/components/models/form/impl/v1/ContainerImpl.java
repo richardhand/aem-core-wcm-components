@@ -112,7 +112,7 @@ public class ContainerImpl implements Container {
         FormStructureHelper formStructureHelper = formStructureHelperFactory.getFormStructureHelper(resource);
         request.setAttribute(FormsHelper.REQ_ATTR_FORM_STRUCTURE_HELPER, formStructureHelper);
         this.action = currentPage.getPath() + ".html";
-        if (StringUtils.isEmpty(id)) {
+        if (StringUtils.isBlank(id)) {
             id = FormsHelper.getFormId(request);
         }
         this.name = id;

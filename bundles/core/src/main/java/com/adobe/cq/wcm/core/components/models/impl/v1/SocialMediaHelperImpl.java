@@ -272,7 +272,7 @@ public class SocialMediaHelperImpl implements SocialMediaHelper {
         @Override
         public String getTitle() {
             String title = currentPage.getTitle();
-            if (StringUtils.isEmpty(title)) {
+            if (StringUtils.isBlank(title)) {
                 title = currentPage.getName();
             }
             return title;
