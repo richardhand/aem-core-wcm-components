@@ -13,36 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-(function ($) {
+(function () {
     'use strict';
 
-    var $window = $(window),
-        devicePixelRatio = window.devicePixelRatio || 1;
+    var devicePixelRatio = window.devicePixelRatio || 1;
 
-    function SmartImage($noScriptElement, options) {
+    function SmartImage(noScriptElement, options) {
         var that = this,
             showsLazyLoader = false,
             image,
-            $container,
-            $anchor,
-            $dropContainer,
+            container,
+            containerTopOffset,
+            anchor,
+            dropContainer,
             updateMode;
 
         function init() {
-            var $image = $(decodeNoScript($noScriptElement.text().trim()));
-            var source = $image.attr(options.sourceAttribute);
-            $image.removeAttr(options.sourceAttribute);
-            $image.attr('data-src-disabled', source);
-            $noScriptElement.remove();
-            $container.prepend($image);
+            var tmp = document.createElement('div');
+            tmp.innerHTML = decodeNoScript(noScriptElement.textContent.trim());
+            var imageElement = tmp.firstElementChild;
+            var source = imageElement.getAttribute(options.sourceAttribute);
+            imageElement.removeAttribute(options.sourceAttribute);
+            imageElement.setAttribute('data-src-disabled', source);
+            noScriptElement.remove();
+            container.insertBefore(imageElement, container.firstChild);
 
-            if ($container.is(options.imageSelector)) {
-                image = $container;
+            if (container.matches(options.imageSelector)) {
+                image = container;
             } else {
-                image = $container.find(options.imageSelector);
+                image = container.querySelector(options.imageSelector);
             }
 
-            that.$container = $container;
+            that.container = container;
+            containerTopOffset = container.getBoundingClientRect().top + document.body.scrollTop;
             that.options = options;
             that.image = image;
 
@@ -55,10 +58,12 @@
                 if (isLazyVisible()) {
                     initSmart();
                 } else {
-                    image.addClass(options.lazyLoaderClass);
+                    image.classList.add(options.lazyLoaderClass);
                     updateMode = 'lazy';
                     setTimeout(that.update, 200);
-                    $window.bind('scroll.SmartImage resize.SmartImage update.SmartImage', that.update);
+                    window.addEventListener('scroll', that.update);
+                    window.addEventListener('resize', that.update);
+                    window.addEventListener('update', that.update);
                 }
             } else {
                 initSmart();
@@ -72,70 +77,73 @@
                 } else {
                     updateMode = 'smart';
                     that.update();
-                    $window.bind('resize.SmartImage update.SmartImage', that.update);
-                    image.removeAttr('data-src-disabled');
+                    window.addEventListener('resize', that.update);
+                    window.addEventListener('update', that.update);
+                    image.removeAttribute('data-src-disabled');
                 }
-            } else if (options.loadHidden || $container.is(':visible')) {
-                image
-                    .attr(options.sourceAttribute, image.attr('data-src-disabled'))
-                    .removeAttr('data-src-disabled');
+            } else if (options.loadHidden || container.offsetParent !== null) {
+                image.setAttribute(options.sourceAttribute, image.getAttribute('data-src-disabled'));
+                image.removeAttribute('data-src-disabled');
             }
 
             if (showsLazyLoader) {
-                image.bind('load.SmartImage', removeLazyLoader);
-            }
-
-            if ('postInit' in that) {
-                that.postInit();
+                image.addEventListener('load', removeLazyLoader);
             }
         }
 
         function addLazyLoader() {
-            var width = image.attr('width'),
-                height = image.attr('height');
+            var width = image.getAttribute('width'),
+                height = image.getAttribute('height');
 
             if (width && height) {
                 var ratio = (height / width) * 100,
                     styles = options.lazyLoaderStyle;
 
                 styles['padding-bottom'] = ratio + '%';
-                image.css(styles);
+                for (var s in styles) {
+                    if (styles.hasOwnProperty(s)) {
+                        image.style[s] = styles[s];
+                    }
+                }
             }
 
-            image.attr(options.sourceAttribute, options.lazyEmptyPixel);
+            image.setAttribute(options.sourceAttribute, options.lazyEmptyPixel);
             showsLazyLoader = true;
         }
 
         function removeLazyLoader() {
-            image.removeClass(options.lazyLoaderClass);
-            $.each(options.lazyLoaderStyle, function (property) {
-                image.css(property, ''); // removes the loader styles
-            });
-            image.unbind('.SmartImage', removeLazyLoader);
+            image.classList.remove(options.lazyLoaderClass);
+            for (var property in options.lazyLoaderStyle) {
+                if (options.lazyLoaderStyle.hasOwnProperty(property)) {
+                    image.style[property] = '';
+                }
+            }
+            image.removeEventListener('load', removeLazyLoader);
             showsLazyLoader = false;
         }
 
         function isLazyVisible() {
-            if ($container.is(':hidden')) {
+            if (container.offsetParent === null) {
                 return false;
             }
 
-            var wt = $window.scrollTop(),
-                wb = wt + $window.height(),
-                et = $container.offset().top,
-                eb = et + $container.height();
+            var wt = document.body.scrollTop,
+                wb = wt + document.documentElement.clientHeight,
+                eb = containerTopOffset + container.clientHeight;
 
-            return eb >= wt - options.lazyThreshold && et <= wb + options.lazyThreshold;
+            return eb >= wt - options.lazyThreshold && containerTopOffset <= wb + options.lazyThreshold;
         }
 
-        that.update = function (e) {
+        that.update = function () {
             if (updateMode === 'lazy') {
                 if (isLazyVisible()) {
-                    $window.unbind('.SmartImage', that.update);
+                    window.removeEventListener('scroll', that.update);
+                    window.removeEventListener('resize', that.update);
+                    window.removeEventListener('update', that.update);
                     initSmart();
                 }
-            } else if (updateMode === 'smart' && (options.loadHidden || $container.is(':visible'))) {
-                var optimalSize = $container.width() * devicePixelRatio,
+            } else if (updateMode === 'smart' && (options.loadHidden || container.offsetParent !== null)) {
+                var optimalSize = container.width() * devicePixelRatio,
                     len = options.smartSizes.length,
                     key = 0;
 
@@ -143,27 +151,47 @@
                     key++;
                 }
 
-                if (image.attr(options.sourceAttribute) !== options.smartImages[key]) {
-                    image.attr(options.sourceAttribute, options.smartImages[key]);
-
-                    if (e && 'postUpdate' in that) {
-                        that.postUpdate(e);
-                    }
+                if (image.getAttribute(options.sourceAttribute) !== options.smartImages[key]) {
+                    image.setAttribute(options.sourceAttribute, options.smartImages[key]);
                 }
             }
         };
 
-        options = $.extend({}, SmartImage.defaults, options);
+        var extend = function (merged) {
+            merged = merged || {};
 
-        $container = $noScriptElement.closest(options.containerSelector);
-        if($container.length) {
-            $dropContainer = $noScriptElement.closest('.cq-dd-image');
-            if($dropContainer.length) {
-                $container = $dropContainer;
+            for (var i = 1; i < arguments.length; i++) {
+                var obj = arguments[i];
+
+                if (!obj) {
+                    continue;
+                }
+
+                for (var key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        if (typeof obj[key] === 'object') {
+                            merged[key] = extend(merged[key], obj[key]);
+                        } else {
+                            merged[key] = obj[key];
+                        }
+                    }
+                }
             }
-            $anchor = $('a', $container);
-            if($anchor.length) {
-                $container = $anchor;
+            return merged;
+        };
+
+
+        options = extend({}, SmartImage.defaults, options);
+
+        container = noScriptElement.closest(options.containerSelector);
+        if(container) {
+            dropContainer = noScriptElement.closest('.cq-dd-image');
+            if(dropContainer) {
+                container = dropContainer;
+            }
+            anchor = container.querySelector('a');
+            if(anchor !== null) {
+                container = anchor;
             }
             init();
         }
@@ -184,13 +212,12 @@
         }
     };
 
-    var $images = $('[data-cmp-image]');
+    var imageElements = document.querySelectorAll('[data-cmp-image]');
     var images = [];
-    $images.each(function () {
-        var $noScriptElement = $(this),
-            imageOptions = $noScriptElement.data('cmp-image');
-        $noScriptElement.removeAttr('data-cmp-image');
-        images.push(new SmartImage($noScriptElement, imageOptions));
+    imageElements.forEach(function (noScriptElement) {
+        var imageOptions = noScriptElement.dataset.cmpImage;
+        noScriptElement.removeAttribute('data-cmp-image');
+        images.push(new SmartImage(noScriptElement, JSON.parse(imageOptions)));
     });
 
     var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
@@ -204,10 +231,9 @@
                     if(addedNode.querySelectorAll) {
                         var noScriptArray = [].slice.call(addedNode.querySelectorAll('noscript[data-cmp-image]'));
                         noScriptArray.forEach(function (noScriptElement) {
-                            var $noScriptElement = $(noScriptElement),
-                                imageOptions     = $noScriptElement.data('cmp-image');
-                            $noScriptElement.removeAttr('data-cmp-image');
-                            images.push(new SmartImage($noScriptElement, imageOptions));
+                            var imageOptions = JSON.parse(noScriptElement.dataset.cmpImage);
+                            noScriptElement.removeAttribute('data-cmp-image');
+                            images.push(new SmartImage(noScriptElement, imageOptions));
                         });
                     }
                 });
@@ -227,4 +253,4 @@
         text = text.replace(/&amp;gt;/g, '>');
         return text;
     }
-})(jQuery);
+})();
