@@ -17,38 +17,41 @@ package com.adobe.cq.wcm.core.components.models;
 
 import java.util.Map;
 
+import org.osgi.annotation.versioning.ConsumerType;
+
 /**
- * Helper for page functionality related to page sharing by user on social media platforms.
+ * Defines the Sling Model for the {@code /apps/core/wcm/components/sharing} component.
  */
+@ConsumerType
 public interface SocialMediaHelper {
     /**
      * Returns {@code true} if Facebook sharing is enabled in page configuration, {@code false} otherwise.
      */
-    public boolean isFacebookEnabled();
+    boolean isFacebookEnabled();
 
     /**
      * Returns {@code true} if Pinterest sharing is enabled in page configuration, {@code false} otherwise.
      */
-    public boolean isPinterestEnabled();
+    boolean isPinterestEnabled();
     /**
      * Returns {@code true} if a supported social media sharing is enabled in page configuration, {@code false} otherwise.
      */
-    public boolean isSocialMediaEnabled();
+    boolean isSocialMediaEnabled();
 
     /**
      * Returns {@code true} if Facebook sharing is enabled in page configuration
      * and the page contains the sharing component, {@code false} otherwise.
      */
-    public boolean hasFacebookSharing();
+    boolean hasFacebookSharing();
 
     /**
      * Returns {@code true} if Pinterest sharing is enabled in page configuration
      * and the page contains the sharing component, {@code false} otherwise.
      */
-    public boolean hasPinterestSharing();
+    boolean hasPinterestSharing();
 
     /**
      * Returns the social media metadata for the current page.
      */
-    public Map<String, String> getMetadata();
+    Map<String, String> getMetadata();
 }

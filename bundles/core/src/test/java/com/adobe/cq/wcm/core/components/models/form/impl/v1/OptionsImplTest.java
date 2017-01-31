@@ -55,7 +55,7 @@ public class OptionsImplTest {
         slingBindings.put(WCMBindings.PROPERTIES, optionsRes.adaptTo(ValueMap.class));
         slingBindings.put(RESOURCE_PROPERTY, optionsRes);
         Options options = context.request().adaptTo(Options.class);
-        List<OptionItem> optionItems = options.getOptionItems();
+        List<OptionItem> optionItems = options.getItems();
         assertEquals("name1", options.getName());
         assertEquals("jcr:title1", options.getTitle());
         assertEquals("helpMessage1", options.getHelpMessage());

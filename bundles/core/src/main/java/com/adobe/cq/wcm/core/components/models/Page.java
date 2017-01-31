@@ -17,9 +17,12 @@ package com.adobe.cq.wcm.core.components.models;
 
 import java.util.Calendar;
 
+import org.osgi.annotation.versioning.ConsumerType;
+
 /**
  * Defines the {@code Page} Sling Model used for the {@code /apps/core/wcm/components/page} component.
  */
+@ConsumerType
 public interface Page {
 
     /**

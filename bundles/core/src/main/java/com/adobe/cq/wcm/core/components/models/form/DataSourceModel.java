@@ -18,12 +18,14 @@
 package com.adobe.cq.wcm.core.components.models.form;
 
 import org.apache.sling.api.SlingHttpServletRequest;
+import org.osgi.annotation.versioning.ConsumerType;
 
 import com.adobe.granite.ui.components.ds.DataSource;
 
 /**
  * Interface for the Datasource Type Sling Model
  */
+@ConsumerType
 public abstract class DataSourceModel {
 
     /**

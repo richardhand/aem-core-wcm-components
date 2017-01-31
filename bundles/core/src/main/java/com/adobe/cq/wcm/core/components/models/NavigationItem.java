@@ -16,11 +16,14 @@
 
 package com.adobe.cq.wcm.core.components.models;
 
+import org.osgi.annotation.versioning.ConsumerType;
+
 import com.day.cq.wcm.api.Page;
 
 /**
  * Interface for a single item of the {@link Breadcrumb} model
  */
+@ConsumerType
 public interface NavigationItem {
 
     /**
@@ -29,21 +32,21 @@ public interface NavigationItem {
      *
      * @return Navigation title
      */
-    public String getTitle();
+    String getTitle();
 
     /**
      * Returns the link to the related {@link Page}.
      *
      * @return {@code String} representing the Page path
      */
-    public String getLink();
+    String getLink();
 
     /**
      * Gets the active information of the current page
      *
      * @return true if it is the current page, otherwise false
      */
-    public boolean isActive();
+    boolean isActive();
 
     /**
      * @param active {@code true} if the page element should be marked as active element

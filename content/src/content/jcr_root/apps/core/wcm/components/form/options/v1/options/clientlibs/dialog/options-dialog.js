@@ -16,7 +16,6 @@
 (function ($, Granite, ns, $document) {
 
     var OPTION_SELECTED_SELECTOR       = "./selected",
-        MULTIFIELD_ADD_BUTTON_SELECTOR = "[coral-multifield-add]",
         CHECKBOX_SELECTOR              = "coral-checkbox",
         RADIO_SELECTOR                 = "coral-radio",
         OPTION_TYPE_ELEMENT_SELECTOR   = ".cmp-form-options-type",

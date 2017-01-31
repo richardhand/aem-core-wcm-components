@@ -18,10 +18,12 @@ package com.adobe.cq.wcm.core.components.models.form;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.osgi.annotation.versioning.ConsumerType;
 
 /**
  * Defines the form {@code Options} Sling Model used for the {@code /apps/core/wcm/components/form/options} component.
  */
+@ConsumerType
 public interface Options extends Field {
 
     /**
@@ -60,7 +62,7 @@ public interface Options extends Field {
      *
      * @return {@link List} of {@link OptionItem}s
      */
-    List<OptionItem> getOptionItems();
+    List<OptionItem> getItems();
 
     /**
      * @return the type of the options element.

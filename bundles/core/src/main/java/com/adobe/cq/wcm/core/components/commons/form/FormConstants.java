@@ -18,7 +18,11 @@ package com.adobe.cq.wcm.core.components.commons.form;
 /**
  * Some constants for the form components.
  */
-public class FormConstants {
+public final class FormConstants {
+
+    private FormConstants() {
+
+    }
 
     /** The prefix for all core form related resource types.*/
     public final static String RT_CORE_FORM_PREFIX = "core/wcm/components/form/";

@@ -10,7 +10,7 @@
         "type"              : "checkbox",
         "jcr:lastModified"  : "Wed Nov 09 2016 14:50:06 GMT+0100",
         "sling:resourceType": "core/wcm/components/form/options",
-        "optionitems"       : {
+        "items"       : {
             "jcr:primaryType": "nt:unstructured",
             "item0"          : {
                 "jcr:primaryType": "nt:unstructured",
@@ -43,7 +43,7 @@
         "type" : "drop-down",
         "jcr:lastModified": "Wed Nov 09 2016 14:50:06 GMT+0100",
         "sling:resourceType": "core/wcm/components/form/options",
-        "optionitems": {
+        "items": {
             "jcr:primaryType": "nt:unstructured",
             "item0": {
                 "jcr:primaryType": "nt:unstructured",
@@ -76,7 +76,7 @@
         "type" : "radio",
         "jcr:lastModified": "Wed Nov 09 2016 14:50:06 GMT+0100",
         "sling:resourceType": "core/wcm/components/form/options",
-        "optionitems": {
+        "items": {
             "jcr:primaryType": "nt:unstructured",
             "item0": {
                 "jcr:primaryType": "nt:unstructured",
@@ -109,7 +109,7 @@
         "type" : "multi-drop-down",
         "jcr:lastModified": "Wed Nov 09 2016 14:50:06 GMT+0100",
         "sling:resourceType": "core/wcm/components/form/options",
-        "optionitems": {
+        "items": {
             "jcr:primaryType": "nt:unstructured",
             "item0": {
                 "jcr:primaryType": "nt:unstructured",

@@ -15,10 +15,13 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.models.form;
 
+import org.osgi.annotation.versioning.ConsumerType;
+
 /**
  * A base interface to be extended by all the different types of form fields.
  * It contains commons attributes to be present in  all the form fields.
  */
+@ConsumerType
 public interface Field {
 
     /**
