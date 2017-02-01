@@ -167,11 +167,6 @@ public class FormStructureHelperImpl implements FormStructureHelper {
                             formProperties.put(FormsConstants.START_PROPERTY_ACTION_PATH,
                                     defaultContentPath);
                         }
-                        if (formProperties.get(FormsConstants.START_PROPERTY_FORMID,
-                                String.class) == null) {
-                            formProperties.put(FormsConstants.START_PROPERTY_FORMID,
-                                    formResource.getPath().replaceAll("[/:.]", "_"));
-                        }
                         resolver.commit();
                     } catch (PersistenceException e) {
                         LOGGER.error("Unable to add default action type and form id " + formResource, e);
