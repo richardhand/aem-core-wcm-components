@@ -22,6 +22,6 @@
     <input data-sly-test="${container.redirect}" type="hidden" name=":redirect" value="${container.redirect}"/>
     <sly data-sly-repeat.paragraph="${grid.paragraphs}"
          data-sly-resource="${paragraph.path @ resourceType=paragraph.resourceType, decorationTagName='div', cssClassName=paragraph.cssClass}"></sly>
-    <sly data-sly-resource="${resource.path @ resourceType=container.resourceTypeForDropArea, appendPath='/*', cssClassName='new section aem-Grid-newComponent'}"
+    <sly data-sly-resource="${resource.path @ resourceType=container.resourceTypeForDropArea, appendPath='/*', decorationTagName='div', cssClassName='new section aem-Grid-newComponent'}"
          data-sly-test="${wcmmode.edit}"></sly>
 </form>
