@@ -23,7 +23,6 @@
             showsLazyLoader = false,
             image,
             container,
-            containerTopOffset,
             anchor,
             dropContainer,
             updateMode;
@@ -45,11 +44,12 @@
             }
 
             that.container = container;
-            containerTopOffset = container.getBoundingClientRect().top + document.body.scrollTop;
             that.options = options;
             that.image = image;
-
             initLazy();
+            window.addEventListener('scroll', that.update);
+            window.addEventListener('resize', that.update);
+            window.addEventListener('update', that.update);
         }
 
         function initLazy() {
@@ -61,9 +61,6 @@
                     image.classList.add(options.lazyLoaderClass);
                     updateMode = 'lazy';
                     setTimeout(that.update, 200);
-                    window.addEventListener('scroll', that.update);
-                    window.addEventListener('resize', that.update);
-                    window.addEventListener('update', that.update);
                 }
             } else {
                 initSmart();
@@ -77,8 +74,6 @@
                 } else {
                     updateMode = 'smart';
                     that.update();
-                    window.addEventListener('resize', that.update);
-                    window.addEventListener('update', that.update);
                     image.removeAttribute('data-src-disabled');
                 }
             } else if (options.loadHidden || container.offsetParent !== null) {
@@ -129,21 +124,20 @@
 
             var wt = document.body.scrollTop,
                 wb = wt + document.documentElement.clientHeight,
-                eb = containerTopOffset + container.clientHeight;
+                et = container.getBoundingClientRect().top,
+                eb = et + container.clientHeight;
 
-            return eb >= wt - options.lazyThreshold && containerTopOffset <= wb + options.lazyThreshold;
+            return eb >= wt - options.lazyThreshold && et <= wb + options.lazyThreshold;
         }
 
         that.update = function () {
             if (updateMode === 'lazy') {
                 if (isLazyVisible()) {
                     window.removeEventListener('scroll', that.update);
-                    window.removeEventListener('resize', that.update);
-                    window.removeEventListener('update', that.update);
                     initSmart();
                 }
             } else if (updateMode === 'smart' && (options.loadHidden || container.offsetParent !== null)) {
-                var optimalSize = container.width() * devicePixelRatio,
+                var optimalSize = container.clientWidth * devicePixelRatio,
                     len = options.smartSizes.length,
                     key = 0;
 
@@ -157,31 +151,7 @@
             }
         };
 
-        var extend = function (merged) {
-            merged = merged || {};
-
-            for (var i = 1; i < arguments.length; i++) {
-                var obj = arguments[i];
-
-                if (!obj) {
-                    continue;
-                }
-
-                for (var key in obj) {
-                    if (obj.hasOwnProperty(key)) {
-                        if (typeof obj[key] === 'object') {
-                            merged[key] = extend(merged[key], obj[key]);
-                        } else {
-                            merged[key] = obj[key];
-                        }
-                    }
-                }
-            }
-            return merged;
-        };
-
-
-        options = extend({}, SmartImage.defaults, options);
+        options = Object.assign(SmartImage.defaults, options);
 
         container = noScriptElement.closest(options.containerSelector);
         if(container) {
@@ -214,12 +184,12 @@
 
     var imageElements = document.querySelectorAll('[data-cmp-image]');
     var images = [];
-    imageElements.forEach(function (noScriptElement) {
+    for (var index = 0; index < imageElements.length; index++) {
+        var noScriptElement = imageElements[index];
         var imageOptions = noScriptElement.dataset.cmpImage;
         noScriptElement.removeAttribute('data-cmp-image');
         images.push(new SmartImage(noScriptElement, JSON.parse(imageOptions)));
-    });
-
+    }
     var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
     var body = document.querySelector('body');
     var observer = new MutationObserver(function (mutations) {
