@@ -47,6 +47,11 @@ public class TitleImpl implements Title {
     @ValueMapValue(optional = true)
     private String type;
 
+    /**
+     * The {@link Heading} object for the type of this title.
+     */
+    private Heading heading;
+
     @Override
     public String getText() {
         if (StringUtils.isBlank(title)) {
@@ -57,9 +62,11 @@ public class TitleImpl implements Title {
 
     @Override
     public String getType() {
-        Heading heading = Heading.getHeading(type);
         if (heading == null) {
-            heading = Heading.getHeading(currentStyle.get(PN_DESIGN_DEFAULT_TYPE, String.class));
+            heading = Heading.getHeading(type);
+            if (heading == null) {
+                heading = Heading.getHeading(currentStyle.get(PN_DESIGN_DEFAULT_TYPE, String.class));
+            }
         }
         if (heading != null) {
             return heading.getElement();
