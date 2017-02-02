@@ -16,6 +16,8 @@
 
 package com.adobe.cq.wcm.core.components.models.impl.v1;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.models.annotations.Exporter;
@@ -52,22 +54,27 @@ public class TitleImpl implements Title {
      */
     private Heading heading;
 
-    @Override
-    public String getText() {
+    @PostConstruct
+    private void initModel() {
         if (StringUtils.isBlank(title)) {
             title = StringUtils.defaultIfEmpty(currentPage.getPageTitle(), currentPage.getTitle());
         }
-        return title;
-    }
 
-    @Override
-    public String getType() {
         if (heading == null) {
             heading = Heading.getHeading(type);
             if (heading == null) {
                 heading = Heading.getHeading(currentStyle.get(PN_DESIGN_DEFAULT_TYPE, String.class));
             }
         }
+    }
+
+    @Override
+    public String getText() {
+        return title;
+    }
+
+    @Override
+    public String getType() {
         if (heading != null) {
             return heading.getElement();
         }
