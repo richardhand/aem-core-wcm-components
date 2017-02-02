@@ -217,10 +217,13 @@
         characterData: true
     });
 
-    // after drag'n drop of images to a parsys the img tag inside of the noScript tag is encoded.
+    /*
+         on drag & drop of the component into a parsys, noscript's content will be escaped multiple times by the editor which creates
+         the DOM for editing; the HTML parser cannot be used here due to the multiple escaping
+     */
     function decodeNoScript(text){
-        text = text.replace(/&amp;lt;/g, '<');
-        text = text.replace(/&amp;gt;/g, '>');
+        text = text.replace(/&(amp;)*lt;/g, '<');
+        text = text.replace(/&(amp;)*gt;/g, '>');
         return text;
     }
 })();
