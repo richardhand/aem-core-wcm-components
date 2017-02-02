@@ -15,6 +15,8 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.testing;
 
+import java.util.Calendar;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.adapter.SlingAdaptable;
 import org.apache.sling.api.resource.Resource;
@@ -34,6 +36,16 @@ public class MockContentPolicyMapping extends SlingAdaptable implements ContentP
 
     @Override
     public String getPath() {
+        return null;
+    }
+
+    @Override
+    public Calendar getLastModified() {
+        return null;
+    }
+
+    @Override
+    public String getName() {
         return null;
     }
 

@@ -15,22 +15,26 @@
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>com.adobe.cq.wcm.core.components.parent</artifactId>
-        <groupId>com.adobe.cq</groupId>
-        <version>0.9.46</version>
-        <relativePath>../../../parent/pom.xml</relativePath>
-    </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>com.adobe.cq.wcm.core.junit.core</artifactId>
+    <!-- ====================================================================== -->
+    <!-- P A R E N T  P R O J E C T  D E S C R I P T I O N                      -->
+    <!-- ====================================================================== -->
+    <parent>
+        <groupId>com.adobe.cq</groupId>
+        <artifactId>core.wcm.components.parent</artifactId>
+        <version>0.9.50</version>
+        <relativePath>../../../parent/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>core.wcm.components.junit.core</artifactId>
     <version>0.9.11-SNAPSHOT</version>
     <name>Adobe Experience Manager Core WCM Components JUnit Testing</name>
 
     <scm>
         <connection>scm:git:https://git.corp.adobe.com/CQ/aem-core-wcm-components.git</connection>
         <developerConnection>scm:git:git@git.corp.adobe.com:CQ/aem-core-wcm-components.git</developerConnection>
-        <url>https://git.corp.adobe.com/CQ/aem-core-wcm-components/tree/master/commons-testing</url>
+        <url>https://git.corp.adobe.com/CQ/aem-core-wcm-components/tree/master/testing/junit/core</url>
         <tag>HEAD</tag>
     </scm>
 

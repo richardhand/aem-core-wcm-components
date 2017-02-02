@@ -15,6 +15,8 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.testing;
 
+import java.util.Calendar;
+
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceWrapper;
 import org.apache.sling.api.resource.ValueMap;
@@ -28,8 +30,8 @@ public class MockContentPolicy extends ResourceWrapper implements ContentPolicy 
     }
 
     @Override
-    public long getLastModified() {
-        return 0;
+    public Calendar getLastModified() {
+        return null;
     }
 
     @Override
