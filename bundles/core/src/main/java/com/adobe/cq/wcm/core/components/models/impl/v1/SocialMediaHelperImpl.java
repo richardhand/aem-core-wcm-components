@@ -28,6 +28,7 @@ import com.day.cq.commons.Externalizer;
 import com.day.cq.commons.ImageResource;
 import com.day.cq.commons.jcr.JcrConstants;
 import com.day.cq.wcm.api.Page;
+
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -56,12 +57,16 @@ import java.util.Map;
         adapters = SocialMediaHelper.class,
         resourceType = SocialMediaHelperImpl.RESOURCE_TYPE)
 public class SocialMediaHelperImpl implements SocialMediaHelper {
+
     static final String RESOURCE_TYPE = "core/wcm/components/sharing/v1/sharing";
+
     private static final Logger LOGGER = LoggerFactory.getLogger(SocialMediaHelperImpl.class);
+
     private static final String PN_SOCIAL_MEDIA = "socialMedia";
     private static final String PN_VARIANT_PATH = "variantPath";
     private static final String PV_FACEBOOK = "facebook";
     private static final String PV_PINTEREST = "pinterest";
+
     //Open Graph metadata property names
     private static final String OG_TITLE = "og:title";
     private static final String OG_URL = "og:url";
@@ -87,58 +92,48 @@ public class SocialMediaHelperImpl implements SocialMediaHelper {
     @OSGiService
     private Externalizer externalizer = null;
 
-    //lazy variable, use hasSharingComponent() method for accessing it
+    /**
+     * lazy variable, use hasSharingComponent() method for accessing it
+     */
     private Boolean hasSharingComponent;
     private boolean facebookEnabled;
     private boolean pinterestEnabled;
     private boolean socialMediaEnabled;
     private String variantPath;
+
     /**
      * Holds the metadata for a page.
      */
     private Map<String, String> metadata;
 
     //*************** WEB INTERFACE METHODS *******************
-    /**
-     * Returns {@code true} if Facebook sharing is enabled in page configuration, {@code false} otherwise.
-     */
+
+    @Override
     public boolean isFacebookEnabled() {
         return facebookEnabled;
     }
 
-    /**
-     * Returns {@code true} if Pinterest sharing is enabled in page configuration, {@code false} otherwise.
-     */
+    @Override
     public boolean isPinterestEnabled() {
         return pinterestEnabled;
     }
 
-    /**
-     * Returns true if a supported social media sharing is enabled in page configuration, false otherwise.
-     */
+    @Override
     public boolean isSocialMediaEnabled() {
         return socialMediaEnabled;
     }
 
-    /**
-     * Returns {@code true} if Facebook sharing is enabled in page configuration
-     * and the page contains the sharing component, {@code false} otherwise.
-     */
+    @Override
     public boolean hasFacebookSharing() {
         return facebookEnabled && hasSharingComponent();
     }
 
-    /**
-     * Returns {@code true} if Pinterest sharing is enabled in page configuration
-     * and the page contains the sharing component, {@code false} otherwise.
-     */
+    @Override
     public boolean hasPinterestSharing() {
         return pinterestEnabled && hasSharingComponent();
     }
 
-    /**
-     * Returns the metadata.
-     */
+    @Override
     public Map<String, String> getMetadata() {
         if (metadata == null) {
             initMetadata();
@@ -169,7 +164,6 @@ public class SocialMediaHelperImpl implements SocialMediaHelper {
      * Search a resource tree for sharing component starting from a given resource.
      *
      * @param resource the resource
-     *
      * @return {@code true} if the sharing vomponent was found, {@code false} otherwise
      */
     private boolean hasSharingComponent(final Resource resource) {
@@ -249,12 +243,19 @@ public class SocialMediaHelperImpl implements SocialMediaHelper {
      */
     private interface WebsiteMetadata {
         enum Type {website, product}
+
         String getTitle();
+
         String getURL();
+
         Type getType();
+
         String getTypeName();
+
         String getImage();
+
         String getDescription();
+
         String getSiteName();
     }
 
@@ -263,6 +264,7 @@ public class SocialMediaHelperImpl implements SocialMediaHelper {
      */
     private interface ProductMetadata extends WebsiteMetadata {
         String getProductPriceAmount();
+
         String getProductPriceCurrency();
     }
 
@@ -312,9 +314,9 @@ public class SocialMediaHelperImpl implements SocialMediaHelper {
                 Calendar pageLastModified = page.getLastModified();
                 if (pageLastModified != null && pageLastModified.after(imageLastModified)) {
                     ck += pageLastModified.getTimeInMillis() / 1000;
-                } else if (imageLastModified != null){
+                } else if (imageLastModified != null) {
                     ck += imageLastModified.getTimeInMillis() / 1000;
-                } else if (pageLastModified != null){
+                } else if (pageLastModified != null) {
                     ck += pageLastModified.getTimeInMillis() / 1000;
                 }
             }
