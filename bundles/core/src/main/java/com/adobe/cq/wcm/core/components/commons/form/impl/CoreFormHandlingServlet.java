@@ -57,6 +57,7 @@ import com.day.cq.wcm.foundation.security.SaferSlingPostValidator;
                 "sling.servlet.resourceTypes=" + FormConstants.RT_CORE_FORM_CONTAINER_V1,
                 "sling.servlet.methods=POST",
                 "sling.servlet.selectors=" + CoreFormHandlingServlet.SELECTOR,
+                "sling.servlet.extensions=" + CoreFormHandlingServlet.EXTENSION,
                 "sling.filter.scope=request",
                 "service.ranking:Integer=610",
         }
@@ -66,7 +67,7 @@ import com.day.cq.wcm.foundation.security.SaferSlingPostValidator;
 )
 public class CoreFormHandlingServlet
         extends SlingAllMethodsServlet
-        implements OptingServlet, Filter {
+        implements Filter {
 
     @ObjectClassDefinition(
             name = "Core Form Handling Servlet",
@@ -85,10 +86,9 @@ public class CoreFormHandlingServlet
         ) boolean allow_expressions() default true;
     }
 
-    private static final String EXTENSION = "html";
-    private static final Boolean PROP_ALLOW_EXPRESSION_DEFAULT = true;
     static final String SELECTOR = "form";
-
+    static final String EXTENSION = "html";
+    private static final Boolean PROP_ALLOW_EXPRESSION_DEFAULT = true;
 
     private Set<String> formResourceTypes = new HashSet<String>(Arrays.asList(FormConstants.RT_ALL_CORE_FORM_CONTAINER));
 
@@ -111,13 +111,6 @@ public class CoreFormHandlingServlet
         allowExpressions = PropertiesUtil.toBoolean(configuration.allow_expressions(), PROP_ALLOW_EXPRESSION_DEFAULT);
         formsHandlingServletHelper = new FormsHandlingServletHelper(dataNameWhitelist, validator, formResourceTypes,
                 allowExpressions, formStructureHelperFactory);
-    }
-
-    /**
-     * @see org.apache.sling.api.servlets.OptingServlet#accepts(org.apache.sling.api.SlingHttpServletRequest)
-     */
-    public boolean accepts(final SlingHttpServletRequest request) {
-        return EXTENSION.equals(request.getRequestPathInfo().getExtension());
     }
 
     /**
