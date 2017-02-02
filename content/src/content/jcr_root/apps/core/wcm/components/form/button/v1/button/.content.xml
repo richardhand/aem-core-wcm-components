@@ -3,5 +3,5 @@
     cq:icon="button"
     jcr:description="Allows visitors to interact with the form"
     jcr:primaryType="cq:Component"
-    jcr:title="Button (v1)"
+    jcr:title="Form Button (v1)"
     componentGroup=".core-wcm-form"/>
