@@ -34,7 +34,6 @@ import org.slf4j.LoggerFactory;
 
 import com.adobe.cq.wcm.core.components.commons.form.FormConstants;
 import com.adobe.cq.wcm.core.components.models.form.Button;
-import com.adobe.cq.wcm.core.components.models.form.impl.v1.ButtonImpl;
 import com.day.cq.wcm.foundation.forms.FormStructureHelper;
 import com.day.cq.wcm.foundation.forms.FormsConstants;
 
@@ -102,8 +101,8 @@ public class FormStructureHelperImpl implements FormStructureHelper {
                 resourceSuperType != null && resourceSuperType.startsWith(FormConstants.RT_CORE_FORM_BUTTON)) {
             Button button = resource.adaptTo(Button.class);
             if (button != null) {
-                ButtonImpl.Type type = button.getType();
-                if (type != null && type == ButtonImpl.Type.SUBMIT) {
+                Button.Type type = button.getType();
+                if (type != null && type == Button.Type.SUBMIT) {
                     return false;
                 }
             }

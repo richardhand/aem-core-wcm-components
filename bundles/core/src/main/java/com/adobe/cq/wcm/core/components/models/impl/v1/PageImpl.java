@@ -41,6 +41,7 @@ import com.day.cq.wcm.api.Template;
 import com.day.cq.wcm.api.designer.Design;
 import com.day.cq.wcm.api.policies.ContentPolicy;
 import com.day.cq.wcm.api.policies.ContentPolicyMapping;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Model(adaptables = SlingHttpServletRequest.class,
        adapters = Page.class,
@@ -58,9 +59,11 @@ public class PageImpl implements Page {
     private ValueMap pageProperties;
 
     @ScriptVariable(injectionStrategy = InjectionStrategy.OPTIONAL)
+    @JsonIgnore
     private Design currentDesign;
 
     @ScriptVariable
+    @JsonIgnore
     private ResourceResolver resolver;
 
     private String[] keywords = new String[0];

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2016 Adobe Systems Incorporated
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,34 +24,36 @@ import org.osgi.annotation.versioning.ConsumerType;
  */
 @ConsumerType
 public interface SocialMediaHelper {
+
     /**
-     * Returns {@code true} if Facebook sharing is enabled in page configuration, {@code false} otherwise.
+     * @return {@code true} if Facebook sharing is enabled in page configuration, {@code false} otherwise.
      */
     boolean isFacebookEnabled();
 
     /**
-     * Returns {@code true} if Pinterest sharing is enabled in page configuration, {@code false} otherwise.
+     * @return {@code true} if Pinterest sharing is enabled in page configuration, {@code false} otherwise.
      */
     boolean isPinterestEnabled();
+
     /**
-     * Returns {@code true} if a supported social media sharing is enabled in page configuration, {@code false} otherwise.
+     * @return {@code true} if a supported social media sharing is enabled in page configuration, {@code false} otherwise.
      */
     boolean isSocialMediaEnabled();
 
     /**
-     * Returns {@code true} if Facebook sharing is enabled in page configuration
+     * @return {@code true} if Facebook sharing is enabled in page configuration
      * and the page contains the sharing component, {@code false} otherwise.
      */
     boolean hasFacebookSharing();
 
     /**
-     * Returns {@code true} if Pinterest sharing is enabled in page configuration
+     * @return {@code true} if Pinterest sharing is enabled in page configuration
      * and the page contains the sharing component, {@code false} otherwise.
      */
     boolean hasPinterestSharing();
 
     /**
-     * Returns the social media metadata for the current page.
+     * @return the social media metadata for the current page.
      */
     Map<String, String> getMetadata();
 }
