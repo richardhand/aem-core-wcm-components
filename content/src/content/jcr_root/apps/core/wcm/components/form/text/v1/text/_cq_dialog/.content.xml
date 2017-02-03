@@ -87,7 +87,7 @@
                                     <value
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                        fieldDescription="The value of the field, which is submitted with the form data"
+                                        fieldDescription="Default value of the field"
                                         fieldLabel="Value"
                                         name="./value"/>
                                 </items>
