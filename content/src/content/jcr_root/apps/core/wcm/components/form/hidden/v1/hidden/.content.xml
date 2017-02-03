@@ -3,5 +3,5 @@
     cq:icon="viewOff"
     jcr:description="Allows form owner to add hidden data to the form"
     jcr:primaryType="cq:Component"
-    jcr:title="Hidden Field (v1)"
+    jcr:title="Form Hidden (v1)"
     componentGroup=".core-wcm-form"/>
