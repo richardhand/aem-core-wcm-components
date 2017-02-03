@@ -3,5 +3,5 @@
     cq:icon="select"
     jcr:description="Allows visitors to select available options"
     jcr:primaryType="cq:Component"
-    jcr:title="Option (v1)"
+    jcr:title="Form Options (v1)"
     componentGroup=".core-wcm-form"/>
