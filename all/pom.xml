@@ -144,14 +144,14 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>core.wcm.components.core</artifactId>
-            <version>0.9.130</version>
+            <version>0.9.132</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>core.wcm.components.content</artifactId>
             <type>zip</type>
-            <version>0.9.192</version>
+            <version>0.9.198</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
