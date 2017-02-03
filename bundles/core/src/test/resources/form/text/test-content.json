@@ -69,7 +69,6 @@
             "constraintMessage": "The value should be a valid email address",
             "showHideExpression": "((givenName.equals(\"\"Referees\"\")))",
             "readOnly": true,
-            "defaultValue": "Custom default value",
             "helpMessage": "Custom help/placeholder message",
             "required": true,
             "name": "Custom Name",

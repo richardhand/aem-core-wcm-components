@@ -84,12 +84,12 @@
                                         fieldLabel="Element Name"
                                         name="./name"
                                         required="{Boolean}true"/>
-                                    <defaultValue
+                                    <value
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                        fieldDescription="Default value of the field"
-                                        fieldLabel="Default Value"
-                                        name="./defaultValue"/>
+                                        fieldDescription="The value of the field, which is submitted with the form data"
+                                        fieldLabel="Value"
+                                        name="./value"/>
                                 </items>
                             </column>
                         </items>

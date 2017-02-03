@@ -161,9 +161,9 @@
         });
 
     /**
-     * Test: Set element name
+     * Test: Set element value
      */
-    var setDefaultValue = new h.TestCase("Set Default Value",{
+    var setValue = new h.TestCase("Set Value",{
         execBefore: tcExecuteBeforeTest,
         execAfter: tcExecuteAfterTest})
 
@@ -172,7 +172,7 @@
         // set mandatory fields
         .execTestCase(setMandatoryFields)
         // set a default value
-        .fillInput("[name='./defaultValue']",defaultValue)
+        .fillInput("[name='./value']",defaultValue)
         // close the edit dialog
         .execTestCase(c.tcSaveConfigureDialog)
 
@@ -546,7 +546,7 @@
         .addTestCase(checkLabelMandatory)
         .addTestCase(setLabel)
         .addTestCase(setElementName)
-        .addTestCase(setDefaultValue)
+        .addTestCase(setValue)
         .addTestCase(checkAvailableConstraints)
         .addTestCase(createTextInput)
         .addTestCase(createTextarea)

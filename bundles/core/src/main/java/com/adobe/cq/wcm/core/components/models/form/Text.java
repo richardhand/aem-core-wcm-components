@@ -54,11 +54,6 @@ public interface Text extends Field {
     boolean isReadOnly();
 
     /**
-     * @return the default value of the field
-     */
-    String getDefaultValue();
-
-    /**
      * @return the message to be displayed when the constraint specified by {@link #getType()}
      * is not fulfilled
      */

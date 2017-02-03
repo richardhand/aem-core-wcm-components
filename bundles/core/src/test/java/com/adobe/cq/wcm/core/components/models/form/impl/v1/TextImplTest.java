@@ -74,7 +74,6 @@ public class TextImplTest {
         assertEquals(false, text.isRequired());
         assertEquals("", text.getRequiredMessage());
         assertEquals(false, text.isReadOnly());
-        assertEquals("", text.getDefaultValue());
         assertEquals("text", text.getType());
         assertEquals("", text.getConstraintMessage());
         assertEquals("", text.getValue());
@@ -93,7 +92,6 @@ public class TextImplTest {
         assertEquals(true, text.isRequired());
         assertEquals("please fill the field", text.getRequiredMessage());
         assertEquals(true, text.isReadOnly());
-        assertEquals("Custom default value", text.getDefaultValue());
         assertEquals("email", text.getType());
         assertEquals("The value should be a valid email address", text.getConstraintMessage());
         assertEquals("Prefilled Sample Input", text.getValue());

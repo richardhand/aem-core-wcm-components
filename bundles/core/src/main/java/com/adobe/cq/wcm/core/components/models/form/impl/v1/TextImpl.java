@@ -46,7 +46,6 @@ public class TextImpl extends AbstractFieldImpl implements Text {
     private static final String PROP_VALUE_DEFAULT = "";
     private static final String PROP_TITLE_DEFAULT = "Text input field";
     private static final boolean PROP_READONLY_DEFAULT = false;
-    private static final String PROP_DEFAULT_VALUE_DEFAULT = "";
     private static final boolean PROP_REQUIRED_DEFAULT = false;
     private static final String PROP_REQUIRED_MESSAGE_DEFAULT = "";
     private static final String PROP_CONSTRAINT_MESSAGE_DEFAULT = "";
@@ -84,10 +83,6 @@ public class TextImpl extends AbstractFieldImpl implements Text {
     @ValueMapValue
     @Default(booleanValues = PROP_READONLY_DEFAULT)
     private boolean readOnly;
-
-    @ValueMapValue
-    @Default(values = PROP_DEFAULT_VALUE_DEFAULT)
-    private String defaultValue;
 
     @ValueMapValue
     @Default(booleanValues = PROP_REQUIRED_DEFAULT)
@@ -142,7 +137,7 @@ public class TextImpl extends AbstractFieldImpl implements Text {
 
     @Override
     public String getDefaultValue() {
-        return defaultValue;
+        return PROP_VALUE_DEFAULT;
     }
 
     @Override
