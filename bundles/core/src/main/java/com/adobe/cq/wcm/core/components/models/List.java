@@ -20,7 +20,8 @@ import java.util.Collection;
 import org.osgi.annotation.versioning.ConsumerType;
 
 /**
- * Defines the {@code List} Sling Model used for the {@code /apps/core/wcm/components/list} component.
+ * Defines the {@code List} Sling Model used for the {@code /apps/core/wcm/components/list} component. This component
+ * currently only supports page lists.
  */
 @ConsumerType
 public interface List {
@@ -36,7 +37,7 @@ public interface List {
     boolean linkItem();
 
     /**
-     * @return {@code true} if description should be shown otherwise {@code false}
+     * @return {@code true} if page description should be shown otherwise {@code false}
      */
     boolean showDescription();
 

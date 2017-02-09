@@ -15,11 +15,21 @@
  ******************************************************************************/
 package com.adobe.cq.wcm.core.components.models;
 
+/**
+ * Class defining commonly used constants.
+ */
 public final class Constants {
 
     private Constants() {}
 
+    /**
+     * Name of exporter used for exporting components properties.
+     */
     public static final String EXPORTER_NAME = "jackson";
+
+    /**
+     * Extension to register {@link org.apache.sling.models.annotations.Exporter} named {@link #EXPORTER_NAME}
+     */
     public static final String EXPORTER_EXTENSION = "json";
 
 }

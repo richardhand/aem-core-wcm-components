@@ -101,7 +101,7 @@ public class PageImpl implements Page {
         keywords = new String[tags.length];
         int index = 0;
         for (Tag tag : tags) {
-            keywords[index++] = tag.getTitle();
+            keywords[index++] = tag.getTitle(currentPage.getLanguage(false));
         }
         if (currentDesign != null) {
             String designPath = currentDesign.getPath();

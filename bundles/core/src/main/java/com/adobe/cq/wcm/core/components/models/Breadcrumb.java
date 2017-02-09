@@ -26,7 +26,7 @@ import org.osgi.annotation.versioning.ConsumerType;
 public interface Breadcrumb {
 
     /**
-     * Creates collection of pages for the breadcrumb component
+     * Creates collection of pages(from site hierarchy of current page) for the breadcrumb component
      *
      * @return {@link Collection} of breadcrumb items
      */

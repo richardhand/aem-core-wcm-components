@@ -58,8 +58,6 @@ public class ContainerImpl implements Container {
     protected static final String RESOURCE_TYPE = FormConstants.RT_CORE_FORM_CONTAINER_V1;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ContainerImpl.class);
-    private static final String PN_RESOURCE_TYPE = JcrResourceConstants.SLING_RESOURCE_TYPE_PROPERTY;
-    private static final String PN_REDIRECT_URL = "redirect";
     private static final String PROP_METHOD_DEFAULT = "POST";
     private static final String PROP_ENCTYPE_DEFAULT = "multipart/form-data";
     private static final String INIT_SCRIPT = "init";
@@ -88,13 +86,12 @@ public class ContainerImpl implements Container {
     @ValueMapValue(optional = true)
     private String actionType;
 
-    @ValueMapValue(name = PN_RESOURCE_TYPE)
+    @ValueMapValue(name = JcrResourceConstants.SLING_RESOURCE_TYPE_PROPERTY)
     @Default(values = "")
     private String dropAreaResourceType;
 
-    @ValueMapValue(name = PN_REDIRECT_URL,
-            optional = true)
-    private String redirectURL;
+    @ValueMapValue(optional = true)
+    private String redirect;
 
     private String name;
     private String action;
@@ -117,12 +114,11 @@ public class ContainerImpl implements Container {
         }
         this.name = id;
         this.dropAreaResourceType += "/new";
-        if (redirectURL != null) {
+        if (redirect != null) {
             String contextPath = request.getContextPath();
-            if (StringUtils.isNotBlank(contextPath) && redirectURL.startsWith("/")) {
-                redirectURL = contextPath + redirectURL;
+            if (StringUtils.isNotBlank(contextPath) && redirect.startsWith("/")) {
+                redirect = contextPath + redirect;
             }
-            redirectURL = !redirectURL.endsWith(".html") ? (redirectURL + ".html") : redirectURL;
         }
         runActionTypeInit(formStructureHelper);
     }
@@ -177,6 +173,6 @@ public class ContainerImpl implements Container {
 
     @Override
     public String getRedirect() {
-        return redirectURL;
+        return redirect;
     }
 }
