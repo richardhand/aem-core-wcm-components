@@ -28,7 +28,7 @@
                         <wideLandscape
                             jcr:primaryType="nt:unstructured"
                             name="Wide Landscape"
-                            ratio=".41421"/>
+                            ratio="0.4142"/>
                         <landscape
                             jcr:primaryType="nt:unstructured"
                             name="Landscape"
