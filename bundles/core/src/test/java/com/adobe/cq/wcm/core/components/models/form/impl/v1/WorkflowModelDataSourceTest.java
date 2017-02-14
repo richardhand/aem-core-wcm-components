@@ -29,7 +29,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
-import com.adobe.cq.wcm.core.components.models.form.DataSourceModel;
 import com.adobe.granite.ui.components.ds.DataSource;
 import com.adobe.granite.workflow.WorkflowSession;
 import com.adobe.granite.workflow.model.WorkflowModel;
@@ -53,7 +52,7 @@ public class WorkflowModelDataSourceTest {
     @Mock
     private WorkflowModel workflowModelMock;
 
-    private DataSourceModel underTest;
+    private WorkflowModelDataSource underTest;
 
     @Before
     public void setUp() throws Exception {
@@ -76,7 +75,7 @@ public class WorkflowModelDataSourceTest {
     @Test
     public void testDataSource() throws Exception {
         context.currentResource("/apps/workflowdatasource");
-        underTest = context.request().adaptTo(DataSourceModel.class);
+        underTest = context.request().adaptTo(WorkflowModelDataSource.class);
         DataSource dataSource = (DataSource) context.request().getAttribute(DataSource.class.getName());
         assertNotNull(dataSource);
         Resource resource = dataSource.iterator().next();

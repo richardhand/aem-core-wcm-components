@@ -25,7 +25,6 @@ import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
 import org.osgi.service.component.annotations.Component;
 
-import com.adobe.cq.wcm.core.components.models.form.DataSourceModel;
 import com.adobe.cq.wcm.core.components.models.form.impl.v1.FormActionTypeDataSource;
 import com.adobe.cq.wcm.core.components.models.form.impl.v1.FormActionTypeSettingsDataSource;
 import com.adobe.cq.wcm.core.components.models.form.impl.v1.WorkflowModelDataSource;
@@ -47,6 +46,13 @@ public class FormContainerDataSourceServlet extends SlingSafeMethodsServlet {
     @Override
     protected void doGet(@Nonnull SlingHttpServletRequest request, @Nonnull SlingHttpServletResponse response)
             throws ServletException, IOException {
-        request.adaptTo(DataSourceModel.class);
+        if (request.getResource().isResourceType(FormActionTypeDataSource.RESOURCE_TYPE)) {
+            request.adaptTo(FormActionTypeDataSource.class);
+        } else if (request.getResource().isResourceType(FormActionTypeSettingsDataSource.RESOURCE_TYPE)) {
+            request.adaptTo(FormActionTypeSettingsDataSource.class);
+        } else if (request.getResource().isResourceType(WorkflowModelDataSource.RESOURCE_TYPE)) {
+            request.adaptTo(WorkflowModelDataSource.class);
+        }
+
     }
 }
