@@ -71,4 +71,12 @@ public interface Text extends Field {
      * @return the number of rows the text area should display
      */
     int getRows();
+
+    /**
+     * Checks if the title (label of the field) should be visually hidden on the page.
+     * This is required if the title is required only for accessibility purposes.
+     * @return {@code true} if the title should remain hidden <br>
+     *     {@code false} if the title should be visible on the page
+     */
+    boolean hideTitle();
 }

@@ -53,6 +53,7 @@ public class TextImpl extends AbstractFieldImpl implements Text {
     private static final String PROP_HELP_MESSAGE_DEFAULT = "";
     private static final boolean PROP_USE_PLACEHOLDER_DEFAULT = false;
     private static final int PROP_ROWS_DEFAULT = 2;
+    private static final boolean PROP_HIDE_TITLE_DEFAULT = false;
 
     @Self
     private SlingHttpServletRequest slingRequest;
@@ -99,6 +100,10 @@ public class TextImpl extends AbstractFieldImpl implements Text {
     @ValueMapValue
     @Default(intValues = PROP_ROWS_DEFAULT)
     private int rows;
+
+    @ValueMapValue
+    @Default(booleanValues = PROP_HIDE_TITLE_DEFAULT)
+    private boolean hideTitle;
 
     @PostConstruct
     private void initModel() {
@@ -188,5 +193,10 @@ public class TextImpl extends AbstractFieldImpl implements Text {
     @Override
     public String getType() {
         return type;
+    }
+
+    @Override
+    public boolean hideTitle() {
+        return hideTitle;
     }
 }

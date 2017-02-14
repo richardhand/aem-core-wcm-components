@@ -76,6 +76,14 @@
                                         fieldLabel="Label"
                                         name="./jcr:title"
                                         required="{Boolean}true"/>
+                                    <hideLabel
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                            fieldDescription="Needed if the label is required only for accessibility purpose and does not impart any additional visual information about the field"
+                                            name="./hideTitle"
+                                            text="Hide the label from being displayed"
+                                            value="true"
+                                            />
                                     <name
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
