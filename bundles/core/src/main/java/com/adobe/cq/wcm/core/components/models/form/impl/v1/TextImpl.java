@@ -119,14 +119,6 @@ public class TextImpl extends AbstractFieldImpl implements Text {
     }
 
     @Override
-    public String getId() {
-        if (id == null) {
-            id = this.getName() + System.currentTimeMillis();
-        }
-        return id;
-    }
-
-    @Override
     public String getValue() {
         String value = super.getValue();
         if (value.equals(PROP_VALUE_DEFAULT) && prefillValues.length > 0) {

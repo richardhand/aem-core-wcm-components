@@ -20,6 +20,7 @@ import com.adobe.cq.wcm.core.components.models.form.Field;
 import com.day.cq.commons.jcr.JcrConstants;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Default;
+import org.apache.sling.models.annotations.injectorspecific.InjectionStrategy;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
@@ -28,14 +29,13 @@ import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
  */
 public abstract class AbstractFieldImpl implements Field {
 
-    @ValueMapValue
-    @Default(values = {})
+    @ValueMapValue(injectionStrategy = InjectionStrategy.OPTIONAL)
     protected String id;
 
-    @ValueMapValue(optional = true, name = JcrConstants.JCR_TITLE)
+    @ValueMapValue(injectionStrategy = InjectionStrategy.OPTIONAL, name = JcrConstants.JCR_TITLE)
     protected String title;
 
-    @ValueMapValue(optional = true)
+    @ValueMapValue(injectionStrategy = InjectionStrategy.OPTIONAL)
     protected String name;
 
     @ValueMapValue
@@ -59,7 +59,7 @@ public abstract class AbstractFieldImpl implements Field {
     @Override
     public String getId() {
         if (id == null) {
-            id = getIDPrefix() + "-" + String.valueOf(Math.abs(resource.hashCode()));
+            id = getIDPrefix() + "-" + String.valueOf(Math.abs(resource.getPath().hashCode()));
         }
         return id;
     }
