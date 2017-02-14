@@ -31,6 +31,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
+import com.adobe.cq.wcm.core.components.models.form.DataSourceModel;
 import com.adobe.granite.ui.components.ds.DataSource;
 import com.day.cq.wcm.foundation.forms.FormsManager;
 import com.google.common.base.Function;
@@ -56,7 +57,7 @@ public class FormActionTypeDataSourceTest {
     private FormsManager.ComponentDescription description;
 
 
-    private FormActionTypeDataSource underTest;
+    private DataSourceModel underTest;
 
     @Before
     public void setUp() throws Exception {
@@ -71,7 +72,7 @@ public class FormActionTypeDataSourceTest {
     @Test
     public void testDataSource() throws Exception {
         context.currentResource("/apps/actiontypedatasource");
-        underTest = context.request().adaptTo(FormActionTypeDataSource.class);
+        underTest = context.request().adaptTo(DataSourceModel.class);
         DataSource dataSource = (com.adobe.granite.ui.components.ds.DataSource) context.request().getAttribute(
                 DataSource.class.getName());
         assertNotNull(dataSource);

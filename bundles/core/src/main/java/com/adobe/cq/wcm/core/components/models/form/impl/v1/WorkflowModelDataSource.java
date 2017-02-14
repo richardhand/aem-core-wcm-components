@@ -19,7 +19,6 @@ package com.adobe.cq.wcm.core.components.models.form.impl.v1;
 import java.util.ArrayList;
 import javax.annotation.PostConstruct;
 
-import com.adobe.granite.ui.components.ds.DataSource;
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
@@ -31,16 +30,18 @@ import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 
 import com.adobe.cq.wcm.core.components.commons.form.FormConstants;
 import com.adobe.cq.wcm.core.components.models.Constants;
+import com.adobe.cq.wcm.core.components.models.form.DataSourceModel;
 import com.adobe.granite.ui.components.ds.SimpleDataSource;
 import com.adobe.granite.workflow.WorkflowException;
 import com.adobe.granite.workflow.WorkflowSession;
 import com.adobe.granite.workflow.model.WorkflowModel;
 
 @Model(adaptables = SlingHttpServletRequest.class,
+       adapters = DataSourceModel.class,
        resourceType = WorkflowModelDataSource.RESOURCE_TYPE)
 @Exporter(name = Constants.EXPORTER_NAME,
           extensions = Constants.EXPORTER_EXTENSION)
-public class WorkflowModelDataSource {
+public class WorkflowModelDataSource extends DataSourceModel {
 
     public final static String RESOURCE_TYPE = FormConstants.RT_CORE_FORM_CONTAINER_DATASOURCE_V1 + "/workflowmodel";
 
@@ -61,7 +62,7 @@ public class WorkflowModelDataSource {
             }
         }
         SimpleDataSource dataSource = new SimpleDataSource(resources.iterator());
-        request.setAttribute(DataSource.class.getName(), dataSource);
+        initDataSource(request, dataSource);
     }
 
     public class WorkflowModelResource extends TextValueDataResourceSource {

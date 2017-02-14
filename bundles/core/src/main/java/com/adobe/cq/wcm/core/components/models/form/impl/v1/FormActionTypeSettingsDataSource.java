@@ -21,7 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 
-import com.adobe.granite.ui.components.ds.DataSource;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
@@ -32,14 +31,16 @@ import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 
 import com.adobe.cq.wcm.core.components.commons.form.FormConstants;
 import com.adobe.cq.wcm.core.components.models.Constants;
+import com.adobe.cq.wcm.core.components.models.form.DataSourceModel;
 import com.adobe.granite.ui.components.ds.SimpleDataSource;
 import com.day.cq.wcm.foundation.forms.FormsManager;
 
 @Model(adaptables = SlingHttpServletRequest.class,
+       adapters = DataSourceModel.class,
        resourceType = FormActionTypeSettingsDataSource.RESOURCE_TYPE)
 @Exporter(name = Constants.EXPORTER_NAME,
           extensions = Constants.EXPORTER_EXTENSION)
-public class FormActionTypeSettingsDataSource {
+public class FormActionTypeSettingsDataSource extends DataSourceModel {
 
     public final static String RESOURCE_TYPE = FormConstants.RT_CORE_FORM_CONTAINER_DATASOURCE_V1 + "/actionsetting";
 
@@ -52,7 +53,7 @@ public class FormActionTypeSettingsDataSource {
     @PostConstruct
     private void initModel() {
         SimpleDataSource actionTypeSettingsDataSource = new SimpleDataSource(getSettingsDialogs().iterator());
-        request.setAttribute(DataSource.class.getName(), actionTypeSettingsDataSource);
+        initDataSource(request, actionTypeSettingsDataSource);
     }
 
     private List<Resource> getSettingsDialogs() {
