@@ -13,12 +13,12 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<template data-sly-template.item="${@ list, listItem}">
+<template data-sly-template.item="${@ list, item}">
     <article>
-        <a href="${listItem.page.path @ extension='html'}" data-sly-unwrap="${!list.linkItem}">
-            <span class="cmp-list--item-title">${listItem.page.pageTitle || listItem.page.title || listItem.page.name}</span>
-            <span data-sly-test="${list.showModificationDate}" class="cmp-list--item-date">${list.dateFormatString @ format=listItem.page.lastModified}</span>
+        <a href="${item.path @ extension='html'}" data-sly-unwrap="${!list.linkItem}">
+            <span class="cmp-list--item-title">${item.pageTitle || item.title || item.name}</span>
+            <span data-sly-test="${list.showModificationDate}" class="cmp-list--item-date">${list.dateFormatString @ format=item.lastModified}</span>
         </a>
-        <span data-sly-test="${list.showDescription}" class="cmp-list--item-description">${listItem.page.description}</span>
+        <span data-sly-test="${list.showDescription}" class="cmp-list--item-description">${item.description}</span>
     </article>
 </template>
