@@ -42,7 +42,6 @@ import org.slf4j.LoggerFactory;
 
 import com.adobe.cq.wcm.core.components.models.Constants;
 import com.adobe.cq.wcm.core.components.models.List;
-import com.adobe.cq.wcm.core.components.models.ListItem;
 import com.day.cq.commons.RangeIterator;
 import com.day.cq.search.Predicate;
 import com.day.cq.search.SimpleSearch;
@@ -130,7 +129,7 @@ public class ListImpl implements List {
     private boolean linkItem;
 
     private PageManager pageManager;
-    private java.util.List<ListItem> listItems;
+    private java.util.List<Page> listItems;
 
     @PostConstruct
     private void initModel() {
@@ -154,7 +153,7 @@ public class ListImpl implements List {
     }
 
     @Override
-    public Collection<ListItem> getListItems() {
+    public Collection<Page> getItems() {
         if (listItems == null) {
             Source listType = getListType();
             populateListItems(listType);
@@ -217,7 +216,7 @@ public class ListImpl implements List {
         for (String path : pagesPaths) {
             Page page = pageManager.getContainingPage(path);
             if (page != null) {
-                listItems.add(new ListItemImpl(page));
+                listItems.add(page);
             }
         }
     }
@@ -234,7 +233,7 @@ public class ListImpl implements List {
         Iterator<Page> childIterator = parent.listChildren();
         while (childIterator.hasNext()) {
             Page child = childIterator.next();
-            listItems.add(new ListItemImpl(child));
+            listItems.add(child);
             if (child.getDepth() - startLevel < childDepth) {
                 collectChildren(startLevel, child);
             }
@@ -254,7 +253,7 @@ public class ListImpl implements List {
                     while (resourceRangeIterator.hasNext()) {
                         Page containingPage = pageManager.getContainingPage(resourceRangeIterator.next());
                         if (containingPage != null) {
-                            listItems.add(new ListItemImpl(containingPage));
+                            listItems.add(containingPage);
                         }
                     }
                 }
@@ -284,7 +283,7 @@ public class ListImpl implements List {
         for (Hit hit : result.getHits()) {
             Page containingPage = pageManager.getContainingPage(hit.getResource());
             if (containingPage != null) {
-                listItems.add(new ListItemImpl(containingPage));
+                listItems.add(containingPage);
             }
         }
     }
@@ -297,10 +296,10 @@ public class ListImpl implements List {
 
     private void setMaxItems() {
         if (maxItems != 0) {
-            java.util.List<ListItem> tmpListItems = new ArrayList<>();
-            for (ListItem listItem : listItems) {
+            java.util.List<Page> tmpListItems = new ArrayList<>();
+            for (Page item : listItems) {
                 if (tmpListItems.size() < maxItems) {
-                    tmpListItems.add(listItem);
+                    tmpListItems.add(item);
                 } else {
                     break;
                 }
@@ -378,7 +377,7 @@ public class ListImpl implements List {
         }
     }
 
-    private class ListSort implements Comparator<ListItem> {
+    private class ListSort implements Comparator<Page> {
 
         private SortOrder sortOrder;
         private OrderBy orderBy;
@@ -389,12 +388,12 @@ public class ListImpl implements List {
         }
 
         @Override
-        public int compare(ListItem listItem1, ListItem listItem2) {
+        public int compare(Page item1, Page item2) {
             int i = 0;
             if (orderBy == OrderBy.MODIFIED) {
-                i = listItem1.getPage().getLastModified().compareTo(listItem2.getPage().getLastModified());
+                i = item1.getLastModified().compareTo(item2.getLastModified());
             } else if (orderBy == OrderBy.TITLE) {
-                i = listItem1.getPage().getTitle().compareTo(listItem2.getPage().getTitle());
+                i = item1.getTitle().compareTo(item2.getTitle());
             }
 
             if (sortOrder == SortOrder.DESC) {

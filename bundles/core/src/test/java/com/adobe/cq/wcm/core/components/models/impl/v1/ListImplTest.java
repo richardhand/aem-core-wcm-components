@@ -23,7 +23,6 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,10 +33,10 @@ import com.adobe.cq.sightly.WCMBindings;
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
 import com.adobe.cq.wcm.core.components.context.MockStyle;
 import com.adobe.cq.wcm.core.components.models.List;
-import com.adobe.cq.wcm.core.components.models.ListItem;
 import com.day.cq.search.SimpleSearch;
 import com.day.cq.search.result.Hit;
 import com.day.cq.search.result.SearchResult;
+import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.designer.Style;
 import io.wcm.testing.mock.aem.junit.AemContext;
 
@@ -90,7 +89,7 @@ public class ListImplTest {
         slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
         slingBindings.put(WCMBindings.CURRENT_STYLE, new MockStyle(resource));
         List list = context.request().adaptTo(List.class);
-        assertEquals(2, list.getListItems().size());
+        assertEquals(2, list.getItems().size());
     }
 
     @Test
@@ -99,7 +98,7 @@ public class ListImplTest {
         slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
         slingBindings.put(WCMBindings.CURRENT_STYLE, new MockStyle(resource));
         List list = context.request().adaptTo(List.class);
-        assertEquals(3, list.getListItems().size());
+        assertEquals(3, list.getItems().size());
     }
 
     @Test
@@ -108,7 +107,7 @@ public class ListImplTest {
         slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
         slingBindings.put(WCMBindings.CURRENT_STYLE, new MockStyle(resource));
         List list = context.request().adaptTo(List.class);
-        assertEquals(4, list.getListItems().size());
+        assertEquals(4, list.getItems().size());
     }
 
     @Test
@@ -117,7 +116,7 @@ public class ListImplTest {
         slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
         slingBindings.put(WCMBindings.CURRENT_STYLE, new MockStyle(resource));
         List list = context.request().adaptTo(List.class);
-        assertEquals(1, list.getListItems().size());
+        assertEquals(1, list.getItems().size());
     }
 
     @Test
@@ -135,7 +134,7 @@ public class ListImplTest {
         slingBindings.put(WCMBindings.CURRENT_STYLE, new MockStyle(resource));
 
         List list = context.request().adaptTo(List.class);
-        assertEquals(1, list.getListItems().size());
+        assertEquals(1, list.getItems().size());
     }
 
     @Test
@@ -185,10 +184,10 @@ public class ListImplTest {
 
     private void checkListConsistency(List list, String[] expectedPages) {
         assertTrue("Expected that the returned list will contain " + expectedPages.length + " items",
-                list.getListItems().size() == expectedPages.length);
+                list.getItems().size() == expectedPages.length);
         int index = 0;
-        for (ListItem item : list.getListItems()) {
-            assertEquals(expectedPages[index++], item.getPage().getTitle());
+        for (Page item : list.getItems()) {
+            assertEquals(expectedPages[index++], item.getTitle());
         }
     }
 }
