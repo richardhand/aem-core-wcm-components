@@ -79,12 +79,12 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/coral/foundation/container">
                                 <items jcr:primaryType="nt:unstructured">
-                                    <linkItem
+                                    <linkItems
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                        fieldDescription="Link item to the corresponding page"
-                                        name="./linkItem"
-                                        text="Link Item"
+                                        fieldDescription="Link items to the corresponding page"
+                                        name="./linkItems"
+                                        text="Link Items"
                                         uncheckedValue="false"
                                         value="true"/>
                                     <showDescription

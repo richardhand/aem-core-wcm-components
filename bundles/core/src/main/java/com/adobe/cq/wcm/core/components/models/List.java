@@ -34,9 +34,9 @@ public interface List {
     Collection<Page> getItems();
 
     /**
-     * @return {@code true} if the page should be linked otherwise {@code false}
+     * @return {@code true} if the pages should be linked otherwise {@code false}
      */
-    boolean linkItem();
+    boolean linkItems();
 
     /**
      * @return {@code true} if page description should be shown otherwise {@code false}

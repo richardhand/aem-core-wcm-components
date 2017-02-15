@@ -75,8 +75,8 @@ public class ListImpl implements List {
     private static final boolean SHOW_DESCRIPTION_DEFAULT = false;
     private static final String PN_SHOW_MODIFICATION_DATE = "showModificationDate";
     private static final boolean SHOW_MODIFICATION_DATE_DEFAULT = false;
-    private static final String PN_LINK_ITEM = "linkItem";
-    private static final boolean LINK_ITEM_DEFAULT = false;
+    private static final String PN_LINK_ITEMS = "linkItems";
+    private static final boolean LINK_ITEMS_DEFAULT = false;
     private static final int PN_DEPTH_DEFAULT = 1;
     private static final String PN_SEARCH_IN = "searchIn";
     private static final String PN_SORT_ORDER = "sortOrder";
@@ -126,7 +126,7 @@ public class ListImpl implements List {
 
     private boolean showDescription;
     private boolean showModificationDate;
-    private boolean linkItem;
+    private boolean linkItems;
 
     private PageManager pageManager;
     private java.util.List<Page> listItems;
@@ -147,7 +147,7 @@ public class ListImpl implements List {
         showDescription = properties.get(PN_SHOW_DESCRIPTION, currentStyle.get(PN_SHOW_DESCRIPTION, SHOW_DESCRIPTION_DEFAULT));
         showModificationDate = properties.get(
                 PN_SHOW_MODIFICATION_DATE, currentStyle.get(PN_SHOW_MODIFICATION_DATE, SHOW_MODIFICATION_DATE_DEFAULT));
-        linkItem = properties.get(PN_LINK_ITEM, currentStyle.get(PN_LINK_ITEM, LINK_ITEM_DEFAULT));
+        linkItems = properties.get(PN_LINK_ITEMS, currentStyle.get(PN_LINK_ITEMS, LINK_ITEMS_DEFAULT));
         dateFormatString = properties.get(PN_DATE_FORMAT, currentStyle.get(PN_DATE_FORMAT, PN_DATE_FORMAT_DEFAULT));
 
     }
@@ -162,8 +162,8 @@ public class ListImpl implements List {
     }
 
     @Override
-    public boolean linkItem() {
-        return linkItem;
+    public boolean linkItems() {
+        return linkItems;
     }
 
     @Override

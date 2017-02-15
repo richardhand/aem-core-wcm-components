@@ -80,7 +80,7 @@ public class ListImplTest {
         List list = context.request().adaptTo(List.class);
         assertTrue(list.showDescription());
         assertTrue(list.showModificationDate());
-        assertTrue(list.linkItem());
+        assertTrue(list.linkItems());
     }
 
     @Test

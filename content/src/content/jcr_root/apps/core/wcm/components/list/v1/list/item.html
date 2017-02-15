@@ -15,7 +15,7 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <template data-sly-template.item="${@ list, item}">
     <article>
-        <a href="${item.path @ extension='html'}" data-sly-unwrap="${!list.linkItem}">
+        <a href="${item.path @ extension='html'}" data-sly-unwrap="${!list.linkItems}">
             <span class="cmp-list--item-title">${item.pageTitle || item.title || item.name}</span>
             <span data-sly-test="${list.showModificationDate}" class="cmp-list--item-date">${list.dateFormatString @ format=item.lastModified}</span>
         </a>
