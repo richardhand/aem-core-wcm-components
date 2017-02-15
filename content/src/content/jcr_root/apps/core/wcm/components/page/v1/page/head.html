@@ -27,15 +27,27 @@
                                 staticDesignPath   = page.staticDesignPath,
                                 clientLibCategories = page.clientLibCategories}"></sly>
     <!--/* For IE 9 and below. ICO should be 32x32 pixels in size */-->
-    <sly data-sly-test.icoFavicon="${page.ICOFavicon}">
-        <!--[if IE]><link rel="shortcut icon" href="${icoFavicon}"/><![endif]-->
+    <sly data-sly-test.faviconIco="${page.favicons['faviconIco']}">
+        <!--[if IE]><link rel="shortcut icon" href="${faviconIco}"/><![endif]-->
     </sly>
     <!--/* Firefox, Chrome, Safari, IE 11+ and Opera. 196x196 pixels in size. */-->
-    <link rel="icon" type="image/png" href="${pngFavicon}" data-sly-test.pngFavicon="${page.PNGFavicon}"/>
-    <link rel="icon" href="${icoFavicon}" data-sly-test="${!pngFavicon && icoFavicon}"/>
-    <link rel="apple-touch-icon" href="${touchIcon60}" data-sly-test.touchIcon60="${page.touchIcon60}"/>
-    <link rel="apple-touch-icon" sizes="76x76" href="${touchIcon76}" data-sly-test.touchIcon76="${page.touchIcon76}"/>
-    <link rel="apple-touch-icon" sizes="120x120" href="${touchIcon120}" data-sly-test.touchIcon120="${page.touchIcon120}"/>
-    <link rel="apple-touch-icon" sizes="152x152" href="${touchIcon152}" data-sly-test.touchIcon152="${page.touchIcon152}"/>
+    <link data-sly-test.faviconPng="${page.favicons['faviconPng']}"
+          rel="icon" type="image/png" href="${faviconPng}"/>
+
+    <link data-sly-test="${!faviconPng && faviconIco}"
+          rel="icon" href="${faviconIco}"/>
+
+    <link data-sly-test.touchIcon60="${page.favicons['touchIcon60']}"
+          rel="apple-touch-icon" sizes="60x60" href="${touchIcon60}"/>
+
+    <link data-sly-test.touchIcon76="${page.favicons['touchIcon76']}"
+          rel="apple-touch-icon" sizes="76x76" href="${touchIcon76}"/>
+
+    <link data-sly-test.touchIcon120="${page.favicons['touchIcon120']}"
+          rel="apple-touch-icon" sizes="120x120" href="${touchIcon120}"/>
+
+    <link data-sly-test.touchIcon152="${page.favicons['touchIcon152']}"
+          rel="apple-touch-icon" sizes="152x152" href="${touchIcon152}"/>
+
     <title>${page.title}</title>
 </template>

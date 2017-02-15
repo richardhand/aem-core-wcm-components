@@ -79,6 +79,7 @@ public class TextImplTest {
         assertEquals("", text.getValue());
         assertEquals(2, text.getRows());
         assertEquals("", text.getHelpMessage());
+        assertEquals(false, text.hideTitle());
     }
 
     @Test
@@ -97,5 +98,6 @@ public class TextImplTest {
         assertEquals("Prefilled Sample Input", text.getValue());
         assertEquals(3, text.getRows());
         assertEquals("Custom help/placeholder message", text.getHelpMessage());
+        assertEquals(true, text.hideTitle());
     }
 }

@@ -27,7 +27,7 @@
     // element name
     var elemName = "Luigi";
     // input label
-    var label = "It's me, Mario!";
+    var label = "It is me, Mario!";
     // default value
     var defaultValue = "Uncharted";
     // help message
@@ -127,6 +127,43 @@
         //Check if the label is rendered
         .asserts.isTrue(function() {
             return h.find("label","#ContentFrame").text().trim() == label
+        });
+
+    var hideLabel = new h.TestCase("Hide Label",{
+        execBefore: tcExecuteBeforeTest,
+        execAfter: tcExecuteAfterTest})
+
+        //Open the edit dialog
+        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        .execTestCase(setMandatoryFields)
+        //check the hideTitle checkbox
+        .click("input[type='checkbox'][name='./hideTitle'")
+        //close the edit dialog
+        .execTestCase(c.tcSaveConfigureDialog)
+
+        //Check that the label should not be rendered
+        .asserts.isTrue(function() {
+            return h.find("label", "#ContentFrame").size() == 0;
+        })
+
+        //check if the aria-label attribute has been set on the input field
+        .asserts.isTrue(function() {
+            return h.find("input[type='text'][name='" + elemName + "'][aria-label='" + label + "']",
+                    "#ContentFrame").size() == 1;
+        })
+
+        // test it also for text area input type
+        // Open the edit dialog
+        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        // set the input type to text area
+        .execTestCase(setInputType("textarea"))
+        // close the edit dialog
+        .execTestCase(c.tcSaveConfigureDialog)
+
+        //check if the aria-label attribute has been set on the textarea element
+        .asserts.isTrue(function() {
+            return h.find("textarea[name='" + elemName + "'][aria-label='" + label + "']",
+                    "#ContentFrame").size() == 1;
         });
 
     /**
@@ -545,6 +582,7 @@
 
         .addTestCase(checkLabelMandatory)
         .addTestCase(setLabel)
+        .addTestCase(hideLabel)
         .addTestCase(setElementName)
         .addTestCase(setValue)
         .addTestCase(checkAvailableConstraints)

@@ -18,8 +18,10 @@ package com.adobe.cq.wcm.core.components.models.impl.v1;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang.ArrayUtils;
@@ -52,6 +54,20 @@ public class PageImpl implements Page {
 
     protected static final String RESOURCE_TYPE = "core/wcm/components/page/v1/page";
 
+    private static final String FN_FAVICON_ICO = "favicon.ico";
+    private static final String FN_FAVICON_PNG = "favicon_32.png";
+    private static final String FN_TOUCH_ICON_60 = "touch-icon_60.png";
+    private static final String FN_TOUCH_ICON_76 = "touch-icon_76.png";
+    private static final String FN_TOUCH_ICON_120 = "touch-icon_120.png";
+    private static final String FN_TOUCH_ICON_152 = "touch-icon_152.png";
+
+    private static final String PN_FAVICON_ICO = "faviconIco";
+    private static final String PN_FAVICON_PNG = "faviconPng";
+    private static final String PN_TOUCH_ICON_60 = "touchIcon60";
+    private static final String PN_TOUCH_ICON_76 = "touchIcon76";
+    private static final String PN_TOUCH_ICON_120 = "touchIcon120";
+    private static final String PN_TOUCH_ICON_152 = "touchIcon152";
+
     @ScriptVariable
     private com.day.cq.wcm.api.Page currentPage;
 
@@ -74,22 +90,11 @@ public class PageImpl implements Page {
     private Calendar lastModifiedDate;
     private String templateName;
 
-    private static final String FN_ICO_FAVICON = "favicon.ico";
-    private static final String FN_PNG_FAVICON = "favicon_32.png";
-    private static final String FN_TOUCH_ICON_60 = "touch-icon_60.png";
-    private static final String FN_TOUCH_ICON_76 = "touch-icon_76.png";
-    private static final String FN_TOUCH_ICON_120 = "touch-icon_120.png";
-    private static final String FN_TOUCH_ICON_152 = "touch-icon_152.png";
     private static final String DEFAULT_TEMPLATE_EDITOR_CLIENT_LIB = "wcm.foundation.components.parsys.allowedcomponents";
     private static final String POLICIES_MAPPING_PATH = "policies/jcr:content";
     private static final String PN_CLIENTLIBS = "clientlibs";
 
-    private String icoFavicon;
-    private String pngFavicon;
-    private String touchIcon60;
-    private String touchIcon76;
-    private String touchIcon120;
-    private String touchIcon152;
+    private Map<String, String> favicons;
 
     @PostConstruct
     private void initModel() {
@@ -159,33 +164,8 @@ public class PageImpl implements Page {
     }
 
     @Override
-    public String getICOFavicon() {
-        return icoFavicon;
-    }
-
-    @Override
-    public String getPNGFavicon() {
-        return pngFavicon;
-    }
-
-    @Override
-    public String getTouchIcon60() {
-        return touchIcon60;
-    }
-
-    @Override
-    public String getTouchIcon76() {
-        return touchIcon76;
-    }
-
-    @Override
-    public String getTouchIcon120() {
-        return touchIcon120;
-    }
-
-    @Override
-    public String getTouchIcon152() {
-        return touchIcon152;
+    public Map getFavicons() {
+        return favicons;
     }
 
     @Override
@@ -204,12 +184,13 @@ public class PageImpl implements Page {
     }
 
     private void loadFavicons(String designPath) {
-        icoFavicon = getFaviconPath(designPath, FN_ICO_FAVICON);
-        pngFavicon = getFaviconPath(designPath, FN_PNG_FAVICON);
-        touchIcon60 = getFaviconPath(designPath, FN_TOUCH_ICON_60);
-        touchIcon76 = getFaviconPath(designPath, FN_TOUCH_ICON_76);
-        touchIcon120 = getFaviconPath(designPath, FN_TOUCH_ICON_120);
-        touchIcon152 = getFaviconPath(designPath, FN_TOUCH_ICON_152);
+        favicons = new HashMap<String, String>();
+        favicons.put(PN_FAVICON_ICO,getFaviconPath(designPath,FN_FAVICON_ICO));
+        favicons.put(PN_FAVICON_PNG,getFaviconPath(designPath,FN_FAVICON_PNG));
+        favicons.put(PN_TOUCH_ICON_120,getFaviconPath(designPath,FN_TOUCH_ICON_120));
+        favicons.put(PN_TOUCH_ICON_152,getFaviconPath(designPath,FN_TOUCH_ICON_152));
+        favicons.put(PN_TOUCH_ICON_60,getFaviconPath(designPath,FN_TOUCH_ICON_60));
+        favicons.put(PN_TOUCH_ICON_76,getFaviconPath(designPath,FN_TOUCH_ICON_76));
     }
 
     private String getFaviconPath(String designPath, String faviconName) {

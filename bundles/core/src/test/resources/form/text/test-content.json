@@ -78,7 +78,8 @@
             "sling:resourceType": "core/wcm/components/form/text",
             "requiredMessage": "please fill the field",
             "usePlaceholder": "true",
-            "rows": 3
+            "rows": 3,
+            "hideTitle": true
           }
         }
       }

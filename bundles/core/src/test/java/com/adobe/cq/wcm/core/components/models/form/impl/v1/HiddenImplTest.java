@@ -70,7 +70,6 @@ public class HiddenImplTest {
         Field hiddenField = context.request().adaptTo(Field.class);
         assertEquals("hidden", hiddenField.getName());
         assertEquals("", hiddenField.getValue());
-        assertEquals("", hiddenField.getId());
     }
 
     @Test

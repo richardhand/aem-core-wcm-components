@@ -16,6 +16,7 @@
 package com.adobe.cq.wcm.core.components.models;
 
 import java.util.Calendar;
+import java.util.Map;
 
 import org.osgi.annotation.versioning.ConsumerType;
 
@@ -59,50 +60,24 @@ public interface Page {
     String getStaticDesignPath();
 
     /**
-     * Retrieves the ICO favicon's path ({@code favicon.ico} file), relative to the page's design path.
-     *
-     * @return the path to the {@code favicon.ico} file relative to the page's design path, if the file exists; {@code null} otherwise
+     * Retrieves the paths to the various favicons for the website
+     * as <code>&lt;favicon_name&gt;:&lt;path&gt;</code>pairs.
+     * <br>
+     * If a file, corresponding to a particular type of favicon is found under the page's design path,
+     * the &lt;favicon_name&gt;:&lt;path&gt; pair is added to the list, otherwise
+     * that type of favicon is ignored.
+     * Below given is a list of the names of currently supported favicons along with their brief description:
+     * <ul>
+     *     <li>faviconIco :The favicon.ico favicon</li>
+     *     <li>faviconPng :The png version of the favicon</li>
+     *     <li>touchIcon60 : The touch icon with size 60px</li>
+     *     <li>touchIcon76 :The touch icon with size 76px</li>
+     *     <li>touchIcon120 :The touch icon with size 120px</li>
+     *     <li>touchIcon152 :The touch icon with size 152px</li>
+     * </ul>
+     * @return {@link Map} containing the name of favicon and their corresponding paths in pairs.
      */
-    String getICOFavicon();
-
-    /**
-     * Retrieves the PNG favicon's path ({@code favicon.png} file), relative to the page's design path.
-     *
-     * @return the path to the {@code favicon.png} file relative to the page's design path, if the file exists; {@code null} otherwise
-     */
-    String getPNGFavicon();
-
-    /**
-     * Retrieves the path of the 60px wide touch icon that will be used as a Webpage Icon for Web Clip on iOS devices, relative to the
-     * page's design path.
-     *
-     * @return the path to the icon file relative to the page's design path, if the file exists; {@code null} otherwise
-     */
-    String getTouchIcon60();
-
-    /**
-     * Retrieves the path of the 76px wide touch icon that will be used as a Webpage Icon for Web Clip on iOS devices, relative to the
-     * page's design path.
-     *
-     * @return the path to the icon file relative to the page's design path, if the file exists; {@code null} otherwise
-     */
-    String getTouchIcon76();
-
-    /**
-     * Retrieves the path of the 120px wide touch icon that will be used as a Webpage Icon for Web Clip on iOS devices, relative to the
-     * page's design path.
-     *
-     * @return the path to the icon file relative to the page's design path, if the file exists; {@code null} otherwise
-     */
-    String getTouchIcon120();
-
-    /**
-     * Retrieves the path of the 152px wide touch icon that will be used as a Webpage Icon for Web Clip on iOS devices, relative to the
-     * page's design path.
-     *
-     * @return the path to the icon file relative to the page's design path, if the file exists; {@code null} otherwise
-     */
-    String getTouchIcon152();
+    Map<String, String> getFavicons();
 
     /**
      * @return the page's title

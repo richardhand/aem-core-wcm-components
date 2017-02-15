@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.sling.api.resource.Resource;
@@ -48,12 +49,20 @@ public class PageImplTest {
     private static final String ROOT = "/content/page";
     private static final String PAGE = ROOT + "/templated-page";
     private static final String DESIGN_PATH = "/etc/designs/mysite";
-    private static final String FN_ICO_FAVICON = "favicon.ico";
-    private static final String FN_PNG_FAVICON = "favicon_32.png";
+
+    private static final String FN_FAVICON_ICO = "favicon.ico";
+    private static final String FN_FAVICON_PNG = "favicon_32.png";
     private static final String FN_TOUCH_ICON_60 = "touch-icon_60.png";
     private static final String FN_TOUCH_ICON_76 = "touch-icon_76.png";
     private static final String FN_TOUCH_ICON_120 = "touch-icon_120.png";
     private static final String FN_TOUCH_ICON_152 = "touch-icon_152.png";
+
+    private static final String PN_FAVICON_ICO = "faviconIco";
+    private static final String PN_FAVICON_PNG = "faviconPng";
+    private static final String PN_TOUCH_ICON_60 = "touchIcon60";
+    private static final String PN_TOUCH_ICON_76 = "touchIcon76";
+    private static final String PN_TOUCH_ICON_120 = "touchIcon120";
+    private static final String PN_TOUCH_ICON_152 = "touchIcon152";
 
     private SlingBindings slingBindings;
 
@@ -63,8 +72,8 @@ public class PageImplTest {
     @BeforeClass
     public static void setUp() {
         aemContext.load().json(TEST_BASE + "/test-conf.json", "/conf/we-retail/settings");
-        aemContext.load().binaryFile(TEST_BASE + "/" + FN_ICO_FAVICON, DESIGN_PATH + "/" + FN_ICO_FAVICON);
-        aemContext.load().binaryFile(TEST_BASE + "/" + FN_PNG_FAVICON, DESIGN_PATH + "/" + FN_PNG_FAVICON);
+        aemContext.load().binaryFile(TEST_BASE + "/" + FN_FAVICON_ICO, DESIGN_PATH + "/" + FN_FAVICON_ICO);
+        aemContext.load().binaryFile(TEST_BASE + "/" + FN_FAVICON_PNG, DESIGN_PATH + "/" + FN_FAVICON_PNG);
         aemContext.load().binaryFile(TEST_BASE + "/" + FN_TOUCH_ICON_60, DESIGN_PATH + "/" + FN_TOUCH_ICON_60);
         aemContext.load().binaryFile(TEST_BASE + "/" + FN_TOUCH_ICON_76, DESIGN_PATH + "/" + FN_TOUCH_ICON_76);
         aemContext.load().binaryFile(TEST_BASE + "/" + FN_TOUCH_ICON_120, DESIGN_PATH + "/" + FN_TOUCH_ICON_120);
@@ -92,12 +101,14 @@ public class PageImplTest {
     @Test
     public void testFavicons() {
         Page page = getPageUnderTest(PAGE);
-        assertEquals(DESIGN_PATH + "/"+FN_ICO_FAVICON, page.getICOFavicon());
-        assertEquals(DESIGN_PATH + "/"+FN_PNG_FAVICON, page.getPNGFavicon());
-        assertEquals(DESIGN_PATH + "/"+FN_TOUCH_ICON_60, page.getTouchIcon60());
-        assertEquals(DESIGN_PATH + "/"+FN_TOUCH_ICON_76, page.getTouchIcon76());
-        assertEquals(DESIGN_PATH + "/"+FN_TOUCH_ICON_120, page.getTouchIcon120());
-        assertEquals(DESIGN_PATH + "/"+FN_TOUCH_ICON_152, page.getTouchIcon152());
+        Map favicons = page.getFavicons();
+        assertEquals(DESIGN_PATH + "/" + FN_FAVICON_ICO, favicons.get(PN_FAVICON_ICO));
+        assertEquals(DESIGN_PATH + "/" + FN_FAVICON_PNG, favicons.get(PN_FAVICON_PNG));
+        assertEquals(DESIGN_PATH + "/" + FN_TOUCH_ICON_60, favicons.get(PN_TOUCH_ICON_60));
+        assertEquals(DESIGN_PATH + "/" + FN_TOUCH_ICON_76, favicons.get(PN_TOUCH_ICON_76));
+        assertEquals(DESIGN_PATH + "/" + FN_TOUCH_ICON_120, favicons.get(PN_TOUCH_ICON_120));
+        assertEquals(DESIGN_PATH + "/" + FN_TOUCH_ICON_152, favicons.get(PN_TOUCH_ICON_152));
+
     }
 
     @Test
