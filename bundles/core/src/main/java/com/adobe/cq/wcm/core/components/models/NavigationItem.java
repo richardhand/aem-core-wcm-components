@@ -27,19 +27,9 @@ import com.day.cq.wcm.api.Page;
 public interface NavigationItem {
 
     /**
-     * Returns the navigation title of the {@link Page}. If no navigation title is present it first falls back to the page title and then to
-     * the page name
-     *
-     * @return Navigation title
+     * @return The {@link Page} contained in this navigation item.
      */
-    String getTitle();
-
-    /**
-     * Returns the link to the related {@link Page}.
-     *
-     * @return {@code String} representing the Page path
-     */
-    String getLink();
+    Page getPage();
 
     /**
      * Gets the active information of the current page
@@ -47,9 +37,4 @@ public interface NavigationItem {
      * @return true if it is the current page, otherwise false
      */
     boolean isActive();
-
-    /**
-     * @param active {@code true} if the page element should be marked as active element
-     */
-    void setActive(boolean active);
 }
