@@ -25,7 +25,8 @@
             container,
             anchor,
             dropContainer,
-            updateMode;
+            updateMode,
+            initDone = false;
 
         function init() {
             var tmp = document.createElement('div');
@@ -68,6 +69,10 @@
         }
 
         function initSmart() {
+            if (initDone) {
+                return;
+            }
+            
             if (options.smartSizes && options.smartImages && options.smartSizes.length > 0) {
                 if (console && options.smartSizes.length !== options.smartImages.length) {
                     console.warn('The size of the smartSizes and of the smartImages arrays do not match!');
@@ -84,6 +89,8 @@
             if (showsLazyLoader) {
                 image.addEventListener('load', removeLazyLoader);
             }
+            
+            initDone = true;
         }
 
         function addLazyLoader() {
