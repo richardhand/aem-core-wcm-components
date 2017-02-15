@@ -14,7 +14,7 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-package com.adobe.cq.wcm.core.components.models.form.impl.v1;
+package com.adobe.cq.wcm.core.components.internal.servlets;
 
 import javax.annotation.Nullable;
 
@@ -29,7 +29,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
-import com.adobe.cq.wcm.core.components.models.form.DataSourceModel;
 import com.adobe.granite.ui.components.ds.DataSource;
 import com.adobe.granite.workflow.WorkflowSession;
 import com.adobe.granite.workflow.model.WorkflowModel;
@@ -41,7 +40,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class WorkflowModelDataSourceTest {
+public class WorkflowModelDataSourceServletTest {
 
     @Rule
     public AemContext context = CoreComponentTestContext.createContext("/form/container/datasource/workflowmodeldatasource",
@@ -53,7 +52,7 @@ public class WorkflowModelDataSourceTest {
     @Mock
     private WorkflowModel workflowModelMock;
 
-    private DataSourceModel underTest;
+    private WorkflowModelDataSourceServlet dataSourceServlet;
 
     @Before
     public void setUp() throws Exception {
@@ -76,7 +75,8 @@ public class WorkflowModelDataSourceTest {
     @Test
     public void testDataSource() throws Exception {
         context.currentResource("/apps/workflowdatasource");
-        underTest = context.request().adaptTo(DataSourceModel.class);
+        dataSourceServlet = new WorkflowModelDataSourceServlet();
+        dataSourceServlet.doGet(context.request(), context.response());
         DataSource dataSource = (DataSource) context.request().getAttribute(DataSource.class.getName());
         assertNotNull(dataSource);
         Resource resource = dataSource.iterator().next();
