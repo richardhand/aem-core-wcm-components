@@ -25,14 +25,14 @@
                     jcr:primaryType="nt:unstructured"
                     features="*">
                     <aspectRatios jcr:primaryType="nt:unstructured">
-                        <wildLandscape
+                        <wideLandscape
                             jcr:primaryType="nt:unstructured"
                             name="Wide Landscape"
-                            ratio="2.4142"/>
+                            ratio="0.8284"/>
                         <landscape
                             jcr:primaryType="nt:unstructured"
                             name="Landscape"
-                            ratio="1.6180"/>
+                            ratio="0.6180"/>
                         <square
                             jcr:primaryType="nt:unstructured"
                             name="Square"
@@ -40,7 +40,7 @@
                         <portrait
                             jcr:primaryType="nt:unstructured"
                             name="Portrait"
-                            ratio="0.6180"/>
+                            ratio="1.6180"/>
                     </aspectRatios>
                 </crop>
                 <flip
