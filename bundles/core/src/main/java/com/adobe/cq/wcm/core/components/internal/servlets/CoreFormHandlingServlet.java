@@ -39,7 +39,7 @@ import org.osgi.service.metatype.annotations.AttributeDefinition;
 import org.osgi.service.metatype.annotations.Designate;
 import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 
-import com.adobe.cq.wcm.core.components.commons.form.FormConstants;
+import com.adobe.cq.wcm.core.components.commons.form.internal.FormConstants;
 import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
 import com.day.cq.wcm.foundation.forms.FormsHandlingServletHelper;
 import com.day.cq.wcm.foundation.security.SaferSlingPostValidator;
