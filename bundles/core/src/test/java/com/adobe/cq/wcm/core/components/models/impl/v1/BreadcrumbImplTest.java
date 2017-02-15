@@ -100,9 +100,9 @@ public class BreadcrumbImplTest {
                 + "/jcr:content/header/breadcrumb-style-based");
         slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
         Style style = mock(Style.class);
-        when(style.get(BreadcrumbImpl.PN_DEFAULT_START_LEVEL, BreadcrumbImpl.PROP_START_LEVEL_DEFAULT)).thenReturn(3);
-        when(style.get(BreadcrumbImpl.PN_DEFAULT_HIDE_CURRENT, BreadcrumbImpl.PROP_SHOW_HIDDEN_DEFAULT)).thenReturn(false);
-        when(style.get(BreadcrumbImpl.PN_DEFAULT_SHOW_HIDDEN, BreadcrumbImpl.PROP_SHOW_HIDDEN_DEFAULT)).thenReturn(false);
+        when(style.get(BreadcrumbImpl.PN_START_LEVEL, BreadcrumbImpl.PROP_START_LEVEL_DEFAULT)).thenReturn(3);
+        when(style.get(BreadcrumbImpl.PN_HIDE_CURRENT, BreadcrumbImpl.PROP_SHOW_HIDDEN_DEFAULT)).thenReturn(false);
+        when(style.get(BreadcrumbImpl.PN_SHOW_HIDDEN, BreadcrumbImpl.PROP_SHOW_HIDDEN_DEFAULT)).thenReturn(false);
         slingBindings.put(WCMBindings.CURRENT_STYLE, style);
         underTest = context.request().adaptTo(Breadcrumb.class);
         checkBreadcrumbConsistency(new String[]{"Devi Sleeveless Shirt"});
@@ -110,10 +110,10 @@ public class BreadcrumbImplTest {
 
     private void checkBreadcrumbConsistency(String[] expectedPages) {
         assertTrue("Expected that the returned breadcrumb will contain " + expectedPages.length + " items",
-                underTest.getBreadcrumbItems().size() == expectedPages.length);
+                underTest.getItems().size() == expectedPages.length);
         int index = 0;
-        for (NavigationItem item : underTest.getBreadcrumbItems()) {
-            assertEquals(expectedPages[index++], item.getTitle());
+        for (NavigationItem item : underTest.getItems()) {
+            assertEquals(expectedPages[index++], item.getPage().getTitle());
         }
     }
 

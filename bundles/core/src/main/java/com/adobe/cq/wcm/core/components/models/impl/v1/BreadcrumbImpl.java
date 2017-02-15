@@ -43,13 +43,10 @@ public class BreadcrumbImpl implements Breadcrumb {
 
     protected static final boolean PROP_SHOW_HIDDEN_DEFAULT = false;
     protected static final String PN_SHOW_HIDDEN = "showHidden";
-    protected static final String PN_DEFAULT_SHOW_HIDDEN = "defaultShowHidden";
     protected static final boolean PROP_HIDE_CURRENT_DEFAULT = false;
     protected static final String PN_HIDE_CURRENT = "hideCurrent";
-    protected static final String PN_DEFAULT_HIDE_CURRENT = "defaultHideCurrent";
     protected static final int PROP_START_LEVEL_DEFAULT = 2;
     protected static final String PN_START_LEVEL = "startLevel";
-    protected static final String PN_DEFAULT_START_LEVEL = "defaultStartLevel";
 
     @ScriptVariable
     private ValueMap properties;
@@ -63,28 +60,28 @@ public class BreadcrumbImpl implements Breadcrumb {
     private boolean showHidden;
     private boolean hideCurrent;
     private int startLevel;
-    List<NavigationItem> breadcrumbItems;
+    List<NavigationItem> items;
 
     @PostConstruct
     private void initModel() {
-        startLevel = properties.get(PN_START_LEVEL, currentStyle.get(PN_DEFAULT_START_LEVEL, PROP_START_LEVEL_DEFAULT));
-        showHidden = properties.get(PN_SHOW_HIDDEN, currentStyle.get(PN_DEFAULT_SHOW_HIDDEN, PROP_SHOW_HIDDEN_DEFAULT));
-        hideCurrent = properties.get(PN_HIDE_CURRENT, currentStyle.get(PN_DEFAULT_HIDE_CURRENT, PROP_HIDE_CURRENT_DEFAULT));
+        startLevel = properties.get(PN_START_LEVEL, currentStyle.get(PN_START_LEVEL, PROP_START_LEVEL_DEFAULT));
+        showHidden = properties.get(PN_SHOW_HIDDEN, currentStyle.get(PN_SHOW_HIDDEN, PROP_SHOW_HIDDEN_DEFAULT));
+        hideCurrent = properties.get(PN_HIDE_CURRENT, currentStyle.get(PN_HIDE_CURRENT, PROP_HIDE_CURRENT_DEFAULT));
     }
 
     @Override
-    public Collection<NavigationItem> getBreadcrumbItems() {
-        if (breadcrumbItems == null) {
-            breadcrumbItems = new ArrayList<>();
-            createBreadcrumbItems();
+    public Collection<NavigationItem> getItems() {
+        if (items == null) {
+            items = new ArrayList<>();
+            createItems();
         }
-        return breadcrumbItems;
+        return items;
     }
 
-    private List<NavigationItem> createBreadcrumbItems() {
+    private List<NavigationItem> createItems() {
         int currentLevel = currentPage.getDepth();
         addNavigationItems(currentLevel);
-        return breadcrumbItems;
+        return items;
     }
 
     private void addNavigationItems(int currentLevel) {
@@ -96,11 +93,8 @@ public class BreadcrumbImpl implements Breadcrumb {
                     break;
                 }
                 if (checkIfNotHidden(page)) {
-                    NavigationItem navigationItem = page.adaptTo(NavigationItem.class);
-                    if (navigationItem != null) {
-                        navigationItem.setActive(isActivePage);
-                        breadcrumbItems.add(navigationItem);
-                    }
+                    NavigationItem navigationItem = new NavigationItemImpl(page, isActivePage);
+                    items.add(navigationItem);
                 }
                 startLevel++;
             } else {

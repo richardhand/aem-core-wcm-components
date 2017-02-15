@@ -30,5 +30,5 @@ public interface Breadcrumb {
      *
      * @return {@link Collection} of breadcrumb items
      */
-    Collection<NavigationItem> getBreadcrumbItems();
+    Collection<NavigationItem> getItems();
 }
