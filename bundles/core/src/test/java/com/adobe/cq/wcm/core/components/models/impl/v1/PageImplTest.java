@@ -50,19 +50,19 @@ public class PageImplTest {
     private static final String PAGE = ROOT + "/templated-page";
     private static final String DESIGN_PATH = "/etc/designs/mysite";
 
-    private static String FN_FAVICON_ICO = "favicon.ico";
-    private static String FN_FAVICON_PNG = "favicon_32.png";
-    private static String FN_TOUCH_ICON_60 = "touch-icon_60.png";
-    private static String FN_TOUCH_ICON_76 = "touch-icon_76.png";
-    private static String FN_TOUCH_ICON_120 = "touch-icon_120.png";
-    private static String FN_TOUCH_ICON_152 = "touch-icon_152.png";
+    private static final String FN_FAVICON_ICO = "favicon.ico";
+    private static final String FN_FAVICON_PNG = "favicon_32.png";
+    private static final String FN_TOUCH_ICON_60 = "touch-icon_60.png";
+    private static final String FN_TOUCH_ICON_76 = "touch-icon_76.png";
+    private static final String FN_TOUCH_ICON_120 = "touch-icon_120.png";
+    private static final String FN_TOUCH_ICON_152 = "touch-icon_152.png";
 
-    private static String PN_FAVICON_ICO = "faviconIco";
-    private static String PN_FAVICON_PNG = "faviconPng";
-    private static String PN_TOUCH_ICON_60 = "touchIcon60";
-    private static String PN_TOUCH_ICON_76 = "touchIcon76";
-    private static String PN_TOUCH_ICON_120 = "touchIcon120";
-    private static String PN_TOUCH_ICON_152 = "touchIcon152";
+    private static final String PN_FAVICON_ICO = "faviconIco";
+    private static final String PN_FAVICON_PNG = "faviconPng";
+    private static final String PN_TOUCH_ICON_60 = "touchIcon60";
+    private static final String PN_TOUCH_ICON_76 = "touchIcon76";
+    private static final String PN_TOUCH_ICON_120 = "touchIcon120";
+    private static final String PN_TOUCH_ICON_152 = "touchIcon152";
 
     private SlingBindings slingBindings;
 

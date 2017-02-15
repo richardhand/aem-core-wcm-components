@@ -54,19 +54,19 @@ public class PageImpl implements Page {
 
     protected static final String RESOURCE_TYPE = "core/wcm/components/page/v1/page";
 
-    private String FN_FAVICON_ICO = "favicon.ico";
-    private String FN_FAVICON_PNG = "favicon_32.png";
-    private String FN_TOUCH_ICON_60 = "touch-icon_60.png";
-    private String FN_TOUCH_ICON_76 = "touch-icon_76.png";
-    private String FN_TOUCH_ICON_120 = "touch-icon_120.png";
-    private String FN_TOUCH_ICON_152 = "touch-icon_152.png";
+    private static final String FN_FAVICON_ICO = "favicon.ico";
+    private static final String FN_FAVICON_PNG = "favicon_32.png";
+    private static final String FN_TOUCH_ICON_60 = "touch-icon_60.png";
+    private static final String FN_TOUCH_ICON_76 = "touch-icon_76.png";
+    private static final String FN_TOUCH_ICON_120 = "touch-icon_120.png";
+    private static final String FN_TOUCH_ICON_152 = "touch-icon_152.png";
 
-    private String PN_FAVICON_ICO = "faviconIco";
-    private String PN_FAVICON_PNG = "faviconPng";
-    private String PN_TOUCH_ICON_60 = "touchIcon60";
-    private String PN_TOUCH_ICON_76 = "touchIcon76";
-    private String PN_TOUCH_ICON_120 = "touchIcon120";
-    private String PN_TOUCH_ICON_152 = "touchIcon152";
+    private static final String PN_FAVICON_ICO = "faviconIco";
+    private static final String PN_FAVICON_PNG = "faviconPng";
+    private static final String PN_TOUCH_ICON_60 = "touchIcon60";
+    private static final String PN_TOUCH_ICON_76 = "touchIcon76";
+    private static final String PN_TOUCH_ICON_120 = "touchIcon120";
+    private static final String PN_TOUCH_ICON_152 = "touchIcon152";
 
     @ScriptVariable
     private com.day.cq.wcm.api.Page currentPage;
