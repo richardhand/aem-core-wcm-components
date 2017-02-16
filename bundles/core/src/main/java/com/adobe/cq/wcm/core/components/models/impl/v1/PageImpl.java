@@ -24,6 +24,7 @@ import java.util.Locale;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 
+import com.day.cq.wcm.api.designer.Style;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -74,9 +75,13 @@ public class PageImpl implements Page {
     @ScriptVariable
     private ValueMap pageProperties;
 
-    @ScriptVariable(injectionStrategy = InjectionStrategy.OPTIONAL)
+    @ScriptVariable
     @JsonIgnore
     private Design currentDesign;
+
+    @ScriptVariable(injectionStrategy = InjectionStrategy.OPTIONAL)
+    @JsonIgnore
+    private Style currentStyle;
 
     @ScriptVariable
     @JsonIgnore
@@ -91,7 +96,6 @@ public class PageImpl implements Page {
     private String templateName;
 
     private static final String DEFAULT_TEMPLATE_EDITOR_CLIENT_LIB = "wcm.foundation.components.parsys.allowedcomponents";
-    private static final String POLICIES_MAPPING_PATH = "policies/jcr:content";
     private static final String PN_CLIENTLIBS = "clientlibs";
 
     private Map<String, String> favicons;
@@ -221,14 +225,8 @@ public class PageImpl implements Page {
     }
 
     private void addPolicyClientLibs(Resource templateResource, List<String> categories) {
-        Resource pageContentPolicyMapping = templateResource.getChild(POLICIES_MAPPING_PATH);
-        ContentPolicyMapping contentPolicyMapping = pageContentPolicyMapping.adaptTo(ContentPolicyMapping.class);
-        if (contentPolicyMapping != null) {
-            ContentPolicy policy = contentPolicyMapping.getPolicy();
-            if (policy != null) {
-                String[] clientLibs = policy.getProperties().get(PN_CLIENTLIBS, ArrayUtils.EMPTY_STRING_ARRAY);
-                Collections.addAll(categories, clientLibs);
-            }
+        if (currentStyle != null) {
+            Collections.addAll(categories, currentStyle.get(PN_CLIENTLIBS, ArrayUtils.EMPTY_STRING_ARRAY));
         }
     }
 }

@@ -23,7 +23,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import com.adobe.cq.wcm.core.components.context.MockStyle;
+import com.day.cq.wcm.api.designer.Style;
+import com.day.cq.wcm.api.policies.ContentPolicy;
+import com.day.cq.wcm.api.policies.ContentPolicyMapping;
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.testing.mock.sling.servlet.MockSlingHttpServletRequest;
 import org.junit.BeforeClass;
@@ -37,6 +42,9 @@ import com.adobe.cq.wcm.core.components.testing.MockAdapterFactory;
 import com.day.cq.wcm.api.Template;
 import com.day.cq.wcm.api.designer.Design;
 import io.wcm.testing.mock.aem.junit.AemContext;
+import org.mockito.Matchers;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -49,6 +57,7 @@ public class PageImplTest {
     private static final String ROOT = "/content/page";
     private static final String PAGE = ROOT + "/templated-page";
     private static final String DESIGN_PATH = "/etc/designs/mysite";
+    private static final String POLICIES_MAPPING_PATH = "policies/jcr:content";
 
     private static final String FN_FAVICON_ICO = "favicon.ico";
     private static final String FN_FAVICON_PNG = "favicon_32.png";
@@ -159,8 +168,24 @@ public class PageImplTest {
         when(template.adaptTo(Resource.class)).thenReturn(templateResource);
         when(page.getTemplate()).thenReturn(template);
 
-
+        ContentPolicyMapping mapping = templateResource.getChild(POLICIES_MAPPING_PATH).adaptTo(ContentPolicyMapping.class);
+        ContentPolicy contentPolicy = mapping.getPolicy();
+        Style style;
         slingBindings.put(WCMBindings.CURRENT_DESIGN, design);
+        if (contentPolicy != null) {
+            Resource contentPolicyResource = aemContext.resourceResolver().getResource(contentPolicy.getPath());
+            style = new MockStyle(contentPolicyResource, contentPolicyResource.adaptTo(ValueMap.class));
+
+        } else {
+            style = mock(Style.class);
+            when(style.get(anyString(), Matchers.anyObject())).thenAnswer(new Answer<Object>() {
+                @Override
+                public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                    return invocationOnMock.getArguments()[1];
+                }
+            });
+        }
+        slingBindings.put(WCMBindings.CURRENT_STYLE, style);
         slingBindings.put(SlingBindings.RESOLVER, aemContext.request().getResourceResolver());
         slingBindings.put(WCMBindings.CURRENT_PAGE, page);
         slingBindings.put(WCMBindings.PAGE_MANAGER, aemContext.pageManager());
