@@ -57,6 +57,8 @@ public class ContainerImplTest {
     private static final String formFields[]={"text","text_185087333"};
 
     private static final String RESOURCE_PROPERTY = "resource";
+
+    private static final String PN_ACTION_TYPE = "actionType";
     
     @Rule
     public AemContext context = CoreComponentTestContext.createContext("/form/container", "/content/we-retail/demo-page");
@@ -94,7 +96,8 @@ public class ContainerImplTest {
         when(requestDispatcherFactory.getRequestDispatcher((Resource)any(), (RequestDispatcherOptions)any()))
                 .thenReturn(requestDispatcher);
         Container container = request.adaptTo(Container.class);
-        assertEquals(container.getActionType(), "foundation/components/form/actions/store");
+        assertEquals(request.getResource().adaptTo(ValueMap.class).get(PN_ACTION_TYPE, ""),
+                "foundation/components/form/actions/store");
         assertEquals(container.getEnctype(),"application/x-www-form-urlencoded");
         assertEquals(container.getMethod(),"GET");
         assertTrue(StringUtils.isNotBlank(container.getName()));
@@ -108,7 +111,8 @@ public class ContainerImplTest {
         Resource resource = context.currentResource(FORM2_PATH);
         slingBindings.put(WCMBindings.PROPERTIES,resource.adaptTo(ValueMap.class));
         Container container = context.request().adaptTo(Container.class);
-        assertEquals(container.getActionType(), "foundation/components/form/actions/store");
+        assertEquals(resource.adaptTo(ValueMap.class).get(PN_ACTION_TYPE, ""),
+                "foundation/components/form/actions/store");
         assertEquals(container.getEnctype(),"multipart/form-data");
         assertEquals(container.getMethod(),"POST");
         assertEquals(container.getName(),"demo-page");

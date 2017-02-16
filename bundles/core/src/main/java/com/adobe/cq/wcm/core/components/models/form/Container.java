@@ -24,11 +24,6 @@ import org.osgi.annotation.versioning.ConsumerType;
 public interface Container {
 
     /**
-     * @return the action type of form.
-     */
-    String getActionType();
-
-    /**
      * @return form submit method (method attribute of form).
      */
     String getMethod();

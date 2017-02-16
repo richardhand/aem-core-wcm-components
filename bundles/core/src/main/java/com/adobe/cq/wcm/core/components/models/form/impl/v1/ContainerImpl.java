@@ -137,11 +137,6 @@ public class ContainerImpl implements Container {
     }
 
     @Override
-    public String getActionType() {
-        return actionType;
-    }
-
-    @Override
     public String getMethod() {
         return this.method;
     }
