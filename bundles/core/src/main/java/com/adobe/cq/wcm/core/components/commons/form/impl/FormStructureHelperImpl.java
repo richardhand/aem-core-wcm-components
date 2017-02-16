@@ -32,7 +32,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.adobe.cq.wcm.core.components.commons.form.FormConstants;
+import com.adobe.cq.wcm.core.components.commons.form.internal.FormConstants;
 import com.adobe.cq.wcm.core.components.models.form.Button;
 import com.day.cq.wcm.foundation.forms.FormStructureHelper;
 import com.day.cq.wcm.foundation.forms.FormsConstants;

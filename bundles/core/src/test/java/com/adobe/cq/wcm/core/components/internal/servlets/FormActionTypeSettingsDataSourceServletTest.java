@@ -15,14 +15,14 @@
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-package com.adobe.cq.wcm.core.components.models.form.impl.v1;
+package com.adobe.cq.wcm.core.components.internal.servlets;
 
 import java.util.ArrayList;
 import javax.annotation.Nullable;
 
+import com.adobe.cq.wcm.core.components.internal.servlets.FormActionTypeSettingsDataSourceServlet;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
-import org.apache.sling.api.resource.ValueMap;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -31,23 +31,20 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
-import com.adobe.cq.wcm.core.components.models.form.DataSourceModel;
 import com.adobe.granite.ui.components.ds.DataSource;
 import com.day.cq.wcm.foundation.forms.FormsManager;
 import com.google.common.base.Function;
 import io.wcm.testing.mock.aem.junit.AemContext;
 
-import static com.adobe.cq.wcm.core.components.models.form.impl.v1.TextValueDataResourceSource.PN_TEXT;
-import static com.adobe.cq.wcm.core.components.models.form.impl.v1.TextValueDataResourceSource.PN_VALUE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class FormActionTypeDataSourceTest {
+public class FormActionTypeSettingsDataSourceServletTest {
 
     @Rule
-    public AemContext context = CoreComponentTestContext.createContext("/form/container/datasource/actiontypedatasource",
+    public AemContext context = CoreComponentTestContext.createContext("/form/container/datasource/actiontypesettingsdatasource",
             "/apps");
 
     @Mock
@@ -57,7 +54,7 @@ public class FormActionTypeDataSourceTest {
     private FormsManager.ComponentDescription description;
 
 
-    private DataSourceModel underTest;
+    private FormActionTypeSettingsDataSourceServlet dataSourceServlet;
 
     @Before
     public void setUp() throws Exception {
@@ -71,15 +68,14 @@ public class FormActionTypeDataSourceTest {
 
     @Test
     public void testDataSource() throws Exception {
-        context.currentResource("/apps/actiontypedatasource");
-        underTest = context.request().adaptTo(DataSourceModel.class);
-        DataSource dataSource = (com.adobe.granite.ui.components.ds.DataSource) context.request().getAttribute(
+        context.currentResource("/apps/actiontypesettingsdatasource");
+        dataSourceServlet = new FormActionTypeSettingsDataSourceServlet();
+        dataSourceServlet.doGet(context.request(), context.response());
+        DataSource dataSource = (DataSource) context.request().getAttribute(
                 DataSource.class.getName());
         assertNotNull(dataSource);
         Resource resource = dataSource.iterator().next();
-        ValueMap valueMap = resource.adaptTo(ValueMap.class);
-        assertEquals("Form Action", valueMap.get(PN_TEXT, String.class));
-        assertEquals("form/action", valueMap.get(PN_VALUE, String.class));
+        assertEquals(resource.getPath(), context.currentResource("/apps/form/action/cq:dialog").getPath());
     }
 
     private void registerFormsManagerAdapter() {

@@ -14,49 +14,51 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-package com.adobe.cq.wcm.core.components.models.form.impl.v1;
+package com.adobe.cq.wcm.core.components.internal.servlets;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import javax.annotation.PostConstruct;
+import javax.annotation.Nonnull;
+import javax.servlet.Servlet;
+import javax.servlet.ServletException;
 
+import com.adobe.granite.ui.components.ds.DataSource;
 import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
-import org.apache.sling.models.annotations.Exporter;
-import org.apache.sling.models.annotations.Model;
-import org.apache.sling.models.annotations.injectorspecific.Self;
-import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 
-import com.adobe.cq.wcm.core.components.commons.form.FormConstants;
-import com.adobe.cq.wcm.core.components.models.Constants;
-import com.adobe.cq.wcm.core.components.models.form.DataSourceModel;
+import com.adobe.cq.wcm.core.components.commons.form.internal.FormConstants;
 import com.adobe.granite.ui.components.ds.SimpleDataSource;
 import com.day.cq.wcm.foundation.forms.FormsManager;
+import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
+import org.osgi.service.component.annotations.Component;
 
-@Model(adaptables = SlingHttpServletRequest.class,
-       adapters = DataSourceModel.class,
-       resourceType = FormActionTypeSettingsDataSource.RESOURCE_TYPE)
-@Exporter(name = Constants.EXPORTER_NAME,
-          extensions = Constants.EXPORTER_EXTENSION)
-public class FormActionTypeSettingsDataSource extends DataSourceModel {
+@Component(
+        service = { Servlet.class },
+        property = {
+                "sling.servlet.resourceTypes="+ FormActionTypeSettingsDataSourceServlet.RESOURCE_TYPE,
+                "sling.servlet.methods=GET",
+                "sling.servlet.extensions=html"
+        }
+)
+public class FormActionTypeSettingsDataSourceServlet extends SlingSafeMethodsServlet {
+
+    private static final long serialVersionUID = 9114656669504668093L;
 
     public final static String RESOURCE_TYPE = FormConstants.RT_CORE_FORM_CONTAINER_DATASOURCE_V1 + "/actionsetting";
 
-    @Self
-    private SlingHttpServletRequest request;
-
-    @SlingObject
-    private ResourceResolver resourceResolver;
-
-    @PostConstruct
-    private void initModel() {
-        SimpleDataSource actionTypeSettingsDataSource = new SimpleDataSource(getSettingsDialogs().iterator());
-        initDataSource(request, actionTypeSettingsDataSource);
+    @Override
+    protected void doGet(@Nonnull SlingHttpServletRequest request, @Nonnull SlingHttpServletResponse response)
+            throws ServletException, IOException {
+        SimpleDataSource actionTypeSettingsDataSource = new SimpleDataSource(getSettingsDialogs(
+                request.getResourceResolver()).iterator());
+        request.setAttribute(DataSource.class.getName(), actionTypeSettingsDataSource);
     }
 
-    private List<Resource> getSettingsDialogs() {
+    private List<Resource> getSettingsDialogs(ResourceResolver resourceResolver) {
         List<Resource> actionTypeSettingsResources = new ArrayList<>();
         FormsManager formsManager = resourceResolver.adaptTo(FormsManager.class);
         if (formsManager != null) {
