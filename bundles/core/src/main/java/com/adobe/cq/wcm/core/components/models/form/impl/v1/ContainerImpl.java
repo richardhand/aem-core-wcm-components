@@ -120,7 +120,10 @@ public class ContainerImpl implements Container {
                 redirect = contextPath + redirect;
             }
         }
-        runActionTypeInit(formStructureHelper);
+
+        if (!StringUtils.equals(request.getRequestPathInfo().getExtension(), Constants.EXPORTER_EXTENSION)) {
+            runActionTypeInit(formStructureHelper);
+        }
     }
 
     private void runActionTypeInit(FormStructureHelper formStructureHelper) {
