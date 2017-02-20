@@ -96,10 +96,8 @@ public class BreadcrumbImpl implements Breadcrumb {
                     NavigationItem navigationItem = new NavigationItemImpl(page, isActivePage);
                     items.add(navigationItem);
                 }
-                startLevel++;
-            } else {
-                break;
             }
+            startLevel++;
         }
     }
 
