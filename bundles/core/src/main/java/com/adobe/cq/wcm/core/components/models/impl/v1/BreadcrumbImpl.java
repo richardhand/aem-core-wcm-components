@@ -27,7 +27,7 @@ import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 
 import com.adobe.cq.wcm.core.components.models.Breadcrumb;
-import com.adobe.cq.wcm.core.components.models.Constants;
+import com.adobe.cq.wcm.core.components.internal.Constants;
 import com.adobe.cq.wcm.core.components.models.NavigationItem;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.designer.Style;

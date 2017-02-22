@@ -23,7 +23,7 @@ import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.InjectionStrategy;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
-import com.adobe.cq.wcm.core.components.models.Constants;
+import com.adobe.cq.wcm.core.components.internal.Constants;
 import com.adobe.cq.wcm.core.components.models.Text;
 
 @Model(adaptables = SlingHttpServletRequest.class, adapters = Text.class, resourceType = TextImpl.RESOURCE_TYPE)
