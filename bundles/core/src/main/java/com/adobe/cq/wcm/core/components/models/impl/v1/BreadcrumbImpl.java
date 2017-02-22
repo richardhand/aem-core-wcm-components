@@ -42,11 +42,8 @@ public class BreadcrumbImpl implements Breadcrumb {
     protected static final String RESOURCE_TYPE = "core/wcm/components/breadcrumb/v1/breadcrumb";
 
     protected static final boolean PROP_SHOW_HIDDEN_DEFAULT = false;
-    protected static final String PN_SHOW_HIDDEN = "showHidden";
     protected static final boolean PROP_HIDE_CURRENT_DEFAULT = false;
-    protected static final String PN_HIDE_CURRENT = "hideCurrent";
     protected static final int PROP_START_LEVEL_DEFAULT = 2;
-    protected static final String PN_START_LEVEL = "startLevel";
 
     @ScriptVariable
     private ValueMap properties;
@@ -60,7 +57,7 @@ public class BreadcrumbImpl implements Breadcrumb {
     private boolean showHidden;
     private boolean hideCurrent;
     private int startLevel;
-    List<NavigationItem> items;
+    private List<NavigationItem> items;
 
     @PostConstruct
     private void initModel() {

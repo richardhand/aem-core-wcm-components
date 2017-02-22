@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2016 Adobe Systems Incorporated
- * <p>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -44,28 +44,11 @@ import com.day.cq.wcm.api.Template;
 import com.day.cq.wcm.api.designer.Design;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Model(adaptables = SlingHttpServletRequest.class,
-       adapters = Page.class,
-       resourceType = PageImpl.RESOURCE_TYPE)
-@Exporter(name = Constants.EXPORTER_NAME,
-          extensions = Constants.EXPORTER_EXTENSION)
+@Model(adaptables = SlingHttpServletRequest.class, adapters = Page.class, resourceType = PageImpl.RESOURCE_TYPE)
+@Exporter(name = Constants.EXPORTER_NAME, extensions = Constants.EXPORTER_EXTENSION)
 public class PageImpl implements Page {
 
     protected static final String RESOURCE_TYPE = "core/wcm/components/page/v1/page";
-
-    private static final String FN_FAVICON_ICO = "favicon.ico";
-    private static final String FN_FAVICON_PNG = "favicon_32.png";
-    private static final String FN_TOUCH_ICON_60 = "touch-icon_60.png";
-    private static final String FN_TOUCH_ICON_76 = "touch-icon_76.png";
-    private static final String FN_TOUCH_ICON_120 = "touch-icon_120.png";
-    private static final String FN_TOUCH_ICON_152 = "touch-icon_152.png";
-
-    private static final String PN_FAVICON_ICO = "faviconIco";
-    private static final String PN_FAVICON_PNG = "faviconPng";
-    private static final String PN_TOUCH_ICON_60 = "touchIcon60";
-    private static final String PN_TOUCH_ICON_76 = "touchIcon76";
-    private static final String PN_TOUCH_ICON_120 = "touchIcon120";
-    private static final String PN_TOUCH_ICON_152 = "touchIcon152";
 
     @ScriptVariable
     private com.day.cq.wcm.api.Page currentPage;
@@ -166,7 +149,7 @@ public class PageImpl implements Page {
     }
 
     @Override
-    public Map getFavicons() {
+    public Map<String, String> getFavicons() {
         return favicons;
     }
 
@@ -186,13 +169,13 @@ public class PageImpl implements Page {
     }
 
     private void loadFavicons(String designPath) {
-        favicons = new HashMap<String, String>();
-        favicons.put(PN_FAVICON_ICO,getFaviconPath(designPath,FN_FAVICON_ICO));
-        favicons.put(PN_FAVICON_PNG,getFaviconPath(designPath,FN_FAVICON_PNG));
-        favicons.put(PN_TOUCH_ICON_120,getFaviconPath(designPath,FN_TOUCH_ICON_120));
-        favicons.put(PN_TOUCH_ICON_152,getFaviconPath(designPath,FN_TOUCH_ICON_152));
-        favicons.put(PN_TOUCH_ICON_60,getFaviconPath(designPath,FN_TOUCH_ICON_60));
-        favicons.put(PN_TOUCH_ICON_76,getFaviconPath(designPath,FN_TOUCH_ICON_76));
+        favicons = new HashMap<>();
+        favicons.put(PN_FAVICON_ICO, getFaviconPath(designPath, FN_FAVICON_ICO));
+        favicons.put(PN_FAVICON_PNG, getFaviconPath(designPath, FN_FAVICON_PNG));
+        favicons.put(PN_TOUCH_ICON_120, getFaviconPath(designPath, FN_TOUCH_ICON_120));
+        favicons.put(PN_TOUCH_ICON_152, getFaviconPath(designPath, FN_TOUCH_ICON_152));
+        favicons.put(PN_TOUCH_ICON_60, getFaviconPath(designPath, FN_TOUCH_ICON_60));
+        favicons.put(PN_TOUCH_ICON_76, getFaviconPath(designPath, FN_TOUCH_ICON_76));
     }
 
     private String getFaviconPath(String designPath, String faviconName) {
@@ -210,7 +193,7 @@ public class PageImpl implements Page {
             Resource templateResource = template.adaptTo(Resource.class);
             if (templateResource != null) {
                 addDefaultTemplateEditorClientLib(templateResource, categories);
-                addPolicyClientLibs(templateResource, categories);
+                addPolicyClientLibs(categories);
             }
         }
         clientLibCategories = categories.toArray(new String[categories.size()]);
@@ -222,7 +205,7 @@ public class PageImpl implements Page {
         }
     }
 
-    private void addPolicyClientLibs(Resource templateResource, List<String> categories) {
+    private void addPolicyClientLibs(List<String> categories) {
         if (currentStyle != null) {
             Collections.addAll(categories, currentStyle.get(PN_CLIENTLIBS, ArrayUtils.EMPTY_STRING_ARRAY));
         }

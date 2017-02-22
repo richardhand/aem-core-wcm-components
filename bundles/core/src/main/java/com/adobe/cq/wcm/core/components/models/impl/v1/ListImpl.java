@@ -64,25 +64,12 @@ public class ListImpl implements List {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ListImpl.class);
 
-    private static final String PN_SOURCE = "listFrom";
-    private static final String PN_PAGES = "pages";
-    private static final String PN_PARENT_PAGE = "parentPage";
-    private static final String PN_TAGS_PARENT_PAGE = "tagsSearchRoot";
-    private static final String PN_TAGS = "tags";
-    private static final String PN_TAGS_MATCH = "tagsMatch";
     private static final int LIMIT_DEFAULT = 100;
-    private static final String PN_SHOW_DESCRIPTION = "showDescription";
     private static final boolean SHOW_DESCRIPTION_DEFAULT = false;
-    private static final String PN_SHOW_MODIFICATION_DATE = "showModificationDate";
     private static final boolean SHOW_MODIFICATION_DATE_DEFAULT = false;
-    private static final String PN_LINK_ITEMS = "linkItems";
     private static final boolean LINK_ITEMS_DEFAULT = false;
     private static final int PN_DEPTH_DEFAULT = 1;
-    private static final String PN_SEARCH_IN = "searchIn";
-    private static final String PN_SORT_ORDER = "sortOrder";
-    private static final String PN_ORDER_BY = "orderBy";
     private static final String PN_DATE_FORMAT_DEFAULT = "yyyy-MM-dd";
-    private static final String PN_DATE_FORMAT = "dateFormat";
     private static final String TAGS_MATCH_ANY_VALUE = "any";
 
     @ScriptVariable

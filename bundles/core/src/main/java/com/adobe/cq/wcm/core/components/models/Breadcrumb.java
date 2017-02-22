@@ -26,6 +26,23 @@ import org.osgi.annotation.versioning.ConsumerType;
 public interface Breadcrumb {
 
     /**
+     * Name of the resource property that will indicate if pages that are hidden for navigation will still be displayed.
+     */
+    String PN_SHOW_HIDDEN = "showHidden";
+
+    /**
+     * Name of the resource property that will indicate if the current page should not be present in the collection returned by
+     * {@link #getItems()}.
+     */
+    String PN_HIDE_CURRENT = "hideCurrent";
+
+    /**
+     * Name of the resource property that will indicate from which level starting from the current page the items from the collection
+     * returned by {@link #getItems()} will be accumulated.
+     */
+    String PN_START_LEVEL = "startLevel";
+
+    /**
      * Creates collection of pages(from site hierarchy of current page) for the breadcrumb component
      *
      * @return {@link Collection} of breadcrumb items

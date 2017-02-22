@@ -26,6 +26,22 @@ import org.osgi.annotation.versioning.ConsumerType;
 public interface SocialMediaHelper {
 
     /**
+     * Name of the resource property that will indicate which social networks are supported for social sharing.
+     *
+     * @see #PV_FACEBOOK
+     * @see #PN_SOCIAL_MEDIA
+     */
+    String PN_SOCIAL_MEDIA = "socialMedia";
+
+    /**
+     * Name of the resource property that will indicate which page variant has been used for social sharing.
+     */
+    String PN_VARIANT_PATH = "variantPath";
+
+    String PV_FACEBOOK = "facebook";
+    String PV_PINTEREST = "pinterest";
+
+    /**
      * @return {@code true} if Facebook sharing is enabled in page configuration, {@code false} otherwise.
      */
     boolean isFacebookEnabled();

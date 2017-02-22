@@ -62,11 +62,6 @@ public class SocialMediaHelperImpl implements SocialMediaHelper {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SocialMediaHelperImpl.class);
 
-    private static final String PN_SOCIAL_MEDIA = "socialMedia";
-    private static final String PN_VARIANT_PATH = "variantPath";
-    private static final String PV_FACEBOOK = "facebook";
-    private static final String PV_PINTEREST = "pinterest";
-
     //Open Graph metadata property names
     private static final String OG_TITLE = "og:title";
     private static final String OG_URL = "og:url";

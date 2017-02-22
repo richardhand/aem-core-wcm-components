@@ -27,6 +27,90 @@ import org.osgi.annotation.versioning.ConsumerType;
 public interface Page {
 
     /**
+     * Key used for the regular favicon file.
+     *
+     * @see #getFavicons()
+     */
+    String PN_FAVICON_ICO = "faviconIco";
+
+    /**
+     * Key for the PNG-format favicon file.
+     *
+     * @see #getFavicons()
+     */
+    String PN_FAVICON_PNG = "faviconPng";
+
+    /**
+     * Key for the touch-enabled 60px square favicon file.
+     *
+     * @see #getFavicons()
+     */
+    String PN_TOUCH_ICON_60 = "touchIcon60";
+
+    /**
+     * Key for the touch-enabled 76px square favicon file.
+     *
+     * @see #getFavicons()
+     */
+    String PN_TOUCH_ICON_76 = "touchIcon76";
+
+    /**
+     * Key for the touch-enabled 120px square favicon file.
+     *
+     * @see #getFavicons()
+     */
+    String PN_TOUCH_ICON_120 = "touchIcon120";
+
+    /**
+     * Key for the touch-enabled 152px square favicon file.
+     *
+     * @see #getFavicons()
+     */
+    String PN_TOUCH_ICON_152 = "touchIcon152";
+
+    /**
+     * Expected file name for the regular favicon file.
+     *
+     * @see #getFavicons()
+     */
+    String FN_FAVICON_ICO = "favicon.ico";
+
+    /**
+     * Expected file name for the PNG-format favicon file.
+     *
+     * @see #getFavicons()
+     */
+    String FN_FAVICON_PNG = "favicon_32.png";
+
+    /**
+     * Expected file name for the touch 60px square favicon file.
+     *
+     * @see #getFavicons()
+     */
+    String FN_TOUCH_ICON_60 = "touch-icon_60.png";
+
+    /**
+     * Expected file name for the touch 76px square favicon file.
+     *
+     * @see #getFavicons()
+     */
+    String FN_TOUCH_ICON_76 = "touch-icon_76.png";
+
+    /**
+     * Expected file name for the touch 120px square favicon file.
+     *
+     * @see #getFavicons()
+     */
+    String FN_TOUCH_ICON_120 = "touch-icon_120.png";
+
+    /**
+     * Expected file name for the touch 152px square favicon file.
+     *
+     * @see #getFavicons()
+     */
+    String FN_TOUCH_ICON_152 = "touch-icon_152.png";
+
+    /**
      * Returns the language of this page, if one has been defined. Otherwise the default {@link java.util.Locale} will be used.
      *
      * @return the language code (IETF BCP 47) for this page
@@ -60,22 +144,24 @@ public interface Page {
     String getStaticDesignPath();
 
     /**
-     * Retrieves the paths to the various favicons for the website
-     * as <code>&lt;favicon_name&gt;:&lt;path&gt;</code>pairs.
-     * <br>
-     * If a file, corresponding to a particular type of favicon is found under the page's design path,
-     * the &lt;favicon_name&gt;:&lt;path&gt; pair is added to the list, otherwise
-     * that type of favicon is ignored.
-     * Below given is a list of the names of currently supported favicons along with their brief description:
-     * <ul>
-     *     <li>faviconIco :The favicon.ico favicon</li>
-     *     <li>faviconPng :The png version of the favicon</li>
-     *     <li>touchIcon60 : The touch icon with size 60px</li>
-     *     <li>touchIcon76 :The touch icon with size 76px</li>
-     *     <li>touchIcon120 :The touch icon with size 120px</li>
-     *     <li>touchIcon152 :The touch icon with size 152px</li>
-     * </ul>
-     * @return {@link Map} containing the name of favicon and their corresponding paths in pairs.
+     * <p>
+     * Retrieves the paths to the various favicons for the website as <code>&lt;favicon_name&gt;:&lt;path&gt;</code> pairs.
+     * </p>
+     * <p>
+     * If a file corresponding to a particular type of favicon is found under the page's design path, then the
+     * &lt;favicon_name&gt;:&lt;path&gt; pair is added to the map, otherwise that type of favicon is ignored. The following list
+     * defines the currently supported favicons along with their brief descriptions:
+     *  <ul>
+     *      <li>{@link #PN_FAVICON_ICO}: The favicon.ico favicon</li>
+     *      <li>{@link #PN_FAVICON_PNG}: The png version of the favicon</li>
+     *      <li>{@link #PN_TOUCH_ICON_60}: The touch icon with size 60px</li>
+     *      <li>{@link #PN_TOUCH_ICON_76}: The touch icon with size 76px</li>
+     *      <li>{@link #PN_TOUCH_ICON_120}: The touch icon with size 120px</li>
+     *      <li>{@link #PN_TOUCH_ICON_152}: The touch icon with size 152px</li>
+     *  </ul>
+     * </p>
+     *
+     * @return {@link Map} containing the names of the favicons and their corresponding paths
      */
     Map<String, String> getFavicons();
 
@@ -93,6 +179,8 @@ public interface Page {
     String[] getClientLibCategories();
 
     /**
+     * Returns the template name of the currently used template.
+     *
      * @return the template name of the current template
      */
     String getTemplateName();
