@@ -150,7 +150,7 @@ public interface Page {
      * <p>
      * If a file corresponding to a particular type of favicon is found under the page's design path, then the
      * &lt;favicon_name&gt;:&lt;path&gt; pair is added to the map, otherwise that type of favicon is ignored. The following list
-     * defines the currently supported favicons along with their brief descriptions:
+     * defines the currently supported favicons along with their brief descriptions:</p>
      *  <ul>
      *      <li>{@link #PN_FAVICON_ICO}: The favicon.ico favicon</li>
      *      <li>{@link #PN_FAVICON_PNG}: The png version of the favicon</li>
@@ -159,7 +159,6 @@ public interface Page {
      *      <li>{@link #PN_TOUCH_ICON_120}: The touch icon with size 120px</li>
      *      <li>{@link #PN_TOUCH_ICON_152}: The touch icon with size 152px</li>
      *  </ul>
-     * </p>
      *
      * @return {@link Map} containing the names of the favicons and their corresponding paths
      */
