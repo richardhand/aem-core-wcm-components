@@ -64,6 +64,10 @@
                                 jcr:primaryType="nt:unstructured"
                                 entity="&amp;copy;"
                                 name="copyright"/>
+                            <default_euro
+                                jcr:primaryType="nt:unstructured"
+                                entity="&amp;euro;"
+                                name="euro"/>
                             <default_registered
                                 jcr:primaryType="nt:unstructured"
                                 entity="&amp;reg;"
