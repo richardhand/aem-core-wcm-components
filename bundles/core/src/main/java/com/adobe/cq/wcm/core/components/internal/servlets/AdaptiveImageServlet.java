@@ -182,8 +182,7 @@ public class AdaptiveImageServlet extends AbstractImageServlet {
         List<Integer> list = new ArrayList<>();
         ResourceResolver resourceResolver = request.getResourceResolver();
         ContentPolicyManager policyManager = resourceResolver.adaptTo(ContentPolicyManager.class);
-        ComponentContext componentContext = WCMUtils.getComponentContext(request);
-        ContentPolicy contentPolicy = policyManager.getPolicy(componentContext);
+        ContentPolicy contentPolicy = policyManager.getPolicy(request.getResource());
         if (contentPolicy != null) {
             String[] allowedRenditionWidths = contentPolicy.getProperties()
                     .get(com.adobe.cq.wcm.core.components.models.Image.PN_DESIGN_ALLOWED_RENDITION_WIDTHS, new String[0]);

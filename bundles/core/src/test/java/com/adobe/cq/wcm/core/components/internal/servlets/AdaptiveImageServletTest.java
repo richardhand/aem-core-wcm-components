@@ -98,11 +98,9 @@ public class AdaptiveImageServletTest {
     public void testRequestWithWidthDesignAllowed() throws Exception {
         MockSlingHttpServletResponse response = spy(aemContext.response());
         MockSlingHttpServletRequest request = prepareRequest(IMAGE0_PATH, "img.800", "png");
-        ComponentContext componentContext = mock(ComponentContext.class);
-        request.setAttribute(ComponentContext.CONTEXT_ATTR_NAME, componentContext);
         ContentPolicyMapping mapping = request.getResource().adaptTo(ContentPolicyMapping.class);
         ContentPolicy contentPolicy = mapping.getPolicy();
-        when(contentPolicyManager.getPolicy(componentContext)).thenReturn(contentPolicy);
+        when(contentPolicyManager.getPolicy(request.getResource())).thenReturn(contentPolicy);
         activateServlet(servlet);
         servlet.doGet(request, response);
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(response.getOutput());
@@ -117,11 +115,9 @@ public class AdaptiveImageServletTest {
     public void testRequestWithWidthDesignNotAllowed() throws Exception {
         MockSlingHttpServletResponse response = spy(aemContext.response());
         MockSlingHttpServletRequest request = prepareRequest(IMAGE0_PATH, "img.1000", "png");
-        ComponentContext componentContext = mock(ComponentContext.class);
-        request.setAttribute(ComponentContext.CONTEXT_ATTR_NAME, componentContext);
         ContentPolicyMapping mapping = request.getResource().adaptTo(ContentPolicyMapping.class);
         ContentPolicy contentPolicy = mapping.getPolicy();
-        when(contentPolicyManager.getPolicy(componentContext)).thenReturn(contentPolicy);
+        when(contentPolicyManager.getPolicy(request.getResource())).thenReturn(contentPolicy);
         activateServlet(servlet);
         servlet.doGet(request, response);
         assertEquals("Expected a 404 response when the design does not allow the requested width to be rendered.",HttpServletResponse
@@ -144,11 +140,9 @@ public class AdaptiveImageServletTest {
     public void testRequestNoWidthWithDesign() throws Exception {
         MockSlingHttpServletResponse response = spy(aemContext.response());
         MockSlingHttpServletRequest request = prepareRequest(IMAGE0_PATH, "img", "png");
-        ComponentContext componentContext = mock(ComponentContext.class);
-        request.setAttribute(ComponentContext.CONTEXT_ATTR_NAME, componentContext);
         ContentPolicyMapping mapping = request.getResource().adaptTo(ContentPolicyMapping.class);
         ContentPolicy contentPolicy = mapping.getPolicy();
-        when(contentPolicyManager.getPolicy(componentContext)).thenReturn(contentPolicy);
+        when(contentPolicyManager.getPolicy(request.getResource())).thenReturn(contentPolicy);
         activateServlet(servlet);
         servlet.doGet(request, response);
         verify(response).setContentType("image/png");
@@ -202,11 +196,9 @@ public class AdaptiveImageServletTest {
         setFinalStatic(AdaptiveImageServlet.class.getDeclaredField("LOGGER"), logger);
         MockSlingHttpServletResponse response = spy(aemContext.response());
         MockSlingHttpServletRequest request = prepareRequest(IMAGE1_PATH, "img.700", "png");
-        ComponentContext componentContext = mock(ComponentContext.class);
-        request.setAttribute(ComponentContext.CONTEXT_ATTR_NAME, componentContext);
         ContentPolicyMapping mapping = request.getResource().adaptTo(ContentPolicyMapping.class);
         ContentPolicy contentPolicy = mapping.getPolicy();
-        when(contentPolicyManager.getPolicy(componentContext)).thenReturn(contentPolicy);
+        when(contentPolicyManager.getPolicy(request.getResource())).thenReturn(contentPolicy);
         activateServlet(servlet);
         servlet.doGet(request, response);
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(response.getOutput());
