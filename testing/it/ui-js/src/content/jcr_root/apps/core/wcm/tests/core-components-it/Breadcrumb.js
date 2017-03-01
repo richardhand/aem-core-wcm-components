@@ -181,13 +181,11 @@
         // set it to 0
         .fillInput("input[name='./startLevel']", 0)
         // Close the configuration dialog
-        .execTestCase(c.tcSaveConfigureDialog)
-
-        // 0 is an invalid start point it should render no breadcrumbs
-        .assert.isTrue(function(){
-            return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 0 &&
-                h.find("li.breadcrumb-item.active","iframe#ContentFrame").size() === 0
-        });
+        .asserts.visible(c.selConfigDialog)
+        // check if element name is marked as invalid
+        .asserts.isTrue(function() {
+            return h.find("input[name='./startLevel'].is-invalid").size() == 1
+        })
 
     /**
      * Test: Set the start level to the highest possible value 100.
