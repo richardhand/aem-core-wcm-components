@@ -13,30 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-(function ($, channel) {
+(function () {
     'use strict';
-    var INPUT_FIELD = ".cmp-form-field input",
-        REQUIRED_MSG_ATTRIBUTE = "data-cmp-required",
-        CONSTRAINT_MSG_ATTRIBUTE = "data-cmp-constraint";
 
-    channel.ready(function () {
-        $(INPUT_FIELD).each(function (index) {
-            this.oninvalid = function (e) {
+    function documentReady(fn) {
+        if (document.readyState != 'loading'){
+            fn();
+        } else {
+            document.addEventListener('DOMContentLoaded', fn);
+        }
+    }
+
+    var INPUT_FIELD = '.cmp-form-field input',
+        REQUIRED_MSG_ATTRIBUTE = 'data-cmp-required',
+        CONSTRAINT_MSG_ATTRIBUTE = 'data-cmp-constraint';
+
+    documentReady(function () {
+        var inputFields = document.querySelectorAll(INPUT_FIELD), inputField, index;
+        for (index = 0; index < inputFields.length; index++) {
+            inputField = inputFields[index];
+            inputField.addEventListener('invalid', function (e) {
                 e.target.setCustomValidity("");
                 if (e.target.validity.typeMismatch) {
-                    if (this.hasAttribute(CONSTRAINT_MSG_ATTRIBUTE)) {
-                        e.target.setCustomValidity(this.getAttribute(CONSTRAINT_MSG_ATTRIBUTE));
+                    if (inputField.hasAttribute(CONSTRAINT_MSG_ATTRIBUTE)) {
+                        e.target.setCustomValidity(inputField.getAttribute(CONSTRAINT_MSG_ATTRIBUTE));
                     }
                 } else if (e.target.validity.valueMissing) {
-                    if (this.hasAttribute(REQUIRED_MSG_ATTRIBUTE)) {
-                        e.target.setCustomValidity(this.getAttribute(REQUIRED_MSG_ATTRIBUTE));
+                    if (inputField.hasAttribute(REQUIRED_MSG_ATTRIBUTE)) {
+                        e.target.setCustomValidity(inputField.getAttribute(REQUIRED_MSG_ATTRIBUTE));
                     }
                 }
-            };
-            this.oninput = function (e) {
+            });
+            inputField.addEventListener('input', function (e) {
                 e.target.setCustomValidity("");
-            }
-        });
+            });
+        }
     });
 
-})(jQuery, jQuery(document));
+})();
