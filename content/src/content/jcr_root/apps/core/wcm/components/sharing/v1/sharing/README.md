@@ -13,27 +13,21 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-Text (v1)
+Social Media Sharing (v1)
 ====
-Text component written in HTL that provides a section of rich text.
+Social media sharing component, written in HTL.
 
 ## Features
-
-* In-place editing
-* Rich text editor
-* Styles
+* Social media sharing for pages, currently via Facebook and Pinterest
 
 ### Use Object
-The Title component uses the `com.adobe.cq.wcm.core.components.models.Text` Sling model as its Use-object. The current implementation reads
-the following resource properties:
-
-1. `./text` - the actual text to be rendered
-2. `./textIsRich` - flag determining if the rendered text is rich or not, useful for applying the correct HTL display context
+The Social Media Sharing component uses the `com.adobe.cq.wcm.core.components.models.SocialMediaHelper` Sling Model for its
+Use-object.
 
 ## Information
 * **Vendor**: Adobe
 * **Version**: v1
 * **Compatibility**: AEM 6.3
 * **Status**: production-ready
-* **Documentation**: [https://www.adobe.com/go/aem\_core\_components\_text\_v1](https://www.adobe.com/go/aem_core_components_text_v1)
+* **Documentation**: [https://www.adobe.com/go/aem\_core\_components\_sharing\_v1](https://www.adobe.com/go/aem_core_components_sharing_v1)
 

@@ -5,7 +5,7 @@
     jcr:primaryType="nt:unstructured"
     jcr:title="List"
     sling:resourceType="cq/gui/components/authoring/dialog"
-    helpPath="http://www.adobe.com/go/aem6_3_docs_component_en#List - HTL">
+    helpPath="https://www.adobe.com/go/aem_core_components_list_v1">
     <content
         granite:class="core-wcm-list-v1"
         jcr:primaryType="nt:unstructured"
