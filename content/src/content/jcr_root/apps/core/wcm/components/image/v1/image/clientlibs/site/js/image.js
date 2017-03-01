@@ -72,7 +72,7 @@
             if (initDone) {
                 return;
             }
-            
+
             if (options.smartSizes && options.smartImages && options.smartSizes.length > 0) {
                 if (console && options.smartSizes.length !== options.smartImages.length) {
                     console.warn('The size of the smartSizes and of the smartImages arrays do not match!');
@@ -89,7 +89,7 @@
             if (showsLazyLoader) {
                 image.addEventListener('load', removeLazyLoader);
             }
-            
+
             initDone = true;
         }
 
@@ -129,9 +129,9 @@
                 return false;
             }
 
-            var wt = document.body.scrollTop,
+            var wt = window.scrollY,
                 wb = wt + document.documentElement.clientHeight,
-                et = container.getBoundingClientRect().top,
+                et = container.getBoundingClientRect().top + wt,
                 eb = et + container.clientHeight;
 
             return eb >= wt - options.lazyThreshold && et <= wb + options.lazyThreshold;
