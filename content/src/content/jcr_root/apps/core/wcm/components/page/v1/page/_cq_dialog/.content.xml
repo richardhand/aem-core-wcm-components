@@ -48,7 +48,7 @@
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                                                 fieldLabel="Name"
                                                 name="pageName"
-                                                validation="foundation.jcr.name"/>
+                                                validation="admin.pagename"/>
                                             <msmConfigEndpoint
                                                 granite:class="msm-config-endpoint"
                                                 jcr:primaryType="nt:unstructured"
