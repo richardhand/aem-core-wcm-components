@@ -56,6 +56,36 @@ Core breadcrumb component that features:
 * Show also hidden navigation items
 * Exclude the current page from the breadcrumb
 
+### Form Button
+Button component that provides support for regular and submit buttons.
+
+### Form Container
+Form container component that features:
+* Form submit actions like sending emails, storing content
+* Configurable list of allowed components
+* Thank you page
+
+### Form Hidden Field
+Form hidden field component that allows a form owner to add hidden data to an HTML form.
+
+### Form Options
+Form options component that features:
+* Checkboxes
+* Radio buttons
+* Drop down
+* Multi select drop down
+
+### Form Text
+Form text field component that features:
+* Support for the following type of input:
+  * text
+  * textarea
+  * email
+  * telephone
+  * date
+  * number
+* Custom constraint messages for the above types
+
 ## Installation
 
 For ease of installation the following profiles are provided:
