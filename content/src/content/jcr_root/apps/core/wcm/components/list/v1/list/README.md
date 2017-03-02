@@ -68,5 +68,5 @@ last modification date of the item; possible values: `title`, `modified`
 * **Version**: v1
 * **Compatibility**: AEM 6.3
 * **Status**: production-ready
-* **Documentation**: [https://www.adobe.com/go/aem\_core\_components\_list\_v1](https://www.adobe.com/go/aem_core_components_list_v1)
+* **Documentation**: [https://www.adobe.com/go/aem\_cmp\_list\_v1](https://www.adobe.com/go/aem_cmp_list_v1)
 

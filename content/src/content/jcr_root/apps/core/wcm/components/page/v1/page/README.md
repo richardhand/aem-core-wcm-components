@@ -70,5 +70,5 @@ media
 * **Version**: v1
 * **Compatibility**: AEM 6.3
 * **Status**: production-ready
-* **Documentation**: [https://www.adobe.com/go/aem\_core\_components\_page\_v1](https://www.adobe.com/go/aem_core_components_page_v1)
+* **Documentation**: [https://www.adobe.com/go/aem\_cmp\_page\_v1](https://www.adobe.com/go/aem_cmp_page_v1)
 

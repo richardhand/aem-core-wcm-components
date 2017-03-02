@@ -51,5 +51,5 @@ otherwise a caption will be rendered
 * **Version**: v1
 * **Compatibility**: AEM 6.3
 * **Status**: production-ready
-* **Documentation**: [https://www.adobe.com/go/aem\_core\_components\_image\_v1](https://www.adobe.com/go/aem_core_components_image_v1)
+* **Documentation**: [https://www.adobe.com/go/aem\_cmp\_image\_v1](https://www.adobe.com/go/aem_cmp_image_v1)
 

@@ -43,4 +43,4 @@ to the value defined by the component's policy
 * **Version**: v1
 * **Compatibility**: AEM 6.3
 * **Status**: production-ready
-* **Documentation**: [https://www.adobe.com/go/aem\_core\_components\_title\_v1](https://www.adobe.com/go/aem_core_components_title_v1)
+* **Documentation**: [https://www.adobe.com/go/aem\_cmp\_title\_v1](https://www.adobe.com/go/aem_cmp_title_v1)

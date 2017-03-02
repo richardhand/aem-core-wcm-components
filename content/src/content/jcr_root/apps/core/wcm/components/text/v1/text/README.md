@@ -35,5 +35,5 @@ the following resource properties:
 * **Version**: v1
 * **Compatibility**: AEM 6.3
 * **Status**: production-ready
-* **Documentation**: [https://www.adobe.com/go/aem\_core\_components\_text\_v1](https://www.adobe.com/go/aem_core_components_text_v1)
+* **Documentation**: [https://www.adobe.com/go/aem\_cmp\_text\_v1](https://www.adobe.com/go/aem_cmp_text_v1)
 

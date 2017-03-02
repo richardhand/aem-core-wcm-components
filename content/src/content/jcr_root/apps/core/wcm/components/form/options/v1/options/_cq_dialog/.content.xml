@@ -3,7 +3,7 @@
     jcr:primaryType="nt:unstructured"
     jcr:title="Form Options"
     sling:resourceType="cq/gui/components/authoring/dialog"
-    helpPath="https://www.adobe.com/go/aem_core_components_form_options_v1">
+    helpPath="https://www.adobe.com/go/aem_cmp_form_options_v1">
     <content
         granite:class="core-wcm-form-options-v1"
         jcr:primaryType="nt:unstructured"
