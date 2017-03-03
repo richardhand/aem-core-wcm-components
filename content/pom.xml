@@ -271,10 +271,5 @@
             <artifactId>cq-wcm-sightly-extension</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.day.cq</groupId>
-            <artifactId>cq-quickstart</artifactId>
-            <classifier>apis</classifier>
-        </dependency>
     </dependencies>
 </project>

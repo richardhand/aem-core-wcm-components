@@ -69,7 +69,7 @@
     <!-- ====================================================================== -->
     <profiles>
         <profile>
-            <id>autoInstallBundle</id>
+            <id>autoInstallPackage</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
@@ -95,7 +95,7 @@
             </build>
         </profile>
         <profile>
-            <id>autoInstallBundlePublish</id>
+            <id>autoInstallPackagePublish</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>

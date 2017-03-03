@@ -90,14 +90,15 @@ Form text field component that features:
 
 For ease of installation the following profiles are provided:
 
+ * ``autoInstallSinglePackage`` - install everything to an existing AEM author instance, as specified by ``http://${aem.host}:${aem.port}``
+ * ``autoInstallSinglePackagePublish`` - install everything to an existing AEM publish instance, as specified by ``http://${aem.publish.host}:${aem.publish.port}``
  * ``autoInstallPackage`` - installs the package/bundle to an existing AEM author instance, as specified by ``http://${aem.host}:${aem.port}``
  * ``autoInstallPackagePublish`` - installs the package/bundle to an existing AEM publish instance, as specified by ``http://${aem.publish.host}:${aem.publish.port}``
 
 ### UberJar
 
 This project relies on the unobfuscated AEM 6.2 cq-quickstart. This is not publicly available from http://repo.adobe.com and must be 
-manually
-downloaded from https://daycare.day.com/home/products/uberjar.html. After downloading the file (_cq-quickstart-6.2.0-apis.jar_), you must install it into your local Maven repository with this command:
+manually downloaded from https://daycare.day.com/home/products/uberjar.html. After downloading the file (_cq-quickstart-6.2.0-apis.jar_), you must install it into your local Maven repository with this command:
 
     mvn install:install-file -Dfile=cq-quickstart-6.2.0-apis.jar -DgroupId=com.day.cq -DartifactId=cq-quickstart -Dversion=6.2.0 -Dclassifier=apis -Dpackaging=jar
 
@@ -105,17 +106,17 @@ For more details about the UberJar please head over to the
 [How to Build AEM Projects using Apache Maven](https://docs.adobe.com/docs/en/aem/6-2/develop/dev-tools/ht-projects-maven.html#What%20is%20the%20UberJar?)
 documentation page.
 
-### All Components
+### Install everything
 
-You can install all components to your running AEM instance by issueing the following command in the top level folder of the project:
+You can install everything needed to use the components on your running AEM instance by issuing the following command in the top level folder of the project:
 
     mvn clean install -PautoInstallSinglePackage
-    
-### Single Components
 
-You can install a single component (or a list of components) by issuing the following command in the top level folder of the project:
+### Individual packages/bundles
 
-    mvn clean install -PautoInstallPackage -pl <component_name(s)> -am
+You can install individual packages/bundles by issuing the following command in the top level folder of the project:
+
+    mvn clean install -PautoInstallPackage -pl <project_name(s)> -am
 
 Please note that
 
