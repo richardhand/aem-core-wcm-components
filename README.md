@@ -1,90 +1,23 @@
 # AEM Core WCM Components
 
-Tech preview of standardized components.
+A set of standardized components that can be used to speed up development of web sites.
 
 ## Available Components
 
-### Page
-
-Extensible page component that features:
-* Editable templates
-* Page title, subtitle, description and thumbnail
-* Navigation title, or hide from navigation
-* Vanity URL, page alias and redirection
-* Page tagging and define content language
-* On/Off time and launches
-* Blueprints and live copy
-* Closed user groups and permissions
-* Cloud services
-
-### Title
-
-Core title component that features:
-* In-place editing
-* Available levels & default level
-* Styles
-
-### Text
-
-Core text component that features:
-* In-place editing
-* Rich text editor
-* Styles
-
-### Image
-
-Core image component that features:
-* Smart loading of optimal rendition
-* In-place editing, cropping, rotating, and resizing
-* Image title, description, accessibility text and link
-* Styles
-
-### List
-
-Core list component that features:
-* Multiple sources:
-  * List page children
-  * List tagged items
-  * List query result
-  * List static items
-* Ordering, pagination and limit
-* Styles
-
-### Breadcrumb
-Core breadcrumb component that features:
-* Start level where the breadcrumb should start
-* Show also hidden navigation items
-* Exclude the current page from the breadcrumb
-
-### Form Button
-Button component that provides support for regular and submit buttons.
-
-### Form Container
-Form container component that features:
-* Form submit actions like sending emails, storing content
-* Configurable list of allowed components
-* Thank you page
-
-### Form Hidden Field
-Form hidden field component that allows a form owner to add hidden data to an HTML form.
-
-### Form Options
-Form options component that features:
-* Checkboxes
-* Radio buttons
-* Drop down
-* Multi select drop down
-
-### Form Text
-Form text field component that features:
-* Support for the following type of input:
-  * text
-  * textarea
-  * email
-  * telephone
-  * date
-  * number
-* Custom constraint messages for the above types
+* Page authoring components:
+  * [Page component](content/src/content/jcr_root/apps/core/wcm/components/page/v1/page)
+  * [Breadcrumb component](content/src/content/jcr_root/apps/core/wcm/components/breadcrumb/v1/breadcrumb)
+  * [Title component](content/src/content/jcr_root/apps/core/wcm/components/title/v1/title)
+  * [Text component](content/src/content/jcr_root/apps/core/wcm/components/text/v1/text)
+  * [Image component](content/src/content/jcr_root/apps/core/wcm/components/image/v1/image)
+  * [List component](content/src/content/jcr_root/apps/core/wcm/components/list/v1/list)
+  * [Sharing component](content/src/content/jcr_root/apps/core/wcm/components/sharing/v1/sharing)
+* Form components:
+  * [Form container](content/src/content/jcr_root/apps/core/wcm/components/form/container/v1/container)
+  * [Form text field](content/src/content/jcr_root/apps/core/wcm/components/form/text/v1/text)
+  * [Form options field](content/src/content/jcr_root/apps/core/wcm/components/form/options/v1/options)
+  * [Form hidden field](content/src/content/jcr_root/apps/core/wcm/components/form/hidden/v1/hidden)
+  * [Form button](content/src/content/jcr_root/apps/core/wcm/components/form/button/v1/button)
 
 ## Installation
 
