@@ -60,10 +60,11 @@ import com.day.cq.wcm.api.designer.Style;
 public class ImageImpl implements Image {
 
     public static final String RESOURCE_TYPE = "core/wcm/components/image/v1/image";
-    public static final String MIME_TYPE_IMAGE_JPEG = "image/jpeg";
+    public static final String DEFAULT_EXTENSION = "jpeg";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageImpl.class);
     private static final String DOT = ".";
+    private static final String MIME_TYPE_IMAGE_JPEG = "image/jpeg";
 
     @Self
     private SlingHttpServletRequest request;
@@ -133,6 +134,9 @@ public class ImageImpl implements Image {
             }
         }
         if (hasContent) {
+            if (extension.equalsIgnoreCase("tif") || extension.equalsIgnoreCase("tiff")) {
+                extension = DEFAULT_EXTENSION;
+            }
             Set<Integer> supportedRenditionWidths = getSupportedRenditionWidths();
             smartImages = new String[supportedRenditionWidths.size()];
             smartSizes = new int[supportedRenditionWidths.size()];

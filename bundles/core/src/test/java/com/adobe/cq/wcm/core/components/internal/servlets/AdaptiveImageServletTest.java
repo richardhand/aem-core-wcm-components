@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.commons.mime.MimeTypeService;
 import org.apache.sling.testing.mock.sling.servlet.MockRequestPathInfo;
 import org.apache.sling.testing.mock.sling.servlet.MockSlingHttpServletRequest;
 import org.apache.sling.testing.mock.sling.servlet.MockSlingHttpServletResponse;
@@ -34,12 +35,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.internal.util.reflection.Whitebox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
+import com.adobe.cq.wcm.core.components.models.impl.v1.ImageImpl;
 import com.adobe.cq.wcm.core.components.testing.MockAdapterFactory;
-import com.day.cq.wcm.api.components.ComponentContext;
 import com.day.cq.wcm.api.policies.ContentPolicy;
 import com.day.cq.wcm.api.policies.ContentPolicyManager;
 import com.day.cq.wcm.api.policies.ContentPolicyMapping;
@@ -71,6 +73,14 @@ public class AdaptiveImageServletTest {
 
     @Before
     public void setUp() {
+        MimeTypeService mockedMimeTypeService = mock(MimeTypeService.class);
+        when(mockedMimeTypeService.getMimeType("tif")).thenReturn("image/jpeg");
+        when(mockedMimeTypeService.getMimeType("tiff")).thenReturn("image/jpeg");
+        when(mockedMimeTypeService.getMimeType("png")).thenReturn("image/png");
+        when(mockedMimeTypeService.getMimeType("jpg")).thenReturn("image/jpeg");
+        when(mockedMimeTypeService.getMimeType("jpeg")).thenReturn("image/jpeg");
+        when(mockedMimeTypeService.getMimeType("gif")).thenReturn("image/gif");
+        when(mockedMimeTypeService.getExtension("image/tif")).thenReturn(ImageImpl.DEFAULT_EXTENSION);
         aemContext.load().json("/image/test-conf.json", "/conf");
         aemContext.load().binaryFile("/image/" + IMAGE_BINARY_NAME, ASSET_PATH);
         aemContext.registerInjectActivateService(new MockAdapterFactory());
@@ -85,6 +95,8 @@ public class AdaptiveImageServletTest {
                     }
                 });
         servlet = new AdaptiveImageServlet();
+        Whitebox.setInternalState(servlet, "mimeTypeService", mockedMimeTypeService);
+        activateServlet(servlet);
     }
 
     @After
@@ -101,7 +113,6 @@ public class AdaptiveImageServletTest {
         ContentPolicyMapping mapping = request.getResource().adaptTo(ContentPolicyMapping.class);
         ContentPolicy contentPolicy = mapping.getPolicy();
         when(contentPolicyManager.getPolicy(request.getResource())).thenReturn(contentPolicy);
-        activateServlet(servlet);
         servlet.doGet(request, response);
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(response.getOutput());
         BufferedImage image = ImageIO.read(byteArrayInputStream);
@@ -118,7 +129,6 @@ public class AdaptiveImageServletTest {
         ContentPolicyMapping mapping = request.getResource().adaptTo(ContentPolicyMapping.class);
         ContentPolicy contentPolicy = mapping.getPolicy();
         when(contentPolicyManager.getPolicy(request.getResource())).thenReturn(contentPolicy);
-        activateServlet(servlet);
         servlet.doGet(request, response);
         assertEquals("Expected a 404 response when the design does not allow the requested width to be rendered.",HttpServletResponse
                 .SC_NOT_FOUND, response.getStatus());
@@ -129,7 +139,6 @@ public class AdaptiveImageServletTest {
     public void testRequestWithWidthNoDesign() throws Exception {
         MockSlingHttpServletResponse response = spy(aemContext.response());
         MockSlingHttpServletRequest request = prepareRequest(IMAGE0_PATH, "img.800", "png");
-        activateServlet(servlet);
         servlet.doGet(request, response);
         assertEquals("Expected a 404 response when the request contains width information but no content policy has been defined.",
                 HttpServletResponse.SC_NOT_FOUND, response.getStatus());
@@ -143,7 +152,6 @@ public class AdaptiveImageServletTest {
         ContentPolicyMapping mapping = request.getResource().adaptTo(ContentPolicyMapping.class);
         ContentPolicy contentPolicy = mapping.getPolicy();
         when(contentPolicyManager.getPolicy(request.getResource())).thenReturn(contentPolicy);
-        activateServlet(servlet);
         servlet.doGet(request, response);
         verify(response).setContentType("image/png");
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(response.getOutput());
@@ -158,7 +166,6 @@ public class AdaptiveImageServletTest {
     public void testRequestNoWidthNoDesign() throws Exception {
         MockSlingHttpServletResponse response = spy(aemContext.response());
         MockSlingHttpServletRequest request = prepareRequest(IMAGE0_PATH, "img", "png");
-        activateServlet(servlet);
         servlet.doGet(request, response);
         verify(response).setContentType("image/png");
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(response.getOutput());
@@ -172,7 +179,6 @@ public class AdaptiveImageServletTest {
     public void testWrongNumberOfSelectors() throws Exception {
         MockSlingHttpServletResponse response = spy(aemContext.response());
         MockSlingHttpServletRequest request = prepareRequest(IMAGE0_PATH, "img.1.1", "png");
-        activateServlet(servlet);
         servlet.doGet(request, response);
         assertEquals("Expected a 404 response when the request has more selectors than expected.",
                 HttpServletResponse.SC_NOT_FOUND, response.getStatus());
@@ -183,7 +189,6 @@ public class AdaptiveImageServletTest {
     public void testInvalidWidthSelector() throws Exception {
         MockSlingHttpServletResponse response = spy(aemContext.response());
         MockSlingHttpServletRequest request = prepareRequest(IMAGE0_PATH, "img.full", "png");
-        activateServlet(servlet);
         servlet.doGet(request, response);
         assertEquals("Expected a 404 response when the request has an invalid width selector.",
                 HttpServletResponse.SC_NOT_FOUND, response.getStatus());
@@ -199,7 +204,6 @@ public class AdaptiveImageServletTest {
         ContentPolicyMapping mapping = request.getResource().adaptTo(ContentPolicyMapping.class);
         ContentPolicy contentPolicy = mapping.getPolicy();
         when(contentPolicyManager.getPolicy(request.getResource())).thenReturn(contentPolicy);
-        activateServlet(servlet);
         servlet.doGet(request, response);
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(response.getOutput());
         BufferedImage image = ImageIO.read(byteArrayInputStream);
@@ -218,7 +222,6 @@ public class AdaptiveImageServletTest {
     public void testWithInvalidFileReference() throws Exception {
         MockSlingHttpServletResponse response = spy(aemContext.response());
         MockSlingHttpServletRequest request = prepareRequest(IMAGE2_PATH, "img", "png");
-        activateServlet(servlet);
         servlet.doGet(request, response);
         assertEquals("Expected a 404 response when the image does not have a valid file reference.",
                 HttpServletResponse.SC_NOT_FOUND, response.getStatus());

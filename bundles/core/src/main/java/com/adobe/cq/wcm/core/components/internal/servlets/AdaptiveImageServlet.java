@@ -29,8 +29,10 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.commons.mime.MimeTypeService;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.metatype.annotations.AttributeDefinition;
 import org.osgi.service.metatype.annotations.Designate;
 import org.osgi.service.metatype.annotations.ObjectClassDefinition;
@@ -38,11 +40,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.adobe.cq.wcm.core.components.models.impl.v1.ImageImpl;
-import com.day.cq.wcm.api.components.ComponentContext;
 import com.day.cq.wcm.api.policies.ContentPolicy;
 import com.day.cq.wcm.api.policies.ContentPolicyManager;
 import com.day.cq.wcm.commons.AbstractImageServlet;
-import com.day.cq.wcm.commons.WCMUtils;
 import com.day.cq.wcm.foundation.Image;
 import com.day.image.Layer;
 
@@ -67,8 +67,12 @@ public class AdaptiveImageServlet extends AbstractImageServlet {
     public static final String DEFAULT_SELECTOR = "img";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AdaptiveImageServlet.class);
+    private static final String DEFAULT_MIME = "image/jpeg";
     private ThreadLocal<Integer> threadLocalWidthSelector = new ThreadLocal<>();
     private int defaultResizeWidth;
+
+    @Reference
+    private MimeTypeService mimeTypeService;
 
     @ObjectClassDefinition(
         name = "AEM Core WCM Components Adaptive Image Servlet Configuration",
@@ -147,6 +151,17 @@ public class AdaptiveImageServlet extends AbstractImageServlet {
         } finally {
             threadLocalWidthSelector.remove();
         }
+    }
+
+    @Override
+    protected String getImageType(String ext) {
+        if (ext == null) {
+            return DEFAULT_MIME;
+        }
+        if ("tiff".equalsIgnoreCase(ext) || "tif".equalsIgnoreCase(ext)) {
+            return DEFAULT_MIME;
+        }
+        return mimeTypeService.getMimeType(ext);
     }
 
     @Override
