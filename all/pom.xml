@@ -85,7 +85,7 @@
     <!-- ====================================================================== -->
     <profiles>
         <profile>
-            <id>autoInstallPackage</id>
+            <id>autoInstallSinglePackage</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
@@ -111,7 +111,7 @@
             </build>
         </profile>
         <profile>
-            <id>autoInstallPackagePublish</id>
+            <id>autoInstallSinglePackagePublish</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>

@@ -1,91 +1,55 @@
 # AEM Core WCM Components
 
-Tech preview of standardized components.
+A set of standardized components that can be used to speed up development of web sites.
 
 ## Available Components
 
-### Page
-
-Extensible page component that features:
-* Editable templates
-* Page title, subtitle, description and thumbnail
-* Navigation title, or hide from navigation
-* Vanity URL, page alias and redirection
-* Page tagging and define content language
-* On/Off time and launches
-* Blueprints and live copy
-* Closed user groups and permissions
-* Cloud services
-
-### Title
-
-Core title component that features:
-* In-place editing
-* Available levels & default level
-* Styles
-
-### Text
-
-Core text component that features:
-* In-place editing
-* Rich text editor
-* Styles
-
-### Image
-
-Core image component that features:
-* Smart loading of optimal rendition
-* In-place editing, cropping, rotating, and resizing
-* Image title, description, accessibility text and link
-* Styles
-
-### List
-
-Core list component that features:
-* Multiple sources:
-  * List page children
-  * List tagged items
-  * List query result
-  * List static items
-* Ordering, pagination and limit
-* Styles
-
-### Breadcrumb
-Core breadcrumb component that features:
-* Start level where the breadcrumb should start
-* Show also hidden navigation items
-* Exclude the current page from the breadcrumb
+* Page authoring components:
+  * [Page component](content/src/content/jcr_root/apps/core/wcm/components/page/v1/page)
+  * [Breadcrumb component](content/src/content/jcr_root/apps/core/wcm/components/breadcrumb/v1/breadcrumb)
+  * [Title component](content/src/content/jcr_root/apps/core/wcm/components/title/v1/title)
+  * [Text component](content/src/content/jcr_root/apps/core/wcm/components/text/v1/text)
+  * [Image component](content/src/content/jcr_root/apps/core/wcm/components/image/v1/image)
+  * [List component](content/src/content/jcr_root/apps/core/wcm/components/list/v1/list)
+  * [Sharing component](content/src/content/jcr_root/apps/core/wcm/components/sharing/v1/sharing)
+* Form components:
+  * [Form container](content/src/content/jcr_root/apps/core/wcm/components/form/container/v1/container)
+  * [Form text field](content/src/content/jcr_root/apps/core/wcm/components/form/text/v1/text)
+  * [Form options field](content/src/content/jcr_root/apps/core/wcm/components/form/options/v1/options)
+  * [Form hidden field](content/src/content/jcr_root/apps/core/wcm/components/form/hidden/v1/hidden)
+  * [Form button](content/src/content/jcr_root/apps/core/wcm/components/form/button/v1/button)
 
 ## Installation
 
 For ease of installation the following profiles are provided:
 
+ * ``autoInstallSinglePackage`` - install everything to an existing AEM author instance, as specified by ``http://${aem.host}:${aem.port}``
+ * ``autoInstallSinglePackagePublish`` - install everything to an existing AEM publish instance, as specified by ``http://${aem.publish.host}:${aem.publish.port}``
  * ``autoInstallPackage`` - installs the package/bundle to an existing AEM author instance, as specified by ``http://${aem.host}:${aem.port}``
  * ``autoInstallPackagePublish`` - installs the package/bundle to an existing AEM publish instance, as specified by ``http://${aem.publish.host}:${aem.publish.port}``
 
 ### UberJar
 
-This project relies on the unobfuscated AEM 6.2 cq-quickstart. This is not publicly available from http://repo.adobe.com and must be 
-manually
-downloaded from https://daycare.day.com/home/products/uberjar.html. After downloading the file (_cq-quickstart-6.2.0-apis.jar_), you must install it into your local Maven repository with this command:
+This project relies on the unobfuscated AEM 6.3 cq-quickstart. This is not publicly available from http://repo.adobe.com and must be 
+manually downloaded from https://daycare.day.com/home/products/uberjar.html. After downloading the file (_cq-quickstart-6.3.0-apis.jar_), you must install it into your local Maven repository with this command:
 
-    mvn install:install-file -Dfile=cq-quickstart-6.2.0-apis.jar -DgroupId=com.day.cq -DartifactId=cq-quickstart -Dversion=6.2.0 -Dclassifier=apis -Dpackaging=jar
+    mvn install:install-file -Dfile=cq-quickstart-6.3.0-apis.jar -DgroupId=com.day.cq -DartifactId=cq-quickstart -Dversion=6.3.0 -Dclassifier=apis -Dpackaging=jar
 
 For more details about the UberJar please head over to the
 [How to Build AEM Projects using Apache Maven](https://docs.adobe.com/docs/en/aem/6-2/develop/dev-tools/ht-projects-maven.html#What%20is%20the%20UberJar?)
 documentation page.
 
-### All Components
+### Install everything
 
-You can install all components to your running AEM instance by issueing the following command in the top level folder of the project:
+You can install everything needed to use the components on your running AEM instance by issuing the following command in the top level folder of the project:
 
     mvn clean install -PautoInstallSinglePackage
-    
-### Single Components
 
-You can install a single component (or a list of components) by issuing the following command in the top level folder of the project:
+### Individual packages/bundles
 
-    mvn clean install -PautoInstallPackage -pl <component_name(s)> -am
+You can install individual packages/bundles by issuing the following command in the top level folder of the project:
+
+    mvn clean install -PautoInstallPackage -pl <project_name(s)> -am
 
 Please note that
 
