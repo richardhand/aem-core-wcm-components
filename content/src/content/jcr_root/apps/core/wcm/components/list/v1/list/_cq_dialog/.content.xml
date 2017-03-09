@@ -285,6 +285,7 @@
                                         name="./linkItems"
                                         text="Link Items"
                                         uncheckedValue="false"
+                                        checked="${not empty cqDesign.linkItems ? cqDesign.linkItems : false}"
                                         value="true"/>
                                     <showDescription
                                         jcr:primaryType="nt:unstructured"
@@ -293,6 +294,7 @@
                                         name="./showDescription"
                                         text="Show Description"
                                         uncheckedValue="false"
+                                        checked="${not empty cqDesign.showDescription ? cqDesign.showDescription : false}"
                                         value="true"/>
                                     <showModificationDate
                                         jcr:primaryType="nt:unstructured"
@@ -301,6 +303,7 @@
                                         name="./showModificationDate"
                                         text="Show Date"
                                         uncheckedValue="false"
+                                        checked="${not empty cqDesign.showModificationDate ? cqDesign.showModificationDate : false}"
                                         value="true"/>
                                 </items>
                             </column>
