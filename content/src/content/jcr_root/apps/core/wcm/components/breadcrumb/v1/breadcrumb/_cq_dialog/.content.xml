@@ -26,7 +26,7 @@
                                 min="1"
                                 name="./startLevel"
                                 step="1"
-                                value="2"/>
+                                value="${not empty cqDesign.startLevel ? cqDesign.startLevel : 2}"/>/>
                             <showHidden
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
@@ -34,6 +34,7 @@
                                 name="./showHidden"
                                 text="Show Hidden"
                                 uncheckedValue="false"
+                                checked="${not empty cqDesign.showHidden ? cqDesign.showHidden : false}"
                                 value="true"/>
                             <hideCurrent
                                 jcr:primaryType="nt:unstructured"
@@ -42,6 +43,7 @@
                                 name="./hideCurrent"
                                 text="Hide Current"
                                 uncheckedValue="false"
+                                checked="${not empty cqDesign.hideCurrent ? cqDesign.hideCurrent : false}"
                                 value="true"/>
                         </items>
                     </properties>
