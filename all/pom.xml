@@ -145,7 +145,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>core.wcm.components.core</artifactId>
-            <version>0.9.150</version>
+            <version>0.9.152</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
