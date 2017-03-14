@@ -17,9 +17,9 @@ package com.adobe.cq.wcm.core.components.models.impl.v1;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
@@ -45,8 +45,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.adobe.cq.sightly.SightlyWCMMode;
-import com.adobe.cq.wcm.core.components.internal.servlets.AdaptiveImageServlet;
 import com.adobe.cq.wcm.core.components.internal.Constants;
+import com.adobe.cq.wcm.core.components.internal.servlets.AdaptiveImageServlet;
 import com.adobe.cq.wcm.core.components.models.Image;
 import com.day.cq.commons.DownloadResource;
 import com.day.cq.commons.ImageResource;
@@ -219,7 +219,7 @@ public class ImageImpl implements Image {
 
     private Set<Integer> getSupportedRenditionWidths() {
         if (allowedRenditionWidths == null) {
-            allowedRenditionWidths = new LinkedHashSet<>();
+            allowedRenditionWidths = new TreeSet<>();
             String[] supportedWidthsConfig = currentStyle.get(PN_DESIGN_ALLOWED_RENDITION_WIDTHS, new String[0]);
             for (String width : supportedWidthsConfig) {
                 try {
