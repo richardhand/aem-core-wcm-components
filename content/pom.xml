@@ -253,13 +253,5 @@
             <version>2.0</version>
             <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>core.wcm.components.core</artifactId>
-            <version>${com.adobe.cq.core.wcm.components.core.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
     </dependencies>
 </project>

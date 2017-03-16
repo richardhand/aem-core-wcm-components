@@ -223,9 +223,9 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>com.adobe.cq.wcm.core.junit.core</artifactId>
-            <version>${com.adobe.cq.wcm.core.junit.core.version.version}</version>
+            <artifactId>core.wcm.components.junit.core</artifactId>
             <scope>test</scope>
+            <version>0.9.13-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet.jsp</groupId>
