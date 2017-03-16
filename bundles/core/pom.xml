@@ -175,7 +175,6 @@
             <artifactId>mockito-core</artifactId>
         </dependency>
 
-
         <!-- for testing we need the new ResourceTypeBasedResourcePicker -->
         <dependency>
             <groupId>org.apache.sling</groupId>
@@ -225,7 +224,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>com.adobe.cq.wcm.core.junit.core</artifactId>
-            <version>0.9.11-SNAPSHOT</version>
+            <version>${com.adobe.cq.wcm.core.junit.core.version.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -238,8 +237,6 @@
             <artifactId>cq-quickstart-beta</artifactId>
             <classifier>apis</classifier>
         </dependency>
-
-
     </dependencies>
 
 </project>

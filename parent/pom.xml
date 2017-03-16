@@ -43,6 +43,11 @@
         <vault.password>admin</vault.password>
         <slf4j.version>1.7.6</slf4j.version>
         <aem.java.version>7</aem.java.version>
+
+        <com.adobe.cq.core.wcm.components.core.version>0.9.153-SNAPSHOT</com.adobe.cq.core.wcm.components.core.version>
+        <com.adobe.cq.core.wcm.components.content.version>0.9.235-SNAPSHOT</com.adobe.cq.core.wcm.components.content.version>
+        <com.adobe.cq.core.wcm.components.config.version>0.9.5-SNAPSHOT</com.adobe.cq.core.wcm.components.config.version>
+        <com.adobe.cq.wcm.core.junit.core.version.version>0.9.11-SNAPSHOT</com.adobe.cq.wcm.core.junit.core.version.version>
     </properties>
 
     <!-- ======================================================================= -->
