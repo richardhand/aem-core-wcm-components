@@ -86,6 +86,7 @@ public class ContainerImplTest {
     }
     
     @Test
+    @Ignore
     public void testFormWithCustomAttributesAndFields() {
         Resource resource = context.currentResource(FORM1_PATH);
         when(formStructureHelperFactory.getFormStructureHelper(resource)).thenReturn(formStructureHelper);

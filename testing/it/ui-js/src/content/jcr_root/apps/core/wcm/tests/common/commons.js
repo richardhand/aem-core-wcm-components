@@ -48,7 +48,7 @@
     // form option
     c.rtFormOptions = "core/wcm/components/form/options/v1/options";
     // hidden field
-    c.rtFormHidden  = "core/wcm/components/form/hidden/v1/hidden"
+    c.rtFormHidden  = "core/wcm/components/form/hidden/v1/hidden";
 
     // selectors
 
@@ -500,7 +500,7 @@
      * Stuff that should be done before a testsuite starts
      */
     c.tcExecuteBeforeTestSuite =  new TestCase("Setup Before Testsuite")
-        // disable annoying tutorial popups
-        .execTestCase(hobs.steps.aem.commons.disableTutorials)
+        // disable tutorial popups
+        //.execTestCase(hobs.steps.aem.commons.disableTutorials)
 
 }(hobs, jQuery));

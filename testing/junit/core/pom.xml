@@ -23,7 +23,7 @@
     <parent>
         <groupId>com.adobe.cq</groupId>
         <artifactId>core.wcm.components.parent</artifactId>
-        <version>0.9.50</version>
+        <version>0.9.51-SNAPSHOT</version>
         <relativePath>../../../parent/pom.xml</relativePath>
     </parent>
 
@@ -77,7 +77,7 @@
         </dependency>
         <dependency>
             <groupId>com.day.cq</groupId>
-            <artifactId>cq-quickstart</artifactId>
+            <artifactId>cq-quickstart-beta</artifactId>
             <classifier>apis</classifier>
         </dependency>
     </dependencies>
