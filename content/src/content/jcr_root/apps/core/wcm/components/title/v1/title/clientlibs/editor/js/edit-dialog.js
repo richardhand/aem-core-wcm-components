@@ -15,18 +15,27 @@
  ******************************************************************************/
 (function ($, Granite, ns, $document) {
 
-    var SIZES_SELECTOR = "coral-select.core-title-sizes";
+    var SIZES_SELECTOR          = "coral-select.core-title-sizes",
+        DEFAULT_SIZES_SELECTOR  = "coral-select.core-title-sizes-default";
 
-    // Remove the size widget when there is none or one option
     $document.on("foundation-contentloaded", function (e) {
-        Coral.commons.ready($(SIZES_SELECTOR), function(component) {
-            var select = component.get(0);
-            if (select === null || select === undefined) {
+        Coral.commons.ready($(SIZES_SELECTOR, DEFAULT_SIZES_SELECTOR), function(component) {
+            var select = $(SIZES_SELECTOR).get(0);
+            var defaultSelect = $(DEFAULT_SIZES_SELECTOR).get(0);
+            if (select === null || select === undefined || defaultSelect === null || defaultSelect === undefined) {
                 return;
             }
-            var total = select.items.getAll().length;
-            if (total == 0 || total == 1) {
-                select.remove();
+            var itemsCount = select.items.getAll().length;
+            if (itemsCount == 0) {
+                // display all the sizes
+                $(select).parent().remove();
+            } else if (itemsCount == 1) {
+                // don't display anything
+                $(select).parent().remove();
+                $(defaultSelect).parent().remove();
+            } else {
+                // display the values defined in the design policy
+                $(defaultSelect).parent().remove();
             }
         });
     });
