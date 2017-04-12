@@ -59,6 +59,7 @@ config.setBundlesToTest([
 config.setBuildArtifacts([
     'main/bundles/core': ['main/bundles/core/target/core.wcm.components.core-*-SNAPSHOT.jar'],
     'main/content': ['main/content/target/core.wcm.components.content-*-SNAPSHOT.zip'],
+    'main/config': ['main/config/target/core.wcm.components.config-*-SNAPSHOT.zip'],
     'main/testing/it/ui-js': ['main/testing/it/ui-js/target/core.wcm.components.it.ui-js-*.zip']
 ])
 config.setArchiveBuildArtifacts(true)
