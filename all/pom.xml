@@ -23,7 +23,7 @@
     <parent>
         <artifactId>core.wcm.components.parent</artifactId>
         <groupId>com.adobe.cq</groupId>
-        <version>1.9.5-SNAPSHOT</version>
+        <version>1.9.6</version>
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
 
@@ -145,13 +145,13 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>core.wcm.components.core</artifactId>
-            <version>1.9.2</version>
+            <version>1.9.14</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>core.wcm.components.content</artifactId>
-            <version>1.9.0</version>
+            <version>1.9.22</version>
             <type>zip</type>
             <scope>provided</scope>
         </dependency>
@@ -159,7 +159,7 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>core.wcm.components.config</artifactId>
             <type>zip</type>
-            <version>1.9.0</version>
+            <version>1.9.2</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
