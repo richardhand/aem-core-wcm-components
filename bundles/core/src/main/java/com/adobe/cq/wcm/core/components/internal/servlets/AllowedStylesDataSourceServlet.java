@@ -66,8 +66,15 @@ public class AllowedStylesDataSourceServlet extends SlingSafeMethodsServlet {
         List<Resource> allowedStyles = new ArrayList<>();
         ResourceResolver resolver = request.getResourceResolver();
         Resource contentResource = resolver.getResource((String) request.getAttribute(Value.CONTENTPATH_ATTRIBUTE));
-        ContentPolicyManager policyMgr = resolver.adaptTo(ContentPolicyManager.class);
-        ContentPolicy policy = policyMgr.getPolicy(contentResource);
+
+        // when we open the design dialog, contentResource is a policy
+        ContentPolicy policy = contentResource.adaptTo(ContentPolicy.class);
+        // otherwise we retrieve the policy of the content resource
+        if (policy == null) {
+            ContentPolicyManager policyMgr = resolver.adaptTo(ContentPolicyManager.class);
+            policy = policyMgr.getPolicy(contentResource);
+        }
+
         // add the default with empty value
         allowedStyles.add(new StyleResource(DEFAULT_STYLE_TEXT, DEFAULT_STYLE_VALUE, resolver));
         if (policy != null) {

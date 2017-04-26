@@ -15,12 +15,10 @@
  ******************************************************************************/
 
 /**
- * The Design dialog:
- * - Provides check boxes for all possible sizes (H1-H6)
- * - Provides a select field to define the default value from the selected sizes:
- *   options are added/removed based on the status of the size checkboxes
+ * Design dialog of the Core Title component:
+ * - The options of the select field to define the default value are added/removed based on the status
+ * of the size checkboxes
  * - Validation: if no size checkboxes are checked, the dialog cannot be saved
-
  */
 (function ($, Granite, ns, $document) {
 
@@ -28,6 +26,7 @@
         ALLOWED_SIZES_SELECTOR      = ".core-title-sizes-allowed coral-checkbox",
         DATA_ATTR_VALIDATION_STATE  = "checkboxes.validation.state";
 
+    // Update the select field that defines the default value
     function updateDefaultSizeSelect(checkboxToggled) {
 
         var select = $(DEFAULT_SIZE_SELECTOR).get(0),
@@ -83,12 +82,12 @@
         });
     }
 
-    // update the default size select when an allowed size is checked/unchecked
+    // Update the default size select when an allowed size is checked/unchecked
     $document.on("change", ALLOWED_SIZES_SELECTOR, function(e) {
         updateDefaultSizeSelect(true);
     });
 
-    // update the default size select when the design title dialog is opened
+    // Update the default size select when the design title dialog is opened
     $document.on("foundation-contentloaded", function (e) {
         Coral.commons.ready($(ALLOWED_SIZES_SELECTOR), function(component) {
             updateDefaultSizeSelect(false);
