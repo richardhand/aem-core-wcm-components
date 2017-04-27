@@ -36,6 +36,10 @@
         if (multifield.items.length == 0) {
             $(select).parent().hide();
         } else {
+            // temporary workaround until CQ-4206495 and CUI-1818 are fixed
+            var selectMaxHeight = $(select).find("coral-selectlist").css("max-height");
+            $(select).css('margin-bottom', selectMaxHeight);
+
             $(select).parent().show();
         }
     }
@@ -80,8 +84,9 @@
 
     // When loading the dialog, hide/show the dropdown to select the default style
     $document.on("foundation-contentloaded", function (e) {
-        Coral.commons.ready($(DEFAULT_STYLE_SELECTOR), function(select) {
-            var multifield = $(MULTIFIELD_STYLES_SELECTOR).get(0);
+        Coral.commons.ready($(DEFAULT_STYLE_SELECTOR), function(component) {
+            var select = component.get(0),
+                multifield = $(MULTIFIELD_STYLES_SELECTOR).get(0);
             hideShowSelect(select, multifield);
         });
     });

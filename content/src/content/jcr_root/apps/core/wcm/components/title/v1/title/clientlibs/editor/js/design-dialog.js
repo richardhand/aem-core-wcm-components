@@ -77,6 +77,10 @@
             if (checkedTotal == 0 || checkedTotal == 1) {
                 $(select).parent().hide();
             } else {
+                // temporary workaround until CQ-4206495 and CUI-1818 are fixed
+                var selectMaxHeight = $(select).find("coral-selectlist").css("max-height");
+                $(select).css('margin-bottom', selectMaxHeight);
+
                 $(select).parent().show();
             }
         });
