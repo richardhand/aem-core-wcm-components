@@ -67,27 +67,30 @@ public class AllowedStylesDataSourceServlet extends SlingSafeMethodsServlet {
         ResourceResolver resolver = request.getResourceResolver();
         Resource contentResource = resolver.getResource((String) request.getAttribute(Value.CONTENTPATH_ATTRIBUTE));
 
-        // when we open the design dialog, contentResource is a policy
-        ContentPolicy policy = contentResource.adaptTo(ContentPolicy.class);
-        // otherwise we retrieve the policy of the content resource
-        if (policy == null) {
-            ContentPolicyManager policyMgr = resolver.adaptTo(ContentPolicyManager.class);
-            policy = policyMgr.getPolicy(contentResource);
-        }
+        if (contentResource != null) {
+            // when we open the design dialog, contentResource is a policy
+            ContentPolicy policy = contentResource.adaptTo(ContentPolicy.class);
+            // otherwise we retrieve the policy of the content resource
+            if (policy == null) {
+                ContentPolicyManager policyMgr = resolver.adaptTo(ContentPolicyManager.class);
+                policy = policyMgr.getPolicy(contentResource);
+            }
 
-        // add the default with empty value
-        allowedStyles.add(new StyleResource(DEFAULT_STYLE_TEXT, DEFAULT_STYLE_VALUE, resolver));
-        if (policy != null) {
-            Resource policyRes = policy.adaptTo(Resource.class);
-            Resource styles = policyRes.getChild(NN_STYLES);
-            if (styles != null) {
-                for (Resource style : styles.getChildren()) {
-                    ValueMap props = style.getValueMap();
-                    String styleName = props.get(PN_STYLE_NAME, "");
-                    allowedStyles.add(new StyleResource(styleName, styleName, resolver));
+            // add the default with empty value
+            allowedStyles.add(new StyleResource(DEFAULT_STYLE_TEXT, DEFAULT_STYLE_VALUE, resolver));
+            if (policy != null) {
+                Resource policyRes = policy.adaptTo(Resource.class);
+                Resource styles = policyRes.getChild(NN_STYLES);
+                if (styles != null) {
+                    for (Resource style : styles.getChildren()) {
+                        ValueMap props = style.getValueMap();
+                        String styleName = props.get(PN_STYLE_NAME, "");
+                        allowedStyles.add(new StyleResource(styleName, styleName, resolver));
+                    }
                 }
             }
         }
+
         return allowedStyles;
     }
 
