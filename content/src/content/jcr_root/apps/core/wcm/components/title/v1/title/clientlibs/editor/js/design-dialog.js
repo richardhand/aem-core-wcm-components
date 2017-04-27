@@ -77,14 +77,29 @@
             if (checkedTotal == 0 || checkedTotal == 1) {
                 $(select).parent().hide();
             } else {
-                // temporary workaround until CQ-4206495 and CUI-1818 are fixed
-                var selectMaxHeight = $(select).find("coral-selectlist").css("max-height");
-                $(select).css('margin-bottom', selectMaxHeight);
-
                 $(select).parent().show();
             }
         });
     }
+
+    // temporary workaround until CQ-4206495 and CUI-1818 are fixed:
+    // add a margin when opening the dropdown
+    $document.on("coral-select:showitems", DEFAULT_SIZE_SELECTOR, function(e) {
+        var select = e.currentTarget,
+            buttonHeight = $(select).find("button").outerHeight(true),
+            count = select.items.length,
+            totalHeight = count * (buttonHeight + 5),
+            maxHeight = parseInt($(select).find("coral-selectlist").css("max-height"),10),
+            marginBottom = Math.min(totalHeight, maxHeight);
+        $(select).css('margin-bottom', marginBottom);
+    });
+
+    // temporary workaround until CQ-4206495 and CUI-1818 are fixed:
+    // remove the margin when closing the dropdown
+    $document.on("coral-select:hideitems", DEFAULT_SIZE_SELECTOR, function(e) {
+        var select = e.currentTarget;
+        $(select).css('margin-bottom', 0);
+    });
 
     // Update the default size select when an allowed size is checked/unchecked
     $document.on("change", ALLOWED_SIZES_SELECTOR, function(e) {
