@@ -150,6 +150,21 @@
             return h.find("[value='thisisthevalue']","#ContentFrame").size() == 1
         });
 
+    var setButtonValueWithoutName = new h.TestCase('Set Button Value without Name', {
+        execBefore: tcExecuteBeforeTest,
+        execAfter: tcExecuteAfterTest})
+
+        // Open the edit dialog
+        .execTestCase(c.tcOpenConfigureDialog('cmpPath'))
+        .fillInput('[name=\'./jcr:title\']', 'Button with Value But No Name')
+        //set the button's value
+        .fillInput('[name=\'./value\']', 'value')
+        // close the edit dialog
+        .execTestCase(c.tcSaveConfigureDialog)
+        .asserts.isTrue(function() {
+            return h.find('coral-icon.coral-Icon.coral-Form-fielderror.coral-Icon--sizeS.coral-Icon--alert').size() === 1
+        });
+
     /**
      * Test: The main test suite
      */
@@ -162,4 +177,5 @@
         .addTestCase(setButtonText)
         .addTestCase(setButtonName)
         .addTestCase(setButtonValue)
+        .addTestCase(setButtonValueWithoutName)
 })(hobs, jQuery);
