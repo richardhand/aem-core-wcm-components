@@ -27,6 +27,7 @@ core-components-it/Title.js
 core-components-it/Text.js
 core-components-it/List.js
 core-components-it/Image.js
+core-components-it/Page.js
 
 
 

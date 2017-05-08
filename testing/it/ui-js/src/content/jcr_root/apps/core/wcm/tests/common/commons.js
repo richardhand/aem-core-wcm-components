@@ -376,7 +376,22 @@
      * returns the content frame.
      */
     c.getContentFrame = function () {
-        return h.find('iframe#ContentFrame').get(0);
+        return h.find('c').get(0);
+    };
+
+    /**
+     * returns the page name.
+     */
+    c.setPageName = function (pagePath, pageName, done) {
+        // mandatory check
+        if (pagePath == null || pageName == null || done == null) {
+            if (done) done(false, "setPageName failed! mandatory parameter(s) missing!");
+            return;
+        }
+        var name = pagePath.substring(pagePath.lastIndexOf("/") + 1, pagePath.length);
+        hobs.param(pageName,name);
+
+        done(true);
     };
 
     /**
@@ -627,6 +642,6 @@
      */
     c.tcExecuteBeforeTestSuite =  new TestCase("Setup Before Testsuite")
         // disable tutorial popups
-        .execTestCase(c.disableTutorials)
+        .execTestCase(c.disableTutorials);
 
 }(hobs, jQuery));
