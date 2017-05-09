@@ -27,8 +27,6 @@
     var navTitle = "This is the navigation title"
     var subtitle = "This is the page subtitle"
     var description = "This is the page description"
-    //var onTime =  "May 03, 2017 03:03 pm"
-    //var offTime = "May 25, 2054 03:04 pm"
     var vanityURL = "test/test-Page-URL"
     var language = "Romanian"
     var design = "/etc/designs/we-retail/images/flags"
@@ -455,7 +453,8 @@
                 return h.find("coral-tab.is-selected coral-tab-label:contains('Thumbnail')").size() == 1
             })
 
-            .click("button:contains('Generate Preview')",{delay: 500})
+            .click("button:contains('Generate Preview')",{delayAfter: 5000})
+            .assert.visible("button:contains('Revert')")
             .click("button:contains('Revert')")
         ;
 
@@ -585,7 +584,6 @@
             .simulate("foundation-autocomplete.js-cq-sites-CreatePermissionsDialog-authorizableList input.coral-Textfield", "key-sequence",
                 {sequence: "cavery"})
             .wait()
-            //.click("foundation-autocomplete.js-cq-sites-CreatePermissionsDialog-authorizableList coral-overlay button[foundation-picker-buttonlist-text='Administrator']")
             .simulate("foundation-autocomplete.js-cq-sites-CreatePermissionsDialog-authorizableList input.coral-Textfield", "keydown",
                 {keyCode: 13})
 
