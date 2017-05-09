@@ -376,7 +376,7 @@
      * returns the content frame.
      */
     c.getContentFrame = function () {
-        return h.find('c').get(0);
+        return h.find('iframe#ContentFrame').get(0);
     };
 
     /**
