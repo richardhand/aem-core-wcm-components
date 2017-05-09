@@ -17,7 +17,7 @@
                     <tab1
                             jcr:primaryType="nt:unstructured"
                             jcr:title="Sizes"
-                            sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns"
+                            sling:resourceType="granite/ui/components/coral/foundation/container"
                             margin="{Boolean}true">
                         <items jcr:primaryType="nt:unstructured">
                             <column
@@ -73,7 +73,6 @@
                                         </items>
                                     </field>
                                     <type
-                                            cq:showOnCreate="{Boolean}true"
                                             granite:class="core-title-size-default"
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/coral/foundation/form/select"
@@ -113,7 +112,7 @@
                     <styletab
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="granite/ui/components/coral/foundation/include"
-                            path="/apps/core/wcm/components/commons/style/v1/style/cq:design_dialog/content/items/tabs/items/stylestab"/>
+                            path="/apps/core/wcm/components/commons/style/v1/style/cq:design_dialog/content/items/tabs/items/styletab"/>
                 </items>
             </tabs>
         </items>

@@ -56,7 +56,6 @@ import com.day.cq.dam.api.Rendition;
 import com.day.cq.dam.api.handler.AssetHandler;
 import com.day.cq.dam.api.handler.store.AssetStore;
 import com.day.cq.wcm.api.NameConstants;
-import com.day.cq.wcm.api.WCMMode;
 import com.day.cq.wcm.api.policies.ContentPolicy;
 import com.day.cq.wcm.api.policies.ContentPolicyManager;
 import com.day.image.Layer;
@@ -114,14 +113,8 @@ public class AdaptiveImageServlet extends SlingSafeMethodsServlet {
     protected void doGet(@Nonnull SlingHttpServletRequest request, @Nonnull SlingHttpServletResponse response) throws ServletException,
             IOException {
         String[] selectors = request.getRequestPathInfo().getSelectors();
-        WCMMode wcmmode = WCMMode.fromRequest(request);
-        int minSelectors = 1;
-        if (wcmmode != WCMMode.DISABLED) {
-            minSelectors = 2;
-        }
-        int maxSelectors = minSelectors + 1;
-        if (selectors.length != minSelectors && selectors.length != maxSelectors) {
-            LOGGER.error("Expected {} or {} selectors, instead got: {}.", minSelectors, maxSelectors, Arrays.toString(selectors));
+        if (selectors.length != 1 && selectors.length != 2) {
+            LOGGER.error("Expected 1 or 2 selectors, instead got: {}.", Arrays.toString(selectors));
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
@@ -134,23 +127,28 @@ public class AdaptiveImageServlet extends SlingSafeMethodsServlet {
                 return;
             }
             int resizeWidth = defaultResizeWidth;
-            int selectorBackShift = (wcmmode == WCMMode.DISABLED) ? 1 : 2;
-            String widthSelector = selectors[selectors.length - selectorBackShift];
+            String widthSelector = selectors[selectors.length - 1];
+            List<Integer> allowedRenditionWidths = getAllowedRenditionWidths(request);
             if (!DEFAULT_SELECTOR.equals(widthSelector)) {
                 try {
                     Integer width = Integer.parseInt(widthSelector);
                     boolean isRequestedWidthAllowed = false;
-                    for (Integer allowedWidth : getAllowedRenditionWidths(request)) {
-                        if (width.equals(allowedWidth)) {
-                            isRequestedWidthAllowed = true;
-                            resizeWidth = width;
-                            break;
+                    if (!allowedRenditionWidths.isEmpty()) {
+                        for (Integer allowedWidth : allowedRenditionWidths) {
+                            if (width.equals(allowedWidth)) {
+                                isRequestedWidthAllowed = true;
+                                resizeWidth = width;
+                                break;
+                            }
                         }
-                    }
-                    if (isRequestedWidthAllowed) {
-                        resizeAndStream(request, response, image, imageProperties, resizeWidth);
+                        if (isRequestedWidthAllowed) {
+                            resizeAndStream(request, response, image, imageProperties, resizeWidth);
+                        } else {
+                            LOGGER.error("The requested width ({}) is not allowed by the content policy.", width);
+                            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                        }
                     } else {
-                        LOGGER.error("The requested width ({}) is not allowed by the content policy.", width);
+                        LOGGER.error("There's no content policy defined and the request provides a width selector ({}).", width);
                         response.sendError(HttpServletResponse.SC_NOT_FOUND);
                     }
                 } catch (NumberFormatException e) {
@@ -158,7 +156,6 @@ public class AdaptiveImageServlet extends SlingSafeMethodsServlet {
                     response.sendError(HttpServletResponse.SC_NOT_FOUND);
                 }
             } else {
-                List<Integer> allowedRenditionWidths = getAllowedRenditionWidths(request);
                 if (!allowedRenditionWidths.isEmpty()) {
                     // resize to the first value of the allowedRenditionWidths
                     int size = allowedRenditionWidths.get(0);

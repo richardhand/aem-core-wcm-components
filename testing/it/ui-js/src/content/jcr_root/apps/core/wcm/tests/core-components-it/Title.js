@@ -48,6 +48,13 @@
         // delete the test page we created
         .execFct(function (opts, done) {
             c.deletePage(h.param("testPagePath")(opts), done);
+        })
+
+        .execFct(function (opts, done) {
+            c.deletePolicy("/title", done);
+        })
+        .execFct(function (opts, done) {
+            c.deletePolicyAssignment("/title", done);
         });
 
     /**
@@ -147,7 +154,88 @@
         .execTestCase(c.tcSaveConfigureDialog)
 
         .assert.isTrue(function () {
-            return h.find(".cmp.cmp-title  h5","#ContentFrame").size() == 1});
+                return h.find(".cmp.cmp-title  h5","#ContentFrame").size() == 1});
+
+    /**
+     * Test: Check the existence of all available title types defined in a policy.
+     */
+    var checkExistenceOfTypesUsingPolicy = new h.TestCase("Check available title types defined in a policy",{
+        execBefore: tcExecuteBeforeTest,
+        execAfter: tcExecuteAfterTest
+        })
+
+        .execFct(function (opts,done) {
+            var data = {};
+            data["allowedTypes"] = ["h2","h3","h4","h6"];
+            data["jcr:title"] = "New Policy";
+            data["sling:resourceType"] = "wcm/core/components/policy/policy";
+            data["type"] = "h2";
+
+            c.createPolicy("/title/v1/title/new_policy",data,"policyPath",done)
+
+        })
+
+        .execFct(function (opts,done) {
+            var data = {};
+            data["cq:policy"] = "core/wcm/components/title/v1/title/new_policy";
+            data["sling:resourceType"] = "wcm/core/components/policies/mapping";
+
+            c.assignPolicy("/title/v1/title",data,done)
+
+        })
+
+        // open the dialog
+        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+        // check if all title sizes defined in policy are there
+        .assert.exist("coral-selectlist-item[value='h2']")
+        .assert.exist("coral-selectlist-item[value='h3']")
+        .assert.exist("coral-selectlist-item[value='h4']")
+        .assert.exist("coral-selectlist-item[value='h6']")
+
+        //check if the default value is selected
+        //.assert.exist("coral-selectlist-item[value='h2'].is-selected")
+
+        .execTestCase(c.tcSaveConfigureDialog)
+
+        .assert.isTrue(function () {
+             return h.find(".cmp.cmp-title h2","#ContentFrame").size() == 1})
+    ;
+
+    /**
+     * Test: Check the type used when one type is defined in the policy.
+     */
+    var checkExistenceOfOneTypeUsingPolicy = new h.TestCase("Check the type used when one type is defined in the policy",{
+            execBefore: tcExecuteBeforeTest,
+            execAfter: tcExecuteAfterTest
+            })
+
+            .execFct(function (opts,done) {
+                var data = {};
+                data["allowedTypes"] = "h5";
+                data["jcr:title"] = "New Policy";
+                data["sling:resourceType"] = "wcm/core/components/policy/policy";
+                data["type"] = "h5";
+
+                c.createPolicy("/title/v1/title/new_policy",data,"policyPath",done)
+
+            })
+
+            .execFct(function (opts,done) {
+                var data = {};
+                data["cq:policy"] = "core/wcm/components/title/v1/title/new_policy";
+                data["sling:resourceType"] = "wcm/core/components/policies/mapping";
+
+                c.assignPolicy("/title/v1/title",data,done)
+
+            })
+
+            // open the dialog
+            .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+            .execTestCase(c.tcSaveConfigureDialog)
+
+            .assert.isTrue(function () {
+                return h.find(".cmp.cmp-title h5","#ContentFrame").size() == 1})
+    ;
 
     /**
      * The main test suite for Title component
@@ -160,5 +248,7 @@
         .addTestCase(setTitleValueUsingConfigDialog)
         .addTestCase(checkExistenceOfTitleTypes)
         .addTestCase(setTitleType)
+        .addTestCase(checkExistenceOfTypesUsingPolicy)
+        .addTestCase(checkExistenceOfOneTypeUsingPolicy)
     ;
 }(hobs, jQuery));

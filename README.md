@@ -19,9 +19,11 @@ A set of standardized components that can be used to speed up development of web
   * [Form hidden field](content/src/content/jcr_root/apps/core/wcm/components/form/hidden/v1/hidden)
   * [Form button](content/src/content/jcr_root/apps/core/wcm/components/form/button/v1/button)
 
+The components' versioning scheme is documented on the [AEM Core WCM Components' versioning policies](https://github.com/Adobe-Marketing-Cloud/aem-core-wcm-components/wiki/AEM-Core-WCM-Components'-versioning-policies) wiki page
+
 ## System Requirements
 
-The core components are build on top of the Sling Models API 1.3, which is part of `AEM 6.3`
+The core components are built on top of the Sling Models API 1.3, which is part of `AEM 6.3`. From version 1.0.4 the project requires Java 1.8 as an execution environment.
 
 ## Installation
 
@@ -30,6 +32,10 @@ To install everything the [released all package as released aggregate package](h
 For more information about the Package Manager please have a look at [How to Work With Packages](https://docs.adobe.com/docs/en/aem/6-2/administer/content/package-manager.html) documentation page.
 
 ## Build
+
+The project has the following minimal requirements:
+* Java SE Development Kit 8 or newer
+* Apache Maven 3.3.1 or newer
 
 For ease of build and installation the following profiles are provided:
 
@@ -65,14 +71,14 @@ Please note that
 
 ## Include core components as subpackage into your own project maven build
 
-The released version of the core components are available on the public maven repository at http://repo.adobe.com. To include the 
+The released version of the core components are available on the public maven repository at https://repo.adobe.com. To include the 
 core components package into your own project maven build you can add the dependency
  ```
  <dependency>
      <groupId>com.adobe.cq</groupId>
      <artifactId>core.wcm.components.all</artifactId>
      <type>zip</type>
-     <version>1.0.0</version>
+     <version>1.0.2</version>
      <scope>provided</scope>
  </dependency>
  ```
@@ -88,5 +94,5 @@ core components package into your own project maven build you can add the depend
  
  to the `content-package-maven-plugin`.
  
- For more information how to setup the Adobe Maven Repository (repo.adobe.com) for your maven build, please have a look at the 
+ For more information how to setup the Adobe Maven Repository (`repo.adobe.com`) for your maven build, please have a look at the 
  related [Knowledge Base article](https://helpx.adobe.com/experience-manager/kb/SetUpTheAdobeMavenRepository.html)

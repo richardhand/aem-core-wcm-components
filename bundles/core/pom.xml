@@ -23,12 +23,12 @@
     <parent>
         <groupId>com.adobe.cq</groupId>
         <artifactId>core.wcm.components.parent</artifactId>
-        <version>1.9.6</version>
+        <version>1.9.8</version>
         <relativePath>../../parent/pom.xml</relativePath>
     </parent>
 
     <artifactId>core.wcm.components.core</artifactId>
-    <version>1.9.15-SNAPSHOT</version>
+    <version>1.9.27-SNAPSHOT</version>
     <packaging>bundle</packaging>
 
     <name>Adobe Experience Manager Core WCM Components Core Bundle</name>
@@ -233,8 +233,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.day.cq</groupId>
-            <artifactId>cq-quickstart-beta</artifactId>
+            <groupId>com.adobe.aem</groupId>
+            <artifactId>uber-jar</artifactId>
             <classifier>apis</classifier>
         </dependency>
     </dependencies>

@@ -15,12 +15,10 @@
  ******************************************************************************/
 
 /**
- * The Design dialog:
- * - Provides check boxes for all possible sizes (H1-H6)
- * - Provides a select field to define the default value from the selected sizes:
- *   options are added/removed based on the status of the size checkboxes
+ * Design dialog of the Core Title component:
+ * - The options of the select field to define the default value are added/removed based on the status
+ * of the size checkboxes
  * - Validation: if no size checkboxes are checked, the dialog cannot be saved
-
  */
 (function ($, Granite, ns, $document) {
 
@@ -28,6 +26,7 @@
         ALLOWED_SIZES_SELECTOR      = ".core-title-sizes-allowed coral-checkbox",
         DATA_ATTR_VALIDATION_STATE  = "checkboxes.validation.state";
 
+    // Update the select field that defines the default value
     function updateDefaultSizeSelect(checkboxToggled) {
 
         var select = $(DEFAULT_SIZE_SELECTOR).get(0),
@@ -83,12 +82,31 @@
         });
     }
 
-    // update the default size select when an allowed size is checked/unchecked
+    // temporary workaround until CQ-4206495 and CUI-1818 are fixed:
+    // add a margin when opening the dropdown
+    $document.on("coral-select:showitems", DEFAULT_SIZE_SELECTOR, function(e) {
+        var select = e.currentTarget,
+            buttonHeight = $(select).find("button").outerHeight(true),
+            count = select.items.length,
+            totalHeight = count * (buttonHeight + 5),
+            maxHeight = parseInt($(select).find("coral-selectlist").css("max-height"),10),
+            marginBottom = Math.min(totalHeight, maxHeight);
+        $(select).css('margin-bottom', marginBottom);
+    });
+
+    // temporary workaround until CQ-4206495 and CUI-1818 are fixed:
+    // remove the margin when closing the dropdown
+    $document.on("coral-select:hideitems", DEFAULT_SIZE_SELECTOR, function(e) {
+        var select = e.currentTarget;
+        $(select).css('margin-bottom', 0);
+    });
+
+    // Update the default size select when an allowed size is checked/unchecked
     $document.on("change", ALLOWED_SIZES_SELECTOR, function(e) {
         updateDefaultSizeSelect(true);
     });
 
-    // update the default size select when the design title dialog is opened
+    // Update the default size select when the design title dialog is opened
     $document.on("foundation-contentloaded", function (e) {
         Coral.commons.ready($(ALLOWED_SIZES_SELECTOR), function(component) {
             updateDefaultSizeSelect(false);

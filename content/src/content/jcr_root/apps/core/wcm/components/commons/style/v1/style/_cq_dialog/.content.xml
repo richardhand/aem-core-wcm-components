@@ -13,7 +13,8 @@
                     sling:resourceType="granite/ui/components/coral/foundation/tabs"
                     maximized="{Boolean}true">
                 <items jcr:primaryType="nt:unstructured">
-                    <stylestab
+                    <styletab
+                            granite:class="core-styletab"
                             jcr:primaryType="nt:unstructured"
                             jcr:title="Style"
                             sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns"
@@ -24,10 +25,10 @@
                                     sling:resourceType="granite/ui/components/coral/foundation/container">
                                 <items jcr:primaryType="nt:unstructured">
                                     <styles
-                                            granite:class="core-cmp-styles"
+                                            granite:class="core-styletab-componentstyle"
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/coral/foundation/form/select"
-                                            fieldLabel="Style"
+                                            fieldLabel="Component Style"
                                             name="./style">
                                         <datasource
                                                 jcr:primaryType="nt:unstructured"
@@ -36,7 +37,7 @@
                                 </items>
                             </column>
                         </items>
-                    </stylestab>
+                    </styletab>
                 </items>
             </tabs>
         </items>
