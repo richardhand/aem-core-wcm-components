@@ -71,6 +71,11 @@ config.setMailNotificationRecipients(['msagolj@adobe.com'])
 config.setMailNotifyEveryUnstableBuild(false)
 // config.setQuickstartBranch('release/630') // default is master
 
+// a release generates 2 commits, which will trigger the pipeline twice in parallel
+// causing trouble for sonar as both job wil try to send analysis to sonar
+config.setSkipReleasePrepareBuild(true)
+config.setskipReleasePrepareCommitMessage("@releng [maven-scm] :prepare for next development iteration")
+
 //
 // PIPELINE CUSTOMIZATION
 //
