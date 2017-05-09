@@ -27,8 +27,8 @@
     var navTitle = "This is the navigation title"
     var subtitle = "This is the page subtitle"
     var description = "This is the page description"
-    var onTime =  "May 03, 2017 03:03 pm"
-    var offTime = "May 25, 2054 03:04 pm"
+    //var onTime =  "May 03, 2017 03:03 pm"
+    //var offTime = "May 25, 2054 03:04 pm"
     var vanityURL = "test/test-Page-URL"
     var language = "Romanian"
     var design = "/etc/designs/we-retail/images/flags"
@@ -40,17 +40,16 @@
     var segmentsPath = "/etc/segmentation/contexthub/male"
 
     /**
-     * Test: Check the type used when one type is defined in the policy.
+     * Test: open the page property.
      */
     openPageProperties = new h.TestCase("Open the page property")
         //select the page
-            .execFct(function(opts, done){
-                c.setPageName(h.param("testPagePath")(opts),"testPageName",done);
-            })
-            .click('coral-columnview-item:contains("%testPageName%") coral-columnview-item-thumbnail')
-            .click("button.cq-siteadmin-admin-actions-properties-activator")
-
-        ;
+        .execFct(function(opts, done){
+            c.setPageName(h.param("testPagePath")(opts),"testPageName",done);
+        })
+        .click('coral-columnview-item:contains("%testPageName%") coral-columnview-item-thumbnail')
+        .click("button.cq-siteadmin-admin-actions-properties-activator")
+    ;
 
     /**
      * Before Test Case
@@ -63,7 +62,7 @@
             c.createPage(c.template, c.rootPage ,'page_' + Date.now(),"testPagePath",done)
         })
 
-        // open the new page in the editor
+        // open the new page in the sites
         .navigateTo("/sites.html%testPagePath%")
 
         .execTestCase(openPageProperties)
@@ -73,7 +72,7 @@
      * After Test Case
      */
     var tcExecuteAfterTest = new TestCase("Clean up after Test")
-    // common clean up
+        // common clean up
         .execTestCase(c.tcExecuteAfterTest)
         // delete the test page we created
         .execFct(function (opts, done) {
@@ -284,7 +283,7 @@
     ;
 
     /**
-     * Test: Check the Advanced options of a page properties.
+     * Test: Check the Advanced Settings options of a page properties.
      */
     var advancedSettingsPageProperties = new h.TestCase("Advanced Settings page property",{
             execBefore: tcExecuteBeforeTest,
@@ -293,9 +292,9 @@
             /***** Insert information for 'Settings' *****/
 
             //open the Advanced tab
-            .click("coral-tab-label:contains('Advanced')")
+            .click("coral-tab-label:contains('Advanced')",{delay:1000})
             //check if the "Advanced" option was selected
-            .asserts.isTrue(function() {
+            .assert.isTrue(function() {
                 return h.find("coral-tab.is-selected coral-tab-label:contains('Advanced')").size() == 1
             })
 
@@ -315,7 +314,7 @@
             //save the configuration and open again the page property
             .click("coral-buttongroup button:contains('Save & Close')")
             .execTestCase(openPageProperties)
-            .click("coral-tab-label:contains('Advanced')")
+            .click("coral-tab-label:contains('Advanced')",{delay:1000})
 
             //check the language
             .assert.isTrue(function(opts){
@@ -331,6 +330,9 @@
             })
     ;
 
+    /**
+     * Test: Check the Advanced Templates options of a page properties.
+     */
     var advancedTemplatesSettingsPageProperties = new h.TestCase("Advanced Templates page property",{
             execBefore: tcExecuteBeforeTest,
             execAfter: tcExecuteAfterTest
@@ -338,9 +340,9 @@
             /***** Insert information for 'Settings' *****/
 
             //open the Advanced tab
-            .click("coral-tab-label:contains('Advanced')")
+            .click("coral-tab-label:contains('Advanced')",{delay:1000})
             //check if the "Advanced" option was selected
-            .asserts.isTrue(function() {
+            .assert.isTrue(function() {
                 return h.find("coral-tab.is-selected coral-tab-label:contains('Advanced')").size() == 1
             })
 
@@ -360,7 +362,7 @@
             //save the configuration and open again the page property
             .click("coral-buttongroup button:contains('Save & Close')")
             .execTestCase(openPageProperties)
-            .click("coral-tab-label:contains('Advanced')")
+            .click("coral-tab-label:contains('Advanced')",{delay:1000})
 
             //check the saved template
             .assert.isTrue(function(opts){
@@ -368,6 +370,9 @@
             })
     ;
 
+    /**
+     * Test: Check the Advanced Authentication options of a page properties.
+     */
     var advancedAuthenticationPageProperties = new h.TestCase("Advanced Authentication page property",{
             execBefore: tcExecuteBeforeTest,
             execAfter: tcExecuteAfterTest
@@ -375,9 +380,9 @@
             /***** Insert information for 'Settings' *****/
 
             //open the Advanced tab
-            .click("coral-tab-label:contains('Advanced')")
+            .click("coral-tab-label:contains('Advanced')",{delay:1000})
             //check if the "Advanced" option was selected
-            .asserts.isTrue(function() {
+            .assert.isTrue(function() {
                 return h.find("coral-tab.is-selected coral-tab-label:contains('Advanced')").size() == 1
             })
 
@@ -391,7 +396,7 @@
             //save the configuration and open again the page property
             .click("coral-buttongroup button:contains('Save & Close')")
             .execTestCase(openPageProperties)
-            .click("coral-tab-label:contains('Advanced')")
+            .click("coral-tab-label:contains('Advanced')",{delay:1000})
 
             //check the Enable check
             .assert.isTrue(function(opts){
@@ -403,6 +408,9 @@
             })
     ;
 
+    /**
+     * Test: Check the Advanced Export options of a page properties.
+     */
     var advancedExportPageProperties = new h.TestCase("Advanced Export page property",{
             execBefore: tcExecuteBeforeTest,
             execAfter: tcExecuteAfterTest
@@ -411,9 +419,9 @@
             /***** Insert information for 'Settings' *****/
 
             //open the Advanced tab
-            .click("coral-tab-label:contains('Advanced')")
+            .click("coral-tab-label:contains('Advanced')",{delay:1000})
             //check if the "Advanced" option was selected
-            .asserts.isTrue(function() {
+            .assert.isTrue(function() {
                 return h.find("coral-tab.is-selected coral-tab-label:contains('Advanced')").size() == 1
             })
 
@@ -426,7 +434,7 @@
             //save the configuration and open again the page property
             .click("coral-buttongroup button:contains('Save & Close')")
             .execTestCase(openPageProperties)
-            .click("coral-tab-label:contains('Advanced')")
+            .click("coral-tab-label:contains('Advanced')",{delay:1000})
 
             //check the Export Configuration
             .assert.isTrue(function(opts){
@@ -441,9 +449,9 @@
             execBefore: tcExecuteBeforeTest,
             execAfter: tcExecuteAfterTest
         })
-            .click("coral-tab-label:contains('Thumbnail')")
+            .click("coral-tab-label:contains('Thumbnail')",{delay:1000})
             //check if the "Thumbnail" option was selected
-            .asserts.isTrue(function() {
+            .assert.isTrue(function() {
                 return h.find("coral-tab.is-selected coral-tab-label:contains('Thumbnail')").size() == 1
             })
 
@@ -458,9 +466,9 @@
             execBefore: tcExecuteBeforeTest,
             execAfter: tcExecuteAfterTest
         })
-            .click("coral-tab-label:contains('Social Media')")
+            .click("coral-tab-label:contains('Social Media')",{delay:1000})
             //check if the "Social Media" option was selected
-            .asserts.isTrue(function() {
+            .assert.isTrue(function() {
                 return h.find("coral-tab.is-selected coral-tab-label:contains('Social Media')").size() == 1
             })
 
@@ -475,7 +483,7 @@
             //save the configuration and open again the page property
             .click("coral-buttongroup button:contains('Save & Close')")
             .execTestCase(openPageProperties)
-            .click("coral-tab-label:contains('Social Media')")
+            .click("coral-tab-label:contains('Social Media')",{delay:1000})
 
             //check if facebook is checked
             .assert.isTrue(function(opts){
@@ -494,9 +502,9 @@
             execBefore: tcExecuteBeforeTest,
             execAfter: tcExecuteAfterTest
         })
-            .click("coral-tab-label:contains('Cloud Services')")
+            .click("coral-tab-label:contains('Cloud Services')",{delay:1000})
             //check if the "Cloud Services" option was selected
-            .asserts.isTrue(function() {
+            .assert.isTrue(function() {
                 return h.find("coral-tab.is-selected coral-tab-label:contains('Cloud Services')").size() == 1
             })
 
@@ -512,9 +520,9 @@
             //save the configuration and open again the page property
             .click("coral-buttongroup button:contains('Save & Close')")
             .execTestCase(openPageProperties)
-            .click("coral-tab-label:contains('Cloud Services')")
+            .click("coral-tab-label:contains('Cloud Services')",{delay:1000})
 
-            .asserts.isTrue(function() {
+            .assert.isTrue(function() {
                 return h.find("coral-select[name='./cq:cloudserviceconfigs'] span:contains('We.Retail Facebook Social Login')").size() == 1
             })
 
@@ -529,7 +537,7 @@
         })
             .click("coral-tab-label:contains('Personalization')",{delay:1000})
             //check if the "Personalization" option was selected
-            .asserts.isTrue(function() {
+            .assert.isTrue(function() {
                 return h.find("coral-tab.is-selected coral-tab-label:contains('Personalization')").size() == 1
             })
             //set the contextHub path
@@ -563,19 +571,24 @@
      * Test: Check the Permissions options of a page properties.
      */
     var permissionsPageProperties = new h.TestCase("Permissions page property",{
-            execBefore: tcExecuteBeforeTest//,
-            //execAfter: tcExecuteAfterTest
+            execBefore: tcExecuteBeforeTest,
+            execAfter: tcExecuteAfterTest
         })
             .click("coral-tab-label:contains('Permissions')",{delay:1000})
             //check if the "Permissions" option was selected
-            .asserts.isTrue(function() {
+            .assert.isTrue(function() {
                 return h.find("coral-tab.is-selected coral-tab-label:contains('Permissions')").size() == 1
             })
 
             .click("button:contains('Add Permissions')")
-            //.fillInput("foundation-autocomplete.js-cq-sites-CreatePermissionsDialog-authorizableList input","admin")
-            .simulate("foundation-autocomplete.js-cq-sites-CreatePermissionsDialog-authorizableList input", "key-sequence",
-                {sequence: "administrators"+"{enter}"})
+            .simulate("foundation-autocomplete.js-cq-sites-CreatePermissionsDialog-authorizableList input.coral-Textfield", "click")
+            .simulate("foundation-autocomplete.js-cq-sites-CreatePermissionsDialog-authorizableList input.coral-Textfield", "key-sequence",
+                {sequence: "cavery"})
+            .wait()
+            //.click("foundation-autocomplete.js-cq-sites-CreatePermissionsDialog-authorizableList coral-overlay button[foundation-picker-buttonlist-text='Administrator']")
+            .simulate("foundation-autocomplete.js-cq-sites-CreatePermissionsDialog-authorizableList input.coral-Textfield", "keydown",
+                {keyCode: 13})
+
             .click(".coral-Dialog-wrapper:contains('Add Permissions') input[name='read']")
             .click(".coral-Dialog-wrapper:contains('Add Permissions') input[name='create']")
             .click(".coral-Dialog-wrapper:contains('Add Permissions') input[name='delete']")
@@ -583,20 +596,19 @@
 
             .click("button:contains('Edit Closed User Group')")
             .simulate("foundation-autocomplete.js-cq-sites-CUGPermissionsDialog-authorizableList input", "key-sequence",
-                {sequence: "administrators{enter}"})
-            //.simulate("foundation-autocomplete.js-cq-sites-CUGPermissionsDialog-authorizableList input", "keydown",
-                //{keyCode: 13})
-            .wait("1000")
+                {sequence: "admin"})
+            .simulate("foundation-autocomplete.js-cq-sites-CUGPermissionsDialog-authorizableList input", "keydown",
+                {keyCode: 13})
             .click(".coral-Dialog-wrapper:contains('Edit Closed') button[title='Remove']")
-            .simulate("foundation-autocomplete.js-cq-sites-CUGPermissionsDialog-authorizableList input", "key-sequence",
-                {sequence: "administrators{enter}"})
-            //.simulate("foundation-autocomplete.js-cq-sites-CUGPermissionsDialog-authorizableList input", "keydown",
-                //{keyCode: 13})
+            .simulate("foundation-autocomplete.js-cq-sites-CUGPermissionsDialog-authorizableList input.coral-Textfield", "key-sequence",
+                {sequence: "admin"})
+            .simulate("foundation-autocomplete.js-cq-sites-CUGPermissionsDialog-authorizableList input.coral-Textfield", "keydown",
+                {keyCode: 13})
             .click(".coral-Dialog-wrapper:contains('Edit Closed') button:contains('Save')")
 
             .click("button:contains('Effective Permissions')")
             .click(".coral-Dialog-wrapper:contains('Effective Permissions') button[title='Close']")
-        ;
+    ;
 
     /**
      * The main test suite for Page component
