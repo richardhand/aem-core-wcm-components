@@ -453,7 +453,7 @@
                 return h.find("coral-tab.is-selected coral-tab-label:contains('Thumbnail')").size() == 1
             })
 
-            .click("button:contains('Generate Preview')",{delayAfter: 5000})
+            .click("button:contains('Generate Preview')",{delayAfter: 20000})
             .assert.visible("button:contains('Revert')")
             .click("button:contains('Revert')")
         ;
