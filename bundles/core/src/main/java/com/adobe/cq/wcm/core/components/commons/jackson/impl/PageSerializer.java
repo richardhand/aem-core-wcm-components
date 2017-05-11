@@ -48,8 +48,8 @@ public class PageSerializer extends StdSerializer<Page> {
             throws IOException {
         Map<String, String> pageProperties = getPageProperties(page);
         jsonGenerator.writeStartObject();
-        for (String key : pageProperties.keySet()) {
-            jsonGenerator.writeStringField(key, pageProperties.get(key));
+        for (Map.Entry<String, String> entry : pageProperties.entrySet()) {
+            jsonGenerator.writeStringField(entry.getKey(), entry.getValue());
         }
         jsonGenerator.writeEndObject();
     }

@@ -54,6 +54,7 @@ public class AllowedStylesDataSourceServlet extends SlingSafeMethodsServlet {
     private final static String DEFAULT_STYLE_VALUE = "";
     private final static String NN_STYLES = "styles";
     private final static String PN_STYLE_NAME = "name";
+    private static final long serialVersionUID = 1140711638837530077L;
 
     @Override
     protected void doGet(@Nonnull SlingHttpServletRequest request, @Nonnull SlingHttpServletResponse response)
@@ -73,19 +74,23 @@ public class AllowedStylesDataSourceServlet extends SlingSafeMethodsServlet {
             // otherwise we retrieve the policy of the content resource
             if (policy == null) {
                 ContentPolicyManager policyMgr = resolver.adaptTo(ContentPolicyManager.class);
-                policy = policyMgr.getPolicy(contentResource);
+                if (policyMgr != null) {
+                    policy = policyMgr.getPolicy(contentResource);
+                }
             }
 
             // add the default with empty value
             allowedStyles.add(new StyleResource(DEFAULT_STYLE_TEXT, DEFAULT_STYLE_VALUE, resolver));
             if (policy != null) {
                 Resource policyRes = policy.adaptTo(Resource.class);
-                Resource styles = policyRes.getChild(NN_STYLES);
-                if (styles != null) {
-                    for (Resource style : styles.getChildren()) {
-                        ValueMap props = style.getValueMap();
-                        String styleName = props.get(PN_STYLE_NAME, "");
-                        allowedStyles.add(new StyleResource(styleName, styleName, resolver));
+                if (policyRes != null) {
+                    Resource styles = policyRes.getChild(NN_STYLES);
+                    if (styles != null) {
+                        for (Resource style : styles.getChildren()) {
+                            ValueMap props = style.getValueMap();
+                            String styleName = props.get(PN_STYLE_NAME, "");
+                            allowedStyles.add(new StyleResource(styleName, styleName, resolver));
+                        }
                     }
                 }
             }
@@ -94,7 +99,7 @@ public class AllowedStylesDataSourceServlet extends SlingSafeMethodsServlet {
         return allowedStyles;
     }
 
-    public class StyleResource extends TextValueDataResourceSource {
+    private static class StyleResource extends TextValueDataResourceSource {
 
         private final String value;
         private final String text;

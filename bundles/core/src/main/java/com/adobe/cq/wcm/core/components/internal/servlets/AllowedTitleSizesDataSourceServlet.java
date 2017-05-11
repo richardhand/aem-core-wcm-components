@@ -63,14 +63,16 @@ public class AllowedTitleSizesDataSourceServlet extends SlingSafeMethodsServlet 
         ResourceResolver resolver = request.getResourceResolver();
         Resource contentResource = resolver.getResource((String) request.getAttribute(Value.CONTENTPATH_ATTRIBUTE));
         ContentPolicyManager policyMgr = resolver.adaptTo(ContentPolicyManager.class);
-        ContentPolicy policy = policyMgr.getPolicy(contentResource);
-        if (policy != null) {
-            ValueMap props = policy.getProperties();
-            if (props != null) {
-                String[] titleTypes = props.get("allowedTypes", String[].class);
-                if (titleTypes != null && titleTypes.length > 0) {
-                    for (String titleType : titleTypes) {
-                        allowedTypes.add(new TitleTypeResource(titleType, resolver));
+        if (policyMgr != null) {
+            ContentPolicy policy = policyMgr.getPolicy(contentResource);
+            if (policy != null) {
+                ValueMap props = policy.getProperties();
+                if (props != null) {
+                    String[] titleTypes = props.get("allowedTypes", String[].class);
+                    if (titleTypes != null && titleTypes.length > 0) {
+                        for (String titleType : titleTypes) {
+                            allowedTypes.add(new TitleTypeResource(titleType, resolver));
+                        }
                     }
                 }
             }
@@ -78,7 +80,7 @@ public class AllowedTitleSizesDataSourceServlet extends SlingSafeMethodsServlet 
         return allowedTypes;
     }
 
-    public class TitleTypeResource extends TextValueDataResourceSource {
+    private static class TitleTypeResource extends TextValueDataResourceSource {
 
         private final String type;
 
@@ -89,10 +91,9 @@ public class AllowedTitleSizesDataSourceServlet extends SlingSafeMethodsServlet 
 
         @Override
         protected String getText() {
-            for (Heading heading : Heading.values()) {
-                if (StringUtils.equals(heading.getElement(), type)) {
-                    return heading.name();
-                }
+            Heading heading = Heading.getHeading(type);
+            if (heading != null) {
+                return heading.name();
             }
             return null;
         }

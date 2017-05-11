@@ -23,7 +23,7 @@
     <parent>
         <groupId>com.adobe.cq</groupId>
         <artifactId>core.wcm.components.parent</artifactId>
-        <version>1.9.8</version>
+        <version>1.9.9-SNAPSHOT</version>
         <relativePath>../../parent/pom.xml</relativePath>
     </parent>
 
@@ -60,6 +60,10 @@
                         <Sling-Model-Packages>com.adobe.cq.wcm.core.components.models</Sling-Model-Packages>
                     </instructions>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

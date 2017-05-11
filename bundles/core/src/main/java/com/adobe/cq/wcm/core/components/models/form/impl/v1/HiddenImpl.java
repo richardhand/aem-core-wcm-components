@@ -35,7 +35,7 @@ import com.day.cq.wcm.foundation.forms.FormsHelper;
        resourceType = HiddenImpl.RESOURCE_TYPE)
 @Exporter(name = Constants.EXPORTER_NAME,
           extensions = Constants.EXPORTER_EXTENSION)
-public class HiddenImpl extends AbstractFieldImpl implements Field {
+public class HiddenImpl extends AbstractFieldImpl {
 
     protected static final String RESOURCE_TYPE = "core/wcm/components/form/hidden/v1/hidden";
 
