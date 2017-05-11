@@ -43,6 +43,7 @@
         <vault.password>admin</vault.password>
         <slf4j.version>1.7.6</slf4j.version>
         <aem.java.version>8</aem.java.version>
+        <jacoco.maven.plugin.version>0.7.6.201602180812</jacoco.maven.plugin.version>
     </properties>
 
     <!-- ======================================================================= -->
@@ -234,7 +235,7 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.18.1</version>
                     <configuration>
-                        <argLine>-XX:-UseSplitVerifier</argLine>
+                        <argLine>${argLine} -XX:-UseSplitVerifier</argLine>
                     </configuration>
                 </plugin>
                 <!-- Maven Failsafe Plugin -->
@@ -360,6 +361,25 @@
                         <execution>
                             <goals>
                                 <goal>validate</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${jacoco.maven.plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>default-prepare-agent</id>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>default-report</id>
+                            <goals>
+                                <goal>report</goal>
                             </goals>
                         </execution>
                     </executions>
