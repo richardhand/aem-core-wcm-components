@@ -50,11 +50,13 @@ import com.day.cq.wcm.api.policies.ContentPolicyManager;
 public class AllowedStylesDataSourceServlet extends SlingSafeMethodsServlet {
 
     public final static String RESOURCE_TYPE = "core/wcm/components/commons/style/v1/datasource/allowedstyles";
-    private final static String DEFAULT_STYLE_TEXT = "None";
-    private final static String DEFAULT_STYLE_VALUE = "";
+    private final static String NO_STYLE_TEXT = "None";
+    private final static String NO_STYLE_VALUE = "";
     private final static String NN_STYLES = "styles";
     private final static String PN_STYLE_NAME = "name";
     private static final long serialVersionUID = 1140711638837530077L;
+    private final static String PN_ALLOW_NO_STYLE = "allowNoStyle";
+    private final static String PN_STYLE_ID = "styleID";
 
     @Override
     protected void doGet(@Nonnull SlingHttpServletRequest request, @Nonnull SlingHttpServletResponse response)
@@ -79,18 +81,23 @@ public class AllowedStylesDataSourceServlet extends SlingSafeMethodsServlet {
                 }
             }
 
-            // add the default with empty value
-            allowedStyles.add(new StyleResource(DEFAULT_STYLE_TEXT, DEFAULT_STYLE_VALUE, resolver));
             if (policy != null) {
                 Resource policyRes = policy.adaptTo(Resource.class);
-                if (policyRes != null) {
-                    Resource styles = policyRes.getChild(NN_STYLES);
-                    if (styles != null) {
-                        for (Resource style : styles.getChildren()) {
-                            ValueMap props = style.getValueMap();
-                            String styleName = props.get(PN_STYLE_NAME, "");
-                            allowedStyles.add(new StyleResource(styleName, styleName, resolver));
-                        }
+
+                ValueMap policyProps = policyRes.getValueMap();
+                String allowNoStyle = policyProps.get(PN_ALLOW_NO_STYLE, "true");
+                if (StringUtils.equals(allowNoStyle, "true")) {
+                    // add the "no style" option
+                    allowedStyles.add(new StyleResource(NO_STYLE_TEXT, NO_STYLE_VALUE, resolver));
+                }
+
+                Resource styles = policyRes.getChild(NN_STYLES);
+                if (styles != null) {
+                    for (Resource style : styles.getChildren()) {
+                        ValueMap props = style.getValueMap();
+                        String styleName = props.get(PN_STYLE_NAME, "");
+                        String styleID = props.get(PN_STYLE_ID, "");
+                        allowedStyles.add(new StyleResource(styleName, styleID, resolver));
                     }
                 }
             }
