@@ -26,7 +26,15 @@
                                     sling:resourceType="granite/ui/components/coral/foundation/container"
                                     maximized="{Boolean}true">
                                 <items jcr:primaryType="nt:unstructured">
-                                    <styles
+                                    <allownostyle
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                            name="./allowNoStyle"
+                                            text="Allow no style"
+                                            checked="true"
+                                            uncheckedValue="false"
+                                            value="true"/>
+                                    <allowedstyles
                                             granite:class="core-styletab-styles"
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
@@ -50,19 +58,14 @@
                                                         sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                                                         fieldLabel="CSS Classes"
                                                         name="cssClass"/>
+                                                <styleID
+                                                        granite:class="core-styletab-style-ID"
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/form/hidden"
+                                                        name="styleID"/>
                                             </items>
                                         </field>
-                                    </styles>
-                                    <defaultstyle
-                                            granite:class="core-styletab-style-default"
-                                            jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="granite/ui/components/coral/foundation/form/select"
-                                            fieldLabel="Default Style"
-                                            name="./defaultStyle">
-                                        <datasource
-                                                jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="core/wcm/components/commons/style/v1/datasource/allowedstyles"/>
-                                    </defaultstyle>
+                                    </allowedstyles>
                                 </items>
                             </column>
                         </items>
