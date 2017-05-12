@@ -83,23 +83,25 @@ public class AllowedStylesDataSourceServlet extends SlingSafeMethodsServlet {
 
             if (policy != null) {
                 Resource policyRes = policy.adaptTo(Resource.class);
+                if (policyRes != null) {
+                    ValueMap policyProps = policyRes.getValueMap();
+                    String allowNoStyle = policyProps.get(PN_ALLOW_NO_STYLE, "true");
+                    if (StringUtils.equals(allowNoStyle, "true")) {
+                        // add the "no style" option
+                        allowedStyles.add(new StyleResource(NO_STYLE_TEXT, NO_STYLE_VALUE, resolver));
+                    }
 
-                ValueMap policyProps = policyRes.getValueMap();
-                String allowNoStyle = policyProps.get(PN_ALLOW_NO_STYLE, "true");
-                if (StringUtils.equals(allowNoStyle, "true")) {
-                    // add the "no style" option
-                    allowedStyles.add(new StyleResource(NO_STYLE_TEXT, NO_STYLE_VALUE, resolver));
-                }
-
-                Resource styles = policyRes.getChild(NN_STYLES);
-                if (styles != null) {
-                    for (Resource style : styles.getChildren()) {
-                        ValueMap props = style.getValueMap();
-                        String styleName = props.get(PN_STYLE_NAME, "");
-                        String styleID = props.get(PN_STYLE_ID, "");
-                        allowedStyles.add(new StyleResource(styleName, styleID, resolver));
+                    Resource styles = policyRes.getChild(NN_STYLES);
+                    if (styles != null) {
+                        for (Resource style : styles.getChildren()) {
+                            ValueMap props = style.getValueMap();
+                            String styleName = props.get(PN_STYLE_NAME, "");
+                            String styleID = props.get(PN_STYLE_ID, "");
+                            allowedStyles.add(new StyleResource(styleName, styleID, resolver));
+                        }
                     }
                 }
+
             }
         }
 
