@@ -482,6 +482,8 @@
                 poll();
             })
             .click("button:contains('Revert')")
+            .assert.visible("button:contains('Revert')", false)
+            .assert.visible("button:contains('Upload Image')")
         ;
 
     /**
