@@ -454,7 +454,7 @@
             })
 
             .click("button:contains('Generate Preview')")
-
+            /*
             .execFct(function(opts, done){
 
                 // check defaults
@@ -471,7 +471,7 @@
                     }
                     else {
                         if (retries++ === maxRetries) {
-                            done(false, "getting the Revert button failed with " + errorThrown);
+                            done(false, "getting the Revert button failed!");
                             return;
                         }
                         // set for next retry
@@ -484,6 +484,7 @@
             .click("button:contains('Revert')")
             .assert.visible("button:contains('Revert')", false)
             .assert.visible("button:contains('Upload Image')")
+            */
         ;
 
     /**
