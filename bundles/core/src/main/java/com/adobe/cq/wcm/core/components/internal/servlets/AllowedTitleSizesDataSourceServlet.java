@@ -93,7 +93,7 @@ public class AllowedTitleSizesDataSourceServlet extends SlingSafeMethodsServlet 
         protected String getText() {
             Heading heading = Heading.getHeading(type);
             if (heading != null) {
-                return heading.name();
+                return heading.element;
             }
             return null;
         }
