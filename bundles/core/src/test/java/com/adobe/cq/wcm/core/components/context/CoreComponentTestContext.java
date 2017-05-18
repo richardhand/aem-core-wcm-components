@@ -49,7 +49,6 @@ public final class CoreComponentTestContext {
                 (AemContextCallback) context -> {
                     context.registerService(FormStructureHelperFactory.class, resource -> null);
                     context.registerService(ImplementationPicker.class, new ResourceTypeBasedResourcePicker());
-                    context.addModelsForPackage("com.adobe.cq.wcm.core.components.models");
                     if (StringUtils.isNotEmpty(testBase)) {
                         context.load().json(testBase + "/test-content.json", contentRoot);
                     } else {
