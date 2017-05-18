@@ -453,9 +453,38 @@
                 return h.find("coral-tab.is-selected coral-tab-label:contains('Thumbnail')").size() == 1
             })
 
-            .click("button:contains('Generate Preview')",{delayAfter: 20000})
-            .assert.visible("button:contains('Revert')")
+            .click("button:contains('Generate Preview')")
+            /*
+            .execFct(function(opts, done){
+
+                // check defaults
+                var maxRetries = 10;
+                var timeout = 5000;
+                // retry counter
+                var retries = 0;
+
+                // the polling function
+                var poll = function () {
+
+                    if (h.find("button:contains('Revert')").is(":visible")) {
+                        done(true)
+                    }
+                    else {
+                        if (retries++ === maxRetries) {
+                            done(false, "getting the Revert button failed!");
+                            return;
+                        }
+                        // set for next retry
+                        setTimeout(poll, timeout);
+                    }
+                };
+                // start polling
+                poll();
+            })
             .click("button:contains('Revert')")
+            .assert.visible("button:contains('Revert')", false)
+            .assert.visible("button:contains('Upload Image')")
+            */
         ;
 
     /**
