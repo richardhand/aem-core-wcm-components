@@ -69,7 +69,6 @@ public class ImageImplTest {
 
     @BeforeClass
     public static void init() {
-        aemContext.registerInjectActivateService(new MockAdapterFactory());
         aemContext.registerAdapter(ResourceResolver.class, ContentPolicyManager.class,
                 (Function<ResourceResolver, ContentPolicyManager>) resourceResolver -> contentPolicyManager
         );

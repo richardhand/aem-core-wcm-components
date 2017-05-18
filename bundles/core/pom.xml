@@ -23,7 +23,7 @@
     <parent>
         <groupId>com.adobe.cq</groupId>
         <artifactId>core.wcm.components.parent</artifactId>
-        <version>1.9.10</version>
+        <version>1.9.11-SNAPSHOT</version>
         <relativePath>../../parent/pom.xml</relativePath>
     </parent>
 
@@ -94,6 +94,10 @@
                                     </limits>
                                 </rule>
                             </rules>
+                            <excludes>
+                                <!-- private enum; cannot test valueOf / values -->
+                                <exclude>**/SocialMediaHelperImpl$WebsiteMetadata$Type.class</exclude>
+                            </excludes>
                         </configuration>
                     </execution>
                 </executions>
@@ -266,11 +270,17 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>core.wcm.components.junit.core</artifactId>
             <scope>test</scope>
-            <version>1.9.4</version>
+            <version>1.9.6</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet.jsp</groupId>
             <artifactId>jsp-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.10</version>
             <scope>test</scope>
         </dependency>
         <dependency>

@@ -63,14 +63,14 @@ public class SocialMediaHelperImpl implements SocialMediaHelper {
     private static final Logger LOGGER = LoggerFactory.getLogger(SocialMediaHelperImpl.class);
 
     //Open Graph metadata property names
-    private static final String OG_TITLE = "og:title";
-    private static final String OG_URL = "og:url";
-    private static final String OG_TYPE = "og:type";
-    private static final String OG_SITE_NAME = "og:site_name";
-    private static final String OG_IMAGE = "og:image";
-    private static final String OG_DESCRIPTION = "og:description";
-    private static final String OG_PRODUCT_PRICE_AMOUNT = "product:price:amount";
-    private static final String OG_PRODUCT_PRICE_CURRENCY = "product:price:currency";
+    static final String OG_TITLE = "og:title";
+    static final String OG_URL = "og:url";
+    static final String OG_TYPE = "og:type";
+    static final String OG_SITE_NAME = "og:site_name";
+    static final String OG_IMAGE = "og:image";
+    static final String OG_DESCRIPTION = "og:description";
+    static final String OG_PRODUCT_PRICE_AMOUNT = "product:price:amount";
+    static final String OG_PRODUCT_PRICE_CURRENCY = "product:price:currency";
 
     @ScriptVariable
     private Page currentPage = null;
