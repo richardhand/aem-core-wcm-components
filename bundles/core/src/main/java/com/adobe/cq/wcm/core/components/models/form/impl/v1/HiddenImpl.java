@@ -52,13 +52,11 @@ public class HiddenImpl extends AbstractFieldImpl {
     @OSGiService
     private FormStructureHelperFactory formStructureHelperFactory;
 
-    private String[] prefillValues;
-
     @PostConstruct
     private void initModel() {
         slingRequest.setAttribute(FormsHelper.REQ_ATTR_FORM_STRUCTURE_HELPER,
                 formStructureHelperFactory.getFormStructureHelper(resource));
-        prefillValues = FormsHelper.getValues(slingRequest, resource);
+        String[] prefillValues = FormsHelper.getValues(slingRequest, resource);
         if (prefillValues == null || prefillValues.length == 0) {
             prefillValues = new String[]{PROP_VALUE_DEFAULT};
         }
