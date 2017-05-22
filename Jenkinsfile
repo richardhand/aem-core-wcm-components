@@ -18,8 +18,9 @@ import com.adobe.qe.evergreen.sprout.model.UITestRun
 /* --------------------------------------------------------------------- */
 Module componentsCore = new Module.Builder('main/bundles/core').withUnitTests(true).withCoverage().withRelease().withArtifact('jar', 'main/bundles/core/target/core.wcm.components.core-*.jar', true).build()
 Module componentsContent = new Module.Builder('main/content').withRelease().withArtifact('zip', 'main/content/target/core.wcm.components.content-*.zip', true).build();
-Module componentsConfig = new Module.Builder('main/config').withRelease().withArtifact('zip', 'main/config/target/core.wcm.components.config-*.zip', true).build();
+Module componentsConfig = new Module.Builder('main/config').withRelease().withArtifact('zip', 'main/config/target/core.wcm.components.config-*.zip', true);
 Module componentsItUi = new Module.Builder('main/testing/it/ui-js').withRelease().withArtifact('zip', 'main/testing/it/ui-js/target/core.wcm.components.it.ui-js-*.zip', true).build();
+Module componentsAll = new Module.Builder('main/all').withRelease().withArtifact('zip', 'main/all/target/core.wcm.components.all-*-SNAPSHOT.zip', true).build()
 
 /* --------------------------------------------------------------------- */
 /*                        EXTERNAL DEPENDENCIES                          */
@@ -39,10 +40,14 @@ MavenDependency uiTestingCommonsPackage = new MavenDependency.Builder()
 /* --------------------------------------------------------------------- */
 /*                       QUICKSTART CONFIGURATION                        */
 /* --------------------------------------------------------------------- */
-Quickstart quickstart = new BuildQuickstart.Builder('Core Components Quickstart')
+Quickstart quickstart = new BuildQuickstart.Builder('Quickstart 6.4')
     .withModule(componentsCore)
     .withModule(componentsContent)
     .withModule(componentsConfig).build()
+
+Quickstart quickstart63 = new BuildQuickstart.Builder('Quickstart 6.3')
+    .withBranch('release/630')
+    .withModule(componentsAll).build()
 
 /* --------------------------------------------------------------------- */
 /*                      CQ INSTANCE CONFIGURATION                        */
@@ -78,13 +83,13 @@ config.setCoverageCriteria([new Branch(/^PRIVATE_master$/)])
 config.setSonarSnapshotPrefix('CORE-COMPONENT-SPROUT-PRIVATE_MASTER-SNAPSHOT-')
 config.setSonarReleasePrefix('CORE-COMPONENT-SPROUT-PRIVATE_MASTER-RELEASE-')
 
-config.setModules([componentsCore, componentsContent, componentsConfig, componentsItUi])
+config.setModules([componentsCore, componentsContent, componentsConfig, componentsAll, componentsItUi])
 config.setTestRuns([coreCompUIChrome])
 
 // Releases
-config.setReleaseCriteria([new Branch(/^master$/)])
-config.setQuickstartPRCriteria([new Branch(/^master$/)])
-config.setGithubAccessTokenId('') // TODO(msagolj): Add GitHub Access Token for Quickstart PRs
+config.setReleaseCriteria([new Branch(/^PRIVATE_master$/)])
+config.setQuickstartPRCriteria([new Branch(/^PRIVATE_master$/)])
+config.setGithubAccessTokenId('')
 config.setIgnoreStatusAtPromotion(true)
 config.setPromotionInputTimeout(60 * 24 * 3)
 config.setQuickstartPRConfig(quickstart)
@@ -93,8 +98,7 @@ config.setEnableMailNotification(true)
 config.setMailNotificationRecipients(['msagolj@adobe.com'])
 config.setMailNotifyEveryUnstableBuild(false)
 
-// a release generates 2 commits, which will trigger the pipeline twice in parallel
-// causing trouble for sonar as both job wil try to send analysis to sonar
+// Don't trigger sprout for release commits
 config.setBuildCriteria([new Exclude(new GitCommitMessage(/^@releng \[maven\-scm\] :prepare$/))])
 
 /* --------------------------------------------------------------------- */
