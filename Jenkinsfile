@@ -17,9 +17,9 @@ import com.adobe.qe.evergreen.sprout.model.UITestRun
 /*                                MODULES                                */
 /* --------------------------------------------------------------------- */
 Module componentsCore = new Module.Builder('main/bundles/core').withUnitTests(true).withCoverage().withRelease().withArtifact('jar', 'main/bundles/core/target/core.wcm.components.core-*.jar', true).build()
-Module componentsContent = new Module.Builder('main/content').withRelease().withArtifact('zip', 'main/content/target/core.wcm.components.content-*.zip', true).build();
-Module componentsConfig = new Module.Builder('main/config').withRelease().withArtifact('zip', 'main/config/target/core.wcm.components.config-*.zip', true);
-Module componentsItUi = new Module.Builder('main/testing/it/ui-js').withRelease().withArtifact('zip', 'main/testing/it/ui-js/target/core.wcm.components.it.ui-js-*.zip', true).build();
+Module componentsContent = new Module.Builder('main/content').withRelease().withArtifact('zip', 'main/content/target/core.wcm.components.content-*.zip', true).build()
+Module componentsConfig = new Module.Builder('main/config').withRelease().withArtifact('zip', 'main/config/target/core.wcm.components.config-*.zip', true).build()
+Module componentsItUi = new Module.Builder('main/testing/it/ui-js').withRelease().withArtifact('zip', 'main/testing/it/ui-js/target/core.wcm.components.it.ui-js-*.zip', true).build()
 Module componentsAll = new Module.Builder('main/all').withRelease().withArtifact('zip', 'main/all/target/core.wcm.components.all-*-SNAPSHOT.zip', true).build()
 
 /* --------------------------------------------------------------------- */
