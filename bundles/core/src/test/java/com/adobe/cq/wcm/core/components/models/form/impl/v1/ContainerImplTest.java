@@ -104,6 +104,17 @@ public class ContainerImplTest {
     }
 
     @Test
+    public void testFormRedirectWithContextPath(){
+        Resource resource = context.currentResource(FORM1_PATH);
+        slingBindings.put(RESOURCE_PROPERTY, resource);
+        slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
+        context.request().setContextPath("/contextPath/test");
+        when(formStructureHelperFactory.getFormStructureHelper(resource)).thenReturn(formStructureHelper);
+        Container container = context.request().adaptTo(Container.class);
+        assertEquals("/contextPath/test/content/we-retail/home",container.getRedirect());
+    }
+
+    @Test
     public void testFormWithoutCustomAttributesAndField() {
         Resource resource = context.currentResource(FORM2_PATH);
         slingBindings.put(RESOURCE_PROPERTY, resource);
