@@ -83,7 +83,7 @@
                             <goal>check</goal>
                         </goals>
                         <configuration>
-                            <haltOnFailure>false</haltOnFailure>
+                            <haltOnFailure>true</haltOnFailure>
                             <dataFile>${project.build.directory}/coverage.exec</dataFile>
                             <rules>
                                 <rule>
