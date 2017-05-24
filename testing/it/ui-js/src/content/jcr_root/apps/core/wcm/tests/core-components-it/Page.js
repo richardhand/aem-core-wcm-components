@@ -611,11 +611,11 @@
             .click("button:contains('Add Permissions')")
 
             //add permissions for a user
-            .fillInput("foundation-autocomplete.js-cq-sites-CreatePermissionsDialog-authorizableList input.coral-Textfield","cavery", {delayafter:1000})
+            .fillInput("foundation-autocomplete.js-cq-sites-CreatePermissionsDialog-authorizableList input.coral-Textfield","corecomp", {delayafter:1000})
             //.wait(100)
-            .click("foundation-autocomplete.js-cq-sites-CreatePermissionsDialog-authorizableList coral-overlay:contains('cavery') button")
+            .click("foundation-autocomplete.js-cq-sites-CreatePermissionsDialog-authorizableList coral-overlay:contains('corecomp') button")
             //check if the tag for the user was added
-            .assert.exist("foundation-autocomplete.js-cq-sites-CreatePermissionsDialog-authorizableList coral-tag[value='cavery']")
+            .assert.exist("foundation-autocomplete.js-cq-sites-CreatePermissionsDialog-authorizableList coral-tag[value='corecomp']")
             //check if the Add button is disabled
             .assert.exist(".coral-Dialog-wrapper:contains('Add Permissions') button:contains('Add')[disabled]")
 
@@ -633,26 +633,26 @@
 
             //check if the permission was added to the list
             .assert.isTrue(function(){
-                return h.find("table.js-cq-sites-UserGroup-permissions:contains('Carlene Avery')").size() == 1
+                return h.find("table.js-cq-sites-UserGroup-permissions:contains('CoreComponent')").size() == 1
             })
             //check if the permissions were set correctly
             .assert.isTrue(function(){
-                return h.find("table.js-cq-sites-UserGroup-permissions:contains('Carlene Avery') td:eq(1) coral-icon").size() == 1
+                return h.find("table.js-cq-sites-UserGroup-permissions:contains('CoreComponent') td:eq(1) coral-icon").size() == 1
             })
             .assert.isTrue(function(){
-                return h.find("table.js-cq-sites-UserGroup-permissions:contains('Carlene Avery') td:eq(2) coral-icon").size() == 1
+                return h.find("table.js-cq-sites-UserGroup-permissions:contains('CoreComponent') td:eq(2) coral-icon").size() == 1
             })
             .assert.isTrue(function(){
-                return h.find("table.js-cq-sites-UserGroup-permissions:contains('Carlene Avery') td:eq(3) coral-icon").size() == 1
+                return h.find("table.js-cq-sites-UserGroup-permissions:contains('CoreComponent') td:eq(3) coral-icon").size() == 1
             })
 
             //check if the permission was added to the Effective Permissions list
             .click("button:contains('Effective Permissions')")
-            .assert.exist(".cq-siteadmin-admin-properties-effective-permissions:contains('Carlene Avery')")
+            .assert.exist(".cq-siteadmin-admin-properties-effective-permissions:contains('CoreComponent')")
             .click(".coral-Dialog-wrapper:contains('Effective Permissions') button[title='Close']")
 
             //edit a permission
-            .click("table.js-cq-sites-UserGroup-permissions:contains('Carlene Avery') button.js-cq-sites-PermissionsProperties-edit")
+            .click("table.js-cq-sites-UserGroup-permissions:contains('CoreComponent') button.js-cq-sites-PermissionsProperties-edit")
             //check if Browse, Edit and Delete page checkboxes are checked
             .assert.exist(".coral-Dialog-wrapper:contains('Edit Permissions') coral-checkbox[name='read'][checked]")
             .assert.exist(".coral-Dialog-wrapper:contains('Edit Permissions') coral-checkbox[name='modify'][checked]")
@@ -663,13 +663,13 @@
             .click(".coral-Dialog-wrapper:contains('Edit Permissions') button.js-cq-sites-EditPermissionsDialog-update")
             //check if the permission was added
             .assert.isTrue(function(){
-                return h.find("table.js-cq-sites-UserGroup-permissions:contains('Carlene Avery') td:eq(4) coral-icon").size() == 1
+                return h.find("table.js-cq-sites-UserGroup-permissions:contains('CoreComponent') td:eq(4) coral-icon").size() == 1
             })
 
             //delete permission from the list
-            .click("table.js-cq-sites-UserGroup-permissions:contains('Carlene Avery') button.js-cq-sites-PermissionsProperties-delete")
+            .click("table.js-cq-sites-UserGroup-permissions:contains('CoreComponent') button.js-cq-sites-PermissionsProperties-delete")
             .click("button:contains('Delete')")
-            .assert.exist("table.js-cq-sites-UserGroup-permissions:contains('Carlene Avery')", false)
+            .assert.exist("table.js-cq-sites-UserGroup-permissions:contains('CoreComponent')", false)
         ;
 
     /**
@@ -687,35 +687,35 @@
 
             .click("button:contains('Edit Closed User Group')")
 
-            .fillInput("foundation-autocomplete.js-cq-sites-CUGPermissionsDialog-authorizableList input.coral-Textfield","cavery",{delayAfter:1000})
+            .fillInput("foundation-autocomplete.js-cq-sites-CUGPermissionsDialog-authorizableList input.coral-Textfield","corecomp",{delayAfter:1000})
             //.wait()
-            .click("foundation-autocomplete.js-cq-sites-CUGPermissionsDialog-authorizableList coral-overlay:contains('cavery') button")
+            .click("foundation-autocomplete.js-cq-sites-CUGPermissionsDialog-authorizableList coral-overlay:contains('corecomp') button")
             //check if the tag for the user was added
-            .assert.exist("foundation-autocomplete.js-cq-sites-CUGPermissionsDialog-authorizableList coral-tag[value='cavery']")
+            .assert.exist("foundation-autocomplete.js-cq-sites-CUGPermissionsDialog-authorizableList coral-tag[value='corecomp']")
             .click(".coral-Dialog-wrapper:contains('Edit Closed') button[title='Remove']")
 
             //add permissions for a user
-            .fillInput("foundation-autocomplete.js-cq-sites-CUGPermissionsDialog-authorizableList input.coral-Textfield","cavery",{delayAfter:1000})
+            .fillInput("foundation-autocomplete.js-cq-sites-CUGPermissionsDialog-authorizableList input.coral-Textfield","corecomp",{delayAfter:1000})
             //.wait()
-            .click("foundation-autocomplete.js-cq-sites-CUGPermissionsDialog-authorizableList coral-overlay:contains('cavery') button")
+            .click("foundation-autocomplete.js-cq-sites-CUGPermissionsDialog-authorizableList coral-overlay:contains('corecomp') button")
             //check if the tag for the user was added
-            .assert.exist("foundation-autocomplete.js-cq-sites-CUGPermissionsDialog-authorizableList coral-tag[value='cavery']")
+            .assert.exist("foundation-autocomplete.js-cq-sites-CUGPermissionsDialog-authorizableList coral-tag[value='corecomp']")
 
             .click(".coral-Dialog-wrapper:contains('Edit Closed') button:contains('Save')")
 
             //check if the permission was added to the list
             .assert.isTrue(function(){
-                return h.find("table.js-cq-sites-ClosedUserGroup-permissions:contains('Carlene Avery')").size() == 1
+                return h.find("table.js-cq-sites-ClosedUserGroup-permissions:contains('CoreComponent')").size() == 1
             })
             //check if the permissions were set correctly
             .assert.isTrue(function(){
-                return h.find("table.js-cq-sites-ClosedUserGroup-permissions:contains('Carlene Avery') td:eq(1) coral-icon").size() == 1
+                return h.find("table.js-cq-sites-ClosedUserGroup-permissions:contains('CoreComponent') td:eq(1) coral-icon").size() == 1
             })
 
             //delete permission from the list
-            .click("table.js-cq-sites-ClosedUserGroup-permissions:contains('Carlene Avery') button.js-cq-sites-ClosedUserGroup-delete")
+            .click("table.js-cq-sites-ClosedUserGroup-permissions:contains('CoreComponent') button.js-cq-sites-ClosedUserGroup-delete")
             .click("button:contains('Delete')")
-            .assert.exist("table.js-cq-sites-ClosedUserGroup-permissions:contains('Carlene Avery')", false)
+            .assert.exist("table.js-cq-sites-ClosedUserGroup-permissions:contains('CoreComponent')", false)
 
     ;
 
