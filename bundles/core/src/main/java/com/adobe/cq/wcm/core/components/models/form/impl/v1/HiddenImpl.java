@@ -39,9 +39,9 @@ public class HiddenImpl extends AbstractFieldImpl {
 
     protected static final String RESOURCE_TYPE = "core/wcm/components/form/hidden/v1/hidden";
 
-    private static final String PROP_NAME_DEFAULT = "hidden";
-    private static final String PROP_VALUE_DEFAULT = "";
-    private static final String ID_PREFIX = "form-hidden";
+    static final String PROP_NAME_DEFAULT = "hidden";
+    static final String PROP_VALUE_DEFAULT = "";
+    static final String ID_PREFIX = "form-hidden";
 
     @Self
     private SlingHttpServletRequest slingRequest;
@@ -52,13 +52,11 @@ public class HiddenImpl extends AbstractFieldImpl {
     @OSGiService
     private FormStructureHelperFactory formStructureHelperFactory;
 
-    private String[] prefillValues;
-
     @PostConstruct
     private void initModel() {
         slingRequest.setAttribute(FormsHelper.REQ_ATTR_FORM_STRUCTURE_HELPER,
                 formStructureHelperFactory.getFormStructureHelper(resource));
-        prefillValues = FormsHelper.getValues(slingRequest, resource);
+        String[] prefillValues = FormsHelper.getValues(slingRequest, resource);
         if (prefillValues == null || prefillValues.length == 0) {
             prefillValues = new String[]{PROP_VALUE_DEFAULT};
         }

@@ -19,7 +19,7 @@
     <groupId>com.adobe.cq</groupId>
     <artifactId>core.wcm.components.parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.9.11-SNAPSHOT</version>
+    <version>1.9.13-SNAPSHOT</version>
 
     <name>Adobe Experience Manager Core WCM Components Parent</name>
 
@@ -43,7 +43,7 @@
         <vault.password>admin</vault.password>
         <slf4j.version>1.7.6</slf4j.version>
         <aem.java.version>8</aem.java.version>
-        <jacoco.maven.plugin.version>0.7.6.201602180812</jacoco.maven.plugin.version>
+        <jacoco.version>0.7.6.201602180812</jacoco.version>
     </properties>
 
     <!-- ======================================================================= -->
@@ -233,10 +233,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.18.1</version>
-                    <configuration>
-                        <argLine>${argLine} -XX:-UseSplitVerifier</argLine>
-                    </configuration>
+                    <version>2.19.1</version>
                 </plugin>
                 <!-- Maven Failsafe Plugin -->
                 <plugin>
@@ -368,21 +365,7 @@
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>${jacoco.maven.plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <id>default-prepare-agent</id>
-                            <goals>
-                                <goal>prepare-agent</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>default-report</id>
-                            <goals>
-                                <goal>report</goal>
-                            </goals>
-                        </execution>
-                    </executions>
+                    <version>${jacoco.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -669,7 +652,7 @@
             <dependency>
                 <groupId>io.wcm</groupId>
                 <artifactId>io.wcm.testing.aem-mock</artifactId>
-                <version>2.1.0</version>
+                <version>2.2.2</version>
                 <scope>test</scope>
                 <exclusions>
                     <exclusion>
