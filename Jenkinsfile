@@ -119,7 +119,7 @@ config.setMailNotificationRecipients(['msagolj@adobe.com','adracea@adobe.com'])
 config.setMailNotifyEveryUnstableBuild(false)
 
 // Don't trigger sprout for release commits
-config.setBuildCriteria([new Exclude(new GitCommitMessage(/^@releng \[maven\-scm\] :prepare$/))])
+config.setBuildCriteria([new Exclude(new GitCommitMessage(/^(.*)@releng \[maven\-scm\] :prepare(.*)$/))])
 
 /* --------------------------------------------------------------------- */
 /*                       SPROUT CUSTOMIZATION                            */
