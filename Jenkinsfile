@@ -1,15 +1,30 @@
 #!groovy
-@Library(['com.adobe.qe.pipeline.cq'])
-import com.adobe.qe.pipeline.cq.CQPipeline
-import com.adobe.qe.pipeline.cq.CQPipelineConfig
-import com.adobe.qe.pipeline.cq.model.CQInstance
-import com.adobe.qe.pipeline.cq.model.IntegrationTestRun
-import com.adobe.qe.pipeline.cq.model.UITestRun
-import com.adobe.qe.pipeline.cq.model.MavenDependency
+@Library(['com.adobe.qe.pipeline.cq@develop'])
+import com.adobe.qe.evergreen.sprout.Sprout
+import com.adobe.qe.evergreen.sprout.Pipeline
+import com.adobe.qe.evergreen.sprout.SproutConfig
+import com.adobe.qe.evergreen.sprout.criteria.Branch
+import com.adobe.qe.evergreen.sprout.criteria.Exclude
+import com.adobe.qe.evergreen.sprout.criteria.GitCommitMessage
+import com.adobe.qe.evergreen.sprout.model.BuildQuickstart
+import com.adobe.qe.evergreen.sprout.model.CQInstance
+import com.adobe.qe.evergreen.sprout.model.MavenDependency
+import com.adobe.qe.evergreen.sprout.model.Module
+import com.adobe.qe.evergreen.sprout.model.Quickstart
+import com.adobe.qe.evergreen.sprout.model.UITestRun
 
-//
-// EXTERNAL DEPENDENCIES
-//
+/* --------------------------------------------------------------------- */
+/*                                MODULES                                */
+/* --------------------------------------------------------------------- */
+Module componentsCore = new Module.Builder('main/bundles/core').withUnitTests(true).withCoverage().withRelease().withArtifact('jar', 'main/bundles/core/target/core.wcm.components.core-*.jar', true).build()
+Module componentsContent = new Module.Builder('main/content').withRelease().withArtifact('zip', 'main/content/target/core.wcm.components.content-*.zip', true).build()
+Module componentsConfig = new Module.Builder('main/config').withRelease().withArtifact('zip', 'main/config/target/core.wcm.components.config-*.zip', true).build()
+Module componentsItUi = new Module.Builder('main/testing/it/ui-js').withRelease().withArtifact('zip', 'main/testing/it/ui-js/target/core.wcm.components.it.ui-js-*.zip', true).build()
+Module componentsAll = new Module.Builder('main/all').withRelease().withArtifact('zip', 'main/all/target/core.wcm.components.all-*-SNAPSHOT.zip', true).build()
+
+/* --------------------------------------------------------------------- */
+/*                        EXTERNAL DEPENDENCIES                          */
+/* --------------------------------------------------------------------- */
 MavenDependency hobbesRewriterPackage = new MavenDependency.Builder()
     .withGroupId("com.adobe.granite")
     .withArtifactId("com.adobe.granite.testing.hobbes.rewriter")
@@ -22,68 +37,75 @@ MavenDependency uiTestingCommonsPackage = new MavenDependency.Builder()
     .withVersion("latest")
     .withExtension("zip").build()
 
-//
-// CQ INSTANCE CONFIGURATION
-//
+/* --------------------------------------------------------------------- */
+/*                       QUICKSTART CONFIGURATION                        */
+/* --------------------------------------------------------------------- */
+Quickstart quickstart = new BuildQuickstart.Builder('Quickstart 6.4')
+    .withModule(componentsCore)
+    .withModule(componentsContent)
+    .withModule(componentsConfig).build()
+
+Quickstart quickstart63 = new BuildQuickstart.Builder('Quickstart 6.3')
+    .withBranch('release/630')
+    .withModule(componentsAll).build()
+
+/* --------------------------------------------------------------------- */
+/*                      CQ INSTANCE CONFIGURATION                        */
+/* --------------------------------------------------------------------- */
 CQInstance author = new CQInstance.Builder()
+    .withQuickstart(quickstart)
     .withId('weretail-author')
     .withPort(1234)
     .withRunmode("author")
     .withContextPath("/cp")
     .withMavenDependency(hobbesRewriterPackage)
     .withMavenDependency(uiTestingCommonsPackage)
-    .withArtifact('main/testing/it/ui-js/target/core.wcm.components.it.ui-js-*.zip').build()
+    .withFileDependency(componentsItUi.getArtifact('zip')).build()
 
-//
-// UI TESTS
-//
-
+/* --------------------------------------------------------------------- */
+/*                                UI TESTS                               */
+/* --------------------------------------------------------------------- */
 UITestRun coreCompUIChrome = new UITestRun.Builder()
     .withName('UI Tests Core Components / Chrome')
     .withInstance(author)
     .withBrowser('CHROME')
     .withFilter('aem.core-components.tests')
-    .withHobbesHubUrl('http://or1010050212014.corp.adobe.com:8811').build()
-//
-// PIPELINE CONFIG
-//
-CQPipelineConfig config = new CQPipelineConfig()
+    .withHobbesHubUrl('http://or1010050212014.corp.adobe.com:8811')
+    .withStopOnFail(true).build()
+
+/* --------------------------------------------------------------------- */
+/*                       SPROUT CONFIGURATION                            */
+/* --------------------------------------------------------------------- */
+SproutConfig config = new SproutConfig()
 
 config.setComputeCoverage(true)
-config.setCoverageBranch(/^PRIVATE_master$/)
-config.setSonarPrefix('CORE-COMPONENT-PIPELINE-PRIVATE_MASTER')
+config.setCoverageCriteria([new Branch(/^PRIVATE_master$/)])
+config.setSonarSnapshotPrefix('CORE-COMPONENT-SPROUT-PRIVATE_MASTER-SNAPSHOT-')
+config.setSonarReleasePrefix('CORE-COMPONENT-SPROUT-PRIVATE_MASTER-RELEASE-')
 
-config.setBundlesToTest([
-    'main/bundles/core'
-])
-config.setBuildArtifacts([
-    'main/bundles/core': ['main/bundles/core/target/core.wcm.components.core-*-SNAPSHOT.jar'],
-    'main/content': ['main/content/target/core.wcm.components.content-*-SNAPSHOT.zip'],
-    'main/config': ['main/config/target/core.wcm.components.config-*-SNAPSHOT.zip'],
-    'main/testing/it/ui-js': ['main/testing/it/ui-js/target/core.wcm.components.it.ui-js-*.zip']
-])
-config.setArchiveBuildArtifacts(true)
-
+config.setModules([componentsCore, componentsContent, componentsConfig, componentsAll, componentsItUi])
 config.setTestRuns([coreCompUIChrome])
+
+// Releases
+config.setReleaseCriteria([new Branch(/^PRIVATE_master$/)])
+config.setQuickstartPRCriteria([new Branch(/^PRIVATE_master$/)])
+config.setGithubAccessTokenId('')
+config.setIgnoreStatusAtPromotion(true)
+config.setPromotionInputTimeout(60 * 24 * 3)
+config.setQuickstartPRConfig(quickstart)
 
 config.setEnableMailNotification(true)
 config.setMailNotificationRecipients(['msagolj@adobe.com'])
 config.setMailNotifyEveryUnstableBuild(false)
-// config.setQuickstartBranch('release/630') // default is master
 
-// a release generates 2 commits, which will trigger the pipeline twice in parallel
-// causing trouble for sonar as both job wil try to send analysis to sonar
-config.setSkipReleasePrepareBuild(true)
-config.setSkipReleasePrepareCommitMessage("@releng [maven-scm] :prepare for next development iteration")
+// Don't trigger sprout for release commits
+config.setBuildCriteria([new Exclude(new GitCommitMessage(/^@releng \[maven\-scm\] :prepare$/))])
 
-//
-// PIPELINE CUSTOMIZATION
-//
-CQPipeline pipeline = new CQPipeline.Builder()
+/* --------------------------------------------------------------------- */
+/*                       SPROUT CUSTOMIZATION                            */
+/* --------------------------------------------------------------------- */
+Pipeline sprout = new Sprout.Builder()
     .withConfig(config)
     .withJenkins(this).build()
 
-//
-// EXECUTE PIPELINE
-//
-pipeline.execute()
+sprout.execute()
