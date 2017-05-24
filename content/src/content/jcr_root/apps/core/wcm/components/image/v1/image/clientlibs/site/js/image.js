@@ -172,7 +172,7 @@
             if (dropContainer) {
                 container = dropContainer;
             }
-            anchor = container.querySelector('cmp-image__link');
+            anchor = container.querySelector('.cmp-image--link');
             if (anchor !== null) {
                 container = anchor;
             }
