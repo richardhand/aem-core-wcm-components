@@ -384,10 +384,10 @@
                 return h.find("coral-tab.is-selected coral-tab-label:contains('Advanced')").size() == 1
             })
 
-            //test the authenticatiion requirement
+            //test the authentication requirement
             .click("input[name='./cq:authenticationRequired']")
-            .simulate("foundation-autocomplete[name='./cq:loginPath'] input.coral-Textfield", "key-sequence",
-                {sequence: loginPage+"{enter}"})
+            .fillInput("foundation-autocomplete[name='./cq:loginPath'] input.coral-Textfield", loginPage, {delay:1000})
+            .click("button[value='"+loginPage+"']")
 
             /*****  Check if the date is saved *****/
 
@@ -424,8 +424,8 @@
             })
 
             //tests for the export options
-            .simulate("foundation-autocomplete[name='./cq:exportTemplate'] input.coral-Textfield", "key-sequence",
-                {sequence: exportConfiguration+"{enter}"})
+            .fillInput("foundation-autocomplete[name='./cq:exportTemplate'] input.coral-Textfield", exportConfiguration)
+            .click("button[value='"+exportConfiguration+"']")
 
             /*****  Check if the date is saved *****/
 
