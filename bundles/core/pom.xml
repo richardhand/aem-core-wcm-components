@@ -132,6 +132,7 @@
                     <systemPropertyVariables>
                         <jacoco-agent.destfile>${project.build.directory}/coverage.exec</jacoco-agent.destfile>
                     </systemPropertyVariables>
+                    <argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
                 </configuration>
             </plugin>
             <plugin>
