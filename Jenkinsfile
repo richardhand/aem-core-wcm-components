@@ -107,12 +107,12 @@ config.setModules([componentsCore, componentsContent, componentsConfig, componen
 config.setTestRuns([coreCompUIChrome])
 
 // Releases
-// config.setReleaseCriteria([new Branch(/^PRIVATE_master$/)])
-// config.setQuickstartPRCriteria([new Branch(/^PRIVATE_master$/)])
-// config.setGithubAccessTokenId('740db810-2a69-4172-9973-6a9aa1b47624')
-// config.setIgnoreStatusAtPromotion(true)
-// config.setPromotionInputTimeout(60 * 24 * 3)
-// config.setQuickstartPRConfig(quickstart)
+ config.setReleaseCriteria([new Branch(/^dummy_branch$/)])
+ config.setQuickstartPRCriteria([new Branch(/^dummy_branch$/)])
+ config.setGithubAccessTokenId('740db810-2a69-4172-9973-6a9aa1b47624')
+ config.setIgnoreStatusAtPromotion(true)
+ config.setPromotionInputTimeout(60 * 24 * 3)
+ config.setQuickstartPRConfig(quickstart)
 
 config.setEnableMailNotification(true)
 config.setMailNotificationRecipients(['msagolj@adobe.com','adracea@adobe.com'])
