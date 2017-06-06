@@ -60,10 +60,6 @@
             c.createPage(c.template, c.rootPage ,'page_' + Date.now(),"testPagePath",done)
         })
 
-        // open the new page in the sites
-        .navigateTo("/sites.html%testPagePath%")
-
-        .execTestCase(openPageProperties)
     ;
 
     /**
@@ -84,6 +80,11 @@
         execBefore: tcExecuteBeforeTest,
         execAfter: tcExecuteAfterTest
     })
+            // open the new page in the sites
+            .navigateTo("/sites.html%testPagePath%")
+
+            .execTestCase(openPageProperties)
+
             /***** Insert information for 'Title and Tags' *****/
 
             //open the Basic tab
@@ -145,6 +146,11 @@
             execBefore: tcExecuteBeforeTest,
             execAfter: tcExecuteAfterTest
         })
+            // open the new page in the sites
+            .navigateTo("/sites.html%testPagePath%")
+
+            .execTestCase(openPageProperties)
+
             /***** Insert information for 'More Titles and Description' *****/
 
             //open the Basic tab
@@ -192,6 +198,10 @@
             execBefore: tcExecuteBeforeTest,
             execAfter: tcExecuteAfterTest
         })
+            // open the new page in the sites
+            .navigateTo("/sites.html%testPagePath%")
+
+            .execTestCase(openPageProperties)
 
             /***** Insert information for On/Off time *****/
 
@@ -239,6 +249,10 @@
             execBefore: tcExecuteBeforeTest,
             execAfter: tcExecuteAfterTest
         })
+            // open the new page in the sites
+            .navigateTo("/sites.html%testPagePath%")
+
+            .execTestCase(openPageProperties)
 
             /***** Insert information for 'Vanity URL' *****/
 
@@ -287,6 +301,11 @@
             execBefore: tcExecuteBeforeTest,
             execAfter: tcExecuteAfterTest
         })
+            // open the new page in the sites
+            .navigateTo("/sites.html%testPagePath%")
+
+            .execTestCase(openPageProperties)
+
             /***** Insert information for 'Settings' *****/
 
             //open the Advanced tab
@@ -335,6 +354,11 @@
             execBefore: tcExecuteBeforeTest,
             execAfter: tcExecuteAfterTest
         })
+            // open the new page in the sites
+            .navigateTo("/sites.html%testPagePath%")
+
+            .execTestCase(openPageProperties)
+
             /***** Insert information for 'Settings' *****/
 
             //open the Advanced tab
@@ -375,6 +399,11 @@
             execBefore: tcExecuteBeforeTest,
             execAfter: tcExecuteAfterTest
         })
+            // open the new page in the sites
+            .navigateTo("/sites.html%testPagePath%")
+
+            .execTestCase(openPageProperties)
+
             /***** Insert information for 'Settings' *****/
 
             //open the Advanced tab
@@ -413,6 +442,10 @@
             execBefore: tcExecuteBeforeTest,
             execAfter: tcExecuteAfterTest
         })
+            // open the new page in the sites
+            .navigateTo("/sites.html%testPagePath%")
+
+            .execTestCase(openPageProperties)
 
             /***** Insert information for 'Settings' *****/
 
@@ -447,6 +480,11 @@
             execBefore: tcExecuteBeforeTest,
             execAfter: tcExecuteAfterTest
         })
+            // open the new page in the sites
+            .navigateTo("/sites.html%testPagePath%")
+
+            .execTestCase(openPageProperties)
+
             .click("coral-tab-label:contains('Thumbnail')",{delay:1000})
             //check if the "Thumbnail" option was selected
             .assert.isTrue(function() {
@@ -494,6 +532,11 @@
             execBefore: tcExecuteBeforeTest,
             execAfter: tcExecuteAfterTest
         })
+            // open the new page in the sites
+            .navigateTo("/sites.html%testPagePath%")
+
+            .execTestCase(openPageProperties)
+
             .click("coral-tab-label:contains('Social Media')",{delay:1000})
             //check if the "Social Media" option was selected
             .assert.isTrue(function() {
@@ -530,6 +573,11 @@
             execBefore: tcExecuteBeforeTest,
             execAfter: tcExecuteAfterTest
         })
+            // open the new page in the sites
+            .navigateTo("/sites.html%testPagePath%")
+
+            .execTestCase(openPageProperties)
+
             .click("coral-tab-label:contains('Cloud Services')",{delay:1000})
             //check if the "Cloud Services" option was selected
             .assert.isTrue(function() {
@@ -563,6 +611,11 @@
             execBefore: tcExecuteBeforeTest,
             execAfter: tcExecuteAfterTest
         })
+            // open the new page in the sites
+            .navigateTo("/sites.html%testPagePath%")
+
+            .execTestCase(openPageProperties)
+
             .click("coral-tab-label:contains('Personalization')",{delay:1000})
             //check if the "Personalization" option was selected
             .assert.isTrue(function() {
@@ -602,6 +655,11 @@
             execBefore: tcExecuteBeforeTest,
             execAfter: tcExecuteAfterTest
         })
+            // open the new page in the sites
+            .navigateTo("/sites.html%testPagePath%")
+
+            .execTestCase(openPageProperties)
+
             .click("coral-tab-label:contains('Permissions')",{delay:1000})
             //check if the "Permissions" option was selected
             .assert.isTrue(function() {
@@ -679,6 +737,11 @@
         execBefore: tcExecuteBeforeTest,
         execAfter: tcExecuteAfterTest
     })
+            // open the new page in the sites
+            .navigateTo("/sites.html%testPagePath%")
+
+            .execTestCase(openPageProperties)
+
             .click("coral-tab-label:contains('Permissions')",{delay:1000})
             //check if the "Permissions" option was selected
             .assert.isTrue(function() {
@@ -726,6 +789,11 @@
             execBefore: tcExecuteBeforeTest,
             execAfter: tcExecuteAfterTest
     })
+            // open the new page in the sites
+            .navigateTo("/sites.html%testPagePath%")
+
+            .execTestCase(openPageProperties)
+
             .click("coral-tab-label:contains('Permissions')",{delay:1000})
             //check if the "Permissions" option was selected
             .assert.isTrue(function() {
@@ -735,6 +803,121 @@
             //open the effective permissions option
             .click("button:contains('Effective Permissions')")
             .click(".coral-Dialog-wrapper:contains('Effective Permissions') button[title='Close']")
+    ;
+
+    /**
+     * Test: Check the Blueprint options of a page properties.
+     */
+    var blueprintPageProperties = new h.TestCase("Blueprint for a page",{
+        execBefore: tcExecuteBeforeTest,
+        execAfter: tcExecuteAfterTest
+    })
+            .execFct(function (opts,done) {
+                c.createBlueprintConfig(h.param("testPagePath")(opts), "coreComp_blueprint",done)
+            })
+            // create the live copy page, store page path in 'testLiveCopyPagePath'
+            .execFct(function (opts,done) {
+                c.createLiveCopy(h.param("testPagePath")(opts), c.rootPage ,'page_' + Date.now(),'page_' + Date.now(),"testLiveCopyPagePath",done)
+            })
+
+            // open the new page in the sites
+            .navigateTo("/sites.html%testPagePath%")
+
+            .execTestCase(openPageProperties)
+
+            .click("coral-tab-label:contains('Blueprint')",{delay:1000})
+            //check if the "Blueprint" option was selected
+            .assert.isTrue(function() {
+                return h.find("coral-tab.is-selected coral-tab-label:contains('Blueprint')").size() == 1
+            })
+
+            .click("coral-anchorbutton-label:contains('Rollout')")
+            //check if the page is selected
+            .assert.isTrue(function(){
+                return h.find("coral-checkbox.select-rollout[checked]").size() == 2
+            })
+            //check the Rollout page and all sub pages
+            .click("coral-checkbox.coral-Form-field")
+            //save the configuration
+            .click(".cq-dialog-actions .cq-dialog-submit")
+
+            // delete the test page we created for the live copy
+            .execFct(function (opts, done) {
+                c.deletePage(h.param("testLiveCopyPagePath")(opts), done);
+            })
+
+            // delete the blueprint
+            .execFct(function (opts, done) {
+                c.deleteBlueprint("/etc/blueprints/corecomp_blueprint", done);
+            })
+    ;
+
+    /**
+     * Test: Check the Live Copy options of a page properties.
+     */
+    var liveCopyPageProperties = new h.TestCase("Live Copy for a page",{
+            execBefore: tcExecuteBeforeTest,
+            execAfter: tcExecuteAfterTest
+    })
+            // create the live copy page, store page path in 'testLiveCopyPagePath'
+            .execFct(function (opts,done) {
+                c.createLiveCopy(h.param("testPagePath")(opts), c.rootPage ,'page_' + Date.now(),'page_' + Date.now(),"testLiveCopyPagePath",done)
+            })
+
+            // open the new page in the sites
+            .navigateTo("/sites.html%testLiveCopyPagePath%")
+
+            //select the page
+            .execFct(function(opts, done){
+                c.setPageName(h.param("testLiveCopyPagePath")(opts),"testPageName",done);
+            })
+            .click('coral-columnview-item:contains("%testPageName%") coral-columnview-item-thumbnail')
+            .click("button.cq-siteadmin-admin-actions-properties-activator")
+
+            .click("coral-tab-label:contains('Live Copy')",{delay:1000})
+            //check if the "Live Copy" option was selected
+            .assert.isTrue(function() {
+                return h.find("coral-tab.is-selected coral-tab-label:contains('Live Copy')").size() == 1
+            })
+
+            //check the Synchronize button
+            .click("coral-actionbar-item:contains('Synchronize') button")
+            .click(".coral-Button--primary:contains('Sync')")
+
+            //check the Reset button
+            .click("coral-tab-label:contains('Live Copy')",{delay:1000})
+            .click("coral-actionbar-item:contains('Reset') button")
+            .click(".coral-Button--warning:contains('Reset')")
+
+            //check the Suspend button
+            .click("coral-tab-label:contains('Live Copy')",{delay:1000})
+            .click("coral-actionbar-item:contains('Suspend') button")
+            .click(function() {
+                return h.find("coral-anchorlist coral-list-item-content").eq(0)
+            })
+            .click(".coral-Button--warning:contains('Suspend')")
+
+            //check the Resume button
+            .click("coral-tab-label:contains('Live Copy')",{delay:1000})
+            .click("coral-actionbar-item:contains('Resume') button")
+            .click(".coral-Button--warning:contains('Resume')")
+
+            .click("coral-tab-label:contains('Live Copy')",{delay:1000})
+            .click("coral-actionbar-item:contains('Suspend') button")
+            .click(function() {
+                return h.find("coral-anchorlist coral-list-item-content").eq(1)
+            })
+            .click(".coral-Button--warning:contains('Suspend')")
+
+            //check the Detach button
+            .click("coral-tab-label:contains('Live Copy')",{delay:1000})
+            .click("coral-actionbar-item:contains('Detach') button")
+            .click(".coral-Button--warning:contains('Detach')")
+
+            // delete the test page we created for live copy
+            .execFct(function (opts, done) {
+                c.deletePage(h.param("testLiveCopyPagePath")(opts), done);
+            })
     ;
 
     /**
@@ -759,6 +942,8 @@
         .addTestCase(addPermissionsPageProperties)
         .addTestCase(editUserGroupPermissionsPageProperties)
         .addTestCase(effectivePermissionsPageProperties)
+        .addTestCase(blueprintPageProperties)
+        .addTestCase(liveCopyPageProperties)
     ;
 
 }(hobs, jQuery));

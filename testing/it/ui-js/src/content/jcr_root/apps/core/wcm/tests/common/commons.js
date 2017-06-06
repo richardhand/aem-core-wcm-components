@@ -147,6 +147,129 @@
     };
 
     /**
+     * Creates a Live Copy via POST request.
+     *
+     * @param srcPath Mandatory. Path to the source page for the live copy."
+     * @param destPath Mandatory. Path to the destination page for the live copy."
+     * @param title Mandatory. the title to be set for the live copy.
+     * @param label Mandatory. The label to be set for the live copy.
+     * @param dynParName Optional. Hobbes dynamic param to store the generated page path.
+     * @param done Mandatory. Callback to be executed when async method has finished.
+     */
+    c.createLiveCopy = function (srcPath, destPath, title, label, dynParName, done) {
+        // mandatory check
+        if (srcPath == null || destPath == null || title == null || label == null || done == null) {
+            if (done) done(false, "createLiveCopy failed! mandatory parameter(s) missing!");
+            return;
+        }
+
+        // the ajax call
+        jQuery.ajax({
+            url: "/bin/wcmcommand",
+            method: "POST",
+            // POST data to be send in the request
+            data: {
+                "cmd": "createLiveCopy",
+                "srcPath": srcPath,
+                "destPath": destPath,
+                "_charset_": "utf-8",
+                "title": title,
+                "label": label
+            }
+        })
+        // when the request was successful
+            .done(function (data, textStatus, jqXHR) {
+                // extract the created page path from the returned HTML
+                var path = jQuery(data).find("#Path").text();
+
+                // store the page path and name as dynamic data for reuse in hobs functions
+                if (dynParName != null) {
+                    hobs.param(dynParName, path);
+                }
+            })
+
+            // request fails
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                // log an error
+                done(false, "createLiveCopy failed! POST failed with: " + textStatus + "," + errorThrown);
+            })
+            // always executed, fail or success
+            .then(function () {
+                done(true);
+            })
+    };
+
+    /**
+     * Creates a blueprint configuration via POST request.
+     *
+     * @param sitePath Mandatory. Path to the page for which we create the blueprint"
+     * @param title Mandatory. The title of the blueprint configuration"
+     * @param done Mandatory. Callback to be executed when async method has finished.
+     */
+    c.createBlueprintConfig = function (sitePath, title, done) {
+        // mandatory check
+        if (sitePath == null || title == null || done == null) {
+            if (done) done(false, "createBlueprintConfig failed! mandatory parameter(s) missing!");
+            return;
+        }
+
+        // the ajax call
+        jQuery.ajax({
+            url: "/libs/wcm/msm/gui/content/createblueprintwizard/_jcr_content",
+            method: "POST",
+            // POST data to be send in the request
+            data: {
+                "parentPath": "/etc/blueprints",
+                "template": "/libs/wcm/msm/templates/blueprint",
+                "sitePath": sitePath,
+                "_charset_": "utf-8",
+                "title": title
+            }
+        })
+            // request fails
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                // log an error
+                done(false, "createBlueprintConfig failed! POST failed with: " + textStatus + "," + errorThrown);
+            })
+            // always executed, fail or success
+            .then(function () {
+                done(true);
+            })
+    };
+
+    /**
+     * Deletes a blueprint.
+     *
+     * @param pagePath Mandatory. testPagePath path to the page to be deleted
+     * @param done Optional. callback to be executed when the async method has finished.
+     */
+    c.deleteBlueprint = function (blueprintPath, done) {
+        // mandatory check
+        if (blueprintPath == null || done == null) {
+            if (done) done(false, "deletePage failed! mandatory parameter(s) missing!");
+            return;
+        }
+        jQuery.ajax({
+            url: "/bin/wcmcommand",
+            method: "POST",
+            data: {
+                "_charset_":"UTF-8",
+                "cmd":"deletePage",
+                "path": blueprintPath,
+                "force":"false",
+                "checkChildren":"true"
+            }
+        })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                done(false, "deleteBlueprint failed: POST failed with " + textStatus + "," + errorThrown);
+            })
+            // always executed, fail or success
+            .then(function () {
+                done(true);
+            })
+    };
+
+    /**
      * Adds a component to a page.
      *
      * @param component          mandatory components resource type
