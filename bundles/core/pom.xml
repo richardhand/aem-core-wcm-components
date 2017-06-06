@@ -28,7 +28,7 @@
     </parent>
 
     <artifactId>core.wcm.components.core</artifactId>
-    <version>1.9.33-SNAPSHOT</version>
+    <version>1.9.35-SNAPSHOT</version>
     <packaging>bundle</packaging>
 
     <name>Adobe Experience Manager Core WCM Components Core Bundle</name>
