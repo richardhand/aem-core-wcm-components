@@ -32,7 +32,7 @@
                                             name="./styleID">
                                         <datasource
                                                 jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="core/wcm/components/commons/style/v2/datasource/allowedstyles"/>
+                                                sling:resourceType="core/wcm/components/commons/style/v1/datasource/allowedstyles"/>
                                     </styles>
                                 </items>
                             </column>
