@@ -110,9 +110,9 @@ CQInstance authorSandbox = new CQInstance.Builder()
         .withContextPath("/cp")
         .withMavenDependency(hobbesRewriterPackage)
         .withMavenDependency(uiTestingCommonsPackage)
-        .withFileDependency(componentsCoreSandbox.getArtifact('jar')).build()
-        .withFileDependency(componentsContentSandbox.getArtifact('zip')).build()
-        .withFileDependency(componentsConfigSandbox.getArtifact('zip')).build()
+        .withFileDependency(componentsCoreSandbox.getArtifact('jar'))
+        .withFileDependency(componentsContentSandbox.getArtifact('zip'))
+        .withFileDependency(componentsConfigSandbox.getArtifact('zip'))
         .withFileDependency(componentsItUiSandbox.getArtifact('zip')).build()
 
 /* --------------------------------------------------------------------- */
