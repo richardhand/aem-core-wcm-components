@@ -14,7 +14,7 @@ import com.adobe.qe.evergreen.sprout.model.Quickstart
 import com.adobe.qe.evergreen.sprout.model.UITestRun
 
 /* --------------------------------------------------------------------- */
-/*                                MODULES                                */
+/*                                MODULES V1                               */
 /* --------------------------------------------------------------------- */
 Module componentsCore = new Module.Builder('main/bundles/core')
         .withUnitTests(true)
@@ -36,7 +36,29 @@ Module componentsItUi = new Module.Builder('main/testing/it/ui-js')
         .build()
 Module componentsAll = new Module.Builder('main/all')
         .withRelease()
-        .withArtifact('zip', 'main/all/target/core.wcm.components.all-*-SNAPSHOT.zip', true)
+        .withArtifact('zip', 'main/all/target/core.wcm.components.all-*.zip', true)
+        .build()
+
+/* --------------------------------------------------------------------- */
+/*                                MODULES Sandbox                        */
+/* --------------------------------------------------------------------- */
+Module componentsCoreSandbox = new Module.Builder('main/sandbox/bundle')
+        .withUnitTests(true)
+        .withCoverage()
+        .withRelease()
+        .withArtifact('jar', 'main/sandbox/bundle/target/core.wcm.components.sandbox.bundle-*.jar', true)
+        .build()
+Module componentsContentSandbox = new Module.Builder('main/sandbox/content')
+        .withRelease()
+        .withArtifact('zip', 'main/sandbox/content/target/core.wcm.components.sandbox.content-*.zip', true)
+        .build()
+Module componentsConfigSandbox = new Module.Builder('main/sandbox/config')
+        .withRelease()
+        .withArtifact('zip', 'main/sandbox/config/target/core.wcm.components.sandbox.config-*.zip', true)
+        .build()
+Module componentsItUiSandbox = new Module.Builder('main/sandbox/testing/it/ui-js')
+        .withRelease()
+        .withArtifact('zip', 'main/sandbox/testing/it/ui-js/target/core.wcm.components.sandbox.it.ui-js-*.zip', true)
         .build()
 
 /* --------------------------------------------------------------------- */
@@ -55,22 +77,19 @@ MavenDependency uiTestingCommonsPackage = new MavenDependency.Builder()
         .withExtension("zip").build()
 
 /* --------------------------------------------------------------------- */
-/*                       QUICKSTART CONFIGURATION                        */
+/*                       QUICKSTART CONFIGURATIONS                        */
 /* --------------------------------------------------------------------- */
 Quickstart quickstart = new BuildQuickstart.Builder('Quickstart 6.4')
         .withModule(componentsCore)
         .withModule(componentsContent)
         .withModule(componentsConfig).build()
 
-Quickstart quickstart63 = new BuildQuickstart.Builder('Quickstart 6.3')
-        .withBranch('release/630')
-        .withModule(componentsCore)
-        .withModule(componentsContent)
-        .withModule(componentsConfig).build()
+// the quickstart to be build for the sandbox
+Quickstart quickstartSandbox = new BuildQuickstart.Builder('Quickstart Sandbox')
 
 
 /* --------------------------------------------------------------------- */
-/*                      CQ INSTANCE CONFIGURATION                        */
+/*                      CQ INSTANCE CONFIGURATIONS                        */
 /* --------------------------------------------------------------------- */
 CQInstance author = new CQInstance.Builder()
         .withQuickstart(quickstart)
@@ -81,6 +100,19 @@ CQInstance author = new CQInstance.Builder()
         .withMavenDependency(hobbesRewriterPackage)
         .withMavenDependency(uiTestingCommonsPackage)
         .withFileDependency(componentsItUi.getArtifact('zip')).build()
+
+CQInstance authorSandbox = new CQInstance.Builder()
+        .withQuickstart(quickstartSandbox)
+        .withId('weretail-author-sandbox')
+        .withPort(1235)
+        .withRunmode("author")
+        .withContextPath("/cp")
+        .withMavenDependency(hobbesRewriterPackage)
+        .withMavenDependency(uiTestingCommonsPackage)
+        .withFileDependency(componentsCoreSandbox.getArtifact('jar')).build()
+        .withFileDependency(componentsContentSandbox.getArtifact('zip')).build()
+        .withFileDependency(componentsConfigSandbox.getArtifact('zip')).build()
+        .withFileDependency(componentsItUiSandbox.getArtifact('zip')).build()
 
 /* --------------------------------------------------------------------- */
 /*                                UI TESTS                               */
@@ -93,9 +125,9 @@ UITestRun coreCompUIChrome = new UITestRun.Builder()
         .withHobbesHubUrl('http://or1010050212014.corp.adobe.com:8811')
         .withStopOnFail(false).build()
 
-UITestRun coreCompUIChromeV2 = new UITestRun.Builder()
-        .withName('UI Tests Core Comp Sandbox V2  / Chrome')
-        .withInstance(author)
+UITestRun coreCompUIChromeSandbox = new UITestRun.Builder()
+        .withName('UI Tests Core Comp Sandbox / Chrome')
+        .withInstance(authorSandbox)
         .withBrowser('CHROME')
         .withFilter('aem.core-components.tests.v2')
         .withHobbesHubUrl('http://or1010050212014.corp.adobe.com:8811')
@@ -111,17 +143,17 @@ config.setCoverageCriteria([new Branch(/^PRIVATE_master$/)])
 config.setSonarSnapshotPrefix('CORE-COMPONENT-SPROUT-PRIVATE_MASTER-SNAPSHOT-')
 config.setSonarReleasePrefix('CORE-COMPONENT-SPROUT-PRIVATE_MASTER-RELEASE-')
 
-config.setModules([componentsCore, componentsContent, componentsConfig, componentsAll, componentsItUi])
-config.setTestRuns([coreCompUIChrome])
-config.setTestRuns([coreCompUIChromeV2])
+config.setModules([componentsCore, componentsContent, componentsConfig, componentsAll, componentsItUi,
+                   componentsCoreSandbox,componentsContentSandbox,componentsConfigSandbox,componentsItUiSandbox])
+config.setTestRuns([coreCompUIChrome, coreCompUIChromeSandbox])
 
 // Releases
- config.setReleaseCriteria([new Branch(/^dummy_branch$/)])
- config.setQuickstartPRCriteria([new Branch(/^dummy_branch$/)])
- config.setGithubAccessTokenId('740db810-2a69-4172-9973-6a9aa1b47624')
- config.setIgnoreStatusAtPromotion(true)
- config.setPromotionInputTimeout(60 * 24 * 3)
- config.setQuickstartPRConfig(quickstart)
+config.setReleaseCriteria([new Branch(/^dummy_branch$/)])
+config.setQuickstartPRCriteria([new Branch(/^dummy_branch$/)])
+config.setGithubAccessTokenId('740db810-2a69-4172-9973-6a9aa1b47624')
+config.setIgnoreStatusAtPromotion(true)
+config.setPromotionInputTimeout(60 * 24 * 3)
+config.setQuickstartPRConfig(quickstart)
 
 config.setEnableMailNotification(true)
 config.setMailNotificationRecipients(['msagolj@adobe.com','adracea@adobe.com'])
