@@ -15,6 +15,6 @@
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <workspaceFilter version="1.0">
-    <filter root="/apps/core/wcm/sandbox/config"/>
-    <filter root="/apps/core/wcm/sandbox/config.author"/>
+    <filter root="/apps/core/wcm/config" mode="update"/>
+    <filter root="/apps/core/wcm/config.author" mode="update"/>
 </workspaceFilter>

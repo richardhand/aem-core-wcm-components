@@ -13,18 +13,15 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-.breadcrumb {
-  display: inline-block;
-  list-style: none;
-  padding: 0;
+.cmp-list__list {
+    list-style: none;
+    padding: 0;
+}
 
-  & .breadcrumb-item {
-    float: left;
+.cmp-list__item-description {
+    display: block;
+}
 
-    & + .breadcrumb-item::before {
-      display: inline-block; //
-      padding: 0 5px;
-      content: "/\00a0";
-    }
-  }
+.cmp-list__item-date::before {
+    content: "\2013\00a0";
 }

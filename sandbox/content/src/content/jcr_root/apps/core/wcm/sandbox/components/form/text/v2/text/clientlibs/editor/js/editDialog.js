@@ -16,15 +16,15 @@
 (function ($, channel, Coral) {
     'use strict';
 
-    var EDIT_DIALOG = ".cmp-form-textfield-editDialog";
-    var TEXTFIELD_TYPES = ".cmp-form-textfield-types";
-    var TEXTFIELD_ROWS = ".cmp-form-textfield-rows";
-    var TEXTFIELD_REQUIRED = ".cmp-form-textfield-required";
-    var TEXTFIELD_CONSTRAINTMESSAGE = ".cmp-form-textfield-constraintmessage";
-    var TEXTFIELD_REQUIREDMESSAGE = ".cmp-form-textfield-requiredmessage";
-    var TEXTFIELD_READONLY = ".cmp-form-textfield-readonly";
-    var TEXTFIELD_READONLYSELECTED_ALERT = ".cmp-form-textfield-readonlyselected-alert";
-    var TEXTFIELD_REQUIREDSELECTED_ALERT = ".cmp-form-textfield-requiredselected-alert";
+    var EDIT_DIALOG = ".cmp-form-text__editDialog";
+    var TEXTFIELD_TYPES = ".cmp-form-text__types";
+    var TEXTFIELD_ROWS = ".cmp-form-text__rows";
+    var TEXTFIELD_REQUIRED = ".cmp-form-text__required";
+    var TEXTFIELD_CONSTRAINTMESSAGE = ".cmp-form-text__constraintmessage";
+    var TEXTFIELD_REQUIREDMESSAGE = ".cmp-form-text__requiredmessage";
+    var TEXTFIELD_READONLY = ".cmp-form-text__readonly";
+    var TEXTFIELD_READONLYSELECTED_ALERT = ".cmp-form-text__readonlyselected-alert";
+    var TEXTFIELD_REQUIREDSELECTED_ALERT = ".cmp-form-text__requiredselected-alert";
 
     /**
      * Toggles the display of the given element based on the actual and the expected values.

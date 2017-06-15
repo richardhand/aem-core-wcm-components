@@ -17,8 +17,8 @@
     'use strict';
 
     function toggleInputs(isDecorative) {
-        var alt = $(".cmp-image--editor-alt");
-        var link = $(".cmp-image--editor-link");
+        var alt = $(".cmp-image__editor-alt");
+        var link = $(".cmp-image__editor-link");
         if (isDecorative.checked) {
             alt.addClass("hide");
             alt.find("input").attr("aria-required", "false");
@@ -30,11 +30,11 @@
         }
     }
 
-    $(document).on("coral-component:attached", ".cmp-image--editor-decorative", function(e) {
+    $(document).on("coral-component:attached", ".cmp-image__editor-decorative", function(e) {
         toggleInputs(e.target);
     });
 
-    $(document).on("change", ".cmp-image--editor-decorative", function(e) {
+    $(document).on("change", ".cmp-image__editor-decorative", function(e) {
         toggleInputs(e.target);
     });
 })(jQuery);

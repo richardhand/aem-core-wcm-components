@@ -29,7 +29,7 @@
 
         that.defaults = {
             loadHidden: false,
-            imageSelector: 'img',
+            imageSelector: '.cmp-image__image',
             containerSelector: '.cmp-image',
             sourceAttribute: 'src',
             lazyEnabled: true,
@@ -172,7 +172,7 @@
             if (dropContainer) {
                 container = dropContainer;
             }
-            anchor = container.querySelector('.cmp-image--link');
+            anchor = container.querySelector('.cmp-image__link');
             if (anchor !== null) {
                 container = anchor;
             }

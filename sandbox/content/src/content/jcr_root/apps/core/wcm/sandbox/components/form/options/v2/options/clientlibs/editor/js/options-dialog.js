@@ -18,7 +18,7 @@
     var OPTION_SELECTED_SELECTOR       = "./selected",
         CHECKBOX_SELECTOR              = "coral-checkbox",
         RADIO_SELECTOR                 = "coral-radio",
-        OPTION_TYPE_ELEMENT_SELECTOR   = ".cmp-options--editor-type-v2",
+        OPTION_TYPE_ELEMENT_SELECTOR   = ".cmp-form-options__editor-type",
         GRANITE_UI_FOUNDATION_FIELD    = "foundation-field";
 
     /**

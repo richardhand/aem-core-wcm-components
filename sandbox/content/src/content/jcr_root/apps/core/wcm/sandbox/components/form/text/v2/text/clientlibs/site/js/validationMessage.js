@@ -24,7 +24,7 @@
         }
     }
 
-    var INPUT_FIELD = '.cmp-form-field input',
+    var INPUT_FIELD = '.cmp-form-text input',
         REQUIRED_MSG_ATTRIBUTE = 'data-cmp-required',
         CONSTRAINT_MSG_ATTRIBUTE = 'data-cmp-constraint';
 

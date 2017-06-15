@@ -19,6 +19,8 @@ import java.util.Collection;
 
 import org.osgi.annotation.versioning.ConsumerType;
 
+import com.day.cq.wcm.api.Page;
+
 /**
  * Defines the {@code List} Sling Model used for the {@code /apps/core/wcm/components/list} component. This component
  * currently only supports page lists.

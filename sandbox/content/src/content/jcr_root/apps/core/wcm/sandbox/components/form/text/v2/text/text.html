@@ -13,11 +13,11 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<div data-sly-use.text="com.adobe.cq.wcm.core.components.models.form.Text"
-     class="form-group">
+<div data-sly-use.text="com.adobe.cq.wcm.core.components.models.form.Text">
     <label for="${text.id}" data-sly-test="${text.title && !text.hideTitle}">${text.title}</label>
-    <p data-sly-test="${!text.placeholder && text.helpMessage}" class="help-block">${text.helpMessage}</p>
+    <p data-sly-test="${!text.placeholder && text.helpMessage}" class="cmp-form-text__help-block">${text.helpMessage}</p>
     <textarea data-sly-test.useTextarea="${text.type == 'textarea'}"
+          class="cmp-form-text__textarea"
           aria-label="${text.hideTitle && text.title}"
           id="${text.id}"
           placeholder="${text.placeholder}"
@@ -27,6 +27,7 @@
           data-cmp-required="${text.requiredMessage}"
           rows="${text.rows}">${text.value}</textarea>
     <input data-sly-test="${!useTextarea}"
+           class="cmp-form-text__text"
            aria-label="${text.hideTitle && text.title}"
            type="${text.type}"
            id="${text.id}"

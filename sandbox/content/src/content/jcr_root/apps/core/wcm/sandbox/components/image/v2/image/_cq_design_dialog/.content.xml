@@ -46,7 +46,7 @@
                                         text="Disable lazy loading"
                                         value="{Boolean}true"/>
                                     <decorative
-                                        granite:class="cmp-image--editor-decorative"
+                                        granite:class="cmp-image__editor-decorative"
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
                                         fieldDescription="Check if the image should be ignored by assistive technology and therefore does not require an alternative text. This applies to decorative images only."

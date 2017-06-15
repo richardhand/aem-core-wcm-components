@@ -18,6 +18,8 @@ package com.adobe.cq.wcm.core.components.sandbox.models;
 
 import org.osgi.annotation.versioning.ConsumerType;
 
+import com.day.cq.wcm.api.Page;
+
 /**
  * Interface for a single item of the {@link Breadcrumb} model
  */

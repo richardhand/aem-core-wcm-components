@@ -16,8 +16,8 @@
 (function ($) {
     'use strict';
 
-    var BUTTON_NAME = '.cmp-button--editor-name';
-    var BUTTON_VALUE = '.cmp-button--editor-value';
+    var BUTTON_NAME = '.cmp-form-button__editor-name';
+    var BUTTON_VALUE = '.cmp-form-button__editor-value';
     var PROP_ERROR_MESSAGE = 'error-message';
 
     $.validator.register({
