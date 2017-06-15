@@ -86,6 +86,7 @@ Quickstart quickstart = new BuildQuickstart.Builder('Quickstart 6.4')
 
 // the quickstart to be build for the sandbox
 Quickstart quickstartSandbox = new BuildQuickstart.Builder('Quickstart Sandbox')
+        .build()
 
 
 /* --------------------------------------------------------------------- */
