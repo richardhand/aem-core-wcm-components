@@ -28,6 +28,7 @@ import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.testing.mock.sling.servlet.MockSlingHttpServletRequest;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Matchers;
@@ -50,6 +51,7 @@ import io.wcm.testing.mock.aem.junit.AemContext;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+@Ignore
 public class PageImplTest {
 
     private static final String TEST_BASE = "/page";
