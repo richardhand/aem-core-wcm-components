@@ -3,6 +3,6 @@
     jcr:primaryType="cq:EditConfig">
     <cq:listeners
         jcr:primaryType="cq:EditListenersConfig"
-        afterchildinsert="REFRESH_SELF"
-        afterchilddelete="REFRESH_SELF"/>
+        afterchilddelete="REFRESH_SELF"
+        afterchildinsert="REFRESH_SELF"/>
 </jcr:root>
