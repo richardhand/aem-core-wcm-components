@@ -29,7 +29,7 @@ public interface Page {
     /**
      * Category of client library to load favicon related resources
      */
-    String PN_FAVICON_ICO = "faviconClientLib";
+    String PN_FAVICON_CLIENT_LIB = "faviconClientLib";
 
     /**
      * Returns the language of this page, if one has been defined. Otherwise the default {@link java.util.Locale} will be used.
@@ -73,7 +73,7 @@ public interface Page {
      * &lt;favicon_name&gt;:&lt;path&gt; pair is added to the map, otherwise that type of favicon is ignored. The following list
      * defines the currently supported favicons along with their brief descriptions:</p>
      *  <ul>
-     *      <li>{@link #PN_FAVICON_ICO}: The favicon.ico favicon</li>
+     *      <li>{@link #PN_FAVICON_CLIENT_LIB}: The favicon.ico favicon</li>
      *      <li>{@link #PN_FAVICON_PNG}: The png version of the favicon</li>
      *      <li>{@link #PN_TOUCH_ICON_60}: The touch icon with size 60px</li>
      *      <li>{@link #PN_TOUCH_ICON_76}: The touch icon with size 76px</li>

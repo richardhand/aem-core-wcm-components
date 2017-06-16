@@ -175,6 +175,8 @@
                         <exclude>**/.vltignore</exclude>
                         <!-- Ignore .vlt files -->
                         <exclude>**/.vlt</exclude>
+                        <!-- Ignore .svg files -->
+                        <exclude>**/*.svg</exclude>
                         <!-- Exclude all JSON files -->
                         <exclude>**/*.json</exclude>
                         <!-- Generated for release source archives -->

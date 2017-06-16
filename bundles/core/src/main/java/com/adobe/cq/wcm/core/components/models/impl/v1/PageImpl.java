@@ -121,7 +121,7 @@ public class PageImpl implements Page {
                 }
             }
         }
-        faviconClientLibCategory = currentStyle.get(PN_FAVICON_ICO, DEFAULT_FAVICON_CLIENT_LIB);
+        faviconClientLibCategory = currentStyle.get(PN_FAVICON_CLIENT_LIB, DEFAULT_FAVICON_CLIENT_LIB);
         populateFaviconPath();
         populateClientLibCategories();
         templateName = extractTemplateName();

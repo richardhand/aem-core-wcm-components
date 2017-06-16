@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2016 Adobe Systems Incorporated
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,14 +32,14 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Matchers;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
+import org.mockito.Mockito;
 
 import com.adobe.cq.sightly.WCMBindings;
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
 import com.adobe.cq.wcm.core.components.context.MockStyle;
 import com.adobe.cq.wcm.core.components.models.Page;
-import com.adobe.cq.wcm.core.components.testing.MockAdapterFactory;
+import com.adobe.cq.wcm.core.components.testing.MockHtmlLibraryManager;
+import com.adobe.granite.ui.clientlibs.ClientLibrary;
 import com.day.cq.wcm.api.Template;
 import com.day.cq.wcm.api.designer.Design;
 import com.day.cq.wcm.api.designer.Designer;
@@ -51,7 +51,7 @@ import io.wcm.testing.mock.aem.junit.AemContext;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-@Ignore
+
 public class PageImplTest {
 
     private static final String TEST_BASE = "/page";
@@ -78,8 +78,12 @@ public class PageImplTest {
     @Rule
     public AemContext aemContext = CoreComponentTestContext.createContext("/page", ROOT);
 
+    private ClientLibrary mockClientLibrary;
+
     @Before
     public void setUp() {
+        mockClientLibrary = Mockito.mock(ClientLibrary.class);
+        aemContext.registerInjectActivateService(new MockHtmlLibraryManager(mockClientLibrary));
         aemContext.load().json(TEST_BASE + "/test-conf.json", "/conf/coretest/settings");
         aemContext.load().binaryFile(TEST_BASE + "/" + FN_FAVICON_ICO, DESIGN_PATH + "/" + FN_FAVICON_ICO);
         aemContext.load().binaryFile(TEST_BASE + "/" + FN_FAVICON_PNG, DESIGN_PATH + "/" + FN_FAVICON_PNG);
@@ -107,6 +111,7 @@ public class PageImplTest {
     }
 
     @Test
+    @Ignore
     public void testFavicons() {
         Page page = getPageUnderTest(PAGE);
         Map favicons = page.getFavicons();
