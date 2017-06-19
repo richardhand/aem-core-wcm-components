@@ -21,18 +21,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.resource.LoginException;
 import org.apache.sling.api.resource.ModifiableValueMap;
 import org.apache.sling.api.resource.PersistenceException;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
+import org.apache.sling.api.resource.ValueMap;
 import org.osgi.framework.Constants;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.adobe.cq.wcm.core.components.sandbox.models.form.Button;
 import com.day.cq.wcm.foundation.forms.FormStructureHelper;
 import com.day.cq.wcm.foundation.forms.FormsConstants;
 
@@ -106,8 +109,16 @@ public class FormStructureHelperImpl implements FormStructureHelper {
 //            }
 //        }
 //        return false;
-
-        return resource.isResourceType(FormConstants.RT_CORE_FORM_BUTTON) || resource.isResourceType(FormConstants.RT_CORE_FORM_BUTTON_SANDBOX);
+        if (resource.isResourceType(FormConstants.RT_CORE_FORM_BUTTON) || resource.isResourceType(FormConstants.RT_CORE_FORM_BUTTON_SANDBOX)) {
+            ValueMap valueMap = resource.adaptTo(ValueMap.class);
+            if(valueMap != null) {
+                String type = valueMap.get("type", String.class);
+                if(StringUtils.equalsIgnoreCase(Button.Type.SUBMIT.name(), type)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private boolean isFormResource(Resource resource) {

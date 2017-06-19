@@ -23,12 +23,12 @@
     <parent>
         <artifactId>core.wcm.components.parent</artifactId>
         <groupId>com.adobe.cq</groupId>
-        <version>1.9.15-SNAPSHOT</version>
+        <version>1.9.16</version>
         <relativePath>../../parent/pom.xml</relativePath>
     </parent>
 
     <artifactId>core.wcm.components.sandbox.bundle</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
     <packaging>bundle</packaging>
 
     <name>AEM Core WCM Components Sandbox Bundle</name>
@@ -57,7 +57,7 @@
                 </executions>
                 <configuration>
                     <instructions>
-                        <Sling-Model-Packages>com.adobe.cq.wcm.core.components.sandbox.models</Sling-Model-Packages>
+                        <Sling-Model-Packages>com.adobe.cq.wcm.core.components.sandbox.internal.models</Sling-Model-Packages>
                     </instructions>
                 </configuration>
             </plugin>
@@ -310,7 +310,7 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>core.wcm.components.junit.core</artifactId>
             <scope>test</scope>
-            <version>1.9.6</version>
+            <version>1.9.7-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet.jsp</groupId>

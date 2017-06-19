@@ -19,7 +19,7 @@
     <groupId>com.adobe.cq</groupId>
     <artifactId>core.wcm.components.parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.9.15-SNAPSHOT</version>
+    <version>1.9.17-SNAPSHOT</version>
 
     <name>Adobe Experience Manager Core WCM Components Parent</name>
 
@@ -175,6 +175,8 @@
                         <exclude>**/.vltignore</exclude>
                         <!-- Ignore .vlt files -->
                         <exclude>**/.vlt</exclude>
+                        <!-- Ignore .svg files -->
+                        <exclude>**/*.svg</exclude>
                         <!-- Exclude all JSON files -->
                         <exclude>**/*.json</exclude>
                         <!-- Generated for release source archives -->

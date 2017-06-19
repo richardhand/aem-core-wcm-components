@@ -19,6 +19,7 @@ import java.util.Calendar;
 import java.util.Map;
 
 import org.osgi.annotation.versioning.ConsumerType;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * Defines the {@code Page} Sling Model used for the {@code /apps/core/wcm/components/page} component.
@@ -183,5 +184,4 @@ public interface Page {
      * @return the template name of the current template
      */
     String getTemplateName();
-
 }
