@@ -57,7 +57,8 @@
                 </executions>
                 <configuration>
                     <instructions>
-                        <Sling-Model-Packages>com.adobe.cq.wcm.core.components.models</Sling-Model-Packages>
+                        <!-- The Sling-Model-Packages instruction needs to point to the implementation package -->
+                        <Sling-Model-Packages>com.adobe.cq.wcm.core.components.internal.models</Sling-Model-Packages>
                     </instructions>
                 </configuration>
             </plugin>
