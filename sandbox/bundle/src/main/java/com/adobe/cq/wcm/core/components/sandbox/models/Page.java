@@ -167,7 +167,9 @@ public interface Page {
      *
      * @return {@link Map} containing the names of the favicons and their corresponding paths
      */
-    Map<String, String> getFavicons();
+    default Map<String, String> getFavicons() {
+        throw new UnsupportedOperationException();
+    };
 
     /**
      * @return the page's title

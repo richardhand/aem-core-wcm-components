@@ -13,7 +13,7 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-package com.adobe.cq.wcm.core.components.context;
+package com.adobe.cq.wcm.core.components.sandbox.context;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.models.impl.ResourceTypeBasedResourcePicker;

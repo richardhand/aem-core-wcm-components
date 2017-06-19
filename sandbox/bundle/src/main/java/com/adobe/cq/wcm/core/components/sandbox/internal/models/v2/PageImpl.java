@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.adobe.cq.wcm.core.components.sandbox.models.impl;
+package com.adobe.cq.wcm.core.components.sandbox.internal.models.v2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -97,8 +97,6 @@ public class PageImpl implements Page {
     private static final String DEFAULT_TEMPLATE_EDITOR_CLIENT_LIB = "wcm.foundation.components.parsys.allowedcomponents";
     private static final String DEFAULT_FAVICON_CLIENT_LIB = "core.wcm.components.page.v1.favicon";
     private static final String PN_CLIENTLIBS = "clientlibs";
-
-    private Map<String, String> favicons = new HashMap<>();
 
     @PostConstruct
     private void initModel() {
@@ -185,11 +183,6 @@ public class PageImpl implements Page {
     @Override
     public String getStaticDesignPath() {
         return staticDesignPath;
-    }
-
-    @Override
-    public Map<String, String> getFavicons() {
-        return favicons;
     }
 
     @Override

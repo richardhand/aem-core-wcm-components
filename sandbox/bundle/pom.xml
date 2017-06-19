@@ -57,7 +57,7 @@
                 </executions>
                 <configuration>
                     <instructions>
-                        <Sling-Model-Packages>com.adobe.cq.wcm.core.components.sandbox.models</Sling-Model-Packages>
+                        <Sling-Model-Packages>com.adobe.cq.wcm.core.components.sandbox.internal.models</Sling-Model-Packages>
                     </instructions>
                 </configuration>
             </plugin>

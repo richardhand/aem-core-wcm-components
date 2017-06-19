@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2016 Adobe Systems Incorporated
+ * Copyright 2017 Adobe Systems Incorporated
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.adobe.cq.wcm.core.components.models.impl.v2;
+package com.adobe.cq.wcm.core.components.sandbox.internal.models.v2;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,8 +35,8 @@ import org.mockito.Matchers;
 import org.mockito.Mockito;
 
 import com.adobe.cq.sightly.WCMBindings;
-import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
-import com.adobe.cq.wcm.core.components.context.MockStyle;
+import com.adobe.cq.wcm.core.components.sandbox.context.CoreComponentTestContext;
+import com.adobe.cq.wcm.core.components.sandbox.context.MockStyle;
 import com.adobe.cq.wcm.core.components.sandbox.models.Page;
 import com.adobe.cq.wcm.core.components.testing.MockHtmlLibraryManager;
 import com.adobe.granite.ui.clientlibs.ClientLibrary;
@@ -83,6 +83,8 @@ public class PageImplTest {
     @Before
     public void setUp() {
         mockClientLibrary = Mockito.mock(ClientLibrary.class);
+        when(mockClientLibrary.getPath()).thenReturn("/apps/wcm/core/page/clientlibs/favicon");
+        when(mockClientLibrary.allowProxy()).thenReturn(true);
         aemContext.registerInjectActivateService(new MockHtmlLibraryManager(mockClientLibrary));
         aemContext.load().json(TEST_BASE + "/test-conf.json", "/conf/coretest/settings");
         aemContext.load().binaryFile(TEST_BASE + "/static.css", DESIGN_PATH + "/static.css");
@@ -104,18 +106,17 @@ public class PageImplTest {
         assertEquals("en-GB", page.getLanguage());
     }
 
-    @Test
-    @Ignore
+    @Test(expected = UnsupportedOperationException.class)
     public void testFavicons() {
         Page page = getPageUnderTest(PAGE);
-        Map favicons = page.getFavicons();
-        assertEquals(DESIGN_PATH + "/" + FN_FAVICON_ICO, favicons.get(PN_FAVICON_ICO));
-        assertEquals(DESIGN_PATH + "/" + FN_FAVICON_PNG, favicons.get(PN_FAVICON_PNG));
-        assertEquals(DESIGN_PATH + "/" + FN_TOUCH_ICON_60, favicons.get(PN_TOUCH_ICON_60));
-        assertEquals(DESIGN_PATH + "/" + FN_TOUCH_ICON_76, favicons.get(PN_TOUCH_ICON_76));
-        assertEquals(DESIGN_PATH + "/" + FN_TOUCH_ICON_120, favicons.get(PN_TOUCH_ICON_120));
-        assertEquals(DESIGN_PATH + "/" + FN_TOUCH_ICON_152, favicons.get(PN_TOUCH_ICON_152));
+        page.getFavicons();
+    }
 
+    @Test
+    public void testGetFaviconClientLibPath() throws Exception {
+        Page page = getPageUnderTest(PAGE);
+        String faviconClientLibPath = page.getFaviconClientLibPath();
+        assertEquals("/etc.clientlibs/wcm/core/page/clientlibs/favicon", faviconClientLibPath);
     }
 
     @Test
@@ -136,7 +137,6 @@ public class PageImplTest {
         Page page = getPageUnderTest(PAGE, null);
         assertNull(page.getDesignPath());
         assertNull(page.getStaticDesignPath());
-        assertTrue(page.getFavicons().isEmpty());
     }
 
     @Test

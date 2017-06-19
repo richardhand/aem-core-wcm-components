@@ -21,7 +21,7 @@
                 "three"
             ],
             "cq:templateType"   : "/libs/settings/wcm/template-types/html5page",
-            "sling:resourceType": "core/wcm/components/page",
+            "sling:resourceType": "core/wcm/sandbox/components/page/v2/page",
             "cq:lastModifiedBy" : "admin",
             "root"              : {
                 "jcr:primaryType"   : "nt:unstructured",
