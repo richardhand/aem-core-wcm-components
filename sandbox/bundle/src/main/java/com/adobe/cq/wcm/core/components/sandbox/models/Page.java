@@ -32,6 +32,13 @@ public interface Page {
     String PN_FAVICON_CLIENT_LIB = "faviconClientLib";
 
     /**
+     * Key used for the regular favicon file.
+     *
+     * @see #getFavicons()
+     */
+    String PN_FAVICON_ICO = "faviconIco";
+
+    /**
      * Key for the PNG-format favicon file.
      *
      * @see #getFavicons()
