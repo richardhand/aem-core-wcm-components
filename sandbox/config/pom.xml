@@ -20,12 +20,12 @@
     <parent>
         <artifactId>core.wcm.components.parent</artifactId>
         <groupId>com.adobe.cq</groupId>
-        <version>1.9.15-SNAPSHOT</version>
+        <version>1.9.16</version>
         <relativePath>../../parent/pom.xml</relativePath>
     </parent>
 
     <artifactId>core.wcm.components.sandbox.config</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
     <packaging>content-package</packaging>
 
     <name>AEM Core WCM Components Sandbox Configurations</name>
