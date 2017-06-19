@@ -156,7 +156,10 @@ config.setTestRuns([coreCompUIChrome, coreCompUIChromeSandbox])
 config.setReleaseCriteria([new Branch(/^PRIVATE_master$/)])
 config.setQuickstartPRCriteria([new Branch(/^PRIVATE_master$/)])
 
+// don't ask for release at the end
 config.setEnableBuildPromotion(false)
+// use parameterized build on this branch when manual triggering to set release info
+config.setParameterDefinitionCriteria([ new Branch(/^PRIVATE_master$/)])
 
 config.setGithubAccessTokenId('740db810-2a69-4172-9973-6a9aa1b47624')
 config.setQuickstartPRConfig(quickstart)
