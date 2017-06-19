@@ -30,7 +30,7 @@ import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 
-import com.adobe.cq.wcm.core.components.commons.form.internal.FormConstants;
+import com.adobe.cq.wcm.core.components.internal.form.FormConstants;
 import com.adobe.granite.ui.components.ds.SimpleDataSource;
 import com.day.cq.wcm.foundation.forms.FormsManager;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
