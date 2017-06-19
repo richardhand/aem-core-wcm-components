@@ -35,7 +35,7 @@ Module componentsItUi = new Module.Builder('main/testing/it/ui-js')
         .withArtifact('zip', 'main/testing/it/ui-js/target/core.wcm.components.it.ui-js-*.zip', true)
         .build()
 Module componentsAll = new Module.Builder('main/all')
-        .withRelease()
+
         .withArtifact('zip', 'main/all/target/core.wcm.components.all-*.zip', true)
         .build()
 
@@ -44,16 +44,20 @@ Module componentsAll = new Module.Builder('main/all')
 /* --------------------------------------------------------------------- */
 Module componentsCoreSandbox = new Module.Builder('main/sandbox/bundle')
         .withCoverage()
+        .withRelease()
         .withArtifact('jar', 'main/sandbox/bundle/target/core.wcm.components.sandbox.bundle-*.jar', true)
         .build()
 Module componentsContentSandbox = new Module.Builder('main/sandbox/content')
         .withArtifact('zip', 'main/sandbox/content/target/core.wcm.components.sandbox.content-*.zip', true)
+        .withRelease()
         .build()
 Module componentsConfigSandbox = new Module.Builder('main/sandbox/config')
         .withArtifact('zip', 'main/sandbox/config/target/core.wcm.components.sandbox.config-*.zip', true)
+        .withRelease()
         .build()
 Module componentsItUiSandbox = new Module.Builder('main/sandbox/testing/it/ui-js')
         .withArtifact('zip', 'main/sandbox/testing/it/ui-js/target/core.wcm.components.sandbox.it.ui-js-*.zip', true)
+        .withRelease()
         .build()
 
 /* --------------------------------------------------------------------- */
@@ -119,7 +123,7 @@ UITestRun coreCompUIChrome = new UITestRun.Builder()
         .withBrowser('CHROME')
         .withFilter('aem.core-components.tests')
         .withHobbesHubUrl('http://or1010050212014.corp.adobe.com:8811')
-        .withStopOnFail(false).build()
+        .withStopOnFail(true).build()
 
 UITestRun coreCompUIChromeSandbox = new UITestRun.Builder()
         .withName('UI Tests Core Comp Sandbox / Chrome')
@@ -127,28 +131,34 @@ UITestRun coreCompUIChromeSandbox = new UITestRun.Builder()
         .withBrowser('CHROME')
         .withFilter('aem.core-components.tests.v2')
         .withHobbesHubUrl('http://or1010050212014.corp.adobe.com:8811')
-        .withStopOnFail(false).build()
+        .withStopOnFail(true).build()
 
 /* --------------------------------------------------------------------- */
 /*                       SPROUT CONFIGURATION                            */
 /* --------------------------------------------------------------------- */
 SproutConfig config = new SproutConfig()
 
+// calculate code coverage
 config.setComputeCoverage(true)
+// only for the PRIVATE_master branch
 config.setCoverageCriteria([new Branch(/^PRIVATE_master$/)])
+// the prefix for the sonar dashboards
 config.setSonarSnapshotPrefix('CORE-COMPONENT-SPROUT-PRIVATE_MASTER-SNAPSHOT-')
 config.setSonarReleasePrefix('CORE-COMPONENT-SPROUT-PRIVATE_MASTER-RELEASE-')
 
+// the modules to build
 config.setModules([componentsCore, componentsContent, componentsConfig, componentsAll, componentsItUi,
                    componentsCoreSandbox,componentsContentSandbox,componentsConfigSandbox,componentsItUiSandbox])
+// the tests to execute
 config.setTestRuns([coreCompUIChrome, coreCompUIChromeSandbox])
 
 // Releases
-config.setReleaseCriteria([new Branch(/^dummy_branch$/)])
-config.setQuickstartPRCriteria([new Branch(/^dummy_branch$/)])
+config.setReleaseCriteria([new Branch(/^PRIVATE_master$/)])
+config.setQuickstartPRCriteria([new Branch(/^PRIVATE_master$/)])
+
+config.setEnableBuildPromotion(false)
+
 config.setGithubAccessTokenId('740db810-2a69-4172-9973-6a9aa1b47624')
-config.setIgnoreStatusAtPromotion(true)
-config.setPromotionInputTimeout(60 * 24 * 3)
 config.setQuickstartPRConfig(quickstart)
 
 config.setEnableMailNotification(true)
