@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2016 Adobe Systems Incorporated
+ * Copyright 2017 Adobe Systems Incorporated
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+package com.adobe.cq.wcm.core.components.sandbox.internal;
 
-@Version("12.0.0")
-package com.adobe.cq.wcm.core.components.models;
+/**
+ * Class defining commonly used constants.
+ */
+public final class Constants {
 
-import org.osgi.annotation.versioning.Version;
+    private Constants() {}
+
+    /**
+     * Name of exporter used for exporting components properties.
+     */
+    public static final String EXPORTER_NAME = "jackson";
+
+    /**
+     * Extension to register {@link org.apache.sling.models.annotations.Exporter} named {@link #EXPORTER_NAME}
+     */
+    public static final String EXPORTER_EXTENSION = "json";
+
+}

@@ -19,6 +19,7 @@ import java.util.Calendar;
 import java.util.Map;
 
 import org.osgi.annotation.versioning.ConsumerType;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * Defines the {@code Page} Sling Model used for the {@code /apps/core/wcm/components/page} component.
@@ -27,9 +28,88 @@ import org.osgi.annotation.versioning.ConsumerType;
 public interface Page {
 
     /**
-     * Category of client library to load favicon related resources
+     * Key used for the regular favicon file.
+     *
+     * @see #getFavicons()
      */
-    String PN_FAVICON_CLIENT_LIB = "faviconClientLib";
+    String PN_FAVICON_ICO = "faviconIco";
+
+    /**
+     * Key for the PNG-format favicon file.
+     *
+     * @see #getFavicons()
+     */
+    String PN_FAVICON_PNG = "faviconPng";
+
+    /**
+     * Key for the touch-enabled 60px square favicon file.
+     *
+     * @see #getFavicons()
+     */
+    String PN_TOUCH_ICON_60 = "touchIcon60";
+
+    /**
+     * Key for the touch-enabled 76px square favicon file.
+     *
+     * @see #getFavicons()
+     */
+    String PN_TOUCH_ICON_76 = "touchIcon76";
+
+    /**
+     * Key for the touch-enabled 120px square favicon file.
+     *
+     * @see #getFavicons()
+     */
+    String PN_TOUCH_ICON_120 = "touchIcon120";
+
+    /**
+     * Key for the touch-enabled 152px square favicon file.
+     *
+     * @see #getFavicons()
+     */
+    String PN_TOUCH_ICON_152 = "touchIcon152";
+
+    /**
+     * Expected file name for the regular favicon file.
+     *
+     * @see #getFavicons()
+     */
+    String FN_FAVICON_ICO = "favicon.ico";
+
+    /**
+     * Expected file name for the PNG-format favicon file.
+     *
+     * @see #getFavicons()
+     */
+    String FN_FAVICON_PNG = "favicon_32.png";
+
+    /**
+     * Expected file name for the touch 60px square favicon file.
+     *
+     * @see #getFavicons()
+     */
+    String FN_TOUCH_ICON_60 = "touch-icon_60.png";
+
+    /**
+     * Expected file name for the touch 76px square favicon file.
+     *
+     * @see #getFavicons()
+     */
+    String FN_TOUCH_ICON_76 = "touch-icon_76.png";
+
+    /**
+     * Expected file name for the touch 120px square favicon file.
+     *
+     * @see #getFavicons()
+     */
+    String FN_TOUCH_ICON_120 = "touch-icon_120.png";
+
+    /**
+     * Expected file name for the touch 152px square favicon file.
+     *
+     * @see #getFavicons()
+     */
+    String FN_TOUCH_ICON_152 = "touch-icon_152.png";
 
     /**
      * Returns the language of this page, if one has been defined. Otherwise the default {@link java.util.Locale} will be used.
@@ -73,7 +153,7 @@ public interface Page {
      * &lt;favicon_name&gt;:&lt;path&gt; pair is added to the map, otherwise that type of favicon is ignored. The following list
      * defines the currently supported favicons along with their brief descriptions:</p>
      *  <ul>
-     *      <li>{@link #PN_FAVICON_CLIENT_LIB}: The favicon.ico favicon</li>
+     *      <li>{@link #PN_FAVICON_ICO}: The favicon.ico favicon</li>
      *      <li>{@link #PN_FAVICON_PNG}: The png version of the favicon</li>
      *      <li>{@link #PN_TOUCH_ICON_60}: The touch icon with size 60px</li>
      *      <li>{@link #PN_TOUCH_ICON_76}: The touch icon with size 76px</li>
@@ -104,12 +184,4 @@ public interface Page {
      * @return the template name of the current template
      */
     String getTemplateName();
-
-    /**
-     * Returns the path of the client library to load favicon related resources.
-     *
-     * @return path of the favicon clientlib
-     */
-    String getFaviconClientLibPath();
-
 }

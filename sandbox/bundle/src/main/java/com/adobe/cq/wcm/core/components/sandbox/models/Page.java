@@ -27,11 +27,9 @@ import org.osgi.annotation.versioning.ConsumerType;
 public interface Page {
 
     /**
-     * Key used for the regular favicon file.
-     *
-     * @see #getFavicons()
+     * Category of client library to load favicon related resources
      */
-    String PN_FAVICON_ICO = "faviconIco";
+    String PN_FAVICON_CLIENT_LIB = "faviconClientLib";
 
     /**
      * Key for the PNG-format favicon file.
@@ -183,5 +181,14 @@ public interface Page {
      * @return the template name of the current template
      */
     String getTemplateName();
+
+    /**
+     * Returns the path of the client library to load favicon related resources.
+     *
+     * @return path of the favicon clientlib
+     */
+    default String getFaviconClientLibPath() {
+        throw new UnsupportedOperationException();
+    };
 
 }

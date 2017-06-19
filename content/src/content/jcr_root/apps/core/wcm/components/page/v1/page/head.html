@@ -26,5 +26,27 @@
                                 designPath         = page.designPath,
                                 staticDesignPath   = page.staticDesignPath,
                                 clientLibCategories = page.clientLibCategories}"></sly>
-    <sly data-sly-include="head.favicon.html"></sly>
+    <!--/* For IE 9 and below. ICO should be 32x32 pixels in size */-->
+    <sly data-sly-test.faviconIco="${page.favicons['faviconIco']}">
+        <!--[if IE]><link rel="shortcut icon" href="${faviconIco}"/><![endif]-->
+    </sly>
+    <!--/* Firefox, Chrome, Safari, IE 11+ and Opera. 196x196 pixels in size. */-->
+    <link data-sly-test.faviconPng="${page.favicons['faviconPng']}"
+          rel="icon" type="image/png" href="${faviconPng}"/>
+
+    <link data-sly-test="${!faviconPng && faviconIco}"
+          rel="icon" href="${faviconIco}"/>
+
+    <link data-sly-test.touchIcon60="${page.favicons['touchIcon60']}"
+          rel="apple-touch-icon" sizes="60x60" href="${touchIcon60}"/>
+
+    <link data-sly-test.touchIcon76="${page.favicons['touchIcon76']}"
+          rel="apple-touch-icon" sizes="76x76" href="${touchIcon76}"/>
+
+    <link data-sly-test.touchIcon120="${page.favicons['touchIcon120']}"
+          rel="apple-touch-icon" sizes="120x120" href="${touchIcon120}"/>
+
+    <link data-sly-test.touchIcon152="${page.favicons['touchIcon152']}"
+          rel="apple-touch-icon" sizes="152x152" href="${touchIcon152}"/>
+
 </template>

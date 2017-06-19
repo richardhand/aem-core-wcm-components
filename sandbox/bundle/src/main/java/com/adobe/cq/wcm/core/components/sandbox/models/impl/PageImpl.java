@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.adobe.cq.wcm.core.components.models.impl.v1;
+package com.adobe.cq.wcm.core.components.sandbox.models.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -34,10 +35,15 @@ import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.InjectionStrategy;
+import org.apache.sling.models.annotations.injectorspecific.OSGiService;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
+import org.apache.sling.models.annotations.injectorspecific.Self;
 
-import com.adobe.cq.wcm.core.components.internal.Constants;
-import com.adobe.cq.wcm.core.components.models.Page;
+import com.adobe.cq.wcm.core.components.sandbox.internal.Constants;
+import com.adobe.cq.wcm.core.components.sandbox.models.Page;
+import com.adobe.granite.ui.clientlibs.ClientLibrary;
+import com.adobe.granite.ui.clientlibs.HtmlLibraryManager;
+import com.adobe.granite.ui.clientlibs.LibraryType;
 import com.day.cq.tagging.Tag;
 import com.day.cq.wcm.api.NameConstants;
 import com.day.cq.wcm.api.Template;
@@ -50,7 +56,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Exporter(name = Constants.EXPORTER_NAME, extensions = Constants.EXPORTER_EXTENSION)
 public class PageImpl implements Page {
 
-    protected static final String RESOURCE_TYPE = "core/wcm/components/page/v1/page";
+    protected static final String RESOURCE_TYPE = "core/wcm/sandbox/components/page/v2/page";
 
     @ScriptVariable
     private com.day.cq.wcm.api.Page currentPage;
@@ -70,15 +76,26 @@ public class PageImpl implements Page {
     @JsonIgnore
     private ResourceResolver resolver;
 
+    @OSGiService
+    @JsonIgnore
+    private HtmlLibraryManager htmlLibraryManager;
+
+    @Self
+    @JsonIgnore
+    private SlingHttpServletRequest request;
+
     private String[] keywords = new String[0];
     private String designPath;
     private String staticDesignPath;
     private String title;
     private String[] clientLibCategories = new String[0];
+    private String faviconClientLibCategory;
+    private String faviconClientLibPath;
     private Calendar lastModifiedDate;
     private String templateName;
 
     private static final String DEFAULT_TEMPLATE_EDITOR_CLIENT_LIB = "wcm.foundation.components.parsys.allowedcomponents";
+    private static final String DEFAULT_FAVICON_CLIENT_LIB = "core.wcm.components.page.v1.favicon";
     private static final String PN_CLIENTLIBS = "clientlibs";
 
     private Map<String, String> favicons = new HashMap<>();
@@ -102,11 +119,31 @@ public class PageImpl implements Page {
                 if (resolver.getResource(designPath + "/static.css") != null) {
                     staticDesignPath = designPath + "/static.css";
                 }
-                loadFavicons(designPath);
             }
         }
+        faviconClientLibCategory = currentStyle.get(PN_FAVICON_CLIENT_LIB, DEFAULT_FAVICON_CLIENT_LIB);
+        populateFaviconPath();
         populateClientLibCategories();
         templateName = extractTemplateName();
+    }
+
+    private void populateFaviconPath() {
+        Collection<ClientLibrary> clientLibraries =
+                htmlLibraryManager.getLibraries(new String[]{faviconClientLibCategory}, LibraryType.CSS, true, true);
+        ClientLibrary clientLibrary = clientLibraries.iterator().next();
+        faviconClientLibPath = getProxyPath(clientLibrary);
+    }
+
+    private String getProxyPath(ClientLibrary lib) {
+        String path = lib.getPath();
+        if (lib.allowProxy() && (path.startsWith("/libs/") || path.startsWith("/apps/"))) {
+            path = "/etc.clientlibs" + path.substring(5);
+        } else {
+            if (request.getResourceResolver().getResource(lib.getPath()) == null) {
+                path = null;
+            }
+        }
+        return path;
     }
 
     private String extractTemplateName() {
@@ -170,21 +207,10 @@ public class PageImpl implements Page {
         return Arrays.copyOf(clientLibCategories, clientLibCategories.length);
     }
 
-    private void loadFavicons(String designPath) {
-        favicons.put(PN_FAVICON_ICO, getFaviconPath(designPath, FN_FAVICON_ICO));
-        favicons.put(PN_FAVICON_PNG, getFaviconPath(designPath, FN_FAVICON_PNG));
-        favicons.put(PN_TOUCH_ICON_120, getFaviconPath(designPath, FN_TOUCH_ICON_120));
-        favicons.put(PN_TOUCH_ICON_152, getFaviconPath(designPath, FN_TOUCH_ICON_152));
-        favicons.put(PN_TOUCH_ICON_60, getFaviconPath(designPath, FN_TOUCH_ICON_60));
-        favicons.put(PN_TOUCH_ICON_76, getFaviconPath(designPath, FN_TOUCH_ICON_76));
-    }
 
-    private String getFaviconPath(String designPath, String faviconName) {
-        String path = designPath + "/" + faviconName;
-        if (resolver.getResource(path) == null) {
-            return null;
-        }
-        return path;
+    @Override
+    public String getFaviconClientLibPath() {
+        return faviconClientLibPath;
     }
 
     private void populateClientLibCategories() {

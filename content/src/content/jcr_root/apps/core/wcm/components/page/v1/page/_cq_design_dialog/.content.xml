@@ -34,11 +34,6 @@
                             </clientlibs>
                         </items>
                     </well>
-                    <faviconClientLib
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                        name="./faviconClientLib"
-                        required="{Boolean}false"/>
                 </items>
             </inner>
         </items>

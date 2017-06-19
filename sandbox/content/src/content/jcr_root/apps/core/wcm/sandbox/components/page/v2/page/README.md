@@ -41,7 +41,7 @@ libsScript from all referenced [cloud service configurations](https://docs.adobe
 
 ### Use Object
 The Page component uses the following use objects:
-* `com.adobe.cq.wcm.core.components.models.Page`
+* `com.adobe.cq.wcm.core.components.sandbox.models.Page`
 * `com.adobe.cq.wcm.core.components.models.SocialMediaHelper`
 * `com.day.cq.wcm.foundation.TemplatedContainer`
 
