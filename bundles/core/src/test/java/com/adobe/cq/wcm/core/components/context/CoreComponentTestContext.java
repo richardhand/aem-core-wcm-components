@@ -15,23 +15,12 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.context;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.util.Collection;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
-import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.models.impl.ResourceTypeBasedResourcePicker;
 import org.apache.sling.models.spi.ImplementationPicker;
 import org.apache.sling.testing.mock.sling.ResourceResolverType;
 
 import com.adobe.cq.wcm.core.components.testing.MockAdapterFactory;
-import com.adobe.cq.wcm.core.components.testing.MockHtmlLibraryManager;
-import com.adobe.granite.ui.clientlibs.ClientLibrary;
-import com.adobe.granite.ui.clientlibs.HtmlLibrary;
-import com.adobe.granite.ui.clientlibs.HtmlLibraryManager;
-import com.adobe.granite.ui.clientlibs.LibraryType;
 import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
 import io.wcm.testing.mock.aem.junit.AemContext;
 import io.wcm.testing.mock.aem.junit.AemContextCallback;
