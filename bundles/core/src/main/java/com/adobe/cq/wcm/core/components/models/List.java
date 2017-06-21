@@ -1,5 +1,5 @@
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- ~ Copyright 2016 Adobe Systems Incorporated
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ ~ Copyright 2017 Adobe Systems Incorporated
  ~
  ~ Licensed under the Apache License, Version 2.0 (the "License");
  ~ you may not use this file except in compliance with the License.
@@ -24,6 +24,8 @@ import com.day.cq.wcm.api.Page;
 /**
  * Defines the {@code List} Sling Model used for the {@code /apps/core/wcm/components/list} component. This component
  * currently only supports page lists.
+ *
+ * @since com.adobe.cq.wcm.core.components.models 11.0.0
  */
 @ConsumerType
 public interface List {
@@ -117,27 +119,53 @@ public interface List {
     String PN_DATE_FORMAT = "dateFormat";
 
     /**
+     * Returns the list's items collection, as {@link Page} elements.
+     *
      * @return {@link Collection} of {@link Page}s
+     * @since com.adobe.cq.wcm.core.components.models 11.0.0; marked <code>default</code> in 12.1.0
      */
-    Collection<Page> getItems();
+    default Collection<Page> getItems() {
+        throw new UnsupportedOperationException();
+    }
 
     /**
-     * @return {@code true} if the pages should be linked otherwise {@code false}
+     * Returns {@code true} if the list's items should link to the corresponding {@link Page}s they represent.
+     *
+     * @return {@code true} if the pages should be linked, {@code false} otherwise
+     * @since com.adobe.cq.wcm.core.components.models 11.0.0; marked <code>default</code> in 12.1.0
      */
-    boolean linkItems();
+    default boolean linkItems() {
+        throw new UnsupportedOperationException();
+    }
 
     /**
-     * @return {@code true} if page description should be shown otherwise {@code false}
+     * Returns {@code true} if the list's items should render their description.
+     *
+     * @return {@code true} if page description should be shown, {@code false} otherwise
+     * @since com.adobe.cq.wcm.core.components.models 11.0.0; marked <code>default</code> in 12.1.0
      */
-    boolean showDescription();
+    default boolean showDescription() {
+        throw new UnsupportedOperationException();
+    }
 
     /**
-     * @return {@code true} if modification date should be shown otherwise {@code false}
+     * Returns {@code true} if the list's items should render their last modification date.
+     *
+     * @return {@code true} if modification date should be shown, {@code false} otherwise
+     * @since com.adobe.cq.wcm.core.components.models 11.0.0; marked <code>default</code> in 12.1.0
      */
-    boolean showModificationDate();
+    default boolean showModificationDate() {
+        throw new UnsupportedOperationException();
+    }
 
     /**
+     * Returns the date format used to display the last modification date of the list's items.
+     *
      * @return format to use for the display of the last modification date.
+     * @see #showModificationDate()
+     * @since com.adobe.cq.wcm.core.components.models 11.0.0; marked <code>default</code> in 12.1.0
      */
-    String getDateFormatString();
+    default String getDateFormatString() {
+        throw new UnsupportedOperationException();
+    }
 }
