@@ -38,6 +38,8 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                         name="./faviconClientLib"
+                        emptyText="core.wcm.components.page.v2.favicon"
+                        fieldLabel="Favicon Client-Side Library"
                         required="{Boolean}false"/>
                 </items>
             </inner>

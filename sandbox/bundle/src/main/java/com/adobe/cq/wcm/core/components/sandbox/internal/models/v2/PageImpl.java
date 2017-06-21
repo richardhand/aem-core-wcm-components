@@ -51,6 +51,7 @@ import com.day.cq.wcm.api.designer.Design;
 import com.day.cq.wcm.api.designer.Designer;
 import com.day.cq.wcm.api.designer.Style;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.collect.Lists;
 
 @Model(adaptables = SlingHttpServletRequest.class, adapters = Page.class, resourceType = PageImpl.RESOURCE_TYPE)
 @Exporter(name = Constants.EXPORTER_NAME, extensions = Constants.EXPORTER_EXTENSION)
@@ -95,7 +96,7 @@ public class PageImpl implements Page {
     private String templateName;
 
     private static final String DEFAULT_TEMPLATE_EDITOR_CLIENT_LIB = "wcm.foundation.components.parsys.allowedcomponents";
-    private static final String DEFAULT_FAVICON_CLIENT_LIB = "core.wcm.components.page.v1.favicon";
+    private static final String DEFAULT_FAVICON_CLIENT_LIB = "core.wcm.components.page.v2.favicon";
     private static final String PN_CLIENTLIBS = "clientlibs";
 
     @PostConstruct
@@ -128,8 +129,10 @@ public class PageImpl implements Page {
     private void populateFaviconPath() {
         Collection<ClientLibrary> clientLibraries =
                 htmlLibraryManager.getLibraries(new String[]{faviconClientLibCategory}, LibraryType.CSS, true, true);
-        ClientLibrary clientLibrary = clientLibraries.iterator().next();
-        faviconClientLibPath = getProxyPath(clientLibrary);
+        ArrayList<ClientLibrary> clientLibraryList = Lists.newArrayList(clientLibraries.iterator());
+        if(!clientLibraryList.isEmpty()) {
+            faviconClientLibPath = getProxyPath(clientLibraryList.get(0));
+        }
     }
 
     private String getProxyPath(ClientLibrary lib) {
