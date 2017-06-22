@@ -85,8 +85,9 @@ Quickstart quickstart = new BuildQuickstart.Builder('Quickstart 6.4')
 
 // the quickstart to be build for the sandbox
 Quickstart quickstartSandbox = new BuildQuickstart.Builder('Quickstart Sandbox')
-        .build()
-
+        .withModule(componentsCoreSandbox)
+        .withModule(componentsContentSandbox)
+        .withModule(componentsConfigSandbox).build()
 
 /* --------------------------------------------------------------------- */
 /*                      CQ INSTANCE CONFIGURATIONS                        */
@@ -109,9 +110,6 @@ CQInstance authorSandbox = new CQInstance.Builder()
         .withContextPath("/cp")
         .withMavenDependency(hobbesRewriterPackage)
         .withMavenDependency(uiTestingCommonsPackage)
-        .withFileDependency(componentsCoreSandbox.getArtifact('jar'))
-        .withFileDependency(componentsContentSandbox.getArtifact('zip'))
-        .withFileDependency(componentsConfigSandbox.getArtifact('zip'))
         .withFileDependency(componentsItUiSandbox.getArtifact('zip')).build()
 
 /* --------------------------------------------------------------------- */
