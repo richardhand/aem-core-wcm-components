@@ -379,6 +379,7 @@
                         <effort>Max</effort>
                         <xmlOutput>true</xmlOutput>
                         <excludeFilterFile>src/test/resources/findbugs-exclude.xml</excludeFilterFile>
+                        <fork>false</fork>
                     </configuration>
                     <executions>
                         <execution>
