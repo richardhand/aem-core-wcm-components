@@ -17,45 +17,54 @@ package com.adobe.cq.wcm.core.components.models;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.invoke.MethodHandles;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
+
+import com.adobe.cq.wcm.core.components.models.form.Button;
+import com.adobe.cq.wcm.core.components.models.form.Container;
+import com.adobe.cq.wcm.core.components.models.form.Field;
+import com.adobe.cq.wcm.core.components.models.form.OptionItem;
+import com.adobe.cq.wcm.core.components.models.form.Options;
 
 import static org.junit.Assert.fail;
 
 public class ModelsCommonsTest {
 
+    private static final Map<String, Object> MODELS = new HashMap<String, Object>() {{
+        put(Breadcrumb.class.getName(), new Breadcrumb() {});
+        put(Image.class.getName(), new Image() {});
+        put(com.adobe.cq.wcm.core.components.models.List.class.getName(), new com.adobe.cq.wcm.core.components.models.List() {});
+        put(NavigationItem.class.getName(), new NavigationItem() {});
+        put(Page.class.getName(), new Page() {});
+        put(SocialMediaHelper.class.getName(), new SocialMediaHelper() {});
+        put(Text.class.getName(), new Text() {});
+        put(Title.class.getName(), new Title() {});
+        put(Button.class.getName(), new Button() {});
+        put(Container.class.getName(), new Container() {});
+        put(Field.class.getName(), new Field() {});
+        put(OptionItem.class.getName(), new OptionItem() {});
+        put(Options.class.getName(), new Options() {});
+        put(com.adobe.cq.wcm.core.components.models.form.Text.class.getName(), new com.adobe.cq.wcm.core.components.models.form.Text() {});
+    }};
+
     @Test
     public void testDefaultBehaviour() throws Exception {
-        final Constructor<MethodHandles.Lookup> constructor = MethodHandles.Lookup.class.getDeclaredConstructor(Class.class, int.class);
-        if (!constructor.isAccessible()) {
-            constructor.setAccessible(true);
-        }
         Class[] models = getClasses("com.adobe.cq.wcm.core.components.models");
         StringBuilder errors = new StringBuilder();
         for (Class clazz : models) {
-            if (clazz.isInterface()) {
-                Object instance = Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class[]{clazz},
-                        (Object proxy, Method method, Object[] arguments) -> {
-                            if (method.isDefault()) {
-                                final Class<?> declaringClass = method.getDeclaringClass();
-                                return constructor.newInstance(declaringClass, MethodHandles.Lookup.PRIVATE)
-                                        .unreflectSpecial(method, declaringClass)
-                                        .bindTo(proxy)
-                                        .invokeWithArguments(arguments);
-                            }
-
-                            // proxy impl of not defaults methods
-                            return null;
-                        });
+            if (clazz.isInterface() && !clazz.getName().contains("package-info")) {
+                Object instance = MODELS.get(clazz.getName());
+                if (instance == null) {
+                    fail("Expected to have an instance for " + clazz.getName() + " in the MODELS map.");
+                }
                 Method[] methods = clazz.getMethods();
                 for (Method m : methods) {
                     if (!m.isDefault()) {
