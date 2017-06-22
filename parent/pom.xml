@@ -43,7 +43,7 @@
         <vault.password>admin</vault.password>
         <slf4j.version>1.7.6</slf4j.version>
         <aem.java.version>8</aem.java.version>
-        <jacoco.version>0.7.6.201602180812</jacoco.version>
+        <jacoco.version>0.7.9</jacoco.version>
     </properties>
 
     <!-- ======================================================================= -->
