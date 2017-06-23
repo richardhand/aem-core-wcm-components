@@ -31,11 +31,10 @@ import org.junit.Test;
 
 import com.adobe.cq.sightly.WCMBindings;
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
-import com.adobe.cq.wcm.core.components.context.MockCommerceFactory;
-import com.adobe.cq.wcm.core.components.context.MockExternalizerFactory;
-import com.adobe.cq.wcm.core.components.context.MockXFFactory;
+import com.adobe.cq.wcm.core.components.testing.MockCommerceFactory;
+import com.adobe.cq.wcm.core.components.testing.MockExternalizerFactory;
+import com.adobe.cq.wcm.core.components.testing.MockXFFactory;
 import com.adobe.cq.wcm.core.components.models.SocialMediaHelper;
-import com.adobe.cq.wcm.core.components.internal.models.v1.SocialMediaHelperImpl;
 import com.day.cq.commons.Externalizer;
 import com.day.cq.wcm.api.Page;
 import io.wcm.testing.mock.aem.junit.AemContext;

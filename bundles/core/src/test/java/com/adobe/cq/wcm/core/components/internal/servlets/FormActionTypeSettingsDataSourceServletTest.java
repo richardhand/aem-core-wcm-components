@@ -19,7 +19,6 @@ package com.adobe.cq.wcm.core.components.internal.servlets;
 import java.util.ArrayList;
 import javax.annotation.Nullable;
 
-import com.adobe.cq.wcm.core.components.internal.servlets.FormActionTypeSettingsDataSourceServlet;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.junit.Before;

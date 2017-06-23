@@ -48,7 +48,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
-import com.adobe.cq.wcm.core.components.testing.MockAdapterFactory;
 import com.day.cq.dam.api.Rendition;
 import com.day.cq.dam.api.handler.AssetHandler;
 import com.day.cq.dam.api.handler.store.AssetStore;

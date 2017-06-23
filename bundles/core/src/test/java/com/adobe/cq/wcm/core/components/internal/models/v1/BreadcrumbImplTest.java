@@ -24,11 +24,10 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.adobe.cq.sightly.WCMBindings;
-import com.adobe.cq.wcm.core.components.models.NavigationItem;
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
-import com.adobe.cq.wcm.core.components.context.MockStyle;
 import com.adobe.cq.wcm.core.components.models.Breadcrumb;
-import com.adobe.cq.wcm.core.components.internal.models.v1.BreadcrumbImpl;
+import com.adobe.cq.wcm.core.components.models.NavigationItem;
+import com.adobe.cq.wcm.core.components.testing.MockStyle;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.designer.Style;
 import io.wcm.testing.mock.aem.junit.AemContext;
