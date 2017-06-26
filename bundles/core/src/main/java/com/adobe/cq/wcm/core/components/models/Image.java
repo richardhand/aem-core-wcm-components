@@ -69,6 +69,8 @@ public interface Image {
 
     /**
      * Name of the JSON property that will indicate if the image should be loaded lazily.
+     *
+     * @since com.adobe.cq.wcm.core.components.models 11.0.0
      */
     String JSON_LAZY_ENABLED = "lazyEnabled";
 
