@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
@@ -80,7 +81,7 @@ public class ImageImpl implements Image {
     @ScriptVariable
     private PageManager pageManager;
 
-    @ScriptVariable
+    @ScriptVariable(injectionStrategy = InjectionStrategy.OPTIONAL)
     private SightlyWCMMode wcmmode;
 
     @ScriptVariable
@@ -138,7 +139,7 @@ public class ImageImpl implements Image {
         }
         if (hasContent) {
             long lastModifiedDate = 0;
-            if (!wcmmode.isDisabled()) {
+            if (!isWcmModeDisabled()) {
                 ValueMap properties = resource.getValueMap();
                 Calendar lastModified = properties.get(JcrConstants.JCR_LASTMODIFIED, Calendar.class);
                 if (lastModified == null) {
@@ -164,17 +165,17 @@ public class ImageImpl implements Image {
             String escapedResourcePath = Text.escapePath(resource.getPath());
             for (Integer width : supportedRenditionWidths) {
                 smartImages[index] = request.getContextPath() + escapedResourcePath + DOT + AdaptiveImageServlet.DEFAULT_SELECTOR + DOT +
-                        width + DOT + extension + (!wcmmode.isDisabled() && lastModifiedDate > 0 ? "/" + lastModifiedDate + DOT + extension
+                        width + DOT + extension + (!isWcmModeDisabled() && lastModifiedDate > 0 ? "/" + lastModifiedDate + DOT + extension
                         : "");
                 smartSizes[index] = width;
                 index++;
             }
             if (smartSizes.length == 0 || smartSizes.length >= 2) {
                 src = request.getContextPath() + escapedResourcePath + DOT + AdaptiveImageServlet.DEFAULT_SELECTOR + DOT + extension +
-                        (!wcmmode.isDisabled() && lastModifiedDate > 0 ? "/" + lastModifiedDate + DOT + extension : "");
+                        (!isWcmModeDisabled() && lastModifiedDate > 0 ? "/" + lastModifiedDate + DOT + extension : "");
             } else if (smartSizes.length == 1) {
                 src = request.getContextPath() + escapedResourcePath + DOT + AdaptiveImageServlet.DEFAULT_SELECTOR + DOT + smartSizes[0] +
-                        DOT + extension + (!wcmmode.isDisabled() && lastModifiedDate > 0 ? "/" + lastModifiedDate + DOT + extension : "");
+                        DOT + extension + (!isWcmModeDisabled() && lastModifiedDate > 0 ? "/" + lastModifiedDate + DOT + extension : "");
             }
             if (!isDecorative) {
                 Page page = pageManager.getPage(linkURL);
@@ -188,6 +189,13 @@ public class ImageImpl implements Image {
             }
             buildJson();
         }
+    }
+
+    private boolean isWcmModeDisabled() {
+      if (wcmmode == null) {
+        return true;
+      }
+      return wcmmode.isDisabled();
     }
 
     @Override
