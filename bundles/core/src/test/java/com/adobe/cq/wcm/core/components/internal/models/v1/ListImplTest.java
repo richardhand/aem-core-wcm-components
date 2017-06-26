@@ -31,7 +31,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import com.adobe.cq.sightly.WCMBindings;
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
-import com.adobe.cq.wcm.core.components.context.MockStyle;
+import com.adobe.cq.wcm.core.components.testing.MockStyle;
 import com.adobe.cq.wcm.core.components.models.List;
 import com.day.cq.search.SimpleSearch;
 import com.day.cq.search.result.Hit;

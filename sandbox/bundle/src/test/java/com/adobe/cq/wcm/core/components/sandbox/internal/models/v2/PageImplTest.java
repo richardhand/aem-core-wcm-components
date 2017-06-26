@@ -36,9 +36,9 @@ import org.mockito.Mockito;
 
 import com.adobe.cq.sightly.WCMBindings;
 import com.adobe.cq.wcm.core.components.sandbox.context.CoreComponentTestContext;
-import com.adobe.cq.wcm.core.components.sandbox.context.MockStyle;
 import com.adobe.cq.wcm.core.components.sandbox.models.Page;
 import com.adobe.cq.wcm.core.components.testing.MockHtmlLibraryManager;
+import com.adobe.cq.wcm.core.components.testing.MockStyle;
 import com.adobe.granite.ui.clientlibs.ClientLibrary;
 import com.day.cq.wcm.api.Template;
 import com.day.cq.wcm.api.designer.Design;
