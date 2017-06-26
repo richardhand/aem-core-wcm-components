@@ -508,8 +508,8 @@
                                         fieldLabel="Segments Path"
                                         name="./cq:contextHubSegmentsPath"
                                         renderReadOnly="{Boolean}true"
-                                        rootPath="/etc/segmentation/"
-                                        value="/etc/segmentation/contexthub">
+                                        rootPath="/conf"
+                                        value="">
                                         <granite:data
                                             jcr:primaryType="nt:unstructured"
                                             cq-msm-lockable="cq:contextHubSegmentsPath"/>
