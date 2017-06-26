@@ -36,7 +36,6 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
-import com.adobe.cq.wcm.core.components.internal.form.FormStructureHelperImpl;
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
 
 import io.wcm.testing.mock.aem.junit.AemContext;

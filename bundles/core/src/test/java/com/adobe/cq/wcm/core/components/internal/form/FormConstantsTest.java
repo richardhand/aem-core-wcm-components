@@ -15,53 +15,14 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.internal.form;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-
 import org.junit.Test;
 
-import com.adobe.cq.wcm.core.components.internal.form.FormConstants;
+import com.adobe.cq.wcm.core.components.testing.AbstractConstantTest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-public class FormConstantsTest {
+public class FormConstantsTest extends AbstractConstantTest {
 
     @Test
     public void testConsistentStructure() throws Exception {
-        Class clazz = FormConstants.class;
-        assertTrue("Class should be final", Modifier.isFinal(clazz.getModifiers()));
-        Constructor[] declaredConstructors = clazz.getDeclaredConstructors();
-        assertEquals("Only one constructor should be present", 1, declaredConstructors.length);
-        assertTrue("Constructor should be private", Modifier.isPrivate(declaredConstructors[0].getModifiers()));
-
-        Field fields[] = clazz.getDeclaredFields();
-        for (Field field : fields) {
-            if (field.isSynthetic()) {
-                //ignore the jacoco generated field
-                continue;
-            }
-            int modifiers = field.getModifiers();
-            assertTrue("Field should be public", Modifier.isPublic(modifiers));
-            assertTrue("Field should be static", Modifier.isStatic(modifiers));
-            assertTrue("Field should be final", Modifier.isFinal(modifiers));
-        }
-
-        //the number of methods declared in the class source
-        int originalMethodCount = 0;
-        for (Method method : clazz.getDeclaredMethods()) {
-            if (method.isSynthetic()) {
-                //ignore the jacoco generated method
-                continue;
-            }
-            originalMethodCount++;
-        }
-        assertTrue("There should be no methods declared", originalMethodCount == 0);
-
-        Constructor constructor = declaredConstructors[0];
-        constructor.setAccessible(true);
-        constructor.newInstance();
+        testConsistentStructure(FormConstants.class);
     }
 }
