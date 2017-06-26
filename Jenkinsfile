@@ -35,8 +35,11 @@ Module componentsItUi = new Module.Builder('main/testing/it/ui-js')
         .withArtifact('zip', 'main/testing/it/ui-js/target/core.wcm.components.it.ui-js-*.zip', true)
         .build()
 Module componentsAll = new Module.Builder('main/all')
-
         .withArtifact('zip', 'main/all/target/core.wcm.components.all-*.zip', true)
+        .build()
+Module componentsJUnitCore = new Module.Builder('main/testing/junit/core')
+        .withRelease()
+        .withArtifact('jar', 'main/testing/junit/core/target/core.wcm.components.junit.core-*.jar', true)
         .build()
 
 /* --------------------------------------------------------------------- */
@@ -146,7 +149,8 @@ config.setSonarReleasePrefix('CORE-COMPONENT-SPROUT-PRIVATE_MASTER-RELEASE-')
 
 // the modules to build
 config.setModules([componentsCore, componentsContent, componentsConfig, componentsAll, componentsItUi,
-                   componentsCoreSandbox,componentsContentSandbox,componentsConfigSandbox,componentsItUiSandbox])
+                   componentsCoreSandbox,componentsContentSandbox,componentsConfigSandbox,componentsItUiSandbox,
+                    componentsJUnitCore])
 // the tests to execute
 config.setTestRuns([coreCompUIChrome, coreCompUIChromeSandbox])
 
