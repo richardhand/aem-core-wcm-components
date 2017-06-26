@@ -41,6 +41,9 @@ Module componentsJUnitCore = new Module.Builder('main/testing/junit/core')
         .withRelease()
         .withArtifact('jar', 'main/testing/junit/core/target/core.wcm.components.junit.core-*.jar', true)
         .build()
+Module componentsParent = new Module.Builder('main/parent')
+        .withRelease()
+        .build()
 
 /* --------------------------------------------------------------------- */
 /*                                MODULES Sandbox                        */
@@ -150,7 +153,7 @@ config.setSonarReleasePrefix('CORE-COMPONENT-SPROUT-PRIVATE_MASTER-RELEASE-')
 // the modules to build
 config.setModules([componentsCore, componentsContent, componentsConfig, componentsAll, componentsItUi,
                    componentsCoreSandbox,componentsContentSandbox,componentsConfigSandbox,componentsItUiSandbox,
-                    componentsJUnitCore])
+                    componentsJUnitCore,componentsParent])
 // the tests to execute
 config.setTestRuns([coreCompUIChrome, coreCompUIChromeSandbox])
 
