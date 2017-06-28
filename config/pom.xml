@@ -30,16 +30,16 @@
     <!-- ====================================================================== -->
     <!-- P R O J E C T  D E S C R I P T I O N                                   -->
     <!-- ====================================================================== -->
-    <artifactId>core.wcm.components.config</artifactId>
-    <version>1.9.3-SNAPSHOT</version>
+    <artifactId>core.wcm.components.sandbox.config</artifactId>
+    <version>0.0.3-SNAPSHOT</version>
     <packaging>content-package</packaging>
 
-    <name>Adobe Experience Manager Core WCM Components Configurations</name>
+    <name>Adobe Experience Manager Core WCM Components Configurations - Sandbox</name>
 
     <scm>
         <connection>scm:git:https://git.corp.adobe.com/CQ/aem-core-wcm-components.git</connection>
         <developerConnection>scm:git:git@git.corp.adobe.com:CQ/aem-core-wcm-components.git</developerConnection>
-        <url>https://git.corp.adobe.com/CQ/aem-core-wcm-components/tree/master/config</url>
+        <url>https://git.corp.adobe.com/CQ/aem-core-wcm-components/tree/PRIVATE_master/config</url>
         <tag>HEAD</tag>
     </scm>
 

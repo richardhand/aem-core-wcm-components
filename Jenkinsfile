@@ -14,25 +14,25 @@ import com.adobe.qe.evergreen.sprout.model.Quickstart
 import com.adobe.qe.evergreen.sprout.model.UITestRun
 
 /* --------------------------------------------------------------------- */
-/*                                MODULES V1                               */
+/*                                MODULES V1 + Sandbox                   */
 /* --------------------------------------------------------------------- */
 Module componentsCore = new Module.Builder('main/bundles/core')
         .withUnitTests(true)
         .withCoverage()
         .withRelease()
-        .withArtifact('jar', 'main/bundles/core/target/core.wcm.components.core-*.jar', true)
+        .withArtifact('jar', 'main/bundles/core/target/core.wcm.components.sandbox.bundle-*.jar', true)
         .build()
 Module componentsContent = new Module.Builder('main/content')
         .withRelease()
-        .withArtifact('zip', 'main/content/target/core.wcm.components.content-*.zip', true)
+        .withArtifact('zip', 'main/content/target/core.wcm.components.sandbox.content-*.zip', true)
         .build()
 Module componentsConfig = new Module.Builder('main/config')
         .withRelease()
-        .withArtifact('zip', 'main/config/target/core.wcm.components.config-*.zip', true)
+        .withArtifact('zip', 'main/config/target/core.wcm.components.sandbox.config-*.zip', true)
         .build()
 Module componentsItUi = new Module.Builder('main/testing/it/ui-js')
         .withRelease()
-        .withArtifact('zip', 'main/testing/it/ui-js/target/core.wcm.components.it.ui-js-*.zip', true)
+        .withArtifact('zip', 'main/testing/it/ui-js/target/core.wcm.components.sandbox.it.ui-js-*.zip', true)
         .build()
 Module componentsAll = new Module.Builder('main/all')
         .withArtifact('zip', 'main/all/target/core.wcm.components.all-*.zip', true)
@@ -42,27 +42,6 @@ Module componentsJUnitCore = new Module.Builder('main/testing/junit/core')
         .withArtifact('jar', 'main/testing/junit/core/target/core.wcm.components.junit.core-*.jar', true)
         .build()
 Module componentsParent = new Module.Builder('main/parent')
-        .withRelease()
-        .build()
-
-/* --------------------------------------------------------------------- */
-/*                                MODULES Sandbox                        */
-/* --------------------------------------------------------------------- */
-Module componentsCoreSandbox = new Module.Builder('main/sandbox/bundle')
-        .withCoverage()
-        .withRelease()
-        .withArtifact('jar', 'main/sandbox/bundle/target/core.wcm.components.sandbox.bundle-*.jar', true)
-        .build()
-Module componentsContentSandbox = new Module.Builder('main/sandbox/content')
-        .withArtifact('zip', 'main/sandbox/content/target/core.wcm.components.sandbox.content-*.zip', true)
-        .withRelease()
-        .build()
-Module componentsConfigSandbox = new Module.Builder('main/sandbox/config')
-        .withArtifact('zip', 'main/sandbox/config/target/core.wcm.components.sandbox.config-*.zip', true)
-        .withRelease()
-        .build()
-Module componentsItUiSandbox = new Module.Builder('main/sandbox/testing/it/ui-js')
-        .withArtifact('zip', 'main/sandbox/testing/it/ui-js/target/core.wcm.components.sandbox.it.ui-js-*.zip', true)
         .withRelease()
         .build()
 
@@ -89,12 +68,6 @@ Quickstart quickstart = new BuildQuickstart.Builder('Quickstart 6.4')
         .withModule(componentsContent)
         .withModule(componentsConfig).build()
 
-// the quickstart to be build for the sandbox
-Quickstart quickstartSandbox = new BuildQuickstart.Builder('Quickstart Sandbox')
-        .withModule(componentsCoreSandbox)
-        .withModule(componentsContentSandbox)
-        .withModule(componentsConfigSandbox).build()
-
 /* --------------------------------------------------------------------- */
 /*                      CQ INSTANCE CONFIGURATIONS                        */
 /* --------------------------------------------------------------------- */
@@ -108,32 +81,14 @@ CQInstance author = new CQInstance.Builder()
         .withMavenDependency(uiTestingCommonsPackage)
         .withFileDependency(componentsItUi.getArtifact('zip')).build()
 
-CQInstance authorSandbox = new CQInstance.Builder()
-        .withQuickstart(quickstartSandbox)
-        .withId('weretail-author-sandbox')
-        .withPort(1235)
-        .withRunmode("author")
-        .withContextPath("/cp")
-        .withMavenDependency(hobbesRewriterPackage)
-        .withMavenDependency(uiTestingCommonsPackage)
-        .withFileDependency(componentsItUiSandbox.getArtifact('zip')).build()
-
 /* --------------------------------------------------------------------- */
 /*                                UI TESTS                               */
 /* --------------------------------------------------------------------- */
 UITestRun coreCompUIChrome = new UITestRun.Builder()
-        .withName('UI Tests Core Comp V1 / Chrome')
+        .withName('UI Tests Core Comp V1 + Sandbox / Chrome')
         .withInstance(author)
         .withBrowser('CHROME')
         .withFilter('aem.core-components.tests')
-        .withHobbesHubUrl('http://or1010050212014.corp.adobe.com:8811')
-        .withStopOnFail(true).build()
-
-UITestRun coreCompUIChromeSandbox = new UITestRun.Builder()
-        .withName('UI Tests Core Comp Sandbox / Chrome')
-        .withInstance(authorSandbox)
-        .withBrowser('CHROME')
-        .withFilter('aem.core-components.tests.v2')
         .withHobbesHubUrl('http://or1010050212014.corp.adobe.com:8811')
         .withStopOnFail(true).build()
 
@@ -152,10 +107,9 @@ config.setSonarReleasePrefix('CORE-COMPONENT-SPROUT-PRIVATE_MASTER-RELEASE-')
 
 // the modules to build
 config.setModules([componentsCore, componentsContent, componentsConfig, componentsAll, componentsItUi,
-                   componentsCoreSandbox,componentsContentSandbox,componentsConfigSandbox,componentsItUiSandbox,
                     componentsJUnitCore,componentsParent])
 // the tests to execute
-config.setTestRuns([coreCompUIChrome, coreCompUIChromeSandbox])
+config.setTestRuns([coreCompUIChrome])
 
 // Releases
 config.setReleaseCriteria([new Branch(/^PRIVATE_master$/)])

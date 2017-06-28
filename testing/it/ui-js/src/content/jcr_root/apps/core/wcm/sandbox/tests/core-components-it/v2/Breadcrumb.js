@@ -1,18 +1,18 @@
-/*
- *  Copyright 2016 Adobe Systems Incorporated
+/*******************************************************************************
+ * Copyright 2017 Adobe Systems Incorporated
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 
 /**
  * Test for the breadcrumb component
@@ -33,28 +33,28 @@
 
         // create level 1
         .execFct(function (opts,done) {
-            c.createPage(c.template, c.rootPage ,"level_1","level_1",done)
+            c.createPage(c.template, c.rootPage ,"level_1","level_1",done, 'core/wcm/sandbox/tests/components/test-page-v2')
         })
         // create level 2
         .execFct(function (opts,done) {
-            c.createPage(c.template, h.param("level_1")() ,"level_2","level_2",done)
+            c.createPage(c.template, h.param("level_1")() ,"level_2","level_2",done, 'core/wcm/sandbox/tests/components/test-page-v2')
         })
         // create level 3
         .execFct(function (opts,done) {
-            c.createPage(c.template, h.param("level_2")() ,"level_3","level_3",done)
+            c.createPage(c.template, h.param("level_2")() ,"level_3","level_3",done, 'core/wcm/sandbox/tests/components/test-page-v2')
         })
         // create level 4
         .execFct(function (opts,done) {
-            c.createPage(c.template, h.param("level_3")() ,"level_4","level_4",done)
+            c.createPage(c.template, h.param("level_3")() ,"level_4","level_4",done, 'core/wcm/sandbox/tests/components/test-page-v2')
         })
         // create level 5
         .execFct(function (opts,done) {
-            c.createPage(c.template, h.param("level_4")() ,"level_5","level_5",done)
+            c.createPage(c.template, h.param("level_4")() ,"level_5","level_5",done, 'core/wcm/sandbox/tests/components/test-page-v2')
         })
 
         // add the component to the deepest level
         .execFct(function (opts, done){
-            c.addComponent(c.rtBreadcrumb, h.param("level_5")(opts)+c.relParentCompPath,"cmpPath",done)
+            c.addComponent(c.rtBreadcrumb_v2, h.param("level_5")(opts)+c.relParentCompPath,"cmpPath",done)
         })
 
         // open the deepest level in the editor
@@ -81,7 +81,7 @@
         // check first if current page is shown
         .config.changeContext(c.getContentFrame)
         // the li entry for current page
-        .assert.exist("li.breadcrumb-item.active:contains('level_5')",true)
+        .assert.exist(".cmp-breadcrumb__item--active:contains('level_5')",true)
         .config.resetContext()
 
         // Open the configuration dialog
@@ -94,7 +94,7 @@
         .config.changeContext(c.getContentFrame)
 
         // the li entry for current page should not be found
-        .assert.exist("li.breadcrumb-item.active:contains('level_5')",false);
+        .assert.exist(".cmp-breadcrumb__item.active:contains('level_5')",false);
 
     /**
      * Test: Set the Show Hidden flag
@@ -123,7 +123,7 @@
         // go to content frame
         .config.changeContext(c.getContentFrame)
         // verify level 3 is no longer available
-        .assert.exist("li.breadcrumb-item > a:contains('level_3')",false)
+        .assert.exist(".cmp-breadcrumb__item > a:contains('level_3')",false)
         // go back to edit frame
         .config.resetContext()
 
@@ -137,7 +137,7 @@
         .config.changeContext(c.getContentFrame)
 
         // the level 3 should be visible again
-        .assert.exist("li.breadcrumb-item > a:contains('level_3')",true);
+        .assert.exist(".cmp-breadcrumb__item > a:contains('level_3')",true);
 
     /**
      * Test: Change the start level
@@ -148,7 +148,7 @@
 
         // check the current number of parent levels
         .assert.isTrue(function(){
-            return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 6})
+            return h.find(".cmp-breadcrumb__item","iframe#ContentFrame").size() === 6})
 
         // Open the configuration dialog
         .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
@@ -162,7 +162,7 @@
 
         // check the current number
         .assert.isTrue(function(){
-            return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 4});
+            return h.find(".cmp-breadcrumb__item","iframe#ContentFrame").size() === 4});
 
     /**
      * Test: Set the start level to lowest allowed value of 0.
@@ -174,7 +174,7 @@
 
         // check the current number of items
         .assert.isTrue(function(){
-            return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 6})
+            return h.find(".cmp-breadcrumb__item","iframe#ContentFrame").size() === 6})
 
         // Open the configuration dialog
         .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
@@ -197,7 +197,7 @@
 
         // check the current number of items
         .assert.isTrue(function(){
-            return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 6})
+            return h.find(".cmp-breadcrumb__item","iframe#ContentFrame").size() === 6})
         // Open the configuration dialog
         .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
         // set it to 100
@@ -207,14 +207,14 @@
 
         // 100 is higher then current level so nothing should get rendered
         .assert.isTrue(function(){
-            return h.find("li.breadcrumb-item","iframe#ContentFrame").size() === 0 &&
-                h.find("li.breadcrumb-item.active","iframe#ContentFrame").size() === 0
+            return h.find(".cmp-breadcrumb__item","iframe#ContentFrame").size() === 0 &&
+                h.find(".cmp-breadcrumb__item.active","iframe#ContentFrame").size() === 0
         });
 
     /**
      * The main test suite.
      */
-    new h.TestSuite("Core Components - Breadcrumb", {path:"/apps/core/wcm/tests/core-components-it/Breadcrumb.js",
+    new h.TestSuite("Core Components - Breadcrumb v2", {path:"/apps/core/wcm/sandbox/tests/core-components-it/v2/Breadcrumb.js",
         execBefore:c.tcExecuteBeforeTestSuite,
         execInNewWindow : false})
 

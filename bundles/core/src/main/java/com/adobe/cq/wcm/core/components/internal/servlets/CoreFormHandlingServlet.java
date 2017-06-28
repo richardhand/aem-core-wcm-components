@@ -16,7 +16,6 @@
 package com.adobe.cq.wcm.core.components.internal.servlets;
 
 import java.io.IOException;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -51,6 +50,7 @@ import com.day.cq.wcm.foundation.security.SaferSlingPostValidator;
         configurationPid = "com.adobe.cq.wcm.core.components.commons.forms.impl.CoreFormsHandlingServlet",
         property = {
                 "sling.servlet.resourceTypes=" + FormConstants.RT_CORE_FORM_CONTAINER_V1,
+                "sling.servlet.resourceTypes=" + FormConstants.RT_CORE_FORM_CONTAINER_V2,
                 "sling.servlet.methods=POST",
                 "sling.servlet.selectors=" + CoreFormHandlingServlet.SELECTOR,
                 "sling.servlet.extensions=" + CoreFormHandlingServlet.EXTENSION,

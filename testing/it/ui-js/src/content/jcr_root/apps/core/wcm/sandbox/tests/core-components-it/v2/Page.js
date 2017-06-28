@@ -35,7 +35,7 @@
     var loginPage = "/content/core-components/core-components-page"
     var exportConfiguration = "/etc/contentsync/templates/dps-default"
     var contextHubPath = "/etc/cloudsettings/default/contexthub/device"
-    var segmentsPath = "/etc/segmentation/contexthub/male"
+    var segmentsPath = "/conf/we-retail/settings/wcm/segments"
 
     /**
      * Test: open the page property.
@@ -57,7 +57,7 @@
         .execTestCase(c.tcExecuteBeforeTest)
         // create the test page, store page path in 'testPagePath'
         .execFct(function (opts,done) {
-            c.createPage(c.template, c.rootPage ,'page_' + Date.now(),"testPagePath",done)
+            c.createPage(c.template, c.rootPage ,'page_' + Date.now(),"testPagePath",done, 'core/wcm/sandbox/tests/components/test-page-v2')
         })
 
     ;
@@ -923,7 +923,7 @@
     /**
      * The main test suite for Page component
      */
-    new h.TestSuite("Core Components - Page", {path:"/apps/core/wcm/tests/core-components-it/Page.js",
+    new h.TestSuite("Core Components - Page v2", {path:"/apps/core/wcm/tests/core-components-it/v2/Page.js",
         execBefore:c.tcExecuteBeforeTestSuite,
         execInNewWindow : false})
 

@@ -27,16 +27,16 @@
         <relativePath>../../parent/pom.xml</relativePath>
     </parent>
 
-    <artifactId>core.wcm.components.core</artifactId>
-    <version>1.9.41-SNAPSHOT</version>
+    <artifactId>core.wcm.components.sandbox.bundle</artifactId>
+    <version>0.0.5-SNAPSHOT</version>
     <packaging>bundle</packaging>
 
-    <name>Adobe Experience Manager Core WCM Components Core Bundle</name>
+    <name>Adobe Experience Manager Core WCM Components Core Bundle - Sandbox</name>
 
     <scm>
         <connection>scm:git:https://git.corp.adobe.com/CQ/aem-core-wcm-components.git</connection>
         <developerConnection>scm:git:git@git.corp.adobe.com:CQ/aem-core-wcm-components.git</developerConnection>
-        <url>https://git.corp.adobe.com/CQ/aem-core-wcm-components/tree/master/bundles/core</url>
+        <url>https://git.corp.adobe.com/CQ/aem-core-wcm-components/tree/PRIVATE_master/bundles/core</url>
         <tag>HEAD</tag>
     </scm>
 
@@ -58,7 +58,7 @@
                 <configuration>
                     <instructions>
                         <!-- The Sling-Model-Packages instruction needs to point to the implementation package -->
-                        <Sling-Model-Packages>com.adobe.cq.wcm.core.components.internal.models</Sling-Model-Packages>
+                        <Sling-Model-Packages>com.adobe.cq.wcm.core.components.internal.models,com.adobe.cq.wcm.core.components.sandbox.internal.models</Sling-Model-Packages>
                     </instructions>
                 </configuration>
             </plugin>

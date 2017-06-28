@@ -30,21 +30,27 @@ public final class FormConstants {
 
     /** The prefix for all core form related resource types.*/
     public final static String RT_CORE_FORM_PREFIX = "core/wcm/components/form/";
+    public final static String RT_CORE_FORM_PREFIX_SANDBOX = "core/wcm/sandbox/components/form/";
 
     /** The resource type for form container version 1. */
     public final static String RT_CORE_FORM_CONTAINER_V1 = RT_CORE_FORM_PREFIX + "container/v1/container";
+    public final static String RT_CORE_FORM_CONTAINER_V2 = RT_CORE_FORM_PREFIX_SANDBOX + "container/v2/container";
 
     // The resource type prefix for the form container related datasources
     public final static String RT_CORE_FORM_CONTAINER_DATASOURCE_V1 = RT_CORE_FORM_PREFIX + "container/v1/datasource";
+    public final static String RT_CORE_FORM_CONTAINER_DATASOURCE_V2 = RT_CORE_FORM_PREFIX_SANDBOX + "container/v2/datasource";
 
     /** Array of all resource types for the form container, including versions */
     public final static Set<String> RT_ALL_CORE_FORM_CONTAINER = Collections.unmodifiableSet(new HashSet<String>() {{
         add(RT_CORE_FORM_CONTAINER_V1);
+        add(RT_CORE_FORM_CONTAINER_V2);
     }});
 
     /** Node-name of the touch based dialog for form actions */
     public static final String NN_DIALOG = "cq:dialog";
 
     /** The resource type for form button */
-    public final static String RT_CORE_FORM_BUTTON = "core/wcm/components/form/button";
+    public final static String RT_CORE_FORM_BUTTON = "core/wcm/components/form/button/v1/button";
+    public final static String RT_CORE_FORM_BUTTON_SANDBOX = "core/wcm/sandbox/components/form/button/v2/button";
+
 }

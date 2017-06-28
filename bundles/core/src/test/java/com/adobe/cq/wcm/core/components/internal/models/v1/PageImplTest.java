@@ -49,26 +49,28 @@ import static org.mockito.Mockito.*;
 
 public class PageImplTest {
 
-    private static final String TEST_BASE = "/page";
-    private static final String CONTEXT_PATH = "/core";
-    private static final String ROOT = "/content/page";
-    private static final String PAGE = ROOT + "/templated-page";
-    private static final String DESIGN_PATH = "/etc/designs/mysite";
-    private static final String POLICIES_MAPPING_PATH = "policies/jcr:content";
+    protected static final String TEST_BASE = "/page";
+    protected static final String CONTEXT_PATH = "/core";
+    protected static final String ROOT = "/content/page";
+    protected static final String PAGE = ROOT + "/templated-page";
+    protected static final String DESIGN_PATH = "/etc/designs/mysite";
+    protected static final String POLICIES_MAPPING_PATH = "policies/jcr:content";
 
-    private static final String FN_FAVICON_ICO = "favicon.ico";
-    private static final String FN_FAVICON_PNG = "favicon_32.png";
-    private static final String FN_TOUCH_ICON_60 = "touch-icon_60.png";
-    private static final String FN_TOUCH_ICON_76 = "touch-icon_76.png";
-    private static final String FN_TOUCH_ICON_120 = "touch-icon_120.png";
-    private static final String FN_TOUCH_ICON_152 = "touch-icon_152.png";
+    protected static final String FN_FAVICON_ICO = "favicon.ico";
+    protected static final String FN_FAVICON_PNG = "favicon_32.png";
+    protected static final String FN_TOUCH_ICON_60 = "touch-icon_60.png";
+    protected static final String FN_TOUCH_ICON_76 = "touch-icon_76.png";
+    protected static final String FN_TOUCH_ICON_120 = "touch-icon_120.png";
+    protected static final String FN_TOUCH_ICON_152 = "touch-icon_152.png";
 
-    private static final String PN_FAVICON_ICO = "faviconIco";
-    private static final String PN_FAVICON_PNG = "faviconPng";
-    private static final String PN_TOUCH_ICON_60 = "touchIcon60";
-    private static final String PN_TOUCH_ICON_76 = "touchIcon76";
-    private static final String PN_TOUCH_ICON_120 = "touchIcon120";
-    private static final String PN_TOUCH_ICON_152 = "touchIcon152";
+    protected static final String PN_FAVICON_ICO = "faviconIco";
+    protected static final String PN_FAVICON_PNG = "faviconPng";
+    protected static final String PN_TOUCH_ICON_60 = "touchIcon60";
+    protected static final String PN_TOUCH_ICON_76 = "touchIcon76";
+    protected static final String PN_TOUCH_ICON_120 = "touchIcon120";
+    protected static final String PN_TOUCH_ICON_152 = "touchIcon152";
+
+    protected Class<? extends Page> pageClass = Page.class;
 
     @Rule
     public AemContext aemContext = CoreComponentTestContext.createContext("/page", ROOT);
@@ -132,7 +134,6 @@ public class PageImplTest {
         Page page = getPageUnderTest(PAGE, null);
         assertNull(page.getDesignPath());
         assertNull(page.getStaticDesignPath());
-        assertTrue(page.getFavicons().isEmpty());
     }
 
     @Test
@@ -157,11 +158,11 @@ public class PageImplTest {
         assertEquals("product-page", page.getTemplateName());
     }
 
-    private Page getPageUnderTest(String pagePath) {
+    protected Page getPageUnderTest(String pagePath) {
         return getPageUnderTest(pagePath, DESIGN_PATH);
     }
 
-    private Page getPageUnderTest(String pagePath, String designPath) {
+    protected Page getPageUnderTest(String pagePath, String designPath) {
         Resource resource = aemContext.currentResource(pagePath);
         com.day.cq.wcm.api.Page page = spy(aemContext.currentPage(pagePath));
         SlingBindings slingBindings = (SlingBindings) aemContext.request().getAttribute(SlingBindings.class.getName());
@@ -200,6 +201,6 @@ public class PageImplTest {
         MockSlingHttpServletRequest request = aemContext.request();
         request.setContextPath(CONTEXT_PATH);
         request.setResource(resource);
-        return request.adaptTo(Page.class);
+        return request.adaptTo(pageClass);
     }
 }

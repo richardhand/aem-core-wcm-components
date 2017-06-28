@@ -53,38 +53,38 @@ public class PageImpl implements Page {
     protected static final String RESOURCE_TYPE = "core/wcm/components/page/v1/page";
 
     @ScriptVariable
-    private com.day.cq.wcm.api.Page currentPage;
+    protected com.day.cq.wcm.api.Page currentPage;
 
     @ScriptVariable
-    private ValueMap pageProperties;
+    protected ValueMap pageProperties;
 
     @ScriptVariable
     @JsonIgnore
-    private Design currentDesign;
+    protected Design currentDesign;
 
     @ScriptVariable(injectionStrategy = InjectionStrategy.OPTIONAL)
     @JsonIgnore
-    private Style currentStyle;
+    protected Style currentStyle;
 
     @ScriptVariable
     @JsonIgnore
-    private ResourceResolver resolver;
+    protected ResourceResolver resolver;
 
-    private String[] keywords = new String[0];
-    private String designPath;
-    private String staticDesignPath;
-    private String title;
-    private String[] clientLibCategories = new String[0];
-    private Calendar lastModifiedDate;
-    private String templateName;
+    protected String[] keywords = new String[0];
+    protected String designPath;
+    protected String staticDesignPath;
+    protected String title;
+    protected String[] clientLibCategories = new String[0];
+    protected Calendar lastModifiedDate;
+    protected String templateName;
 
-    private static final String DEFAULT_TEMPLATE_EDITOR_CLIENT_LIB = "wcm.foundation.components.parsys.allowedcomponents";
-    private static final String PN_CLIENTLIBS = "clientlibs";
+    protected static final String DEFAULT_TEMPLATE_EDITOR_CLIENT_LIB = "wcm.foundation.components.parsys.allowedcomponents";
+    protected static final String PN_CLIENTLIBS = "clientlibs";
 
-    private Map<String, String> favicons = new HashMap<>();
+    protected Map<String, String> favicons = new HashMap<>();
 
     @PostConstruct
-    private void initModel() {
+    protected void initModel() {
         title = currentPage.getTitle();
         if (StringUtils.isBlank(title)) {
             title = currentPage.getName();
@@ -109,7 +109,7 @@ public class PageImpl implements Page {
         templateName = extractTemplateName();
     }
 
-    private String extractTemplateName() {
+    protected String extractTemplateName() {
         String templateName = null;
         String templatePath = pageProperties.get(NameConstants.PN_TEMPLATE, String.class);
         if (StringUtils.isNotEmpty(templatePath)) {
@@ -170,7 +170,7 @@ public class PageImpl implements Page {
         return Arrays.copyOf(clientLibCategories, clientLibCategories.length);
     }
 
-    private void loadFavicons(String designPath) {
+    protected void loadFavicons(String designPath) {
         favicons.put(PN_FAVICON_ICO, getFaviconPath(designPath, FN_FAVICON_ICO));
         favicons.put(PN_FAVICON_PNG, getFaviconPath(designPath, FN_FAVICON_PNG));
         favicons.put(PN_TOUCH_ICON_120, getFaviconPath(designPath, FN_TOUCH_ICON_120));
@@ -179,7 +179,7 @@ public class PageImpl implements Page {
         favicons.put(PN_TOUCH_ICON_76, getFaviconPath(designPath, FN_TOUCH_ICON_76));
     }
 
-    private String getFaviconPath(String designPath, String faviconName) {
+    protected String getFaviconPath(String designPath, String faviconName) {
         String path = designPath + "/" + faviconName;
         if (resolver.getResource(path) == null) {
             return null;
@@ -187,7 +187,7 @@ public class PageImpl implements Page {
         return path;
     }
 
-    private void populateClientLibCategories() {
+    protected void populateClientLibCategories() {
         List<String> categories = new ArrayList<>();
         Template template = currentPage.getTemplate();
         if (template != null && template.hasStructureSupport()) {
@@ -200,13 +200,13 @@ public class PageImpl implements Page {
         clientLibCategories = categories.toArray(new String[categories.size()]);
     }
 
-    private void addDefaultTemplateEditorClientLib(Resource templateResource, List<String> categories) {
+    protected void addDefaultTemplateEditorClientLib(Resource templateResource, List<String> categories) {
         if (currentPage.getPath().startsWith(templateResource.getPath())) {
             categories.add(DEFAULT_TEMPLATE_EDITOR_CLIENT_LIB);
         }
     }
 
-    private void addPolicyClientLibs(List<String> categories) {
+    protected void addPolicyClientLibs(List<String> categories) {
         if (currentStyle != null) {
             Collections.addAll(categories, currentStyle.get(PN_CLIENTLIBS, ArrayUtils.EMPTY_STRING_ARRAY));
         }
