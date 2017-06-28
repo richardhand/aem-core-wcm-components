@@ -84,14 +84,21 @@ CQInstance author = new CQInstance.Builder()
 /* --------------------------------------------------------------------- */
 /*                                UI TESTS                               */
 /* --------------------------------------------------------------------- */
-UITestRun coreCompUIChrome = new UITestRun.Builder()
-        .withName('UI Tests Core Comp V1 + Sandbox / Chrome')
+UITestRun coreCompUIChromeV1 = new UITestRun.Builder()
+        .withName('UI Tests Core Comp V1 / Chrome')
         .withInstance(author)
         .withBrowser('CHROME')
-        .withFilter('aem.core-components.tests')
+        .withFilter('aem.core-components.tests.v1')
         .withHobbesHubUrl('http://or1010050212014.corp.adobe.com:8811')
         .withStopOnFail(true).build()
 
+UITestRun coreCompUIChromeV2 = new UITestRun.Builder()
+        .withName('UI Tests Core Comp V2 / Chrome')
+        .withInstance(author)
+        .withBrowser('CHROME')
+        .withFilter('aem.core-components.tests.v2')
+        .withHobbesHubUrl('http://or1010050212014.corp.adobe.com:8811')
+        .withStopOnFail(true).build()
 /* --------------------------------------------------------------------- */
 /*                       SPROUT CONFIGURATION                            */
 /* --------------------------------------------------------------------- */
@@ -109,7 +116,7 @@ config.setSonarReleasePrefix('CORE-COMPONENT-SPROUT-PRIVATE_MASTER-RELEASE-')
 config.setModules([componentsCore, componentsContent, componentsConfig, componentsAll, componentsItUi,
                     componentsJUnitCore,componentsParent])
 // the tests to execute
-config.setTestRuns([coreCompUIChrome])
+config.setTestRuns([coreCompUIChromeV1,coreCompUIChromeV2])
 
 // Releases
 config.setReleaseCriteria([new Branch(/^PRIVATE_master$/)])
