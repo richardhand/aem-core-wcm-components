@@ -69,8 +69,9 @@
      * @param pageName Mandatory. Page name to be set for the page.
      * @param dynParName Optional. Hobbes dynamic param to store the generated page path.
      * @param done Mandatory. Callback to be executed when async method has finished.
+     * @param [testPageRT='core/wcm/tests/components/test-page'] the resource type of the test page
      */
-    c.createPage = function (templatePath, parentPath, pageName, dynParName, done) {
+    c.createPage = function (templatePath, parentPath, pageName, dynParName, done, testPageRT) {
         // mandatory check
         if (parentPath == null || templatePath == null || pageName == null || done == null) {
             if (done) done(false, "createPage failed! mandatory parameter(s) missing!");
@@ -88,7 +89,7 @@
                 "_charset_": "utf-8",
                 "./jcr:title": pageName,
                 "pageName": pageName,
-                "./sling:resourceType": "core/wcm/tests/components/test-page"
+                "./sling:resourceType": testPageRT || "core/wcm/tests/components/test-page"
             }
         })
             // when the request was successful
