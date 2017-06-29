@@ -21,21 +21,22 @@
 
     // shortcut
     var c = window.CQ.CoreComponentsIT.commons;
-    var tag1 = "We.Retail : Activity / Biking"
-    var tag2 = "We.Retail : Activity / Hiking"
-    var pageTitle = "This is the page title"
-    var navTitle = "This is the navigation title"
-    var subtitle = "This is the page subtitle"
-    var description = "This is the page description"
-    var vanityURL = "test/test-Page-URL"
-    var language = "Romanian"
-    var design = "/etc/designs/we-retail/images/flags"
-    var alias  = "This is an alias"
-    var allowedTemplate = "allowedTemplates"
-    var loginPage = "/content/core-components/core-components-page"
-    var exportConfiguration = "/etc/contentsync/templates/dps-default"
-    var contextHubPath = "/etc/cloudsettings/default/contexthub/device"
-    var segmentsPath = "/conf/we-retail/settings/wcm/segments"
+    var tag1 = "We.Retail : Activity / Biking";
+    var tag2 = "We.Retail : Activity / Hiking";
+    var pageTitle = "This is the page title";
+    var navTitle = "This is the navigation title";
+    var subtitle = "This is the page subtitle";
+    var description = "This is the page description";
+    var vanityURL = "test/test-Page-URL";
+    var configuration = "/conf/we-retail";
+    var language = "Romanian";
+    var design = "/etc/designs/we-retail/images/flags";
+    var alias  = "This is an alias";
+    var allowedTemplate = "allowedTemplates";
+    var loginPage = "/content/core-components/core-components-page";
+    var exportConfiguration = "/etc/contentsync/templates/dps-default";
+    var contextHubPath = "/etc/cloudsettings/default/contexthub/device";
+    var segmentsPath = "/conf/we-retail/settings/wcm/segments";
 
     /**
      * Test: open the page property.
@@ -91,7 +92,7 @@
             .click("coral-tab-label:contains('Basic')")
             //check if the "Basic" option was selected
             .assert.isTrue(function() {
-                return h.find("coral-tab.is-selected coral-tab-label:contains('Basic')").size() == 1
+                return h.find("coral-tab.is-selected coral-tab-label:contains('Basic')").size() === 1
             })
 
             //check the page title
@@ -157,7 +158,7 @@
             .click("coral-tab-label:contains('Basic')")
             //check if the "Basic" option was selected
             .assert.isTrue(function() {
-                return h.find("coral-tab.is-selected coral-tab-label:contains('Basic')").size() == 1
+                return h.find("coral-tab.is-selected coral-tab-label:contains('Basic')").size() === 1
             })
 
             .simulate("input[name='./pageTitle']", "key-sequence",
@@ -209,7 +210,7 @@
             .click("coral-tab-label:contains('Basic')")
             //check if the "Basic" option was selected
             .assert.isTrue(function() {
-                return h.find("coral-tab.is-selected coral-tab-label:contains('Basic')").size() == 1
+                return h.find("coral-tab.is-selected coral-tab-label:contains('Basic')").size() === 1
             })
 
             // open calendar for OnTime
@@ -260,7 +261,7 @@
             .click("coral-tab-label:contains('Basic')")
             //check if the "Basic" option was selected
             .assert.isTrue(function() {
-                return h.find("coral-tab.is-selected coral-tab-label:contains('Basic')").size() == 1
+                return h.find("coral-tab.is-selected coral-tab-label:contains('Basic')").size() === 1
             })
 
             //add a vanity url
@@ -312,7 +313,7 @@
             .click("coral-tab-label:contains('Advanced')",{delay:1000})
             //check if the "Advanced" option was selected
             .assert.isTrue(function() {
-                return h.find("coral-tab.is-selected coral-tab-label:contains('Advanced')").size() == 1
+                return h.find("coral-tab.is-selected coral-tab-label:contains('Advanced')").size() === 1
             })
 
             //test the Settings options
@@ -348,6 +349,52 @@
     ;
 
     /**
+     * Test: Check the Advanced Configuration option of a page properties.
+     */
+    var advancedConfigurationPageProperties = new h.TestCase("Advanced Configuration page property",{
+            execBefore: tcExecuteBeforeTest,
+            execAfter: tcExecuteAfterTest
+        })
+            // open the new page in the sites
+            .navigateTo("/sites.html%testPagePath%")
+
+            .execTestCase(openPageProperties)
+
+            /***** Insert information for 'Settings' *****/
+
+            //open the Advanced tab
+            .click("coral-tab-label:contains('Advanced')",{delay:1000})
+            //check if the "Advanced" option was selected
+            .assert.isTrue(function() {
+                return h.find("coral-tab.is-selected coral-tab-label:contains('Advanced')").size() === 1
+            })
+
+            //test the configuration settings
+
+            //set the configuration
+            .click(".cq-cloudconfig-configpathbrowser .pathbrowser button")
+            .assert.visible(".coral-Pathbrowser-picker")
+            .click(".coral-Pathbrowser-picker [data-value='"+configuration+"']")
+            .assert.isTrue(function(){
+                return h.find("a.is-active[data-value='"+configuration+"']")
+            })
+            .click(".coral-Pathbrowser-picker .js-coral-pathbrowser-confirm")
+
+
+            /*****  Check if the configuration is saved *****/
+
+            //save the configuration and open again the page property
+            .click("coral-buttongroup button:contains('Save & Close')")
+            .execTestCase(openPageProperties)
+            .click("coral-tab-label:contains('Advanced')",{delay:1000})
+
+            //check the configuration
+            .assert.isTrue(function(opts){
+                return h.find("input[name='./cq:conf'] span:contains('"+configuration+"')")
+            })
+    ;
+
+    /**
      * Test: Check the Advanced Templates options of a page properties.
      */
     var advancedTemplatesSettingsPageProperties = new h.TestCase("Advanced Templates page property",{
@@ -365,7 +412,7 @@
             .click("coral-tab-label:contains('Advanced')",{delay:1000})
             //check if the "Advanced" option was selected
             .assert.isTrue(function() {
-                return h.find("coral-tab.is-selected coral-tab-label:contains('Advanced')").size() == 1
+                return h.find("coral-tab.is-selected coral-tab-label:contains('Advanced')").size() === 1
             })
 
             //test the template settings
@@ -410,7 +457,7 @@
             .click("coral-tab-label:contains('Advanced')",{delay:1000})
             //check if the "Advanced" option was selected
             .assert.isTrue(function() {
-                return h.find("coral-tab.is-selected coral-tab-label:contains('Advanced')").size() == 1
+                return h.find("coral-tab.is-selected coral-tab-label:contains('Advanced')").size() === 1
             })
 
             //test the authentication requirement
@@ -453,7 +500,7 @@
             .click("coral-tab-label:contains('Advanced')",{delay:1000})
             //check if the "Advanced" option was selected
             .assert.isTrue(function() {
-                return h.find("coral-tab.is-selected coral-tab-label:contains('Advanced')").size() == 1
+                return h.find("coral-tab.is-selected coral-tab-label:contains('Advanced')").size() === 1
             })
 
             //tests for the export options
@@ -488,7 +535,7 @@
             .click("coral-tab-label:contains('Thumbnail')",{delay:1000})
             //check if the "Thumbnail" option was selected
             .assert.isTrue(function() {
-                return h.find("coral-tab.is-selected coral-tab-label:contains('Thumbnail')").size() == 1
+                return h.find("coral-tab.is-selected coral-tab-label:contains('Thumbnail')").size() === 1
             })
 
             .click("button:contains('Generate Preview')")
@@ -540,7 +587,7 @@
             .click("coral-tab-label:contains('Social Media')",{delay:1000})
             //check if the "Social Media" option was selected
             .assert.isTrue(function() {
-                return h.find("coral-tab.is-selected coral-tab-label:contains('Social Media')").size() == 1
+                return h.find("coral-tab.is-selected coral-tab-label:contains('Social Media')").size() === 1
             })
 
             //test social media sharing
@@ -581,7 +628,7 @@
             .click("coral-tab-label:contains('Cloud Services')",{delay:1000})
             //check if the "Cloud Services" option was selected
             .assert.isTrue(function() {
-                return h.find("coral-tab.is-selected coral-tab-label:contains('Cloud Services')").size() == 1
+                return h.find("coral-tab.is-selected coral-tab-label:contains('Cloud Services')").size() === 1
             })
 
             .click("span:contains('Add Configuration')")
@@ -599,7 +646,7 @@
             .click("coral-tab-label:contains('Cloud Services')",{delay:1000})
 
             .assert.isTrue(function() {
-                return h.find("coral-select[name='./cq:cloudserviceconfigs'] span:contains('We.Retail Facebook Social Login')").size() == 1
+                return h.find("coral-select[name='./cq:cloudserviceconfigs'] span:contains('We.Retail Facebook Social Login')").size() === 1
             })
 
     ;
@@ -619,7 +666,7 @@
             .click("coral-tab-label:contains('Personalization')",{delay:1000})
             //check if the "Personalization" option was selected
             .assert.isTrue(function() {
-                return h.find("coral-tab.is-selected coral-tab-label:contains('Personalization')").size() == 1
+                return h.find("coral-tab.is-selected coral-tab-label:contains('Personalization')").size() === 1
             })
             //set the contextHub path
             .fillInput("foundation-autocomplete[name='./cq:contextHubPath'] input[is='coral-textfield']", contextHubPath)
@@ -663,7 +710,7 @@
             .click("coral-tab-label:contains('Permissions')",{delay:1000})
             //check if the "Permissions" option was selected
             .assert.isTrue(function() {
-                return h.find("coral-tab.is-selected coral-tab-label:contains('Permissions')").size() == 1
+                return h.find("coral-tab.is-selected coral-tab-label:contains('Permissions')").size() === 1
             })
 
             .click("button:contains('Add Permissions')")
@@ -691,17 +738,17 @@
 
             //check if the permission was added to the list
             .assert.isTrue(function(){
-                return h.find("table.js-cq-sites-UserGroup-permissions:contains('CoreComponent')").size() == 1
+                return h.find("table.js-cq-sites-UserGroup-permissions:contains('CoreComponent')").size() === 1
             })
             //check if the permissions were set correctly
             .assert.isTrue(function(){
-                return h.find("table.js-cq-sites-UserGroup-permissions:contains('CoreComponent') td:eq(1) coral-icon").size() == 1
+                return h.find("table.js-cq-sites-UserGroup-permissions:contains('CoreComponent') td:eq(1) coral-icon").size() === 1
             })
             .assert.isTrue(function(){
-                return h.find("table.js-cq-sites-UserGroup-permissions:contains('CoreComponent') td:eq(2) coral-icon").size() == 1
+                return h.find("table.js-cq-sites-UserGroup-permissions:contains('CoreComponent') td:eq(2) coral-icon").size() === 1
             })
             .assert.isTrue(function(){
-                return h.find("table.js-cq-sites-UserGroup-permissions:contains('CoreComponent') td:eq(3) coral-icon").size() == 1
+                return h.find("table.js-cq-sites-UserGroup-permissions:contains('CoreComponent') td:eq(3) coral-icon").size() === 1
             })
 
             //check if the permission was added to the Effective Permissions list
@@ -721,7 +768,7 @@
             .click("coral-dialog:contains('Edit Permissions') button.js-cq-sites-EditPermissionsDialog-update")
             //check if the permission was added
             .assert.isTrue(function(){
-                return h.find("table.js-cq-sites-UserGroup-permissions:contains('CoreComponent') td:eq(4) coral-icon").size() == 1
+                return h.find("table.js-cq-sites-UserGroup-permissions:contains('CoreComponent') td:eq(4) coral-icon").size() === 1
             })
 
             //delete permission from the list
@@ -745,7 +792,7 @@
             .click("coral-tab-label:contains('Permissions')",{delay:1000})
             //check if the "Permissions" option was selected
             .assert.isTrue(function() {
-                return h.find("coral-tab.is-selected coral-tab-label:contains('Permissions')").size() == 1
+                return h.find("coral-tab.is-selected coral-tab-label:contains('Permissions')").size() === 1
             })
 
             .click("button:contains('Edit Closed User Group')")
@@ -768,11 +815,11 @@
 
             //check if the permission was added to the list
             .assert.isTrue(function(){
-                return h.find("table.js-cq-sites-ClosedUserGroup-permissions:contains('CoreComponent')").size() == 1
+                return h.find("table.js-cq-sites-ClosedUserGroup-permissions:contains('CoreComponent')").size() === 1
             })
             //check if the permissions were set correctly
             .assert.isTrue(function(){
-                return h.find("table.js-cq-sites-ClosedUserGroup-permissions:contains('CoreComponent') td:eq(1) coral-icon").size() == 1
+                return h.find("table.js-cq-sites-ClosedUserGroup-permissions:contains('CoreComponent') td:eq(1) coral-icon").size() === 1
             })
 
             //delete permission from the list
@@ -797,7 +844,7 @@
             .click("coral-tab-label:contains('Permissions')",{delay:1000})
             //check if the "Permissions" option was selected
             .assert.isTrue(function() {
-                return h.find("coral-tab.is-selected coral-tab-label:contains('Permissions')").size() == 1
+                return h.find("coral-tab.is-selected coral-tab-label:contains('Permissions')").size() === 1
             })
 
             //open the effective permissions option
@@ -828,13 +875,13 @@
             .click("coral-tab-label:contains('Blueprint')",{delay:1000})
             //check if the "Blueprint" option was selected
             .assert.isTrue(function() {
-                return h.find("coral-tab.is-selected coral-tab-label:contains('Blueprint')").size() == 1
+                return h.find("coral-tab.is-selected coral-tab-label:contains('Blueprint')").size() === 1
             })
 
             .click("coral-anchorbutton-label:contains('Rollout')")
             //check if the page is selected
             .assert.isTrue(function(){
-                return h.find("coral-checkbox.select-rollout[checked]").size() == 2
+                return h.find("coral-checkbox.select-rollout[checked]").size() === 2
             })
             //check the Rollout page and all sub pages
             .click("coral-checkbox.coral-Form-field")
@@ -877,7 +924,7 @@
             .click("coral-tab-label:contains('Live Copy')",{delay:1000})
             //check if the "Live Copy" option was selected
             .assert.isTrue(function() {
-                return h.find("coral-tab.is-selected coral-tab-label:contains('Live Copy')").size() == 1
+                return h.find("coral-tab.is-selected coral-tab-label:contains('Live Copy')").size() === 1
             })
 
             //check the Synchronize button
@@ -932,6 +979,7 @@
         .addTestCase(basicOnOffTimePageProperties)
         .addTestCase(basicVanityUrlPageProperties)
         .addTestCase(advancedSettingsPageProperties)
+        .addTestCase(advancedConfigurationPageProperties)
         .addTestCase(advancedTemplatesSettingsPageProperties)
         .addTestCase(advancedAuthenticationPageProperties)
         .addTestCase(advancedExportPageProperties)
@@ -947,4 +995,3 @@
     ;
 
 }(hobs, jQuery));
-

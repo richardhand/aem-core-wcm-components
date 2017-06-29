@@ -282,6 +282,18 @@
                                             </alias>
                                         </items>
                                     </section1>
+                                    <configuration
+                                        jcr:primaryType="nt:unstructured"
+                                        jcr:title="Configuration"
+                                        sling:resourceType="granite/ui/components/foundation/form/fieldset">
+                                        <items jcr:primaryType="nt:unstructured">
+                                            <cqConf
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="cq/cloudconfig/components/admin/configpathbrowser"
+                                                emptyText="Select Configuration Path"
+                                                fieldLabel="Cloud Configuration"/>
+                                        </items>
+                                    </configuration>
                                     <templates
                                         cq:showOnCreate="{Boolean}false"
                                         jcr:primaryType="nt:unstructured"
