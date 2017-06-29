@@ -30,7 +30,7 @@
         normal: ".cmp-breadcrumb__item",
         active: ".cmp-breadcrumb__item--active"
     };
-    var tcExecuteBeforeTest = breadcrumbV1.tcExecuteBeforeTest(c.rtBreadcrumb_v2, 'core/wcm/sandbox/tests/components/test-page-v2');
+    var tcExecuteBeforeTest = breadcrumbV1.tcExecuteBeforeTest(c.rtBreadcrumb_v2, "core/wcm/sandbox/tests/components/test-page-v2");
     var tcExecuteAfterTest = breadcrumbV1.tcExecuteAfterTest();
 
     /**
