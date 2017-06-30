@@ -14,228 +14,253 @@
  *  limitations under the License.
  */
 
+window.CQ.CoreComponentsIT.v1.Title = window.CQ.CoreComponentsIT.v1.Title || {}
+
 /**
  * Tests for the core title component.
  */
 ;(function(h, $){
 
-    // shortcut
+    // shortcuts
     var c = window.CQ.CoreComponentsIT.commons;
+    var title = window.CQ.CoreComponentsIT.v1.Title;
 
     /**
      * Before Test Case
      */
-    var tcExecuteBeforeTest = TestCase("Setup Before Test")
-    // common set up
-        .execTestCase(c.tcExecuteBeforeTest)
-        // create the test page , store page path in 'testPagePath'
-        .execFct(function (opts,done) {
-            c.createPage(c.template, c.rootPage ,'page_' + Date.now(),"testPagePath",done)
-        })
-        // add the component, store component path in 'cmpPath'
-        .execFct(function (opts, done){
-            c.addComponent(c.rtTitle, h.param("testPagePath")(opts)+c.relParentCompPath,"cmpPath",done)
-        })
-        // open the new page in the editor
-        .navigateTo("/editor.html%testPagePath%.html");
+    title.tcExecuteBeforeTest = function(titleRT, pageRT) {
+        return TestCase("Setup Before Test")
+            // common set up
+            .execTestCase(c.tcExecuteBeforeTest)
+            // create the test page , store page path in 'testPagePath'
+            .execFct(function (opts, done) {
+                c.createPage(c.template, c.rootPage, 'page_' + Date.now(), "testPagePath", done, pageRT)
+            })
+            // add the component, store component path in 'cmpPath'
+            .execFct(function (opts, done){
+                c.addComponent(titleRT, h.param("testPagePath")(opts) + c.relParentCompPath, "cmpPath", done)
+            })
+            // open the new page in the editor
+            .navigateTo("/editor.html%testPagePath%.html");
+    };
 
     /**
      * After Test Case
      */
-    var tcExecuteAfterTest = new TestCase("Clean up after Test")
-    // common clean up
-        .execTestCase(c.tcExecuteAfterTest)
-        // delete the test page we created
-        .execFct(function (opts, done) {
-            c.deletePage(h.param("testPagePath")(opts), done);
-        })
+    title.tcExecuteAfterTest = function(policyPath, policyAssignmentPath) {
+        return new TestCase("Clean up after Test")
+            // common clean up
+            .execTestCase(c.tcExecuteAfterTest)
+            // delete the test page we created
+            .execFct(function (opts, done) {
+                c.deletePage(h.param("testPagePath")(opts), done);
+            })
 
-        .execFct(function (opts, done) {
-            c.deletePolicy("/title", done);
-        })
-        .execFct(function (opts, done) {
-            c.deletePolicyAssignment("/title", done);
-        });
+            .execFct(function (opts, done) {
+                c.deletePolicy("/title", done, policyPath);
+            })
+            .execFct(function (opts, done) {
+                c.deletePolicyAssignment("/title", done, policyAssignmentPath);
+            });
+    };
 
     /**
      * Test: Set the title value using the inline editing.
      */
-    var setTitleValueUsingInlineEditor = new h.TestCase("Set title using inline editor", {
-        execBefore: tcExecuteBeforeTest,
-        execAfter: tcExecuteAfterTest})
+    title.tcSetTitleValueUsingInlineEditor = function(tcExecuteBeforeTest, tcExecuteAfterTest) {
+        return new h.TestCase("Set title using inline editor", {
+            execBefore: tcExecuteBeforeTest,
+            execAfter: tcExecuteAfterTest})
 
-    // start the inline editor
-        .execTestCase(c.tcOpenInlineEditor("cmpPath"))
+            // start the inline editor
+            .execTestCase(c.tcOpenInlineEditor("cmpPath"))
 
-        //switch to the content frame
-        .config.changeContext(c.getContentFrame)
+            //switch to the content frame
+            .config.changeContext(c.getContentFrame)
 
-        // set the example text
-        .execFct(function() {
-            h.find(".cmp.cmp-title  h1").html("Content test")
-        })
-
-        // remove the focus so it triggers the post request
-        .simulate(".cmp.cmp-title  h1","blur")
-
-        // check if text is rendered
-        .assert.isTrue(
-            function() {
-                var actualValue = h.find('.cmp.cmp-title  h1').html();
-                return actualValue === "Content test";
+            // set the example text
+            .execFct(function() {
+                h.find(".cmp-title  h1").html("Content test")
             })
 
-        // swith back to edit frame
-        .config.resetContext()
+            // remove the focus so it triggers the post request
+            .simulate(".cmp-title  h1","blur")
 
-        // reload the page, to see if the text really got saved
-        .navigateTo("/editor.html%testPagePath%.html")
+            // check if text is rendered
+            .assert.isTrue(
+                function() {
+                    var actualValue = h.find('.cmp-title  h1').html();
+                    return actualValue === "Content test";
+                })
 
-        //switch to the content frame
-        .config.changeContext(c.getContentFrame)
+            // swith back to edit frame
+            .config.resetContext()
 
-        // check if text is rendered
-        .assert.isTrue(
-            function() {
-                var actualValue = h.find('.cmp.cmp-title  h1').html();
-                return actualValue === "Content test";
-            });
+            // reload the page, to see if the text really got saved
+            .navigateTo("/editor.html%testPagePath%.html")
+
+            //switch to the content frame
+            .config.changeContext(c.getContentFrame)
+
+            // check if text is rendered
+            .assert.isTrue(
+                function() {
+                    var actualValue = h.find('.cmp-title  h1').html();
+                    return actualValue === "Content test";
+                });
+    };
 
     /**
      * Test: Set the title value using the design dialog.
      */
-    var setTitleValueUsingConfigDialog = new h.TestCase("Set title using config dialog",{
-        execBefore: tcExecuteBeforeTest,
-        execAfter: tcExecuteAfterTest})
+    title.tcSetTitleValueUsingConfigDialog = function (tcExecuteBeforeTest, tcExecuteAfterTest) {
+        return new h.TestCase("Set title using config dialog",{
+            execBefore: tcExecuteBeforeTest,
+            execAfter: tcExecuteAfterTest})
 
-    // open the configuration dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
-        // add some example text
-        .fillInput("[name='./jcr:title']","Content name")
-        // close the dialog
-        .execTestCase(c.tcSaveConfigureDialog)
+            // open the configuration dialog
+            .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+            // add some example text
+            .fillInput("[name='./jcr:title']","Content name")
+            // close the dialog
+            .execTestCase(c.tcSaveConfigureDialog)
 
-        // switch to content frame
-        .config.changeContext(c.getContentFrame)
+            // switch to content frame
+            .config.changeContext(c.getContentFrame)
 
-        // check if text is rendered correctly
-        .assert.isTrue(function() {
-            var actualValue = h.find('.cmp.cmp-title h1').html();
-            return actualValue === "Content name";
-        });
+            // check if text is rendered correctly
+            .assert.isTrue(function() {
+                var actualValue = h.find('.cmp-title h1').html();
+                return actualValue === "Content name";
+            });
+    };
 
     /**
      * Test: Check the existence of all available title types.
      */
-    var checkExistenceOfTitleTypes = new h.TestCase("Check available title types",{
-        execBefore: tcExecuteBeforeTest,
-        execAfter: tcExecuteAfterTest})
+    title.tcCheckExistenceOfTitleTypes = function (tcExecuteBeforeTest, tcExecuteAfterTest) {
+        return new h.TestCase("Check available title types",{
+            execBefore: tcExecuteBeforeTest,
+            execAfter: tcExecuteAfterTest})
 
-    // open the dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
-        // check if all default title sizes are there
-        .assert.exist("coral-selectlist-item[value='h1']")
-        .assert.exist("coral-selectlist-item[value='h2']")
-        .assert.exist("coral-selectlist-item[value='h3']")
-        .assert.exist("coral-selectlist-item[value='h4']")
-        .assert.exist("coral-selectlist-item[value='h5']")
-        .assert.exist("coral-selectlist-item[value='h6']");
+            // open the dialog
+            .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+            // check if all default title sizes are there
+            .assert.exist("coral-selectlist-item[value='h1']")
+            .assert.exist("coral-selectlist-item[value='h2']")
+            .assert.exist("coral-selectlist-item[value='h3']")
+            .assert.exist("coral-selectlist-item[value='h4']")
+            .assert.exist("coral-selectlist-item[value='h5']")
+            .assert.exist("coral-selectlist-item[value='h6']");
+    };
 
     /**
      * Test: Check if setting the title type works.
      */
-    var setTitleType = new h.TestCase("Set the title type",{
-        execBefore: tcExecuteBeforeTest,
-        execAfter: tcExecuteAfterTest})
+    title.tcSetTitleType = function (tcExecuteBeforeTest, tcExecuteAfterTest) {
+        return new h.TestCase("Set the title type",{
+            execBefore: tcExecuteBeforeTest,
+            execAfter: tcExecuteAfterTest})
 
-    /// open the edit dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
-        .click("coral-selectlist-item[value='h5']")
-        .execTestCase(c.tcSaveConfigureDialog)
+            /// open the edit dialog
+            .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+            .click("coral-selectlist-item[value='h5']")
+            .execTestCase(c.tcSaveConfigureDialog)
 
-        .assert.isTrue(function () {
-            return h.find(".cmp.cmp-title  h5","#ContentFrame").size() == 1});
+            .assert.isTrue(function () {
+                return h.find(".cmp-title  h5","#ContentFrame").size() == 1});
+    };
 
     /**
      * Test: Check the existence of all available title types defined in a policy.
      */
-    var checkExistenceOfTypesUsingPolicy = new h.TestCase("Check available title types defined in a policy",{
-            execBefore: tcExecuteBeforeTest,
-            execAfter: tcExecuteAfterTest
-        })
-
-            .execFct(function (opts,done) {
-                var data = {};
-                data["allowedTypes"] = ["h2","h3","h4","h6"];
-                data["jcr:title"] = "New Policy";
-                data["sling:resourceType"] = "wcm/core/components/policy/policy";
-                data["type"] = "h2";
-
-                c.createPolicy("/title/v1/title/new_policy",data,"policyPath",done)
-
+    title.tcCheckExistenceOfTypesUsingPolicy = function (tcExecuteBeforeTest, tcExecuteAfterTest, policyName, policyLocation, policyPath, policyAssignmentPath) {
+        return new h.TestCase("Check available title types defined in a policy",{
+                execBefore: tcExecuteBeforeTest,
+                execAfter: tcExecuteAfterTest
             })
 
-            .execFct(function (opts,done) {
-                var data = {};
-                data["cq:policy"] = "core/wcm/components/title/v1/title/new_policy";
-                data["sling:resourceType"] = "wcm/core/components/policies/mapping";
+                .execFct(function (opts,done) {
+                    var data = {};
+                    data["allowedTypes"] = ["h2","h3","h4","h6"];
+                    data["jcr:title"] = "New Policy";
+                    data["sling:resourceType"] = "wcm/core/components/policy/policy";
+                    data["type"] = "h2";
 
-                c.assignPolicy("/title/v1/title",data,done)
+                    c.createPolicy(policyName + "/new_policy", data, "policyPath", done, policyPath)
 
-            })
+                })
 
-            // open the dialog
-            .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
-            // check if all title sizes defined in policy are there
-            .assert.exist("coral-selectlist-item[value='h2']")
-            .assert.exist("coral-selectlist-item[value='h3']")
-            .assert.exist("coral-selectlist-item[value='h4']")
-            .assert.exist("coral-selectlist-item[value='h6']")
+                .execFct(function (opts,done) {
+                    var data = {};
+                    data["cq:policy"] = policyLocation + policyName + "/new_policy";
+                    data["sling:resourceType"] = "wcm/core/components/policies/mapping";
 
-            //check if the default value is selected
-            //.assert.exist("coral-selectlist-item[value='h2'].is-selected")
+                    c.assignPolicy(policyName, data, done, policyAssignmentPath)
 
-            .execTestCase(c.tcSaveConfigureDialog)
+                })
 
-            .assert.isTrue(function () {
-                return h.find(".cmp.cmp-title h2","#ContentFrame").size() == 1})
-    ;
+                // open the dialog
+                .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+                // check if all title sizes defined in policy are there
+                .assert.exist("coral-selectlist-item[value='h2']")
+                .assert.exist("coral-selectlist-item[value='h3']")
+                .assert.exist("coral-selectlist-item[value='h4']")
+                .assert.exist("coral-selectlist-item[value='h6']")
+
+                //check if the default value is selected
+                //.assert.exist("coral-selectlist-item[value='h2'].is-selected")
+
+                .execTestCase(c.tcSaveConfigureDialog)
+
+                .assert.isTrue(function () {
+                    return h.find(".cmp-title h2","#ContentFrame").size() == 1})
+        ;
+    };
 
     /**
      * Test: Check the type used when one type is defined in the policy.
      */
-    var checkExistenceOfOneTypeUsingPolicy = new h.TestCase("Check the type used when one type is defined in the policy",{
-            execBefore: tcExecuteBeforeTest,
-            execAfter: tcExecuteAfterTest
-        })
-
-            .execFct(function (opts,done) {
-                var data = {};
-                data["allowedTypes"] = "h5";
-                data["jcr:title"] = "New Policy";
-                data["sling:resourceType"] = "wcm/core/components/policy/policy";
-                data["type"] = "h5";
-
-                c.createPolicy("/title/v1/title/new_policy",data,"policyPath",done)
-
+    title.tcCheckExistenceOfOneTypeUsingPolicy = function (tcExecuteBeforeTest, tcExecuteAfterTest, policyName, policyLocation, policyPath, policyAssignmentPath) {
+        return new h.TestCase("Check the type used when one type is defined in the policy",{
+                execBefore: tcExecuteBeforeTest,
+                execAfter: tcExecuteAfterTest
             })
 
-            .execFct(function (opts,done) {
-                var data = {};
-                data["cq:policy"] = "core/wcm/components/title/v1/title/new_policy";
-                data["sling:resourceType"] = "wcm/core/components/policies/mapping";
+                .execFct(function (opts,done) {
+                    var data = {};
+                    data["allowedTypes"] = "h5";
+                    data["jcr:title"] = "New Policy";
+                    data["sling:resourceType"] = "wcm/core/components/policy/policy";
+                    data["type"] = "h5";
 
-                c.assignPolicy("/title/v1/title",data,done)
+                    c.createPolicy(policyName + "/new_policy", data, "policyPath", done, policyPath)
 
-            })
+                })
 
-            // open the dialog
-            .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
-            .execTestCase(c.tcSaveConfigureDialog)
+                .execFct(function (opts,done) {
+                    var data = {};
+                    data["cq:policy"] = policyLocation + policyName + "/new_policy";
+                    data["sling:resourceType"] = "wcm/core/components/policies/mapping";
 
-            .assert.isTrue(function () {
-                return h.find(".cmp.cmp-title h5","#ContentFrame").size() == 1})
-    ;
+                    c.assignPolicy(policyName, data, done, policyAssignmentPath)
+
+                })
+
+                // open the dialog
+                .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
+                .execTestCase(c.tcSaveConfigureDialog)
+
+                .assert.isTrue(function () {
+                    return h.find(".cmp-title h5","#ContentFrame").size() == 1})
+        ;
+    };
+
+    /**
+     * v1 specifics
+     */
+    var tcExecuteBeforeTest = title.tcExecuteBeforeTest(c.rtTitle);
+    var tcExecuteAfterTest = title.tcExecuteAfterTest(c.policyPath, c.policyAssignmentPath);
 
     /**
      * The main test suite for Title component
@@ -243,12 +268,14 @@
     new h.TestSuite("Core Components - Title", {path:"/apps/core/wcm/tests/core-components-it/Title.js",
         execBefore:c.tcExecuteBeforeTestSuite,
         execInNewWindow : false})
-        // Removed for now as it not stable randomly failing
-        //.addTestCase(setTitleValueUsingInlineEditor)
-        .addTestCase(setTitleValueUsingConfigDialog)
-        .addTestCase(checkExistenceOfTitleTypes)
-        .addTestCase(setTitleType)
-        .addTestCase(checkExistenceOfTypesUsingPolicy)
-        .addTestCase(checkExistenceOfOneTypeUsingPolicy)
+        //TODO: Removed for now as it not stable randomly failing
+        //.addTestCase(title.tcSetTitleValueUsingInlineEditor(tcExecuteBeforeTest, tcExecuteAfterTest))
+        .addTestCase(title.tcSetTitleValueUsingConfigDialog(tcExecuteBeforeTest, tcExecuteAfterTest))
+        .addTestCase(title.tcCheckExistenceOfTitleTypes(tcExecuteBeforeTest, tcExecuteAfterTest))
+        .addTestCase(title.tcSetTitleType(tcExecuteBeforeTest, tcExecuteAfterTest))
+        .addTestCase(title.tcCheckExistenceOfTypesUsingPolicy(tcExecuteBeforeTest, tcExecuteAfterTest, "/title/v1/title", "core/wcm/components",
+            c.policyPath, c.policyAssignmentPath))
+        .addTestCase(title.tcCheckExistenceOfOneTypeUsingPolicy(tcExecuteBeforeTest, tcExecuteAfterTest, "/title/v1/title", "core/wcm/components",
+            c.policyPath, c.policyAssignmentPath))
     ;
 }(hobs, jQuery));

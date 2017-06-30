@@ -20,9 +20,9 @@
     var c = window.CQ.CoreComponentsIT.commons;
 
     // the path to the policies
-    c.policyPath = "/conf/core-components/settings/wcm/policies/core/wcm/sandbox/components";
+    c.policyPath_sandbox = "/conf/core-components/settings/wcm/policies/core/wcm/sandbox/components";
     // the policy assignment path
-    c.policyAssignmentPath = "/conf/core-components/settings/wcm/templates/core-components/policies/jcr:content/root/responsivegrid/core/wcm/sandbox/components";
+    c.policyAssignmentPath_sandbox = "/conf/core-components/settings/wcm/templates/core-components/policies/jcr:content/root/responsivegrid/core/wcm/sandbox/components";
 
     // core component resource types
     // text component
