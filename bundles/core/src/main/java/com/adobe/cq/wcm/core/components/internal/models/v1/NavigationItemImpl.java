@@ -16,15 +16,13 @@
 
 package com.adobe.cq.wcm.core.components.internal.models.v1;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.adobe.cq.wcm.core.components.models.NavigationItem;
 import com.day.cq.wcm.api.Page;
 
 public class NavigationItemImpl implements NavigationItem {
 
-    private Page page;
-    private boolean active;
+    protected Page page;
+    protected boolean active;
 
     public NavigationItemImpl(Page page, boolean active) {
         this.page = page;

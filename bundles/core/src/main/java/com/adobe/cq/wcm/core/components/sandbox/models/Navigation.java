@@ -13,47 +13,47 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
 package com.adobe.cq.wcm.core.components.sandbox.models;
 
 import java.util.List;
 
-import org.osgi.annotation.versioning.ConsumerType;
-
 /**
- * Interface for a single navigation item, used by the {@link Breadcrumb} and {@link Navigation} models.
+ * Defines the {@code Breadcrumb} Sling Model used for the {@code /apps/core/wcm/components/navigation} component.
+ *
+ * @since com.adobe.cq.wcm.core.components.sandbox.models 1.0.0
  */
-@ConsumerType
-public interface NavigationItem extends com.adobe.cq.wcm.core.components.models.NavigationItem {
+public interface Navigation {
 
     /**
-     * Returns the children of this {@code NavigationItem}, if any.
+     * Name of the resource / configuration policy property that defines the site's root for which to build the navigation tree.
      *
-     * @return the children of this {@code NavigationItem}; if this {@code NavigationItem} doesn't have any children, the returned
-     * {@link List} will be empty
      * @since com.adobe.cq.wcm.core.components.sandbox.models 1.0.0
      */
-    default List<NavigationItem> getChildren() {
-        throw new UnsupportedOperationException();
-    }
+    String PN_SITE_ROOT = "siteRoot";
 
     /**
-     * Returns the URL of this {@code NavigationItem}.
+     * Name of the resource / configuration policy property that defines the start level of the website's root relative to the absolute
+     * root folder. The property should provide a Long value.
      *
-     * @return the URL of this navigation item
      * @since com.adobe.cq.wcm.core.components.sandbox.models 1.0.0
      */
-    default String getURL() {
-        throw new UnsupportedOperationException();
-    }
+    String PN_CONTENT_START_LEVEL = "startLevel";
 
     /**
-     * Returns the depth level of this {@code NavigationItem}.
+     * Name of the resource / configuration policy property that defines the max depth in the content tree where items will be
+     * searched for to build the navigation tree. The property should provide a Long value.
      *
-     * @return the depth level
      * @since com.adobe.cq.wcm.core.components.sandbox.models 1.0.0
      */
-    default int getLevel() {
+    String PN_MAX_DEPTH = "maxDepth";
+
+    /**
+     * Returns the list of navigation items.
+     *
+     * @return a list of navigation items
+     * @since com.adobe.cq.wcm.core.components.sandbox.models 1.0.0
+     */
+    default List<NavigationItem> getItems() {
         throw new UnsupportedOperationException();
     }
 

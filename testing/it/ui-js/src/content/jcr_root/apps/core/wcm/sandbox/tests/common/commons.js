@@ -45,5 +45,7 @@
     c.rtFormOptions_v2 = "core/wcm/sandbox/components/form/options/v2/options";
     // form hidden
     c.rtFormHidden_v2 = "core/wcm/sandbox/components/form/hidden/v2/hidden";
+    // navigation component
+    c.rtNavigation_v1 = "core/wcm/sandbox/components/navigation/v1/navigation";
 
 }(hobs, jQuery));
