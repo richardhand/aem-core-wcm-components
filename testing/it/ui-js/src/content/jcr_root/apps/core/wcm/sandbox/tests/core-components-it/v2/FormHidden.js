@@ -34,7 +34,7 @@ window.CQ.CoreComponentsIT.v1.FormHidden = window.CQ.CoreComponentsIT.v1.FormHid
     /**
      * The main test suite.
      */
-    new h.TestSuite('Core Components - Form Hidden v2', {path: '/apps/core/wcm/tests/core-components-it/FormHidden.js',
+    new h.TestSuite('Core Components - Form Hidden v2', {path: '/apps/core/wcm/sandbox/tests/core-components-it/v2/FormHidden.js',
         execBefore:c.tcExecuteBeforeTestSuite,
         execInNewWindow : false})
 
