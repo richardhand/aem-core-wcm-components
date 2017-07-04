@@ -255,6 +255,7 @@
                                         <!-- private enum; cannot test valueOf / values -->
                                         <exclude>**/SocialMediaHelperImpl$WebsiteMetadata$Type.class</exclude>
                                         <exclude>**/com/adobe/cq/wcm/core/components/models/**/*.class</exclude>
+                                        <exclude>**/com/adobe/cq/wcm/core/components/sandbox/models/**/*.class</exclude>
                                     </excludes>
                                 </configuration>
                             </execution>
