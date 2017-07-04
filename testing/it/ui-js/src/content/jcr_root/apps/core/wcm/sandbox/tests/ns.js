@@ -17,3 +17,4 @@
 window.CQ = window.CQ || {};
 window.CQ.CoreComponentsIT = window.CQ.CoreComponentsIT || {};
 window.CQ.CoreComponentsIT.commons = window.CQ.CoreComponentsIT.commons || {};
+window.CQ.CoreComponentsIT.v2 = window.CQ.CoreComponentsIT.v2 || {};

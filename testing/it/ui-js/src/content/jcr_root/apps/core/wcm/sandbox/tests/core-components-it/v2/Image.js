@@ -21,187 +21,14 @@
 
     // shortcut
     var c = window.CQ.CoreComponentsIT.commons;
-
-    var testImagePath = "/content/dam/core-components/core-comp-test-image.jpg";
-    var altText = "Return to Arkham";
-    var captionText = "The Last Guardian";
+    var imageV1 = window.CQ.CoreComponentsIT.v1.Image;
 
     /**
-     * Before Test Case
+     * v2 specifics
      */
-    var tcExecuteBeforeTest = new TestCase("Setup Before Test")
-        // common set up
-        .execTestCase(c.tcExecuteBeforeTest)
-        // create the test page, store page path in 'testPagePath'
-        .execFct(function (opts,done) {
-            c.createPage(c.template, c.rootPage ,'page_' + Date.now(),"testPagePath",done, 'core/wcm/sandbox/tests/components/test-page-v2')
-        })
-        // add the component, store component path in 'cmpPath'
-        .execFct(function (opts, done){
-            c.addComponent(c.rtImage_v2, h.param("testPagePath")(opts)+c.relParentCompPath,"cmpPath",done)
-        })
-        // open the new page in the editor
-        .navigateTo("/editor.html%testPagePath%.html");
-
-    /**
-     * After Test Case
-     */
-    var tcExecuteAfterTest = new TestCase("Clean up after Test")
-        // common clean up
-        .execTestCase(c.tcExecuteAfterTest)
-        // delete the test page we created
-        .execFct(function (opts, done) {
-            c.deletePage(h.param("testPagePath")(opts), done);
-        });
-
-    var tcSetMinimalProps = new TestCase("Set Image and Alt Text")
-        .execFct(function (opts,done) {c.openSidePanel(done);})
-        // drag'n'drop the test image
-        .cui.dragdrop("coral-card.cq-draggable[data-path='" + testImagePath + "']","coral-fileupload[name='./file'")
-        // set mandatory alt text
-        .fillInput("input[name='./alt']",altText)
-        // close the side panel
-        .execTestCase(c.closeSidePanel);
-
-
-
-    /**
-     * Test: add image
-     */
-    var addImage = new h.TestCase('Add an Image',{
-        execBefore: tcExecuteBeforeTest,
-        execAfter: tcExecuteAfterTest})
-
-        // open the config dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
-        // set image and alt text
-        .execTestCase(tcSetMinimalProps)
-        // save the dialog
-        .execTestCase(c.tcSaveConfigureDialog)
-
-        // verify that the surrounding script tag has been removed and the img tag is there
-        .asserts.isTrue(function () {
-            return h.find("div.cmp-image img[src*='"+ h.param("testPagePath")() +
-                "/_jcr_content/root/responsivegrid/image.img.']", "#ContentFrame").size() == 1;
-        });
-
-    /**
-     * Test: set Alt Text
-     */
-    var addAltText = new h.TestCase('Set Alt Text',{
-        execBefore: tcExecuteBeforeTest,
-        execAfter: tcExecuteAfterTest})
-
-        // open the config dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
-        // set image and alt text
-        .execTestCase(tcSetMinimalProps)
-        // save the dialog
-        .execTestCase(c.tcSaveConfigureDialog)
-
-        // verify that alt text is there
-        .asserts.isTrue(function () {
-            return h.find("div.cmp-image img[alt='"+altText +"']", "#ContentFrame").size() == 1;
-        });
-
-    /**
-     * Test: set link on image
-     */
-    var setLink = new h.TestCase('Set Link',{
-        execBefore: tcExecuteBeforeTest,
-        execAfter: tcExecuteAfterTest})
-
-        // open the config dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
-        // set image and alt text
-        .execTestCase(tcSetMinimalProps)
-        // enter the link
-        .simulate("foundation-autocomplete[name='./linkURL'] input[type!='hidden']", "key-sequence",
-        {sequence: c.rootPage + "{enter}"})
-        // save the dialog
-        .execTestCase(c.tcSaveConfigureDialog)
-
-        // switch to content frame
-        .config.changeContext(c.getContentFrame)
-        // click on the image
-        .click("div.cmp-image img",{expectNav: true})
-        // go back to top frame
-        .config.resetContext()
-        // check if the url is correct
-        .asserts.isTrue(function(){
-            return hobs.context().window.location.pathname.endsWith(c.rootPage + ".html")
-        });
-
-    /**
-     * Test: set caption
-     */
-    var setCaption = new h.TestCase('Set Caption',{
-        execBefore: tcExecuteBeforeTest,
-        execAfter: tcExecuteAfterTest})
-
-        // open the config dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
-        // set image and alt text
-        .execTestCase(tcSetMinimalProps)
-        // set caption text
-        .fillInput("input[name='./jcr:title']",captionText)
-        // save the dialog
-        .execTestCase(c.tcSaveConfigureDialog)
-
-        // switch to content frame
-        .config.changeContext(c.getContentFrame)
-        // check if the caption is rendered with <small> tag
-        .asserts.isTrue(function(){
-            return h.find("span.cmp-image__title:contains('" + captionText + "')").size() == 1
-        });
-
-    /**
-     * Test: set caption as pop up
-     */
-    var setCaptionAsPopup = new h.TestCase('Set Caption as Pop Up',{
-        execBefore: tcExecuteBeforeTest,
-        execAfter: tcExecuteAfterTest})
-
-        // open the config dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
-        // set image and alt text
-        .execTestCase(tcSetMinimalProps)
-        // set caption text
-        .fillInput("input[name='./jcr:title']",captionText)
-        // check the 'Caption as Pop Up' flag
-        .click("input[type='checkbox'][name='./displayPopupTitle']")
-        // save the dialog
-        .execTestCase(c.tcSaveConfigureDialog)
-
-        // switch to content frame
-        .config.changeContext(c.getContentFrame)
-        // check if the caption is rendered with <small> tag
-        .asserts.isTrue(function(){
-            return h.find("div.cmp-image img[title='" + captionText + "']").size() == 1
-        });
-
-    /**
-     * Test: set caption as pop up
-     */
-    var setImageAsDecorative = new h.TestCase('Set Image as decorative',{
-        execBefore: tcExecuteBeforeTest,
-         execAfter: tcExecuteAfterTest})
-
-        // open the config dialog
-        .execTestCase(c.tcOpenConfigureDialog("cmpPath"))
-        // set image and alt text (to see if its not rendered)
-        .execTestCase(tcSetMinimalProps)
-        .click("input[type='checkbox'][name='./isDecorative']")
-        // save the dialog
-        .execTestCase(c.tcSaveConfigureDialog)
-
-        // switch to content frame
-        .config.changeContext(c.getContentFrame)
-        // check if the image is rendered without alt text even if it is set in the edit dialog
-
-        .asserts.isTrue(function () {
-            return h.find('div.cmp-image img').attr('alt') === '';
-        });
+    var titleSelector = "span.cmp-image__title";
+    var tcExecuteBeforeTest = imageV1.tcExecuteBeforeTest(c.rtImage_v2, "core/wcm/sandbox/tests/components/test-page-v2");
+    var tcExecuteAfterTest = imageV1.tcExecuteAfterTest();
 
     /**
      * The main test suite for Image Component
@@ -210,12 +37,12 @@
         execBefore:c.tcExecuteBeforeTestSuite,
         execInNewWindow : false})
 
-        .addTestCase(addImage)
-        .addTestCase(addAltText)
-        .addTestCase(setLink)
-        .addTestCase(setCaption)
-        .addTestCase(setCaptionAsPopup)
-        .addTestCase(setImageAsDecorative)
+        .addTestCase(imageV1.tcAddImage(tcExecuteBeforeTest, tcExecuteAfterTest))
+        .addTestCase(imageV1.tcAddAltText(tcExecuteBeforeTest, tcExecuteAfterTest))
+        .addTestCase(imageV1.tcSetLink(tcExecuteBeforeTest, tcExecuteAfterTest))
+        .addTestCase(imageV1.tcSetCaption(titleSelector, tcExecuteBeforeTest, tcExecuteAfterTest))
+        .addTestCase(imageV1.tcSetCaptionAsPopup(tcExecuteBeforeTest, tcExecuteAfterTest))
+        .addTestCase(imageV1.tcSetImageAsDecorative(tcExecuteBeforeTest, tcExecuteAfterTest))
 
     ;
 }(hobs, jQuery));

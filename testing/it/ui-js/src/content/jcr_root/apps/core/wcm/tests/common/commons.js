@@ -69,8 +69,9 @@
      * @param pageName Mandatory. Page name to be set for the page.
      * @param dynParName Optional. Hobbes dynamic param to store the generated page path.
      * @param done Mandatory. Callback to be executed when async method has finished.
+     * @param [testPageRT='core/wcm/tests/components/test-page'] the resource type of the test page
      */
-    c.createPage = function (templatePath, parentPath, pageName, dynParName, done) {
+    c.createPage = function (templatePath, parentPath, pageName, dynParName, done, testPageRT) {
         // mandatory check
         if (parentPath == null || templatePath == null || pageName == null || done == null) {
             if (done) done(false, "createPage failed! mandatory parameter(s) missing!");
@@ -88,7 +89,7 @@
                 "_charset_": "utf-8",
                 "./jcr:title": pageName,
                 "pageName": pageName,
-                "./sling:resourceType": "core/wcm/tests/components/test-page"
+                "./sling:resourceType": testPageRT || "core/wcm/tests/components/test-page"
             }
         })
             // when the request was successful
@@ -385,14 +386,15 @@
      * @param data Tha policy's data
      * @param done  Mandatory. the callback to execute when post returns
      */
-    c.createPolicy = function (component_path, data, dynParName, done) {
+    c.createPolicy = function (component_path, data, dynParName, done, policyPath) {
+        policyPath = policyPath || c.policyPath;
         // mandatory check
         if (component_path == null || data == null || done == null) {
             if (done) done(false, "createPolicy failed! Mandatory param(s) missing.");
             return;
             }
             jQuery.ajax({
-                url: c.policyPath+component_path,
+                url: policyPath + component_path,
                 method: "POST",
                 data: data
             })
@@ -419,14 +421,15 @@
      * @param data Tha policy's data
      * @param done  Mandatory. the callback to execute when post returns
      */
-    c.assignPolicy = function (component_path, data, done) {
+    c.assignPolicy = function (component_path, data, done, policyAssignmentPath) {
+        policyAssignmentPath = policyAssignmentPath || c.policyAssignmentPath;
         // mandatory check
         if (component_path == null || data == null || done == null) {
             if (done) done(false, "assignPolicy failed! Mandatory param(s) missing.");
             return;
         }
         jQuery.ajax({
-            url: c.policyAssignmentPath+component_path,
+            url: policyAssignmentPath + component_path,
             method: "POST",
             data: data
         })
@@ -445,14 +448,15 @@
      * @param policyPath Mandatory. policyPath path to the policy to be deleted
      * @param done Optional. callback to be executed when the async method has finished.
      */
-    c.deletePolicy = function (component_path, done) {
+    c.deletePolicy = function (component_path, done, policyPath) {
+        policyPath = policyPath || c.policyPath;
         // mandatory check
         if (component_path == null || done == null) {
             if (done) done(false, "deletePolicy failed! mandatory parameter(s) missing!");
             return;
         }
         jQuery.ajax({
-            url: c.policyPath+component_path,
+            url: policyPath + component_path,
             method: "POST",
             data: {
                 ":operation": "delete"
@@ -473,14 +477,15 @@
      * @param policyAllocationPath Mandatory. policyAllocatiionPath path to the policy allocation to be deleted
      * @param done Optional. callback to be executed when the async method has finished.
      */
-    c.deletePolicyAssignment = function (component_path, done) {
+    c.deletePolicyAssignment = function (component_path, done, policyAssignmentPath) {
+        policyAssignmentPath = policyAssignmentPath || c.policyAssignmentPath;
         // mandatory check
         if (component_path == null || done == null) {
             if (done) done(false, "deletePolicyAllocation failed! mandatory parameter(s) missing!");
             return;
         }
         jQuery.ajax({
-            url: c.policyAssignmentPath+component_path,
+            url: policyAssignmentPath + component_path,
             method: "POST",
             data: {
                 ":operation": "delete"
