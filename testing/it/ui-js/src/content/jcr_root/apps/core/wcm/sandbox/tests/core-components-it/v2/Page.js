@@ -26,6 +26,8 @@ window.CQ.CoreComponentsIT.v2.Page = window.CQ.CoreComponentsIT.v2.Page || {}
     var pageV1 = window.CQ.CoreComponentsIT.v1.Page;
     var pageV2 = window.CQ.CoreComponentsIT.v2.Page;
 
+    var configuration = "/conf/we-retail";
+
     /**
      * Test: Check the Advanced Configuration option of a page properties.
      */
@@ -37,7 +39,7 @@ window.CQ.CoreComponentsIT.v2.Page = window.CQ.CoreComponentsIT.v2.Page || {}
         // open the new page in the sites
             .navigateTo("/sites.html%testPagePath%")
 
-            .execTestCase(openPageProperties)
+            .execTestCase(pageV1.openPageProperties)
 
             /***** Insert information for 'Settings' *****/
 
@@ -64,7 +66,7 @@ window.CQ.CoreComponentsIT.v2.Page = window.CQ.CoreComponentsIT.v2.Page || {}
 
             //save the configuration and open again the page property
             .click("coral-buttongroup button:contains('Save & Close')")
-            .execTestCase(openPageProperties)
+            .execTestCase(pageV1.openPageProperties)
             .click("coral-tab-label:contains('Advanced')", {delay: 1000})
 
             //check the configuration
