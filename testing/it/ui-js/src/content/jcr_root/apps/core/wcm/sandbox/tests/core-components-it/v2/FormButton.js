@@ -27,7 +27,7 @@
      * v2 specifics
      */
 
-    var itemSelector = ".cmp-form-button__button"
+    var buttonSelector = ".cmp-form-button__button"
 
     var tcExecuteBeforeTest = formButtonV1.tcExecuteBeforeTest(c.rtFormButton_v2, "core/wcm/sandbox/tests/components/test-page-v2");
     var tcExecuteAfterTest = formButtonV1.tcExecuteAfterTest();
@@ -39,9 +39,9 @@
         execBefore:c.tcExecuteBeforeTestSuite,
         execInNewWindow : false})
 
-        .addTestCase(formButtonV1.checkDefaultButtonAttributes(itemSelector,tcExecuteBeforeTest, tcExecuteAfterTest))
-        .addTestCase(formButtonV1.createButton(itemSelector, tcExecuteBeforeTest, tcExecuteAfterTest))
-        .addTestCase(formButtonV1.setButtonText(itemSelector, tcExecuteBeforeTest, tcExecuteAfterTest))
+        .addTestCase(formButtonV1.checkDefaultButtonAttributes(buttonSelector,tcExecuteBeforeTest, tcExecuteAfterTest))
+        .addTestCase(formButtonV1.createButton(buttonSelector, tcExecuteBeforeTest, tcExecuteAfterTest))
+        .addTestCase(formButtonV1.setButtonText(buttonSelector, tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(formButtonV1.setButtonName(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(formButtonV1.setButtonValue(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(formButtonV1.setButtonValueWithoutName(tcExecuteBeforeTest, tcExecuteAfterTest))

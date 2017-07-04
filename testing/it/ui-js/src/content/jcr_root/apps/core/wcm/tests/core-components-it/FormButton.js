@@ -63,7 +63,7 @@ window.CQ.CoreComponentsIT.v1.FormButton = window.CQ.CoreComponentsIT.v1.FormBut
     /**
      * Test: Check the attributes of the default button rendered without any customisations via the edit dialog
      */
-    formButton.checkDefaultButtonAttributes = function(itemSelector, tcExecuteBeforeTest, tcExecuteAfterTest) {
+    formButton.checkDefaultButtonAttributes = function(buttonSelector, tcExecuteBeforeTest, tcExecuteAfterTest) {
         return new h.TestCase("Check Default Button Attributes", {
             execBefore: tcExecuteBeforeTest,
             execAfter: tcExecuteAfterTest
@@ -71,11 +71,11 @@ window.CQ.CoreComponentsIT.v1.FormButton = window.CQ.CoreComponentsIT.v1.FormBut
 
             //check that the type of button should be "submit"
             .asserts.isTrue(function () {
-                return h.find(itemSelector+"[type='submit']", "#ContentFrame").size() === 1
+                return h.find(buttonSelector+"[type='submit']", "#ContentFrame").size() === 1
             })
             //check that the title on the button should be "Submit"
             .asserts.isTrue(function () {
-                return h.find(itemSelector, "#ContentFrame").text().trim() == "Submit"
+                return h.find(buttonSelector, "#ContentFrame").text().trim() == "Submit"
             })
         ;
     };
@@ -83,7 +83,7 @@ window.CQ.CoreComponentsIT.v1.FormButton = window.CQ.CoreComponentsIT.v1.FormBut
     /**
      * Test: Create a button
      */
-    formButton.createButton = function(itemSelector, tcExecuteBeforeTest, tcExecuteAfterTest) {
+    formButton.createButton = function(buttonSelector, tcExecuteBeforeTest, tcExecuteAfterTest) {
         return new h.TestCase("Create a Button", {
             execBefore: tcExecuteBeforeTest,
             execAfter: tcExecuteAfterTest
@@ -101,7 +101,7 @@ window.CQ.CoreComponentsIT.v1.FormButton = window.CQ.CoreComponentsIT.v1.FormBut
 
             //Check if the button tag is rendered with the correct type
             .asserts.isTrue(function () {
-                return h.find(itemSelector+"[type='Button']", "#ContentFrame").size() === 1
+                return h.find(buttonSelector+"[type='Button']", "#ContentFrame").size() === 1
             })
         ;
     };
@@ -109,7 +109,7 @@ window.CQ.CoreComponentsIT.v1.FormButton = window.CQ.CoreComponentsIT.v1.FormBut
     /**
      * Test: Set button text
      */
-    formButton.setButtonText = function(itemSelector, tcExecuteBeforeTest, tcExecuteAfterTest){
+    formButton.setButtonText = function(buttonSelector, tcExecuteBeforeTest, tcExecuteAfterTest){
         return new h.TestCase("Set Button Text",{
             execBefore: tcExecuteBeforeTest,
             execAfter: tcExecuteAfterTest})
@@ -123,7 +123,7 @@ window.CQ.CoreComponentsIT.v1.FormButton = window.CQ.CoreComponentsIT.v1.FormBut
 
             //Check if the button tag is rendered with the correct type
             .asserts.isTrue(function() {
-                return h.find(itemSelector,"#ContentFrame").text().trim() === "Test Button"
+                return h.find(buttonSelector,"#ContentFrame").text().trim() === "Test Button"
             })
         ;
     };
@@ -198,7 +198,7 @@ window.CQ.CoreComponentsIT.v1.FormButton = window.CQ.CoreComponentsIT.v1.FormBut
     /**
      * v1 specifics
      */
-    var itemSelector =".btn"
+    var buttonSelector =".btn"
 
     var tcExecuteBeforeTest = formButton.tcExecuteBeforeTest(c.rtFormButton);
     var tcExecuteAfterTest = formButton.tcExecuteAfterTest();
@@ -210,9 +210,9 @@ window.CQ.CoreComponentsIT.v1.FormButton = window.CQ.CoreComponentsIT.v1.FormBut
         execBefore:c.tcExecuteBeforeTestSuite,
         execInNewWindow : false})
 
-        .addTestCase(formButton.checkDefaultButtonAttributes(itemSelector, tcExecuteBeforeTest, tcExecuteAfterTest))
-        .addTestCase(formButton.createButton(itemSelector,tcExecuteBeforeTest, tcExecuteAfterTest))
-        .addTestCase(formButton.setButtonText(itemSelector,tcExecuteBeforeTest, tcExecuteAfterTest))
+        .addTestCase(formButton.checkDefaultButtonAttributes(buttonSelector, tcExecuteBeforeTest, tcExecuteAfterTest))
+        .addTestCase(formButton.createButton(buttonSelector,tcExecuteBeforeTest, tcExecuteAfterTest))
+        .addTestCase(formButton.setButtonText(buttonSelector,tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(formButton.setButtonName(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(formButton.setButtonValue(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(formButton.setButtonValueWithoutName(tcExecuteBeforeTest, tcExecuteAfterTest))

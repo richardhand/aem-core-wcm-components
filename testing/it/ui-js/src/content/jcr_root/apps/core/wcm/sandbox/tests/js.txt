@@ -21,6 +21,7 @@ core-components-it/v2/FormButton.js
 core-components-it/v2/FormOptions.js
 core-components-it/v2/FormText.js
 core-components-it/v2/FormComponents.js
+core-components-it/v2/FormHidden.js
 core-components-it/v2/Breadcrumb.js
 core-components-it/v2/Title.js
 core-components-it/v2/Text.js
