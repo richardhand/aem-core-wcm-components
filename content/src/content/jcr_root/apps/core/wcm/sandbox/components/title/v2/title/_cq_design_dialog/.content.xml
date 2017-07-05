@@ -117,7 +117,7 @@
                     <styletab
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/coral/foundation/include"
-                        path="/mnt/overlay/core/wcm/components/commons/style/v2/style/cq:design_dialog/content/items/tabs/items/styletab"/>
+                        path="/mnt/overlay/cq/gui/components/authoring/dialog/style/tab_design/styletab"/>
                 </items>
             </tabs>
         </items>
