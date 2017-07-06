@@ -25,7 +25,8 @@ import java.util.List;
 public interface Navigation {
 
     /**
-     * Name of the resource / configuration policy property that defines the site's root for which to build the navigation tree.
+     * Name of the resource / configuration policy property that defines the site's root for which to build the navigation tree. The
+     * property should provide a String value.
      *
      * @since com.adobe.cq.wcm.core.components.sandbox.models 1.0.0
      */
@@ -46,6 +47,14 @@ public interface Navigation {
      * @since com.adobe.cq.wcm.core.components.sandbox.models 1.0.0
      */
     String PN_MAX_DEPTH = "maxDepth";
+
+    /**
+     * Name of the resource / configuration policy property that defines if the collected items should only be from the current page's
+     * tree structure (i.e. only child pages that have a common parent with the current page).
+     *
+     * @since com.adobe.cq.wcm.core.components.sandbox.models 1.2.0
+     */
+    String PN_CURRENT_PAGE_TREE_ONLY = "currentPageTreeOnly";
 
     /**
      * Returns the list of navigation items.

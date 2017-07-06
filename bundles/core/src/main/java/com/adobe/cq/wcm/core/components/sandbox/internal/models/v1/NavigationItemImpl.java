@@ -16,26 +16,41 @@
 package com.adobe.cq.wcm.core.components.sandbox.internal.models.v1;
 
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
+import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.adobe.cq.wcm.core.components.sandbox.models.NavigationItem;
 import com.day.cq.wcm.api.Page;
+import com.day.cq.wcm.api.PageManager;
 
 public class NavigationItemImpl extends com.adobe.cq.wcm.core.components.internal.models.v1.NavigationItemImpl implements NavigationItem {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(NavigationItemImpl.class);
+
+    public static final String PN_REDIRECT_TARGET = "redirectTarget";
 
     protected SlingHttpServletRequest request;
     protected List<NavigationItem> children = Collections.emptyList();
     protected int level;
 
+    private String url;
 
     public NavigationItemImpl(Page page, boolean active, SlingHttpServletRequest request, int level, List<NavigationItem> children) {
         super(page, active);
         this.request = request;
         this.level = level;
         this.children = children;
+        Page redirectTarget = getRedirectTarget(page);
+        if (redirectTarget != null && !redirectTarget.equals(page)) {
+            this.page = redirectTarget;
+        }
     }
 
     @Override
@@ -45,15 +60,36 @@ public class NavigationItemImpl extends com.adobe.cq.wcm.core.components.interna
 
     @Override
     public String getURL() {
-        String url = page.getVanityUrl();
-        if (StringUtils.isEmpty(url)) {
-            url = page.getPath() + ".html";
+        if (url == null) {
+            url = page.getVanityUrl();
+            if (StringUtils.isEmpty(url)) {
+                url = page.getPath() + ".html";
+            }
+            url = request.getContextPath() + url;
         }
-        return request.getContextPath() + url;
+        return url;
     }
 
     @Override
     public int getLevel() {
         return level;
+    }
+
+    private Page getRedirectTarget(@Nonnull Page page) {
+        Page result = page;
+        String redirectTarget = null;
+        PageManager pageManager = page.getPageManager();
+        Set<String> redirectCandidates = new LinkedHashSet<>();
+        redirectCandidates.add(page.getPath());
+        while (result != null && StringUtils.isNotEmpty((redirectTarget = result.getProperties().get(PN_REDIRECT_TARGET, String.class)))) {
+            result = pageManager.getPage(redirectTarget);
+            if (result != null) {
+                if (!redirectCandidates.add(result.getPath())) {
+                    LOGGER.warn("Detected redirect loop for the following pages: {}.", redirectCandidates.toString());
+                    break;
+                }
+            }
+        }
+        return result;
     }
 }
