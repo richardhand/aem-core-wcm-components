@@ -56,12 +56,17 @@ public class NavigationImplTest {
     private static final String CONTEXT_PATH = "/core";
     private static final String TEST_ROOT = "/content/navigation";
     private static final String NAV_COMPONENT_1 = TEST_ROOT + "/jcr:content/root/navigation-component-1";
-    private static final String NAV_COMPONENT_2 = TEST_ROOT + "/navigation-1/c-navigation-1/jcr:content/root/navigation-component-2";
+    private static final String NAV_COMPONENT_2 = TEST_ROOT + "/navigation-1/navigation-1-1/jcr:content/root/navigation-component-2";
     private static final String NAV_COMPONENT_3 = TEST_ROOT +
-            "/navigation-1/c-navigation-1/cc-navigation-2/ccc-navigation-3/jcr:content/root/navigation-component-3";
+            "/navigation-1/navigation-1-1/navigation-1-1-2/navigation-1-1-2-3/jcr:content/root/navigation-component-3";
     private static final String NAV_COMPONENT_4 = TEST_ROOT + "/navigation-2/jcr:content/root/navigation-component-4";
     private static final String NAV_COMPONENT_5 = TEST_ROOT + "/navigation-2/jcr:content/root/navigation-component-5";
     private static final String NAV_COMPONENT_6 = TEST_ROOT + "/navigation-2/jcr:content/root/navigation-component-6";
+    private static final String NAV_COMPONENT_7 = TEST_ROOT + "/navigation-1/navigation-1-1/jcr:content/root/navigation-component-7";
+    private static final String NAV_COMPONENT_8 =
+            TEST_ROOT + "/navigation-1/navigation-1-1/navigation-1-1-2/navigation-1-1-2-3/jcr:content/root/navigation-component-8";
+    private static final String NAV_COMPONENT_IN_TEMPLATE =
+            "/conf/coretest/settings/wcm/templates/template-1/structure/jcr:content/root/navigation";
 
     private static final ContentPolicyManager contentPolicyManager = mock(ContentPolicyManager.class);
 
@@ -80,11 +85,15 @@ public class NavigationImplTest {
         Object[][] expectedPages = {
                 {"/content/navigation", 0, true, "/content/navigation.html"},
                 {"/content/navigation/navigation-1", 1, false, "/navigation-1-vanity"},
-                {"/content/navigation/navigation-1/c-navigation-1", 2, false, "/content/navigation/navigation-1/c-navigation-1.html"},
-                {"/content/navigation/navigation-1/c-navigation-1/cc-navigation-1", 3, false, "/content/navigation/navigation-1/c-navigation-1/cc-navigation-1.html"},
-                {"/content/navigation/navigation-1/c-navigation-1/cc-navigation-2", 3, false, "/content/navigation/navigation-1/c-navigation-1/cc-navigation-2.html"},
-                {"/content/navigation/navigation-1/c-navigation-1/cc-navigation-2/ccc-navigation-1", 4, false, "/content/navigation/navigation-1/c-navigation-1/cc-navigation-2/ccc-navigation-1.html"},
-                {"/content/navigation/navigation-1/c-navigation-1/cc-navigation-2/ccc-navigation-3", 4, false, "/content/navigation/navigation-1/c-navigation-1/cc-navigation-2/ccc-navigation-3.html"},
+                {"/content/navigation/navigation-1/navigation-1-1", 2, false, "/content/navigation/navigation-1/navigation-1-1.html"},
+                {"/content/navigation/navigation-1/navigation-1-1/navigation-1-1-1", 3, false,
+                        "/content/navigation/navigation-1/navigation-1-1/navigation-1-1-1.html"},
+                {"/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2", 3, false,
+                        "/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2.html"},
+                {"/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2/navigation-1-1-2-2/navigation-1-1-2-2-1", 4, false,
+                        "/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2/navigation-1-1-2-2/navigation-1-1-2-2-1.html"},
+                {"/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2/navigation-1-1-2-3", 4, false,
+                        "/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2/navigation-1-1-2-3.html"},
                 {"/content/navigation/navigation-2", 1, false, "/content/navigation/navigation-2.html"}
         };
         verifyNavigationItems(expectedPages, items);
@@ -96,7 +105,7 @@ public class NavigationImplTest {
         Map<String, NavigationItem> items = getNavigationItems(navigation);
         Object[][] expectedPages = {
                 {"/content/navigation/navigation-1", 0, true, "/navigation-1-vanity"},
-                {"/content/navigation/navigation-1/c-navigation-1", 1, true, "/content/navigation/navigation-1/c-navigation-1.html"},
+                {"/content/navigation/navigation-1/navigation-1-1", 1, true, "/content/navigation/navigation-1/navigation-1-1.html"},
         };
         verifyNavigationItems(expectedPages, items);
     }
@@ -107,7 +116,7 @@ public class NavigationImplTest {
         Map<String, NavigationItem> items = getNavigationItems(navigation);
         Object[][] expectedPages = {
                 {"/content/navigation/navigation-1", 0, true, "/navigation-1-vanity"},
-                {"/content/navigation/navigation-1/c-navigation-1", 1, true, "/content/navigation/navigation-1/c-navigation-1.html"},
+                {"/content/navigation/navigation-1/navigation-1-1", 1, true, "/content/navigation/navigation-1/navigation-1-1.html"},
         };
         verifyNavigationItems(expectedPages, items);
     }
@@ -115,7 +124,7 @@ public class NavigationImplTest {
     @Test
     public void testNavigationNoRoot() {
         Navigation navigation = getNavigationUnderTest(NAV_COMPONENT_4);
-        assertEquals("Didn't expect any navigation items.",0, navigation.getItems().size());
+        assertEquals("Didn't expect any navigation items.", 0, navigation.getItems().size());
     }
 
     @Test
@@ -123,11 +132,15 @@ public class NavigationImplTest {
         Navigation navigation = getNavigationUnderTest(NAV_COMPONENT_5);
         Map<String, NavigationItem> items = getNavigationItems(navigation);
         Object[][] expectedPages = {
-                {"/content/navigation/navigation-1/c-navigation-1", 0, false, "/content/navigation/navigation-1/c-navigation-1.html"},
-                {"/content/navigation/navigation-1/c-navigation-1/cc-navigation-1", 1, false, "/content/navigation/navigation-1/c-navigation-1/cc-navigation-1.html"},
-                {"/content/navigation/navigation-1/c-navigation-1/cc-navigation-2", 1, false, "/content/navigation/navigation-1/c-navigation-1/cc-navigation-2.html"},
-                {"/content/navigation/navigation-1/c-navigation-1/cc-navigation-2/ccc-navigation-1", 2, false, "/content/navigation/navigation-1/c-navigation-1/cc-navigation-2/ccc-navigation-1.html"},
-                {"/content/navigation/navigation-1/c-navigation-1/cc-navigation-2/ccc-navigation-3", 2, false, "/content/navigation/navigation-1/c-navigation-1/cc-navigation-2/ccc-navigation-3.html"},
+                {"/content/navigation/navigation-1/navigation-1-1", 0, false, "/content/navigation/navigation-1/navigation-1-1.html"},
+                {"/content/navigation/navigation-1/navigation-1-1/navigation-1-1-1", 1, false,
+                        "/content/navigation/navigation-1/navigation-1-1/navigation-1-1-1.html"},
+                {"/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2", 1, false,
+                        "/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2.html"},
+                {"/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2/navigation-1-1-2-2/navigation-1-1-2-2-1", 2, false,
+                        "/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2/navigation-1-1-2-2/navigation-1-1-2-2-1.html"},
+                {"/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2/navigation-1-1-2-3", 2, false,
+                        "/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2/navigation-1-1-2-3.html"},
         };
         verifyNavigationItems(expectedPages, items);
     }
@@ -136,6 +149,49 @@ public class NavigationImplTest {
     public void testNavigationStartGreaterThanMax() {
         Navigation navigation = getNavigationUnderTest(NAV_COMPONENT_6);
         assertNull("Didn't expect a model for an invalid configured component.", navigation);
+    }
+
+    @Test
+    public void testPartialNavigationTreeNotOnlyCurrentPage() {
+        Navigation navigation = getNavigationUnderTest(NAV_COMPONENT_7);
+        Map<String, NavigationItem> items = getNavigationItems(navigation);
+        Object[][] expectedPages = {
+                {"/content/navigation/navigation-1", 0, true, "/navigation-1-vanity"},
+                {"/content/navigation/navigation-1/navigation-1-1", 1, true, "/content/navigation/navigation-1/navigation-1-1.html"},
+                {"/content/navigation/navigation-2", 0, false, "/content/navigation/navigation-2.html"}
+        };
+        verifyNavigationItems(expectedPages, items);
+    }
+
+    @Test
+    public void testPartialNavigationTreeContentPolicyNotOnlyCurrentPage() {
+        Navigation navigation = getNavigationUnderTest(NAV_COMPONENT_8);
+        Map<String, NavigationItem> items = getNavigationItems(navigation);
+        Object[][] expectedPages = {
+                {"/content/navigation/navigation-1", 0, true, "/navigation-1-vanity"},
+                {"/content/navigation/navigation-1/navigation-1-1", 1, true, "/content/navigation/navigation-1/navigation-1-1.html"},
+                {"/content/navigation/navigation-2", 0, false, "/content/navigation/navigation-2.html"}
+        };
+        verifyNavigationItems(expectedPages, items);
+    }
+
+    @Test
+    public void testCollectionOnTemplate() {
+        Navigation navigation = getNavigationUnderTest(NAV_COMPONENT_IN_TEMPLATE);
+        Map<String, NavigationItem> items = getNavigationItems(navigation);
+        Object[][] expectedPages = {
+                {"/content/navigation/navigation-1", 0, false, "/navigation-1-vanity"},
+                {"/content/navigation/navigation-1/navigation-1-1", 1, false, "/content/navigation/navigation-1/navigation-1-1.html"},
+                {"/content/navigation/navigation-1/navigation-1-1/navigation-1-1-1", 2, false,
+                        "/content/navigation/navigation-1/navigation-1-1/navigation-1-1-1.html"},
+                {"/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2", 2, false,
+                        "/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2.html"},
+                {"/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2/navigation-1-1-2-2/navigation-1-1-2-2-1", 3, false,
+                        "/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2/navigation-1-1-2-2/navigation-1-1-2-2-1.html"},
+                {"/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2/navigation-1-1-2-3", 3, false,
+                        "/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2/navigation-1-1-2-3.html"}
+        };
+        verifyNavigationItems(expectedPages, items);
     }
 
     private Navigation getNavigationUnderTest(String resourcePath) {

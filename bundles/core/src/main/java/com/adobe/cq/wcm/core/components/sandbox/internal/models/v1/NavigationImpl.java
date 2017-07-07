@@ -32,6 +32,7 @@ import org.apache.sling.models.annotations.injectorspecific.Self;
 import com.adobe.cq.wcm.core.components.internal.Constants;
 import com.adobe.cq.wcm.core.components.sandbox.models.Navigation;
 import com.adobe.cq.wcm.core.components.sandbox.models.NavigationItem;
+import com.day.cq.wcm.api.NameConstants;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageFilter;
 import com.day.cq.wcm.api.PageManager;
@@ -61,6 +62,7 @@ public class NavigationImpl implements Navigation {
     private int startLevel;
     private int maxDepth;
     private String siteRoot;
+    private boolean currentPageTreeOnly;
     private Page rootPage;
     private List<NavigationItem> items;
 
@@ -69,6 +71,7 @@ public class NavigationImpl implements Navigation {
         startLevel = properties.get(PN_CONTENT_START_LEVEL, currentStyle.get(PN_CONTENT_START_LEVEL, 0));
         maxDepth = properties.get(PN_MAX_DEPTH, currentStyle.get(PN_MAX_DEPTH, -1));
         siteRoot = properties.get(PN_SITE_ROOT, currentStyle.get(PN_SITE_ROOT, String.class));
+        currentPageTreeOnly = properties.get(PN_CURRENT_PAGE_TREE_ONLY, currentStyle.get(PN_CURRENT_PAGE_TREE_ONLY, true));
         if (startLevel > 0 && maxDepth > -1 && maxDepth < startLevel) {
             throw new IllegalStateException(
                     "The value of the " + PN_MAX_DEPTH + " property is smaller than " + PN_CONTENT_START_LEVEL + ".");
@@ -80,17 +83,23 @@ public class NavigationImpl implements Navigation {
         if (items == null) {
             PageManager pageManager = currentPage.getPageManager();
             rootPage = pageManager.getPage(siteRoot);
-            if (rootPage != null && currentPage.getPath().startsWith(rootPage.getPath())) {
+            if (rootPage != null) {
                 int rootPageLevel = getLevel(rootPage);
                 startLevel += rootPageLevel;
                 if (maxDepth > -1) {
                     maxDepth += rootPageLevel;
                 }
-                Page navigationRoot = currentPage.getAbsoluteParent(startLevel);
-                if (navigationRoot == null) {
-                    navigationRoot = rootPage;
+                Page navigationRoot = rootPage;
+                if (currentPageTreeOnly && currentPage.getPath().startsWith(rootPage.getPath() + "/")) {
+                    navigationRoot = currentPage.getAbsoluteParent(startLevel);
+                    if (navigationRoot == null) {
+                        navigationRoot = rootPage;
+                    }
                 }
-                items = getItems(navigationRoot);
+                // check if we're on a template
+                String template = currentPage.getProperties().get(NameConstants.PN_TEMPLATE, String.class);
+                boolean inTemplate = StringUtils.isNotEmpty(template) && currentPage.getPath().startsWith(template);
+                items = getItems(inTemplate, navigationRoot);
                 if (startLevel == getLevel(navigationRoot)) {
                     boolean isSelected =
                             currentPage.equals(navigationRoot) || currentPage.getPath().startsWith(navigationRoot.getPath() + "/");
@@ -106,16 +115,20 @@ public class NavigationImpl implements Navigation {
         return items;
     }
 
-    private List<NavigationItem> getItems(Page root) {
+    private List<NavigationItem> getItems(boolean inTemplate, Page root) {
         List<NavigationItem> pages = new ArrayList<>();
         if (maxDepth == -1 || getLevel(root) < maxDepth) {
             Iterator<Page> it = root.listChildren(new PageFilter());
             while (it.hasNext()) {
                 Page page = it.next();
-                List<NavigationItem> children = getItems(page);
+                int level = getLevel(page) - startLevel;
+                if (level <= 0 && inTemplate && pages.size() > 0) {
+                    break;
+                }
+                List<NavigationItem> children = getItems(inTemplate, page);
                 if (getLevel(page) >= startLevel) {
                     boolean isSelected = currentPage.equals(page) || currentPage.getPath().startsWith(page.getPath() + "/");
-                    pages.add(new NavigationItemImpl(page, isSelected, request, getLevel(page) - startLevel, children));
+                    pages.add(new NavigationItemImpl(page, isSelected, request, level, children));
                 } else {
                     // keep the children found below
                     if (children.size() > 0) {

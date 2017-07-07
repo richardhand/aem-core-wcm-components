@@ -28,7 +28,7 @@
     </parent>
 
     <artifactId>core.wcm.components.sandbox.bundle</artifactId>
-    <version>0.0.11-SNAPSHOT</version>
+    <version>0.0.13-SNAPSHOT</version>
     <packaging>bundle</packaging>
 
     <name>Adobe Experience Manager Core WCM Components Core Bundle - Sandbox</name>
