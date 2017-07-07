@@ -20,7 +20,7 @@ core-components-suites/FormText.js
 core-components-suites/FormContainer.js
 core-components-suites/FormHidden.js
 core-components-suites/FormComponents.js
-core-components-suites/Breadcrumb-suite.js
+core-components-suites/Breadcrumb.js
 core-components-suites/Title.js
 core-components-suites/Text.js
 core-components-suites/List.js

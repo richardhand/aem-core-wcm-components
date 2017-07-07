@@ -939,6 +939,7 @@ window.CQ.CoreComponentsIT.v1.Page = window.CQ.CoreComponentsIT.v1.Page || {}
             .click("coral-actionbar-item:contains('Detach') button")
             .click(".coral-Button--warning:contains('Detach')")
 
+            .wait(1000)
             // delete the test page we created for live copy
             .execFct(function (opts, done) {
                 c.deletePage(h.param("testLiveCopyPagePath")(opts), done);
