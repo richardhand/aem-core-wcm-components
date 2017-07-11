@@ -476,7 +476,7 @@
                             </column>
                         </items>
                     </cloudservices>
-                    <translationservices
+                    <translationcloudservices
                         cq:showOnCreate="{Boolean}false"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Translation Services"
@@ -496,7 +496,7 @@
                                     </items>
                                 </column>
                             </items>
-                    </translationservices>
+                    </translationcloudservices>
                     <personalization
                         cq:showOnCreate="{Boolean}false"
                         jcr:primaryType="nt:unstructured"
