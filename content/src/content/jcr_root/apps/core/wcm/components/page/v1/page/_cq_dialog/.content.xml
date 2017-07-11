@@ -476,6 +476,27 @@
                             </column>
                         </items>
                     </cloudservices>
+                    <translationcloudservices
+                        cq:showOnCreate="{Boolean}false"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Translation Services"
+                        sling:resourceType="granite/ui/components/foundation/section">
+                        <layout
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"
+                            margin="{Boolean}false"/>
+                            <items jcr:primaryType="nt:unstructured">
+                                <column
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/foundation/container">
+                                    <items jcr:primaryType="nt:unstructured">
+                                        <configurations
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="cq/translation/cloudserviceconfigs/components/configurations"/>
+                                    </items>
+                                </column>
+                            </items>
+                    </translationcloudservices>
                     <personalization
                         cq:showOnCreate="{Boolean}false"
                         jcr:primaryType="nt:unstructured"
