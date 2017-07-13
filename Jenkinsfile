@@ -106,11 +106,18 @@ SproutConfig config = new SproutConfig()
 
 // calculate code coverage
 config.setComputeCoverage(true)
+config.setComputeReleaseCoverage(true)
+
 // only for the PRIVATE_master branch
 config.setCoverageCriteria([new Branch(/^PRIVATE_master$/)])
+config.setReleaseCoverageCriteria([new Branch(/^PRIVATE_master$/)])
+
 // the prefix for the sonar dashboards
-config.setSonarSnapshotPrefix('CORE-COMPONENT-SPROUT-PRIVATE_MASTER-SNAPSHOT-')
-config.setSonarReleasePrefix('CORE-COMPONENT-SPROUT-PRIVATE_MASTER-RELEASE-')
+config.setSonarSnapshotPrefix('CORE-COMPONENT-SPROUT-PRIVATE_MASTER-')
+config.setSonarReleasePrefix('CORE-COMPONENT-SPROUT-PRIVATE_MASTER-')
+
+// Report Sprout stats to elasticsearch
+config.getElasticsearchReporting().setEnable(true)
 
 // the modules to build
 config.setModules([componentsCore, componentsContent, componentsConfig, componentsAll, componentsItUi,
