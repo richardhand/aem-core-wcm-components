@@ -601,10 +601,10 @@ window.CQ.CoreComponentsIT.v1.Page = window.CQ.CoreComponentsIT.v1.Page || {}
                 return h.find("coral-tab.is-selected coral-tab-label:contains('Cloud Services')").size() === 1
             })
 
-            .click("span:contains('Add Configuration')")
-            .click("coral-selectlist span:contains('Facebook Connect')")
-            .click("span:contains('Add Configuration')")
-            .click("coral-selectlist span:contains('Twitter Connect')")
+            .click(".cq-CloudServices-container span:contains('Add Configuration')")
+            .click("coral-selectlist-item span:contains('Facebook Connect')")
+            .click(".cq-CloudServices-container span:contains('Add Configuration')")
+            .click("coral-selectlist-item span:contains('Twitter Connect')")
             //detele the Twitter Connect
             .click("button[data-title='Twitter Connect']")
 
