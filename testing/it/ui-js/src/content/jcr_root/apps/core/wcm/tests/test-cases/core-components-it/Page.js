@@ -602,11 +602,11 @@ window.CQ.CoreComponentsIT.v1.Page = window.CQ.CoreComponentsIT.v1.Page || {}
             })
 
             .click(".cq-CloudServices-container span:contains('Add Configuration')")
-            .click("coral-selectlist-item span:contains('Facebook Connect')")
+            .click("coral-selectlist-item span:contains('Cloud Proxy Configuration')")
+            //detele the connection
+            .click("button[data-title='Cloud Proxy Configuration']")
             .click(".cq-CloudServices-container span:contains('Add Configuration')")
-            .click("coral-selectlist-item span:contains('Twitter Connect')")
-            //detele the Twitter Connect
-            .click("button[data-title='Twitter Connect']")
+            .click("coral-selectlist-item span:contains('Cloud Proxy Configuration')")
 
             /*****  Check if the date is saved *****/
 
@@ -616,7 +616,7 @@ window.CQ.CoreComponentsIT.v1.Page = window.CQ.CoreComponentsIT.v1.Page || {}
             .click("coral-tab-label:contains('Cloud Services')", {delay: 1000})
 
             .assert.isTrue(function () {
-                return h.find("coral-select[name='./cq:cloudserviceconfigs'] span:contains('We.Retail Facebook Social Login')").size() === 1
+                return h.find("coral-select[name='./cq:cloudserviceconfigs'] span:contains('IDS worker')").size() === 1
             });
     };
 
