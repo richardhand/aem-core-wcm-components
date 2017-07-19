@@ -3,7 +3,7 @@
     jcr:primaryType="nt:unstructured"
     jcr:title="Title"
     sling:resourceType="cq/gui/components/authoring/dialog"
-    extraClientlibs="[core.wcm.components.title.v2.editor,core.wcm.components.commons.style.v2.editor]"
+    extraClientlibs="[core.wcm.components.title.v2.editor]"
     helpPath="https://www.adobe.com/go/aem_cmp_title_v2">
     <content
         jcr:primaryType="nt:unstructured"
