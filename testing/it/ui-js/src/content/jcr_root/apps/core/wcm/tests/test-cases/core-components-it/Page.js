@@ -924,8 +924,8 @@ window.CQ.CoreComponentsIT.v1.Page = window.CQ.CoreComponentsIT.v1.Page || {}
 
             //check the Resume button
             .click("coral-tab-label:contains('Live Copy')", {delay: 1000})
-            .click("coral-actionbar-item:contains('Resume') button")
-            .click(".coral-Button--warning:contains('Resume')")
+            .click("coral-actionbar-item:contains('Resume') button", {delay: 1000})
+            .click(".coral-Button--warning:contains('Resume')", {delay: 1000})
 
             .click("coral-tab-label:contains('Live Copy')", {delay: 1000})
             .click("coral-actionbar-item:contains('Suspend') button")
