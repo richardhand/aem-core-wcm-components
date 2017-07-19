@@ -18,7 +18,7 @@ package com.adobe.cq.wcm.core.components.sandbox.models;
 import java.util.List;
 
 /**
- * Defines the {@code Breadcrumb} Sling Model used for the {@code /apps/core/wcm/components/navigation} component.
+ * Defines the {@code Navigation} Sling Model used for the {@code /apps/core/wcm/components/navigation} component.
  *
  * @since com.adobe.cq.wcm.core.components.sandbox.models 1.0.0
  */
