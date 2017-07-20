@@ -160,4 +160,21 @@
             .assert.exist('.cmp-navigation__list-item.cmp-navigation__list-item--level-2:contains("Page 1.1.3")', false);
     };
 
+    navigation.testMaxDepthAndStartLevel = function (tcExecuteBeforeTest, tcExecuteAfterTest) {
+        return new TestCase('Check maxDepth and startLevel', {
+            execBefore: tcExecuteBeforeTest,
+            execAfter : tcExecuteAfterTest
+        })
+            .execTestCase(c.tcOpenConfigureDialog('cmpPath'))
+            .fillInput('foundation-autocomplete[name="./siteRoot"]', '%page_1%')
+            .fillInput('coral-numberinput[name="./startLevel"]', "2")
+            // uncheck
+            .click('coral-checkbox.cmp-navigation__editor-collect')
+            .fillInput('coral-numberinput[name="./maxDepth"]', "1")
+            .execTestCase(c.tcSaveConfigureDialog)
+            .assert.isTrue(function () {
+                return h.find('coral-numberinput[name="./maxDepth"]').prop('invalid') === true;
+            });
+    };
+
 }(hobs, jQuery));

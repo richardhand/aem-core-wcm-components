@@ -18,18 +18,20 @@
 
     var COLLECT_ALL_PAGES_SELECTOR = 'coral-checkbox.cmp-navigation__editor-collect',
         MAX_DEPTH_SELECTOR = '.cmp-navigation__editor-maxDepth',
-        MAX_DEPTH_INPUT_SELECTOR = '.cmp-navigation__editor-maxDepth > coral-numberinput[name="./maxDepth"]';
+        MAX_DEPTH_CORAL_NUMBERINPUT_SELECTOR = MAX_DEPTH_SELECTOR + ' > coral-numberinput[name="./maxDepth"]',
+        MAX_DEPTH_INPUT_SELECTOR = MAX_DEPTH_SELECTOR + ' input[name="./maxDepth"]',
+        START_LEVEL_INPUT_SELECTOR = '.cmp-navigation__editor-startLevel input[name="./startLevel"]';
 
     function toggleInputs(collectAllPages) {
         if (collectAllPages) {
             if (collectAllPages.checked) {
                 $(MAX_DEPTH_SELECTOR).addClass('hide');
-                $(MAX_DEPTH_INPUT_SELECTOR).val(-1);
+                $(MAX_DEPTH_CORAL_NUMBERINPUT_SELECTOR).val(-1);
             } else {
                 $(MAX_DEPTH_SELECTOR).removeClass('hide');
             }
         } else {
-            var maxDepth = $(MAX_DEPTH_INPUT_SELECTOR).val();
+            var maxDepth = $(MAX_DEPTH_CORAL_NUMBERINPUT_SELECTOR).val();
             if (maxDepth === '-1') {
                 $(COLLECT_ALL_PAGES_SELECTOR).prop('checked', true);
                 $(MAX_DEPTH_SELECTOR).addClass('hide');
@@ -45,4 +47,22 @@
     $(document).on('change', COLLECT_ALL_PAGES_SELECTOR, function(e) {
         toggleInputs(e.target);
     });
+
+    $(window).adaptTo('foundation-registry').register('foundation.validation.validator', {
+        selector: MAX_DEPTH_CORAL_NUMBERINPUT_SELECTOR,
+        validate: function(el) {
+            var maxDepth = parseInt($(MAX_DEPTH_INPUT_SELECTOR).val());
+            if (isNaN(maxDepth)) {
+                return;
+            }
+            var startLevel = parseInt($(START_LEVEL_INPUT_SELECTOR).val());
+            if (isNaN(startLevel)) {
+                return;
+            }
+            if (startLevel > 0 && maxDepth > -1 && maxDepth < startLevel) {
+                return 'The "Maximum depth level" has to have a higher value than the "Start level".'
+            }
+        }
+    });
+
 })(jQuery);
