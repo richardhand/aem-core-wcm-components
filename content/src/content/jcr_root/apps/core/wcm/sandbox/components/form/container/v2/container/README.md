@@ -40,6 +40,11 @@ The following properties are written to JCR for this Form Container component an
 4. `./redirect` - if left empty the form will be rendered after submission, otherwise the user will be redirected to the page stored by this
 property
 
+## BEM description
+```
+BLOCK cmp-form
+```
+
 ## Information
 * **Vendor**: Adobe
 * **Version**: v2 - sandbox

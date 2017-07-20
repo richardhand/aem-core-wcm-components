@@ -16,8 +16,7 @@
 <div data-sly-use.image="com.adobe.cq.wcm.core.components.models.Image"
      data-sly-use.templates="core/wcm/sandbox/components/commons/v2/templates.html"
      data-sly-test="${image.src}"
-     data-sly-unwrap="${wcmmode.disabled}"
-     class="cq-dd-image">
+     class="cmp-image${!wcmmode.disabled ? ' cq-dd-image' : ''}">
     <a data-sly-unwrap="${!image.link}"
        class="cmp-image__link"
        href="${image.link}"
@@ -31,4 +30,4 @@
     </a>
     <span class="cmp-image__title" data-sly-test="${!image.displayPopupTitle && image.title}">${image.title}</span>
 </div>
-<sly data-sly-call="${templates.placeholder @ isEmpty = !image.src, classAppend = 'cq-dd-image'}"></sly>
+<sly data-sly-call="${templates.placeholder @ isEmpty = !image.src, classAppend = 'cmp-image cq-dd-image'}"></sly>

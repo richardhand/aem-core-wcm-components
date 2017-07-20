@@ -27,11 +27,11 @@
      * v2 specifics
      */
     var itemSelector ={
-        help: '.cmp-form-options__help-block',
-        checkbox: '.cmp-form-options__form-group-checkbox',
-        radio: '.cmp-form-options__form-group-radio',
-        dropDown: '.cmp-form-options__form-group-drop-down',
-        multiDropDown: '.cmp-form-options__form-group-multi-drop-down'
+        help: '.cmp-form-options__help-message',
+        checkbox: '.cmp-form-options__field--checkbox',
+        radio: '.cmp-form-options__field--radio',
+        dropDown: '.cmp-form-options__field--drop-down',
+        multiDropDown: '.cmp-form-options__field--multi-drop-down'
     };
     var tcExecuteBeforeTest = formOptionsV1.tcExecuteBeforeTest(c.rtFormOptions_v2, "core/wcm/sandbox/tests/components/test-page-v2");
     var tcExecuteAfterTest = formOptionsV1.tcExecuteAfterTest();

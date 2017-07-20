@@ -38,6 +38,20 @@ The following properties are written to JCR for this Form Options component and 
 7. `./items` - defines the option items, if the `source` property is set to `local`
 8 `./helpMessage` - defines a help message that can be rendered in the field as a hint for the user
 
+## BEM description
+```
+BLOCK cmp-form-options
+    ELEMENT cmp-form-options__legend
+    ELEMENT cmp-form-options__field-label
+    ELEMENT cmp-form-options__field
+        MOD cmp-form-options__field--checkbox
+        MOD cmp-form-options__field--radio
+    ELEMENT cmp-form-options__label
+    ELEMENT cmp-form-options__drop-down-field
+    ELEMENT cmp-form-options__multi-drop-down-field
+    ELEMENT cmp-form-options__help-message
+```
+
 ## Information
 * **Vendor**: Adobe
 * **Version**: v2 - sandbox

@@ -28,6 +28,15 @@ Navigation component written in HTL.
 
 ### Edit dialog properties
 
+## BEM description
+```
+BLOCK cmp-navigation
+    ELEMENT cmp-navigation__group
+    ELEMENT cmp-navigation__item
+        MOD cmp-navigation__item--active
+        MOD cmp-navigation__item--level-*
+    ELEMENT cmp-navigation__item-link
+```
 
 ## Information
 * **Vendor**: Adobe

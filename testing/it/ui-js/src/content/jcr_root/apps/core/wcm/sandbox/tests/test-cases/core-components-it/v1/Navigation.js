@@ -130,13 +130,13 @@
             .execTestCase(c.tcSaveConfigureDialog)
             .config.changeContext(c.getContentFrame)
             .assert.exist(
-                '.cmp-navigation__list-item.cmp-navigation__list-item--level-0.cmp-navigation__list-item--active:contains("Page 1")')
+                '.cmp-navigation__item.cmp-navigation__item--level-0.cmp-navigation__item--active:contains("Page 1")')
             .assert.exist(
-                '.cmp-navigation__list-item.cmp-navigation__list-item--level-1.cmp-navigation__list-item--active:contains("Page 1.1")')
-            .assert.exist('a.cmp-navigation__list-item-link[href$="/page_1_1_vanity"]')
-            .assert.exist('.cmp-navigation__list-item.cmp-navigation__list-item--level-2:contains("Page 1.1.1")')
-            .assert.exist('.cmp-navigation__list-item.cmp-navigation__list-item--level-2:contains("Page 1.1.2")', false)
-            .assert.exist('.cmp-navigation__list-item.cmp-navigation__list-item--level-2:contains("Page 1.1.3")');
+                '.cmp-navigation__item.cmp-navigation__item--level-1.cmp-navigation__item--active:contains("Page 1.1")')
+            .assert.exist('a.cmp-navigation__item-link[href$="/page_1_1_vanity"]')
+            .assert.exist('.cmp-navigation__item.cmp-navigation__item--level-2:contains("Page 1.1.1")')
+            .assert.exist('.cmp-navigation__item.cmp-navigation__item--level-2:contains("Page 1.1.2")', false)
+            .assert.exist('.cmp-navigation__item.cmp-navigation__item--level-2:contains("Page 1.1.3")');
     };
 
     navigation.testChangeMaxDepthLevel = function (tcExecuteBeforeTest, tcExecuteAfterTest) {
@@ -152,12 +152,12 @@
             .execTestCase(c.tcSaveConfigureDialog)
             .config.changeContext(c.getContentFrame)
             .assert.exist(
-                '.cmp-navigation__list-item.cmp-navigation__list-item--level-0.cmp-navigation__list-item--active:contains("Page 1")')
+                '.cmp-navigation__item.cmp-navigation__item--level-0.cmp-navigation__item--active:contains("Page 1")')
             .assert.exist(
-                '.cmp-navigation__list-item.cmp-navigation__list-item--level-1.cmp-navigation__list-item--active:contains("Page 1.1")')
-            .assert.exist('.cmp-navigation__list-item.cmp-navigation__list-item--level-2:contains("Page 1.1.1")', false)
-            .assert.exist('.cmp-navigation__list-item.cmp-navigation__list-item--level-2:contains("Page 1.1.2")', false)
-            .assert.exist('.cmp-navigation__list-item.cmp-navigation__list-item--level-2:contains("Page 1.1.3")', false);
+                '.cmp-navigation__item.cmp-navigation__item--level-1.cmp-navigation__item--active:contains("Page 1.1")')
+            .assert.exist('.cmp-navigation__item.cmp-navigation__item--level-2:contains("Page 1.1.1")', false)
+            .assert.exist('.cmp-navigation__item.cmp-navigation__item--level-2:contains("Page 1.1.2")', false)
+            .assert.exist('.cmp-navigation__item.cmp-navigation__item--level-2:contains("Page 1.1.3")', false);
     };
 
     navigation.testMaxDepthAndStartLevel = function (tcExecuteBeforeTest, tcExecuteAfterTest) {

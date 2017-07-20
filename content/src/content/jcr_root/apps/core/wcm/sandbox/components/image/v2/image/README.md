@@ -102,6 +102,14 @@ Publish:
 /content/<project_path>/<page_path>/<component_path>/<component_name>.img.<width>.<extension>
 ```
 
+## BEM description
+```
+BLOCK cmp-image
+    ELEMENT cmp-image__link
+    ELEMENT cmp-image__image
+    ELEMENT cmp-image__title
+```
+
 ## Information
 * **Vendor**: Adobe
 * **Version**: v2 - sandbox

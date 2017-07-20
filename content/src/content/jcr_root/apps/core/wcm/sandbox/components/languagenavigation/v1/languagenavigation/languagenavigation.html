@@ -13,9 +13,11 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<nav data-sly-use.commonsTemplates="core/wcm/sandbox/components/commons/v2/templates.html"
+<nav class="cmp-languagenavigation"
+     data-sly-use.commonsTemplates="core/wcm/sandbox/components/commons/v2/templates.html"
      data-sly-use.languageNavigation="com.adobe.cq.wcm.core.components.sandbox.models.LanguageNavigation"
+     data-sly-test.hasContent="${languageNavigation.items.size > 0}"
      data-sly-use.groupTemplate="group.html"
      data-sly-call="${groupTemplate.group @ items=languageNavigation.items}">
 </nav>
-<sly data-sly-call="${commonsTemplates.placeholder @ isEmpty=languageNavigation.items.size == 0}"></sly>
+<sly data-sly-call="${commonsTemplates.placeholder @ isEmpty = !hasContent, classAppend='cmp-languagenavigation'}"></sly>

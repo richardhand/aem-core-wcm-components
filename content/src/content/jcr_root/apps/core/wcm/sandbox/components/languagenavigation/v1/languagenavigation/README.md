@@ -34,6 +34,20 @@ The following properties are written to JCR for the Language Navigation componen
 1. `./siteRoot` - defines the site root from which to list children
 2. `./structureDepth` - defines the depth of the global language structure relative to the site root
 
+## BEM description
+```
+BLOCK cmp-languagenavigation
+    ELEMENT cmp-languagenavigation__group
+    ELEMENT cmp-languagenavigation__item
+        MOD cmp-languagenavigation__item--active
+        MOD cmp-languagenavigation__item--countrycode-*
+        MOD cmp-languagenavigation__item--langcode-*
+        MOD cmp-languagenavigation__item--level-*
+    ELEMENT cmp-languagenavigation__item-content
+    ELEMENT cmp-languagenavigation__item-link
+    ELEMENT cmp-languagenavigation__item-title
+```
+
 ## Information
 * **Vendor**: Adobe
 * **Version**: v1 - sandbox

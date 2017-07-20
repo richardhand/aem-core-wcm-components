@@ -39,6 +39,13 @@ The following properties are written to JCR for this Breadcrumb component and ar
 2. `./showHidden` - if set to `true`, this breadcrumb component will also render hidden navigation items
 3. `./hideCurrent` - if set to `true`, the current page will be skipped by this breadcrumb component
 
+## BEM description
+```
+BLOCK cmp-breadcrumb
+    ELEMENT cmp-breadcrumb__item
+    ELEMENT cmp-breadcrumb__item-link
+```
+
 ## Information
 * **Vendor**: Adobe
 * **Version**: v2 - sandbox

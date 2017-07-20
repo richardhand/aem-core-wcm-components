@@ -27,7 +27,7 @@
      * v2 specifics
      */
 
-    var buttonSelector = ".cmp-form-button__button"
+    var buttonSelector = ".cmp-form-button";
 
     var tcExecuteBeforeTest = formButtonV1.tcExecuteBeforeTest(c.rtFormButton_v2, "core/wcm/sandbox/tests/components/test-page-v2");
     var tcExecuteAfterTest = formButtonV1.tcExecuteAfterTest();

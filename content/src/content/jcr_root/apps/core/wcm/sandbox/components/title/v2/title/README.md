@@ -38,6 +38,12 @@ The following properties are written to JCR for this Title component and are exp
 2. `./type` - will store the HTML heading element type which will be used for rendering; if no value is defined, the component will fallback
 to the value defined by the component's policy
 
+## BEM description
+```
+BLOCK cmp-title
+    ELEMENT cmp-title__text
+```
+
 ## Information
 * **Vendor**: Adobe
 * **Version**: v2 - sandbox

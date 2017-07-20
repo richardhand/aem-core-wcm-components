@@ -22,6 +22,10 @@
     // shortcuts
     var c = window.CQ.CoreComponentsIT.commons;
     var textV1 = window.CQ.CoreComponentsIT.v1.Text;
+    var selectors = {
+        editor: '.text.aem-GridColumn p',
+        rendered: '.cmp-text > p'
+    };
 
     /**
      * v1 specifics
@@ -36,5 +40,5 @@
         execBefore:c.tcExecuteBeforeTestSuite,
         execInNewWindow : false})
 
-        .addTestCase(textV1.tcSetTextValueUsingInlineEditor(tcExecuteBeforeTest, tcExecuteAfterTest));
+        .addTestCase(textV1.tcSetTextValueUsingInlineEditor(selectors, tcExecuteBeforeTest, tcExecuteAfterTest));
 }(hobs, jQuery));

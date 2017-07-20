@@ -48,6 +48,14 @@ The following properties are written to JCR for this Form Text component and are
 10. `./requiredMessage` - defines the message displayed as tooltip when submitting the form if the value is left empty
 11. `./readOnly` - if set to `true`, the filed will be read only
 
+## BEM description
+```
+BLOCK cmp-form-text
+    ELEMENT cmp-form-text__help-block
+    ELEMENT cmp-form-text__textarea
+    ELEMENT cmp-form-text__text
+```
+
 ## Information
 * **Vendor**: Adobe
 * **Version**: v2 - sandbox

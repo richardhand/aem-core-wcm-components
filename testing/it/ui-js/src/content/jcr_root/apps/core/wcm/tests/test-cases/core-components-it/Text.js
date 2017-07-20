@@ -62,7 +62,7 @@ window.CQ.CoreComponentsIT.v1.Text = window.CQ.CoreComponentsIT.v1.Text || {}
     /**
      * Test: Check if text is stored/rendered correctly using the inline editor
      */
-    text.tcSetTextValueUsingInlineEditor = function(tcExecuteBeforeTest, tcExecuteAfterTest) {
+    text.tcSetTextValueUsingInlineEditor = function(selectors, tcExecuteBeforeTest, tcExecuteAfterTest) {
         return new h.TestCase('Set text using inline editor',{
             execBefore: tcExecuteBeforeTest,
             execAfter: tcExecuteAfterTest})
@@ -75,7 +75,7 @@ window.CQ.CoreComponentsIT.v1.Text = window.CQ.CoreComponentsIT.v1.Text || {}
 
             // set the example text
             .execFct(function() {
-                h.find('.cmp-text.aem-GridColumn p').html(testValue);
+                h.find(selectors.editor).html(testValue);
             })
 
             // switch back to edit frame
@@ -90,7 +90,7 @@ window.CQ.CoreComponentsIT.v1.Text = window.CQ.CoreComponentsIT.v1.Text || {}
             // check if the text is rendered
             .assert.isTrue(
             function() {
-                var actualValue = h.find('.cmp-text.aem-GridColumn  p').html();
+                var actualValue = h.find(selectors.rendered).html();
                 return actualValue === testValue;
             })
 
@@ -106,7 +106,7 @@ window.CQ.CoreComponentsIT.v1.Text = window.CQ.CoreComponentsIT.v1.Text || {}
             // check again if the text is still there
             .assert.isTrue(
             function() {
-                var actualValue = h.find('.cmp-text.aem-GridColumn  p').html();
+                var actualValue = h.find(selectors.rendered).html();
                 return actualValue === testValue;
             });
     };

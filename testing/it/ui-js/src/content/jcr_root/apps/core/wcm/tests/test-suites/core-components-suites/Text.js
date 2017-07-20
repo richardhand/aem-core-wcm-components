@@ -28,6 +28,10 @@
      */
     var tcExecuteBeforeTest = text.tcExecuteBeforeTest(c.rtText)
     var tcExecuteAfterTest = text.tcExecuteAfterTest();
+    var selectors = {
+        editor: '.cmp-text.aem-GridColumn p',
+        rendered: '.cmp-text.aem-GridColumn p'
+    };
 
     /**
      * The main test suite for Text Component
@@ -36,5 +40,5 @@
         execBefore:c.tcExecuteBeforeTestSuite,
         execInNewWindow : false})
 
-        .addTestCase(text.tcSetTextValueUsingInlineEditor(tcExecuteBeforeTest, tcExecuteAfterTest));
+        .addTestCase(text.tcSetTextValueUsingInlineEditor(selectors, tcExecuteBeforeTest, tcExecuteAfterTest));
 }(hobs, jQuery));

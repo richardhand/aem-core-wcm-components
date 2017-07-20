@@ -30,6 +30,11 @@ The following properties are written to JCR for this Form Button component and a
 2. `./name` - defines the name of the button, which will be submitted with the form data
 3. `./value` - defines the value of the button, which will be submitted with the form data
 
+## BEM description
+```
+BLOCK cmp-form-button
+```
+
 ## Information
 * **Vendor**: Adobe
 * **Version**: v2 - sandbox

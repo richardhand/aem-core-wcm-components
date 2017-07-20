@@ -304,7 +304,7 @@
             .execTestCase(c.tcSaveConfigureDialog)
             .config.changeContext(c.getContentFrame)
             .assert.exist(selectors.component.item.self, false)
-            .assert.exist(selectors.component.self + " " + selectors.component.placeholder)
+            .assert.exist(selectors.component.placeholder + selectors.component.self)
     };
 
 }(hobs, jQuery));

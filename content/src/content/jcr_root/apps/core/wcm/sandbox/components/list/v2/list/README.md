@@ -63,6 +63,15 @@ last modification date of the item; possible values: `title`, `modified`
 14. `./showDescription` - if set to `true` each item's description will be rendered
 15. `./showModificationDate` - if set to `true` each item's last modification date will be rendered
 
+## BEM description
+```
+BLOCK cmp-list
+    ELEMENT cmp-list__item
+    ELEMENT cmp-list__item-link
+    ELEMENT cmp-list__item-title
+    ELEMENT cmp-list__item-date
+```
+
 ## Information
 * **Vendor**: Adobe
 * **Version**: v2 - sandbox
