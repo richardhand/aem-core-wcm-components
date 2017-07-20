@@ -22,7 +22,7 @@ import java.util.Locale;
 import org.osgi.annotation.versioning.ConsumerType;
 
 /**
- * Interface for a single language switcher item, used by the {@link LanguageSwitcher} model.
+ * Interface for a single language navigation item, used by the {@link LanguageNavigation} model.
  */
 @ConsumerType
 public interface LocalizedNavigationItem extends com.adobe.cq.wcm.core.components.sandbox.models.NavigationItem {
@@ -30,7 +30,7 @@ public interface LocalizedNavigationItem extends com.adobe.cq.wcm.core.component
     /**
      * Returns the title of this {@code LocalizedNavigationItem}.
      *
-     * @return the title of this language switcher item
+     * @return the title of this language navigation item
      * @since com.adobe.cq.wcm.core.components.sandbox.models 1.3.0
      */
     default String getTitle() {
@@ -40,7 +40,7 @@ public interface LocalizedNavigationItem extends com.adobe.cq.wcm.core.component
     /**
      * Returns the locale of this {@code LocalizedNavigationItem}.
      *
-     * @return the locale of the language switcher item
+     * @return the locale of the language navigation item
      * @since com.adobe.cq.wcm.core.components.sandbox.models 1.3.0
      */
     default Locale getLocale() {
@@ -50,7 +50,7 @@ public interface LocalizedNavigationItem extends com.adobe.cq.wcm.core.component
     /**
      * Returns the country of this {@code LocalizedNavigationItem}.
      *
-     * @return the country of the language switcher item
+     * @return the country of the language navigation item
      * @since com.adobe.cq.wcm.core.components.sandbox.models 1.3.0
      */
     default String getCountry() {
@@ -60,7 +60,7 @@ public interface LocalizedNavigationItem extends com.adobe.cq.wcm.core.component
     /**
      * Returns the language of this {@code LocalizedNavigationItem}.
      *
-     * @return the language of the language switcher item
+     * @return the language of the language navigation item
      * @since com.adobe.cq.wcm.core.components.sandbox.models 1.3.0
      */
     default String getLanguage() {
