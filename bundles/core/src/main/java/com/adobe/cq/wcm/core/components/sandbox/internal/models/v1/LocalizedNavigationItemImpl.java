@@ -40,7 +40,6 @@ public class LocalizedNavigationItemImpl extends NavigationItemImpl implements L
 
     public LocalizedNavigationItemImpl(Page page, boolean active, SlingHttpServletRequest request, int level, List<NavigationItem> children, String title) {
         super(page, active, request, level, children);
-        this.page = page;
         this.title = title;
     }
 
