@@ -16,7 +16,7 @@
 <template data-sly-template.itemContent="${@ item='The language navigation item'}">
     <span class="cmp-languagenavigation__item-content">
         <a data-sly-unwrap="${item.children.size > 0}" href="${item.URL}" hreflang="${item.language}" rel="alternate" title="${item.title}" class="cmp-languagenavigation__item-link">
-            <span class="cmp-languagenavigation__item-title">${item.title}</span>
+            <span class="cmp-languagenavigation__item-title" lang="${item.language}">${item.title}</span>
         </a>
     </span>
 </template>
