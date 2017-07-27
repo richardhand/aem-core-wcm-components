@@ -81,6 +81,7 @@ public class PageImpl implements Page {
     protected static final String DEFAULT_TEMPLATE_EDITOR_CLIENT_LIB = "wcm.foundation.components.parsys.allowedcomponents";
     protected static final String PN_CLIENTLIBS = "clientlibs";
 
+    @JsonIgnore
     protected Map<String, String> favicons = new HashMap<>();
 
     @PostConstruct
