@@ -104,7 +104,7 @@ public class LanguageNavigationImpl implements LanguageNavigation {
                 if (localizedPage != null) {
                     page = localizedPage;
                 }
-                pages.add(new LocalizedNavigationItemImpl(page, active, request, level, children, title));
+                pages.add(new LanguageNavigationItemImpl(page, active, request, level, children, title));
             }
         }
 

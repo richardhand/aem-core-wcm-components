@@ -41,9 +41,9 @@ public interface LanguageNavigation {
     String PN_STRUCTURE_DEPTH = "structureDepth";
 
     /**
-     * Returns the list of localized navigation items related to the current page.
+     * Returns the list of language navigation items related to the current page.
      *
-     * @return a list of localized navigation items related to the current page
+     * @return a list of language navigation items related to the current page
      * @since com.adobe.cq.wcm.core.components.sandbox.models 1.3.0
      */
     default List<NavigationItem> getItems() {

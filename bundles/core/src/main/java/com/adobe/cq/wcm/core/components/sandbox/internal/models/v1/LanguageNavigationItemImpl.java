@@ -25,20 +25,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.adobe.cq.wcm.core.components.sandbox.models.NavigationItem;
-import com.adobe.cq.wcm.core.components.sandbox.models.LocalizedNavigationItem;
+import com.adobe.cq.wcm.core.components.sandbox.models.LanguageNavigationItem;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 
-public class LocalizedNavigationItemImpl extends NavigationItemImpl implements LocalizedNavigationItem {
+public class LanguageNavigationItemImpl extends NavigationItemImpl implements LanguageNavigationItem {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LocalizedNavigationItemImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LanguageNavigationItemImpl.class);
 
     protected String title;
     protected Locale locale;
     protected String country;
     protected String language;
 
-    public LocalizedNavigationItemImpl(Page page, boolean active, SlingHttpServletRequest request, int level, List<NavigationItem> children, String title) {
+    public LanguageNavigationItemImpl(Page page, boolean active, SlingHttpServletRequest request, int level, List<NavigationItem> children, String title) {
         super(page, active, request, level, children);
         this.title = title;
     }

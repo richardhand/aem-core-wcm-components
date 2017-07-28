@@ -30,7 +30,7 @@ import org.mockito.Matchers;
 import com.adobe.cq.sightly.WCMBindings;
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
 import com.adobe.cq.wcm.core.components.sandbox.models.LanguageNavigation;
-import com.adobe.cq.wcm.core.components.sandbox.models.LocalizedNavigationItem;
+import com.adobe.cq.wcm.core.components.sandbox.models.LanguageNavigationItem;
 import com.adobe.cq.wcm.core.components.sandbox.models.NavigationItem;
 import com.adobe.cq.wcm.core.components.testing.MockContentPolicyStyle;
 import com.day.cq.wcm.api.Page;
@@ -185,7 +185,7 @@ public class LanguageNavigationImplTest {
         assertEquals("The language navigation items contain a different number of pages than expected.", expectedPages.length, items.size());
         int index = 0;
         while (items.size() > index) {
-            LocalizedNavigationItem item = (LocalizedNavigationItem)items.get(index);
+            LanguageNavigationItem item = (LanguageNavigationItem)items.get(index);
             assertTrue("The language navigation items don't seem to have the correct order.", expectedPages[index][0].equals(item.getPage()
                     .getPath()));
             assertEquals("The language navigation item's title is not what was expected: " + item.getPage()

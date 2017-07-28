@@ -25,43 +25,43 @@ import org.osgi.annotation.versioning.ConsumerType;
  * Interface for a single language navigation item, used by the {@link LanguageNavigation} model.
  */
 @ConsumerType
-public interface LocalizedNavigationItem extends com.adobe.cq.wcm.core.components.sandbox.models.NavigationItem {
+public interface LanguageNavigationItem extends com.adobe.cq.wcm.core.components.sandbox.models.NavigationItem {
 
     /**
-     * Returns the title of this {@code LocalizedNavigationItem}.
+     * Returns the title of this {@code LanguageNavigationItem}.
      *
      * @return the title of this language navigation item
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 1.3.0
+     * @since com.adobe.cq.wcm.core.components.sandbox.models 2.0.0
      */
     default String getTitle() {
         throw new UnsupportedOperationException();
     }
 
     /**
-     * Returns the locale of this {@code LocalizedNavigationItem}.
+     * Returns the locale of this {@code LanguageNavigationItem}.
      *
      * @return the locale of the language navigation item
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 1.3.0
+     * @since com.adobe.cq.wcm.core.components.sandbox.models 2.0.0
      */
     default Locale getLocale() {
         throw new UnsupportedOperationException();
     }
 
     /**
-     * Returns the country of this {@code LocalizedNavigationItem}.
+     * Returns the country of this {@code LanguageNavigationItem}.
      *
      * @return the country of the language navigation item
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 1.3.0
+     * @since com.adobe.cq.wcm.core.components.sandbox.models 2.0.0
      */
     default String getCountry() {
         throw new UnsupportedOperationException();
     }
 
     /**
-     * Returns the language of this {@code LocalizedNavigationItem}.
+     * Returns the language of this {@code LanguageNavigationItem}.
      *
      * @return the language of the language navigation item
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 1.3.0
+     * @since com.adobe.cq.wcm.core.components.sandbox.models 2.0.0
      */
     default String getLanguage() {
         throw new UnsupportedOperationException();
