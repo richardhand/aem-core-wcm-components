@@ -63,4 +63,14 @@ public interface Page extends com.adobe.cq.wcm.core.components.models.Page {
         throw new UnsupportedOperationException();
     };
 
+    /**
+     * Returns the CSS classes defined for the page
+     *
+     * @return {@link String} containing the CSS classes defined for the page, if one class exists, {@code null} otherwise
+     * @since com.adobe.cq.wcm.core.components.sandbox.models 1.4.0
+     */
+    default String getCssClassNames() {
+        throw new UnsupportedOperationException();
+    };
+
 }

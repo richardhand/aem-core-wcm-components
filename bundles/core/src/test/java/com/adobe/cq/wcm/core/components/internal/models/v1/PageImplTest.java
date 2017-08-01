@@ -20,10 +20,16 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
+import com.google.common.base.Function;
+
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.testing.mock.sling.servlet.MockSlingHttpServletRequest;
@@ -32,10 +38,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Matchers;
 
+import com.day.cq.wcm.api.components.ComponentContext;
 import com.adobe.cq.sightly.WCMBindings;
+import com.adobe.cq.wcm.core.components.testing.MockAdapterFactory;
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
 import com.adobe.cq.wcm.core.components.testing.MockStyle;
 import com.adobe.cq.wcm.core.components.models.Page;
+import com.day.cq.wcm.api.policies.ContentPolicyManager;
 import com.day.cq.wcm.api.Template;
 import com.day.cq.wcm.api.designer.Design;
 import com.day.cq.wcm.api.designer.Designer;
@@ -71,12 +80,22 @@ public class PageImplTest {
     protected static final String PN_TOUCH_ICON_152 = "touchIcon152";
 
     protected Class<? extends Page> pageClass = Page.class;
+    protected ContentPolicyManager contentPolicyManager;
 
     @Rule
     public AemContext aemContext = CoreComponentTestContext.createContext("/page", ROOT);
 
     @Before
     public void setUp() {
+        aemContext.registerInjectActivateService(new MockAdapterFactory());
+        aemContext.registerAdapter(ResourceResolver.class, ContentPolicyManager.class,
+                new Function<ResourceResolver, ContentPolicyManager>() {
+                    @Nullable
+                    @Override
+                    public ContentPolicyManager apply(@Nullable ResourceResolver resolver) {
+                        return contentPolicyManager;
+                    }
+                });
         aemContext.load().json(TEST_BASE + "/test-conf.json", "/conf/coretest/settings");
         aemContext.load().binaryFile(TEST_BASE + "/" + FN_FAVICON_ICO, DESIGN_PATH + "/" + FN_FAVICON_ICO);
         aemContext.load().binaryFile(TEST_BASE + "/" + FN_FAVICON_PNG, DESIGN_PATH + "/" + FN_FAVICON_PNG);
@@ -177,7 +196,7 @@ public class PageImplTest {
         when(template.hasStructureSupport()).thenReturn(true);
         when(template.adaptTo(Resource.class)).thenReturn(templateResource);
         when(page.getTemplate()).thenReturn(template);
-
+        contentPolicyManager = mock(ContentPolicyManager.class);
         ContentPolicyMapping mapping = templateResource.getChild(POLICIES_MAPPING_PATH).adaptTo(ContentPolicyMapping.class);
         ContentPolicy contentPolicy = mapping.getPolicy();
         Style style;
@@ -185,19 +204,23 @@ public class PageImplTest {
         if (contentPolicy != null) {
             Resource contentPolicyResource = aemContext.resourceResolver().getResource(contentPolicy.getPath());
             style = new MockStyle(contentPolicyResource, contentPolicyResource.adaptTo(ValueMap.class));
-
+            when(contentPolicyManager.getPolicy(page.getContentResource())).thenReturn(contentPolicy);
         } else {
             style = mock(Style.class);
             when(style.get(anyString(), Matchers.anyObject())).thenAnswer(
                     invocationOnMock -> invocationOnMock.getArguments()[1]
             );
         }
+        ComponentContext componentContext = mock(ComponentContext.class);
+        Set<String> cssClassNames = new LinkedHashSet<>(Arrays.asList("class1", "class2"));
+        when(componentContext.getCssClassNames()).thenReturn(cssClassNames);
         slingBindings.put(WCMBindings.CURRENT_STYLE, style);
         slingBindings.put(SlingBindings.RESOLVER, aemContext.request().getResourceResolver());
         slingBindings.put(WCMBindings.CURRENT_PAGE, page);
         slingBindings.put(WCMBindings.PAGE_MANAGER, aemContext.pageManager());
         slingBindings.put(SlingBindings.RESOURCE, resource);
         slingBindings.put(WCMBindings.PAGE_PROPERTIES, page.getProperties());
+        slingBindings.put(WCMBindings.COMPONENT_CONTEXT, componentContext);
         MockSlingHttpServletRequest request = aemContext.request();
         request.setContextPath(CONTEXT_PATH);
         request.setResource(resource);

@@ -6,43 +6,54 @@
     helpPath="https://www.adobe.com/go/aem_cmp_page_v2">
     <content
         jcr:primaryType="nt:unstructured"
-        sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns">
+        sling:resourceType="granite/ui/components/coral/foundation/container">
         <items jcr:primaryType="nt:unstructured">
-            <inner
+            <tabs
                 jcr:primaryType="nt:unstructured"
-                sling:resourceType="granite/ui/components/coral/foundation/container">
+                sling:resourceType="granite/ui/components/coral/foundation/tabs">
                 <items jcr:primaryType="nt:unstructured">
-                    <heading
+                    <properties
                         jcr:primaryType="nt:unstructured"
-                        sling:resourceType="granite/ui/components/coral/foundation/heading"
-                        class="coral-Heading coral-Heading--4"
-                        level="{Long}4"
-                        text="Client-Side Libraries"/>
-                    <well
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="granite/ui/components/coral/foundation/well">
+                        jcr:title="Properties"
+                        sling:resourceType="granite/ui/components/coral/foundation/container"
+                        margin="{Boolean}true">
                         <items jcr:primaryType="nt:unstructured">
-                            <clientlibs
+                            <heading
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
-                                class="foundation-layout-util-maximized-alt">
-                                <field
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                    name="./clientlibs"
-                                    required="{Boolean}true"/>
-                            </clientlibs>
+                                sling:resourceType="granite/ui/components/coral/foundation/heading"
+                                level="{Long}4"
+                                text="Client-Side Libraries"/>
+                            <well
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/well">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <clientlibs
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                        class="foundation-layout-util-maximized-alt">
+                                        <field
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                            name="./clientlibs"
+                                            required="{Boolean}true"/>
+                                    </clientlibs>
+                                </items>
+                            </well>
+                            <faviconClientLib
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                name="./faviconClientLib"
+                                emptyText="core.wcm.components.page.v2.favicon"
+                                fieldLabel="Favicon Client-Side Library"
+                                required="{Boolean}false"/>
                         </items>
-                    </well>
-                    <faviconClientLib
+                    </properties>
+                    <styletab
                         jcr:primaryType="nt:unstructured"
-                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                        name="./faviconClientLib"
-                        emptyText="core.wcm.components.page.v2.favicon"
-                        fieldLabel="Favicon Client-Side Library"
-                        required="{Boolean}false"/>
+                        sling:resourceType="granite/ui/components/coral/foundation/include"
+                        path="/mnt/overlay/cq/gui/components/authoring/dialog/style/tab_design/styletab"/>
                 </items>
-            </inner>
+            </tabs>
         </items>
     </content>
 </jcr:root>
