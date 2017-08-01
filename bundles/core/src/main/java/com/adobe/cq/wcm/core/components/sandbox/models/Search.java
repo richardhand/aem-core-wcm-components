@@ -13,8 +13,21 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
-@Version("2.2.0")
 package com.adobe.cq.wcm.core.components.sandbox.models;
 
-import org.osgi.annotation.versioning.Version;
+/**
+ * Defines the {@code Search} Sling Model used for the {@code /apps/core/wcm/components/search} component.
+ *
+ * @since com.adobe.cq.wcm.core.components.sandbox.models 2.1.0
+ */
+public interface Search {
+
+    /**
+     * Name of the resource / configuration policy property that defines the site root from which to search
+     * for results. The property should provide a String value.
+     *
+     * @since com.adobe.cq.wcm.core.components.sandbox.models 2.1.0
+     */
+    String PN_SITE_ROOT = "siteRoot";
+
+}
