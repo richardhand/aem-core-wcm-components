@@ -15,32 +15,64 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.sandbox.internal.models.v1;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
+import javax.jcr.RepositoryException;
+import javax.jcr.Session;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.SyntheticResource;
 import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.api.wrappers.ValueMapDecorator;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.OSGiService;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 import org.apache.sling.models.annotations.injectorspecific.Self;
+import org.apache.sling.models.annotations.injectorspecific.SlingObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.adobe.cq.wcm.core.components.internal.Constants;
 import com.adobe.cq.wcm.core.components.sandbox.models.Search;
+import com.day.cq.search.PredicateConverter;
+import com.day.cq.search.PredicateGroup;
+import com.day.cq.search.Query;
+import com.day.cq.search.QueryBuilder;
+import com.day.cq.search.result.Hit;
+import com.day.cq.search.result.SearchResult;
 import com.day.cq.wcm.api.Page;
+import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.api.designer.Style;
 
 @Model(adaptables = SlingHttpServletRequest.class,
-        adapters = Search.class,
-        resourceType = {SearchImpl.RESOURCE_TYPE})
+       adapters = Search.class,
+       resourceType = {SearchImpl.RESOURCE_TYPE})
 @Exporter(name = Constants.EXPORTER_NAME,
-        extensions = Constants.EXPORTER_EXTENSION)
+          extensions = Constants.EXPORTER_EXTENSION)
 public class SearchImpl implements Search {
 
-    public static final String RESOURCE_TYPE = "core/wcm/sandbox/components/search/v1/search";
+    protected static final String RESOURCE_TYPE = "core/wcm/sandbox/components/search/v1/search";
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SearchImpl.class);
+
+    protected static final int PROP_START_LEVEL_DEFAULT = 2;
 
     @Self
     private SlingHttpServletRequest request;
+
+    @SlingObject
+    private ResourceResolver resourceResolver;
+
+    @OSGiService
+    private QueryBuilder queryBuilder;
 
     @ScriptVariable
     private Page currentPage;
@@ -51,7 +83,78 @@ public class SearchImpl implements Search {
     @ScriptVariable
     private Style currentStyle;
 
+    private PageManager pageManager;
+    private String path;
+
     @PostConstruct
     private void initModel() {
+        pageManager = resourceResolver.adaptTo(PageManager.class);
+        int startLevel = properties.get(PN_START_LEVEL, currentStyle.get(PN_START_LEVEL, PROP_START_LEVEL_DEFAULT));
+        path = calculatePath(startLevel);
     }
+
+    private String calculatePath(int startLevel) {
+        Page tmpPage = currentPage;
+        while (tmpPage.getDepth() > startLevel) {
+            tmpPage = tmpPage.getParent();
+        }
+        return tmpPage.getPath();
+    }
+
+    @Override
+    public String getPath() {
+        return path;
+    }
+
+    @Override
+    public List<Resource> getResults() {
+        SearchResult searchResult = getSearchResult(request.getParameterMap(), resourceResolver);
+        return searchResult.getHits().stream().map(this::populateItem).filter(Objects::nonNull).collect(Collectors.toList());
+    }
+
+    @SuppressWarnings("unchecked")
+    private Resource populateItem(final Hit hit) {
+        try {
+            final String title = getHitTitle(hit);
+            final String path = getHitPath(hit);
+
+            if (StringUtils.isNotEmpty(title) && StringUtils.isNotEmpty(path)) {
+                return new SyntheticResource(null, (String) null, null) {
+                    public <T> T adaptTo(Class<T> type) {
+                        if (type == ValueMap.class) {
+                            ValueMap m = new ValueMapDecorator(new HashMap<>());
+                            m.put("title", title);
+                            m.put("path", path);
+                            return (T) m;
+                        }
+                        return super.adaptTo(type);
+                    }
+                };
+            }
+        } catch (RepositoryException e) {
+            LOGGER.error(e.getMessage());
+        }
+        return null;
+    }
+
+    private String getHitTitle(Hit hit) throws RepositoryException {
+        ValueMap vm = hit.getResource().getValueMap();
+        return vm.get("jcr:content/jcr:title", vm.get("jcr:title", hit.getResource().getName()));
+    }
+
+    private String getHitPath(Hit hit) throws RepositoryException {
+        Page page = pageManager.getContainingPage(hit.getResource());
+        if (page != null) {
+            return page.getPath();
+        }
+        return null;
+    }
+
+    private SearchResult getSearchResult(Map predicateParameters, ResourceResolver resolver) {
+        PredicateGroup predicates = PredicateConverter.createPredicates(predicateParameters);
+        Query query = queryBuilder.createQuery(predicates, resolver.adaptTo(Session.class));
+        return query.getResult();
+    }
+
+
 }

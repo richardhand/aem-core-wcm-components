@@ -15,6 +15,12 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.sandbox.models;
 
+import java.util.*;
+
+import javax.jcr.RepositoryException;
+
+import org.apache.sling.api.resource.Resource;
+
 /**
  * Defines the {@code Search} Sling Model used for the {@code /apps/core/wcm/components/search} component.
  *
@@ -23,11 +29,15 @@ package com.adobe.cq.wcm.core.components.sandbox.models;
 public interface Search {
 
     /**
-     * Name of the resource / configuration policy property that defines the site root from which to search
+     * Name of the resource / configuration policy property that defines the search level from which to search
      * for results. The property should provide a String value.
      *
      * @since com.adobe.cq.wcm.core.components.sandbox.models 2.1.0
      */
-    String PN_SITE_ROOT = "siteRoot";
+    String PN_START_LEVEL = "startLevel";
+
+    default String getPath() { throw new UnsupportedOperationException(); }
+
+    default java.util.List<Resource> getResults() { throw new UnsupportedOperationException(); }
 
 }

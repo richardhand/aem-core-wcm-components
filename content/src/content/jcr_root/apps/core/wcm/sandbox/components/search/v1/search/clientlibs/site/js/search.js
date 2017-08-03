@@ -18,7 +18,6 @@
 
     var DELAY = 300;
     var LIMIT = 7;
-    var TEMP_END_POINT = '/content/we-retail/us/en/_jcr_content/root/responsivegrid/search.mock.html';
 
     var keyCodes = {
         TAB: 9,
@@ -99,6 +98,7 @@
     function Search(config) {
         this._el = config.el;
         this._form = this._el.querySelector(selectors.form);
+        this._action = this._form.getAttribute('action');
         this._input = this._el.querySelector(selectors.input);
         this._clear = this._el.querySelector(selectors.clear);
         this._results = this._el.querySelector(selectors.results);
@@ -241,7 +241,7 @@
     Search.prototype._updateResults = function() {
         var self = this;
         var request = new XMLHttpRequest();
-        var url = TEMP_END_POINT + "?" + serialize(self._form);
+        var url = self._action + "?" + serialize(self._form);
 
         request.open('GET', url, true);
         request.onload = function() {
