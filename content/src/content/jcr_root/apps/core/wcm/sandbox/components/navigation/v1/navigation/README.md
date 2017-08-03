@@ -13,20 +13,36 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+
 Navigation (v1 - sandbox)
 ====
-Navigation component written in HTL.
+Navigation component written in HTL that renders a website navigation tree.
 
 ## Features
-* Start level
-* Max depth level
+* Can be used on both templates and pages
+* Defines a configurable site root, start level and max depth for allowing flexibility in building the navigation tree
+* Automatically filters out pages that should be hidden from navigation
+* Automatically handles redirect targets defined on pages
 
 
 ### Use Object
+The Navigation component uses the `com.adobe.cq.wcm.core.components.sandbox.models.Navigation` Sling model as its Use-object.
 
 ### Component policy configuration properties
+The following configuration properties are used:
+
+1. `./siteRoot` - defines the root of the website for which to build the navigation tree
+2. `./startLevel` - defines the start level, relative to the site root; the site root is level 0
+3. `./currentPageTreeOnly` - boolean value that enables collecting pages only from the current page's tree
+4. `./maxDepth` - defines the maximum depth level in the content tree for searching pages, relative to the site root
 
 ### Edit dialog properties
+The following properties are written to JCR for the Navigation component and are expected to be available as `Resource` properties:
+
+1. `./siteRoot` - defines the root of the website for which to build the navigation tree
+2. `./startLevel` - defines the start level, relative to the site root; the site root is level 0
+3. `./currentPageTreeOnly` - boolean value that enables collecting pages only from the current page's tree
+4. `./maxDepth` - defines the maximum depth level in the content tree for searching pages, relative to the site root
 
 ## BEM description
 ```
