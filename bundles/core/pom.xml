@@ -362,6 +362,7 @@
         <dependency>
             <groupId>org.apache.sling</groupId>
             <artifactId>org.apache.sling.models.api</artifactId>
+            <version>1.3.5-R1802505</version>
         </dependency>
         <dependency>
             <groupId>org.apache.sling</groupId>

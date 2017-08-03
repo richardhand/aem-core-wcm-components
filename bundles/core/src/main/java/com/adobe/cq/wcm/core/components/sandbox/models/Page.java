@@ -15,15 +15,23 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.sandbox.models;
 
+import java.util.Calendar;
 import java.util.Map;
 
+import com.adobe.cq.export.json.ComponentExporter;
+import com.adobe.cq.export.json.ContainerExporter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.osgi.annotation.versioning.ConsumerType;
+
+import javax.annotation.Nonnull;
 
 /**
  * Defines the {@code Page} Sling Model used for the {@code /apps/core/wcm/sandbox/components/page} component.
  */
 @ConsumerType
-public interface Page extends com.adobe.cq.wcm.core.components.models.Page {
+public interface Page extends com.adobe.cq.wcm.core.components.models.Page, ContainerExporter {
 
     /**
      * Category of client library to load favicon related resources
@@ -59,6 +67,7 @@ public interface Page extends com.adobe.cq.wcm.core.components.models.Page {
      *
      * @return path of the favicon clientlib
      */
+    @JsonIgnore
     default String getFaviconClientLibPath() {
         throw new UnsupportedOperationException();
     };
@@ -72,5 +81,35 @@ public interface Page extends com.adobe.cq.wcm.core.components.models.Page {
     default String getCssClassNames() {
         throw new UnsupportedOperationException();
     };
+
+    @Nonnull
+    @Override
+    default String[] getExportedItemsOrder() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Nonnull
+    @Override
+    default Map<String, ? extends ComponentExporter> getExportedItems() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Nonnull
+    @Override
+    default String getExportedType() {
+        throw new UnsupportedOperationException();
+    }
+
+    @JsonIgnore
+    @Override
+    default String[] getClientLibCategories() {
+        throw new UnsupportedOperationException();
+    }
+
+    @JsonIgnore
+    @Override
+    default String[] getKeywords() {
+        throw new UnsupportedOperationException();
+    }
 
 }
