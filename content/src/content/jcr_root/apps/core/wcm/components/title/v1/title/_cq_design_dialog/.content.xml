@@ -1,113 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="nt:unstructured"
     jcr:title="Title"
     sling:resourceType="cq/gui/components/authoring/dialog"
-    extraClientlibs="[core.wcm.components.title.v1.editor,core.wcm.components.commons.style.v1.editor]"
     helpPath="https://www.adobe.com/go/aem_cmp_title_v1">
     <content
         jcr:primaryType="nt:unstructured"
-        sling:resourceType="granite/ui/components/coral/foundation/container">
+        sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns">
         <items jcr:primaryType="nt:unstructured">
-            <fixedcolums
+            <column
                 jcr:primaryType="nt:unstructured"
-                sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns">
+                sling:resourceType="granite/ui/components/coral/foundation/container">
                 <items jcr:primaryType="nt:unstructured">
-                    <column
+                    <type
                         jcr:primaryType="nt:unstructured"
-                        sling:resourceType="granite/ui/components/coral/foundation/container">
+                        sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                        fieldLabel="Default Type / Size"
+                        name="./type">
                         <items jcr:primaryType="nt:unstructured">
-                            <inputgroup
+                            <def
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/coral/foundation/text"
-                                text="Allowed Types / Sizes for Authors"/>
-                            <field
-                                cq:showOnCreate="{Boolean}true"
-                                granite:class="core-title-sizes-allowed"
+                                text="(default)"
+                                value=""/>
+                            <h1
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
-                                <items jcr:primaryType="nt:unstructured">
-                                    <h1
-                                        jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                        checked="true"
-                                        name="./allowedTypes"
-                                        text="H1"
-                                        value="h1"/>
-                                    <h2
-                                        jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                        checked="true"
-                                        name="./allowedTypes"
-                                        text="H2"
-                                        value="h2"/>
-                                    <h3
-                                        jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                        checked="true"
-                                        name="./allowedTypes"
-                                        text="H3"
-                                        value="h3"/>
-                                    <h4
-                                        jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                        checked="true"
-                                        name="./allowedTypes"
-                                        text="H4"
-                                        value="h4"/>
-                                    <h5
-                                        jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                        checked="true"
-                                        name="./allowedTypes"
-                                        text="H5"
-                                        value="h5"/>
-                                    <h6
-                                        jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                        checked="true"
-                                        name="./allowedTypes"
-                                        text="H6"
-                                        value="h6"/>
-                                </items>
-                            </field>
-                            <type
-                                granite:class="core-title-size-default"
+                                text="H1"
+                                value="h1"/>
+                            <h2
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/coral/foundation/form/select"
-                                fieldLabel="Default Type / Size"
-                                name="./type">
-                                <items jcr:primaryType="nt:unstructured">
-                                    <h1
-                                        jcr:primaryType="nt:unstructured"
-                                        text="H1"
-                                        value="h1"/>
-                                    <h2
-                                        jcr:primaryType="nt:unstructured"
-                                        text="H2"
-                                        value="h2"/>
-                                    <h3
-                                        jcr:primaryType="nt:unstructured"
-                                        text="H3"
-                                        value="h3"/>
-                                    <h4
-                                        jcr:primaryType="nt:unstructured"
-                                        text="H4"
-                                        value="h4"/>
-                                    <h5
-                                        jcr:primaryType="nt:unstructured"
-                                        text="H5"
-                                        value="h5"/>
-                                    <h6
-                                        jcr:primaryType="nt:unstructured"
-                                        text="H6"
-                                        value="h6"/>
-                                </items>
-                            </type>
+                                text="H2"
+                                value="h2"/>
+                            <h3
+                                jcr:primaryType="nt:unstructured"
+                                text="H3"
+                                value="h3"/>
+                            <h4
+                                jcr:primaryType="nt:unstructured"
+                                text="H4"
+                                value="h4"/>
+                            <h5
+                                jcr:primaryType="nt:unstructured"
+                                text="H5"
+                                value="h5"/>
+                            <h6
+                                jcr:primaryType="nt:unstructured"
+                                text="H6"
+                                value="h6"/>
                         </items>
-                    </column>
+                    </type>
                 </items>
-            </fixedcolums>
+            </column>
         </items>
     </content>
 </jcr:root>
