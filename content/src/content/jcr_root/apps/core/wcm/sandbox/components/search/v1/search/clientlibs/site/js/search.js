@@ -46,10 +46,10 @@
         if (element) {
             if (show !== false) {
                 element.style.display = 'block';
-                element.setAttribute('aria-hidden', true);
+                element.setAttribute('aria-hidden', false);
             } else {
                 element.style.display = 'none';
-                element.setAttribute('aria-hidden', false);
+                element.setAttribute('aria-hidden', true);
             }
         }
     }
