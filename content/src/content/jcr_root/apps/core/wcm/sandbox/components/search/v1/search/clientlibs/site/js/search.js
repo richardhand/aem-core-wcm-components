@@ -35,7 +35,7 @@
         results : '.cmp-search__results',
         item : {
             self : '.cmp-search__item',
-            focused: '.cmp-search__item--focused',
+            focused : '.cmp-search__item--focused',
             mark : '.cmp-search__item-mark'
         }
     };
