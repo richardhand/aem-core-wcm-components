@@ -19,4 +19,4 @@
     jcr:description="Full-text search"
     jcr:primaryType="cq:Component"
     jcr:title="Search (v1 - sandbox)"
-    componentGroup="core-wcm"/>
+    componentGroup=".core-wcm"/>

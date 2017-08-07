@@ -15,16 +15,14 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.sandbox.models;
 
-import java.util.*;
-
-import javax.jcr.RepositoryException;
+import java.util.Collection;
 
 import org.apache.sling.api.resource.Resource;
 
 /**
  * Defines the {@code Search} Sling Model used for the {@code /apps/core/wcm/components/search} component.
  *
- * @since com.adobe.cq.wcm.core.components.sandbox.models 2.1.0
+ * @since com.adobe.cq.wcm.core.components.sandbox.models 2.2.0
  */
 public interface Search {
 
@@ -32,12 +30,29 @@ public interface Search {
      * Name of the resource / configuration policy property that defines the search level from which to search
      * for results. The property should provide a String value.
      *
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 2.1.0
+     * @since com.adobe.cq.wcm.core.components.sandbox.models 2.2.0
      */
     String PN_START_LEVEL = "startLevel";
 
-    default String getPath() { throw new UnsupportedOperationException(); }
+    /**
+     * JCR Path to search for results.
+     *
+     * @return path for the search query
+     * @since com.adobe.cq.wcm.core.components.sandbox.models 2.2.0
+     */
+    default String getPath() {
+        throw new UnsupportedOperationException();
+    }
 
-    default java.util.List<Resource> getResults() { throw new UnsupportedOperationException(); }
+    /**
+     * A collection of {@link Resource} items as search result.
+     * If the search term was not found, the collection will be empty.
+     *
+     * @return collection of search result
+     * @since com.adobe.cq.wcm.core.components.sandbox.models 2.2.0
+     */
+    default Collection<Resource> getResults() {
+        throw new UnsupportedOperationException();
+    }
 
 }
