@@ -96,7 +96,11 @@ public class SearchImpl implements Search {
     private String calculatePath(int startLevel) {
         Page tmpPage = currentPage;
         while (tmpPage.getDepth() > startLevel) {
-            tmpPage = tmpPage.getParent();
+            if(tmpPage.getParent() != null) {
+                tmpPage = tmpPage.getParent();
+            } else {
+                break;
+            }
         }
         return tmpPage.getPath();
     }
