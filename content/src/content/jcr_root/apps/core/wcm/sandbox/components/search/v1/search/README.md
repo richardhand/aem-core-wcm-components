@@ -25,16 +25,24 @@ The Search component uses the `com.adobe.cq.wcm.core.components.sandbox.models.S
 ### Component policy configuration properties
 The following configuration properties are used:
 
-1. `./siteRoot` - defines the site root from which to search for results
+1. `./startLevel` - defines the level from which to search for results (eg: 1 for /content/site)
 
 ### Edit dialog properties
 The following properties are written to JCR for the Search component and are expected to be available as `Resource` properties:
 
-1. `./siteRoot` - defines the site root from which to search for results
+1. `./startLevel` - defines the level from which to search for results (eg: 1 for /content/site)
 
 ## BEM description
 ```
 BLOCK cmp-search
+    ELEMENT cmp-search__form
+    ELEMENT cmp-search__field
+    ELEMENT cmp-search__icon
+    ELEMENT cmp-search__input
+    ELEMENT cmp-search__clear
+    ELEMENT cmp-search__clear-icon
+    ELEMENT cmp-search__results
+    ELEMENt cmp-search__result
 ```
 
 ## Information
