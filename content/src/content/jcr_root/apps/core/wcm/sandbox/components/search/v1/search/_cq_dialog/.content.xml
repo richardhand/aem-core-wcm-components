@@ -37,7 +37,7 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
                                 fieldDescription="The level from which to search for results (eg: 1 for /content/site)"
-                                fieldLabel="Search-Level to start"
+                                fieldLabel="Search Start Level"
                                 max="100"
                                 min="1"
                                 name="./startLevel"
