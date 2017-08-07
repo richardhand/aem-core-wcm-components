@@ -42,7 +42,10 @@ BLOCK cmp-search
     ELEMENT cmp-search__clear
     ELEMENT cmp-search__clear-icon
     ELEMENT cmp-search__results
-    ELEMENt cmp-search__result
+    ELEMENT cmp-search__item
+    ELEMENT cmp-search__item-mark
+    ELEMENT cmp-search__item-title
+        MOD cmp-search__item--focused
 ```
 
 ## Information

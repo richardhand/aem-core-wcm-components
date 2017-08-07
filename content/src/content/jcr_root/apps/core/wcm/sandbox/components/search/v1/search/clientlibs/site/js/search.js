@@ -33,10 +33,10 @@
         input : '.cmp-search__input',
         clear : '.cmp-search__clear',
         results : '.cmp-search__results',
-        result : {
-            self : '.cmp-search__result',
-            focused: '.cmp-search__result--focused',
-            highlight : '.cmp-search__result-highlight'
+        item : {
+            self : '.cmp-search__item',
+            focused: '.cmp-search__item--focused',
+            mark : '.cmp-search__item-mark'
         }
     };
 
@@ -80,7 +80,7 @@
 
             if (nodeValue && match) {
                 var element = document.createElement('mark');
-                element.className = 'cmp-search__result-highlight';
+                element.className = 'cmp-search__item-mark';
                 element.appendChild(document.createTextNode(match[0]));
 
                 var after = node.splitText(match.index);
@@ -139,7 +139,7 @@
                 if (!self._resultsOpen()) {
                     self._form.submit();
                 } else {
-                    var focused = self._results.querySelector(selectors.result.focused);
+                    var focused = self._results.querySelector(selectors.item.focused);
                     if (focused) {
                         focused.click();
                     }
@@ -194,7 +194,7 @@
     };
 
     Search.prototype._markResults = function() {
-        var nodeList = this._results.querySelectorAll(selectors.result.self);
+        var nodeList = this._results.querySelectorAll(selectors.item.self);
         var escapedTerm = this._input.value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
         var regex = new RegExp('(' + escapedTerm + ')', 'gi');
 
@@ -205,8 +205,8 @@
     };
 
     Search.prototype._stepResultFocus = function(reverse) {
-        var results = this._results.querySelectorAll(selectors.result.self);
-        var focused = this._results.querySelector(selectors.result.focused);
+        var results = this._results.querySelectorAll(selectors.item.self);
+        var focused = this._results.querySelector(selectors.item.focused);
         var index = Array.prototype.indexOf.call(results, focused);
         var focusedCssClass = 'cmp-search__result--focused';
 
@@ -232,7 +232,7 @@
     };
 
     Search.prototype._applyLimit = function() {
-        var nodeList = this._results.querySelectorAll(selectors.result.self);
+        var nodeList = this._results.querySelectorAll(selectors.item.self);
         for (var i = LIMIT; i < nodeList.length; i++) {
             nodeList[i].parentNode.removeChild(nodeList[i]);
         }
