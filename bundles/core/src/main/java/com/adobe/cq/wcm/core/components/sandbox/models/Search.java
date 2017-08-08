@@ -35,12 +35,20 @@ public interface Search {
     String PN_START_LEVEL = "startLevel";
 
     /**
+     * Name of the resource / configuration policy property that defines the placeholder for the search input
+     * field. The property should provide a String value.
+     *
+     * @since com.adobe.cq.wcm.core.components.sandbox.models 2.2.0
+     */
+    String PN_PLACEHOLDER = "placeholder";
+
+    /**
      * JCR Path to search for results.
      *
      * @return path for the search query
      * @since com.adobe.cq.wcm.core.components.sandbox.models 2.2.0
      */
-    default String getPath() {
+    default String getRootPath() {
         throw new UnsupportedOperationException();
     }
 
@@ -52,6 +60,16 @@ public interface Search {
      * @since com.adobe.cq.wcm.core.components.sandbox.models 2.2.0
      */
     default Collection<Resource> getResults() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Returns the value of the {@code placeholder} HTML attribute.
+     *
+     * @return the value of placeholder attribute
+     * @since com.adobe.cq.wcm.core.components.models.form 2.2.0
+     */
+    default String getPlaceholder() {
         throw new UnsupportedOperationException();
     }
 

@@ -208,7 +208,7 @@
         var results = this._results.querySelectorAll(selectors.item.self);
         var focused = this._results.querySelector(selectors.item.focused);
         var index = Array.prototype.indexOf.call(results, focused);
-        var focusedCssClass = 'cmp-search__result--focused';
+        var focusedCssClass = 'cmp-search__item--focused';
 
         if (results.length > 0) {
             if (focused) {
