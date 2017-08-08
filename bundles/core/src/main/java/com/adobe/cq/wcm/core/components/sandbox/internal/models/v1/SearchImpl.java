@@ -126,8 +126,8 @@ public class SearchImpl implements Search {
     @SuppressWarnings("unchecked")
     private Resource populateItem(final Hit hit) {
         try {
-            final String title = getHitTitle(hit);
-            final String path = getHitPath(hit);
+            final String title = getTitle(hit);
+            final String path = getPath(hit);
 
             if (StringUtils.isNotEmpty(title) && StringUtils.isNotEmpty(path)) {
                 return new SyntheticResource(null, (String) null, null) {
@@ -148,12 +148,12 @@ public class SearchImpl implements Search {
         return null;
     }
 
-    private String getHitTitle(Hit hit) throws RepositoryException {
+    private String getTitle(Hit hit) throws RepositoryException {
         ValueMap vm = hit.getResource().getValueMap();
         return vm.get("jcr:content/jcr:title", vm.get("jcr:title", hit.getResource().getName()));
     }
 
-    private String getHitPath(Hit hit) throws RepositoryException {
+    private String getPath(Hit hit) throws RepositoryException {
         Page page = pageManager.getContainingPage(hit.getResource());
         if (page != null) {
             return page.getPath();
