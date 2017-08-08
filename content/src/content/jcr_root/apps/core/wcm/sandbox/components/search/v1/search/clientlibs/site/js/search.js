@@ -17,7 +17,7 @@
     'use strict';
 
     var DELAY = 300;
-    var LIMIT = 7;
+    var LIMIT = 10;
 
     var keyCodes = {
         TAB: 9,
