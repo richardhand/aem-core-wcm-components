@@ -101,22 +101,4 @@ public class SearchImplTest {
             assertEquals("/content/search/page", valueMap.get("path"));
         }
     }
-
-    @Test
-    public void testPlaceholder() throws Exception {
-        Resource resource = context.currentResource(TEST_ROOT + "/jcr:content/search");
-        slingBindings.put(WCMBindings.CURRENT_STYLE, new MockStyle(resource));
-        slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
-        Search search = context.request().adaptTo(Search.class);
-        assertEquals("Start Search", search.getPlaceholder());
-    }
-
-    @Test
-    public void testEmptyPlaceholder() throws Exception {
-        Resource resource = context.currentResource(TEST_ROOT + "/jcr:content/search-1");
-        slingBindings.put(WCMBindings.CURRENT_STYLE, new MockStyle(resource));
-        slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
-        Search search = context.request().adaptTo(Search.class);
-        assertEquals("", search.getPlaceholder());
-    }
 }

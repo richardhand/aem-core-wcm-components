@@ -85,26 +85,21 @@ public class SearchImpl implements Search {
 
     private PageManager pageManager;
     private String path;
-    private String placeholder;
 
     @PostConstruct
     private void initModel() {
         pageManager = resourceResolver.adaptTo(PageManager.class);
         int startLevel = properties.get(PN_START_LEVEL, currentStyle.get(PN_START_LEVEL, PROP_START_LEVEL_DEFAULT));
-        placeholder = properties.get(PN_PLACEHOLDER, currentStyle.get(PN_PLACEHOLDER, StringUtils.EMPTY));
         path = calculatePath(startLevel);
     }
 
     private String calculatePath(int startLevel) {
-        Page tmpPage = currentPage;
-        while (tmpPage.getDepth() > startLevel) {
-            if(tmpPage.getParent() != null) {
-                tmpPage = tmpPage.getParent();
-            } else {
-                break;
-            }
+        Page rootPage = currentPage.getAbsoluteParent(startLevel);
+        if(rootPage != null) {
+            return rootPage.getPath();
+        } else {
+            return currentPage.getPath();
         }
-        return tmpPage.getPath();
     }
 
     @Override
@@ -116,11 +111,6 @@ public class SearchImpl implements Search {
     public List<Resource> getResults() {
         SearchResult searchResult = getSearchResult(request.getParameterMap(), resourceResolver);
         return searchResult.getHits().stream().map(this::populateItem).filter(Objects::nonNull).collect(Collectors.toList());
-    }
-
-    @Override
-    public String getPlaceholder() {
-        return placeholder;
     }
 
     @SuppressWarnings("unchecked")
