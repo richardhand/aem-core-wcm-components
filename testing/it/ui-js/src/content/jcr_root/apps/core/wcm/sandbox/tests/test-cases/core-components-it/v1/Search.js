@@ -145,7 +145,7 @@
             execAfter : tcExecuteAfterTest
         })
             .config.changeContext(c.getContentFrame)
-            .fillInput(selectors.component.input, 'Page', {delay: 1000})
+            .fillInput(selectors.component.input, 'Page', {delay: 2000})
             .assert.visible(selectors.component.results)
             .assert.exist(selectors.component.item.self + '[href="%page_1%.html"]');
     };
@@ -162,7 +162,7 @@
             .fillInput(selectors.editDialog.startLevel, '4')
             .execTestCase(c.tcSaveConfigureDialog)
             .config.changeContext(c.getContentFrame)
-            .fillInput(selectors.component.input, 'Page', {delay: 1000})
+            .fillInput(selectors.component.input, 'Page', {delay: 2000})
             .assert.visible(selectors.component.item.self + '[href="%page_1%.html"]', false);
     };
 
@@ -176,9 +176,9 @@
         })
             .config.changeContext(c.getContentFrame)
             .assert.visible(selectors.component.clear, false)
-            .fillInput(selectors.component.input, 'Page', {delay: 1000})
+            .fillInput(selectors.component.input, 'Page', {delay: 2000})
             .assert.visible(selectors.component.clear)
-            .click(selectors.component.clear, {delay: 1000})
+            .click(selectors.component.clear, {delay: 2000})
             .assert.visible(selectors.component.clear, false)
             .assert.visible(selectors.component.results, false)
             .assert.exist(selectors.component.input + '[value="Page"]', false);
@@ -194,7 +194,7 @@
         })
           .config.changeContext(c.getContentFrame)
           .assert.visible(selectors.component.clear, false)
-          .fillInput(selectors.component.input, 'Page', {delay: 1000})
+          .fillInput(selectors.component.input, 'Page', {delay: 2000})
           .assert.visible(selectors.component.clear)
           .click('body', {delay: 1000})
           .assert.visible(selectors.component.results, false)
@@ -210,7 +210,7 @@
         })
           .config.changeContext(c.getContentFrame)
           .assert.visible(selectors.component.clear, false)
-          .fillInput(selectors.component.input, 'Page', {delay: 1000})
+          .fillInput(selectors.component.input, 'Page', {delay: 2000})
           .assert.visible(selectors.component.item.mark + ':contains("page")')
     };
 
