@@ -53,7 +53,8 @@
                 data: {
                     path: path,
                     "p.limit": 100,
-                    fulltext: searchTerm
+                    fulltext: searchTerm,
+                    type: "cq:Page"
                 }
             }).done(function(data) {
                 if(data.hits && data.hits.length > 1) {
@@ -83,7 +84,7 @@
         })
             // level 1
             .execFct(function (opts, done) {
-                c.createPage(c.template, c.rootPage, 'page_1', 'page_1', done, pageRT);
+                c.createPage(c.template, c.rootPage, 'page_1_' + Date.now(), 'page_1', done, pageRT);
             })
             .execFct(function (opts, done) {
                 $.ajax({
@@ -93,13 +94,13 @@
                     dataType: 'json',
                     data    : {
                         '_charset_'             : 'UTF-8',
-                        './jcr:content/title': 'Page 1'
+                        './jcr:content/jcr:title': 'Page 1'
                     }
                 })
             })
             // level 2
             .execFct(function (opts, done) {
-                c.createPage(c.template, h.param('page_1')(), 'page_1_1', 'page_1_1', done, pageRT);
+                c.createPage(c.template, h.param('page_1')(), 'page_1_1_' + Date.now(), 'page_1_1', done, pageRT);
             })
             .execFct(function (opts, done) {
                 $.ajax({
@@ -108,13 +109,13 @@
                     complete: done,
                     data    : {
                         '_charset_'             : 'UTF-8',
-                        './jcr:content/title': 'Page 1.1'
+                        './jcr:content/jcr:title': 'Page 1.1'
                     }
                 })
             })
             // level 2 1
             .execFct(function (opts, done) {
-                c.createPage(c.template, h.param('page_1_1')(), 'page_1_1_1', 'page_1_1_1', done, pageRT);
+                c.createPage(c.template, h.param('page_1_1')(), 'page_1_1_1_' + Date.now(), 'page_1_1_1', done, pageRT);
             })
             .execFct(function (opts, done) {
                 $.ajax({
@@ -123,13 +124,13 @@
                     complete: done,
                     data    : {
                         '_charset_'             : 'UTF-8',
-                        './jcr:content/title': 'Page 1.1.1'
+                        './jcr:content/jcr:title': 'Page 1.1.1'
                     }
                 })
             })
             // level 2 2
             .execFct(function (opts, done) {
-                c.createPage(c.template, h.param('page_1_1')(), 'page_1_1_2', 'page_1_1_2', done, pageRT);
+                c.createPage(c.template, h.param('page_1_1')(), 'page_1_1_2_' + Date.now(), 'page_1_1_2', done, pageRT);
             })
             .execFct(function (opts, done) {
                 $.ajax({
@@ -138,13 +139,13 @@
                     complete: done,
                     data    : {
                         '_charset_'              : 'UTF-8',
-                        './jcr:content/title': 'Page 1.1.2'
+                        './jcr:content/jcr:title': 'Page 1.1.2'
                     }
                 })
             })
             // level 2 3
             .execFct(function (opts, done) {
-                c.createPage(c.template, h.param('page_1_1')(), 'page_1_1_3', 'page_1_1_3', done, pageRT);
+                c.createPage(c.template, h.param('page_1_1')(), 'page_1_1_3_' + Date.now(), 'page_1_1_3', done, pageRT);
             })
             .execFct(function (opts, done) {
                 $.ajax({
@@ -153,7 +154,7 @@
                     complete: done,
                     data    : {
                         '_charset_'             : 'UTF-8',
-                        './jcr:content/title': 'Page 1.1.3'
+                        './jcr:content/jcr:title': 'Page 1.1.3'
                     }
                 })
             })
@@ -256,7 +257,7 @@
                 pollQuery(done, c.rootPage, 'Page', h.param('page_1')());
             })
           .fillInput(selectors.component.input, 'Page', {delay: 1000})
-          .assert.visible(selectors.component.item.mark + ':contains("page")')
+          .assert.visible(selectors.component.item.mark + ':contains("Page")')
     };
 
 }(hobs, jQuery));
