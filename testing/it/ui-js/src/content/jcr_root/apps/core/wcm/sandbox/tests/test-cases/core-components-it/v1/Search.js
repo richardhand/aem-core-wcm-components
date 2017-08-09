@@ -39,6 +39,44 @@
         }
     };
 
+    var pollQuery = function(done, path, searchTerm, expected) {
+
+        var maxRetries = 10,
+            timeout = 1000,
+            retries = 0,
+            match = false;
+
+        var poll = function() {
+            $.ajax({
+                url: '/bin/querybuilder.json',
+                method: 'GET',
+                data: {
+                    path: path,
+                    "p.limit": 100,
+                    fulltext: searchTerm
+                }
+            }).done(function(data) {
+                if(data.hits && data.hits.length > 1) {
+                    data.hits.forEach(function(item) {
+                        console.log(item.path);
+                        if(item.path === expected) {
+                            match = true;
+                        }
+                    });
+                }
+                if(match) {
+                    done(true);
+                } else {
+                    if(retries++ === maxRetries) {
+                        done(false);
+                    }
+                    setTimeout(poll, timeout);
+                }
+            });
+        };
+        poll();
+    };
+
     search.tcExecuteBeforeTest = function (tcExecuteBeforeTest, searchRT, pageRT) {
         return new h.TestCase('Create Sample Content', {
             execBefore: tcExecuteBeforeTest
@@ -52,6 +90,7 @@
                     url     : h.param('page_1')(),
                     method  : 'POST',
                     complete: done,
+                    dataType: 'json',
                     data    : {
                         '_charset_'             : 'UTF-8',
                         './jcr:content/title': 'Page 1'
@@ -145,7 +184,10 @@
             execAfter : tcExecuteAfterTest
         })
             .config.changeContext(c.getContentFrame)
-            .fillInput(selectors.component.input, 'Page', {delay: 2000})
+            .execFct(function(opts, done) {
+                pollQuery(done, c.rootPage, 'Page', h.param('page_1')());
+            })
+            .fillInput(selectors.component.input, 'Page')
             .assert.visible(selectors.component.results)
             .assert.exist(selectors.component.item.self + '[href="%page_1%.html"]');
     };
@@ -162,7 +204,7 @@
             .fillInput(selectors.editDialog.startLevel, '4')
             .execTestCase(c.tcSaveConfigureDialog)
             .config.changeContext(c.getContentFrame)
-            .fillInput(selectors.component.input, 'Page', {delay: 2000})
+            .fillInput(selectors.component.input, 'Page', {delay: 1000})
             .assert.visible(selectors.component.item.self + '[href="%page_1%.html"]', false);
     };
 
@@ -176,9 +218,9 @@
         })
             .config.changeContext(c.getContentFrame)
             .assert.visible(selectors.component.clear, false)
-            .fillInput(selectors.component.input, 'Page', {delay: 2000})
+            .fillInput(selectors.component.input, 'Page', {delay: 1000})
             .assert.visible(selectors.component.clear)
-            .click(selectors.component.clear, {delay: 2000})
+            .click(selectors.component.clear, {delay: 1000})
             .assert.visible(selectors.component.clear, false)
             .assert.visible(selectors.component.results, false)
             .assert.exist(selectors.component.input + '[value="Page"]', false);
@@ -194,7 +236,7 @@
         })
           .config.changeContext(c.getContentFrame)
           .assert.visible(selectors.component.clear, false)
-          .fillInput(selectors.component.input, 'Page', {delay: 2000})
+          .fillInput(selectors.component.input, 'Page', {delay: 1000})
           .assert.visible(selectors.component.clear)
           .click('body', {delay: 1000})
           .assert.visible(selectors.component.results, false)
@@ -210,7 +252,10 @@
         })
           .config.changeContext(c.getContentFrame)
           .assert.visible(selectors.component.clear, false)
-          .fillInput(selectors.component.input, 'Page', {delay: 2000})
+            .execFct(function(opts, done) {
+                pollQuery(done, c.rootPage, 'Page', h.param('page_1')());
+            })
+          .fillInput(selectors.component.input, 'Page', {delay: 1000})
           .assert.visible(selectors.component.item.mark + ':contains("page")')
     };
 
