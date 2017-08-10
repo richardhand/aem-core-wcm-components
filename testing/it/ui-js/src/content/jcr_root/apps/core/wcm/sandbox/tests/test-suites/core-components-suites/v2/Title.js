@@ -22,6 +22,7 @@
     // shortcut
     var c = window.CQ.CoreComponentsIT.commons;
     var titleV1 = window.CQ.CoreComponentsIT.v1.Title;
+    var titleV2 = window.CQ.CoreComponentsIT.v2.Title;
 
     /**
      * v2 specifics
@@ -43,6 +44,14 @@
         .addTestCase(titleV1.tcCheckExistenceOfTypesUsingPolicy(tcExecuteBeforeTest, tcExecuteAfterTest, "/title/v2/title", "core/wcm/sandbox/components",
             c.policyPath_sandbox, c.policyAssignmentPath_sandbox))
         .addTestCase(titleV1.tcCheckExistenceOfOneTypeUsingPolicy(tcExecuteBeforeTest, tcExecuteAfterTest, "/title/v2/title", "core/wcm/sandbox/components",
+            c.policyPath_sandbox, c.policyAssignmentPath_sandbox))
+        .addTestCase(titleV2.tcCheckCssClasses1(tcExecuteBeforeTest, tcExecuteAfterTest, "/title/v2/title", "core/wcm/sandbox/components",
+            c.policyPath_sandbox, c.policyAssignmentPath_sandbox))
+        .addTestCase(titleV2.tcCheckCssClasses2(tcExecuteBeforeTest, tcExecuteAfterTest, "/title/v2/title", "core/wcm/sandbox/components",
+            c.policyPath_sandbox, c.policyAssignmentPath_sandbox))
+        .addTestCase(titleV2.tcCheckCssClasses3(tcExecuteBeforeTest, tcExecuteAfterTest, "/title/v2/title", "core/wcm/sandbox/components",
+            c.policyPath_sandbox, c.policyAssignmentPath_sandbox))
+        .addTestCase(titleV2.tcCheckCssClasses4(tcExecuteBeforeTest, tcExecuteAfterTest, "/title/v2/title", "core/wcm/sandbox/components",
             c.policyPath_sandbox, c.policyAssignmentPath_sandbox))
     ;
 }(hobs, jQuery));

@@ -197,6 +197,12 @@ config.setMailNotifyEveryUnstableBuild(false)
 // Don't trigger sprout for release commits
 config.setBuildCriteria([new Exclude(new GitCommitMessage(/^(.*)@releng \[maven\-scm\] :prepare(.*)$/))])
 
+// Slack notification
+config.setEnableSlackNotifications(true)
+config.setSlackChannel('#refsquad-sprouts')
+config.setSlackTeamDomain('cq-dev')
+config.setSlackIntegrationToken('TPhlDoZqT0DvKyVC1RnCvzfj')
+
 /* --------------------------------------------------------------------- */
 /*                       SPROUT CUSTOMIZATION                            */
 /* --------------------------------------------------------------------- */
