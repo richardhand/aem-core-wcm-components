@@ -42,7 +42,7 @@
     var pollQuery = function(done, path, searchTerm, expected) {
 
         var maxRetries = 10,
-            timeout = 1000,
+            timeout = 2000,
             retries = 0,
             match = false;
 
@@ -69,12 +69,14 @@
                     done(true);
                 } else {
                     if(retries++ === maxRetries) {
-                        done(false);
+                        done(false, "Not able to get query result for " + expected);
+                        return;
                     }
                     setTimeout(poll, timeout);
                 }
             });
         };
+
         poll();
     };
 
