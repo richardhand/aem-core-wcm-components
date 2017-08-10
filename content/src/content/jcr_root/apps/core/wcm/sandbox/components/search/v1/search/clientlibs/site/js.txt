@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright 2016 Adobe Systems Incorporated
+# Copyright 2017 Adobe Systems Incorporated
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,14 +13,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ###############################################################################
-
-ns.js
-common/commons.js
-core-components-it/v1/Navigation.js
-core-components-it/v1/LanguageNavigation.js
-core-components-it/v1/Search.js
-core-components-it/v2/Page.js
-core-components-it/v2/Title.js
-
-
-
+js/search.js

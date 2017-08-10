@@ -16,6 +16,7 @@
 
 core-components-suites/v1/Navigation.js
 core-components-suites/v1/LanguageNavigation.js
+core-components-suites/v1/Search.js
 core-components-suites/v2/FormContainer.js
 core-components-suites/v2/FormButton.js
 core-components-suites/v2/FormOptions.js

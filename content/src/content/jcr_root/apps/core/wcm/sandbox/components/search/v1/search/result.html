@@ -1,4 +1,4 @@
-<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<!--/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ~ Copyright 2017 Adobe Systems Incorporated
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,6 +12,9 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-<sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html"
-     data-sly-call="${clientLib.js @ categories='core.wcm.components.image.v2, core.wcm.components.search.v1'}"/>
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
+<sly data-sly-use.search="com.adobe.cq.wcm.core.components.sandbox.models.Search"
+     data-sly-list.item="${search.results}"
+     data-sly-use.itemTemplate="item.html">
+    <sly data-sly-call="${itemTemplate.item @ item = item}"></sly>
+</sly>
