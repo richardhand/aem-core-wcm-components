@@ -59,7 +59,6 @@
             }).done(function(data) {
                 if(data.hits && data.hits.length > 1) {
                     data.hits.forEach(function(item) {
-                        console.log(item.path);
                         if(item.path === expected) {
                             match = true;
                         }
@@ -196,9 +195,9 @@
             .execFct(function(opts, done) {
                 pollQuery(done, c.rootPage, 'Page', h.param('page_1')());
             })
-            .fillInput(selectors.component.input, 'Page')
+            .fillInput(selectors.component.input, 'Page', {delay: 1000})
             .assert.visible(selectors.component.results)
-            .assert.exist(selectors.component.item.self + '[href="%page_1%.html"]');
+            .assert.exist(selectors.component.item.self + '[href="' + h.config.context_path + '%page_1%.html"]');
     };
 
     /**
@@ -214,7 +213,7 @@
             .execTestCase(c.tcSaveConfigureDialog)
             .config.changeContext(c.getContentFrame)
             .fillInput(selectors.component.input, 'Page', {delay: 1000})
-            .assert.visible(selectors.component.item.self + '[href="%page_1%.html"]', false);
+            .assert.visible(selectors.component.item.self + '[href="' + h.config.context_path + '%page_1%.html"]', false);
     };
 
     /**
