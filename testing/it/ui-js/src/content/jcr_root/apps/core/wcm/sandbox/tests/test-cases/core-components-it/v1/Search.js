@@ -41,7 +41,7 @@
 
     var pollQuery = function(done, path, searchTerm, expected) {
 
-        var maxRetries = 10,
+        var maxRetries = 60,
             timeout = 2000,
             retries = 0,
             match = false;
@@ -74,7 +74,13 @@
                     }
                     setTimeout(poll, timeout);
                 }
-            });
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                    if (retries++ === maxRetries) {
+                        done(false, "pollQuery failed! " + textStatus + "," + errorThrown);
+                        return;
+                    }
+                    setTimeout(poll, timeout);
+                });
         };
 
         poll();
