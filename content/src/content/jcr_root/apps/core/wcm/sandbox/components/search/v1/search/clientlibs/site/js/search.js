@@ -264,12 +264,38 @@
         toggleShow(this._results, false);
     };
 
-    document.addEventListener('DOMContentLoaded', function() {
-        var search = document.querySelectorAll(selectors.self);
-
+    var initSearch = function(search) {
         for (var i = 0; i < search.length; i++) {
             new Search({ el: search[i] });
         }
+    };
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var search = document.querySelectorAll(selectors.self);
+        initSearch(search);
+    });
+
+    var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
+    var body = document.querySelector('body');
+    var observer = new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutation) {
+            // needed for IE
+            var nodesArray = [].slice.call(mutation.addedNodes);
+            if (nodesArray.length > 0) {
+                nodesArray.forEach(function (addedNode) {
+                    if (addedNode.querySelectorAll) {
+                        var search = [].slice.call(addedNode.querySelectorAll(selectors.self));
+                        initSearch(search);
+                    }
+                });
+            }
+        });
+    });
+
+    observer.observe(body, {
+        subtree      : true,
+        childList    : true,
+        characterData: true
     });
 
 })();
