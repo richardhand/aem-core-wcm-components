@@ -412,6 +412,11 @@
             <artifactId>uber-jar</artifactId>
             <classifier>apis</classifier>
         </dependency>
+        <dependency>
+            <groupId>com.adobe.cq</groupId>
+            <artifactId>com.adobe.cq.export.json</artifactId>
+            <version>0.0.4</version>
+        </dependency>
     </dependencies>
 
 </project>
