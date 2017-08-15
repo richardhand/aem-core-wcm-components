@@ -110,13 +110,13 @@ public class ImageImpl implements Image {
     private String linkURL;
 
     private String src;
-    private String[] smartImages = new String[]{};
-    private int[] smartSizes = new int[0];
+    protected String[] smartImages = new String[]{};
+    protected int[] smartSizes = new int[0];
     private String json;
     private boolean displayPopupTitle;
     private boolean isDecorative;
 
-    private boolean disableLazyLoading;
+    protected boolean disableLazyLoading;
 
     @PostConstruct
     private void initModel() {
@@ -173,28 +173,30 @@ public class ImageImpl implements Image {
             }
             ResourceResolver resourceResolver = request.getResourceResolver();
             ContentPolicyManager policyManager = resourceResolver.adaptTo(ContentPolicyManager.class);
-            ContentPolicy contentPolicy = policyManager.getPolicy(resource);
-            if (contentPolicy != null) {
-                disableLazyLoading = contentPolicy.getProperties().get(PN_DESIGN_LAZY_LOADING_ENABLED, false);
-            }
-            Set<Integer> supportedRenditionWidths = getSupportedRenditionWidths(contentPolicy);
-            smartImages = new String[supportedRenditionWidths.size()];
-            smartSizes = new int[supportedRenditionWidths.size()];
-            int index = 0;
-            String escapedResourcePath = Text.escapePath(resource.getPath());
-            for (Integer width : supportedRenditionWidths) {
-                smartImages[index] = request.getContextPath() + escapedResourcePath + DOT + AdaptiveImageServlet.DEFAULT_SELECTOR + DOT +
-                        width + DOT + extension + (!isWcmModeDisabled() && lastModifiedDate > 0 ? "/" + lastModifiedDate + DOT + extension
-                        : "");
-                smartSizes[index] = width;
-                index++;
-            }
-            if (smartSizes.length == 0 || smartSizes.length >= 2) {
-                src = request.getContextPath() + escapedResourcePath + DOT + AdaptiveImageServlet.DEFAULT_SELECTOR + DOT + extension +
-                        (!isWcmModeDisabled() && lastModifiedDate > 0 ? "/" + lastModifiedDate + DOT + extension : "");
-            } else if (smartSizes.length == 1) {
-                src = request.getContextPath() + escapedResourcePath + DOT + AdaptiveImageServlet.DEFAULT_SELECTOR + DOT + smartSizes[0] +
-                        DOT + extension + (!isWcmModeDisabled() && lastModifiedDate > 0 ? "/" + lastModifiedDate + DOT + extension : "");
+            if (policyManager != null) {
+                ContentPolicy contentPolicy = policyManager.getPolicy(resource);
+                if (contentPolicy != null) {
+                    disableLazyLoading = contentPolicy.getProperties().get(PN_DESIGN_LAZY_LOADING_ENABLED, false);
+                }
+                Set<Integer> supportedRenditionWidths = getSupportedRenditionWidths(contentPolicy);
+                smartImages = new String[supportedRenditionWidths.size()];
+                smartSizes = new int[supportedRenditionWidths.size()];
+                int index = 0;
+                String escapedResourcePath = Text.escapePath(resource.getPath());
+                for (Integer width : supportedRenditionWidths) {
+                    smartImages[index] = request.getContextPath() + escapedResourcePath + DOT + AdaptiveImageServlet.DEFAULT_SELECTOR + DOT +
+                            width + DOT + extension + (!isWcmModeDisabled() && lastModifiedDate > 0 ? "/" + lastModifiedDate + DOT + extension
+                            : "");
+                    smartSizes[index] = width;
+                    index++;
+                }
+                if (smartSizes.length == 0 || smartSizes.length >= 2) {
+                    src = request.getContextPath() + escapedResourcePath + DOT + AdaptiveImageServlet.DEFAULT_SELECTOR + DOT + extension +
+                            (!isWcmModeDisabled() && lastModifiedDate > 0 ? "/" + lastModifiedDate + DOT + extension : "");
+                } else if (smartSizes.length == 1) {
+                    src = request.getContextPath() + escapedResourcePath + DOT + AdaptiveImageServlet.DEFAULT_SELECTOR + DOT + smartSizes[0] +
+                            DOT + extension + (!isWcmModeDisabled() && lastModifiedDate > 0 ? "/" + lastModifiedDate + DOT + extension : "");
+                }
             }
             if (!isDecorative) {
                 Page page = pageManager.getPage(linkURL);
