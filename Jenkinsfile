@@ -87,20 +87,51 @@ CQInstance author = new CQInstance.Builder()
 /* --------------------------------------------------------------------- */
 /*                                UI TESTS                               */
 /* --------------------------------------------------------------------- */
-UITestRun coreCompUIChromeV1 = new UITestRun.Builder()
-        .withName('UI Tests Core Comp V1 / Chrome')
+UITestRun coreCompUIChromePart1 = new UITestRun.Builder()
+        .withName('UI Tests: Breadcrumb, FormButton, FormContainer, Title / Chrome')
         .withInstance(author)
         .withBrowser('CHROME')
-        .withFilter('aem.core-components.tests.v1.suites')
+        .withFilter('aem.core-components.testsuite.breadcrumb,aem.core-components.testsuite.formbutton,' +
+        'aem.core-components.testsuite.formcontainer,aem.core-components.testsuite.title')
         .withRunOptions('{\\\"withMetadata\\\":{\\\"flaky\\\":{\\\"value\\\":true,\\\"type\\\":\\\"exclude\\\"}}}')
         .withHobbesHubUrl(MINION_HUB_URL)
         .withHobbesConfig('{\\\"global_maxretries_on_failed\\\":1}').build()
 
-UITestRun coreCompUIChromeV2 = new UITestRun.Builder()
-        .withName('UI Tests Core Comp V2 / Chrome')
+UITestRun coreCompUIChromePart2 = new UITestRun.Builder()
+        .withName('UI Tests: FormHidden, FormOptions, FormComponents / Chrome')
         .withInstance(author)
         .withBrowser('CHROME')
-        .withFilter('aem.core-components.tests.v2.suites')
+        .withFilter('aem.core-components.testsuite.formhidden,aem.core-components.testsuite.formoptions,' +
+        'aem.core-components.testsuite.formcomponents')
+        .withRunOptions('{\\\"withMetadata\\\":{\\\"flaky\\\":{\\\"value\\\":true,\\\"type\\\":\\\"exclude\\\"}}}')
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withHobbesConfig('{\\\"global_maxretries_on_failed\\\":1}').build()
+
+UITestRun coreCompUIChromePart3 = new UITestRun.Builder()
+        .withName('UI Tests: FormText, LanguageNavigation, Text / Chrome')
+        .withInstance(author)
+        .withBrowser('CHROME')
+        .withFilter('aem.core-components.testsuite.formtext,aem.core-components.testsuite.languagenavigation,' +
+        'aem.core-components.testsuite.text')
+        .withRunOptions('{\\\"withMetadata\\\":{\\\"flaky\\\":{\\\"value\\\":true,\\\"type\\\":\\\"exclude\\\"}}}')
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withHobbesConfig('{\\\"global_maxretries_on_failed\\\":1}').build()
+
+UITestRun coreCompUIChromePart4 = new UITestRun.Builder()
+        .withName('UI Tests: Image, List / Chrome')
+        .withInstance(author)
+        .withBrowser('CHROME')
+        .withFilter('aem.core-components.testsuite.image,aem.core-components.testsuite.list')
+        .withRunOptions('{\\\"withMetadata\\\":{\\\"flaky\\\":{\\\"value\\\":true,\\\"type\\\":\\\"exclude\\\"}}}')
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withHobbesConfig('{\\\"global_maxretries_on_failed\\\":1}').build()
+
+UITestRun coreCompUIChromePart5 = new UITestRun.Builder()
+        .withName('UI Tests: Navigation, Page, Search / Chrome')
+        .withInstance(author)
+        .withBrowser('CHROME')
+        .withFilter('aem.core-components.testsuite.navigation,aem.core-components.testsuite.page,' +
+        'aem.core-components.testsuite.search')
         .withRunOptions('{\\\"withMetadata\\\":{\\\"flaky\\\":{\\\"value\\\":true,\\\"type\\\":\\\"exclude\\\"}}}')
         .withHobbesHubUrl(MINION_HUB_URL)
         .withHobbesConfig('{\\\"global_maxretries_on_failed\\\":1}').build()
@@ -175,7 +206,8 @@ config.getElasticsearchReporting().setEnable(true)
 config.setModules([componentsCore, componentsContent, componentsConfig, componentsAll, componentsItUi,
                     componentsJUnitCore,componentsParent])
 // the tests to execute
-config.setTestRuns([coreCompUIChromeV1,coreCompUIChromeV2,coreCompUIFirefoxV1,coreCompUIFirefoxV2,
+config.setTestRuns([coreCompUIChromePart1,coreCompUIChromePart2,coreCompUIChromePart3,coreCompUIChromePart4,
+                    coreCompUIChromePart5,coreCompUIFirefoxV1,coreCompUIFirefoxV2,
                     coreCompUIEdgeV1,coreCompUIEdgeV2])
 
 // Releases
