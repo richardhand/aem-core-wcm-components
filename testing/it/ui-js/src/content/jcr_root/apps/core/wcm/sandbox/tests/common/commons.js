@@ -51,5 +51,7 @@
     c.rtLanguageNavigation_v1 = "core/wcm/sandbox/components/languagenavigation/v1/languagenavigation";
     // search component
     c.rtSearch_v1 = "core/wcm/sandbox/components/search/v1/search";
+    // teaser component
+    c.rtTeaser_v1 = "core/wcm/sandbox/components/teaser/v1/teaser";
 
 }(hobs, jQuery));
