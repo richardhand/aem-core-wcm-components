@@ -61,11 +61,10 @@ window.CQ.CoreComponentsIT.Page.v2 = window.CQ.CoreComponentsIT.Page.v2 || {};
             })
             .click(".coral-Pathbrowser-picker .js-coral-pathbrowser-confirm")
 
-
             /*****  Check if the configuration is saved *****/
 
             //save the configuration and open again the page property
-            .click("coral-buttongroup button:contains('Save & Close')")
+            .click("coral-buttongroup button:contains('Save & Close')",{expectNav:true})
             .execTestCase(pageV1.openPageProperties)
             .click("coral-tab-label:contains('Advanced')", {delay: 1000})
 

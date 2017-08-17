@@ -49,7 +49,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
                 c.setPageName(h.param("testPagePath")(opts), "testPageName", done);
             })
             .click('coral-columnview-item:contains("%testPageName%") coral-columnview-item-thumbnail')
-            .click("button.cq-siteadmin-admin-actions-properties-activator")
+            .click("button.cq-siteadmin-admin-actions-properties-activator",{expectNav:true})
             ;
 
     /**
@@ -128,7 +128,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             /*****  Check if the date is saved *****/
 
             //save the configuration and open again the page property
-            .click("coral-buttongroup button:contains('Save & Close')")
+            .click("coral-buttongroup button:contains('Save & Close')",{expectNav:true})
             .execTestCase(page.openPageProperties)
             .click("coral-tab-label:contains('Basic')")
 
@@ -179,7 +179,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
                 /*****  Check if the date is saved *****/
 
                 //save the configuration and open again the page property
-                .click("coral-buttongroup button:contains('Save & Close')")
+                .click("coral-buttongroup button:contains('Save & Close')",{expectNav:true})
                 .execTestCase(page.openPageProperties)
                 .click("coral-tab-label:contains('Basic')")
 
@@ -236,7 +236,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             /*****  Check if the date is saved *****/
 
             //save the configuration and open again the page property
-            .click("coral-buttongroup button:contains('Save & Close')")
+            .click("coral-buttongroup button:contains('Save & Close')",{expectNav:true})
             .execTestCase(page.openPageProperties)
             .click("coral-tab-label:contains('Basic')")
 
@@ -289,7 +289,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             /*****  Check if data are saved *****/
 
             //save the configuration and open again the page property
-            .click("coral-buttongroup button:contains('Save & Close')")
+            .click("coral-buttongroup button:contains('Save & Close')",{expectNav:true})
             .execTestCase(page.openPageProperties)
             .click("coral-tab-label:contains('Basic')")
 
@@ -335,11 +335,12 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             //set the alias
             .simulate("input[name='./sling:alias']", "key-sequence",
                 {sequence: alias})
-
+            // required when running with no pacing delay, otherwise designPath does not get saved.
+            .wait(2000)
             /*****  Check if the date is saved *****/
 
             //save the configuration and open again the page property
-            .click("coral-buttongroup button:contains('Save & Close')")
+            .click("coral-buttongroup button:contains('Save & Close')",{expectNav:true})
             .execTestCase(page.openPageProperties)
             .click("coral-tab-label:contains('Advanced')", {delay: 1000})
 
@@ -393,7 +394,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             /*****  Check if the date is saved *****/
 
             //save the configuration and open again the page property
-            .click("coral-buttongroup button:contains('Save & Close')")
+            .click("coral-buttongroup button:contains('Save & Close')",{expectNav:true})
             .execTestCase(page.openPageProperties)
             .click("coral-tab-label:contains('Advanced')", {delay: 1000})
 
@@ -433,7 +434,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             /*****  Check if the date is saved *****/
 
             //save the configuration and open again the page property
-            .click("coral-buttongroup button:contains('Save & Close')")
+            .click("coral-buttongroup button:contains('Save & Close')",{expectNav:true})
             .execTestCase(page.openPageProperties)
             .click("coral-tab-label:contains('Advanced')", {delay: 1000})
 
@@ -476,7 +477,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             /*****  Check if the date is saved *****/
 
             //save the configuration and open again the page property
-            .click("coral-buttongroup button:contains('Save & Close')")
+            .click("coral-buttongroup button:contains('Save & Close')",{expectNav:true})
             .execTestCase(page.openPageProperties)
             .click("coral-tab-label:contains('Advanced')", {delay: 1000})
 
@@ -568,7 +569,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             /*****  Check if the date is saved *****/
 
             //save the configuration and open again the page property
-            .click("coral-buttongroup button:contains('Save & Close')")
+            .click("coral-buttongroup button:contains('Save & Close')",{expectNav:true})
             .execTestCase(page.openPageProperties)
             .click("coral-tab-label:contains('Social Media')", {delay: 1000})
 
@@ -611,7 +612,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             /*****  Check if the date is saved *****/
 
             //save the configuration and open again the page property
-            .click("coral-buttongroup button:contains('Save & Close')")
+            .click("coral-buttongroup button:contains('Save & Close')",{before:2000,expectNav:true})
             .execTestCase(page.openPageProperties)
             .click("coral-tab-label:contains('Cloud Services')", {delay: 1000})
 
@@ -649,7 +650,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             /*****  Check if the date is saved *****/
 
             //save the configuration and open again the page property
-            .click("coral-buttongroup button:contains('Save & Close')")
+            .click("coral-buttongroup button:contains('Save & Close')",{before:2000,expectNav:true})
             .execTestCase(page.openPageProperties)
             .click("coral-tab-label:contains('Personalization')", {delay: 1000})
 
@@ -854,7 +855,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
                 return h.find("coral-tab.is-selected coral-tab-label:contains('Blueprint')").size() === 1
             })
 
-            .click("coral-anchorbutton-label:contains('Rollout')")
+            .click("coral-anchorbutton-label:contains('Rollout')",{before:2000, expectNav:true})
             //check if the page is selected
             .assert.isTrue(function () {
                 return h.find("coral-checkbox.select-rollout[checked]").size() === 2
@@ -862,7 +863,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             //check the Rollout page and all sub pages
             .click("coral-checkbox.coral-Form-field")
             //save the configuration
-            .click(".cq-dialog-actions .cq-dialog-submit")
+            .click(".cq-dialog-actions .cq-dialog-submit",{expectNav:true})
 
             // delete the test page we created for the live copy
             .execFct(function (opts, done) {

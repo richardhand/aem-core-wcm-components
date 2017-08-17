@@ -16,7 +16,8 @@
 
 ;(function(h, $) {
 
-    hobs.config.pacing_delay = 250;
+    // don't remove this setting
+    hobs.config.pacing_delay = 1;
 
     // shortcut
     var c = window.CQ.CoreComponentsIT.commons;
