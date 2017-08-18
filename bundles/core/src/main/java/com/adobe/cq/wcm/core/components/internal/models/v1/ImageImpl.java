@@ -17,6 +17,7 @@ package com.adobe.cq.wcm.core.components.internal.models.v1;
 
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,13 +68,13 @@ import com.day.cq.wcm.api.policies.ContentPolicyManager;
 public class ImageImpl implements Image {
 
     public static final String RESOURCE_TYPE = "core/wcm/components/image/v1/image";
-    public static final String DEFAULT_EXTENSION = "jpeg";
+    private static final String DEFAULT_EXTENSION = "jpeg";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageImpl.class);
     private static final String DOT = ".";
     private static final String MIME_TYPE_IMAGE_JPEG = "image/jpeg";
     private static final String MIME_TYPE_IMAGE_PREFIX = "image/";
-    private static final List<String> NON_SUPPORTED_IMAGE_MIMETYPE = Arrays.asList("image/svg+xml");
+    private static final List<String> NON_SUPPORTED_IMAGE_MIMETYPE = Collections.singletonList("image/svg+xml");
 
     @Self
     private SlingHttpServletRequest request;
@@ -190,13 +191,13 @@ public class ImageImpl implements Image {
                     smartSizes[index] = width;
                     index++;
                 }
-                if (smartSizes.length == 0 || smartSizes.length >= 2) {
-                    src = request.getContextPath() + escapedResourcePath + DOT + AdaptiveImageServlet.DEFAULT_SELECTOR + DOT + extension +
-                            (!isWcmModeDisabled() && lastModifiedDate > 0 ? "/" + lastModifiedDate + DOT + extension : "");
-                } else if (smartSizes.length == 1) {
-                    src = request.getContextPath() + escapedResourcePath + DOT + AdaptiveImageServlet.DEFAULT_SELECTOR + DOT + smartSizes[0] +
-                            DOT + extension + (!isWcmModeDisabled() && lastModifiedDate > 0 ? "/" + lastModifiedDate + DOT + extension : "");
+                src = request.getContextPath() + escapedResourcePath + DOT + AdaptiveImageServlet.DEFAULT_SELECTOR + DOT;
+                if (smartSizes.length == 1) {
+                    src += smartSizes[0] + DOT + extension;
+                } else {
+                    src += extension;
                 }
+                src += !isWcmModeDisabled() && lastModifiedDate > 0 ? "/" + lastModifiedDate + DOT + extension : "";
             }
             if (!isDecorative) {
                 Page page = pageManager.getPage(linkURL);
