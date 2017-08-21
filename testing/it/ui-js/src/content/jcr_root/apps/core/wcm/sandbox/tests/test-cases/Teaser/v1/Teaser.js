@@ -71,7 +71,7 @@
                 return h.find(selectors.component.description, '#ContentFrame').text() === description;
             })
             .assert.isTrue(function () {
-                var $link = h.find('a' + selectors.component.link + '[href*="' + h.param('teaser_page')() + '"]', '#ContentFrame');
+                var $link = h.find('a' + selectors.component.link + '[href$="' + h.param('teaser_page')() + '.html"]', '#ContentFrame');
                 return $link && $link.size() === 1 && $link.text() === linkText;
             });
 
