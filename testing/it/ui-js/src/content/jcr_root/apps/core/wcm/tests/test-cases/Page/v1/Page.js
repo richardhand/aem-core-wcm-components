@@ -836,9 +836,6 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             execBefore: tcExecuteBeforeTest,
             execAfter: tcExecuteAfterTest
         })
-            .execFct(function (opts, done) {
-                c.createBlueprintConfig(h.param("testPagePath")(opts), "coreComp_blueprint", done)
-            })
             // create the live copy page, store page path in 'testLiveCopyPagePath'
             .execFct(function (opts, done) {
                 c.createLiveCopy(h.param("testPagePath")(opts), c.rootPage, 'page_' + Date.now(), 'page_' + Date.now(), "testLiveCopyPagePath", done)
@@ -868,13 +865,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             // delete the test page we created for the live copy
             .execFct(function (opts, done) {
                 c.deletePage(h.param("testLiveCopyPagePath")(opts), done);
-            })
-
-            // delete the blueprint
-            .execFct(function (opts, done) {
-                c.deleteBlueprint("/etc/blueprints/corecomp_blueprint", done);
-            })
-            ;
+            });
     };
 
     /**
