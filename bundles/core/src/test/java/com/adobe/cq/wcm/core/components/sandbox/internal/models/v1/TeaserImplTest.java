@@ -55,6 +55,7 @@ public class TeaserImplTest {
     private static final String TEASER_2 = TEST_ROOT_PAGE + TEST_ROOT_PAGE_GRID + "/teaser-2";
     private static final String TEASER_3 = TEST_ROOT_PAGE + TEST_ROOT_PAGE_GRID + "/teaser-3";
     private static final String TEASER_4 = TEST_ROOT_PAGE + TEST_ROOT_PAGE_GRID + "/teaser-4";
+    private static final String TEASER_5 = TEST_ROOT_PAGE + TEST_ROOT_PAGE_GRID + "/teaser-5";
     private Logger teaserLogger;
 
     @ClassRule
@@ -95,6 +96,21 @@ public class TeaserImplTest {
     }
 
     @Test
+    public void testFullyConfiguredTeaserVanityPath() {
+        Teaser teaser = getTeaserUnderTest(TEASER_5);
+        if (teaser.getImageResource() != null) {
+            // let's verify the ValueMap wrapping here
+            testImageResourceValueMap(teaser.getImageResource().getValueMap());
+            testImageResourceValueMap(teaser.getImageResource().adaptTo(ValueMap.class));
+        }
+        assertEquals(TEASER_5, teaser.getImageResource().getPath());
+        assertEquals(TITLE, teaser.getTitle());
+        assertEquals(DESCRIPTION, teaser.getDescription());
+        assertEquals(CONTEXT_PATH + "/content/teasers.html", teaser.getLinkURL());
+        assertEquals(LINK_TEXT, teaser.getLinkText());
+    }
+
+    @Test
     public void testInvalidFileReference() throws Exception {
         Teaser teaser = getTeaserUnderTest(TEASER_2);
         verify(teaserLogger)
@@ -128,6 +144,7 @@ public class TeaserImplTest {
         request.setResource(resource);
         SlingBindings slingBindings = new SlingBindings();
         slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
+        slingBindings.put(WCMBindings.PAGE_MANAGER, AEM_CONTEXT.pageManager());
         request.setAttribute(SlingBindings.class.getName(), slingBindings);
         return request.adaptTo(Teaser.class);
     }

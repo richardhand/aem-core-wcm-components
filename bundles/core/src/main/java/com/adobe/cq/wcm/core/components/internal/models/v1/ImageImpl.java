@@ -50,6 +50,7 @@ import org.slf4j.LoggerFactory;
 
 import com.adobe.cq.sightly.SightlyWCMMode;
 import com.adobe.cq.wcm.core.components.internal.Constants;
+import com.adobe.cq.wcm.core.components.internal.Utils;
 import com.adobe.cq.wcm.core.components.internal.servlets.AdaptiveImageServlet;
 import com.adobe.cq.wcm.core.components.models.Image;
 import com.day.cq.commons.DownloadResource;
@@ -57,7 +58,6 @@ import com.day.cq.commons.ImageResource;
 import com.day.cq.commons.jcr.JcrConstants;
 import com.day.cq.dam.api.Asset;
 import com.day.cq.wcm.api.NameConstants;
-import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.api.designer.Style;
 import com.day.cq.wcm.api.policies.ContentPolicy;
@@ -200,11 +200,7 @@ public class ImageImpl implements Image {
                 src += !isWcmModeDisabled() && lastModifiedDate > 0 ? "/" + lastModifiedDate + DOT + extension : "";
             }
             if (!isDecorative) {
-                Page page = pageManager.getPage(linkURL);
-                if (page != null) {
-                    String vanityURL = page.getVanityUrl();
-                    linkURL = (vanityURL == null ? linkURL + ".html" : vanityURL);
-                }
+                linkURL = Utils.getURL(request, pageManager, linkURL);
             } else {
                 linkURL = null;
                 alt = null;

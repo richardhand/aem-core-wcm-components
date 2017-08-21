@@ -44,6 +44,15 @@
                         "jcr:description"   : "Description",
                         "linkText"          : "Adobe",
                         "sling:resourceType": "core/wcm/sandbox/components/teaser/v1/teaser"
+                    },
+                    "teaser-5"          : {
+                        "jcr:primaryType"   : "nt:unstructured",
+                        "fileReference"     : "/content/dam/core/images/Adobe_Systems_logo_and_wordmark.png",
+                        "jcr:title"         : "Teaser",
+                        "jcr:description"   : "Description",
+                        "linkURL"           : "/content/teasers",
+                        "linkText"          : "Adobe",
+                        "sling:resourceType": "core/wcm/sandbox/components/teaser/v1/teaser"
                     }
                 }
             }

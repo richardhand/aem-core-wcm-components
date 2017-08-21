@@ -63,7 +63,7 @@ public class ImageImplTest extends AbstractImageTest {
                 "\"/core/content/test/jcr%3acontent/root/image0.img.2500.png\"],\"smartSizes\":[600,700,800,2000,2500],\"lazyEnabled\":true}";
         compareJSON(expectedJson, image.getJson());
         assertFalse(image.displayPopupTitle());
-        assertEquals("/content/test-image.html", image.getLink());
+        assertEquals(CONTEXT_PATH + "/content/test-image.html", image.getLink());
         assertEquals(CONTEXT_PATH + escapedResourcePath + ".img.png", image.getSrc());
     }
 

@@ -33,10 +33,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.adobe.cq.wcm.core.components.internal.Constants;
+import com.adobe.cq.wcm.core.components.internal.Utils;
 import com.adobe.cq.wcm.core.components.sandbox.models.Teaser;
 import com.day.cq.commons.DownloadResource;
 import com.day.cq.commons.ImageResource;
 import com.day.cq.commons.jcr.JcrConstants;
+import com.day.cq.wcm.api.PageManager;
 
 @Model(adaptables = SlingHttpServletRequest.class, adapters = Teaser.class, resourceType = TeaserImpl.RESOURCE_TYPE)
 @Exporter(name = Constants.EXPORTER_NAME, extensions = Constants.EXPORTER_EXTENSION)
@@ -55,6 +57,9 @@ public class TeaserImpl implements Teaser {
 
     @ScriptVariable
     private ValueMap properties;
+
+    @ScriptVariable
+    private PageManager pageManager;
 
     @Self
     private SlingHttpServletRequest request;
@@ -78,6 +83,7 @@ public class TeaserImpl implements Teaser {
                         " doesn't exist.");
             }
         }
+        linkURL = Utils.getURL(request, pageManager, linkURL);
     }
 
     @Override
