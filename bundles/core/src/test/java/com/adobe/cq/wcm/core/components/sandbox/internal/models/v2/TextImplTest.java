@@ -34,6 +34,6 @@ public class TextImplTest extends com.adobe.cq.wcm.core.components.internal.mode
         bindings.put(SlingBindings.RESOURCE, resource);
         Text text = request.adaptTo(Text.class);
 
-        assertEquals("core/wcm/components/text/v2/text", text.getExportedType());
+        assertEquals("core/wcm/sandbox/components/text/v2/text", text.getExportedType());
     }
 }

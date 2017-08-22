@@ -32,7 +32,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 public class TextImpl extends com.adobe.cq.wcm.core.components.internal.models.v1.TextImpl implements Text {
 
 
-    protected static final String RESOURCE_TYPE = "core/wcm/components/text/v2/text";
+    protected static final String RESOURCE_TYPE = "core/wcm/sandbox/components/text/v2/text";
 
     @Nonnull
     @Override
