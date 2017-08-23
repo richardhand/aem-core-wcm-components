@@ -108,7 +108,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             .fillInput("input[name='./jcr:title']", "Page")
 
             //add two tags
-            .click("foundation-autocomplete.cq-ui-tagfield button")
+/*           .click("foundation-autocomplete.cq-ui-tagfield button")
             .click("coral-columnview-item-content[title='We.Retail']")
             .click("coral-columnview-item-content[title='Activity']")
             .click("coral-columnview-item:contains('Biking') coral-columnview-item-thumbnail")
@@ -121,7 +121,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             //detele a tag
             .click("coral-taglist[name='./cq:tags'] coral-tag:contains('" + tag2 + "') > button")
             .assert.exist("coral-taglist[name='./cq:tags'] coral-tag:contains('" + tag2 + "')", false)
-
+*/
             //set the Hide in Navigation
             .click("input[name='./hideInNav']")
 
@@ -137,7 +137,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
                 return h.find("input[name='./jcr:title']").val() === "Page"
             })
             //check if the tags were saved
-            .assert.exist("coral-taglist[name='./cq:tags'] coral-tag:contains('" + tag1 + "')")
+  //          .assert.exist("coral-taglist[name='./cq:tags'] coral-tag:contains('" + tag1 + "')")
 
             //check if 'Hide in Navigation' is checked
             .assert.isTrue(function (opts) {
