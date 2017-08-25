@@ -18,6 +18,7 @@
     <!-- Sample content -->
     <filter root="/conf/core-components"/>
     <filter root="/content/core-components"/>
+    <filter root="/etc/tags/test-tags"/>
     <filter root="/content/dam/core-components"/>
     <filter root="/home/users/core-component"/>
     <!-- Hobbes IT folder -->
