@@ -21,7 +21,7 @@ String MINION_HUB_URL = 'http://or1010050212014.corp.adobe.com:8811'
 /* --------------------------------------------------------------------- */
 Module componentsCore = new Module.Builder('main/bundles/core')
         .withUnitTests(true)
-        .withCoverage()
+        .withCoverage(true)
         .withRelease()
         .withArtifact('jar', 'main/bundles/core/target/core.wcm.components.sandbox.bundle-*.jar', true)
         .build()

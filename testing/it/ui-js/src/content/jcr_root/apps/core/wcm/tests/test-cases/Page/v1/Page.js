@@ -25,8 +25,8 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
     var c = window.CQ.CoreComponentsIT.commons;
     var page = window.CQ.CoreComponentsIT.Page.v1;
     
-    var tag1 = "We.Retail : Activity / Biking";
-    var tag2 = "We.Retail : Activity / Hiking";
+    var tag1 = "TestTags : TestTag1";
+    var tag2 = "TestTags : TestTag2";
     var pageTitle = "This is the page title";
     var navTitle = "This is the navigation title";
     var subtitle = "This is the page subtitle";
@@ -108,11 +108,10 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             .fillInput("input[name='./jcr:title']", "Page")
 
             //add two tags
-/*           .click("foundation-autocomplete.cq-ui-tagfield button")
-            .click("coral-columnview-item-content[title='We.Retail']")
-            .click("coral-columnview-item-content[title='Activity']")
-            .click("coral-columnview-item:contains('Biking') coral-columnview-item-thumbnail")
-            .click("coral-columnview-item:contains('Hiking') coral-columnview-item-thumbnail")
+           .click("foundation-autocomplete.cq-ui-tagfield button")
+            .click("coral-columnview-item-content[title='TestTags']")
+            .click("coral-columnview-item:contains('TestTag1') coral-columnview-item-thumbnail")
+            .click("coral-columnview-item:contains('TestTag2') coral-columnview-item-thumbnail")
             .click("button.granite-pickerdialog-submit")
             //check if tags were added
             .assert.exist("coral-taglist[name='./cq:tags'] coral-tag:contains('" + tag1 + "')")
@@ -121,7 +120,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             //detele a tag
             .click("coral-taglist[name='./cq:tags'] coral-tag:contains('" + tag2 + "') > button")
             .assert.exist("coral-taglist[name='./cq:tags'] coral-tag:contains('" + tag2 + "')", false)
-*/
+
             //set the Hide in Navigation
             .click("input[name='./hideInNav']")
 
@@ -137,7 +136,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
                 return h.find("input[name='./jcr:title']").val() === "Page"
             })
             //check if the tags were saved
-  //          .assert.exist("coral-taglist[name='./cq:tags'] coral-tag:contains('" + tag1 + "')")
+            .assert.exist("coral-taglist[name='./cq:tags'] coral-tag:contains('" + tag1 + "')")
 
             //check if 'Hide in Navigation' is checked
             .assert.isTrue(function (opts) {
