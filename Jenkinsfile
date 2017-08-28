@@ -222,9 +222,7 @@ config.setParameterDefinitionCriteria([ new Branch(/^PRIVATE_master$/)])
 config.setGithubAccessTokenId('bf3be1a6-ad0a-43d9-86e2-93b30279060f')
 config.setQuickstartPRConfig(quickstart)
 
-config.setEnableMailNotification(true)
-config.setMailNotificationRecipients(['msagolj@adobe.com','adracea@adobe.com'])
-config.setMailNotifyEveryUnstableBuild(false)
+config.setEnableMailNotification(false)
 
 // Don't trigger sprout for release commits
 config.setBuildCriteria([new Exclude(new GitCommitMessage(/^(.*)@releng \[maven\-scm\] :prepare(.*)$/))])
