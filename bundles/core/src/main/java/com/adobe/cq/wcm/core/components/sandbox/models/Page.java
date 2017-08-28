@@ -15,17 +15,14 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.sandbox.models;
 
-import java.util.Calendar;
 import java.util.Map;
+import javax.annotation.Nonnull;
+
+import org.osgi.annotation.versioning.ConsumerType;
 
 import com.adobe.cq.export.json.ComponentExporter;
 import com.adobe.cq.export.json.ContainerExporter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import org.osgi.annotation.versioning.ConsumerType;
-
-import javax.annotation.Nonnull;
 
 /**
  * Defines the {@code Page} Sling Model used for the {@code /apps/core/wcm/sandbox/components/page} component.
@@ -60,7 +57,7 @@ public interface Page extends com.adobe.cq.wcm.core.components.models.Page, Cont
     @Deprecated
     default Map<String, String> getFavicons() {
         throw new UnsupportedOperationException();
-    };
+    }
 
     /**
      * Returns the path of the client library to load favicon related resources.
@@ -70,7 +67,7 @@ public interface Page extends com.adobe.cq.wcm.core.components.models.Page, Cont
     @JsonIgnore
     default String getFaviconClientLibPath() {
         throw new UnsupportedOperationException();
-    };
+    }
 
     /**
      * Returns the CSS classes defined for the page
@@ -80,7 +77,7 @@ public interface Page extends com.adobe.cq.wcm.core.components.models.Page, Cont
      */
     default String getCssClassNames() {
         throw new UnsupportedOperationException();
-    };
+    }
 
     @Nonnull
     @Override
