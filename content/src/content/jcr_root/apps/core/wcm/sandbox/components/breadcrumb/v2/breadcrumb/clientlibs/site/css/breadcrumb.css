@@ -21,6 +21,7 @@
 
 .cmp-breadcrumb__item {
     display: inline-block;
+    vertical-align: top;
     padding: 0 5px;
 }
 
