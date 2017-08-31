@@ -26,7 +26,7 @@ window.CQ.CoreComponentsIT.Page.v2 = window.CQ.CoreComponentsIT.Page.v2 || {};
     var pageV1 = window.CQ.CoreComponentsIT.Page.v1;
     var pageV2 = window.CQ.CoreComponentsIT.Page.v2;
 
-    var configuration = "/conf/we-retail";
+    var configuration = "/conf/core-components";
 
     /**
      * Test: Check the Advanced Configuration option of a page properties.
@@ -34,7 +34,10 @@ window.CQ.CoreComponentsIT.Page.v2 = window.CQ.CoreComponentsIT.Page.v2 || {};
     pageV2.tcAdvancedConfigurationPageProperties = function(tcExecuteBeforeTest,tcExecuteAfterTest) {
         return new h.TestCase("Advanced Configuration page property", {
             execBefore: tcExecuteBeforeTest,
-            execAfter: tcExecuteAfterTest
+            execAfter: tcExecuteAfterTest,
+            metadata: {
+                ignoreOn63: true
+            }
         })
         // open the new page in the sites
             .navigateTo("/sites.html%testPagePath%")
