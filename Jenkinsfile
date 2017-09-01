@@ -188,8 +188,8 @@ UITestRun coreCompUIEdgeV2 = new UITestRun.Builder()
 SproutConfig config = new SproutConfig()
 
 // calculate code coverage
-config.setComputeCoverage(true)
-config.setComputeReleaseCoverage(true)
+config.setComputeCoverage(false)
+config.setComputeReleaseCoverage(false)
 
 // only for the PRIVATE_master branch
 config.setCoverageCriteria([new Branch(/^PRIVATE_master$/)])
