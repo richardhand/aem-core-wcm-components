@@ -54,7 +54,8 @@
         .addTestCase(page.tcAddPermissionsPageProperties(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(page.tcEditUserGroupPermissionsPageProperties(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(page.tcEffectivePermissionsPageProperties(tcExecuteBeforeTest, tcExecuteAfterTest))
-        .addTestCase(page.tcBlueprintPageProperties(tcExecuteBeforeTest, tcExecuteAfterTest))
+        .addTestCase(page.tcBlueprintPageProperties63(tcExecuteBeforeTest, tcExecuteAfterTest))
+        .addTestCase(page.tcBlueprintPageProperties64(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(page.tcLiveCopyPageProperties(tcExecuteBeforeTest, tcExecuteAfterTest))
     ;
 
