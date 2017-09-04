@@ -22,6 +22,7 @@
     <filter root="/etc/tags/test-tags"/>
     <filter root="/content/dam/core-components"/>
     <filter root="/home/users/core-component"/>
+    <filter root="/etc/blueprints/corecomp_blueprint"/>
     <!-- Hobbes IT folder -->
     <filter root="/apps/core/wcm/tests"/>
     <filter root="/apps/core/wcm/sandbox/tests"/>
