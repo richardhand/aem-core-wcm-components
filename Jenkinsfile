@@ -16,6 +16,17 @@ import com.adobe.qe.evergreen.sprout.model.UITestRun
 
 String MINION_HUB_URL = 'http://or1010050212014.corp.adobe.com:8811'
 
+String GENERAL_METADATA_RUN_OPTIONS =
+        '\\\"ignoreOn64\\\":{\\\"value\\\":true,\\\"type\\\":\\\"exclude\\\"}' +
+        ',' +
+        '\\\"flaky\\\":{\\\"value\\\":true,\\\"type\\\":\\\"exclude\\\"}' +
+        ',' +
+        '\\\"failing\\\":{\\\"value\\\":true,\\\"type\\\":\\\"exclude\\\"}'
+
+String UI_TEST_OPTIONS = '{\\\"withMetadata\\\":{' + GENERAL_METADATA_RUN_OPTIONS + '}}'
+
+String NUM_OF_RETRIES = '{\\\"global_maxretries_on_failed\\\":1}'
+
 /* --------------------------------------------------------------------- */
 /*                                MODULES V1 + Sandbox                   */
 /* --------------------------------------------------------------------- */
@@ -55,13 +66,15 @@ MavenDependency hobbesRewriterPackage = new MavenDependency.Builder()
         .withGroupId("com.adobe.granite")
         .withArtifactId("com.adobe.granite.testing.hobbes.rewriter")
         .withVersion("latest")
-        .withExtension("jar").build()
+        .withExtension("jar")
+        .build()
 
 MavenDependency uiTestingCommonsPackage = new MavenDependency.Builder()
         .withGroupId("com.adobe.qe")
         .withArtifactId("com.adobe.qe.ui-testing-commons")
         .withVersion("latest")
-        .withExtension("zip").build()
+        .withExtension("zip")
+        .build()
 
 /* --------------------------------------------------------------------- */
 /*                       QUICKSTART CONFIGURATIONS                        */
@@ -69,7 +82,8 @@ MavenDependency uiTestingCommonsPackage = new MavenDependency.Builder()
 Quickstart quickstart = new BuildQuickstart.Builder('Quickstart 6.4')
         .withModule(componentsCore)
         .withModule(componentsContent)
-        .withModule(componentsConfig).build()
+        .withModule(componentsConfig)
+        .build()
 
 /* --------------------------------------------------------------------- */
 /*                      CQ INSTANCE CONFIGURATIONS                        */
@@ -82,7 +96,8 @@ CQInstance author = new CQInstance.Builder()
         .withContextPath("/cp")
         .withMavenDependency(hobbesRewriterPackage)
         .withMavenDependency(uiTestingCommonsPackage)
-        .withFileDependency(componentsItUi.getArtifact('zip')).build()
+        .withFileDependency(componentsItUi.getArtifact('zip'))
+        .build()
 
 /* --------------------------------------------------------------------- */
 /*                                UI TESTS                               */
@@ -93,9 +108,10 @@ UITestRun coreCompUIChromePart1 = new UITestRun.Builder()
         .withBrowser('CHROME')
         .withFilter('aem.core-components.testsuite.breadcrumb,aem.core-components.testsuite.formbutton,' +
         'aem.core-components.testsuite.formcontainer,aem.core-components.testsuite.title')
-        .withRunOptions('{\\\"withMetadata\\\":{\\\"flaky\\\":{\\\"value\\\":true,\\\"type\\\":\\\"exclude\\\"}}}')
+        .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
-        .withHobbesConfig('{\\\"global_maxretries_on_failed\\\":1}').build()
+        .withHobbesConfig(NUM_OF_RETRIES)
+        .build()
 
 UITestRun coreCompUIChromePart2 = new UITestRun.Builder()
         .withName('UI Tests: FormHidden, FormOptions, FormComponents / Chrome')
@@ -103,9 +119,10 @@ UITestRun coreCompUIChromePart2 = new UITestRun.Builder()
         .withBrowser('CHROME')
         .withFilter('aem.core-components.testsuite.formhidden,aem.core-components.testsuite.formoptions,' +
         'aem.core-components.testsuite.formcomponents')
-        .withRunOptions('{\\\"withMetadata\\\":{\\\"flaky\\\":{\\\"value\\\":true,\\\"type\\\":\\\"exclude\\\"}}}')
+        .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
-        .withHobbesConfig('{\\\"global_maxretries_on_failed\\\":1}').build()
+        .withHobbesConfig(NUM_OF_RETRIES)
+        .build()
 
 UITestRun coreCompUIChromePart3 = new UITestRun.Builder()
         .withName('UI Tests: FormText, LanguageNavigation, Text / Chrome')
@@ -113,18 +130,20 @@ UITestRun coreCompUIChromePart3 = new UITestRun.Builder()
         .withBrowser('CHROME')
         .withFilter('aem.core-components.testsuite.formtext,aem.core-components.testsuite.languagenavigation,' +
         'aem.core-components.testsuite.text')
-        .withRunOptions('{\\\"withMetadata\\\":{\\\"flaky\\\":{\\\"value\\\":true,\\\"type\\\":\\\"exclude\\\"}}}')
+        .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
-        .withHobbesConfig('{\\\"global_maxretries_on_failed\\\":1}').build()
+        .withHobbesConfig(NUM_OF_RETRIES)
+        .build()
 
 UITestRun coreCompUIChromePart4 = new UITestRun.Builder()
         .withName('UI Tests: Image, List / Chrome')
         .withInstance(author)
         .withBrowser('CHROME')
         .withFilter('aem.core-components.testsuite.image,aem.core-components.testsuite.list')
-        .withRunOptions('{\\\"withMetadata\\\":{\\\"flaky\\\":{\\\"value\\\":true,\\\"type\\\":\\\"exclude\\\"}}}')
+        .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
-        .withHobbesConfig('{\\\"global_maxretries_on_failed\\\":1}').build()
+        .withHobbesConfig(NUM_OF_RETRIES)
+        .build()
 
 UITestRun coreCompUIChromePart5 = new UITestRun.Builder()
         .withName('UI Tests: Navigation, Page, Search / Chrome')
@@ -132,55 +151,10 @@ UITestRun coreCompUIChromePart5 = new UITestRun.Builder()
         .withBrowser('CHROME')
         .withFilter('aem.core-components.testsuite.navigation,aem.core-components.testsuite.page,' +
         'aem.core-components.testsuite.search')
-        .withRunOptions('{\\\"withMetadata\\\":{\\\"flaky\\\":{\\\"value\\\":true,\\\"type\\\":\\\"exclude\\\"}}}')
+        .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
-        .withHobbesConfig('{\\\"global_maxretries_on_failed\\\":1}').build()
-
-UITestRun coreCompUIFirefoxV1 = new UITestRun.Builder()
-        .withName('UI Tests Core Comp V1 / Firefox')
-        .withInstance(author)
-        .withBrowser('FIREFOX')
-        .withFilter('aem.core-components.tests.v1.suites')
-        .withCriteria(new OrCriteria()
-        .withCriteria(new Branch(/^master$/))
-        .withCriteria(new Branch(/^release\/630$/))
-)
-        .withRunOptions('{\\\"withMetadata\\\":{\\\"flaky\\\":{\\\"value\\\":true,\\\"type\\\":\\\"exclude\\\"}}}')
-        .withHobbesHubUrl(MINION_HUB_URL)
-        .withHobbesConfig('{\\\"global_maxretries_on_failed\\\":1}').build()
-
-UITestRun coreCompUIFirefoxV2 = new UITestRun.Builder()
-        .withName('UI Tests Core Comp V2 / Firefox')
-        .withInstance(author)
-        .withBrowser('FIREFOX')
-        .withFilter('aem.core-components.tests.v2.suites')
-        .withCriteria(new Branch(/^master$/))
-        .withRunOptions('{\\\"withMetadata\\\":{\\\"flaky\\\":{\\\"value\\\":true,\\\"type\\\":\\\"exclude\\\"}}}')
-        .withHobbesHubUrl(MINION_HUB_URL)
-        .withHobbesConfig('{\\\"global_maxretries_on_failed\\\":1}').build()
-
-UITestRun coreCompUIEdgeV1 = new UITestRun.Builder()
-        .withName('UI Tests Core Comp V1 / Edge')
-        .withInstance(author)
-        .withBrowser('EDGE')
-        .withFilter('aem.core-components.tests.v1.suites')
-        .withCriteria(new OrCriteria()
-        .withCriteria(new Branch(/^master$/))
-        .withCriteria(new Branch(/^release\/630$/))
-)
-        .withRunOptions('{\\\"withMetadata\\\":{\\\"flaky\\\":{\\\"value\\\":true,\\\"type\\\":\\\"exclude\\\"}}}')
-        .withHobbesHubUrl(MINION_HUB_URL)
-        .withHobbesConfig('{\\\"global_maxretries_on_failed\\\":1}').build()
-
-UITestRun coreCompUIEdgeV2 = new UITestRun.Builder()
-        .withName('UI Tests Core Comp V2 / Edge')
-        .withInstance(author)
-        .withBrowser('EDGE')
-        .withFilter('aem.core-components.tests.v2.suites')
-        .withCriteria(new Branch(/^master$/))
-        .withRunOptions('{\\\"withMetadata\\\":{\\\"flaky\\\":{\\\"value\\\":true,\\\"type\\\":\\\"exclude\\\"}}}')
-        .withHobbesHubUrl(MINION_HUB_URL)
-        .withHobbesConfig('{\\\"global_maxretries_on_failed\\\":1}').build()
+        .withHobbesConfig(NUM_OF_RETRIES)
+        .build()
 
 /* --------------------------------------------------------------------- */
 /*                       SPROUT CONFIGURATION                            */
@@ -207,8 +181,7 @@ config.setModules([componentsCore, componentsContent, componentsConfig, componen
                     componentsJUnitCore,componentsParent])
 // the tests to execute
 config.setTestRuns([coreCompUIChromePart1,coreCompUIChromePart2,coreCompUIChromePart3,coreCompUIChromePart4,
-                    coreCompUIChromePart5,coreCompUIFirefoxV1,coreCompUIFirefoxV2,
-                    coreCompUIEdgeV1,coreCompUIEdgeV2])
+                    coreCompUIChromePart5])
 
 // Releases
 config.setReleaseCriteria([new Branch(/^PRIVATE_master$/)])
