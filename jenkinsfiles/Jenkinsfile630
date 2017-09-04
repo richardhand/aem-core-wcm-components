@@ -1,0 +1,223 @@
+#!groovy
+@Library(['com.adobe.qe.evergreen.sprout'])
+import com.adobe.qe.evergreen.sprout.Sprout
+import com.adobe.qe.evergreen.sprout.Pipeline
+import com.adobe.qe.evergreen.sprout.SproutConfig
+import com.adobe.qe.evergreen.sprout.criteria.Exclude
+import com.adobe.qe.evergreen.sprout.criteria.GitCommitMessage
+import com.adobe.qe.evergreen.sprout.model.QPQuickstart
+import com.adobe.qe.evergreen.sprout.model.CQInstance
+import com.adobe.qe.evergreen.sprout.model.MavenDependency
+import com.adobe.qe.evergreen.sprout.model.Module
+import com.adobe.qe.evergreen.sprout.model.Quickstart
+import com.adobe.qe.evergreen.sprout.model.UITestRun
+
+String MINION_HUB_URL = 'http://or1010050212014.corp.adobe.com:8811'
+
+String GENERAL_METADATA_RUN_OPTIONS =
+        '\\\"ignoreOn63\\\":{\\\"value\\\":true,\\\"type\\\":\\\"exclude\\\"}' +
+                ',' +
+                '\\\"flaky\\\":{\\\"value\\\":true,\\\"type\\\":\\\"exclude\\\"}' +
+                ',' +
+                '\\\"failing\\\":{\\\"value\\\":true,\\\"type\\\":\\\"exclude\\\"}'
+
+String UI_TEST_OPTIONS = '{\\\"withMetadata\\\":{' + GENERAL_METADATA_RUN_OPTIONS + '}}'
+
+String NUM_OF_RETRIES = '{\\\"global_maxretries_on_failed\\\":1}'
+
+SproutConfig config = new SproutConfig()
+
+/* --------------------------------------------------------------------- */
+/*                                MODULES V1 + Sandbox                   */
+/* --------------------------------------------------------------------- */
+
+// define all the modules
+Module componentsCore = new Module.Builder('main/bundles/core')
+        .withArtifact('jar', 'main/bundles/core/target/core.wcm.components.sandbox.bundle-*.jar', true)
+        .build()
+Module componentsContent = new Module.Builder('main/content')
+        .withArtifact('zip', 'main/content/target/core.wcm.components.sandbox.content-*.zip', true)
+        .build()
+Module componentsConfig = new Module.Builder('main/config')
+        .withArtifact('zip', 'main/config/target/core.wcm.components.sandbox.config-*.zip', true)
+        .build()
+Module componentsItUi = new Module.Builder('main/testing/it/ui-js')
+        .withArtifact('zip', 'main/testing/it/ui-js/target/core.wcm.components.sandbox.it.ui-js-*.zip', true)
+        .build()
+Module componentsJUnitCore = new Module.Builder('main/testing/junit/core')
+        .withArtifact('jar', 'main/testing/junit/core/target/core.wcm.components.junit.core-*.jar', true)
+        .build()
+Module componentsParent = new Module.Builder('main/parent')
+        .build()
+
+/* --------------------------------------------------------------------- */
+/*                        EXTERNAL DEPENDENCIES                          */
+/* --------------------------------------------------------------------- */
+MavenDependency hobbesRewriterPackage = new MavenDependency.Builder()
+        .withGroupId("com.adobe.granite")
+        .withArtifactId("com.adobe.granite.testing.hobbes.rewriter")
+        .withVersion("latest")
+        .withExtension("jar").build()
+
+MavenDependency uiTestingCommonsPackage = new MavenDependency.Builder()
+        .withGroupId("com.adobe.qe")
+        .withArtifactId("com.adobe.qe.ui-testing-commons")
+        .withVersion("latest")
+        .withExtension("zip").build()
+
+// define all the dependencies needed for sandbox to work on a 6.3 instance
+MavenDependency exportJson = new MavenDependency.Builder()
+        .withGroupId("com.adobe.cq")
+        .withArtifactId("com.adobe.cq.export.json")
+        .withVersion("0.0.4")
+        .withExtension("jar").build()
+
+MavenDependency slingModelsApi = new MavenDependency.Builder()
+        .withGroupId("org.apache.sling")
+        .withArtifactId("org.apache.sling.models.api")
+        .withVersion("1.3.6")
+        .withExtension("jar").build()
+
+MavenDependency slingModelsImpl = new MavenDependency.Builder()
+        .withGroupId("org.apache.sling")
+        .withArtifactId("org.apache.sling.models.impl")
+        .withVersion("1.4.4")
+        .withExtension("jar").build()
+
+MavenDependency jacksonExporter = new MavenDependency.Builder()
+        .withGroupId("org.apache.sling")
+        .withArtifactId("org.apache.sling.models.jacksonexporter")
+        .withVersion("1.0.8")
+        .withExtension("jar").build()
+
+MavenDependency fp18678 = new MavenDependency.Builder()
+        .withGroupId("com.adobe.cq.feature")
+        .withArtifactId("cq-6.3.0-featurepack-18678")
+        .withVersion("1.0")
+        .withExtension("zip").build()
+
+/* --------------------------------------------------------------------- */
+/*                       QUICKSTART CONFIGURATIONS                       */
+/* --------------------------------------------------------------------- */
+// we need a plain 6.3 quickstart
+Quickstart quickstart63 = new QPQuickstart.Builder('Quickstart 6.3')
+        .withVersion('6.3.0')
+        .build()
+
+/* --------------------------------------------------------------------- */
+/*                      CQ INSTANCE CONFIGURATIONS                       */
+/* --------------------------------------------------------------------- */
+// define an 6.3 author instance
+CQInstance author = new CQInstance.Builder()
+        .withQuickstart(quickstart63)
+        .withId('weretail-author')
+        .withPort(1234)
+        .withRunmode("author")
+// we must run with nosamplecontent mode, due to different artifact ids for the components, to avoid trouble
+        .withRunmode("nosamplecontent")
+        .withContextPath("/cp")
+        .withMavenDependency(hobbesRewriterPackage)
+        .withMavenDependency(uiTestingCommonsPackage)
+// install all the dependencies needed for sandbox to work on a 6.3 instance
+        .withMavenDependency(exportJson)
+        .withMavenDependency(slingModelsApi)
+        .withMavenDependency(slingModelsImpl)
+        .withMavenDependency(jacksonExporter)
+        .withMavenDependency(fp18678)
+// install all the core component modules
+        .withFileDependency(componentsCore.getArtifact('jar'))
+        .withFileDependency(componentsContent.getArtifact('zip'))
+        .withFileDependency(componentsConfig.getArtifact('zip'))
+        .withFileDependency(componentsItUi.getArtifact('zip'))
+        .build()
+/* --------------------------------------------------------------------- */
+/*                                UI TESTS                               */
+/* --------------------------------------------------------------------- */
+UITestRun coreCompUIChromePart1 = new UITestRun.Builder()
+        .withName('UI Tests: Breadcrumb, FormButton, FormContainer, Title / Chrome')
+        .withInstance(author)
+        .withBrowser('CHROME')
+        .withFilter('aem.core-components.testsuite.breadcrumb,aem.core-components.testsuite.formbutton,' +
+        'aem.core-components.testsuite.formcontainer,aem.core-components.testsuite.title')
+        .withRunOptions(UI_TEST_OPTIONS)
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withHobbesConfig(NUM_OF_RETRIES).build()
+
+UITestRun coreCompUIChromePart2 = new UITestRun.Builder()
+        .withName('UI Tests: FormHidden, FormOptions, FormComponents / Chrome')
+        .withInstance(author)
+        .withBrowser('CHROME')
+        .withFilter('aem.core-components.testsuite.formhidden,aem.core-components.testsuite.formoptions,' +
+        'aem.core-components.testsuite.formcomponents')
+        .withRunOptions(UI_TEST_OPTIONS)
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withHobbesConfig(NUM_OF_RETRIES).build()
+
+UITestRun coreCompUIChromePart3 = new UITestRun.Builder()
+        .withName('UI Tests: FormText, LanguageNavigation, Text / Chrome')
+        .withInstance(author)
+        .withBrowser('CHROME')
+        .withFilter('aem.core-components.testsuite.formtext,aem.core-components.testsuite.languagenavigation,' +
+        'aem.core-components.testsuite.text')
+        .withRunOptions(UI_TEST_OPTIONS)
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withHobbesConfig(NUM_OF_RETRIES).build()
+
+UITestRun coreCompUIChromePart4 = new UITestRun.Builder()
+        .withName('UI Tests: Image, List / Chrome')
+        .withInstance(author)
+        .withBrowser('CHROME')
+        .withFilter('aem.core-components.testsuite.image,aem.core-components.testsuite.list')
+        .withRunOptions(UI_TEST_OPTIONS)
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withHobbesConfig(NUM_OF_RETRIES).build()
+
+UITestRun coreCompUIChromePart5 = new UITestRun.Builder()
+        .withName('UI Tests: Navigation, Page, Search / Chrome')
+        .withInstance(author)
+        .withBrowser('CHROME')
+        .withFilter('aem.core-components.testsuite.navigation,aem.core-components.testsuite.page,' +
+        'aem.core-components.testsuite.search')
+        .withRunOptions(UI_TEST_OPTIONS)
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withHobbesConfig(NUM_OF_RETRIES).build()
+
+/* --------------------------------------------------------------------- */
+/*                       SPROUT CONFIGURATION                            */
+/* --------------------------------------------------------------------- */
+
+// no code coverage
+config.setComputeCoverage(false)
+config.setComputeReleaseCoverage(false)
+
+// the modules to build
+config.setModules([componentsCore, componentsContent, componentsConfig, componentsItUi,
+                   componentsJUnitCore,componentsParent])
+// the tests to execute
+config.setTestRuns([coreCompUIChromePart1,coreCompUIChromePart2,coreCompUIChromePart3,coreCompUIChromePart4,
+                    coreCompUIChromePart5])
+
+// don't ask for release at the end
+config.setEnableBuildPromotion(false)
+
+config.setGithubAccessTokenId('bf3be1a6-ad0a-43d9-86e2-93b30279060f')
+
+config.setEnableMailNotification(false)
+
+// Don't trigger sprout for release commits
+config.setBuildCriteria([new Exclude(new GitCommitMessage(/^(.*)@releng \[maven\-scm\] :prepare(.*)$/))])
+
+// Slack notification
+/* config.setEnableSlackNotifications(true)
+config.setSlackChannel('#refsquad-sprouts')
+config.setSlackTeamDomain('cq-dev')
+config.setSlackIntegrationToken('TPhlDoZqT0DvKyVC1RnCvzfj')
+*/
+/* --------------------------------------------------------------------- */
+/*                       SPROUT CUSTOMIZATION                            */
+/* --------------------------------------------------------------------- */
+Pipeline sprout = new Sprout.Builder()
+        .withConfig(config)
+        .withJenkins(this).build()
+
+sprout.execute()
