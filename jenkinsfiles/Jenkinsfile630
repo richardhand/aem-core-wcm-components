@@ -204,9 +204,6 @@ config.setGithubAccessTokenId('bf3be1a6-ad0a-43d9-86e2-93b30279060f')
 
 config.setEnableMailNotification(false)
 
-// Don't trigger sprout for release commits
-config.setBuildCriteria([new Exclude(new GitCommitMessage(/^(.*)@releng \[maven\-scm\] :prepare(.*)$/))])
-
 // Slack notification
 config.setEnableSlackNotifications(true)
 config.setSlackChannel('#refsquad-sprouts')
