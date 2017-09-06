@@ -827,48 +827,6 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             ;
     };
 
-    /**
-     * Test: Check the Blueprint options of a page properties.
-     */
-    page.tcBlueprintPageProperties64 = function(tcExecuteBeforeTest, tcExecuteAfterTest) {
-        return new h.TestCase("Blueprint for a page (6.4)", {
-            execBefore: tcExecuteBeforeTest,
-            execAfter: tcExecuteAfterTest,
-            metadata: {
-                ignoreOn63: true
-            }
-        })
-            // create the live copy page, store page path in 'testLiveCopyPagePath'
-            .execFct(function (opts, done) {
-                c.createLiveCopy(h.param("testPagePath")(opts), c.rootPage, 'page_' + Date.now(), 'page_' + Date.now(), "testLiveCopyPagePath", done)
-            })
-
-            // open the new page in the sites
-            .navigateTo("/sites.html%testPagePath%")
-
-            .execTestCase(page.openPageProperties)
-
-            .click("coral-tab-label:contains('Blueprint')", {delay: 1000})
-            //check if the "Blueprint" option was selected
-            .assert.isTrue(function () {
-                return h.find("coral-tab.is-selected coral-tab-label:contains('Blueprint')").size() === 1
-            })
-
-            .click("coral-anchorbutton-label:contains('Rollout')",{before:2000, expectNav:true})
-            //check if the page is selected
-            .assert.isTrue(function () {
-                return h.find("coral-checkbox.select-rollout[checked]").size() === 2
-            })
-            //check the Rollout page and all sub pages
-            .click("coral-checkbox.coral-Form-field")
-            //save the configuration
-            .click(".cq-dialog-actions .cq-dialog-submit",{expectNav:true})
-
-            // delete the test page we created for the live copy
-            .execFct(function (opts, done) {
-                c.deletePage(h.param("testLiveCopyPagePath")(opts), done);
-            });
-    };
 
     /**
      * Test: Check the Blueprint options of a page properties.

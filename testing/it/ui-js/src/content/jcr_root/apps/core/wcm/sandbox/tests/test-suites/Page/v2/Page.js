@@ -58,8 +58,7 @@ window.CQ.CoreComponentsIT.Page.v2 = window.CQ.CoreComponentsIT.Page.v2 || {}
         .addTestCase(pageV1.tcAddPermissionsPageProperties(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(pageV1.tcEditUserGroupPermissionsPageProperties(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(pageV1.tcEffectivePermissionsPageProperties(tcExecuteBeforeTest, tcExecuteAfterTest))
-        .addTestCase(pageV1.tcBlueprintPageProperties63(tcExecuteBeforeTest, tcExecuteAfterTest))
-        .addTestCase(pageV1.tcBlueprintPageProperties64(tcExecuteBeforeTest, tcExecuteAfterTest))
+        .addTestCase(pageV2.tcBlueprintPageProperties64(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(pageV1.tcLiveCopyPageProperties(tcExecuteBeforeTest, tcExecuteAfterTest))
     ;
 
