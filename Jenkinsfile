@@ -13,6 +13,7 @@ import com.adobe.qe.evergreen.sprout.model.MavenDependency
 import com.adobe.qe.evergreen.sprout.model.Module
 import com.adobe.qe.evergreen.sprout.model.Quickstart
 import com.adobe.qe.evergreen.sprout.model.UITestRun
+import com.adobe.qe.evergreen.sprout.command.*
 
 String MINION_HUB_URL = 'http://or1010050212014.corp.adobe.com:8811'
 
@@ -34,6 +35,7 @@ Module componentsCore = new Module.Builder('main/bundles/core')
         .withUnitTests(true)
         .withCoverage(true)
         .withRelease()
+        .withUnitTestCoverageCommand(new ShellCommand("mvn verify"))
         .withArtifact('jar', 'main/bundles/core/target/core.wcm.components.sandbox.bundle-*.jar', true)
         .build()
 Module componentsContent = new Module.Builder('main/content')
