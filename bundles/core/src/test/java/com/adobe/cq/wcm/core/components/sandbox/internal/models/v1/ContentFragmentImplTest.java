@@ -234,7 +234,7 @@ public class ContentFragmentImplTest {
     /**
      * Adapts resources to {@link com.adobe.cq.dam.cfm.ContentFragment} objects by mocking parts of their API.
      */
-    private static final com.google.common.base.Function<Resource, com.adobe.cq.dam.cfm.ContentFragment> ADAPTER =
+    public static final com.google.common.base.Function<Resource, com.adobe.cq.dam.cfm.ContentFragment> ADAPTER =
             new com.google.common.base.Function<Resource, com.adobe.cq.dam.cfm.ContentFragment>() {
 
         private final String PATH_DATA = JCR_CONTENT + "/data";
