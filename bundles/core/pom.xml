@@ -413,6 +413,17 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.adobe.cq.dam</groupId>
+            <artifactId>cq-dam-cfm-api</artifactId>
+            <version>1.2.4</version>
+        </dependency>
+        <dependency>
             <groupId>com.adobe.aem</groupId>
             <artifactId>uber-jar</artifactId>
             <classifier>apis</classifier>
