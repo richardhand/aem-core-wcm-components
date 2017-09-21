@@ -162,7 +162,7 @@ UITestRun coreCompUIChromePart5 = new UITestRun.Builder()
 
 // Run tests against firefox
 UITestRun coreCompUIFirefoxPart1 = new UITestRun.Builder()
-        .withName('UI Tests: Breadcrumb, FormButton, FormContainer, Title / Chrome')
+        .withName('UI Tests: Breadcrumb, FormButton, FormContainer, Title / Firefox')
         .withInstance(author)
         .withBrowser('FIREFOX')
         .withFilter('aem.core-components.testsuite.breadcrumb,aem.core-components.testsuite.formbutton,' +
@@ -173,7 +173,7 @@ UITestRun coreCompUIFirefoxPart1 = new UITestRun.Builder()
         .build()
 
 UITestRun coreCompUIFirefoxPart2 = new UITestRun.Builder()
-        .withName('UI Tests: FormHidden, FormOptions, FormComponents / Chrome')
+        .withName('UI Tests: FormHidden, FormOptions, FormComponents / Firefox')
         .withInstance(author)
         .withBrowser('FIREFOX')
         .withFilter('aem.core-components.testsuite.formhidden,aem.core-components.testsuite.formoptions,' +
@@ -184,7 +184,7 @@ UITestRun coreCompUIFirefoxPart2 = new UITestRun.Builder()
         .build()
 
 UITestRun coreCompUIFirefoxPart3 = new UITestRun.Builder()
-        .withName('UI Tests: FormText, LanguageNavigation, Text / Chrome')
+        .withName('UI Tests: FormText, LanguageNavigation, Text / Firefox')
         .withInstance(author)
         .withBrowser('FIREFOX')
         .withFilter('aem.core-components.testsuite.formtext,aem.core-components.testsuite.languagenavigation,' +
@@ -195,7 +195,7 @@ UITestRun coreCompUIFirefoxPart3 = new UITestRun.Builder()
         .build()
 
 UITestRun coreCompUIFirefoxPart4 = new UITestRun.Builder()
-        .withName('UI Tests: Image, List / Chrome')
+        .withName('UI Tests: Image, List / Firefox')
         .withInstance(author)
         .withBrowser('FIREFOX')
         .withFilter('aem.core-components.testsuite.image,aem.core-components.testsuite.list')
@@ -205,7 +205,7 @@ UITestRun coreCompUIFirefoxPart4 = new UITestRun.Builder()
         .build()
 
 UITestRun coreCompUIFirefoxPart5 = new UITestRun.Builder()
-        .withName('UI Tests: Navigation, Page, Search / Chrome')
+        .withName('UI Tests: Navigation, Page, Search / Firefox')
         .withInstance(author)
         .withBrowser('FIREFOX')
         .withFilter('aem.core-components.testsuite.navigation,aem.core-components.testsuite.page,' +
