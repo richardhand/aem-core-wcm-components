@@ -107,11 +107,12 @@ CQInstance author = new CQInstance.Builder()
 
 // Run tests against chrome
 UITestRun coreCompUIChromePart1 = new UITestRun.Builder()
-        .withName('UI Tests: Breadcrumb, FormButton, FormContainer, Title / Chrome')
+        .withName('UI Tests: Breadcrumb, FormButton, FormContainer, Title, Teaser / Chrome')
         .withInstance(author)
         .withBrowser('CHROME')
         .withFilter('aem.core-components.testsuite.breadcrumb,aem.core-components.testsuite.formbutton,' +
-        'aem.core-components.testsuite.formcontainer,aem.core-components.testsuite.title')
+        'aem.core-components.testsuite.formcontainer,aem.core-components.testsuite.title,' +
+        'aem.core-components.testsuite.teaser')
         .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
         .withHobbesConfig(NUM_OF_RETRIES)
