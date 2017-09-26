@@ -105,7 +105,7 @@ CQInstance author = new CQInstance.Builder()
 /*                                UI TESTS                               */
 /* --------------------------------------------------------------------- */
 
-UITestRun coreCompUIEdgePart2 = new UITestRun.Builder()
+UITestRun coreCompUIEdgePart1 = new UITestRun.Builder()
         .withName('UI Tests: Test Group 1 / Edge')
         .withInstance(author)
         .withBrowser('EDGE')
@@ -121,7 +121,7 @@ UITestRun coreCompUIEdgePart2 = new UITestRun.Builder()
         .withHobbesConfig(NUM_OF_RETRIES)
         .build()
 
-UITestRun coreCompUIEdgePart4 = new UITestRun.Builder()
+UITestRun coreCompUIEdgePart2 = new UITestRun.Builder()
         .withName('UI Tests: Group 2 / Edge')
         .withInstance(author)
         .withBrowser('EDGE')
@@ -136,7 +136,7 @@ UITestRun coreCompUIEdgePart4 = new UITestRun.Builder()
         .withHobbesConfig(NUM_OF_RETRIES)
         .build()
 
-UITestRun coreCompUIEdgePart5 = new UITestRun.Builder()
+UITestRun coreCompUIEdgePart3 = new UITestRun.Builder()
         .withName('UI Tests: Group 3 / Edge')
         .withInstance(author)
         .withBrowser('EDGE')
@@ -167,8 +167,7 @@ config.getElasticsearchReporting().setEnable(true)
 config.setModules([componentsCore, componentsContent, componentsConfig, componentsAll, componentsItUi,
                    componentsJUnitCore,componentsParent])
 // the tests to execute
-config.setTestRuns([coreCompUIEdgePart1,coreCompUIEdgePart2,coreCompUIEdgePart3,coreCompUIEdgePart4,
-                    coreCompUIEdgePart5])
+config.setTestRuns([coreCompUIEdgePart1,coreCompUIEdgePart2,coreCompUIEdgePart3])
 
 
 // don't ask for release at the end
