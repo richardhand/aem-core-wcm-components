@@ -200,7 +200,9 @@ public class ImageImpl implements Image {
                 src += !isWcmModeDisabled() && lastModifiedDate > 0 ? "/" + lastModifiedDate + DOT + extension : "";
             }
             if (!isDecorative) {
-                linkURL = Utils.getURL(request, pageManager, linkURL);
+                if(StringUtils.isNotEmpty(linkURL)) {
+                    linkURL = Utils.getURL(request, pageManager, linkURL);
+                }
             } else {
                 linkURL = null;
                 alt = null;
