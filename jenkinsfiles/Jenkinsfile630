@@ -21,9 +21,9 @@ String GENERAL_METADATA_RUN_OPTIONS =
                 ',' +
                 '\\\"failing\\\":{\\\"value\\\":true,\\\"type\\\":\\\"exclude\\\"}'
 
-String UI_TEST_OPTIONS = '{\\\"pacing_delay\\\":1,\\\"withMetadata\\\":{' + GENERAL_METADATA_RUN_OPTIONS + '}}'
+String UI_TEST_OPTIONS = '{\\\"withMetadata\\\":{' + GENERAL_METADATA_RUN_OPTIONS + '}}'
 
-String NUM_OF_RETRIES = '{\\\"global_maxretries_on_failed\\\":1}'
+String NUM_OF_RETRIES = '{\\\"pacing_delay\\\":1,\\\"global_maxretries_on_failed\\\":1}'
 
 SproutConfig config = new SproutConfig()
 
