@@ -15,11 +15,9 @@
  ******************************************************************************/
 package com.adobe.cq.wcm.core.components.sandbox.internal.models.v2;
 
-import org.apache.sling.api.resource.Resource;
-import org.apache.sling.api.scripting.SlingBindings;
-import org.apache.sling.testing.mock.sling.servlet.MockSlingHttpServletRequest;
 import org.junit.Test;
 
+import com.adobe.cq.wcm.core.components.Utils;
 import com.adobe.cq.wcm.core.components.sandbox.models.Text;
 
 import static org.junit.Assert.assertEquals;
@@ -28,12 +26,8 @@ public class TextImplTest extends com.adobe.cq.wcm.core.components.internal.mode
 
     @Test
     public void testExportedType() {
-        Resource resource = context.currentResource("/content/text/rich-text");
-        MockSlingHttpServletRequest request = context.request();
-        SlingBindings bindings = (SlingBindings) request.getAttribute(SlingBindings.class.getName());
-        bindings.put(SlingBindings.RESOURCE, resource);
-        Text text = request.adaptTo(Text.class);
-
-        assertEquals("core/wcm/sandbox/components/text/v2/text", text.getExportedType());
+        Text text = getTextUnderTest(Text.class, TEXT_1);
+        assertEquals("core/wcm/components/text/v1/text", text.getExportedType());
+        Utils.testJSONExport(text, Utils.getTestExporterJSONPath(TEST_BASE, TEXT_1));
     }
 }

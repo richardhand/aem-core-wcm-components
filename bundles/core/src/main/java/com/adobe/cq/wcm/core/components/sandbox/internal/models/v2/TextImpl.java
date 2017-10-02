@@ -15,30 +15,20 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.sandbox.internal.models.v2;
 
-import javax.annotation.Nonnull;
-
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
 
 import com.adobe.cq.export.json.ComponentExporter;
-import com.adobe.cq.wcm.core.components.internal.Constants;
+import com.adobe.cq.export.json.ExporterConstants;
 import com.adobe.cq.wcm.core.components.sandbox.models.Text;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Model(adaptables = SlingHttpServletRequest.class, adapters = {Text.class, ComponentExporter.class}, resourceType = TextImpl.RESOURCE_TYPE)
-@Exporter(name = Constants.EXPORTER_NAME, extensions = Constants.EXPORTER_EXTENSION)
+@Exporter(name = ExporterConstants.SLING_MODEL_EXPORTER_NAME, extensions = ExporterConstants.SLING_MODEL_EXTENSION)
 @JsonSerialize(as = Text.class)
 public class TextImpl extends com.adobe.cq.wcm.core.components.internal.models.v1.TextImpl implements Text {
 
-
     protected static final String RESOURCE_TYPE = "core/wcm/sandbox/components/text/v2/text";
-
-    @Nonnull
-    @Override
-    public String getExportedType() {
-        return RESOURCE_TYPE;
-    }
-
 
 }
