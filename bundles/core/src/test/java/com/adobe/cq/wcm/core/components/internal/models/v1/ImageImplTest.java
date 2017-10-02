@@ -15,7 +15,10 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.internal.models.v1;
 
-import java.util.Map;
+import java.io.StringReader;
+
+import javax.json.Json;
+import javax.json.JsonReader;
 
 import org.apache.jackrabbit.util.Text;
 import org.apache.sling.api.resource.Resource;
@@ -34,7 +37,6 @@ import com.day.cq.wcm.api.WCMMode;
 import com.day.cq.wcm.api.designer.Style;
 import com.day.cq.wcm.api.policies.ContentPolicy;
 import com.day.cq.wcm.api.policies.ContentPolicyMapping;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -145,10 +147,9 @@ public class ImageImplTest extends AbstractImageTest {
     }
 
     private void compareJSON(String expectedJson, String json) throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map expectedMap = objectMapper.readValue(expectedJson, Map.class);
-        Map jsonMap = objectMapper.readValue(json, Map.class);
-        assertEquals(expectedMap, jsonMap);
+        JsonReader expected = Json.createReader(new StringReader(expectedJson));
+        JsonReader actual = Json.createReader(new StringReader(json));
+        assertEquals(expected.read(), actual.read());
     }
 
     protected Image getImageUnderTest(String resourcePath) {
