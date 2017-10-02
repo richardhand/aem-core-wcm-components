@@ -35,7 +35,7 @@
      */
     new h.TestSuite('Image v1', {path: '/apps/core/wcm/tests/test-suites/Image/v1/Image.js',
         execBefore:c.tcExecuteBeforeTestSuite,
-        execInNewWindow : false})
+        execInNewWindow : true})
 
         .addTestCase(image.tcAddImage(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(image.tcAddAltText(tcExecuteBeforeTest, tcExecuteAfterTest))
