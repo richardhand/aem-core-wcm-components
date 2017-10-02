@@ -15,56 +15,66 @@
  ******************************************************************************/
 package com.adobe.cq.wcm.core.components.sandbox.internal.models.v2;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.sling.api.resource.Resource;
-import org.apache.sling.models.factory.ModelFactory;
-import org.junit.Assert;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 
-import com.adobe.cq.export.json.ComponentExporter;
-import com.adobe.cq.export.json.SlingModelFilter;
+import com.adobe.cq.wcm.core.components.Utils;
 import com.adobe.cq.wcm.core.components.sandbox.models.Page;
 import com.adobe.cq.wcm.core.components.testing.MockHtmlLibraryManager;
 import com.adobe.granite.ui.clientlibs.ClientLibrary;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 public class PageImplTest extends com.adobe.cq.wcm.core.components.internal.models.v1.PageImplTest {
 
-    private ClientLibrary mockClientLibrary;
+    private static ClientLibrary mockClientLibrary;
 
-    @Mock
-    protected SlingModelFilter slingModelFilterMock;
+    static {
+        TEST_BASE = "/sandbox/page";
+    }
 
-    @Mock
-    protected ModelFactory modelFactoryMock;
+    @BeforeClass
+    public static void setUp() {
 
-    @Before
-    @Override
-    public void setUp() {
-        super.setUp();
+        com.adobe.cq.wcm.core.components.internal.models.v1.PageImplTest.setUp();
         pageClass = Page.class;
         mockClientLibrary = Mockito.mock(ClientLibrary.class);
 
-        MockitoAnnotations.initMocks(this);
-        aemContext.registerService(SlingModelFilter.class, slingModelFilterMock);
-        aemContext.registerService(ModelFactory.class, modelFactoryMock);
-
         when(mockClientLibrary.getPath()).thenReturn("/apps/wcm/core/page/clientlibs/favicon");
         when(mockClientLibrary.allowProxy()).thenReturn(true);
-        aemContext.registerInjectActivateService(new MockHtmlLibraryManager(mockClientLibrary));
+        CONTEXT.registerInjectActivateService(new MockHtmlLibraryManager(mockClientLibrary));
+    }
+
+    @Test
+    public void testPage() throws ParseException {
+        Page page = getPageUnderTest(PAGE);
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        calendar.setTime(sdf.parse("2016-01-20T10:33:36.000+0100"));
+        assertEquals(page.getLastModifiedDate(), calendar);
+        assertEquals("en-GB", page.getLanguage());
+        assertEquals("Templated Page", page.getTitle());
+        assertEquals(DESIGN_PATH, page.getDesignPath());
+        assertNull(page.getStaticDesignPath());
+        String[] keywordsArray = page.getKeywords();
+        assertEquals(3, keywordsArray.length);
+        Set<String> keywords = new HashSet<>(keywordsArray.length);
+        keywords.addAll(Arrays.asList(keywordsArray));
+        assertTrue(keywords.contains("one") && keywords.contains("two") && keywords.contains("three"));
+        assertEquals("coretest.product-page", page.getClientLibCategories()[0]);
+        assertEquals("product-page", page.getTemplateName());
+        Utils.testJSONExport(page, Utils.getTestExporterJSONPath(TEST_BASE, PAGE));
     }
 
     @Test(expected = UnsupportedOperationException.class)
@@ -87,66 +97,9 @@ public class PageImplTest extends com.adobe.cq.wcm.core.components.internal.mode
         String cssClasses = page.getCssClassNames();
         assertEquals("The CSS classes of the page are not expected: " + PAGE, "class1 class2", cssClasses);
     }
-    @Test
-    public void testGetExportedType() throws Exception {
-        Page page = getPageUnderTest(PAGE);
-        assertEquals("core/wcm/components/page", page.getExportedType());
-    }
-
-    @Test
-    public void testGetExportedEmptyItems() throws Exception {
-        Mockito.doReturn(Collections.EMPTY_LIST).when(slingModelFilterMock).filterChildResources(Mockito.any());
-
-        Page page = getPageUnderTest(PAGE);
-        assertThat(page.getExportedItems(), is(Collections.EMPTY_MAP));
-    }
-
-    @Test
-    public void testGetExportedItems() throws Exception {
-        final String RESOURCE_NAME = "Res1";
-        Resource res = mockResource(RESOURCE_NAME);
-
-        ComponentExporter componentExporter = Mockito.mock(ComponentExporter.class);
-        Mockito.when(modelFactoryMock.getModelFromWrappedRequest(Mockito.any(), Mockito.any(), Mockito.eq(ComponentExporter.class)))
-                .thenReturn(componentExporter);
-
-        Map<String, ComponentExporter> exportedItems = new LinkedHashMap<>();
-        exportedItems.put(RESOURCE_NAME, componentExporter);
-
-        Page page = getPageUnderTest(PAGE);
-        Assert.assertEquals(page.getExportedItems(), exportedItems);
-
-    }
-
-    @Test
-    public void testGetEmptyExportedItemsOrder() {
-        Mockito.doReturn(Collections.EMPTY_LIST).when(slingModelFilterMock).filterChildResources(Mockito.any());
-
-        Page page = getPageUnderTest(PAGE);
-        assertThat(page.getExportedItemsOrder(), is(ArrayUtils.EMPTY_STRING_ARRAY));
-    }
-
-    @Test
-    public void testGetExportedItemsOrder() {
-        final String RESOURCE_NAME = "Res1";
-        Resource res = mockResource(RESOURCE_NAME);
-
-        Mockito.when(modelFactoryMock.getModelFromWrappedRequest(Mockito.any(), Mockito.eq(res), Mockito.eq(ComponentExporter.class)))
-                .thenReturn(Mockito.mock(ComponentExporter.class));
-
-        Page page = getPageUnderTest(PAGE);
-        Assert.assertArrayEquals(page.getExportedItemsOrder(), new String[] {RESOURCE_NAME});
-    }
 
     @Override
     protected Page getPageUnderTest(String pagePath) {
         return (Page)super.getPageUnderTest(pagePath);
-    }
-
-    private Resource mockResource(String name) {
-        Resource res = Mockito.mock(Resource.class);
-        when(res.getName()).thenReturn(name);
-        Mockito.doReturn(Arrays.asList(res)).when(slingModelFilterMock).filterChildResources(Mockito.any());
-        return res;
     }
 }
