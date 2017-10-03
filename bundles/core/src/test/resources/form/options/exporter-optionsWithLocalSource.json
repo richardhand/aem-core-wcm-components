@@ -9,13 +9,13 @@
             "text"    : "local-item1-name",
             "value"   : "local-item1-value",
             "disabled": false,
-            "selected": true
+            "selected": false
         },
         {
             "text"    : "local-item2-name",
             "value"   : "local-item2-value",
             "disabled": true,
-            "selected": false
+            "selected": true
         }
     ],
     ":type"      : "core/wcm/components/form/options"

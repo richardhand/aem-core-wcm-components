@@ -160,8 +160,8 @@ public class OptionsImpl extends AbstractFieldImpl implements Options {
     private void populateOptionItemsFromLocal() {
         if (itemResources != null) {
             for (Resource itemResource : itemResources) {
-                OptionItem optionItem = itemResource.adaptTo(OptionItem.class);
-                if (optionItem != null && (optionItem.isDisabled() || StringUtils.isNotBlank(optionItem.getValue()))) {
+                OptionItem optionItem = new OptionItemImpl(request, resource, itemResource);
+                if ((optionItem.isDisabled() || StringUtils.isNotBlank(optionItem.getValue()))) {
                     optionItems.add(optionItem);
                 }
             }
@@ -175,8 +175,8 @@ public class OptionsImpl extends AbstractFieldImpl implements Options {
         Resource parent = resolver.getResource(listPath);
         if (parent != null) {
             for(Resource itemResource: parent.getChildren()) {
-                OptionItem optionItem = itemResource.adaptTo(OptionItem.class);
-                if (optionItem != null && (optionItem.isDisabled() || StringUtils.isNotBlank(optionItem.getValue()))) {
+                OptionItem optionItem = new OptionItemImpl(request, resource, itemResource);
+                if ((optionItem.isDisabled() || StringUtils.isNotBlank(optionItem.getValue()))) {
                     optionItems.add(optionItem);
                 }
             }
@@ -208,9 +208,9 @@ public class OptionsImpl extends AbstractFieldImpl implements Options {
             Iterator<Resource> itemIterator = dataSource.iterator();
             if (itemIterator != null) {
                 while (itemIterator.hasNext()) {
-                    Resource item = itemIterator.next();
-                    OptionItem optionItem = item.adaptTo(OptionItem.class);
-                    if (optionItem != null && (optionItem.isDisabled() || StringUtils.isNotBlank(optionItem.getValue()))) {
+                    Resource itemResource = itemIterator.next();
+                    OptionItem optionItem = new OptionItemImpl(request, resource, itemResource);
+                    if ((optionItem.isDisabled() || StringUtils.isNotBlank(optionItem.getValue()))) {
                         optionItems.add(optionItem);
                     }
                 }
