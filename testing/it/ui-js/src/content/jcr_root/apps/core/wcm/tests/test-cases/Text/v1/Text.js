@@ -38,9 +38,15 @@ window.CQ.CoreComponentsIT.Text.v1 = window.CQ.CoreComponentsIT.Text.v1 || {}
             .execFct(function (opts,done) {
                 c.createPage(c.template, c.rootPage, 'page_' + Date.now(), "testPagePath", done, pageRT)
             })
+
+            // create a proxy component
+            .execFct(function (opts, done){
+                c.createProxyComponent(textRT, c.proxyPath, "compPath", done)
+            })
+
             // add the component, store component path in 'cmpPath'
             .execFct(function (opts, done){
-                c.addComponent(textRT, h.param("testPagePath")(opts) + c.relParentCompPath, "cmpPath", done)
+                c.addComponent(h.param("compPath")(opts), h.param("testPagePath")(opts) + c.relParentCompPath, "cmpPath", done)
             })
             // open the new page in the editor
             .navigateTo("/editor.html%testPagePath%.html");
@@ -56,7 +62,12 @@ window.CQ.CoreComponentsIT.Text.v1 = window.CQ.CoreComponentsIT.Text.v1 || {}
             // delete the test page we created
             .execFct(function (opts, done) {
                 c.deletePage(h.param("testPagePath")(opts), done);
-            });
+            })
+
+            // delete the test page we created
+            .execFct(function (opts, done) {
+                c.deleteProxyComponent(h.param("compPath")(opts), done);
+            })
     };
 
     /**
