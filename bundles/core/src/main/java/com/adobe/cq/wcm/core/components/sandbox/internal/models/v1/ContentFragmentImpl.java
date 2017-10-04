@@ -15,9 +15,12 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.sandbox.internal.models.v1;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.PostConstruct;
@@ -27,6 +30,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
@@ -36,14 +40,19 @@ import org.slf4j.LoggerFactory;
 import com.adobe.cq.dam.cfm.ContentElement;
 import com.adobe.cq.dam.cfm.FragmentData;
 import com.adobe.cq.dam.cfm.FragmentTemplate;
+import com.adobe.cq.export.json.ComponentExporter;
+import com.adobe.cq.export.json.ExporterConstants;
 import com.adobe.cq.wcm.core.components.sandbox.models.ContentFragment;
 import com.day.text.Text;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import static com.adobe.cq.wcm.core.components.sandbox.internal.models.v1.ContentFragmentImpl.RESOURCE_TYPE;
 import static com.day.cq.commons.jcr.JcrConstants.JCR_CONTENT;
 import static org.apache.sling.models.annotations.injectorspecific.InjectionStrategy.OPTIONAL;
 
-@Model(adaptables = SlingHttpServletRequest.class, adapters = ContentFragment.class, resourceType = RESOURCE_TYPE)
+@Model(adaptables = SlingHttpServletRequest.class, adapters = {ContentFragment.class, ComponentExporter.class}, resourceType = RESOURCE_TYPE)
+@Exporter(name = ExporterConstants.SLING_MODEL_EXPORTER_NAME, extensions = ExporterConstants.SLING_MODEL_EXTENSION)
+@JsonSerialize(as = ContentFragment.class)
 public class ContentFragmentImpl implements ContentFragment {
 
     private static final Logger LOG = LoggerFactory.getLogger(ContentFragmentImpl.class);
@@ -160,6 +169,36 @@ public class ContentFragmentImpl implements ContentFragment {
         return elements;
     }
 
+    @Nonnull
+    @Override
+    public String getExportedType() {
+        return RESOURCE_TYPE;
+    }
+
+    @Nonnull
+    @Override
+    public Map<String, ComponentExporter> getExportedItems() {
+        Map<String, ComponentExporter> map = new HashMap<>();
+        for (Element e : getElements()) {
+            if (map.put(e.getName(), (ComponentExporter) e) != null) {
+                throw new IllegalStateException("Duplicate key");
+            }
+        }
+        return map;
+    }
+
+    @Nonnull
+    @Override
+    public String[] getExportedItemsOrder() {
+        Map<String, ? extends ComponentExporter> models = getExportedItems();
+
+        if (models.isEmpty()) {
+            return ArrayUtils.EMPTY_STRING_ARRAY;
+        }
+
+        return models.keySet().toArray(ArrayUtils.EMPTY_STRING_ARRAY);
+    }
+
     private static class ElementImpl implements Element {
 
         private ContentElement element;
@@ -215,6 +254,21 @@ public class ContentFragmentImpl implements ContentFragment {
         @Override
         public String[] getDisplayValues() {
             return getData().getValue(String[].class);
+        }
+
+        @Nonnull
+        @Override
+        public String getExportedType() {
+            final FragmentData value = element.getValue();
+            // Mimetype for text-based datatypes
+            String type = value.getContentType();
+
+            // Datatype for non text-based datatypes
+            if (type == null) {
+                type = value.getDataType().getTypeString();
+            }
+
+            return type;
         }
 
     }

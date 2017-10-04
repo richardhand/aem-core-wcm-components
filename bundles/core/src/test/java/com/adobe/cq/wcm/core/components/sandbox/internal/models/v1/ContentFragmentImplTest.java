@@ -18,9 +18,15 @@ package com.adobe.cq.wcm.core.components.sandbox.internal.models.v1;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Nullable;
+import javax.json.Json;
+import javax.json.JsonReader;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
@@ -28,6 +34,7 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.scripting.SlingBindings;
+import org.apache.sling.testing.clients.util.ResourceUtil;
 import org.apache.sling.testing.mock.sling.servlet.MockSlingHttpServletRequest;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
@@ -37,10 +44,12 @@ import com.adobe.cq.dam.cfm.ContentElement;
 import com.adobe.cq.dam.cfm.DataType;
 import com.adobe.cq.dam.cfm.FragmentData;
 import com.adobe.cq.dam.cfm.FragmentTemplate;
+import com.adobe.cq.export.json.ComponentExporter;
 import com.adobe.cq.sightly.WCMBindings;
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
 import com.adobe.cq.wcm.core.components.sandbox.models.ContentFragment;
 import com.day.cq.commons.jcr.JcrConstants;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.wcm.testing.mock.aem.junit.AemContext;
 
 import static com.day.cq.commons.jcr.JcrConstants.JCR_CONTENT;
@@ -189,6 +198,41 @@ public class ContentFragmentImplTest {
     public void testStructuredMultipleElements() {
         ContentFragment fragment = getTestContentFragment(CF_STRUCTURED_MULTIPLE_ELEMENTS);
         assertContentFragment(fragment, TITLE, DESCRIPTION, STRUCTURED_TYPE, SECOND_STRUCTURED, MAIN);
+    }
+
+    @Test
+    public void testGetExportedType() {
+        ContentFragmentImpl fragment = (ContentFragmentImpl) getTestContentFragment(CF_TEXT_ONLY);
+        assertEquals(ContentFragmentImpl.RESOURCE_TYPE, fragment.getExportedType());
+    }
+
+    @Test
+    public void testGetExportedItems() {
+        ContentFragmentImpl fragment = (ContentFragmentImpl) getTestContentFragment(CF_TEXT_ONLY);
+        final Map<String, ComponentExporter> exportedItems = fragment.getExportedItems();
+        assertEquals(2, exportedItems.size());
+        assertEquals(true, exportedItems.containsKey("main"));
+        assertEquals(true, exportedItems.containsKey("second"));
+    }
+
+    @Test
+    public void testGetExportedElementType() {
+        ContentFragmentImpl fragment = (ContentFragmentImpl) getTestContentFragment(CF_TEXT_ONLY);
+        final Map<String, ComponentExporter> exportedItems = fragment.getExportedItems();
+        final ComponentExporter mainElement = exportedItems.get("main");
+        assertEquals("text/html", mainElement.getExportedType());
+    }
+    
+    @Test
+    public void testJSONExport() throws IOException {
+        ContentFragmentImpl fragment = (ContentFragmentImpl) getTestContentFragment(CF_TEXT_ONLY);
+        Writer writer = new StringWriter();
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writerWithView(ContentFragmentImpl.class).writeValue(writer, fragment);
+        JsonReader jsonReaderOutput = Json.createReader(IOUtils.toInputStream(writer.toString()));
+        JsonReader jsonReaderExpected = Json.createReader(IOUtils.toInputStream(
+                ResourceUtil.readResourceAsString("/contentfragment/test-expected-content-export.json")));
+        assertEquals(jsonReaderExpected.read(), jsonReaderOutput.read());
     }
 
     /* helper methods */

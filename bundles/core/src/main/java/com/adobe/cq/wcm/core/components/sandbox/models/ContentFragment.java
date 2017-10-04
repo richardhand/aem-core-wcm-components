@@ -15,6 +15,8 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.sandbox.models;
 
+import java.util.Map;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -23,6 +25,10 @@ import org.osgi.annotation.versioning.ConsumerType;
 import com.adobe.cq.dam.cfm.ContentElement;
 import com.adobe.cq.dam.cfm.DataType;
 import com.adobe.cq.dam.cfm.FragmentData;
+import com.adobe.cq.export.json.ComponentExporter;
+import com.adobe.cq.export.json.ContainerExporter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Defines the Sling Model for the {@code /apps/core/wcm/sandbox/components/contentfragment} component. The model
@@ -31,7 +37,7 @@ import com.adobe.cq.dam.cfm.FragmentData;
  * @since com.adobe.cq.wcm.core.components.sandbox.models 2.6.0
  */
 @ConsumerType
-public interface ContentFragment {
+public interface ContentFragment extends ContainerExporter {
 
     /**
      * Name of the mandatory resource property that stores the path to a content fragment.
@@ -53,7 +59,7 @@ public interface ContentFragment {
      * @since com.adobe.cq.wcm.core.components.sandbox.models 2.6.0
      */
     @ConsumerType
-    interface Element {
+    interface Element extends ComponentExporter {
 
         /**
          * Returns the technical name of the element.
@@ -63,6 +69,7 @@ public interface ContentFragment {
          * @since com.adobe.cq.wcm.core.components.sandbox.models 2.6.0
          */
         @Nonnull
+        @JsonIgnore
         default String getName() {
             throw new UnsupportedOperationException();
         }
@@ -123,7 +130,14 @@ public interface ContentFragment {
          * @since com.adobe.cq.wcm.core.components.sandbox.models 2.6.0
          */
         @Nullable
+        @JsonIgnore
         default String getDisplayValue() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Nonnull
+        @Override
+        default String getExportedType() {
             throw new UnsupportedOperationException();
         }
 
@@ -174,6 +188,7 @@ public interface ContentFragment {
      * @since com.adobe.cq.wcm.core.components.sandbox.models 2.6.0
      */
     @Nonnull
+    @JsonProperty("model")
     default String getType() {
         throw new UnsupportedOperationException();
     }
@@ -189,7 +204,26 @@ public interface ContentFragment {
      * @since com.adobe.cq.wcm.core.components.sandbox.models 2.6.0
      */
     @Nonnull
+    @JsonIgnore
     default java.util.List<Element> getElements() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Nonnull
+    @Override
+    default String getExportedType() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Nonnull
+    @Override
+    default Map<String, ComponentExporter> getExportedItems() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Nonnull
+    @Override
+    default String[] getExportedItemsOrder() {
         throw new UnsupportedOperationException();
     }
 
