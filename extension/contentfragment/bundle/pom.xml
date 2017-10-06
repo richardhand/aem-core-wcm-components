@@ -23,20 +23,20 @@
     <parent>
         <groupId>com.adobe.cq</groupId>
         <artifactId>core.wcm.components.parent</artifactId>
-        <version>1.9.22</version>
-        <relativePath>../../parent/pom.xml</relativePath>
+        <version>1.9.20</version>
+        <relativePath>../../../parent/pom.xml</relativePath>
     </parent>
 
-    <artifactId>core.wcm.components.sandbox.bundle</artifactId>
-    <version>0.0.47-SNAPSHOT</version>
+    <artifactId>core.wcm.components.sandbox.extension.contentfragment.bundle</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>bundle</packaging>
 
-    <name>Adobe Experience Manager Core WCM Components Core Bundle - Sandbox</name>
+    <name>Adobe Experience Manager Core WCM Components Structured Content Fragment Bundle - Extension</name>
 
     <scm>
         <connection>scm:git:https://git.corp.adobe.com/CQ/aem-core-wcm-components.git</connection>
         <developerConnection>scm:git:git@git.corp.adobe.com:CQ/aem-core-wcm-components.git</developerConnection>
-        <url>https://git.corp.adobe.com/CQ/aem-core-wcm-components/tree/PRIVATE_master/bundles/core</url>
+        <url>https://git.corp.adobe.com/CQ/aem-core-wcm-components/tree/PRIVATE_master/extension/contenfragment/bundle</url>
         <tag>HEAD</tag>
     </scm>
 
@@ -62,7 +62,7 @@
                 <configuration>
                     <instructions>
                         <!-- The Sling-Model-Packages instruction needs to point to the implementation package -->
-                        <Sling-Model-Packages>com.adobe.cq.wcm.core.components.internal.models,com.adobe.cq.wcm.core.components.sandbox.internal.models</Sling-Model-Packages>
+                        <Sling-Model-Packages>com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment.internal.models</Sling-Model-Packages>
                     </instructions>
                 </configuration>
             </plugin>
@@ -112,10 +112,6 @@
                                     </limits>
                                 </rule>
                             </rules>
-                            <excludes>
-                                <!-- private enum; cannot test valueOf / values -->
-                                <exclude>**/SocialMediaHelperImpl$WebsiteMetadata$Type.class</exclude>
-                            </excludes>
                         </configuration>
                     </execution>
                     <execution>
@@ -257,8 +253,6 @@
                                     </rules>
                                     <excludes>
                                         <!-- private enum; cannot test valueOf / values -->
-                                        <exclude>**/SocialMediaHelperImpl$WebsiteMetadata$Type.class</exclude>
-                                        <exclude>**/com/adobe/cq/wcm/core/components/models/**/*.class</exclude>
                                         <exclude>**/com/adobe/cq/wcm/core/components/sandbox/models/**/*.class</exclude>
                                     </excludes>
                                 </configuration>
@@ -290,10 +284,6 @@
         </dependency>
         <dependency>
             <groupId>org.osgi</groupId>
-            <artifactId>osgi.core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.osgi</groupId>
             <artifactId>osgi.cmpn</artifactId>
         </dependency>
         <dependency>
@@ -301,24 +291,8 @@
             <artifactId>osgi.annotation</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.service.metatype.annotations</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.service.component.annotations</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>biz.aQute</groupId>
-            <artifactId>bndlib</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -332,20 +306,12 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-module-junit4</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-api-mockito</artifactId>
-        </dependency>
 
         <!-- for testing we need the new ResourceTypeBasedResourcePicker -->
         <dependency>
             <groupId>org.apache.sling</groupId>
             <artifactId>org.apache.sling.models.impl</artifactId>
-            <version>1.4.4</version>
+            <version>1.3.0</version>
             <scope>test</scope>
         </dependency>
 
@@ -360,20 +326,14 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.apache.sling</groupId>
             <artifactId>org.apache.sling.models.api</artifactId>
             <version>1.3.6</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.sling</groupId>
-            <artifactId>org.apache.sling.models.jacksonexporter</artifactId>
-            <version>1.0.4</version>
-            <scope>provided</scope>
+            <groupId>com.adobe.cq.dam</groupId>
+            <artifactId>cq-dam-cfm-api</artifactId>
+            <version>1.1.5-NPR-19008-R002</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -382,12 +342,6 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-imaging</artifactId>
-            <version>1.0-R1534292</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -400,28 +354,10 @@
             <artifactId>jsp-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-            <version>1.10</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.jacoco</groupId>
             <artifactId>org.jacoco.agent</artifactId>
             <version>${jacoco.version}</version>
             <classifier>runtime</classifier>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.sling</groupId>
-            <artifactId>org.apache.sling.commons.johnzon</artifactId>
-            <version>1.1.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
