@@ -31,7 +31,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>bundle</packaging>
 
-    <name>Adobe Experience Manager Core WCM Components Structured Content Fragment Bundle - Extension</name>
+    <name>Adobe Experience Manager Core WCM Components Extension - Structured Content Fragment Bundle - Sandbox</name>
 
     <scm>
         <connection>scm:git:https://git.corp.adobe.com/CQ/aem-core-wcm-components.git</connection>
