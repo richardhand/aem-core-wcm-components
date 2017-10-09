@@ -616,7 +616,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             .click("coral-tab-label:contains('Cloud Services')", {delay: 1000})
 
             .assert.isTrue(function () {
-                return h.find("coral-select[name='./cq:cloudserviceconfigs'] span:contains('IDS worker')").size() === 1
+                return h.find("div.js-cq-CloudServices-currentConfig:contains('Cloud Proxy Configuration') coral-select[name='./cq:cloudserviceconfigs'] span:contains('IDS worker')").size() === 1
             });
     };
 
@@ -687,7 +687,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             .click("button:contains('Add Permissions')")
 
             //add permissions for a user
-            .fillInput("foundation-autocomplete.js-cq-sites-CreatePermissionsDialog-authorizableList input[is='coral-textfield']", "corecomp", {delayafter: 1000})
+            .fillInput("foundation-autocomplete.js-cq-sites-CreatePermissionsDialog-authorizableList input[is='coral-textfield']", "corecomp", {delayafter: 2000})
             //.wait(100)
             .click("foundation-autocomplete.js-cq-sites-CreatePermissionsDialog-authorizableList coral-overlay:contains('corecomp') button")
             //check if the tag for the user was added
@@ -770,7 +770,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
 
             .click("button:contains('Edit Closed User Group')")
 
-            .fillInput("foundation-autocomplete.js-cq-sites-CUGPermissionsDialog-authorizableList input[is='coral-textfield']", "corecomp", {delayAfter: 1000})
+            .fillInput("foundation-autocomplete.js-cq-sites-CUGPermissionsDialog-authorizableList input[is='coral-textfield']", "corecomp", {delayAfter: 2000})
             //.wait()
             .click("foundation-autocomplete.js-cq-sites-CUGPermissionsDialog-authorizableList coral-overlay:contains('corecomp') button")
             //check if the tag for the user was added
