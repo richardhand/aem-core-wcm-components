@@ -37,7 +37,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
     var alias  = "This is an alias";
     var allowedTemplate = "allowedTemplates";
     var loginPage = "/content/core-components/core-components-page";
-    var exportConfiguration = "/etc/contentsync/templates/dps-default";
+    var exportConfiguration = "/etc/contentsync/templates";
     var contextHubPath = "/etc/cloudsettings/default/contexthub/device";
 
     /**
@@ -452,8 +452,8 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
      */
     page.tcAdvancedExportPageProperties = function(tcExecuteBeforeTest, tcExecuteAfterTest) {
         return new h.TestCase("Advanced Export page property", {
-            execBefore: tcExecuteBeforeTest,
-            execAfter: tcExecuteAfterTest
+            execBefore: tcExecuteBeforeTest//,
+            //execAfter: tcExecuteAfterTest
         })
         // open the new page in the sites
             .navigateTo("/sites.html%testPagePath%")
@@ -471,7 +471,9 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
 
             //tests for the export options
             .fillInput("foundation-autocomplete[name='./cq:exportTemplate'] input[is='coral-textfield']", exportConfiguration)
+            .wait(200)
             .click("button[value='" + exportConfiguration + "']")
+            .wait(200)
 
             /*****  Check if the date is saved *****/
 
