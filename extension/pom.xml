@@ -30,7 +30,7 @@
     <!-- ====================================================================== -->
     <!-- P R O J E C T  D E S C R I P T I O N                                   -->
     <!-- ====================================================================== -->
-    <artifactId>core.wcm.components.extension</artifactId>
+    <artifactId>core.wcm.components.sandbox.extension</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>content-package</packaging>
 
