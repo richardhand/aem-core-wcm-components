@@ -32,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.adobe.cq.sightly.WCMBindings;
+import com.adobe.cq.wcm.core.components.Utils;
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
 import com.adobe.cq.wcm.core.components.sandbox.models.Teaser;
 import com.day.cq.commons.ImageResource;
@@ -44,6 +45,8 @@ import static org.mockito.Mockito.*;
 
 public class TeaserImplTest {
 
+    private static final String TEST_BASE = "/teaser";
+    private static final String CONTENT_ROOT = "/content";
     private static final String PNG_IMAGE_BINARY_NAME = "Adobe_Systems_logo_and_wordmark.png";
     private static final String PNG_ASSET_PATH = "/content/dam/core/images/" + PNG_IMAGE_BINARY_NAME;
     private static final String CONTEXT_PATH = "/core";
@@ -61,11 +64,11 @@ public class TeaserImplTest {
     private Logger teaserLogger;
 
     @ClassRule
-    public static final AemContext AEM_CONTEXT = CoreComponentTestContext.createContext("/teaser", "/content");
+    public static final AemContext AEM_CONTEXT = CoreComponentTestContext.createContext(TEST_BASE, CONTENT_ROOT);
 
     @BeforeClass
     public static void setUp() throws Exception {
-        AEM_CONTEXT.load().json("/teaser/test-content-dam.json", "/content/dam/core/images");
+        AEM_CONTEXT.load().json(TEST_BASE + CoreComponentTestContext.TEST_CONTENT_JSON, "/content/dam/core/images");
         AEM_CONTEXT.load().binaryFile("/image/" + PNG_IMAGE_BINARY_NAME, PNG_ASSET_PATH + "/jcr:content/renditions/original");
     }
 
@@ -95,6 +98,7 @@ public class TeaserImplTest {
         assertEquals(DESCRIPTION, teaser.getDescription());
         assertEquals(LINK, teaser.getLinkURL());
         assertEquals(LINK_TEXT, teaser.getLinkText());
+        Utils.testJSONExport(teaser, Utils.getTestExporterJSONPath(TEST_BASE, "teaser1"));
     }
 
     @Test
@@ -110,6 +114,7 @@ public class TeaserImplTest {
         assertEquals(DESCRIPTION, teaser.getDescription());
         assertEquals(CONTEXT_PATH + "/content/teasers.html", teaser.getLinkURL());
         assertEquals(LINK_TEXT, teaser.getLinkText());
+        Utils.testJSONExport(teaser, Utils.getTestExporterJSONPath(TEST_BASE, "teaser5"));
     }
 
     @Test

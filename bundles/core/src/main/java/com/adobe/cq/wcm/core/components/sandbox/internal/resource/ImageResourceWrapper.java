@@ -21,11 +21,17 @@ import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceMetadata;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceWrapper;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.wrappers.ValueMapDecorator;
+import org.apache.sling.models.annotations.Exporter;
 
+import com.adobe.cq.wcm.core.components.internal.Constants;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Exporter(name = Constants.EXPORTER_NAME, extensions = Constants.EXPORTER_EXTENSION)
 public class ImageResourceWrapper extends ResourceWrapper {
 
     private ValueMap valueMap;
