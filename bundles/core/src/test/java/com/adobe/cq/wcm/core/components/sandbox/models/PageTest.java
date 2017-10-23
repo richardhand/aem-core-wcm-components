@@ -23,8 +23,6 @@ import org.junit.Test;
 
 import javax.annotation.Nonnull;
 
-import static org.junit.Assert.*;
-
 public class PageTest {
 
     private Page underTest = new MockPage();
@@ -36,7 +34,7 @@ public class PageTest {
 
     @Test(expected = UnsupportedOperationException.class)
     public void testGetFaviconClientLibPath() throws Exception {
-        underTest.getFaviconClientLibPath();
+        underTest.getAppResourcesPath();
     }
 
     private static class MockPage implements Page {

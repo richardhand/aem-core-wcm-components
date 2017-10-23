@@ -28,7 +28,7 @@
     </parent>
 
     <artifactId>core.wcm.components.sandbox.bundle</artifactId>
-    <version>0.0.45-SNAPSHOT</version>
+    <version>0.0.53-SNAPSHOT</version>
     <packaging>bundle</packaging>
 
     <name>Adobe Experience Manager Core WCM Components Core Bundle - Sandbox</name>
@@ -393,7 +393,7 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>core.wcm.components.junit.core</artifactId>
             <scope>test</scope>
-            <version>1.9.14</version>
+            <version>1.9.18</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet.jsp</groupId>
@@ -425,9 +425,10 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.adobe.cq.dam</groupId>
-            <artifactId>cq-dam-cfm-api</artifactId>
-            <version>1.2.4</version>
+            <groupId>org.apache.sling</groupId>
+            <artifactId>org.apache.sling.testing.clients</artifactId>
+            <version>1.1.4</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.adobe.aem</groupId>
@@ -437,7 +438,7 @@
         <dependency>
             <groupId>com.adobe.cq</groupId>
             <artifactId>com.adobe.cq.export.json</artifactId>
-            <version>0.0.6</version>
+            <version>0.0.12</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang.StringUtils;
@@ -30,6 +31,8 @@ import org.apache.sling.models.annotations.injectorspecific.OSGiService;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 
+import com.adobe.cq.export.json.ComponentExporter;
+import com.adobe.cq.export.json.ContainerExporter;
 import com.adobe.cq.export.json.ExporterConstants;
 import com.adobe.cq.wcm.core.components.sandbox.models.Page;
 import com.adobe.granite.ui.clientlibs.ClientLibrary;
@@ -38,12 +41,11 @@ import com.adobe.granite.ui.clientlibs.LibraryType;
 import com.day.cq.wcm.api.components.ComponentContext;
 import com.google.common.collect.Lists;
 
-@Model(adaptables = SlingHttpServletRequest.class, adapters = Page.class, resourceType = PageImpl.RESOURCE_TYPE)
+@Model(adaptables = SlingHttpServletRequest.class, adapters = {Page.class, ContainerExporter.class}, resourceType = PageImpl.RESOURCE_TYPE)
 @Exporter(name = ExporterConstants.SLING_MODEL_EXPORTER_NAME, extensions = ExporterConstants.SLING_MODEL_EXTENSION)
 public class PageImpl extends com.adobe.cq.wcm.core.components.internal.models.v1.PageImpl implements Page {
 
     protected static final String RESOURCE_TYPE = "core/wcm/sandbox/components/page/v2/page";
-    private static final String DEFAULT_FAVICON_CLIENT_LIB = "core.wcm.components.page.v2.favicon";
 
     @OSGiService
     private HtmlLibraryManager htmlLibraryManager;
@@ -54,33 +56,37 @@ public class PageImpl extends com.adobe.cq.wcm.core.components.internal.models.v
     @ScriptVariable
     private ComponentContext componentContext;
 
-    private String faviconClientLibCategory;
-    private String faviconClientLibPath;
+    private String appResourcesPath;
 
     @PostConstruct
     protected void initModel() {
         super.initModel();
-        faviconClientLibCategory = currentStyle.get(PN_FAVICON_CLIENT_LIB, DEFAULT_FAVICON_CLIENT_LIB);
-        populateFaviconPath();
-    }
-
-    private void populateFaviconPath() {
-        Collection<ClientLibrary> clientLibraries =
-                htmlLibraryManager.getLibraries(new String[]{faviconClientLibCategory}, LibraryType.CSS, true, true);
-        ArrayList<ClientLibrary> clientLibraryList = Lists.newArrayList(clientLibraries.iterator());
-        if(!clientLibraryList.isEmpty()) {
-            faviconClientLibPath = getProxyPath(clientLibraryList.get(0));
+        String resourcesClientLibrary = currentStyle.get(PN_APP_RESOURCES_CLIENTLIB, String.class);
+        if (resourcesClientLibrary != null) {
+            Collection<ClientLibrary> clientLibraries =
+                    htmlLibraryManager.getLibraries(new String[]{resourcesClientLibrary}, LibraryType.CSS, true, true);
+            ArrayList<ClientLibrary> clientLibraryList = Lists.newArrayList(clientLibraries.iterator());
+            if (!clientLibraryList.isEmpty()) {
+                appResourcesPath = getProxyPath(clientLibraryList.get(0));
+            }
         }
     }
 
     private String getProxyPath(ClientLibrary lib) {
         String path = lib.getPath();
-        if (lib.allowProxy() && (path.startsWith("/libs/") || path.startsWith("/apps/"))) {
-            path = "/etc.clientlibs" + path.substring(5);
+        if (lib.allowProxy()) {
+            for (String searchPath : request.getResourceResolver().getSearchPath()) {
+                if (path.startsWith(searchPath)) {
+                    path = request.getContextPath() + "/etc.clientlibs/" + path.replaceFirst(searchPath, "");
+                }
+            }
         } else {
             if (request.getResourceResolver().getResource(lib.getPath()) == null) {
                 path = null;
             }
+        }
+        if (path != null) {
+            path = path + "/resources";
         }
         return path;
     }
@@ -95,13 +101,31 @@ public class PageImpl extends com.adobe.cq.wcm.core.components.internal.models.v
     }
 
     @Override
-    public String getFaviconClientLibPath() {
-        return faviconClientLibPath;
+    public String getAppResourcesPath() {
+        return appResourcesPath;
     }
 
     @Override
     public String getCssClassNames() {
         Set<String> cssClassesSet = componentContext.getCssClassNames();
         return StringUtils.join(cssClassesSet, " ");
+    }
+
+    @Nonnull
+    @Override
+    public String[] getExportedItemsOrder() {
+        return super.getExportedItemsOrder();
+    }
+
+    @Nonnull
+    @Override
+    public Map<String, ? extends ComponentExporter> getExportedItems() {
+        return super.getExportedItems();
+    }
+
+    @Nonnull
+    @Override
+    public String getExportedType() {
+        return RESOURCE_TYPE;
     }
 }

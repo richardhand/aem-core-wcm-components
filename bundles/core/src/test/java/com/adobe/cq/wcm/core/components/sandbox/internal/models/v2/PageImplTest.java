@@ -38,16 +38,14 @@ import static org.mockito.Mockito.when;
 
 public class PageImplTest extends com.adobe.cq.wcm.core.components.internal.models.v1.PageImplTest {
 
-    private static ClientLibrary mockClientLibrary;
+    private static final String TEST_BASE = "/sandbox/page";
 
-    static {
-        TEST_BASE = "/sandbox/page";
-    }
+    private static ClientLibrary mockClientLibrary;
 
     @BeforeClass
     public static void setUp() {
 
-        com.adobe.cq.wcm.core.components.internal.models.v1.PageImplTest.setUp();
+        internalSetUp(CONTEXT, TEST_BASE, ROOT);
         pageClass = Page.class;
         mockClientLibrary = Mockito.mock(ClientLibrary.class);
 
@@ -87,8 +85,8 @@ public class PageImplTest extends com.adobe.cq.wcm.core.components.internal.mode
     @Test
     public void testGetFaviconClientLibPath() throws Exception {
         Page page = getPageUnderTest(PAGE);
-        String faviconClientLibPath = page.getFaviconClientLibPath();
-        assertEquals("/etc.clientlibs/wcm/core/page/clientlibs/favicon", faviconClientLibPath);
+        String faviconClientLibPath = page.getAppResourcesPath();
+        assertEquals(CONTEXT_PATH + "/etc.clientlibs/wcm/core/page/clientlibs/favicon/resources", faviconClientLibPath);
     }
 
     @Test

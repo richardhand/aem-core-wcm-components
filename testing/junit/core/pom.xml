@@ -28,7 +28,7 @@
     </parent>
 
     <artifactId>core.wcm.components.junit.core</artifactId>
-    <version>1.9.15-SNAPSHOT</version>
+    <version>1.9.19-SNAPSHOT</version>
     <name>Adobe Experience Manager Core WCM Components JUnit Testing</name>
 
     <scm>
@@ -105,6 +105,18 @@
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>osgi.annotation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.sling</groupId>
+            <artifactId>org.apache.sling.models.api</artifactId>
+            <version>1.3.6</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.adobe.cq</groupId>
+            <artifactId>com.adobe.cq.export.json</artifactId>
+            <version>0.0.12</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.adobe.aem</groupId>

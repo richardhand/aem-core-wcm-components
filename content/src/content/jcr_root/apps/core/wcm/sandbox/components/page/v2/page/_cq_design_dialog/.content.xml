@@ -40,12 +40,13 @@
                                     </clientlibs>
                                 </items>
                             </well>
-                            <faviconClientLib
+                            <appResourcesClientlib
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                name="./faviconClientLib"
-                                emptyText="core.wcm.components.page.v2.favicon"
-                                fieldLabel="Favicon Client-Side Library"
+                                name="./appResourcesClientlib"
+                                emptyText="org.example.myapp.resources"
+                                fieldLabel="Web Resources Client Library"
+                                fieldDescription="The client library that is used to serve web resources like favicons."
                                 required="{Boolean}false"/>
                         </items>
                     </properties>

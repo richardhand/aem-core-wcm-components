@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 
 import com.adobe.cq.wcm.core.components.sandbox.internal.resource.ImageResourceWrapper;
 import com.day.cq.wcm.api.components.Component;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public abstract class AbstractImageDelegatingModel {
 
@@ -47,6 +48,7 @@ public abstract class AbstractImageDelegatingModel {
         this.hiddenProperties = hiddenProperties;
     }
 
+    @JsonIgnore
     public Resource getImageResource() {
         if (imageResource == null && component != null) {
             String delegateResourceType = component.getProperties().get(IMAGE_DELEGATE, String.class);

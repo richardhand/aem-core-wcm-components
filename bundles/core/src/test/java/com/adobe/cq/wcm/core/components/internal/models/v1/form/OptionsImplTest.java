@@ -15,13 +15,12 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.internal.models.v1.form;
 
-import java.io.IOException;
-import java.util.List;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import java.io.IOException;
+import java.util.List;
 
 import org.apache.sling.api.request.RequestDispatcherOptions;
 import org.apache.sling.api.resource.Resource;
@@ -29,6 +28,7 @@ import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.servlethelpers.MockRequestDispatcherFactory;
 import org.apache.sling.testing.mock.sling.servlet.MockSlingHttpServletRequest;
 import org.apache.sling.testing.mock.sling.servlet.MockSlingHttpServletResponse;
+import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 
@@ -62,6 +62,11 @@ public class OptionsImplTest {
     @ClassRule
     public static final AemContext CONTEXT = CoreComponentTestContext.createContext(TEST_BASE, CONTENT_ROOT);
 
+    @BeforeClass
+    public static void setUp() {
+        FormsHelperStubber.createStub();
+    }
+
     @Test
     public void testOptionsDefaultAttributes() {
         Options options = getOptionsUnderTest(OPTIONS_1);
@@ -84,6 +89,7 @@ public class OptionsImplTest {
 
     @Test
     public void testLocalAsOptionsSource() {
+        FormsHelperGetValuesStubMethod.values = new String[] {"local-item2-value"};
         Options options = getOptionsUnderTest(OPTIONS_2);
         assertEquals(Type.CHECKBOX, options.getType());
 
@@ -98,9 +104,10 @@ public class OptionsImplTest {
         assertNotNull(optionItems);
         assertTrue(optionItems.size() == 2);
 
-        evaluateOptionItem(optionItems.get(0), "local-item1-name", "local-item1-value", true, false);
-        evaluateOptionItem(optionItems.get(1), "local-item2-name", "local-item2-value", false, true);
+        evaluateOptionItem(optionItems.get(0), "local-item1-name", "local-item1-value", false, false);
+        evaluateOptionItem(optionItems.get(1), "local-item2-name", "local-item2-value", true, true);
         Utils.testJSONExport(options, Utils.getTestExporterJSONPath(TEST_BASE, OPTIONS_2));
+        FormsHelperGetValuesStubMethod.values = null;
     }
 
     @Test

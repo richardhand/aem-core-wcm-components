@@ -1,12 +1,16 @@
 # AEM Core WCM Components Sandbox
+[![Build Status](https://travis-ci.org/Adobe-Marketing-Cloud/aem-core-wcm-components.png?branch=development)](https://travis-ci.org/Adobe-Marketing-Cloud/aem-core-wcm-components)
+[![Code Coverage](https://codecov.io/gh/Adobe-Marketing-Cloud/aem-core-wcm-components/branch/development/graph/badge.svg)](https://codecov.io/gh/Adobe-Marketing-Cloud/aem-core-wcm-components)
 
 **The Sandbox represents a space where work-in-progress versions of the Core Components are developed. They provide _beta features_ and *should not be used in production*. When the components become stable, they will be promoted to new production-ready releases and moved out of sandbox.**
 
+## Documentation
 
-[![Build Status](https://travis-ci.org/Adobe-Marketing-Cloud/aem-core-wcm-components.png?branch=master)](https://travis-ci.org/Adobe-Marketing-Cloud/aem-core-wcm-components)
-[![Code Coverage](https://codecov.io/gh/Adobe-Marketing-Cloud/aem-core-wcm-components/branch/master/graph/badge.svg)](https://codecov.io/gh/Adobe-Marketing-Cloud/aem-core-wcm-components)
-
-A set of standardized components that can be used to speed up development of websites.
+* [Tutorial to build a new site using the Core Components](https://helpx.adobe.com/experience-manager/kt/sites/using/getting-started-wknd-tutorial-develop.html)
+* AEM product documentation of Core Components
+  * [Author documentation](https://docs.adobe.com/docs/en/aem/6-3/author/page-authoring/default-components/core-components.html)
+  * [Developer documentation](https://docs.adobe.com/docs/en/aem/6-3/develop/components/core-components.html)
+* [adaptTo() 2017 presentation](https://adapt.to/2017/en/schedule/extensible-components-with-sling-models-and-htl.html)
 
 ## Contributing
 
@@ -15,31 +19,35 @@ Contributions are welcome! Read the [Contributing Guide](CONTRIBUTING.md) for mo
 ## Available Components
 
 * Page authoring components:
-  * [Page component](content/src/content/jcr_root/apps/core/wcm/components/page/v1/page)
-  * [Breadcrumb component](content/src/content/jcr_root/apps/core/wcm/components/breadcrumb/v1/breadcrumb)
-  * [Title component](content/src/content/jcr_root/apps/core/wcm/components/title/v1/title)
-  * [Text component](content/src/content/jcr_root/apps/core/wcm/components/text/v1/text)
-  * [Image component](content/src/content/jcr_root/apps/core/wcm/components/image/v1/image)
-  * [List component](content/src/content/jcr_root/apps/core/wcm/components/list/v1/list)
-  * [Sharing component](content/src/content/jcr_root/apps/core/wcm/components/sharing/v1/sharing)
+  * [Page component](content/src/content/jcr_root/apps/core/wcm/sandbox/components/page/v2/page)
+  * [Breadcrumb component](content/src/content/jcr_root/apps/core/wcm/sandbox/components/breadcrumb/v2/breadcrumb)
+  * [Title component](content/src/content/jcr_root/apps/core/wcm/sandbox/components/title/v2/title)
+  * [Text component](content/src/content/jcr_root/apps/core/wcm/sandbox/components/text/v2/text)
+  * [Image component](content/src/content/jcr_root/apps/core/wcm/sandbox/components/image/v2/image)
+  * [List component](content/src/content/jcr_root/apps/core/wcm/sandbox/components/list/v2/list)
+  * [Sharing component](content/src/content/jcr_root/apps/core/wcm/sandbox/components/sharing/v2/sharing)
+  * [Navigation](content/src/content/jcr_root/apps/core/wcm/sandbox/components/navigation/v1/navigation)
+  * [Language Navigation](content/src/content/jcr_root/apps/core/wcm/sandbox/components/languagenavigation/v1/languagenavigation)
+  * [Quick Search](content/src/content/jcr_root/apps/core/wcm/sandbox/components/search/v1/search)
+  * [Teaser](content/src/content/jcr_root/apps/core/wcm/sandbox/components/teaser/v1/teaser)
 * Form components:
-  * [Form container](content/src/content/jcr_root/apps/core/wcm/components/form/container/v1/container)
-  * [Form text field](content/src/content/jcr_root/apps/core/wcm/components/form/text/v1/text)
-  * [Form options field](content/src/content/jcr_root/apps/core/wcm/components/form/options/v1/options)
-  * [Form hidden field](content/src/content/jcr_root/apps/core/wcm/components/form/hidden/v1/hidden)
-  * [Form button](content/src/content/jcr_root/apps/core/wcm/components/form/button/v1/button)
+  * [Form container](content/src/content/jcr_root/apps/core/wcm/sandbox/components/form/container/v2/container)
+  * [Form text field](content/src/content/jcr_root/apps/core/wcm/sandbox/components/form/text/v2/text)
+  * [Form options field](content/src/content/jcr_root/apps/core/wcm/sandbox/components/form/options/v2/options)
+  * [Form hidden field](content/src/content/jcr_root/apps/core/wcm/sandbox/components/form/hidden/v2/hidden)
+  * [Form button](content/src/content/jcr_root/apps/core/wcm/sandbox/components/form/button/v2/button)
 
-The components' versioning scheme is documented on the [AEM Core WCM Components' versioning policies](https://github.com/Adobe-Marketing-Cloud/aem-core-wcm-components/wiki/AEM-Core-WCM-Components'-versioning-policies) wiki page
+The components' versioning scheme is documented on the [AEM Core WCM Components' versioning policies](https://github.com/Adobe-Marketing-Cloud/aem-core-wcm-components/wiki/Versioning-policies) wiki page
 
 ## System Requirements
 
-The core components are built on top of the Sling Models API 1.3, which is part of `AEM 6.3`. From version 1.0.4 the project requires Java 1.8 as an execution environment.
+Core Components | AEM                       | Java
+----------------|---------------------------|-----
+1.0.0, 1.0.2    | AEM 6.3                   | 1.7
+1.0.4, 1.0.6    | AEM 6.3                   | 1.8
+1.1.0           | AEM 6.3 + FP19614 or SP 1 | 1.8
 
-## Installation
-
-To install everything the [released all package as released aggregate package](https://github.com/Adobe-Marketing-Cloud/aem-core-wcm-components/releases) can be installed via the AEM Package Manager.
-
-For more information about the Package Manager please have a look at [How to Work With Packages](https://docs.adobe.com/docs/en/aem/6-2/administer/content/package-manager.html) documentation page.
+The Sandbox components depend on the [`cq-6.3.0-featurepack-18678`](https://www.adobeaemcloud.com/content/marketplace/marketplaceProxy.html?packagePath=/content/companies/public/adobe/packages/cq630/featurepack/cq-6.3.0-featurepack-18678) Feature Pack. This Feature Pack is a tech preview, meaning that changes might happen to it that could break compatibility. It is therefore recommended to not install it on production environments and instead wait until these capabilities are consolidated in a Service Pack.
 
 ## Build
 
@@ -79,29 +87,13 @@ Please note that
  * ``-pl/-projects`` option specifies the list of projects that you want to install
  * ``-am/-also-make`` options specifies that dependencies should also be built
 
-## Include core components as subpackage into your own project maven build
+ ### Running the UI tests
 
-The released version of the core components are available on the public maven repository at https://repo.adobe.com. To include the 
-core components package into your own project maven build you can add the dependency
- ```
- <dependency>
-     <groupId>com.adobe.cq</groupId>
-     <artifactId>core.wcm.components.all</artifactId>
-     <type>zip</type>
-     <version>1.0.4</version
- </dependency>
- ```
- 
- and sub package section
- ```
- <subPackage>
-     <groupId>com.adobe.cq</groupId>
-     <artifactId>core.wcm.components.all</artifactId>
-     <filter>true</filter>
- </subPackage>
- ```
- 
- to the `content-package-maven-plugin`.
- 
- For more information how to setup the Adobe Maven Repository (`repo.adobe.com`) for your maven build, please have a look at the 
- related [Knowledge Base article](https://helpx.adobe.com/experience-manager/kb/SetUpTheAdobeMavenRepository.html)
+ The Sandbox components might use features not yet available on AEM 6.3. In order to correctly test the functionality that's still supported for AEM 6.3, the Hobbes UI tests
+ should be executed using the following request parameters:
+
+```
+http://localhost:4502/libs/granite/testing/hobbes.html?runId=1&autoRun=true&optin=disabled&filter=aem.core-components.testsuite.sandbox&run.options={"withMetadata":{"ignoreOn63":{"value":true,"type":"exclude"}}}
+```
+
+This will make sure that tests which would normally fail on AEM 6.3 due to platform changes are not executed.

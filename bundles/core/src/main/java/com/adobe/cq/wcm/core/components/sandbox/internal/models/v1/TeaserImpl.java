@@ -17,6 +17,7 @@ package com.adobe.cq.wcm.core.components.sandbox.internal.models.v1;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang.StringUtils;
@@ -30,6 +31,7 @@ import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.adobe.cq.export.json.ComponentExporter;
 import com.adobe.cq.wcm.core.components.internal.Constants;
 import com.adobe.cq.wcm.core.components.internal.Utils;
 import com.adobe.cq.wcm.core.components.sandbox.internal.resource.ImageResourceWrapper;
@@ -39,8 +41,9 @@ import com.day.cq.commons.ImageResource;
 import com.day.cq.commons.jcr.JcrConstants;
 import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.api.components.Component;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Model(adaptables = SlingHttpServletRequest.class, adapters = Teaser.class, resourceType = TeaserImpl.RESOURCE_TYPE)
+@Model(adaptables = SlingHttpServletRequest.class, adapters = {Teaser.class, ComponentExporter.class}, resourceType = TeaserImpl.RESOURCE_TYPE)
 @Exporter(name = Constants.EXPORTER_NAME, extensions = Constants.EXPORTER_EXTENSION)
 public class TeaserImpl extends AbstractImageDelegatingModel implements Teaser {
 
@@ -118,5 +121,19 @@ public class TeaserImpl extends AbstractImageDelegatingModel implements Teaser {
     @Override
     public String getLinkText() {
         return linkText;
+    }
+
+    public String getImagePath() {
+        Resource image = getImageResource();
+        if (image == null) {
+            return null;
+        }
+        return image.getPath();
+    }
+
+    @Nonnull
+    @Override
+    public String getExportedType() {
+        return RESOURCE_TYPE;
     }
 }

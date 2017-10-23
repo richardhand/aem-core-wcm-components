@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
@@ -40,6 +41,7 @@ import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.adobe.cq.export.json.ComponentExporter;
 import com.adobe.cq.wcm.core.components.internal.Constants;
 import com.adobe.cq.wcm.core.components.sandbox.models.Search;
 import com.day.cq.search.PredicateConverter;
@@ -52,9 +54,10 @@ import com.day.cq.wcm.api.NameConstants;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.api.designer.Style;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Model(adaptables = SlingHttpServletRequest.class,
-       adapters = Search.class,
+       adapters = {Search.class, ComponentExporter.class},
        resourceType = {SearchImpl.RESOURCE_TYPE})
 @Exporter(name = Constants.EXPORTER_NAME,
           extensions = Constants.EXPORTER_EXTENSION)
@@ -131,6 +134,7 @@ public class SearchImpl implements Search {
     }
 
     @Override
+    @JsonIgnore
     public List<Resource> getResults() {
         String fulltext = request.getParameter(PARAM_FULLTEXT);
         long resultsOffset = 0;
@@ -193,4 +197,9 @@ public class SearchImpl implements Search {
         return null;
     }
 
+    @Nonnull
+    @Override
+    public String getExportedType() {
+        return RESOURCE_TYPE;
+    }
 }
