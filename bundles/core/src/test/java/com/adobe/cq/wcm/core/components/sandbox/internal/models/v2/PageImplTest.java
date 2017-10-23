@@ -46,7 +46,6 @@ public class PageImplTest extends com.adobe.cq.wcm.core.components.internal.mode
     public static void setUp() {
 
         internalSetUp(CONTEXT, TEST_BASE, ROOT);
-        pageClass = Page.class;
         mockClientLibrary = Mockito.mock(ClientLibrary.class);
 
         when(mockClientLibrary.getPath()).thenReturn("/apps/wcm/core/page/clientlibs/favicon");
@@ -96,8 +95,7 @@ public class PageImplTest extends com.adobe.cq.wcm.core.components.internal.mode
         assertEquals("The CSS classes of the page are not expected: " + PAGE, "class1 class2", cssClasses);
     }
 
-    @Override
-    protected Page getPageUnderTest(String pagePath) {
-        return (Page)super.getPageUnderTest(pagePath);
+    private Page getPageUnderTest(String pagePath) {
+        return super.getPageUnderTest(Page.class, pagePath);
     }
 }
