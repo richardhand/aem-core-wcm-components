@@ -3,6 +3,7 @@
     "title"           : "Templated Page",
     "lastModifiedDate": 1453282416000,
     "templateName"    : "product-page",
+    "appResourcesPath": "/core/etc.clientlibs/wcm/core/page/clientlibs/favicon/resources",
     "cssClassNames"   : "class1 class2",
     "language"        : "en-GB",
     ":itemsOrder"     : [
@@ -13,14 +14,14 @@
             ":itemsOrder": [
                 "text"
             ],
-            ":items": {
+            ":items"     : {
                 "text": {
-                    "text": "<p>This is a test</p>",
+                    "text"    : "<p>This is a test</p>",
                     "richText": true,
-                    ":type": "core/wcm/sandbox/components/text/v2/text"
+                    ":type"   : "core/wcm/sandbox/components/text/v2/text"
                 }
             },
-            ":type": "wcm/foundation/components/responsivegrid"
+            ":type"      : "wcm/foundation/components/responsivegrid"
         }
     },
     ":type"           : "core/wcm/sandbox/components/page/v2/page"

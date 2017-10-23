@@ -46,7 +46,6 @@ import com.google.common.collect.Lists;
 public class PageImpl extends com.adobe.cq.wcm.core.components.internal.models.v1.PageImpl implements Page {
 
     protected static final String RESOURCE_TYPE = "core/wcm/sandbox/components/page/v2/page";
-    private static final String DEFAULT_FAVICON_CLIENT_LIB = "core.wcm.components.page.v2.favicon";
 
     @OSGiService
     private HtmlLibraryManager htmlLibraryManager;
@@ -57,33 +56,37 @@ public class PageImpl extends com.adobe.cq.wcm.core.components.internal.models.v
     @ScriptVariable
     private ComponentContext componentContext;
 
-    private String faviconClientLibCategory;
-    private String faviconClientLibPath;
+    private String appResourcesPath;
 
     @PostConstruct
     protected void initModel() {
         super.initModel();
-        faviconClientLibCategory = currentStyle.get(PN_FAVICON_CLIENT_LIB, DEFAULT_FAVICON_CLIENT_LIB);
-        populateFaviconPath();
-    }
-
-    private void populateFaviconPath() {
-        Collection<ClientLibrary> clientLibraries =
-                htmlLibraryManager.getLibraries(new String[]{faviconClientLibCategory}, LibraryType.CSS, true, true);
-        ArrayList<ClientLibrary> clientLibraryList = Lists.newArrayList(clientLibraries.iterator());
-        if(!clientLibraryList.isEmpty()) {
-            faviconClientLibPath = getProxyPath(clientLibraryList.get(0));
+        String resourcesClientLibrary = currentStyle.get(PN_APP_RESOURCES_CLIENTLIB, String.class);
+        if (resourcesClientLibrary != null) {
+            Collection<ClientLibrary> clientLibraries =
+                    htmlLibraryManager.getLibraries(new String[]{resourcesClientLibrary}, LibraryType.CSS, true, true);
+            ArrayList<ClientLibrary> clientLibraryList = Lists.newArrayList(clientLibraries.iterator());
+            if (!clientLibraryList.isEmpty()) {
+                appResourcesPath = getProxyPath(clientLibraryList.get(0));
+            }
         }
     }
 
     private String getProxyPath(ClientLibrary lib) {
         String path = lib.getPath();
-        if (lib.allowProxy() && (path.startsWith("/libs/") || path.startsWith("/apps/"))) {
-            path = "/etc.clientlibs" + path.substring(5);
+        if (lib.allowProxy()) {
+            for (String searchPath : request.getResourceResolver().getSearchPath()) {
+                if (path.startsWith(searchPath)) {
+                    path = request.getContextPath() + "/etc.clientlibs/" + path.replaceFirst(searchPath, "");
+                }
+            }
         } else {
             if (request.getResourceResolver().getResource(lib.getPath()) == null) {
                 path = null;
             }
+        }
+        if (path != null) {
+            path = path + "/resources";
         }
         return path;
     }
@@ -98,8 +101,8 @@ public class PageImpl extends com.adobe.cq.wcm.core.components.internal.models.v
     }
 
     @Override
-    public String getFaviconClientLibPath() {
-        return faviconClientLibPath;
+    public String getAppResourcesPath() {
+        return appResourcesPath;
     }
 
     @Override

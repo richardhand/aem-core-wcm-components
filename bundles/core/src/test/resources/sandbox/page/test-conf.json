@@ -36,6 +36,7 @@
                                 "clientlibs": [
                                     "coretest.product-page"
                                 ],
+                                "appResourcesClientlib": "coretest.product-page.appResources",
                                 "jcr:description": "Policy for product pages",
                                 "jcr:lastModified": "Thu Mar 03 2016 18:52:44 GMT+0100",
                                 "jcr:lastModifiedBy": "admin",

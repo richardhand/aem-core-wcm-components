@@ -17,6 +17,7 @@ package com.adobe.cq.wcm.core.components.sandbox.models;
 
 import java.util.Map;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.osgi.annotation.versioning.ConsumerType;
 
@@ -31,9 +32,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public interface Page extends com.adobe.cq.wcm.core.components.models.Page, ContainerExporter {
 
     /**
-     * Category of client library to load favicon related resources
+     * Name of the configuration policy property that will store the category of the client library from which web application resources
+     * will be served.
+     *
+     * @since com.adobe.cq.wcm.core.components.sandbox.models 4.0.0
      */
-    String PN_FAVICON_CLIENT_LIB = "faviconClientLib";
+    String PN_APP_RESOURCES_CLIENTLIB = "appResourcesClientlib";
 
     /**
      * <p>
@@ -60,12 +64,12 @@ public interface Page extends com.adobe.cq.wcm.core.components.models.Page, Cont
     }
 
     /**
-     * Returns the path of the client library to load favicon related resources.
+     * Returns the root path of the application's web resources (e.g. favicons, application manifest, etc.).
      *
-     * @return path of the favicon clientlib
+     * @return resources path; can return {@code null} if no such resources were defined
      */
-    @JsonIgnore
-    default String getFaviconClientLibPath() {
+    @Nullable
+    default String getAppResourcesPath() {
         throw new UnsupportedOperationException();
     }
 

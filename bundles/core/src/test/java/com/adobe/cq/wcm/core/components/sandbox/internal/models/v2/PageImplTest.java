@@ -85,8 +85,8 @@ public class PageImplTest extends com.adobe.cq.wcm.core.components.internal.mode
     @Test
     public void testGetFaviconClientLibPath() throws Exception {
         Page page = getPageUnderTest(PAGE);
-        String faviconClientLibPath = page.getFaviconClientLibPath();
-        assertEquals("/etc.clientlibs/wcm/core/page/clientlibs/favicon", faviconClientLibPath);
+        String faviconClientLibPath = page.getAppResourcesPath();
+        assertEquals(CONTEXT_PATH + "/etc.clientlibs/wcm/core/page/clientlibs/favicon/resources", faviconClientLibPath);
     }
 
     @Test

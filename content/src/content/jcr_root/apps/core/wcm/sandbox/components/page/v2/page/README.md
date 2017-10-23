@@ -39,18 +39,19 @@ libsScript from all referenced [cloud service configurations](https://docs.adobe
 `<designpath>.css` | only if design is set for current page | CSS | Head
 `<clientlibs>` being set in component policy | only if `<clientlibs>` is set | JS | Body
 
-### Use Object
+## Use Object
 The Page component uses the following use objects:
 * `com.adobe.cq.wcm.core.components.sandbox.models.Page`
 * `com.adobe.cq.wcm.core.components.models.SocialMediaHelper`
 * `com.day.cq.wcm.foundation.TemplatedContainer`
 
-### Component policy configuration properties
+## Component policy configuration properties
 The following configuration properties are used:
 
-1. `./clientlibs` - allows to define a list of client libraries to be loaded by the pages associated to this configuraiton policy
+1. `./clientlibs` - allows to define a list of client libraries to be loaded by the pages associated to this configuration policy
+2. `./appResourcesClientlib` - allows to define the client library that is used to serve web resources like favicons
 
-### Edit dialog properties
+## Edit dialog properties
 The following properties are written to JCR for this Page component and are expected to be available as `Resource` properties:
 
 1. `./jcr:title` - defines the title for this page
@@ -75,6 +76,40 @@ The following properties are written to JCR for this Page component and are expe
 media
 20. `./cq:contextHubPath` - defines the Context Path configuration used by this page
 21. `./cq:contextHubSegmentsPath` - defines the Context Path Segments Path
+
+## Web resources client library
+A web resources client library can be defined at the template level (see `./appResourcesClientlib` component policy configuration).
+This client library has to provide the following structure:
+
+```json
+{
+  "<client library folder>": {
+    "jcr:primaryType": "cq:ClientLibraryFolder",
+    "allowProxy": true,
+    "categories": [
+      "<category name>"
+    ],
+    "css.txt": {"jcr:primaryType": "nt:file"},
+    "resources": {
+      "jcr:primaryType": "nt:folder"
+      }
+  }
+}
+```
+
+The following files are expected in the `resources` folder, for maximum compatibility:
+
+Filename|Browser|Size
+--------|-------|----
+apple-touch-icon-180x180.png|Safari on iPhone| 180px x 180px
+apple-touch-icon-167x167.png|Safari on iPad Pro| 167px x 167px
+apple-touch-icon-152x152.png|Safari on iPad, iPad Mini| 152px x 152px
+apple-touch-icon-120x120.png|Safari on iPhone| 120px x 120px
+icon-192x192.png|Chrome, Opera|192px x 192px
+icon-310x310.png|Internet Explorer, Edge and Windows Phone|310px x 310px
+icon-310x150.png|Internet Explorer, Edge and Windows Phone|310px x 150px
+icon-150x150.png|Internet Explorer, Edge and Windows Phone|150px x 150px
+icon-70x70.png|Internet Explorer, Edge and Windows Phone|70px x 70px
 
 ## Information
 * **Vendor**: Adobe
