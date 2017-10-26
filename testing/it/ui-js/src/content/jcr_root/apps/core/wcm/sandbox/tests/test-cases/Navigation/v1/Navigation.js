@@ -162,7 +162,7 @@
             .assert.visible('.cmp-navigation__editor-maxDepth', false)
             .fillInput('foundation-autocomplete[name="./siteRoot"]', '%page_1%')
             // uncheck the skip root option
-            .click('coral-checkbox[name="./skipRoot"]')
+            .click('input[name="./skipRoot"]')
             .execTestCase(c.tcSaveConfigureDialog)
             .config.changeContext(c.getContentFrame)
             .assert.isTrue(function () {
