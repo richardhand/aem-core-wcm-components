@@ -35,7 +35,7 @@
      */
     new h.TestSuite('Form Text v1', {path: '/apps/core/wcm/tests/test-suites/FormText/v1/FormText.js',
         execBefore:c.tcExecuteBeforeTestSuite,
-        execInNewWindow : true})
+        execInNewWindow : false})
 
         .addTestCase(formText.checkLabelMandatory(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(formText.setLabel(tcExecuteBeforeTest, tcExecuteAfterTest))

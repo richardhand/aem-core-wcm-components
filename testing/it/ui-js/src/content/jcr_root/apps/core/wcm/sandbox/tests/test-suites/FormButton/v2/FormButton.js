@@ -37,7 +37,7 @@
      */
     new h.TestSuite("Form Button v2",{path:"/apps/core/wcm/sandbox/test-suites/FormButton/v2/FormButton.js",
         execBefore:c.tcExecuteBeforeTestSuite,
-        execInNewWindow : true})
+        execInNewWindow : false})
 
         .addTestCase(formButtonV1.checkDefaultButtonAttributes(buttonSelector,tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(formButtonV1.createButton(buttonSelector, tcExecuteBeforeTest, tcExecuteAfterTest))

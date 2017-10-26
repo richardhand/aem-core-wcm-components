@@ -31,7 +31,7 @@
      */
     new h.TestSuite("Form Components v2",{path:"/apps/core/wcm/sandbox/test-suites/FormComponents/v2/FormComponents.js",
         execBefore:c.tcExecuteBeforeTestSuite,
-        execInNewWindow : true})
+        execInNewWindow : false})
 
         .addTestCase(formComponentsV1.storeContent(tcExecuteBeforeTest, tcExecuteAfterTest))
     ;

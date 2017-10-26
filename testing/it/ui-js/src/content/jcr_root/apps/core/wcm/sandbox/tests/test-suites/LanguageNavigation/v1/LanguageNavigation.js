@@ -27,7 +27,7 @@
     new h.TestSuite('Language Navigation v1', {
         path           : '/apps/core/wcm/sandbox/tests/LanguageNavigation/v1/LanguageNavigation.js',
         execBefore     : c.tcExecuteBeforeTestSuite,
-        execInNewWindow: true
+        execInNewWindow: false
     })
         .addTestCase(languageNavigation.testDefaultConfiguration(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(languageNavigation.testChangeStructureDepth(tcExecuteBeforeTest, tcExecuteAfterTest))

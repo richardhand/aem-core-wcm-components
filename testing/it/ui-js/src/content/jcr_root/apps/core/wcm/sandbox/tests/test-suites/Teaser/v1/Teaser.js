@@ -46,7 +46,7 @@
     new h.TestSuite('Teaser v1', {
         path           : '/apps/core/wcm/sandbox/tests/core-components-it/v1/Teaser.js',
         execBefore     : c.tcExecuteBeforeTestSuite,
-        execInNewWindow: true
+        execInNewWindow: false
     }).addTestCase(teaser.testFullyConfiguredTeaser(tcExecuteBeforeTest, tcExecuteAfterTest, selectors));
 
 }(hobs, jQuery));

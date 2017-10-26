@@ -35,7 +35,7 @@
      */
     new h.TestSuite('Form Hidden v2', {path: '/apps/core/wcm/sandbox/test-suites/FormHidden/v2/FormHidden.js',
         execBefore:c.tcExecuteBeforeTestSuite,
-        execInNewWindow : true})
+        execInNewWindow : false})
 
         .addTestCase(formHiddenV1.checkMandatoryFields(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(formHiddenV1.setElementName(tcExecuteBeforeTest, tcExecuteAfterTest))

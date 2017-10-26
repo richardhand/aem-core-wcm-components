@@ -27,7 +27,7 @@
     new h.TestSuite('Navigation v1', {
         path           : '/apps/core/wcm/sandbox/test-suites/Navigation/v1/Navigation.js',
         execBefore     : c.tcExecuteBeforeTestSuite,
-        execInNewWindow: true
+        execInNewWindow: false
     })
         .addTestCase(navigation.testDefaultConfiguration(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(navigation.testIncludeNavigationRoot(tcExecuteBeforeTest, tcExecuteAfterTest))
