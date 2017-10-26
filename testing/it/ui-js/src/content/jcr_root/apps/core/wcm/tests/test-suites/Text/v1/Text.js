@@ -38,7 +38,7 @@
      */
     new h.TestSuite('Text v1', {path: '/apps/core/wcm/tests/test-suites/Text/v1/Text.js',
         execBefore:c.tcExecuteBeforeTestSuite,
-        execInNewWindow : false})
+        execInNewWindow : true})
 
         .addTestCase(text.tcSetTextValueUsingInlineEditor(selectors, tcExecuteBeforeTest, tcExecuteAfterTest));
 }(hobs, jQuery));

@@ -39,7 +39,7 @@
      */
     new h.TestSuite("Breadcrumb v1", {path:"/apps/core/wcm/tests/test-suites/Breadcrumb/v1/Breadcrumb.js",
         execBefore: c.tcExecuteBeforeTestSuite,
-        execInNewWindow : false})
+        execInNewWindow : true})
 
         .addTestCase(breadcrumb.testHideCurrent(itemSelector, tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(breadcrumb.testShowHidden(itemSelector, tcExecuteBeforeTest, tcExecuteAfterTest))

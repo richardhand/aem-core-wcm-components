@@ -30,7 +30,7 @@
      */
     new h.TestSuite("Form Container v2",{path:"/apps/core/wcm/sandbox/test-suites/FormContainer/v2/FormContainer.js",
         execBefore:c.tcExecuteBeforeTestSuite,
-        execInNewWindow : false})
+        execInNewWindow : true})
 
         .addTestCase(formContainerV1.storeContent(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(formContainerV1.setMailAction(tcExecuteBeforeTest, tcExecuteAfterTest))

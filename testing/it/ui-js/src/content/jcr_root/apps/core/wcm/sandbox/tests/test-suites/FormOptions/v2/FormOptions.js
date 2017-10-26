@@ -41,7 +41,7 @@
      */
     new h.TestSuite('Form Options v2', {path: '/apps/core/wcm/sandbox/test-suites/FormOptions/v2/FormOptions.js',
         execBefore:c.tcExecuteBeforeTestSuite,
-        execInNewWindow : false})
+        execInNewWindow : true})
 
         .addTestCase(formOptionsV1.checkMandatoryFields(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(formOptionsV1.setTitle(tcExecuteBeforeTest, tcExecuteAfterTest))

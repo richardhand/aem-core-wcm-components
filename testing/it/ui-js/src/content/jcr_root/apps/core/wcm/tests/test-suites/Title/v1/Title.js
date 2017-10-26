@@ -34,7 +34,7 @@
      */
     new h.TestSuite("Title v1", {path:"/apps/core/wcm/tests/test-suites/core-components-suites/Title.js",
         execBefore:c.tcExecuteBeforeTestSuite,
-        execInNewWindow : false})
+        execInNewWindow : true})
         //TODO: Removed for now as it not stable randomly failing
         //.addTestCase(title.tcSetTitleValueUsingInlineEditor(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(title.tcSetTitleValueUsingConfigDialog(tcExecuteBeforeTest, tcExecuteAfterTest))

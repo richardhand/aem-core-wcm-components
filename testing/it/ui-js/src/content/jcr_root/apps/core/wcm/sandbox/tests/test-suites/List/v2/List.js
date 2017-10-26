@@ -34,7 +34,7 @@
      */
     new h.TestSuite('List v2', {path: '/apps/core/wcm/sandbox/test-suites/List/v2/List.js',
         execBefore:c.tcExecuteBeforeTestSuite,
-        execInNewWindow : false})
+        execInNewWindow : true})
 
         .addTestCase(listV1.tcCreateListDirectChildren(tcExecuteBeforeTest, tcExecuteAfterTest, "core/wcm/sandbox/tests/components/test-page-v2"))
         .addTestCase(listV1.tcCreateListChildren(tcExecuteBeforeTest, tcExecuteAfterTest))

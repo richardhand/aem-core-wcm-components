@@ -27,7 +27,7 @@
     new h.TestSuite('Search v1', {
         path           : '/apps/core/wcm/sandbox/tests/core-components-it/v1/search.js',
         execBefore     : c.tcExecuteBeforeTestSuite,
-        execInNewWindow: false
+        execInNewWindow: true
     })
         .addTestCase(search.testDefaultConfiguration(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(search.testChangeStartLevel(tcExecuteBeforeTest, tcExecuteAfterTest))
