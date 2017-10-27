@@ -55,7 +55,7 @@
                         "jcr:primaryType": "cq:PageContent",
                         "jcr:title"      : "Navigation 1.1.1",
                         "jcr:created"    : "Thu Jun 29 2017 12:13:52 GMT+0200",
-                        "redirectTarget" : "/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2"
+                        "cq:redirectTarget" : "/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2"
                     }
                 },
                 "navigation-1-1-2": {
@@ -64,7 +64,7 @@
                         "jcr:primaryType": "cq:PageContent",
                         "jcr:title"      : "Navigation 1.1.2",
                         "jcr:created"    : "Thu Jun 29 2017 12:13:52 GMT+0200",
-                        "redirectTarget" : "/content/navigation/navigation-1/navigation-1-1/navigation-1-1-1"
+                        "cq:redirectTarget" : "/content/navigation/navigation-1/navigation-1-1/navigation-1-1-1"
                     },
                     "navigation-1-1-2-1": {
                         "jcr:primaryType": "cq:Page",
@@ -72,7 +72,7 @@
                             "jcr:primaryType": "cq:PageContent",
                             "jcr:title"      : "Navigation 1.1.2.1",
                             "jcr:created"    : "Thu Jun 29 2017 12:13:52 GMT+0200",
-                            "redirectTarget" : "/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2/navigation-1-1-2-2/navigation-1-1-2-2-1"
+                            "cq:redirectTarget" : "/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2/navigation-1-1-2-2/navigation-1-1-2-2-1"
                         }
                     },
                     "navigation-1-1-2-2": {

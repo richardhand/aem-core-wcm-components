@@ -58,11 +58,25 @@
                             <goal>manifest</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>scr-metadata</id>
+                        <goals>
+                            <goal>manifest</goal>
+                        </goals>
+                        <configuration>
+                            <supportIncrementalBuild>true</supportIncrementalBuild>
+                        </configuration>
+                    </execution>
                 </executions>
                 <configuration>
+                    <exportScr>true</exportScr>
                     <instructions>
                         <!-- The Sling-Model-Packages instruction needs to point to the implementation package -->
                         <Sling-Model-Packages>com.adobe.cq.wcm.core.components.internal.models,com.adobe.cq.wcm.core.components.sandbox.internal.models</Sling-Model-Packages>
+                        <!-- Enable processing of OSGI DS component annotations -->
+                        <_dsannotations>*</_dsannotations>
+                        <!-- Enable processing of OSGI metatype annotations -->
+                        <_metatypeannotations>*</_metatypeannotations>
                     </instructions>
                 </configuration>
             </plugin>
@@ -429,6 +443,12 @@
             <artifactId>org.apache.sling.testing.clients</artifactId>
             <version>1.1.4</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.day.cq.wcm</groupId>
+            <artifactId>cq-wcm-api</artifactId>
+            <version>5.12.15-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.adobe.aem</groupId>

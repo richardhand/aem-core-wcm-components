@@ -113,4 +113,15 @@ public interface Page extends com.adobe.cq.wcm.core.components.models.Page, Cont
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Returns the target page if this page is redirecting to another page.
+     *
+     * @return {@link NavigationItem} of redirect target
+     * @since com.adobe.cq.wcm.core.components.sandbox.models 3.2.0
+     */
+    @Nullable
+    default NavigationItem getRedirectTarget() {
+        throw new UnsupportedOperationException();
+    }
+
 }

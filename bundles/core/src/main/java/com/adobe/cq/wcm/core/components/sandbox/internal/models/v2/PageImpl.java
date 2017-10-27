@@ -21,23 +21,29 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.InjectionStrategy;
 import org.apache.sling.models.annotations.injectorspecific.OSGiService;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 import org.apache.sling.models.annotations.injectorspecific.Self;
+import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
 import com.adobe.cq.export.json.ComponentExporter;
 import com.adobe.cq.export.json.ContainerExporter;
 import com.adobe.cq.export.json.ExporterConstants;
+import com.adobe.cq.wcm.core.components.sandbox.internal.models.v1.RedirectItemImpl;
+import com.adobe.cq.wcm.core.components.sandbox.models.NavigationItem;
 import com.adobe.cq.wcm.core.components.sandbox.models.Page;
 import com.adobe.granite.ui.clientlibs.ClientLibrary;
 import com.adobe.granite.ui.clientlibs.HtmlLibraryManager;
 import com.adobe.granite.ui.clientlibs.LibraryType;
+import com.day.cq.wcm.api.NameConstants;
 import com.day.cq.wcm.api.components.ComponentContext;
 import com.google.common.collect.Lists;
 
@@ -56,7 +62,12 @@ public class PageImpl extends com.adobe.cq.wcm.core.components.internal.models.v
     @ScriptVariable
     private ComponentContext componentContext;
 
+    @ValueMapValue(injectionStrategy = InjectionStrategy.OPTIONAL,
+                   name = NameConstants.PN_REDIRECT_TARGET)
+    private String redirectTargetValue;
+
     private String appResourcesPath;
+    private NavigationItem redirectTarget;
 
     @PostConstruct
     protected void initModel() {
@@ -69,6 +80,13 @@ public class PageImpl extends com.adobe.cq.wcm.core.components.internal.models.v
             if (!clientLibraryList.isEmpty()) {
                 appResourcesPath = getProxyPath(clientLibraryList.get(0));
             }
+        }
+        setRedirect();
+    }
+
+    private void setRedirect() {
+        if (StringUtils.isNotEmpty(redirectTargetValue)) {
+            redirectTarget = new RedirectItemImpl(redirectTargetValue, request);
         }
     }
 
@@ -127,5 +145,11 @@ public class PageImpl extends com.adobe.cq.wcm.core.components.internal.models.v
     @Override
     public String getExportedType() {
         return RESOURCE_TYPE;
+    }
+
+    @Nullable
+    @Override
+    public NavigationItem getRedirectTarget() {
+        return redirectTarget;
     }
 }
