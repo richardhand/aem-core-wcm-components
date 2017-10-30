@@ -1,5 +1,5 @@
 #!groovy
-@Library(['com.adobe.qe.evergreen.sprout'])
+@Library(['com.adobe.qe.evergreen.sprout@master-hotfix'])
 import com.adobe.qe.evergreen.sprout.Sprout
 import com.adobe.qe.evergreen.sprout.Pipeline
 import com.adobe.qe.evergreen.sprout.SproutConfig
@@ -281,7 +281,10 @@ config.setQuickstartPRConfig(quickstart)
 config.setEnableMailNotification(false)
 
 // Don't trigger sprout for release commits
-config.setBuildCriteria([new Exclude(new GitCommitMessage(/^(.*)@releng \[maven\-scm\] :prepare(.*)$/))])
+config.setBuildCriteria([new Exclude(
+        new AndCriteria()
+                .withCriteria(new GitCommitMessage(/^(.*)@releng \[maven\-scm\] :prepare(.*)$/))
+                .withCriteria(new Exclude(new ManuallyTriggered())))])
 
 // Slack notification
 config.setEnableSlackNotifications(true)
