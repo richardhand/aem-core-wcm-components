@@ -22,6 +22,7 @@ import com.adobe.cq.export.json.ComponentExporter;
 import org.junit.Test;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class PageTest {
 
@@ -35,6 +36,11 @@ public class PageTest {
     @Test(expected = UnsupportedOperationException.class)
     public void testGetFaviconClientLibPath() throws Exception {
         underTest.getAppResourcesPath();
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetRedirectTarget() throws Exception {
+        underTest.getRedirectTarget();
     }
 
     private static class MockPage implements Page {

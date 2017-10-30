@@ -27,18 +27,18 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import com.adobe.cq.wcm.core.components.Utils;
+import com.adobe.cq.wcm.core.components.sandbox.models.NavigationItem;
 import com.adobe.cq.wcm.core.components.sandbox.models.Page;
 import com.adobe.cq.wcm.core.components.testing.MockHtmlLibraryManager;
 import com.adobe.granite.ui.clientlibs.ClientLibrary;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 public class PageImplTest extends com.adobe.cq.wcm.core.components.internal.models.v1.PageImplTest {
 
     private static final String TEST_BASE = "/sandbox/page";
+    private static final String REDIRECT_PAGE = ROOT + "/redirect-page";
 
     private static ClientLibrary mockClientLibrary;
 
@@ -86,6 +86,15 @@ public class PageImplTest extends com.adobe.cq.wcm.core.components.internal.mode
         Page page = getPageUnderTest(PAGE);
         String faviconClientLibPath = page.getAppResourcesPath();
         assertEquals(CONTEXT_PATH + "/etc.clientlibs/wcm/core/page/clientlibs/favicon/resources", faviconClientLibPath);
+    }
+
+    @Test
+    public void testRedirectTarget() throws Exception {
+        Page page = getPageUnderTest(REDIRECT_PAGE);
+        NavigationItem redirectTarget = page.getRedirectTarget();
+        assertNotNull(redirectTarget);
+        assertEquals("Templated Page", redirectTarget.getPage().getTitle());
+        assertEquals("/core/content/page/templated-page.html", redirectTarget.getURL());
     }
 
     @Test
