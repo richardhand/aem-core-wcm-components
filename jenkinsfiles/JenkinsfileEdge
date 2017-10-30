@@ -85,6 +85,13 @@ MavenDependency uiTestingCommonsPackage = new MavenDependency.Builder()
         .withExtension("zip")
         .build()
 
+MavenDependency wcmApi = new MavenDependency.Builder()
+        .withGroupId("com.day.cq.wcm")
+        .withArtifactId("cq-wcm-api")
+        .withVersion("latest")
+        .withExtension("jar")
+        .build()
+
 /* --------------------------------------------------------------------- */
 /*                       QUICKSTART CONFIGURATIONS                        */
 /* --------------------------------------------------------------------- */
@@ -105,6 +112,7 @@ CQInstance author = new CQInstance.Builder()
         .withContextPath("/cp")
         .withMavenDependency(hobbesRewriterPackage)
         .withMavenDependency(uiTestingCommonsPackage)
+        .withMavenDependency(wcmApi)
         .withFileDependency(componentsItUi.getArtifact('zip'))
         .build()
 
