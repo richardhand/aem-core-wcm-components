@@ -67,6 +67,10 @@ Module componentsJUnitCore = new Module.Builder('main/testing/junit/core')
 Module componentsParent = new Module.Builder('main/parent')
         .withRelease()
         .build()
+// TEMP
+Module wcm_api = new Module.Builder('wcm/bundles/cq-wcm-api')
+        .withArtifact('jar', 'wcm/bundles/cq-wcm-api/target/cq-wcm-api-*.jar', true)
+        .build()
 
 /* --------------------------------------------------------------------- */
 /*                        EXTERNAL DEPENDENCIES                          */
@@ -85,13 +89,6 @@ MavenDependency uiTestingCommonsPackage = new MavenDependency.Builder()
         .withExtension("zip")
         .build()
 
-MavenDependency wcmApi = new MavenDependency.Builder()
-        .withGroupId("com.day.cq.wcm")
-        .withArtifactId("cq-wcm-api")
-        .withVersion("latest")
-        .withExtension("jar")
-        .build()
-
 /* --------------------------------------------------------------------- */
 /*                       QUICKSTART CONFIGURATIONS                        */
 /* --------------------------------------------------------------------- */
@@ -99,6 +96,8 @@ Quickstart quickstart = new BuildQuickstart.Builder('Quickstart 6.4')
         .withModule(componentsCore)
         .withModule(componentsContent)
         .withModule(componentsConfig)
+// Temp
+        .withModule(wcm_api)
         .build()
 
 /* --------------------------------------------------------------------- */
@@ -112,7 +111,6 @@ CQInstance author = new CQInstance.Builder()
         .withContextPath("/cp")
         .withMavenDependency(hobbesRewriterPackage)
         .withMavenDependency(uiTestingCommonsPackage)
-        .withMavenDependency(wcmApi)
         .withFileDependency(componentsItUi.getArtifact('zip'))
         .build()
 
@@ -174,6 +172,11 @@ UITestRun coreCompUIEdgePart5 = new UITestRun.Builder()
 /*                       SPROUT CONFIGURATION                            */
 /* --------------------------------------------------------------------- */
 SproutConfig config = new SproutConfig()
+
+// TEMP : add repo for cq-wcm-api
+config.setAdditionalRepositories([
+        [url: 'git@git.corp.adobe.com:CQ/wcm.git', branch: 'master', folder: 'wcm', vcs: 'git'],
+])
 
 // calculate code coverage
 config.setComputeCoverage(false)
