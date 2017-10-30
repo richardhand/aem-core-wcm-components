@@ -187,7 +187,7 @@ config.getElasticsearchReporting().setEnable(true)
 
 // the modules to build
 config.setModules([componentsCore, componentsContent, componentsConfig, componentsAll, componentsItUi,
-                   componentsJUnitCore,componentsParent])
+                   componentsJUnitCore,componentsParent,wcm_api])
 // the tests to execute
 config.setTestRuns([coreCompUIEdgePart1,coreCompUIEdgePart2,coreCompUIEdgePart3,coreCompUIEdgePart4,
                     coreCompUIEdgePart5])
