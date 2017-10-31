@@ -18,7 +18,7 @@ String GENERAL_METADATA_RUN_OPTIONS =
 
 String UI_TEST_OPTIONS = '{\\\"withMetadata\\\":{' + GENERAL_METADATA_RUN_OPTIONS + '}}'
 
-String NUM_OF_RETRIES = '{\\"pacing_delay\\":1,\\\"global_maxretries_on_failed\\\":1}'
+String NUM_OF_RETRIES = '{\\"pacing_delay\\":250,\\\"global_maxretries_on_failed\\\":1}'
 
 String TEST_GROUP_1 = 'aem.core-components.testsuite.breadcrumb.v2'
 
