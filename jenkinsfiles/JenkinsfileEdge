@@ -20,20 +20,34 @@ String UI_TEST_OPTIONS = '{\\\"withMetadata\\\":{' + GENERAL_METADATA_RUN_OPTION
 
 String NUM_OF_RETRIES = '{\\"pacing_delay\\":1,\\\"global_maxretries_on_failed\\\":1}'
 
-String TEST_GROUP_1 = 'aem.core-components.testsuite.breadcrumb,aem.core-components.testsuite.formbutton,' +
+String TEST_GROUP_1 = 'aem.core-components.testsuite.breadcrumb'
+
+/* ,aem.core-components.testsuite.formbutton,' +
         'aem.core-components.testsuite.formcontainer,aem.core-components.testsuite.title,' +
         'aem.core-components.testsuite.teaser'
+*/
 
-String TEST_GROUP_2 = 'aem.core-components.testsuite.formhidden,aem.core-components.testsuite.formoptions,' +
+String TEST_GROUP_2 = 'aem.core-components.testsuite.formhidden'
+
+/*,aem.core-components.testsuite.formoptions,' +
         'aem.core-components.testsuite.formcomponents'
+*/
 
-String TEST_GROUP_3 = 'aem.core-components.testsuite.formtext,aem.core-components.testsuite.languagenavigation,' +
+String TEST_GROUP_3 = 'aem.core-components.testsuite.formtext'
+/*
+,aem.core-components.testsuite.languagenavigation,' +
         'aem.core-components.testsuite.text'
+*/
 
-String TEST_GROUP_4 = 'aem.core-components.testsuite.image,aem.core-components.testsuite.list'
+String TEST_GROUP_4 = 'aem.core-components.testsuite.image'
+/*,aem.core-components.testsuite.list'
+*/
 
-String TEST_GROUP_5 = 'aem.core-components.testsuite.navigation,aem.core-components.testsuite.page,' +
+String TEST_GROUP_5 = 'aem.core-components.testsuite.navigation'
+
+/*,aem.core-components.testsuite.page,' +
         'aem.core-components.testsuite.search'
+*/
 
 /* --------------------------------------------------------------------- */
 /*                                MODULES V1 + Sandbox                   */
