@@ -7,7 +7,7 @@ import com.adobe.qe.evergreen.sprout.criteria.*
 import com.adobe.qe.evergreen.sprout.model.*
 import com.adobe.qe.evergreen.sprout.command.*
 
-String MINION_HUB_URL = 'http://or1010050253166.corp.adobe.com:8811'
+String MINION_HUB_URL = 'http://or1010050212014.corp.adobe.com:8811'
 
 String GENERAL_METADATA_RUN_OPTIONS =
         '\\\"ignoreOn64\\\":{\\\"value\\\":true,\\\"type\\\":\\\"exclude\\\"}' +
