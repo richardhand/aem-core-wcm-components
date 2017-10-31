@@ -92,6 +92,7 @@ Quickstart quickstart = new BuildQuickstart.Builder('Quickstart 6.4')
         .withModule(componentsCore)
         .withModule(componentsContent)
         .withModule(componentsConfig)
+        .build()
 
 /* --------------------------------------------------------------------- */
 /*                      CQ INSTANCE CONFIGURATIONS                        */
