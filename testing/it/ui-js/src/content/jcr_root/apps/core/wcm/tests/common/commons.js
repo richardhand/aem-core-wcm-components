@@ -795,6 +795,6 @@
     c.tcExecuteBeforeTestSuite =  new TestCase("Setup Before Testsuite")
         // disable tutorial popups
         .execTestCase(c.disableTutorials)
-        .wait(5000);
+        .wait(20000);
 
 }(hobs, jQuery));
