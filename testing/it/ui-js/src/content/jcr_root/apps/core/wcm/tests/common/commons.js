@@ -795,6 +795,7 @@
     c.tcExecuteBeforeTestSuite =  new TestCase("Setup Before Testsuite")
         // disable tutorial popups
         .execTestCase(c.disableTutorials)
+        // 2 sec wait for Edge to avoid random failing of very first test in a test run
         .wait(2000);
 
 }(hobs, jQuery));
