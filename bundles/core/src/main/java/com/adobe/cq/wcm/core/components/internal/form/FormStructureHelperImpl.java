@@ -29,6 +29,7 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.scripting.api.resource.ScriptingResourceResolverProvider;
 import org.osgi.framework.Constants;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -49,7 +50,7 @@ public class FormStructureHelperImpl implements FormStructureHelper {
     private static final String SLING_SCRIPTING_USER = "sling-scripting";
 
     @Reference
-    private ResourceResolverFactory resourceResolverFactory;
+    private ScriptingResourceResolverProvider scriptingResourceResolverProvider;
 
     @Override
     public Resource getFormResource(Resource resource) {
@@ -57,7 +58,6 @@ public class FormStructureHelperImpl implements FormStructureHelper {
             return null;
         }
         if (resource.getPath().lastIndexOf("/") == 0) {
-            return null;
         }
         for (String resourceType : FormConstants.RT_ALL_CORE_FORM_CONTAINER) {
             if (resource.isResourceType(resourceType)) {
@@ -115,15 +115,9 @@ public class FormStructureHelperImpl implements FormStructureHelper {
                 (FormConstants.RT_CORE_FORM_PREFIX_SANDBOX)) {
             return true;
         } else {
-            final ResourceResolver scriptResourceResolver = getScriptResourceResolver();
-            try {
-                if (ifFormResourceSuperType(scriptResourceResolver, resource)) {
-                    return true;
-                }
-            } finally {
-                if (scriptResourceResolver.isLive()) {
-                    scriptResourceResolver.close();
-                }
+            final ResourceResolver scriptResourceResolver = scriptingResourceResolverProvider.getRequestScopedResourceResolver();
+            if (ifFormResourceSuperType(scriptResourceResolver, resource)) {
+                return true;
             }
         }
         return false;
@@ -178,18 +172,5 @@ public class FormStructureHelperImpl implements FormStructureHelper {
             }
         }
         return null;
-    }
-
-    /**
-     * Get a {@link ResourceResolver} backed by the Sling scripting user so we can read properties from the search path
-     */
-    private ResourceResolver getScriptResourceResolver() {
-        final Map<String, Object> authenticationInfo = new HashMap<>();
-        authenticationInfo.put(ResourceResolverFactory.SUBSERVICE, SLING_SCRIPTING_USER);
-        try {
-            return resourceResolverFactory.getServiceResourceResolver(authenticationInfo);
-        } catch (LoginException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
