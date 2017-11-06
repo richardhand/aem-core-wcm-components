@@ -45,13 +45,5 @@
             c.policyPath_sandbox, c.policyAssignmentPath_sandbox))
         .addTestCase(titleV1.tcCheckExistenceOfOneTypeUsingPolicy(tcExecuteBeforeTest, tcExecuteAfterTest, "/title", "core-component/components/sandbox",
             c.policyPath_sandbox, c.policyAssignmentPath_sandbox))
-        .addTestCase(titleV2.tcCheckCssClasses1(tcExecuteBeforeTest, tcExecuteAfterTest, "/title", "core-component/components/sandbox",
-            c.policyPath_sandbox, c.policyAssignmentPath_sandbox))
-        .addTestCase(titleV2.tcCheckCssClasses2(tcExecuteBeforeTest, tcExecuteAfterTest, "/title", "core-component/components/sandbox",
-            c.policyPath_sandbox, c.policyAssignmentPath_sandbox))
-        .addTestCase(titleV2.tcCheckCssClasses3(tcExecuteBeforeTest, tcExecuteAfterTest, "/title", "core-component/components/sandbox",
-            c.policyPath_sandbox, c.policyAssignmentPath_sandbox))
-        .addTestCase(titleV2.tcCheckCssClasses4(tcExecuteBeforeTest, tcExecuteAfterTest, "/title", "core-component/components/sandbox",
-            c.policyPath_sandbox, c.policyAssignmentPath_sandbox))
     ;
 }(hobs, jQuery));
