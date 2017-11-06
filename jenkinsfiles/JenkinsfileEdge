@@ -23,7 +23,7 @@ String NUM_OF_RETRIES = '{\\"pacing_delay\\":1,\\\"global_maxretries_on_failed\\
 String TEST_GROUP_1 = 'aem.core-components.testsuite.formhidden,aem.core-components.testsuite.formoptions,' +
         'aem.core-components.testsuite.formcomponents,aem.core-components.testsuite.breadcrumb,' +
         'aem.core-components.testsuite.teaser'
-
+y
 String TEST_GROUP_2 = 'aem.core-components.testsuite.formtext,aem.core-components.testsuite.languagenavigation,' +
         'aem.core-components.testsuite.text,aem.core-components.testsuite.formbutton,' +
         'aem.core-components.testsuite.teaser'
