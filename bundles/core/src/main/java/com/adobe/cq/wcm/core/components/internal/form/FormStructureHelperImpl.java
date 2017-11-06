@@ -54,10 +54,8 @@ public class FormStructureHelperImpl implements FormStructureHelper {
 
     @Override
     public Resource getFormResource(Resource resource) {
-        if (resource == null) {
+        if (resource == null || resource.getPath().lastIndexOf("/") == 0) {
             return null;
-        }
-        if (resource.getPath().lastIndexOf("/") == 0) {
         }
         for (String resourceType : FormConstants.RT_ALL_CORE_FORM_CONTAINER) {
             if (resource.isResourceType(resourceType)) {
