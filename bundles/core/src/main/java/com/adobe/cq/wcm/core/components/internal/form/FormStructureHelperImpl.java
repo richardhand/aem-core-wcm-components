@@ -112,9 +112,14 @@ public class FormStructureHelperImpl implements FormStructureHelper {
                 (FormConstants.RT_CORE_FORM_PREFIX_SANDBOX)) {
             return true;
         } else {
-            final ResourceResolver scriptResourceResolver = scriptingResourceResolverProvider.getRequestScopedResourceResolver();
-            if (ifFormResourceSuperType(scriptResourceResolver, resource)) {
-                return true;
+            if(scriptingResourceResolverProvider != null) {
+                final ResourceResolver scriptResourceResolver = scriptingResourceResolverProvider.getRequestScopedResourceResolver();
+                if (ifFormResourceSuperType(scriptResourceResolver, resource)) {
+                    return true;
+                }
+            } else {
+                LOGGER.warn("Unable to get reference of ScriptingResourceResolverProvider. Couldn't check search path of {} ",
+                        resource.getPath());
             }
         }
         return false;
