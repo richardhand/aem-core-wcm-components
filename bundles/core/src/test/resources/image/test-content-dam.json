@@ -135,7 +135,9 @@
                 "dam:Numberoftextualcomments": 0,
                 "tiff:ImageWidth"            : 2000,
                 "dam:sha1"                   : "bb3aa5c9b452b04808006037911705d3592bfd71",
-                "dam:size"                   : 49069
+                "dam:size"                   : 49069,
+                "dc:title": "Adobe Systems Logo and Wordmark",
+                "dc:description": "Adobe Systems Logo and Wordmark in PNG format"
             }
         }
     },
