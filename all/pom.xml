@@ -151,7 +151,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>core.wcm.components.sandbox.content</artifactId>
-            <version>0.0.80</version>
+            <version>0.0.82</version>
             <type>zip</type>
             <scope>provided</scope>
         </dependency>
