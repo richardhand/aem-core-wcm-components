@@ -23,37 +23,39 @@
         cqFileUpload,
         cqFileUploadEdit;
 
-    $(document).on('coral-overlay:beforeopen', function (e) {
-        if (e.target.className.indexOf('cq-Dialog') > -1) {
-            dialog           = e.target;
-            altTuple         = new CheckboxTextfieldTuple(dialog, 'coral-checkbox[name="./altValueFromDAM"]', 'input[name="./alt"]');
-            captionTuple     =
-                new CheckboxTextfieldTuple(dialog, 'coral-checkbox[name="./titleValueFromDAM"]', 'input[name="./jcr:title"]');
-            cqFileUpload     = dialog.querySelector('.cq-FileUpload');
-            cqFileUploadEdit = dialog.querySelector('.cq-FileUpload-edit');
-            if (cqFileUpload) {
-                $(cqFileUpload).on('assetselected', function (e) {
-                    retrieveDAMInfo(e.path);
-                });
-                $(cqFileUpload).on('click', '[coral-fileupload-clear]', function () {
-                    altTuple.reset();
-                    captionTuple.reset();
-                });
-                $(cqFileUpload).on('coral-fileupload:fileadded', function () {
-                    altTuple.reset();
-                    captionTuple.reset();
-                });
-            }
-            if (cqFileUploadEdit) {
-                var fileReference = cqFileUploadEdit.getAttribute('data-cq-fileupload-filereference');
-                if (fileReference) {
+    $(document).on('dialog-loaded', function (e) {
+        dialog           = e.dialog[0];
+        altTuple         = new CheckboxTextfieldTuple(dialog, 'coral-checkbox[name="./altValueFromDAM"]', 'input[name="./alt"]');
+        captionTuple     =
+            new CheckboxTextfieldTuple(dialog, 'coral-checkbox[name="./titleValueFromDAM"]', 'input[name="./jcr:title"]');
+        cqFileUpload     = dialog.querySelector('.cq-FileUpload');
+        cqFileUploadEdit = dialog.querySelector('.cq-FileUpload-edit');
+        if (cqFileUpload) {
+            $(cqFileUpload).on('assetselected', function (e) {
+                retrieveDAMInfo(e.path);
+            });
+            $(cqFileUpload).on('click', '[coral-fileupload-clear]', function () {
+                altTuple.reset();
+                captionTuple.reset();
+            });
+            $(cqFileUpload).on('coral-fileupload:fileadded', function () {
+                altTuple.reset();
+                captionTuple.reset();
+            });
+        }
+        if (cqFileUploadEdit) {
+            var fileReference = cqFileUploadEdit.getAttribute('data-cq-fileupload-filereference');
+            if (fileReference) {
+                retrieveDAMInfo(fileReference);
+                $(window).on('focus', function () {
                     retrieveDAMInfo(fileReference);
-                    $(window).on('focus', function () {
-                        retrieveDAMInfo(fileReference);
-                    });
-                }
+                });
             }
         }
+    });
+
+    $(document).on('dialog-beforeclose', function (e) {
+        $(window).off('focus');
     });
 
     function retrieveDAMInfo(fileReference) {
