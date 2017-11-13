@@ -54,7 +54,7 @@
         }
     });
 
-    $(document).on('dialog-beforeclose', function (e) {
+    $(document).on('dialog-beforeclose', function () {
         $(window).off('focus');
     });
 
@@ -65,7 +65,7 @@
             if (data) {
                 if (altTuple) {
                     var description = data['dc:description'];
-                    if(description == undefined || description.trim() == "") {
+                    if(description === undefined || description.trim() === '') {
                         description = data['dc:title'];
                     }
                     altTuple.seedTextValue(description);
