@@ -65,6 +65,9 @@
             if (data) {
                 if (altTuple) {
                     var description = data['dc:description'];
+                    if(description == undefined || description.trim() == "") {
+                        description = data['dc:title'];
+                    }
                     altTuple.seedTextValue(description);
                     altTuple.update();
                 }

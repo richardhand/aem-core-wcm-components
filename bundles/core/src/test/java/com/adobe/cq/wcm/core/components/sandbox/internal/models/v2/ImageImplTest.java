@@ -30,6 +30,7 @@ public class ImageImplTest extends com.adobe.cq.wcm.core.components.internal.mod
 
     protected static String TEST_BASE = "/sandbox/image";
     private static final String IMAGE20_PATH = PAGE + "/jcr:content/root/image20";
+    private static final String IMAGE21_PATH = PAGE + "/jcr:content/root/image21";
 
     @BeforeClass
     public static void setUp() throws IOException {
@@ -86,6 +87,9 @@ public class ImageImplTest extends com.adobe.cq.wcm.core.components.internal.mod
         Image image = getImageUnderTest(IMAGE20_PATH);
         assertEquals("Adobe Systems Logo and Wordmark", image.getTitle());
         assertEquals("Adobe Systems Logo and Wordmark in PNG format", image.getAlt());
+        // test fallback to dc:title if dc:description is empty
+        image = getImageUnderTest(IMAGE21_PATH);
+        assertEquals("Adobe Systems Logo and Wordmark", image.getAlt());
     }
 
     @Override

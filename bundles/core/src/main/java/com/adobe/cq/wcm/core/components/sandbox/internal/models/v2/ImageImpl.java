@@ -30,6 +30,7 @@ import com.adobe.cq.export.json.ComponentExporter;
 import com.adobe.cq.export.json.ExporterConstants;
 import com.adobe.cq.wcm.core.components.sandbox.models.Image;
 import com.day.cq.dam.api.Asset;
+import com.day.cq.dam.api.DamConstants;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Model(adaptables = SlingHttpServletRequest.class, adapters = {Image.class, ComponentExporter.class}, resourceType = ImageImpl.RESOURCE_TYPE)
@@ -52,7 +53,10 @@ public class ImageImpl extends com.adobe.cq.wcm.core.components.internal.models.
                 Asset asset = assetResource.adaptTo(Asset.class);
                 if (asset != null) {
                     if (!isDecorative && altValueFromDAM) {
-                        String damDescription = asset.getMetadataValue("dc:description");
+                        String damDescription = asset.getMetadataValue(DamConstants.DC_DESCRIPTION);
+                        if(StringUtils.isEmpty(damDescription)) {
+                            damDescription = asset.getMetadataValue(DamConstants.DC_TITLE);
+                        }
                         if (StringUtils.isNotEmpty(damDescription)) {
                             alt = damDescription;
                         }
