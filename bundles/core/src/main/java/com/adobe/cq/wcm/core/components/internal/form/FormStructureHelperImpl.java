@@ -47,14 +47,13 @@ import com.day.cq.wcm.foundation.forms.FormsConstants;
 public class FormStructureHelperImpl implements FormStructureHelper {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FormStructureHelperImpl.class.getName());
-    private static final String SLING_SCRIPTING_USER = "sling-scripting";
 
     @Reference
     private ScriptingResourceResolverProvider scriptingResourceResolverProvider;
 
     @Override
     public Resource getFormResource(Resource resource) {
-        if (resource == null || resource.getPath().lastIndexOf("/") == 0) {
+        if (resource == null || StringUtils.equals(resource.getPath(), "/")) {
             return null;
         }
         for (String resourceType : FormConstants.RT_ALL_CORE_FORM_CONTAINER) {
@@ -113,9 +112,14 @@ public class FormStructureHelperImpl implements FormStructureHelper {
                 (FormConstants.RT_CORE_FORM_PREFIX_SANDBOX)) {
             return true;
         } else {
-            final ResourceResolver scriptResourceResolver = scriptingResourceResolverProvider.getRequestScopedResourceResolver();
-            if (ifFormResourceSuperType(scriptResourceResolver, resource)) {
-                return true;
+            if(scriptingResourceResolverProvider != null) {
+                final ResourceResolver scriptResourceResolver = scriptingResourceResolverProvider.getRequestScopedResourceResolver();
+                if (ifFormResourceSuperType(scriptResourceResolver, resource)) {
+                    return true;
+                }
+            } else {
+                LOGGER.warn("Unable to get reference of ScriptingResourceResolverProvider. Couldn't check search path of {} ",
+                        resource.getPath());
             }
         }
         return false;
