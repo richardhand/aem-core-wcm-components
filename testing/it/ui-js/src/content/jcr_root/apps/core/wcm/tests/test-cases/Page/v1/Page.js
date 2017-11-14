@@ -687,7 +687,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             })
 
             .click("button:contains('Add Permissions')")
-
+            .wait(2000)
             //add permissions for a user
             .fillInput("foundation-autocomplete.js-cq-sites-CreatePermissionsDialog-authorizableList input[is='coral-textfield']", "corecomp", {delayafter: 2000})
             //.wait(100)
