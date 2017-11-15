@@ -727,10 +727,10 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             .wait(2000)
             .assert.exist(".cq-siteadmin-admin-properties-effective-permissions:contains('CoreComponent')")
             .click("coral-dialog:contains('Effective Permissions') button[title='Close']")
-            .wait(1000)
+            .wait(3000)
             //edit a permission
             .click("table.js-cq-sites-UserGroup-permissions:contains('CoreComponent') button.js-cq-sites-PermissionsProperties-edit")
-            .wait(2000)
+            .wait(5000)
             //check if Browse, Edit and Delete page checkboxes are checked
             .assert.exist("coral-dialog:contains('Edit Permissions') coral-checkbox[name='read'][checked]")
             .assert.exist("coral-dialog:contains('Edit Permissions') coral-checkbox[name='modify'][checked]")
