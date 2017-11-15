@@ -687,10 +687,8 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             })
 
             .click("button:contains('Add Permissions')")
-            .wait(2000)
             //add permissions for a user
-            .fillInput("foundation-autocomplete.js-cq-sites-CreatePermissionsDialog-authorizableList input[is='coral-textfield']", "corecomp", {delayafter: 2000})
-            //.wait(100)
+            .fillInput("foundation-autocomplete.js-cq-sites-CreatePermissionsDialog-authorizableList input[is='coral-textfield']", "corecomp", {delay:2000,delayafter: 2000})
             .click("foundation-autocomplete.js-cq-sites-CreatePermissionsDialog-authorizableList coral-overlay:contains('corecomp') button")
             //check if the tag for the user was added
             .assert.exist("foundation-autocomplete.js-cq-sites-CreatePermissionsDialog-authorizableList coral-tag[value='corecomp']")
@@ -726,11 +724,13 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
 
             //check if the permission was added to the Effective Permissions list
             .click("button:contains('Effective Permissions')")
+            .wait(2000)
             .assert.exist(".cq-siteadmin-admin-properties-effective-permissions:contains('CoreComponent')")
             .click("coral-dialog:contains('Effective Permissions') button[title='Close']")
-
+            .wait(1000)
             //edit a permission
             .click("table.js-cq-sites-UserGroup-permissions:contains('CoreComponent') button.js-cq-sites-PermissionsProperties-edit")
+            .wait(2000)
             //check if Browse, Edit and Delete page checkboxes are checked
             .assert.exist("coral-dialog:contains('Edit Permissions') coral-checkbox[name='read'][checked]")
             .assert.exist("coral-dialog:contains('Edit Permissions') coral-checkbox[name='modify'][checked]")
