@@ -52,6 +52,7 @@ import com.google.common.collect.Lists;
 public class PageImpl extends com.adobe.cq.wcm.core.components.internal.models.v1.PageImpl implements Page {
 
     protected static final String RESOURCE_TYPE = "core/wcm/sandbox/components/page/v2/page";
+    public static final String PN_REDIRECT_TARGET = "cq:redirectTarget";
 
     @OSGiService
     private HtmlLibraryManager htmlLibraryManager;
@@ -63,7 +64,7 @@ public class PageImpl extends com.adobe.cq.wcm.core.components.internal.models.v
     private ComponentContext componentContext;
 
     @ValueMapValue(injectionStrategy = InjectionStrategy.OPTIONAL,
-                   name = NameConstants.PN_REDIRECT_TARGET)
+                   name = PN_REDIRECT_TARGET)
     private String redirectTargetValue;
 
     private String appResourcesPath;
