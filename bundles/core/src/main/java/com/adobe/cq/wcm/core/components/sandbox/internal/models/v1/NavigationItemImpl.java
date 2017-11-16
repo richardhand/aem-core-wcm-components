@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.adobe.cq.wcm.core.components.internal.Utils;
+import com.adobe.cq.wcm.core.components.sandbox.internal.models.v2.PageImpl;
 import com.adobe.cq.wcm.core.components.sandbox.models.NavigationItem;
 import com.day.cq.wcm.api.NameConstants;
 import com.day.cq.wcm.api.Page;
@@ -73,11 +74,11 @@ public class NavigationItemImpl extends com.adobe.cq.wcm.core.components.interna
 
     private Page getRedirectTarget(@Nonnull Page page) {
         Page result = page;
-        String redirectTarget = null;
+        String redirectTarget;
         PageManager pageManager = page.getPageManager();
         Set<String> redirectCandidates = new LinkedHashSet<>();
         redirectCandidates.add(page.getPath());
-        while (result != null && StringUtils.isNotEmpty((redirectTarget = result.getProperties().get(NameConstants.PN_REDIRECT_TARGET, String.class)))) {
+        while (result != null && StringUtils.isNotEmpty((redirectTarget = result.getProperties().get(PageImpl.PN_REDIRECT_TARGET, String.class)))) {
             result = pageManager.getPage(redirectTarget);
             if (result != null) {
                 if (!redirectCandidates.add(result.getPath())) {

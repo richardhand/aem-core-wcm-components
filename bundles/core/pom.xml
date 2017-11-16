@@ -28,7 +28,7 @@
     </parent>
 
     <artifactId>core.wcm.components.sandbox.bundle</artifactId>
-    <version>0.0.69-SNAPSHOT</version>
+    <version>0.0.73-SNAPSHOT</version>
     <packaging>bundle</packaging>
 
     <name>Adobe Experience Manager Core WCM Components Core Bundle - Sandbox</name>
@@ -444,12 +444,6 @@
             <artifactId>org.apache.sling.testing.clients</artifactId>
             <version>1.1.4</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.day.cq.wcm</groupId>
-            <artifactId>cq-wcm-api</artifactId>
-            <version>5.12.16</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.adobe.aem</groupId>
