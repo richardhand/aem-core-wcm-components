@@ -20,6 +20,20 @@ String UI_TEST_OPTIONS = '{\\\"withMetadata\\\":{' + GENERAL_METADATA_RUN_OPTION
 
 String NUM_OF_RETRIES = '{\\\"pacing_delay\\\":1,\\\"global_maxretries_on_failed\\\":1}'
 
+String TEST_GROUP_1 = 'aem.core-components.testsuite.formhidden,aem.core-components.testsuite.formoptions,' +
+        'aem.core-components.testsuite.formcomponents,aem.core-components.testsuite.breadcrumb,' +
+        'aem.core-components.testsuite.teaser'
+
+String TEST_GROUP_2 = 'aem.core-components.testsuite.formtext,aem.core-components.testsuite.languagenavigation,' +
+        'aem.core-components.testsuite.text,aem.core-components.testsuite.formbutton,' +
+        'aem.core-components.testsuite.teaser'
+
+String TEST_GROUP_3 = 'aem.core-components.testsuite.image,aem.core-components.testsuite.list,' +
+        'aem.core-components.testsuite.formcontainer'
+
+String TEST_GROUP_4 = 'aem.core-components.testsuite.navigation,aem.core-components.testsuite.page,' +
+        'aem.core-components.testsuite.search'
+
 /* --------------------------------------------------------------------- */
 /*                                MODULES V1 + Sandbox                   */
 /* --------------------------------------------------------------------- */
@@ -118,112 +132,125 @@ CQInstance author = new CQInstance.Builder()
 /*                                UI TESTS                               */
 /* --------------------------------------------------------------------- */
 
+// Run against Edge
+UITestRun coreCompUIEdgePart1 = new UITestRun.Builder()
+        .withName('Test Group 1 / Edge')
+        .withInstance(author)
+        .withBrowser('EDGE')
+        .withFilter(TEST_GROUP_1)
+        .withRunOptions(UI_TEST_OPTIONS)
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withHobbesConfig(NUM_OF_RETRIES)
+        .build()
+
+UITestRun coreCompUIEdgePart2 = new UITestRun.Builder()
+        .withName('Test Group 2 / Edge')
+        .withInstance(author)
+        .withBrowser('EDGE')
+        .withFilter(TEST_GROUP_2)
+        .withRunOptions(UI_TEST_OPTIONS)
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withHobbesConfig(NUM_OF_RETRIES)
+        .build()
+
+UITestRun coreCompUIEdgePart3 = new UITestRun.Builder()
+        .withName('Test Group 3 / Edge')
+        .withInstance(author)
+        .withBrowser('EDGE')
+        .withFilter(TEST_GROUP_3)
+        .withRunOptions(UI_TEST_OPTIONS)
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withHobbesConfig(NUM_OF_RETRIES)
+        .build()
+
+UITestRun coreCompUIEdgePart4 = new UITestRun.Builder()
+        .withName('Test Group 4 / Edge')
+        .withInstance(author)
+        .withBrowser('EDGE')
+        .withFilter(TEST_GROUP_4)
+        .withRunOptions(UI_TEST_OPTIONS)
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withHobbesConfig(NUM_OF_RETRIES)
+        .build()
+
 // Run tests against chrome
 UITestRun coreCompUIChromePart1 = new UITestRun.Builder()
-        .withName('UI Tests: Breadcrumb, FormButton, FormContainer, Title, Teaser / Chrome')
+        .withName('Test Group 1 / Chrome')
         .withInstance(author)
         .withBrowser('CHROME')
-        .withFilter('aem.core-components.testsuite.breadcrumb,aem.core-components.testsuite.formbutton,' +
-        'aem.core-components.testsuite.formcontainer,aem.core-components.testsuite.title,' +
-        'aem.core-components.testsuite.teaser')
+        .withFilter(TEST_GROUP_1)
         .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
         .withHobbesConfig(NUM_OF_RETRIES)
         .build()
 
 UITestRun coreCompUIChromePart2 = new UITestRun.Builder()
-        .withName('UI Tests: FormHidden, FormOptions, FormComponents / Chrome')
+        .withName('Test Group 2 / Chrome')
         .withInstance(author)
         .withBrowser('CHROME')
-        .withFilter('aem.core-components.testsuite.formhidden,aem.core-components.testsuite.formoptions,' +
-        'aem.core-components.testsuite.formcomponents')
+        .withFilter(TEST_GROUP_2)
         .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
         .withHobbesConfig(NUM_OF_RETRIES)
         .build()
 
 UITestRun coreCompUIChromePart3 = new UITestRun.Builder()
-        .withName('UI Tests: FormText, LanguageNavigation, Text / Chrome')
+        .withName('Test Group 3 / Chrome')
         .withInstance(author)
         .withBrowser('CHROME')
-        .withFilter('aem.core-components.testsuite.formtext,aem.core-components.testsuite.languagenavigation,' +
-        'aem.core-components.testsuite.text')
+        .withFilter(TEST_GROUP_3)
         .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
         .withHobbesConfig(NUM_OF_RETRIES)
         .build()
 
 UITestRun coreCompUIChromePart4 = new UITestRun.Builder()
-        .withName('UI Tests: Image, List / Chrome')
+        .withName('Test Group 4 / Chrome')
         .withInstance(author)
         .withBrowser('CHROME')
-        .withFilter('aem.core-components.testsuite.image,aem.core-components.testsuite.list')
+        .withFilter(TEST_GROUP_4)
         .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
         .withHobbesConfig(NUM_OF_RETRIES)
         .build()
 
-UITestRun coreCompUIChromePart5 = new UITestRun.Builder()
-        .withName('UI Tests: Navigation, Page, Search / Chrome')
-        .withInstance(author)
-        .withBrowser('CHROME')
-        .withFilter('aem.core-components.testsuite.navigation,aem.core-components.testsuite.page,' +
-        'aem.core-components.testsuite.search')
-        .withRunOptions(UI_TEST_OPTIONS)
-        .withHobbesHubUrl(MINION_HUB_URL)
-        .withHobbesConfig(NUM_OF_RETRIES)
-        .build()
 
 // Run tests against firefox
 UITestRun coreCompUIFirefoxPart1 = new UITestRun.Builder()
-        .withName('UI Tests: Breadcrumb, FormButton, FormContainer, Title / Firefox')
+        .withName('Test Group 1 / Firefox')
         .withInstance(author)
         .withBrowser('FIREFOX')
-        .withFilter('aem.core-components.testsuite.breadcrumb,aem.core-components.testsuite.formbutton,' +
-        'aem.core-components.testsuite.formcontainer,aem.core-components.testsuite.title')
+        .withFilter(TEST_GROUP_1)
         .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
         .withHobbesConfig(NUM_OF_RETRIES)
         .build()
 
 UITestRun coreCompUIFirefoxPart2 = new UITestRun.Builder()
-        .withName('UI Tests: FormHidden, FormOptions, FormComponents / Firefox')
+        .withName('Test Group 2 / Firefox')
         .withInstance(author)
         .withBrowser('FIREFOX')
-        .withFilter('aem.core-components.testsuite.formhidden,aem.core-components.testsuite.formoptions,' +
-        'aem.core-components.testsuite.formcomponents')
+        .withFilter(TEST_GROUP_2)
         .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
         .withHobbesConfig(NUM_OF_RETRIES)
         .build()
 
 UITestRun coreCompUIFirefoxPart3 = new UITestRun.Builder()
-        .withName('UI Tests: FormText, LanguageNavigation, Text / Firefox')
+        .withName('Test Group 3 / Firefox')
         .withInstance(author)
         .withBrowser('FIREFOX')
-        .withFilter('aem.core-components.testsuite.formtext,aem.core-components.testsuite.languagenavigation,' +
-        'aem.core-components.testsuite.text')
+        .withFilter(TEST_GROUP_3)
         .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
         .withHobbesConfig(NUM_OF_RETRIES)
         .build()
 
 UITestRun coreCompUIFirefoxPart4 = new UITestRun.Builder()
-        .withName('UI Tests: Image, List / Firefox')
+        .withName('Test Group 4 / Firefox')
         .withInstance(author)
         .withBrowser('FIREFOX')
-        .withFilter('aem.core-components.testsuite.image,aem.core-components.testsuite.list')
-        .withRunOptions(UI_TEST_OPTIONS)
-        .withHobbesHubUrl(MINION_HUB_URL)
-        .withHobbesConfig(NUM_OF_RETRIES)
-        .build()
-
-UITestRun coreCompUIFirefoxPart5 = new UITestRun.Builder()
-        .withName('UI Tests: Navigation, Page, Search / Firefox')
-        .withInstance(author)
-        .withBrowser('FIREFOX')
-        .withFilter('aem.core-components.testsuite.navigation,aem.core-components.testsuite.page,' +
-        'aem.core-components.testsuite.search')
+        .withFilter(TEST_GROUP_4)
         .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
         .withHobbesConfig(NUM_OF_RETRIES)
@@ -255,8 +282,8 @@ config.setModules([componentsCore, componentsContent, componentsConfig, componen
                    componentsExtension, componentsExtCFBundle, componentsExtCFContent])
 // the tests to execute
 config.setTestRuns([coreCompUIChromePart1,coreCompUIChromePart2,coreCompUIChromePart3,coreCompUIChromePart4,
-                    coreCompUIChromePart5,coreCompUIFirefoxPart1,coreCompUIFirefoxPart2,coreCompUIFirefoxPart3,
-                    coreCompUIFirefoxPart4,coreCompUIFirefoxPart5])
+                    coreCompUIFirefoxPart1,coreCompUIFirefoxPart2,coreCompUIFirefoxPart3,coreCompUIFirefoxPart4,
+                    coreCompUIEdgePart1,coreCompUIEdgePart2,coreCompUIEdgePart3,coreCompUIEdgePart4])
 
 // Releases
 config.setReleaseCriteria([new Branch(/^PRIVATE_master$/)])
