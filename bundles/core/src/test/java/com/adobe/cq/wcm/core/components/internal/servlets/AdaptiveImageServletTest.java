@@ -495,6 +495,21 @@ public class AdaptiveImageServletTest extends AbstractImageTest {
         assertEquals("Expected a 404 response code.", 404, response.getStatus());
     }
 
+    @Test
+    public void testFileReferencePriority() throws Exception {
+        Pair<MockSlingHttpServletRequest, MockSlingHttpServletResponse> requestResponsePair = prepareRequestResponsePair(IMAGE20_PATH,
+                "img", "png");
+        MockSlingHttpServletRequest request = requestResponsePair.getLeft();
+        MockSlingHttpServletResponse response = requestResponsePair.getRight();
+        servlet.doGet(request, response);
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(response.getOutput());
+        BufferedImage image = ImageIO.read(byteArrayInputStream);
+        Dimension expectedDimension = new Dimension(ADAPTIVE_IMAGE_SERVLET_DEFAULT_RESIZE_WIDTH, ADAPTIVE_IMAGE_SERVLET_DEFAULT_RESIZE_WIDTH);
+        Dimension actualDimension = new Dimension(image.getWidth(), image.getHeight());
+        assertEquals("Expected image rendered at requested size.", expectedDimension, actualDimension);
+        assertEquals("Expected a PNG image.", "image/png", response.getContentType());
+    }
+
     private Pair<MockSlingHttpServletRequest, MockSlingHttpServletResponse> prepareRequestResponsePair(String resourcePath,
                                                                                                        String selectorString,
                                                                                                        String extension) {
