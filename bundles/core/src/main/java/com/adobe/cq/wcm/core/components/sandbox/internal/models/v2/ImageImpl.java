@@ -44,8 +44,9 @@ public class ImageImpl extends com.adobe.cq.wcm.core.components.internal.models.
     @PostConstruct
     protected void initModel() {
         super.initModel();
-        boolean altValueFromDAM = properties.get(PN_ALT_VALUE_FROM_DAM, currentStyle.get(PN_ALT_VALUE_FROM_DAM, false));
-        boolean titleValueFromDAM = properties.get(PN_TITLE_VALUE_FROM_DAM, currentStyle.get(PN_TITLE_VALUE_FROM_DAM, false));
+        boolean altValueFromDAM = properties.get(PN_ALT_VALUE_FROM_DAM, currentStyle.get(PN_ALT_VALUE_FROM_DAM, true));
+        boolean titleValueFromDAM = properties.get(PN_TITLE_VALUE_FROM_DAM, currentStyle.get(PN_TITLE_VALUE_FROM_DAM, true));
+        displayPopupTitle = properties.get(PN_DISPLAY_POPUP_TITLE, currentStyle.get(PN_DISPLAY_POPUP_TITLE, true));
         if (StringUtils.isNotEmpty(fileReference)) {
             // the image is coming from DAM
             final Resource assetResource = request.getResourceResolver().getResource(fileReference);

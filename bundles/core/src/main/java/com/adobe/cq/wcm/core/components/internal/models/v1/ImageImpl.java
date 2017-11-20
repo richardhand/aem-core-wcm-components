@@ -114,7 +114,7 @@ public class ImageImpl implements Image, ComponentExporter {
     protected String[] smartImages = new String[]{};
     protected int[] smartSizes = new int[0];
     private String json;
-    private boolean displayPopupTitle;
+    protected boolean displayPopupTitle;
     protected boolean isDecorative;
 
     protected boolean disableLazyLoading;

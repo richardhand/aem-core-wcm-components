@@ -14,8 +14,8 @@
         "/core/content/test/jcr%3acontent/root/image0.img.2500.png/1490005239000.png"
     ],
     "lazyEnabled": true,
-    "alt": "Adobe Logo",
-    "title": "Adobe Logo",
+    "title": "Adobe Systems Logo and Wordmark",
+    "alt": "Adobe Systems Logo and Wordmark in PNG format",
     "link": "/core/content/test-image.html",
     "src": "/core/content/test/jcr%3acontent/root/image0.img.png/1490005239000.png",
     ":type": "core/wcm/sandbox/components/image/v2/image"
