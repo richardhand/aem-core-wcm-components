@@ -15,10 +15,9 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.sandbox.models;
 
-import javax.annotation.Nonnull;
-import java.util.Collection;
+import java.util.List;
 
-import org.apache.sling.api.resource.Resource;
+import javax.annotation.Nonnull;
 
 import com.adobe.cq.export.json.ComponentExporter;
 
@@ -52,13 +51,14 @@ public interface Search extends ComponentExporter {
     String PN_RESULTS_SIZE = "resultsSize";
 
     /**
-     * A collection of {@link Resource} items as search result.
-     * If the search term was not found, the collection will be empty.
+     * A list of {@link ListItem} items as search result.
      *
-     * @return collection of search result
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 2.2.0
+     * If the search term was not found, the list will be empty.
+     *
+     * @return list of search results
+     * @since com.adobe.cq.wcm.core.components.sandbox.models 5.0.0
      */
-    default Collection<Resource> getResults() {
+    default List<ListItem> getResults() {
         throw new UnsupportedOperationException();
     }
 

@@ -30,13 +30,13 @@ import org.mockito.runners.MockitoJUnitRunner;
 import com.adobe.cq.sightly.WCMBindings;
 import com.adobe.cq.wcm.core.components.Utils;
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
+import com.adobe.cq.wcm.core.components.sandbox.models.ListItem;
 import com.adobe.cq.wcm.core.components.sandbox.models.Search;
 import com.adobe.cq.wcm.core.components.testing.MockStyle;
 import com.day.cq.search.Query;
 import com.day.cq.search.QueryBuilder;
 import com.day.cq.search.result.Hit;
 import com.day.cq.search.result.SearchResult;
-import com.day.cq.wcm.api.designer.Style;
 import io.wcm.testing.mock.aem.junit.AemContext;
 
 import static org.junit.Assert.assertEquals;
@@ -72,6 +72,7 @@ public class SearchImplTest {
         when(mockQueryBuilder.createQuery(any(), any())).thenReturn(mockQuery);
         when(mockQuery.getResult()).thenReturn(mockSearchResult);
         when(mockSearchResult.getHits()).thenReturn(Arrays.asList(new Hit[]{mockHit}));
+        context.request().setContextPath("");
 
         context.registerService(QueryBuilder.class, mockQueryBuilder);
         slingBindings = (SlingBindings) context.request().getAttribute(SlingBindings.class.getName());
@@ -79,7 +80,6 @@ public class SearchImplTest {
                 .getName()));
         slingBindings.put(WCMBindings.CURRENT_PAGE, context.currentPage("/content/search/page"));
     }
-
 
     @Test
     public void testGetResults() throws Exception {
@@ -89,10 +89,11 @@ public class SearchImplTest {
         slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
         Search search = context.request().adaptTo(Search.class);
         assertEquals(1, search.getResults().size());
-        for(Resource searchResult: search.getResults()) {
-            ValueMap valueMap = searchResult.adaptTo(ValueMap.class);
-            assertEquals("search", valueMap.get("title"));
-            assertEquals("/content/search/page", valueMap.get("path"));
+        for(ListItem searchResultItem: search.getResults()) {
+            assertEquals("Page", searchResultItem.getTitle());
+            assertEquals("/content/search/page.html", searchResultItem.getURL());
+            assertEquals("Yoda is back!", searchResultItem.getDescription());
+            assertEquals(1501792920000L, searchResultItem.getLastModified().getTimeInMillis());
         }
         Utils.testJSONExport(search, Utils.getTestExporterJSONPath(TEST_BASE, "search"));
     }
