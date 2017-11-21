@@ -28,45 +28,38 @@ import com.adobe.cq.export.json.ComponentExporter;
 public interface Navigation extends ComponentExporter {
 
     /**
-     * Name of the resource / configuration policy property that defines the site's root for which to build the navigation tree. The
-     * property should provide a String value.
+     * Name of the resource / configuration policy property that defines the site's navigation root for which to build the navigation tree.
+     * The property should provide a String value.
      *
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 1.0.0
+     * @since com.adobe.cq.wcm.core.components.sandbox.models 6.0.0
      */
-    String PN_SITE_ROOT = "siteRoot";
+    String PN_NAVIGATION_ROOT = "navigationRoot";
 
     /**
      * Name of the resource / configuration policy property that defines if the resulted navigation tree should skip including the
-     * navigation root, but include its children. The navigation root is the same as the site root when the start level is 0. The property
-     * should provide a Boolean value ({@code true} if the site root should be omitted, {@code false} otherwise).
+     * navigation root, but include its children. The property should provide a Boolean value ({@code true} if the site root should be
+     * omitted, {@code false} otherwise).
      *
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 2.5.0
+     * @since com.adobe.cq.wcm.core.components.sandbox.models 6.0.0
      */
-    String PN_SKIP_ROOT = "skipRoot";
+    String PN_SKIP_NAVIGATION_ROOT = "skipNavigationRoot";
 
     /**
-     * Name of the resource / configuration policy property that defines the start level of the website's root relative to the absolute
-     * root folder. The property should provide a Long value.
+     * Name of the resource / configuration policy property that defines if the resulted navigation tree should collect all child pages
+     * of the configured {@link #PN_NAVIGATION_ROOT}. The property should provide a Boolean value. When this value property is set to
+     * {@code true}, the {@link #PN_MAX_DEPTH} property will be ignored.
      *
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 1.0.0
+     * @since com.adobe.cq.wcm.core.components.sandbox.models 6.0.0
      */
-    String PN_CONTENT_START_LEVEL = "startLevel";
+    String PN_COLLECT_ALL_PAGES = "collectAllPages";
 
     /**
-     * Name of the resource / configuration policy property that defines the max depth in the content tree where items will be
-     * searched for to build the navigation tree. The property should provide a Long value.
+     * Name of the resource / configuration policy property that defines the max depth level in the content tree, relative to the
+     * {@link #PN_NAVIGATION_ROOT}, where items will be searched to build the navigation tree. The property should provide a Long value.
      *
      * @since com.adobe.cq.wcm.core.components.sandbox.models 1.0.0
      */
     String PN_MAX_DEPTH = "maxDepth";
-
-    /**
-     * Name of the resource / configuration policy property that defines if the collected items should only be from the current page's
-     * tree structure (i.e. only child pages that have a common parent with the current page).
-     *
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 1.2.0
-     */
-    String PN_CURRENT_PAGE_TREE_ONLY = "currentPageTreeOnly";
 
     /**
      * Returns the list of navigation items.

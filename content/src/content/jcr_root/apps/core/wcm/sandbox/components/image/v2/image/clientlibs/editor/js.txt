@@ -15,5 +15,4 @@
 ###############################################################################
 
 #base=js
-decorative.click.js
-dam.assetproperties.js
+image.js

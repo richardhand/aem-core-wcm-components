@@ -13,56 +13,53 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*global Coral,jQuery*/
 (function ($) {
     'use strict';
 
-    var COLLECT_ALL_PAGES_SELECTOR = 'coral-checkbox.cmp-navigation__editor-collect',
-        MAX_DEPTH_SELECTOR = '.cmp-navigation__editor-maxDepth',
-        MAX_DEPTH_CORAL_NUMBERINPUT_SELECTOR = MAX_DEPTH_SELECTOR + ' > coral-numberinput[name="./maxDepth"]',
-        MAX_DEPTH_INPUT_SELECTOR = MAX_DEPTH_SELECTOR + ' input[name="./maxDepth"]',
-        START_LEVEL_INPUT_SELECTOR = '.cmp-navigation__editor-startLevel input[name="./startLevel"]';
+    var DIALOG_CONTENT_SELECTOR = '.cmp-navigation__editor',
+        COLLECT_ALL_PAGES_SELECTOR = DIALOG_CONTENT_SELECTOR + ' coral-checkbox[name="./collectAllPages"]',
+        MAX_DEPTH_SELECTOR = DIALOG_CONTENT_SELECTOR + ' coral-numberinput[name="./maxDepth"]';
 
-    function toggleInputs(collectAllPages) {
+    $(window).adaptTo('foundation-registry').register('foundation.adapters', {
+        type: 'foundation-toggleable',
+        selector: MAX_DEPTH_SELECTOR,
+        adapter: function(el) {
+            var toggleable = $(el);
+            return {
+                isOpen: function() {
+                    return !toggleable.adaptTo('foundation-field').isDisabled();
+                },
+                show: function() {
+                    toggleable.adaptTo('foundation-field').setDisabled(false);
+                    toggleable.parent().show();
+                },
+                hide: function() {
+                    toggleable.adaptTo('foundation-field').setDisabled(true);
+                    toggleable.parent().hide();
+                }
+            };
+        }
+    });
+
+    function toggleMaxDepth(collectAllPages) {
         if (collectAllPages) {
-            if (collectAllPages.checked) {
-                $(MAX_DEPTH_SELECTOR).addClass('hide');
-                $(MAX_DEPTH_CORAL_NUMBERINPUT_SELECTOR).val(-1);
-            } else {
-                $(MAX_DEPTH_SELECTOR).removeClass('hide');
-            }
-        } else {
-            var maxDepth = $(MAX_DEPTH_CORAL_NUMBERINPUT_SELECTOR).val();
-            if (maxDepth === '-1') {
-                $(COLLECT_ALL_PAGES_SELECTOR).prop('checked', true);
-                $(MAX_DEPTH_SELECTOR).addClass('hide');
-            }
+            Coral.commons.ready(document.querySelector(MAX_DEPTH_SELECTOR), function (maxDepth) {
+                if (collectAllPages.checked) {
+                    $(maxDepth).adaptTo('foundation-toggleable').hide();
+                } else {
+                    $(maxDepth).adaptTo('foundation-toggleable').show();
+                }
+            });
         }
     }
 
-
-    $(document).on('coral-component:attached', MAX_DEPTH_SELECTOR, function() {
-        toggleInputs();
+    $(document).on('coral-component:attached', COLLECT_ALL_PAGES_SELECTOR, function () {
+        toggleMaxDepth(this);
     });
 
-    $(document).on('change', COLLECT_ALL_PAGES_SELECTOR, function(e) {
-        toggleInputs(e.target);
-    });
-
-    $(window).adaptTo('foundation-registry').register('foundation.validation.validator', {
-        selector: MAX_DEPTH_CORAL_NUMBERINPUT_SELECTOR,
-        validate: function(el) {
-            var maxDepth = parseInt($(MAX_DEPTH_INPUT_SELECTOR).val());
-            if (isNaN(maxDepth)) {
-                return;
-            }
-            var startLevel = parseInt($(START_LEVEL_INPUT_SELECTOR).val());
-            if (isNaN(startLevel)) {
-                return;
-            }
-            if (startLevel > 0 && maxDepth > -1 && maxDepth < startLevel) {
-                return 'The "Maximum depth level" has to have a higher value than the "Start level".'
-            }
-        }
+    $(document).on('change', COLLECT_ALL_PAGES_SELECTOR, function () {
+        toggleMaxDepth(this);
     });
 
 })(jQuery);

@@ -133,10 +133,10 @@
         })
             .execTestCase(c.tcOpenConfigureDialog('cmpPath'))
             .assert.isTrue(function () {
-                return h.find('coral-checkbox.cmp-navigation__editor-collect').prop('checked') === true;
+                return h.find('coral-checkbox[name="./collectAllPages"]').prop('checked') === true;
             })
-            .assert.visible('.cmp-navigation__editor-maxDepth', false)
-            .fillInput('foundation-autocomplete[name="./siteRoot"]', '%page_1%')
+            .assert.visible('coral-numberinput[name="./maxDepth"]', false)
+            .fillInput('foundation-autocomplete[name="./navigationRoot"]', '%page_1%')
             .execTestCase(c.tcSaveConfigureDialog)
             .config.changeContext(c.getContentFrame)
             .assert.isTrue(function () {
@@ -157,12 +157,12 @@
         })
             .execTestCase(c.tcOpenConfigureDialog('cmpPath'))
             .assert.isTrue(function () {
-                return h.find('coral-checkbox.cmp-navigation__editor-collect').prop('checked') === true;
+                return h.find('coral-checkbox[name="./collectAllPages"]').prop('checked') === true;
             })
-            .assert.visible('.cmp-navigation__editor-maxDepth', false)
-            .fillInput('foundation-autocomplete[name="./siteRoot"]', '%page_1%')
+            .assert.visible('coral-numberinput[name="./maxDepth"]', false)
+            .fillInput('foundation-autocomplete[name="./navigationRoot"]', '%page_1%')
             // uncheck the skip root option
-            .click('input[name="./skipRoot"]')
+            .click('input[name="./skipNavigationRoot"]')
             .execTestCase(c.tcSaveConfigureDialog)
             .config.changeContext(c.getContentFrame)
             .assert.isTrue(function () {
@@ -184,9 +184,9 @@
             execAfter : tcExecuteAfterTest
         })
             .execTestCase(c.tcOpenConfigureDialog('cmpPath'))
-            .fillInput('foundation-autocomplete[name="./siteRoot"]', '%page_1%')
+            .fillInput('foundation-autocomplete[name="./navigationRoot"]', '%page_1%')
             // uncheck
-            .click('coral-checkbox.cmp-navigation__editor-collect')
+            .click('coral-checkbox[name="./collectAllPages"]')
             .fillInput('coral-numberinput[name="./maxDepth"]', "1")
             .execTestCase(c.tcSaveConfigureDialog)
             .config.changeContext(c.getContentFrame)
@@ -198,24 +198,6 @@
             .assert.exist('.cmp-navigation__item.cmp-navigation__item--level-1:contains("Page 1.1.1")', false)
             .assert.exist('.cmp-navigation__item.cmp-navigation__item--level-1:contains("Page 1.1.2")', false)
             .assert.exist('.cmp-navigation__item.cmp-navigation__item--level-1:contains("Page 1.1.3")', false);
-    };
-
-    navigation.testMaxDepthAndStartLevel = function (tcExecuteBeforeTest, tcExecuteAfterTest) {
-        return new TestCase('Check maxDepth and startLevel', {
-            execBefore: tcExecuteBeforeTest,
-            execAfter : tcExecuteAfterTest
-        })
-            .execTestCase(c.tcOpenConfigureDialog('cmpPath'))
-            .fillInput('foundation-autocomplete[name="./siteRoot"]', '%page_1%')
-            .fillInput('coral-numberinput[name="./startLevel"]', "2")
-            // uncheck
-            .click('coral-checkbox.cmp-navigation__editor-collect')
-            .fillInput('coral-numberinput[name="./maxDepth"]', "1")
-            .execTestCase(c.tcSaveConfigureDialog)
-            .assert.isTrue(function () {
-                return h.find('coral-numberinput[name="./maxDepth"]').prop('invalid') === true;
-            })
-            .execTestCase(c.tcCloseConfigureDialog);
     };
 
 }(hobs, jQuery));

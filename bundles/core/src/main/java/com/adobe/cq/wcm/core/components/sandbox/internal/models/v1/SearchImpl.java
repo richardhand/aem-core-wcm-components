@@ -15,23 +15,20 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.sandbox.internal.models.v1;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
+
 import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
-import org.apache.sling.api.resource.SyntheticResource;
 import org.apache.sling.api.resource.ValueMap;
-import org.apache.sling.api.wrappers.ValueMapDecorator;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.OSGiService;
@@ -43,6 +40,7 @@ import org.slf4j.LoggerFactory;
 
 import com.adobe.cq.export.json.ComponentExporter;
 import com.adobe.cq.wcm.core.components.internal.Constants;
+import com.adobe.cq.wcm.core.components.sandbox.models.ListItem;
 import com.adobe.cq.wcm.core.components.sandbox.models.Search;
 import com.day.cq.search.PredicateConverter;
 import com.day.cq.search.PredicateGroup;
@@ -54,7 +52,6 @@ import com.day.cq.wcm.api.NameConstants;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.api.designer.Style;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Model(adaptables = SlingHttpServletRequest.class,
        adapters = {Search.class, ComponentExporter.class},
@@ -129,8 +126,8 @@ public class SearchImpl implements Search {
     }
 
     @Override
-    @JsonIgnore
-    public List<Resource> getResults() {
+    public List<ListItem> getResults() {
+        List<ListItem> results = new ArrayList<>();
         String fulltext = request.getParameter(PARAM_FULLTEXT);
         long resultsOffset = 0;
         if (request.getParameter(PARAM_RESULTS_OFFSET) != null) {
@@ -151,45 +148,20 @@ public class SearchImpl implements Search {
         }
         SearchResult searchResult = query.getResult();
 
-        return searchResult.getHits().stream().map(this::populateItem).filter(Objects::nonNull).collect(Collectors.toList());
-    }
-
-    @SuppressWarnings("unchecked")
-    private Resource populateItem(final Hit hit) {
-        try {
-            final String title = getTitle(hit);
-            final String path = getPath(hit);
-
-            if (StringUtils.isNotEmpty(title) && StringUtils.isNotEmpty(path)) {
-                return new SyntheticResource(null, (String) null, null) {
-                    public <T> T adaptTo(Class<T> type) {
-                        if (type == ValueMap.class) {
-                            ValueMap m = new ValueMapDecorator(new HashMap<>());
-                            m.put("title", title);
-                            m.put("path", path);
-                            return (T) m;
-                        }
-                        return super.adaptTo(type);
+        List<Hit> hits = searchResult.getHits();
+        if (hits != null) {
+            for (Hit hit : hits) {
+                try {
+                    Resource item = hit.getResource();
+                    if (item != null) {
+                        results.add(new PageListItemImpl(request, item));
                     }
-                };
+                } catch (RepositoryException e) {
+                    LOGGER.error("Unable to retrieve search results for query.", e);
+                }
             }
-        } catch (RepositoryException e) {
-            LOGGER.error(e.getMessage());
         }
-        return null;
-    }
-
-    private String getTitle(Hit hit) throws RepositoryException {
-        ValueMap vm = hit.getResource().getValueMap();
-        return vm.get("jcr:content/jcr:title", vm.get("jcr:title", hit.getResource().getName()));
-    }
-
-    private String getPath(Hit hit) throws RepositoryException {
-        Page page = pageManager.getContainingPage(hit.getResource());
-        if (page != null) {
-            return page.getPath();
-        }
-        return null;
+        return results;
     }
 
     @Nonnull
@@ -197,4 +169,5 @@ public class SearchImpl implements Search {
     public String getExportedType() {
         return RESOURCE_TYPE;
     }
+
 }

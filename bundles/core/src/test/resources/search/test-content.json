@@ -10,6 +10,8 @@
             "jcr:content"    : {
                 "jcr:primaryType": "cq:PageContent",
                 "jcr:title"      : "Page",
+                "jcr:description"      : "Yoda is back!",
+                "cq:lastModified"  : "Thu Aug 03 2017 22:42:00 GMT+0200",
                 "search"         : {
                     "jcr:primaryType"   : "nt:unstructured",
                     "jcr:createdBy"     : "admin",

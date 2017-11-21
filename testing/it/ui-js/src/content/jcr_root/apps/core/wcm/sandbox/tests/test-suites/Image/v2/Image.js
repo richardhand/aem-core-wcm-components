@@ -27,7 +27,7 @@
     /**
      * v2 specifics
      */
-    var titleSelector = "span.cmp-image__title";
+    var titleSelector = ".cmp-image__title";
     var tcExecuteBeforeTest = imageV1.tcExecuteBeforeTest(c.rtImage_v2, "core/wcm/sandbox/tests/components/test-page-v2");
     var tcExecuteAfterTest = imageV1.tcExecuteAfterTest();
 
@@ -38,12 +38,9 @@
         execBefore:c.tcExecuteBeforeTestSuite,
         execInNewWindow : false})
 
-        .addTestCase(imageV1.tcAddImage(tcExecuteBeforeTest, tcExecuteAfterTest))
-        .addTestCase(imageV1.tcAddAltText(tcExecuteBeforeTest, tcExecuteAfterTest))
+        .addTestCase(imageV2.tcAddImage(tcExecuteBeforeTest, tcExecuteAfterTest))
+        .addTestCase(imageV2.tcAddAltTextAndTitle(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(imageV1.tcSetLink(tcExecuteBeforeTest, tcExecuteAfterTest))
-        .addTestCase(imageV1.tcSetCaption(titleSelector, tcExecuteBeforeTest, tcExecuteAfterTest))
-        .addTestCase(imageV1.tcSetCaptionAsPopup(tcExecuteBeforeTest, tcExecuteAfterTest))
-        .addTestCase(imageV1.tcSetImageAsDecorative(tcExecuteBeforeTest, tcExecuteAfterTest))
-        .addTestCase(imageV2.tcAltAndTitleFromDAM(tcExecuteBeforeTest, tcExecuteAfterTest))
-    ;
+        .addTestCase(imageV2.tcDisableCaptionAsPopup(titleSelector, tcExecuteBeforeTest, tcExecuteAfterTest))
+        .addTestCase(imageV2.tcSetImageAsDecorative(tcExecuteBeforeTest, tcExecuteAfterTest));
 }(hobs, jQuery));

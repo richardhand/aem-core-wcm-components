@@ -63,7 +63,7 @@ public class ImageImplTest extends AbstractImageTest {
     }
 
     @Test
-    public void testImageWithTwoOrMoreSmartSizes() throws Exception {
+    public void testImageWithTwoOrMoreSmartSizes() {
         String escapedResourcePath = Text.escapePath(IMAGE0_PATH);
         Image image = getImageUnderTest(IMAGE0_PATH);
         assertEquals(IMAGE_TITLE_ALT, image.getAlt());
@@ -153,7 +153,7 @@ public class ImageImplTest extends AbstractImageTest {
         assertEquals(ImageImpl.RESOURCE_TYPE, ((ImageImpl) image).getExportedType());
     }
 
-    private void compareJSON(String expectedJson, String json) throws Exception {
+    protected void compareJSON(String expectedJson, String json) {
         JsonReader expected = Json.createReader(new StringReader(expectedJson));
         JsonReader actual = Json.createReader(new StringReader(json));
         assertEquals(expected.read(), actual.read());

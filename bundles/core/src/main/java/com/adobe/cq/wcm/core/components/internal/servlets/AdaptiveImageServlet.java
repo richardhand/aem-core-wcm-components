@@ -24,9 +24,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.servlet.Servlet;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
@@ -36,7 +34,6 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
-import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.servlets.HttpConstants;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
@@ -116,8 +113,7 @@ public class AdaptiveImageServlet extends SlingSafeMethodsServlet {
     }
 
     @Override
-    protected void doGet(@Nonnull SlingHttpServletRequest request, @Nonnull SlingHttpServletResponse response) throws ServletException,
-            IOException {
+    protected void doGet(@Nonnull SlingHttpServletRequest request, @Nonnull SlingHttpServletResponse response) throws IOException {
         String[] selectors = request.getRequestPathInfo().getSelectors();
         if (selectors.length != 1 && selectors.length != 2) {
             LOGGER.error("Expected 1 or 2 selectors, instead got: {}.", Arrays.toString(selectors));
@@ -125,8 +121,8 @@ public class AdaptiveImageServlet extends SlingSafeMethodsServlet {
             return;
         }
         Resource component = request.getResource();
-        Resource image = getImage(component);
-        if (image == null) {
+        Image image = new Image(component);
+        if (image.source == Source.NONEXISTING) {
             LOGGER.error("The image from {} does not have a valid file reference.", component.getPath());
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
@@ -140,12 +136,11 @@ public class AdaptiveImageServlet extends SlingSafeMethodsServlet {
         if (lastModifiedDate != null) {
             lastModifiedEpoch = lastModifiedDate.getTimeInMillis();
         }
-        Source source = getImageSource(component, image);
         Asset asset = null;
-        if (source == Source.ASSET) {
-            asset = image.adaptTo(Asset.class);
+        if (image.source == Source.ASSET) {
+            asset = image.imageResource.adaptTo(Asset.class);
             if (asset == null) {
-                LOGGER.error("Unable to adapt resource {} used by image {} to an asset.", image.getPath(), component.getPath());
+                LOGGER.error("Unable to adapt resource {} used by image {} to an asset.", image.imageResource.getPath(), component.getPath());
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
                 return;
             }
@@ -182,9 +177,9 @@ public class AdaptiveImageServlet extends SlingSafeMethodsServlet {
                         }
                         if (isRequestedWidthAllowed) {
                             String imageType = getImageType(request.getRequestPathInfo().getExtension());
-                            if (source == Source.FILE) {
-                                resizeAndStreamFile(response, componentProperties, resizeWidth, image, imageType);
-                            } else if (source == Source.ASSET) {
+                            if (image.source == Source.FILE) {
+                                resizeAndStreamFile(response, componentProperties, resizeWidth, image.imageResource, imageType);
+                            } else if (image.source == Source.ASSET) {
                                 resizeAndStreamAsset(response, componentProperties, resizeWidth, asset, imageType);
                             }
                         } else {
@@ -202,9 +197,9 @@ public class AdaptiveImageServlet extends SlingSafeMethodsServlet {
             } else {
                 LOGGER.debug("The image request contains no width information. Will resize the image to {}px.", defaultResizeWidth);
                 String imageType = getImageType(request.getRequestPathInfo().getExtension());
-                if (source == Source.FILE) {
-                    resizeAndStreamFile(response, componentProperties, defaultResizeWidth, image, imageType);
-                } else if (source == Source.ASSET) {
+                if (image.source == Source.FILE) {
+                    resizeAndStreamFile(response, componentProperties, defaultResizeWidth, image.imageResource, imageType);
+                } else if (image.source == Source.ASSET) {
                     resizeAndStreamAsset(response, componentProperties, defaultResizeWidth, asset, imageType);
                 }
             }
@@ -576,51 +571,37 @@ public class AdaptiveImageServlet extends SlingSafeMethodsServlet {
         return requestLastModified;
     }
 
-    /**
-     * Checks if the the passed {@code component} has the correct content for an image and returns it. This means that:
-     * <ol>
-     * <li>the {@code component} has a child {@code file} node, of type {@code nt:file}, that has a {@code jcr:data}
-     * {@link javax.jcr.Binary} property, or
-     * </li>
-     * <li>the component has a {@code fileReference} property, pointing to a DAM asset.</li>
-     * </ol>
-     *
-     * @param component the component that represents the image component to be rendered
-     * @return the {@link Resource} identifying the actual image to render, whether this is a file or an {@link Asset}; if the image
-     * component identified by {@code component} has not been yet configured this method will return {@code null}
-     */
-    @Nullable
-    private Resource getImage(@Nonnull Resource component) {
-        Resource childFileNode = component.getChild(DownloadResource.NN_FILE);
-        if (childFileNode != null) {
-            if (JcrConstants.NT_FILE.equals(childFileNode.getResourceType())) {
-                Resource jcrContent = childFileNode.getChild(JcrConstants.JCR_CONTENT);
-                if (jcrContent != null) {
-                    if (jcrContent.getValueMap().containsKey(JcrConstants.JCR_DATA)) {
-                        return childFileNode;
-                    }
-                }
-            }
-        } else {
-            String fileReference = component.getValueMap().get(DownloadResource.PN_REFERENCE, String.class);
-            if (StringUtils.isNotEmpty(fileReference)) {
-                return component.getResourceResolver().getResource(fileReference);
-            }
-        }
-        return null;
-    }
+
 
     private enum Source {
         ASSET,
-        FILE
+        FILE,
+        NONEXISTING
     }
 
-    @Nonnull
-    private Source getImageSource(@Nonnull Resource imageComponent, @Nonnull Resource image) {
-        String parentResourcePath = ResourceUtil.getParent(image.getPath());
-        if (StringUtils.equals(parentResourcePath, imageComponent.getPath())) {
-            return Source.FILE;
+    private static class Image {
+        Source source = Source.NONEXISTING;
+        Resource imageResource;
+
+        Image(@Nonnull Resource component) {
+            String fileReference = component.getValueMap().get(DownloadResource.PN_REFERENCE, String.class);
+            if (StringUtils.isNotEmpty(fileReference)) {
+                imageResource = component.getResourceResolver().getResource(fileReference);
+                source = Source.ASSET;
+            } else {
+                Resource childFileNode = component.getChild(DownloadResource.NN_FILE);
+                if (childFileNode != null) {
+                    if (JcrConstants.NT_FILE.equals(childFileNode.getResourceType())) {
+                        Resource jcrContent = childFileNode.getChild(JcrConstants.JCR_CONTENT);
+                        if (jcrContent != null) {
+                            if (jcrContent.getValueMap().containsKey(JcrConstants.JCR_DATA)) {
+                                imageResource = childFileNode;
+                                source = Source.FILE;
+                            }
+                        }
+                    }
+                }
+            }
         }
-        return Source.ASSET;
     }
 }

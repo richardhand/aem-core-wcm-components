@@ -24,7 +24,6 @@ import javax.annotation.Nullable;
 
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.commons.mime.MimeTypeService;
-import org.junit.BeforeClass;
 import org.junit.ClassRule;
 
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
@@ -64,8 +63,10 @@ public class AbstractImageTest {
     protected static final String IMAGE17_PATH = PAGE + "/jcr:content/root/image17";
     protected static final String IMAGE18_PATH = PAGE + "/jcr:content/root/image18";
     protected static final String IMAGE19_PATH = PAGE + "/jcr:content/root/image19";
+    protected static final String IMAGE20_PATH = PAGE + "/jcr:content/root/image20";
     protected static final String PNG_IMAGE_BINARY_NAME = "Adobe_Systems_logo_and_wordmark.png";
     protected static final String GIF_IMAGE_BINARY_NAME = "Adobe_Systems_logo_and_wordmark.gif";
+    protected static final String _1PX_IMAGE_BINARY_NAME = "1x1.png";
     protected static final String TIFF_IMAGE_BINARY_NAME = "Adobe_Systems_logo_and_wordmark.tiff";
     protected static final String PNG_ASSET_PATH = "/content/dam/core/images/" + PNG_IMAGE_BINARY_NAME;
     protected static final String PNG_ASSET_PATH_WITHOUT_EXTENSION = "/content/dam/core/images/Adobe_Systems_logo_and_wordmark";
@@ -76,6 +77,7 @@ public class AbstractImageTest {
     protected static final String PNG10_FILE_PATH = IMAGE10_PATH + "/file";
     protected static final String PNG12_FILE_PATH = IMAGE12_PATH + "/file";
     protected static final String PNG14_FILE_PATH = IMAGE14_PATH + "/file";
+    protected static final String PNG20_FILE_PATH = IMAGE20_PATH + "/file";
 
     protected static ContentPolicyManager contentPolicyManager;
     protected static MimeTypeService mockedMimeTypeService;
@@ -112,6 +114,7 @@ public class AbstractImageTest {
         aemContext.load().binaryFile("/image/" + PNG_IMAGE_BINARY_NAME, PNG12_FILE_PATH, StandardImageHandler.PNG1_MIMETYPE);
         aemContext.load().binaryFile("/image/" + PNG_IMAGE_BINARY_NAME, PNG14_FILE_PATH, StandardImageHandler.PNG1_MIMETYPE);
         aemContext.load().binaryFile("/image/" + TIFF_IMAGE_BINARY_NAME, TIFF_ASSET_PATH + "/jcr:content/renditions/original");
+        aemContext.load().binaryFile("/image/" + _1PX_IMAGE_BINARY_NAME, PNG20_FILE_PATH, StandardImageHandler.PNG1_MIMETYPE);
         aemContext.registerInjectActivateService(new MockAdapterFactory());
         contentPolicyManager = mock(ContentPolicyManager.class);
         aemContext.registerAdapter(ResourceResolver.class, ContentPolicyManager.class,
