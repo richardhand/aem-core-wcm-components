@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.servlet.Servlet;
 import javax.servlet.http.HttpServletResponse;
@@ -32,6 +31,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.jackrabbit.JcrConstants;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
+import org.apache.sling.api.request.RequestPathInfo;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
@@ -61,6 +61,7 @@ import com.day.cq.wcm.api.components.ComponentManager;
 import com.day.cq.wcm.api.policies.ContentPolicy;
 import com.day.cq.wcm.api.policies.ContentPolicyManager;
 import com.day.image.Layer;
+import com.google.common.base.Joiner;
 
 @Component(
         service = Servlet.class,
@@ -150,9 +151,12 @@ public class AdaptiveImageServlet extends SlingSafeMethodsServlet {
             }
         }
         long requestLastModifiedSuffix = getRequestLastModifiedSuffix(request);
-        if (requestLastModifiedSuffix > 0 && requestLastModifiedSuffix != lastModifiedEpoch) {
-            LOGGER.error("The last modified information present in the request ({}) is different than expected.", requestLastModifiedSuffix);
-            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+        if (requestLastModifiedSuffix >= 0 && requestLastModifiedSuffix != lastModifiedEpoch) {
+            String redirectLocation = getRedirectLocation(request, lastModifiedEpoch);
+            LOGGER.info("The last modified information present in the request ({}) is different than expected. Redirect request to " +
+                    "correct suffix ({})", requestLastModifiedSuffix, redirectLocation);
+            response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+            response.setHeader("Location", redirectLocation);
             return;
         }
         if (!handleIfModifiedSinceHeader(request, response, lastModifiedEpoch)) {
@@ -207,6 +211,13 @@ public class AdaptiveImageServlet extends SlingSafeMethodsServlet {
 
 
     }
+
+    private String getRedirectLocation(SlingHttpServletRequest request, long lastModifiedEpoch) {
+        RequestPathInfo requestPathInfo = request.getRequestPathInfo();
+        return Joiner.on(".").join(request.getContextPath() + requestPathInfo.getResourcePath(), requestPathInfo.getSelectorString(),
+                requestPathInfo.getExtension() + "/" + lastModifiedEpoch, requestPathInfo.getExtension());
+    }
+
     private void resizeAndStreamAsset(SlingHttpServletResponse response, ValueMap componentProperties, int resizeWidth, Asset asset, String
             imageType) throws IOException {
         String extension = mimeTypeService.getExtension(imageType);
@@ -294,7 +305,7 @@ public class AdaptiveImageServlet extends SlingSafeMethodsServlet {
         }
     }
 
-    private void resizeAndStreamFile(SlingHttpServletResponse response, ValueMap componentProperties,  int
+    private void resizeAndStreamFile(SlingHttpServletResponse response, ValueMap componentProperties, int
             resizeWidth, Resource imageFile, String imageType) throws
             IOException {
         InputStream is = null;
@@ -309,7 +320,7 @@ public class AdaptiveImageServlet extends SlingSafeMethodsServlet {
             }
             int rotationAngle = getRotation(componentProperties);
             Rectangle rectangle = getCropRect(componentProperties);
-            if (is !=null) {
+            if (is != null) {
                 if (rotationAngle != 0 || rectangle != null || resizeWidth > 0) {
                     Layer layer = null;
                     if (rectangle != null) {
@@ -386,7 +397,7 @@ public class AdaptiveImageServlet extends SlingSafeMethodsServlet {
         response.setContentType(contentType);
         try {
             IOUtils.copy(inputStream, response.getOutputStream());
-        }  finally {
+        } finally {
             IOUtils.closeQuietly(inputStream);
         }
     }
@@ -476,20 +487,21 @@ public class AdaptiveImageServlet extends SlingSafeMethodsServlet {
      * Checks if the {@code request} contains the {@code If-Modified-Since} header and compares this value to the passed {@code
      * lastModified} parameter.
      * </p>
-     *
+     * <p/>
      * <p>If the value of {@code lastModified} is greater than 0 but less than or equal to the value of the {@code
      * If-Modified-Since} header, then {@link HttpServletResponse#SC_NOT_MODIFIED} will be set as the {@code response} status code.</p>
-     *
+     * <p/>
      * <p>If the value of {@code lastModified} is greater than the value of the {@code If-Modified-Since} header, then this method will
      * set the {@link HttpConstants#HEADER_LAST_MODIFIED} {@code response} header with the value of {@code lastModified}.</p>
-     *
+     * <p/>
      * <p>If the value of {@code lastModified} is less than or equal to 0 this method doesn't have any effect on the {@code response}.</p>
      *
      * @param request      the request
      * @param response     the response
      * @param lastModified the underlying resource's last modified date in milliseconds, expressed as UTC milliseconds from the Unix epoch
      *                     (00:00:00 UTC Thursday 1, January 1970)
-     * @return {@code true} if the {@code response}'s status code was set (to {@link HttpServletResponse#SC_NOT_MODIFIED}, {@code false} otherwise
+     * @return {@code true} if the {@code response}'s status code was set (to {@link HttpServletResponse#SC_NOT_MODIFIED}, {@code false}
+     * otherwise
      */
     private boolean handleIfModifiedSinceHeader(@Nonnull SlingHttpServletRequest request, @Nonnull SlingHttpServletResponse response,
                                                 long lastModified) {
@@ -533,7 +545,8 @@ public class AdaptiveImageServlet extends SlingSafeMethodsServlet {
             if (componentManager != null) {
                 com.day.cq.wcm.api.components.Component component = componentManager.getComponentOfResource(imageResource);
                 if (component != null && component.isAccessible()) {
-                    String delegatingResourceType = component.getProperties().get(AbstractImageDelegatingModel.IMAGE_DELEGATE, String.class);
+                    String delegatingResourceType =
+                            component.getProperties().get(AbstractImageDelegatingModel.IMAGE_DELEGATE, String.class);
                     if (StringUtils.isNotEmpty(delegatingResourceType)) {
                         imageResource = new ImageResourceWrapper(imageResource, delegatingResourceType);
                     }
