@@ -680,15 +680,15 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
 
             .execTestCase(page.openPageProperties)
 
-            .click("coral-tab-label:contains('Permissions')", {delay: 1000})
+            .click("coral-tab-label:contains('Permissions')", {after: 1000})
             //check if the "Permissions" option was selected
             .assert.isTrue(function () {
                 return h.find("coral-tab.is-selected coral-tab-label:contains('Permissions')").size() === 1
             })
 
-            .click("button:contains('Add Permissions')")
+            .click("button:contains('Add Permissions')",{after: 1000})
             //add permissions for a user
-            .fillInput("foundation-autocomplete.js-cq-sites-CreatePermissionsDialog-authorizableList input[is='coral-textfield']", "corecomp", {delay:2000,delayafter: 2000})
+            .fillInput("foundation-autocomplete.js-cq-sites-CreatePermissionsDialog-authorizableList input[is='coral-textfield']", "corecomp",{after: 1000})
             .click("foundation-autocomplete.js-cq-sites-CreatePermissionsDialog-authorizableList coral-overlay:contains('corecomp') button")
             //check if the tag for the user was added
             .assert.exist("foundation-autocomplete.js-cq-sites-CreatePermissionsDialog-authorizableList coral-tag[value='corecomp']")
@@ -705,7 +705,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             .assert.exist("coral-dialog:contains('Add Permissions') button:contains('Add')[disabled]", false)
 
             //add permission
-            .click("coral-dialog:contains('Add Permissions') button:contains('Add')")
+            .click("coral-dialog:contains('Add Permissions') button:contains('Add')",{after: 1000})
 
             //check if the permission was added to the list
             .assert.isTrue(function () {
@@ -723,14 +723,11 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             })
 
             //check if the permission was added to the Effective Permissions list
-            .click("button:contains('Effective Permissions')")
-            .wait(2000)
+            .click("button:contains('Effective Permissions')",{after: 1000})
             .assert.exist(".cq-siteadmin-admin-properties-effective-permissions:contains('CoreComponent')")
-            .click("coral-dialog:contains('Effective Permissions') button[title='Close']")
-            .wait(3000)
+            .click("coral-dialog:contains('Effective Permissions') button[title='Close']",{after: 1000})
             //edit a permission
-            .click("table.js-cq-sites-UserGroup-permissions:contains('CoreComponent') button.js-cq-sites-PermissionsProperties-edit")
-            .wait(5000)
+            .click("table.js-cq-sites-UserGroup-permissions:contains('CoreComponent') button.js-cq-sites-PermissionsProperties-edit",{after: 1000})
             //check if Browse, Edit and Delete page checkboxes are checked
             .assert.exist("coral-dialog:contains('Edit Permissions') coral-checkbox[name='read'][checked]")
             .assert.exist("coral-dialog:contains('Edit Permissions') coral-checkbox[name='modify'][checked]")
@@ -738,7 +735,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             //add the publish/unpublish permission
             .click("coral-dialog:contains('Edit Permissions') input[name='replicate']")
             //save the changes
-            .click("coral-dialog:contains('Edit Permissions') button.js-cq-sites-EditPermissionsDialog-update")
+            .click("coral-dialog:contains('Edit Permissions') button.js-cq-sites-EditPermissionsDialog-update",{after: 1000})
             //check if the permission was added
             .assert.isTrue(function () {
                 return h.find("table.js-cq-sites-UserGroup-permissions:contains('CoreComponent') td:eq(4) coral-icon").size() === 1
@@ -746,7 +743,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
 
             //delete permission from the list
             .click("table.js-cq-sites-UserGroup-permissions:contains('CoreComponent') button.js-cq-sites-PermissionsProperties-delete")
-            .click("button:contains('Delete')")
+            .click("button:contains('Delete')",{after: 1000})
             .assert.exist("table.js-cq-sites-UserGroup-permissions:contains('CoreComponent')", false)
             ;
     };

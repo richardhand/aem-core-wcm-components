@@ -55,7 +55,7 @@ window.CQ.CoreComponentsIT.Page.v2 = window.CQ.CoreComponentsIT.Page.v2 || {}
         .addTestCase(pageV1.tcSocialMediaPageProperties(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(pageV1.tcCloudServicesPageProperties(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(pageV1.tcPersonalizationPageProperties(pageSelector, tcExecuteBeforeTest, tcExecuteAfterTest))
-//      .addTestCase(pageV1.tcAddPermissionsPageProperties(tcExecuteBeforeTest, tcExecuteAfterTest))
+        .addTestCase(pageV1.tcAddPermissionsPageProperties(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(pageV1.tcEditUserGroupPermissionsPageProperties(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(pageV1.tcEffectivePermissionsPageProperties(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(pageV2.tcBlueprintPageProperties64(tcExecuteBeforeTest, tcExecuteAfterTest))
