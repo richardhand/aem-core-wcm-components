@@ -262,6 +262,7 @@
                                             <languageroot
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                                fieldDescription="Must be checked if page is the root of a language copy."
                                                 name="./cq:languageRoot"
                                                 renderReadOnly="{Boolean}true"
                                                 text="Language Root"
