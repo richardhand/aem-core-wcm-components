@@ -160,7 +160,7 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>core.wcm.components.sandbox.config</artifactId>
             <type>zip</type>
-            <version>0.0.7-SNAPSHOT</version>
+            <version>0.0.10</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
