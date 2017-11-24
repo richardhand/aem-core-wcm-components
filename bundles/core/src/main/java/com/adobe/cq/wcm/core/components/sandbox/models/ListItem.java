@@ -71,4 +71,14 @@ public interface ListItem {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Returns the path of this {@code ListItem}.
+     *
+     * @return the list item path or {@code null}
+     * @since com.adobe.cq.wcm.core.components.sandbox.models 6.0.0
+     */
+    @Nullable
+    default String getPath() {
+        throw new UnsupportedOperationException();
+    }
 }

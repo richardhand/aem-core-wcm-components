@@ -316,7 +316,7 @@ public class NavigationImplTest {
     }
 
     private void collect(Map<String, NavigationItem> items, NavigationItem navigationItem) {
-        if (items.put(navigationItem.getPage().getPath(), navigationItem) != null) {
+        if (items.put(navigationItem.getPath(), navigationItem) != null) {
             fail("NavigationItem " + navigationItem.getURL() + " seems to have already been included; invalid recursion collection in the" +
                     " implementation?!");
         }
@@ -330,15 +330,14 @@ public class NavigationImplTest {
         int index = 0;
         for (String key : items.keySet()) {
             NavigationItem item = items.get(key);
-            assertTrue("The navigation tree doesn't seem to have the correct order.", expectedPages[index][0].equals(item.getPage()
-                    .getPath()));
-            assertEquals("The navigation item's level is not what was expected: " + item.getPage()
-                    .getPath(), expectedPages[index][1], item
-                    .getLevel());
-            assertEquals("The navigation item's active state is not what was expected: " + item.getPage()
-                    .getPath(), expectedPages[index][2], item.isActive());
-            assertEquals("The navigation item's URL is not what was expected: " + item.getPage()
-                    .getPath(), CONTEXT_PATH + expectedPages[index][3], item.getURL());
+            assertTrue("The navigation tree doesn't seem to have the correct order.",
+                    expectedPages[index][0].equals(item.getPath()));
+            assertEquals("The navigation item's level is not what was expected: " + item.getPath(),
+                    expectedPages[index][1], item.getLevel());
+            assertEquals("The navigation item's active state is not what was expected: " + item.getPath(),
+                    expectedPages[index][2], item.isActive());
+            assertEquals("The navigation item's URL is not what was expected: " + item.getPath(),
+                    CONTEXT_PATH + expectedPages[index][3], item.getURL());
             index++;
         }
     }

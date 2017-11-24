@@ -16,42 +16,36 @@
 package com.adobe.cq.wcm.core.components.sandbox.internal.models.v1;
 
 import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
-import javax.annotation.Nonnull;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import com.adobe.cq.wcm.core.components.internal.Utils;
-import com.adobe.cq.wcm.core.components.sandbox.internal.models.v2.PageImpl;
 import com.adobe.cq.wcm.core.components.sandbox.models.NavigationItem;
-import com.day.cq.wcm.api.NameConstants;
 import com.day.cq.wcm.api.Page;
-import com.day.cq.wcm.api.PageManager;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class NavigationItemImpl extends com.adobe.cq.wcm.core.components.internal.models.v1.NavigationItemImpl implements NavigationItem {
+public class NavigationItemImpl extends PageListItemImpl implements NavigationItem {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NavigationItemImpl.class);
-
-    protected SlingHttpServletRequest request;
     protected List<NavigationItem> children = Collections.emptyList();
     protected int level;
-
-    private String url;
+    protected boolean active;
 
     public NavigationItemImpl(Page page, boolean active, SlingHttpServletRequest request, int level, List<NavigationItem> children) {
-        super(page, active);
-        this.request = request;
+        super(request, page);
+        this.active = active;
         this.level = level;
         this.children = children;
-        Page redirectTarget = getRedirectTarget(page);
-        if (redirectTarget != null && !redirectTarget.equals(page)) {
-            this.page = redirectTarget;
-        }
+    }
+
+    @Override
+    @JsonIgnore
+    public Page getPage() {
+        return page;
+    }
+
+    @Override
+    public boolean isActive() {
+        return active;
     }
 
     @Override
@@ -60,33 +54,8 @@ public class NavigationItemImpl extends com.adobe.cq.wcm.core.components.interna
     }
 
     @Override
-    public String getURL() {
-        if (url == null) {
-            url = Utils.getURL(request, page);
-        }
-        return url;
-    }
-
-    @Override
     public int getLevel() {
         return level;
     }
 
-    private Page getRedirectTarget(@Nonnull Page page) {
-        Page result = page;
-        String redirectTarget;
-        PageManager pageManager = page.getPageManager();
-        Set<String> redirectCandidates = new LinkedHashSet<>();
-        redirectCandidates.add(page.getPath());
-        while (result != null && StringUtils.isNotEmpty((redirectTarget = result.getProperties().get(PageImpl.PN_REDIRECT_TARGET, String.class)))) {
-            result = pageManager.getPage(redirectTarget);
-            if (result != null) {
-                if (!redirectCandidates.add(result.getPath())) {
-                    LOGGER.warn("Detected redirect loop for the following pages: {}.", redirectCandidates.toString());
-                    break;
-                }
-            }
-        }
-        return result;
-    }
 }

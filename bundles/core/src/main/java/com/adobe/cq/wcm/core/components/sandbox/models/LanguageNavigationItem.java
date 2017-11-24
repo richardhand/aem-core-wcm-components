@@ -16,7 +16,6 @@
 
 package com.adobe.cq.wcm.core.components.sandbox.models;
 
-import java.util.List;
 import java.util.Locale;
 
 import org.osgi.annotation.versioning.ConsumerType;
@@ -26,16 +25,6 @@ import org.osgi.annotation.versioning.ConsumerType;
  */
 @ConsumerType
 public interface LanguageNavigationItem extends com.adobe.cq.wcm.core.components.sandbox.models.NavigationItem {
-
-    /**
-     * Returns the title of this {@code LanguageNavigationItem}.
-     *
-     * @return the title of this language navigation item
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 2.0.0
-     */
-    default String getTitle() {
-        throw new UnsupportedOperationException();
-    }
 
     /**
      * Returns the locale of this {@code LanguageNavigationItem}.

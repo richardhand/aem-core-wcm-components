@@ -152,9 +152,10 @@ public class SearchImpl implements Search {
         if (hits != null) {
             for (Hit hit : hits) {
                 try {
-                    Resource item = hit.getResource();
-                    if (item != null) {
-                        results.add(new PageListItemImpl(request, item));
+                    Resource hitRes = hit.getResource();
+                    Page page = getPage(hitRes);
+                    if (page != null) {
+                        results.add(new PageListItemImpl(request, page));
                     }
                 } catch (RepositoryException e) {
                     LOGGER.error("Unable to retrieve search results for query.", e);
@@ -168,6 +169,17 @@ public class SearchImpl implements Search {
     @Override
     public String getExportedType() {
         return RESOURCE_TYPE;
+    }
+
+    private Page getPage(Resource resource) {
+        if (resource != null) {
+            ResourceResolver resourceResolver = resource.getResourceResolver();
+            PageManager pageManager = resourceResolver.adaptTo(PageManager.class);
+            if (pageManager != null) {
+                return pageManager.getContainingPage(resource);
+            }
+        }
+        return null;
     }
 
 }

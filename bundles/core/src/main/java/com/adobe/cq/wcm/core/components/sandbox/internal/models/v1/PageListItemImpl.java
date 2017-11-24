@@ -16,79 +16,90 @@
 package com.adobe.cq.wcm.core.components.sandbox.internal.models.v1;
 
 import java.util.Calendar;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
-import org.apache.sling.api.resource.Resource;
-import org.apache.sling.api.resource.ResourceResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.adobe.cq.wcm.core.components.internal.Utils;
+import com.adobe.cq.wcm.core.components.sandbox.internal.models.v2.PageImpl;
 import com.adobe.cq.wcm.core.components.sandbox.models.ListItem;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 
 public class PageListItemImpl implements ListItem {
 
-    private SlingHttpServletRequest request;
-    private Resource item;
-    private Page page;
+    private static final Logger LOGGER = LoggerFactory.getLogger(PageListItemImpl.class);
 
-    public PageListItemImpl(@Nonnull SlingHttpServletRequest request, @Nonnull Resource item) {
+    protected SlingHttpServletRequest request;
+    protected Page page;
+
+    public PageListItemImpl(@Nonnull SlingHttpServletRequest request, @Nonnull Page page) {
         this.request = request;
-        this.item = item;
-        this.page = getPage();
+        this.page = page;
+        Page redirectTarget = getRedirectTarget(page);
+        if (redirectTarget != null && !redirectTarget.equals(page)) {
+            this.page = redirectTarget;
+        }
     }
 
     @Override
     public String getURL() {
-        if (page != null) {
-            return Utils.getURL(request, page);
-        }
-        return null;
+        return Utils.getURL(request, page);
     }
 
     @Override
     public String getTitle() {
-        if (page != null) {
-            String title = page.getNavigationTitle();
-            if (title == null) {
-                title = page.getPageTitle();
-            }
-            if (title == null) {
-                title = page.getTitle();
-            }
-            if (title == null) {
-                title = page.getName();
-            }
-            return title;
+        String title = page.getNavigationTitle();
+        if (title == null) {
+            title = page.getPageTitle();
         }
-        return null;
+        if (title == null) {
+            title = page.getTitle();
+        }
+        if (title == null) {
+            title = page.getName();
+        }
+        return title;
     }
 
     @Override
     public String getDescription() {
-        if (page != null) {
-            return page.getDescription();
-        }
-        return null;
+        return page.getDescription();
     }
 
     @Override
     public Calendar getLastModified() {
-        if (page != null) {
-            return page.getLastModified();
-        }
-        return null;
+        return page.getLastModified();
     }
 
-    private Page getPage() {
-        ResourceResolver resourceResolver = item.getResourceResolver();
-        PageManager pageManager = resourceResolver.adaptTo(PageManager.class);
-        if (pageManager != null) {
-            return pageManager.getContainingPage(item);
+    @Override
+    public String getPath() {
+        return page.getPath();
+    }
+
+
+    private Page getRedirectTarget(@Nonnull Page page) {
+        Page result = page;
+        String redirectTarget;
+        PageManager pageManager = page.getPageManager();
+        Set<String> redirectCandidates = new LinkedHashSet<>();
+        redirectCandidates.add(page.getPath());
+        while (result != null && StringUtils.isNotEmpty((redirectTarget = result.getProperties().get(PageImpl.PN_REDIRECT_TARGET, String.class)))) {
+            result = pageManager.getPage(redirectTarget);
+            if (result != null) {
+                if (!redirectCandidates.add(result.getPath())) {
+                    LOGGER.warn("Detected redirect loop for the following pages: {}.", redirectCandidates.toString());
+                    break;
+                }
+            }
         }
-        return null;
+        return result;
     }
 
 }

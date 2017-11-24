@@ -197,22 +197,14 @@ public class LanguageNavigationImplTest {
         int index = 0;
         while (items.size() > index) {
             LanguageNavigationItem item = (LanguageNavigationItem)items.get(index);
-            assertTrue("The language navigation items don't seem to have the correct order.", expectedPages[index][0].equals(item.getPage()
-                    .getPath()));
-            assertEquals("The language navigation item's title is not what was expected: " + item.getPage()
-                    .getPath(), expectedPages[index][1], item.getTitle());
-            assertEquals("The language navigation item's active state is not what was expected: " + item.getPage()
-                    .getPath(), expectedPages[index][2], item.isActive());
-            assertEquals("The language navigation item's level is not what was expected: " + item.getPage()
-                    .getPath(), expectedPages[index][3], item.getLevel());
-            assertEquals("The language navigation item's country is not what was expected: " + item.getPage()
-                    .getPath(), expectedPages[index][4], item.getCountry());
-            assertEquals("The language navigation item's language is not what was expected: " + item.getPage()
-                    .getPath(), expectedPages[index][5], item.getLanguage());
-            assertEquals("The language navigation item's locale is not what was expected: " + item.getPage()
-                    .getPath(), expectedPages[index][5], item.getLocale().toString().replace('_', '-'));
-            assertEquals("The language navigation item's URL is not what was expected: " + item.getPage()
-                    .getPath(), CONTEXT_PATH + expectedPages[index][6], item.getURL());
+            assertTrue("The language navigation items don't seem to have the correct order.", expectedPages[index][0].equals(item.getPath()));
+            assertEquals("The language navigation item's title is not what was expected: " + item.getPath(), expectedPages[index][1], item.getTitle());
+            assertEquals("The language navigation item's active state is not what was expected: " + item.getPath(), expectedPages[index][2], item.isActive());
+            assertEquals("The language navigation item's level is not what was expected: " + item.getPath(), expectedPages[index][3], item.getLevel());
+            assertEquals("The language navigation item's country is not what was expected: " + item.getPath(), expectedPages[index][4], item.getCountry());
+            assertEquals("The language navigation item's language is not what was expected: " + item.getPath(), expectedPages[index][5], item.getLanguage());
+            assertEquals("The language navigation item's locale is not what was expected: " + item.getPath(), expectedPages[index][5], item.getLocale().toString().replace('_', '-'));
+            assertEquals("The language navigation item's URL is not what was expected: " + item.getPath(), CONTEXT_PATH + expectedPages[index][6], item.getURL());
             index++;
         }
     }

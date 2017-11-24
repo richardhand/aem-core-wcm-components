@@ -18,6 +18,7 @@ package com.adobe.cq.wcm.core.components.models;
 
 import org.osgi.annotation.versioning.ConsumerType;
 
+import com.adobe.cq.wcm.core.components.sandbox.models.ListItem;
 import com.day.cq.wcm.api.Page;
 
 /**
@@ -33,7 +34,9 @@ public interface NavigationItem {
      *
      * @return The {@link Page} contained in this navigation item.
      * @since com.adobe.cq.wcm.core.components.models 11.0.0; marked <code>default</code> in 12.1.0
+     * @deprecated since 12.1.0 as {@link NavigationItem} relies on {@link ListItem}
      */
+    @Deprecated
     default Page getPage() {
         throw new UnsupportedOperationException();
     }
@@ -41,7 +44,7 @@ public interface NavigationItem {
     /**
      * Returns {@code true} if the page contained by this navigation item is active.
      *
-     * @return true if it is the current page, otherwise false
+     * @return {@code true} if it is the current page, otherwise {@code false}
      * @since com.adobe.cq.wcm.core.components.models 11.0.0; marked <code>default</code> in 12.1.0
      */
     default boolean isActive() {
