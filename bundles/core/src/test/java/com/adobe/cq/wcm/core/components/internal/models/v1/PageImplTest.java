@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import javax.annotation.Nullable;
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.jackrabbit.JcrConstants;
 import org.apache.sling.api.resource.Resource;
@@ -57,7 +56,6 @@ import com.day.cq.wcm.api.designer.Style;
 import com.day.cq.wcm.api.policies.ContentPolicy;
 import com.day.cq.wcm.api.policies.ContentPolicyManager;
 import com.day.cq.wcm.api.policies.ContentPolicyMapping;
-import com.day.cq.wcm.foundation.model.responsivegrid.ResponsiveGrid;
 import com.day.cq.wcm.msm.api.MSMNameConstants;
 import com.google.common.base.Function;
 import io.wcm.testing.mock.aem.junit.AemContext;
