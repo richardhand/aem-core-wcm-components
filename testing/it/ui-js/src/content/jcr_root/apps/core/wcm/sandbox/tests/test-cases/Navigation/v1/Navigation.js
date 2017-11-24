@@ -164,6 +164,7 @@
             // uncheck the skip root option
             .click('input[name="./skipNavigationRoot"]')
             .execTestCase(c.tcSaveConfigureDialog)
+            .wait(200)
             .config.changeContext(c.getContentFrame)
             .assert.isTrue(function () {
                 return h.find('.cmp-navigation__item').size() === 4;

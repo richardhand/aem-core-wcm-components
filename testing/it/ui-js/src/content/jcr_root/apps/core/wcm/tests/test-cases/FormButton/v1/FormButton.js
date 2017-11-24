@@ -201,7 +201,7 @@ window.CQ.CoreComponentsIT.FormButton.v1 = window.CQ.CoreComponentsIT.FormButton
             // close the edit dialog
             .execTestCase(c.tcSaveConfigureDialog)
             .asserts.isTrue(function() {
-                return h.find("coral-icon.coral-Form-fielderror.coral3-Icon--alert").size() === 1
+                return h.find("coral-icon.coral-Form-fielderror").size() === 1
 
             })
         ;
