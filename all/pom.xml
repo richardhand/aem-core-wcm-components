@@ -23,7 +23,7 @@
     <parent>
         <artifactId>core.wcm.components.parent</artifactId>
         <groupId>com.adobe.cq</groupId>
-        <version>1.9.23-SNAPSHOT</version>
+        <version>1.9.24</version>
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
 
