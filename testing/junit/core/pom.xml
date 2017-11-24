@@ -28,14 +28,14 @@
     </parent>
 
     <artifactId>core.wcm.components.junit.core</artifactId>
-    <version>1.9.21-SNAPSHOT</version>
+    <version>1.9.22</version>
     <name>Adobe Experience Manager Core WCM Components JUnit Testing</name>
 
     <scm>
         <connection>scm:git:https://git.corp.adobe.com/CQ/aem-core-wcm-components.git</connection>
         <developerConnection>scm:git:git@git.corp.adobe.com:CQ/aem-core-wcm-components.git</developerConnection>
         <url>https://git.corp.adobe.com/CQ/aem-core-wcm-components/tree/master/testing/junit/core</url>
-        <tag>HEAD</tag>
+        <tag>core.wcm.components.junit.core-1.9.22</tag>
     </scm>
 
     <description>Useful tools for testing HTL-based AEM components</description>
