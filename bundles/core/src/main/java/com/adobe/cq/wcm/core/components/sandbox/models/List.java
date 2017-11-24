@@ -15,6 +15,8 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.sandbox.models;
 
+import java.util.Collection;
+
 import javax.annotation.Nonnull;
 
 import org.osgi.annotation.versioning.ConsumerType;
@@ -34,6 +36,17 @@ public interface List extends com.adobe.cq.wcm.core.components.models.List, Comp
     @Nonnull
     @Override
     default String getExportedType() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Returns the list's items collection, as {@link ListItem}s elements.
+     *
+     * @return {@link Collection} of {@link Page}s
+     * @since com.adobe.cq.wcm.core.components.sandbox.models 7.0.0
+     */
+    @Nonnull
+    default Collection<ListItem> getListItems() {
         throw new UnsupportedOperationException();
     }
 

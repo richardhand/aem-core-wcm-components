@@ -117,7 +117,7 @@ public class ListImpl implements List, ComponentExporter {
     private boolean linkItems;
 
     private PageManager pageManager;
-    private java.util.List<Page> listItems;
+    protected java.util.List<Page> listItems;
 
     @PostConstruct
     private void initModel() {
@@ -178,12 +178,12 @@ public class ListImpl implements List, ComponentExporter {
         return resource.getResourceType();
     }
 
-    private Source getListType() {
+    protected Source getListType() {
         String listFromValue = properties.get(PN_SOURCE, currentStyle.get(PN_SOURCE, StringUtils.EMPTY));
         return Source.fromString(listFromValue);
     }
 
-    private void populateListItems(Source listType) {
+    protected void populateListItems(Source listType) {
         switch (listType) {
             case STATIC:
                 populateStaticListItems();
@@ -312,7 +312,7 @@ public class ListImpl implements List, ComponentExporter {
     }
 
 
-    private enum Source {
+    protected enum Source {
         CHILDREN("children"),
         STATIC("static"),
         SEARCH("search"),

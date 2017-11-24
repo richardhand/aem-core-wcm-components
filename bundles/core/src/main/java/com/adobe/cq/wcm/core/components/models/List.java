@@ -143,7 +143,9 @@ public interface List {
      *
      * @return {@link Collection} of {@link Page}s
      * @since com.adobe.cq.wcm.core.components.models 11.0.0; marked <code>default</code> in 12.1.0
+     * @deprecated since 12.1.0: use {@link com.adobe.cq.wcm.core.components.sandbox.models.List#getListItems} instead
      */
+    @Deprecated
     default Collection<Page> getItems() {
         throw new UnsupportedOperationException();
     }
