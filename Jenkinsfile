@@ -119,9 +119,6 @@ MavenDependency uiTestingCommonsPackage = new MavenDependency.Builder()
 /*                       QUICKSTART CONFIGURATIONS                        */
 /* --------------------------------------------------------------------- */
 Quickstart quickstart = new BuildQuickstart.Builder('Quickstart 6.4')
-        .withModule(componentsCore)
-        .withModule(componentsContent)
-        .withModule(componentsConfig)
         .build()
 
 /* --------------------------------------------------------------------- */
@@ -130,12 +127,15 @@ Quickstart quickstart = new BuildQuickstart.Builder('Quickstart 6.4')
 CQInstance author = new CQInstance.Builder()
         .withQuickstart(quickstart)
         .withId('weretail-author')
-        .withPort(1234)
         .withRunmode("author")
+        .withRunmode("nosamplecontent")
         .withContextPath("/cp")
         .withMavenDependency(hobbesRewriterPackage)
         .withMavenDependency(uiTestingCommonsPackage)
         .withFileDependency(componentsItUi.getArtifact('zip'))
+        .withFileDependency(componentsCore.getArtifact('jar'))
+        .withFileDependency(componentsContent.getArtifact('zip'))
+        .withFileDependency(componentsConfig.getArtifact('zip'))
         .build()
 
 /* --------------------------------------------------------------------- */
