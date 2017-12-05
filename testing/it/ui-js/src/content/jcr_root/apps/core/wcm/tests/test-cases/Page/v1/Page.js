@@ -900,12 +900,12 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             })
 
             //check the Synchronize button
-            .click("coral-actionbar-item:contains('Synchronize') button")
+            .click("coral-actionbar-item:contains('Synchronize') button", {delay: 1000})
             .click("div.coral-Dialog-wrapper .coral-Button:contains('Sync')")
 
             //check the Reset button
             .click("coral-tab-label:contains('Live Copy')", {delay: 1000})
-            .click("coral-actionbar-item:contains('Reset') button")
+            .click("coral-actionbar-item:contains('Reset') button", {delay: 1000})
             .click("div.coral-Dialog-wrapper .coral-Button:contains('Reset')")
 
             //check the Suspend button
@@ -930,7 +930,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
 
             //check the Detach button
             .click("coral-tab-label:contains('Live Copy')", {delay: 1000})
-            .click("coral-actionbar-item:contains('Detach') button")
+            .click("coral-actionbar-item:contains('Detach') button", {delay: 1000})
             .click("div.coral-Dialog-wrapper .coral-Button:contains('Detach')")
 
             .wait(1000)
