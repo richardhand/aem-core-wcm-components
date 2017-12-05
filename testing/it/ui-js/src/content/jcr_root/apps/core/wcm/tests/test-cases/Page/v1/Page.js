@@ -900,9 +900,8 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             })
 
             //check the Synchronize button
-            .click("coral-actionbar-item:contains('Synchronize') button")
-            .wait(500)
-            .click("div.coral-Dialog-wrapper button[is='coral-button']:contains('Sync')")
+            .click("coral-actionbar-item:contains('Synchronize') button", {before: 1000})
+            .click("div.coral-Dialog-wrapper button[is='coral-button']:contains('Sync')", {before: 2000})
 
             //check the Reset button
             .click("coral-tab-label:contains('Live Copy')", {delay: 1000})
