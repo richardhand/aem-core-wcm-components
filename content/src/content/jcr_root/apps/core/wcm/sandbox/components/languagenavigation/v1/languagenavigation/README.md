@@ -43,7 +43,6 @@ BLOCK cmp-languagenavigation
         MOD cmp-languagenavigation__item--countrycode-*
         MOD cmp-languagenavigation__item--langcode-*
         MOD cmp-languagenavigation__item--level-*
-    ELEMENT cmp-languagenavigation__item-content
     ELEMENT cmp-languagenavigation__item-link
     ELEMENT cmp-languagenavigation__item-title
 ```
