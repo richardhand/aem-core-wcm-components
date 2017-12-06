@@ -901,12 +901,12 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
 
             //check the Synchronize button
             .click("coral-actionbar-item:contains('Synchronize') button", {before: 1000})
-            .click("div.coral-Dialog-wrapper button[is='coral-button']:contains('Sync')", {before: 2000})
+            .click("div.coral-Dialog-wrapper button[is='coral-button']:contains('Sync')", {before: 3000})
 
             //check the Reset button
             .click("coral-tab-label:contains('Live Copy')", {delay: 1000})
             .click("coral-actionbar-item:contains('Reset') button", {delay: 1000})
-            .click("div.coral-Dialog-wrapper .coral-Button:contains('Reset')")
+            .click("div.coral-Dialog-wrapper .coral-Button:contains('Reset')", {before: 3000})
 
             //check the Suspend button
             .click("coral-tab-label:contains('Live Copy')", {delay: 1000})
@@ -914,24 +914,24 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             .click(function () {
                 return h.find("coral-anchorlist coral-list-item-content").eq(0)
             })
-            .click("div.coral-Dialog-wrapper .coral-Button:contains('Suspend')")
+            .click("div.coral-Dialog-wrapper .coral-Button:contains('Suspend')", {before: 3000})
 
             //check the Resume button
             .click("coral-tab-label:contains('Live Copy')", {delay: 1000})
             .click("coral-actionbar-item:contains('Resume') button", {delay: 1000})
-            .click("div.coral-Dialog-wrapper .coral-Button:contains('Resume')", {delay: 1000})
+            .click("div.coral-Dialog-wrapper .coral-Button:contains('Resume')", {before: 3000})
 
             .click("coral-tab-label:contains('Live Copy')", {delay: 1000})
             .click("coral-actionbar-item:contains('Suspend') button")
             .click(function () {
                 return h.find("coral-anchorlist coral-list-item-content").eq(1)
             })
-            .click("div.coral-Dialog-wrapper .coral-Button:contains('Suspend')")
+            .click("div.coral-Dialog-wrapper .coral-Button:contains('Suspend')", {before: 3000})
 
             //check the Detach button
             .click("coral-tab-label:contains('Live Copy')", {delay: 1000})
             .click("coral-actionbar-item:contains('Detach') button", {delay: 1000})
-            .click("div.coral-Dialog-wrapper .coral-Button:contains('Detach')")
+            .click("div.coral-Dialog-wrapper .coral-Button:contains('Detach')", {before: 3000})
 
             .wait(1000)
             // delete the test page we created for live copy
