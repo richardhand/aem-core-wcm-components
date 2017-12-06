@@ -42,6 +42,7 @@ The following properties are written to JCR for this Breadcrumb component and ar
 ## BEM description
 ```
 BLOCK cmp-breadcrumb
+    ELEMENT cmp-breadcrumb__list
     ELEMENT cmp-breadcrumb__item
     ELEMENT cmp-breadcrumb__item-link
 ```
