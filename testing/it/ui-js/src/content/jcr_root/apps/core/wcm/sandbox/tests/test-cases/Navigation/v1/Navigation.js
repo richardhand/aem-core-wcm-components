@@ -187,7 +187,7 @@
             .execTestCase(c.tcOpenConfigureDialog('cmpPath'))
             .fillInput('foundation-autocomplete[name="./navigationRoot"]', '%page_1%')
             // uncheck
-            .click('coral-checkbox[name="./collectAllPages"]', {after: 1000})
+            .click('input[name="./collectAllPages"]', {after: 1000})
             .assert.visible('coral-numberinput[name="./structureDepth"]', true)
             .execTestCase(c.tcSaveConfigureDialog)
             .config.changeContext(c.getContentFrame)
