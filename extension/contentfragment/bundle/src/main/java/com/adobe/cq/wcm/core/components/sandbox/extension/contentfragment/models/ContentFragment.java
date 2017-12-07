@@ -54,6 +54,13 @@ public interface ContentFragment extends ContainerExporter {
     String PN_ELEMENT_NAMES = "elementNames";
 
     /**
+     * Name of the optional resource property that stores the name of the variation to be used.
+     *
+     * @since com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment.models 0.1.0
+     */
+    String PN_VARIATION_NAME = "variationName";
+
+    /**
      * Represents a content element of a content fragment.
      *
      * @since com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment.models 0.0.1
