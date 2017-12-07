@@ -187,9 +187,9 @@
             .execTestCase(c.tcOpenConfigureDialog('cmpPath'))
             .fillInput('foundation-autocomplete[name="./navigationRoot"]', '%page_1%')
             // uncheck
-            .click('coral-checkbox[name="./collectAllPages"]')
-            .fillInput('coral-numberinput[name="./maxDepth"]', "1")
-            .execTestCase(c.tcSaveConfigureDialog)
+            .click('coral-checkbox[name="./collectAllPages"]', {after: 1000})
+            .fillInput('coral-numberinput[name="./maxDepth"]', "1", {after: 1000})
+            .execTestCase(c.tcSaveConfigureDialog, {after: 1000})
             .config.changeContext(c.getContentFrame)
             .assert.isTrue(function () {
                 return h.find('.cmp-navigation__item').size() === 1;
