@@ -83,7 +83,7 @@ public class ImageImpl implements Image, ComponentExporter {
     protected SlingHttpServletRequest request;
 
     @Inject
-    private Resource resource;
+    protected Resource resource;
 
     @ScriptVariable
     private PageManager pageManager;
@@ -113,7 +113,7 @@ public class ImageImpl implements Image, ComponentExporter {
     private String src;
     protected String[] smartImages = new String[]{};
     protected int[] smartSizes = new int[0];
-    private String json;
+    protected String json;
     protected boolean displayPopupTitle;
     protected boolean isDecorative;
 

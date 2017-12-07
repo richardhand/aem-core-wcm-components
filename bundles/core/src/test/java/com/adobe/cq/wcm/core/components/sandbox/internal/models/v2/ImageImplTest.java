@@ -72,7 +72,7 @@ public class ImageImplTest extends com.adobe.cq.wcm.core.components.internal.mod
                 "/core/content/test/jcr%3acontent/root/image0.img.2000.png/1490005239000.png",
                 "/core/content/test/jcr%3acontent/root/image0.img.2500.png/1490005239000.png" },
                 image.getSmartImages());
-        Assert.assertEquals(true, image.isLazyEnabled());
+        Assert.assertEquals(false, image.isLazyEnabled());
         Utils.testJSONExport(image, Utils.getTestExporterJSONPath(testBase, IMAGE0_PATH));
     }
 
@@ -122,7 +122,7 @@ public class ImageImplTest extends com.adobe.cq.wcm.core.components.internal.mod
         String expectedJson = "{\"smartImages\":[\"/core/content/test/jcr%3acontent/root/image0.img.600.png/1490005239000.png\"," +
                 "\"/core/content/test/jcr%3acontent/root/image0.img.700.png/1490005239000.png\",\"/core/content/test/jcr%3acontent/root/image0" +
                 ".img.800.png/1490005239000.png\",\"/core/content/test/jcr%3acontent/root/image0.img.2000.png/1490005239000.png\", " +
-                "\"/core/content/test/jcr%3acontent/root/image0.img.2500.png/1490005239000.png\"],\"smartSizes\":[600,700,800,2000,2500],\"lazyEnabled\":true}";
+                "\"/core/content/test/jcr%3acontent/root/image0.img.2500.png/1490005239000.png\"],\"smartSizes\":[600,700,800,2000,2500],\"lazyEnabled\":false}";
         compareJSON(expectedJson, image.getJson());
         assertTrue(image.displayPopupTitle());
         assertEquals(CONTEXT_PATH + "/content/test-image.html", image.getLink());

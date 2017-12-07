@@ -1,7 +1,7 @@
 {
     "smartSizes": [],
     "smartImages": [],
-    "lazyEnabled": true,
+    "lazyEnabled": false,
     "alt": "Adobe Logo",
     "title": "Adobe Logo",
     "link": "https://www.adobe.com",

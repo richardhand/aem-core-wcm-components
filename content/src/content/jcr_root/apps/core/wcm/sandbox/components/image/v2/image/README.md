@@ -29,10 +29,10 @@ The Image component uses the `com.adobe.cq.wcm.core.components.models.Image` Sli
 ### Component policy configuration properties
 The following configuration properties are used:
 
-1. `./allowedWidths` - defines the allowed renditions (as an integer array) that will be generated for the images rendered by this
+1. `./allowedRenditionWidths` - defines the allowed renditions (as an integer array) that will be generated for the images rendered by this
 component; the actual size will be requested by the client device;
-2. `./disableLazyLoading` - allows to disable lazy loading for images (loading the image only when the image is visible on the client
-device)
+2. `./disableLazyLoading` - if `true`, the lazy loading of images (loading only when the image is visible on the client
+device) is disabled.
 
 ### Edit dialog properties
 The following properties are written to JCR for this Image component and are expected to be available as `Resource` properties:
