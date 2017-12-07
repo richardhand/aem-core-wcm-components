@@ -60,7 +60,7 @@ public class LanguageNavigationImpl implements LanguageNavigation {
     @ScriptVariable
     private Style currentStyle;
 
-    private String siteRoot;
+    private String navigationRoot;
     private int structureDepth;
     private Page rootPage;
     private List<NavigationItem> items;
@@ -68,7 +68,7 @@ public class LanguageNavigationImpl implements LanguageNavigation {
 
     @PostConstruct
     private void initModel() {
-        siteRoot = properties.get(PN_SITE_ROOT, currentStyle.get(PN_SITE_ROOT, String.class));
+        navigationRoot = properties.get(PN_NAVIGATION_ROOT, currentStyle.get(PN_NAVIGATION_ROOT, String.class));
         structureDepth = properties.get(PN_STRUCTURE_DEPTH, currentStyle.get(PN_STRUCTURE_DEPTH, 1));
     }
 
@@ -76,7 +76,7 @@ public class LanguageNavigationImpl implements LanguageNavigation {
     public List<NavigationItem> getItems() {
         if (items == null) {
             PageManager pageManager = currentPage.getPageManager();
-            rootPage = pageManager.getPage(siteRoot);
+            rootPage = pageManager.getPage(navigationRoot);
             if (rootPage != null) {
                 int rootPageLevel = rootPage.getDepth();
                 startLevel = rootPageLevel + 1;

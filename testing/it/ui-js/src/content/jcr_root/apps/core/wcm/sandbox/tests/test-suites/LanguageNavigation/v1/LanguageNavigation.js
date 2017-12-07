@@ -32,6 +32,6 @@
         .addTestCase(languageNavigation.testDefaultConfiguration(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(languageNavigation.testChangeStructureDepth(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(languageNavigation.testSetStructureDepthZero(tcExecuteBeforeTest, tcExecuteAfterTest))
-        .addTestCase(languageNavigation.testSiteRootNoStructure(tcExecuteBeforeTest, tcExecuteAfterTest))
+        .addTestCase(languageNavigation.testNavigationRootNoStructure(tcExecuteBeforeTest, tcExecuteAfterTest))
 
 }(hobs, jQuery));

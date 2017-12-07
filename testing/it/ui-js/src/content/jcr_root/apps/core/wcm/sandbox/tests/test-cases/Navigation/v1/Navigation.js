@@ -135,7 +135,7 @@
             .assert.isTrue(function () {
                 return h.find('coral-checkbox[name="./collectAllPages"]').prop('checked') === true;
             })
-            .assert.visible('coral-numberinput[name="./maxDepth"]', false)
+            .assert.visible('coral-numberinput[name="./structureDepth"]', false)
             .fillInput('foundation-autocomplete[name="./navigationRoot"]', '%page_1%')
             .execTestCase(c.tcSaveConfigureDialog)
             .config.changeContext(c.getContentFrame)
@@ -159,7 +159,7 @@
             .assert.isTrue(function () {
                 return h.find('coral-checkbox[name="./collectAllPages"]').prop('checked') === true;
             })
-            .assert.visible('coral-numberinput[name="./maxDepth"]', false)
+            .assert.visible('coral-numberinput[name="./structureDepth"]', false)
             .fillInput('foundation-autocomplete[name="./navigationRoot"]', '%page_1%')
             // uncheck the skip root option
             .click('input[name="./skipNavigationRoot"]')
@@ -179,7 +179,7 @@
             .assert.exist('.cmp-navigation__item.cmp-navigation__item--level-2:contains("Page 1.1.3")');
     };
 
-    navigation.testChangeMaxDepthLevel = function (tcExecuteBeforeTest, tcExecuteAfterTest) {
+    navigation.testChangeStructureDepthLevel = function (tcExecuteBeforeTest, tcExecuteAfterTest) {
         return new TestCase('Change max depth level', {
             execBefore: tcExecuteBeforeTest,
             execAfter : tcExecuteAfterTest
@@ -188,9 +188,7 @@
             .fillInput('foundation-autocomplete[name="./navigationRoot"]', '%page_1%')
             // uncheck
             .click('coral-checkbox[name="./collectAllPages"]', {after: 1000})
-            .assert.visible('coral-numberinput[name="./maxDepth"]', true)
-            .click('coral-numberinput[name="./maxDepth"] button[handle=stepUp]')
-            .click('coral-numberinput[name="./maxDepth"] button[handle=stepUp]')
+            .assert.visible('coral-numberinput[name="./structureDepth"]', true)
             .execTestCase(c.tcSaveConfigureDialog)
             .config.changeContext(c.getContentFrame)
             .assert.isTrue(function () {

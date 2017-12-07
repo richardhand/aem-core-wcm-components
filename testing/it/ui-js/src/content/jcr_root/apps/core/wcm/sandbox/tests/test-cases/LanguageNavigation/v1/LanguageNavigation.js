@@ -38,7 +38,7 @@
         },
         editDialog: {
             self          : '.cq-Dialog',
-            siteRoot      : '.cq-Dialog foundation-autocomplete[name="./siteRoot"]',
+            navigationRoot: '.cq-Dialog foundation-autocomplete[name="./navigationRoot"]',
             structureDepth: '.cq-Dialog input[name="./structureDepth"]'
         }
     };
@@ -254,7 +254,7 @@
             execAfter : tcExecuteAfterTest
         })
             .execTestCase(c.tcOpenConfigureDialog('cmpPath'))
-            .fillInput(selectors.editDialog.siteRoot, '%site_root%')
+            .fillInput(selectors.editDialog.navigationRoot, '%site_root%')
             .execTestCase(c.tcSaveConfigureDialog)
             .config.changeContext(c.getContentFrame)
             .assert.exist(selectors.component.item.self + selectors.component.item.level0 + selectors.component.item.active + ':contains("LOCALE 1")')
@@ -272,7 +272,7 @@
             execAfter : tcExecuteAfterTest
         })
             .execTestCase(c.tcOpenConfigureDialog('cmpPath'))
-            .fillInput(selectors.editDialog.siteRoot, '%site_root%')
+            .fillInput(selectors.editDialog.navigationRoot, '%site_root%')
             .fillInput(selectors.editDialog.structureDepth, '2')
             .execTestCase(c.tcSaveConfigureDialog)
             .config.changeContext(c.getContentFrame)
@@ -296,22 +296,22 @@
             execAfter : tcExecuteAfterTest
         })
             .execTestCase(c.tcOpenConfigureDialog('cmpPath'))
-            .fillInput(selectors.editDialog.siteRoot, '%site_root%')
+            .fillInput(selectors.editDialog.navigationRoot, '%site_root%')
             .fillInput(selectors.editDialog.structureDepth, '0')
             .execTestCase(c.tcSaveConfigureDialog)
             .assert.visible(selectors.editDialog.self)
     };
 
     /**
-     * Test: Site Root with no structure - no items, placeholder displayed
+     * Test: Navigation Root with no structure - no items, placeholder displayed
      */
-    languageNavigation.testSiteRootNoStructure = function (tcExecuteBeforeTest, tcExecuteAfterTest) {
-        return new TestCase('Site Root with no structure', {
+    languageNavigation.testNavigationRootNoStructure = function (tcExecuteBeforeTest, tcExecuteAfterTest) {
+        return new TestCase('Navigation Root with no structure', {
             execBefore: tcExecuteBeforeTest,
             execAfter : tcExecuteAfterTest
         })
             .execTestCase(c.tcOpenConfigureDialog('cmpPath'))
-            .fillInput(selectors.editDialog.siteRoot, '%no_structure%')
+            .fillInput(selectors.editDialog.navigationRoot, '%no_structure%')
             .execTestCase(c.tcSaveConfigureDialog)
             .config.changeContext(c.getContentFrame)
             .assert.exist(selectors.component.item.self, false)

@@ -59,7 +59,7 @@ public class LanguageNavigationImplTest {
     private static final ContentPolicyManager contentPolicyManager = mock(ContentPolicyManager.class);
 
     private static final String CONTEXT_PATH = "/core";
-    private static final String SITE_ROOT = "/content/languagenavigation";
+    private static final String NAVIGATION_ROOT = "/content/languagenavigation";
     private static final Object[][] EXPECTED_PAGES_DEPTH_1 = {
             {"/content/languagenavigation/LOCALE-1/LOCALE-5/about", "LOCALE 1", true,  0, "US", "en-US", "/content/languagenavigation/LOCALE-1/LOCALE-5/about.html"},
             {"/content/languagenavigation/LOCALE-2/LOCALE-5/about", "LOCALE 2", false, 0, "CA", "en-CA", "/content/languagenavigation/LOCALE-2/LOCALE-5/about.html"},
@@ -89,7 +89,7 @@ public class LanguageNavigationImplTest {
 
     @Test
     public void testLanguageNavigationItems() {
-        LanguageNavigation languageNavigation = getLanguageNavigationUnderTest(SITE_ROOT + "/LOCALE-1/LOCALE-5/about/jcr:content/root/languagenavigation-component-1");
+        LanguageNavigation languageNavigation = getLanguageNavigationUnderTest(NAVIGATION_ROOT + "/LOCALE-1/LOCALE-5/about/jcr:content/root/languagenavigation-component-1");
         List<NavigationItem> items = getLanguageNavigationItems(languageNavigation);
         verifyLanguageNavigationItems(EXPECTED_PAGES_DEPTH_1, items);
         Utils.testJSONExport(languageNavigation, Utils.getTestExporterJSONPath(TEST_BASE, "languagenavigation1"));
@@ -98,7 +98,7 @@ public class LanguageNavigationImplTest {
 
     @Test
     public void testLanguageNavigationItemsStructureDepth() {
-        LanguageNavigation languageNavigation = getLanguageNavigationUnderTest(SITE_ROOT + "/LOCALE-1/LOCALE-5/about/jcr:content/root/languagenavigation-component-2");
+        LanguageNavigation languageNavigation = getLanguageNavigationUnderTest(NAVIGATION_ROOT + "/LOCALE-1/LOCALE-5/about/jcr:content/root/languagenavigation-component-2");
         List<NavigationItem> items = getLanguageNavigationItems(languageNavigation);
         verifyLanguageNavigationItems(EXPECTED_PAGES_DEPTH_2, items);
         Utils.testJSONExport(languageNavigation, Utils.getTestExporterJSONPath(TEST_BASE, "languagenavigation2"));
@@ -106,7 +106,7 @@ public class LanguageNavigationImplTest {
 
     @Test
     public void testLanguageNavigationItemsStructureDepthContentPolicy() {
-        LanguageNavigation languageNavigation = getLanguageNavigationUnderTest(SITE_ROOT + "/LOCALE-1/LOCALE-5/about/jcr:content/root/languagenavigation-component-3");
+        LanguageNavigation languageNavigation = getLanguageNavigationUnderTest(NAVIGATION_ROOT + "/LOCALE-1/LOCALE-5/about/jcr:content/root/languagenavigation-component-3");
         List<NavigationItem> items = getLanguageNavigationItems(languageNavigation);
         verifyLanguageNavigationItems(EXPECTED_PAGES_DEPTH_2, items);
         Utils.testJSONExport(languageNavigation, Utils.getTestExporterJSONPath(TEST_BASE, "languagenavigation2"));
@@ -115,7 +115,7 @@ public class LanguageNavigationImplTest {
 
     @Test
     public void testLanguageNavigationItemsNoRoot() {
-        LanguageNavigation languageNavigation = getLanguageNavigationUnderTest(SITE_ROOT + "/LOCALE-1/LOCALE-5/about/jcr:content/root/languagenavigation-component-4");
+        LanguageNavigation languageNavigation = getLanguageNavigationUnderTest(NAVIGATION_ROOT + "/LOCALE-1/LOCALE-5/about/jcr:content/root/languagenavigation-component-4");
         List<NavigationItem> items = getLanguageNavigationItems(languageNavigation);
         assertEquals("Didn't expect any language navigation items.", 0, languageNavigation.getItems().size());
         Utils.testJSONExport(languageNavigation, Utils.getTestExporterJSONPath(TEST_BASE, "languagenavigation3"));

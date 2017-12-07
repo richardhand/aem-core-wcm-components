@@ -25,14 +25,14 @@ The Language Navigation component uses the `com.adobe.cq.wcm.core.components.san
 ### Component policy configuration properties
 The following configuration properties are used:
 
-1. `./siteRoot` - defines the site root from which to list children
-2. `./structureDepth` - defines the depth of the global language structure relative to the site root
+1. `./navigationRoot` - the root page of the global language structure.
+2. `./structureDepth` - the depth of the global language structure relative to the navigation root.
 
 ### Edit dialog properties
 The following properties are written to JCR for the Language Navigation component and are expected to be available as `Resource` properties:
 
-1. `./siteRoot` - defines the site root from which to list children
-2. `./structureDepth` - defines the depth of the global language structure relative to the site root
+1. `./navigationRoot` - the root path of the global language structure.
+2. `./structureDepth` - the depth of the global language structure relative to the navigation root.
 
 ## BEM description
 ```

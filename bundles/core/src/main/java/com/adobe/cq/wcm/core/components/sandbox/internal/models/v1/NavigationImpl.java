@@ -75,17 +75,17 @@ public class NavigationImpl implements Navigation {
     @OSGiService
     private LiveRelationshipManager relationshipManager;
 
-    private int maxDepth;
+    private int structureDepth;
     private String navigationRootPage;
     private List<NavigationItem> items;
     private boolean skipNavigationRoot;
 
     @PostConstruct
     private void initModel() {
-        maxDepth = properties.get(PN_MAX_DEPTH, currentStyle.get(PN_MAX_DEPTH, -1));
+        structureDepth = properties.get(PN_STRUCTURE_DEPTH, currentStyle.get(PN_STRUCTURE_DEPTH, -1));
         boolean collectAllPages = properties.get(PN_COLLECT_ALL_PAGES, currentStyle.get(PN_COLLECT_ALL_PAGES, true));
         if (collectAllPages) {
-            maxDepth = -1;
+            structureDepth = -1;
         }
         navigationRootPage = properties.get(PN_NAVIGATION_ROOT, currentStyle.get(PN_NAVIGATION_ROOT, String.class));
         skipNavigationRoot = properties.get(PN_SKIP_NAVIGATION_ROOT, currentStyle.get(PN_SKIP_NAVIGATION_ROOT, true));
@@ -97,7 +97,7 @@ public class NavigationImpl implements Navigation {
             PageManager pageManager = currentPage.getPageManager();
             Page rootPage = pageManager.getPage(navigationRootPage);
             if (rootPage != null) {
-                NavigationRoot navigationRoot = new NavigationRoot(rootPage, maxDepth);
+                NavigationRoot navigationRoot = new NavigationRoot(rootPage, structureDepth);
                 Page navigationRootLanguageRoot = languageManager.getLanguageRoot(navigationRoot.page.getContentResource());
                 Page currentPageLanguageRoot = languageManager.getLanguageRoot(currentPage.getContentResource());
                 RangeIterator liveCopiesIterator = null;
@@ -112,7 +112,7 @@ public class NavigationImpl implements Navigation {
                     Page languageCopyNavigationRoot = pageManager.getPage(ResourceUtil.normalize(currentPageLanguageRoot.getPath() + "/" +
                             getRelativePath(navigationRootLanguageRoot, navigationRoot.page)));
                     if (languageCopyNavigationRoot != null) {
-                        navigationRoot = new NavigationRoot(languageCopyNavigationRoot, maxDepth);
+                        navigationRoot = new NavigationRoot(languageCopyNavigationRoot, structureDepth);
                     }
                 } else if (liveCopiesIterator != null) {
                     while (liveCopiesIterator.hasNext()) {
@@ -120,7 +120,7 @@ public class NavigationImpl implements Navigation {
                         if (currentPage.getPath().startsWith(relationship.getTargetPath() + "/")) {
                             Page liveCopyNavigationRoot = pageManager.getPage(relationship.getTargetPath());
                             if (liveCopyNavigationRoot != null) {
-                                navigationRoot = new NavigationRoot(liveCopyNavigationRoot, maxDepth);
+                                navigationRoot = new NavigationRoot(liveCopyNavigationRoot, structureDepth);
                                 break;
                             }
                         }
@@ -156,7 +156,7 @@ public class NavigationImpl implements Navigation {
      */
     private List<NavigationItem> getItems(NavigationRoot navigationRoot, Page subtreeRoot) {
         List<NavigationItem> pages = new ArrayList<>();
-        if (navigationRoot.maxDepth == -1 || getLevel(subtreeRoot) < navigationRoot.maxDepth) {
+        if (navigationRoot.structureDepth == -1 || getLevel(subtreeRoot) < navigationRoot.structureDepth) {
             Iterator<Page> it = subtreeRoot.listChildren(new PageFilter());
             while (it.hasNext()) {
                 Page page = it.next();
@@ -190,13 +190,13 @@ public class NavigationImpl implements Navigation {
     private class NavigationRoot {
         Page page;
         int startLevel;
-        int maxDepth = -1;
+        int structureDepth = -1;
 
-        private NavigationRoot(@Nonnull Page navigationRoot, int configuredMaxDepth) {
+        private NavigationRoot(@Nonnull Page navigationRoot, int configuredStructureDepth) {
             page = navigationRoot;
             this.startLevel = getLevel(navigationRoot);
-            if (configuredMaxDepth > -1) {
-                maxDepth = configuredMaxDepth + startLevel;
+            if (configuredStructureDepth > -1) {
+                structureDepth = configuredStructureDepth + startLevel;
             }
         }
     }

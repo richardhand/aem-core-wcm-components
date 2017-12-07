@@ -36,7 +36,7 @@
                             "sling:resourceType" : "core/wcm/sandbox/components/navigation/v1/navigation",
                             "navigationRoot"     : "/content/navigation",
                             "collectAllPages"    : false,
-                            "maxDepth"           : 2
+                            "structureDepth"     : 2
                         }
                     }
                 },
@@ -224,7 +224,7 @@
                                 "navigationRoot"    : "/content/navigation-3-language-master/en",
                                 "skipNavigationRoot": false,
                                 "collectAllPages"   : false,
-                                "maxDepth"          : 1
+                                "structureDepth"    : 1
                             },
                             "navigation-component-7": {
                                 "jcr:primaryType"   : "nt:unstructured",
