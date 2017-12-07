@@ -188,8 +188,10 @@
             .fillInput('foundation-autocomplete[name="./navigationRoot"]', '%page_1%')
             // uncheck
             .click('coral-checkbox[name="./collectAllPages"]', {after: 1000})
-            .fillInput('coral-numberinput[name="./maxDepth"]', "1", {after: 1000})
-            .execTestCase(c.tcSaveConfigureDialog, {after: 1000})
+            .assert.visible('coral-numberinput[name="./maxDepth"]', true)
+            .click('coral-numberinput[name="./maxDepth"] button[handle=stepUp]')
+            .click('coral-numberinput[name="./maxDepth"] button[handle=stepUp]')
+            .execTestCase(c.tcSaveConfigureDialog)
             .config.changeContext(c.getContentFrame)
             .assert.isTrue(function () {
                 return h.find('.cmp-navigation__item').size() === 1;
