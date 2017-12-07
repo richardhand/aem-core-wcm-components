@@ -100,6 +100,7 @@ public interface ContentFragment extends ContainerExporter {
          * @see DataType#isMultiValue()
          * @since com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment.models 0.0.1
          */
+        @JsonIgnore
         default boolean isMultiValued() {
             throw new UnsupportedOperationException();
         }
@@ -156,6 +157,7 @@ public interface ContentFragment extends ContainerExporter {
          * @since com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment.models 0.0.1
          */
         @Nullable
+        @JsonIgnore
         default String[] getDisplayValues() {
             throw new UnsupportedOperationException();
         }
