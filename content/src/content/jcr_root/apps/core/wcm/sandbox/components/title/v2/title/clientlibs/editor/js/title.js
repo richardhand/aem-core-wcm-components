@@ -174,6 +174,37 @@
             var api = $(firstEl).adaptTo("foundation-validation");
             api.checkValidity();
             api.updateUI();
+        },
+        show: function(el, message) {
+            var $el = $(el);
+
+            var fieldAPI = $el.adaptTo("foundation-field");
+            if (fieldAPI && fieldAPI.setInvalid) {
+                fieldAPI.setInvalid(true);
+            }
+
+            var error = $el.data("foundation-validation.internal.error");
+
+            if (error) {
+                error.content.innerHTML = message;
+
+                if (!error.parentNode) {
+                    $el.after(error);
+                    error.show();
+                }
+            } else {
+                error = new Coral.Tooltip();
+                error.variant = "error";
+                error.interaction = "off";
+                error.placement = "bottom";
+                error.target = el;
+                error.content.innerHTML = message;
+                error.open = true;
+                error.id = Coral.commons.getUID();
+
+                $el.data("foundation-validation.internal.error", error);
+                $el.after(error);
+            }
         }
     });
 
