@@ -20,6 +20,7 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.apache.sling.api.resource.Resource;
 import org.osgi.annotation.versioning.ConsumerType;
 
 import com.adobe.cq.dam.cfm.ContentElement;
@@ -215,6 +216,19 @@ public interface ContentFragment extends ContainerExporter {
     @Nullable
     @JsonIgnore
     default java.util.List<Element> getElements() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Returns a list of resources representing the collections that are associated to this content fragment.
+     *
+     * @return a list of collection resources
+     * @see ContentFragment#getAssociatedContent()
+     * @since com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment.models 0.0.1
+     */
+    @Nullable
+    @JsonIgnore
+    default java.util.List<Resource> getAssociatedContent() {
         throw new UnsupportedOperationException();
     }
 

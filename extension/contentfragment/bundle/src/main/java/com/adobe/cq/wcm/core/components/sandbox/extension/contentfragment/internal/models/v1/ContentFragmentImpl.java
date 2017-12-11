@@ -20,11 +20,11 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.PostConstruct;
 
+import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -189,6 +189,15 @@ public class ContentFragmentImpl implements ContentFragment {
             }
         }
         return elements;
+    }
+
+    @Nullable
+    @Override
+    public List<Resource> getAssociatedContent() {
+        if (fragment != null) {
+            return IteratorUtils.toList(fragment.getAssociatedContent());
+        }
+        return null;
     }
 
     @Nonnull
