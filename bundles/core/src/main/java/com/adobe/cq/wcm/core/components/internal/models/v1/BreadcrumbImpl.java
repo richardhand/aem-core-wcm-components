@@ -36,12 +36,14 @@ import com.adobe.cq.wcm.core.components.models.NavigationItem;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.designer.Style;
 
-@Model(adaptables = SlingHttpServletRequest.class, adapters = {Breadcrumb.class, ComponentExporter.class}, resourceType = BreadcrumbImpl
-        .RESOURCE_TYPE)
+@Model(adaptables = SlingHttpServletRequest.class,
+       adapters = {Breadcrumb.class, ComponentExporter.class},
+       resourceType = {BreadcrumbImpl.RESOURCE_TYPE_V1, BreadcrumbImpl.RESOURCE_TYPE_V2})
 @Exporter(name = ExporterConstants.SLING_MODEL_EXPORTER_NAME, extensions = ExporterConstants.SLING_MODEL_EXTENSION)
 public class BreadcrumbImpl implements Breadcrumb, ComponentExporter {
 
-    protected static final String RESOURCE_TYPE = "core/wcm/components/breadcrumb/v1/breadcrumb";
+    protected static final String RESOURCE_TYPE_V1 = "core/wcm/components/breadcrumb/v1/breadcrumb";
+    protected static final String RESOURCE_TYPE_V2 = "core/wcm/sandbox/components/breadcrumb/v2/breadcrumb";
 
     protected static final boolean PROP_SHOW_HIDDEN_DEFAULT = false;
     protected static final boolean PROP_HIDE_CURRENT_DEFAULT = false;

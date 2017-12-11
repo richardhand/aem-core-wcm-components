@@ -33,12 +33,13 @@ import com.day.cq.wcm.foundation.forms.FormsHelper;
 
 @Model(adaptables = SlingHttpServletRequest.class,
        adapters = {Field.class, ComponentExporter.class},
-       resourceType = HiddenImpl.RESOURCE_TYPE)
+       resourceType = {HiddenImpl.RESOURCE_TYPE_V1, HiddenImpl.RESOURCE_TYPE_V2})
 @Exporter(name = ExporterConstants.SLING_MODEL_EXPORTER_NAME,
           extensions = ExporterConstants.SLING_MODEL_EXTENSION)
 public class HiddenImpl extends AbstractFieldImpl {
 
-    protected static final String RESOURCE_TYPE = "core/wcm/components/form/hidden/v1/hidden";
+    protected static final String RESOURCE_TYPE_V1 = "core/wcm/components/form/hidden/v1/hidden";
+    protected static final String RESOURCE_TYPE_V2 = "core/wcm/sandbox/components/form/hidden/v2/hidden";
 
     static final String PROP_NAME_DEFAULT = "hidden";
     static final String PROP_VALUE_DEFAULT = "";
