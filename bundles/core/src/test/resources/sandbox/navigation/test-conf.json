@@ -23,14 +23,14 @@
                                     "policy_1"       : {
                                         "jcr:primaryType"   : "nt:unstructured",
                                         "navigationRoot"    : "/content/navigation",
-                                        "maxDepth"          : 2,
+                                        "structureDepth"    : 2,
                                         "skipNavigationRoot": true
                                     },
                                     "policy_2"       : {
                                         "jcr:primaryType"    : "nt:unstructured",
                                         "navigationRoot"     : "/content/navigation",
                                         "collectAllPages"    : false,
-                                        "maxDepth"           : 2
+                                        "structureDepth"     : 2
                                     }
                                 }
                             }

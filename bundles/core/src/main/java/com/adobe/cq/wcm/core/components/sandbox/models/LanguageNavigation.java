@@ -28,12 +28,12 @@ import com.adobe.cq.export.json.ComponentExporter;
 public interface LanguageNavigation extends ComponentExporter {
 
     /**
-     * Name of the resource / configuration policy property that defines the site root from which to build the global
+     * Name of the resource / configuration policy property that defines the navigation root from which to build the global
      * language structure navigation. The property should provide a String value.
      *
      * @since com.adobe.cq.wcm.core.components.sandbox.models 1.3.0
      */
-    String PN_SITE_ROOT = "siteRoot";
+    String PN_NAVIGATION_ROOT = "navigationRoot";
 
     /**
      * Name of the resource / configuration policy property that defines the depth of the global language structure in the content tree

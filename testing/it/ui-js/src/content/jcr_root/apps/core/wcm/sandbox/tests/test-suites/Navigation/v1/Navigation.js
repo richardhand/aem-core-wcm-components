@@ -31,6 +31,6 @@
     })
         .addTestCase(navigation.testDefaultConfiguration(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(navigation.testIncludeNavigationRoot(tcExecuteBeforeTest, tcExecuteAfterTest))
-        .addTestCase(navigation.testChangeMaxDepthLevel(tcExecuteBeforeTest, tcExecuteAfterTest));
+        .addTestCase(navigation.testChangeStructureDepthLevel(tcExecuteBeforeTest, tcExecuteAfterTest));
 
 }(hobs, jQuery));

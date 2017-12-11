@@ -17,25 +17,22 @@ package com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment.inter
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 
-import org.apache.commons.collections.Transformer;
-import org.apache.commons.collections.iterators.TransformIterator;
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceMetadata;
+import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
 import org.apache.sling.api.wrappers.ValueMapDecorator;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
-import com.adobe.cq.dam.cfm.ContentElement;
 import com.adobe.cq.dam.cfm.ContentFragment;
 import com.adobe.granite.ui.components.Config;
 import com.adobe.granite.ui.components.ExpressionHelper;
@@ -49,71 +46,94 @@ import static com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment
 import static org.apache.sling.api.resource.Resource.RESOURCE_TYPE_NON_EXISTING;
 
 /**
- * Datasource that returns the elements of a content fragment. The content fragment can be specified explicitly or
- * indirectly via an {@code /apps/core/wcm/sandbox/components/contentfragment} component referencing a content fragment.
+ * <p>Abstract and generic datasource taking care of getting the content fragment according to the datasource
+ * configuration. The content fragment can either be specified directly via its path (see {@link #PN_FRAGMENT_PATH}) or
+ * indirectly via a {@code /apps/core/wcm/extension/sandbox/components/contentfragment} component referencing a content
+ * fragment (see {@link #PN_COMPONENT_PATH}).</p>
+ *
+ * <p>Concrete implementations need only return a list of items in
+ * {@link #getItems(ContentFragment, SlingHttpServletRequest)} and, for each item, specify their title and value (in
+ * {@link #getTitle(Object)} and {@link #getValue(Object)}, respectively).</p>
  */
-@Component(
-    service = { Servlet.class },
-    property = {
-        "sling.servlet.resourceTypes="+ ContentFragmentElementsDataSourceServlet.RESOURCE_TYPE,
-        "sling.servlet.methods=GET",
-        "sling.servlet.extensions=html"
-    }
-)
-public class ContentFragmentElementsDataSourceServlet extends SlingSafeMethodsServlet {
+public abstract class AbstractContentFragmentDataSource<T> extends SlingSafeMethodsServlet {
 
     /**
-     * Defines the resource type for this datasource.
-     */
-    public final static String RESOURCE_TYPE = "core/wcm/extension/sandbox/components/contentfragment/v1/datasource/elements";
-
-    /**
-     * Name of the datasource property containing the path to a content fragment for which to return the elements. The
-     * value may contain expressions. If set, {@link ContentFragmentElementsDataSourceServlet#PN_COMPONENT_PATH} is
-     * discarded.
+     * Name of the datasource property containing the path to a content fragment to use for this datasource. The value
+     * may contain expressions. If set, {@link #PN_COMPONENT_PATH} is ignored.
      */
     public final static String PN_FRAGMENT_PATH = "fragmentPath";
 
     /**
      * Name of the datasource property containing the path to a
-     * {@code /apps/core/wcm/sandbox/components/contentfragment} component. The value may contain expressions. If set,
-     * the datasource returns the elements of the content fragment referenced by the component.
+     * {@code /apps/core/wcm/extension/sandbox/components/contentfragment} component. The value may contain expressions.
+     * The datasource uses the content fragment referenced by the component.
      */
     public final static String PN_COMPONENT_PATH = "componentPath";
 
-    @Reference
-    private ExpressionResolver expressionResolver;
+    /**
+     * Returns an expression resolver to be used to resolve expressions in the configuration properties (see
+     * {@link #PN_FRAGMENT_PATH} and {@link #PN_COMPONENT_PATH}).
+     *
+     * @return an expression resolver
+     */
+    @Nonnull
+    protected abstract ExpressionResolver getExpressionResolver();
+
+    /**
+     * Returns, for the given content fragment, a list of items to include in the datasource.
+     *
+     * @param fragment a content fragment
+     * @param request the request object (can be used for i18n)
+     * @return the list of items to include in the datasource
+     */
+    @Nonnull
+    protected abstract List<T> getItems(@Nonnull ContentFragment fragment, @Nonnull SlingHttpServletRequest request);
+
+    /**
+     * Returns the title for the given item.
+     *
+     * @param item an item previously returned by {@link #getItems(ContentFragment, SlingHttpServletRequest)}
+     * @return the title of the item to use in the resulting datasource
+     */
+    @Nonnull
+    protected abstract String getTitle(@Nonnull T item);
+
+    /**
+     * Returns the value for the given item.
+     *
+     * @param item an item previously returned by {@link #getItems(ContentFragment, SlingHttpServletRequest)}
+     * @return the value of the item to use in the resulting datasource
+     */
+    @Nonnull
+    protected abstract String getValue(@Nonnull T item);
 
     @Override
-    @SuppressWarnings("unchecked")
     protected void doGet(@Nonnull SlingHttpServletRequest request, @Nonnull SlingHttpServletResponse response)
             throws ServletException, IOException {
         // return empty datasource by default
         DataSource elements = EmptyDataSource.instance();
-
         // get content fragment
         ContentFragment fragment = getContentFragment(request);
         if (fragment != null) {
-            // transform its elements
-            elements = new SimpleDataSource(new TransformIterator(fragment.getElements(), new Transformer() {
-                public Object transform(Object input) {
-                    ContentElement element = (ContentElement) input;
-                    ValueMap properties = new ValueMapDecorator(new HashMap<>());
-                    properties.put("value", element.getName());
-                    properties.put("text", element.getTitle());
-                    return new ValueMapResource(request.getResourceResolver(), new ResourceMetadata(),
-                            RESOURCE_TYPE_NON_EXISTING, properties);
-                }
-            }));
+            // get datasource items from the implementation
+            List<T> items = getItems(fragment, request);
+            // transform items to resources
+            List<Resource> resources = new LinkedList<>();
+            ResourceResolver resolver = request.getResourceResolver();
+            for (T item : items) {
+                Resource resource = createResource(resolver, getTitle(item), getValue(item));
+                resources.add(resource);
+            }
+            // create datasource
+            elements = new SimpleDataSource(resources.iterator());
         }
-
         // provide datasource
         request.setAttribute(DataSource.class.getName(), elements);
     }
 
     /**
-     * Returns content fragment, as configured by the datasource properties, for which to return the elements. If none
-     * is correctly configured, then {@code null} is returned.
+     * Returns the content fragment to use for this datasource, as configured by the datasource properties. If no
+     * content fragment is correctly configured, then {@code null} is returned.
      */
     @Nullable
     private ContentFragment getContentFragment(@Nonnull SlingHttpServletRequest request) {
@@ -160,6 +180,7 @@ public class ContentFragmentElementsDataSourceServlet extends SlingSafeMethodsSe
         return fragmentResource.adaptTo(ContentFragment.class);
     }
 
+
     /**
      * Reads a parameter from the specified datasource configuration, resolving expressions using the
      * {@link ExpressionResolver}. If the parameter is not found, {@code null} is returned.
@@ -174,8 +195,19 @@ public class ContentFragmentElementsDataSourceServlet extends SlingSafeMethodsSe
         }
 
         // evaluate value using the expression helper
-        ExpressionHelper expressionHelper = new ExpressionHelper(expressionResolver, request);
+        ExpressionHelper expressionHelper = new ExpressionHelper(getExpressionResolver(), request);
         return expressionHelper.getString(value);
+    }
+
+    /**
+     * Creates a virtual resource to use in the resulting datasource.
+     */
+    @Nonnull
+    private Resource createResource(@Nonnull ResourceResolver resolver, @Nonnull String title, @Nonnull String value) {
+        ValueMap properties = new ValueMapDecorator(new HashMap<>());
+        properties.put("text", title);
+        properties.put("value", value);
+        return new ValueMapResource(resolver, new ResourceMetadata(), RESOURCE_TYPE_NON_EXISTING, properties);
     }
 
 }

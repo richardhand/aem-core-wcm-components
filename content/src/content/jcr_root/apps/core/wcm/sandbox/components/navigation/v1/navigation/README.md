@@ -20,7 +20,7 @@ Navigation component written in HTL that renders a website navigation tree.
 
 ## Features
 * Can be used on both templates and pages
-* Defines a configurable site root, start level and max depth for allowing flexibility in building the navigation tree
+* Defines a configurable navigation root, and structure depth to allow flexibility in building the navigation tree
 * Automatically filters out pages that should be hidden from navigation
 * Automatically handles redirect targets defined on pages
 
@@ -31,20 +31,18 @@ The Navigation component uses the `com.adobe.cq.wcm.core.components.sandbox.mode
 ### Component policy configuration properties
 The following configuration properties are used:
 
-1. `./navigationRoot` - defines the website's navigation root for which to build the navigation tree (can be a blueprint master, a language
-master or a regular page);
-2. `./skipNavigationRoot` - defines if the resulted navigation tree should skip including the navigation root, but include its children;
-3. `./collectAllPages` - boolean value that enables collecting all pages under the `./navigationRoot`; it overrides `./maxDepth`;
-4. `./maxDepth` - defines the maximum depth level in the content tree for searching pages, relative to the navigation root.
+1. `./navigationRoot` - the root page from which to build the navigation. Can be a blueprint master, language master or regular page.
+2. `./skipNavigationRoot` - if `true`, excludes the navigation root in the resulting tree, including its descendants only.
+3. `./collectAllPages` - if `true`, collects all pages that are descendants of the `./navigationRoot`. Overrides `./structureDepth`.
+4. `./structureDepth` - the depth of the navigation structure, relative to the navigation root.
 
 ### Edit dialog properties
 The following properties are written to JCR for the Navigation component and are expected to be available as `Resource` properties:
 
-1. `./navigationRoot` - defines the website's navigation root for which to build the navigation tree (can be a blueprint master, a language
-master or a regular page);
-2. `./skipNavigationRoot` - defines if the resulted navigation tree should skip including the navigation root, but include its children;
-3. `./collectAllPages` - boolean value that enables collecting all pages under the `./navigationRoot`; it overrides `./maxDepth`;
-4. `./maxDepth` - defines the maximum depth level in the content tree for searching pages, relative to the navigation root.
+1. `./navigationRoot` - the root page from which to build the navigation. Can be a blueprint master, language master or regular page.
+2. `./skipNavigationRoot` - if `true`, excludes the navigation root in the resulting tree, including its descendants only.
+3. `./collectAllPages` - if `true`, collects all pages that are descendants of the `./navigationRoot`. Overrides `./structureDepth`.
+4. `./structureDepth` - the depth of the navigation structure, relative to the navigation root.
 
 ## BEM description
 ```

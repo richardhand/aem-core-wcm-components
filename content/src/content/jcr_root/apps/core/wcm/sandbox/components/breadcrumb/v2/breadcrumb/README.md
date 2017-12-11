@@ -28,16 +28,16 @@ The Breadcrumb component uses the `com.adobe.cq.wcm.core.components.models.Bread
 ### Component policy configuration properties
 The following configuration properties are used:
 
-1. `./startLevel` - defines from which level relative to the current page the breadcrumbs will be rendered
-2. `./showHidden` - if set to `true`, the breadcrumb components associated with the policy will also render hidden navigation items
-3. `./hideCurrent` - if set to `true`, the current page will be skipped by the breadcrumb components associated with the policy
+1. `./startLevel` - the level at which to start the breadcrumb: 0 = /content, 1 = /content/site, etc.
+2. `./showHidden` - if `true`, show navigation items hidden via a ./hideInNav property in the breadcrumb.
+3. `./hideCurrent` - if `true`, don't display the current page in the breadcrumb.
 
 ### Edit dialog properties
 The following properties are written to JCR for this Breadcrumb component and are expected to be available as `Resource` properties:
 
-1. `./startLevel` - defines from which level relative to the current page this breadcrumb will render its items
-2. `./showHidden` - if set to `true`, this breadcrumb component will also render hidden navigation items
-3. `./hideCurrent` - if set to `true`, the current page will be skipped by this breadcrumb component
+1. `./startLevel` - the level at which to start the breadcrumb: 0 = /content, 1 = /content/site, etc.
+2. `./showHidden` - if `true`, show navigation items hidden via a ./hideInNav property in the breadcrumb.
+3. `./hideCurrent` - if `true`, don't display the current page in the breadcrumb.
 
 ## BEM description
 ```

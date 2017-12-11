@@ -68,7 +68,7 @@ public class SearchImpl implements Search {
     protected static final int PROP_RESULTS_SIZE_DEFAULT = 10;
     protected static final int PROP_SEARCH_TERM_MINIMUM_LENGTH_DEFAULT = 3;
 
-    private static final String PARAM_FULLTEXT = "fulltext";
+    protected static final String PARAM_FULLTEXT = "fulltext";
     private static final String PARAM_RESULTS_OFFSET = "resultsOffset";
     private static final String PREDICATE_FULLTEXT = "fulltext";
     private static final String PREDICATE_TYPE = "type";
@@ -129,6 +129,9 @@ public class SearchImpl implements Search {
     public List<ListItem> getResults() {
         List<ListItem> results = new ArrayList<>();
         String fulltext = request.getParameter(PARAM_FULLTEXT);
+        if (fulltext == null || fulltext.length() < searchTermMinimumLength) {
+            return results;
+        }
         long resultsOffset = 0;
         if (request.getParameter(PARAM_RESULTS_OFFSET) != null) {
             resultsOffset = Long.parseLong(request.getParameter(PARAM_RESULTS_OFFSET));

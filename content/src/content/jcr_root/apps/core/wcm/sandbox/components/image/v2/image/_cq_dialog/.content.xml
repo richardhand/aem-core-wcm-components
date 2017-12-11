@@ -70,7 +70,7 @@
                                             checked="${not empty cqDesign.altValueFromDAM ? cqDesign.altValueFromDAM : true}"
                                             fieldDescription="When checked, populate the image's alt attribute with the value of the dc:description metadata in DAM."
                                             name="./altValueFromDAM"
-                                            text="Get Alternative Text from DAM"
+                                            text="Get alternative text from DAM"
                                             uncheckedValue="false"
                                             value="{Boolean}true"/>
                                 </items>
@@ -91,7 +91,7 @@
                                             checked="${not empty cqDesign.titleValueFromDAM ? cqDesign.titleValueFromDAM : true}"
                                             fieldDescription="When checked, populate the image's caption with the value of the dc:title metadata in DAM."
                                             name="./titleValueFromDAM"
-                                            text="Get Caption from DAM"
+                                            text="Get caption from DAM"
                                             uncheckedValue="false"
                                             value="{Boolean}true"/>
                                     <displayPopupTitle

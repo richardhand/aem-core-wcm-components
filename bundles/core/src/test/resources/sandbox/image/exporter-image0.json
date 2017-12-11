@@ -13,7 +13,7 @@
         "/core/content/test/jcr%3acontent/root/image0.img.2000.png/1490005239000.png",
         "/core/content/test/jcr%3acontent/root/image0.img.2500.png/1490005239000.png"
     ],
-    "lazyEnabled": true,
+    "lazyEnabled": false,
     "title": "Adobe Systems Logo and Wordmark",
     "alt": "Adobe Systems Logo and Wordmark in PNG format",
     "link": "/core/content/test-image.html",

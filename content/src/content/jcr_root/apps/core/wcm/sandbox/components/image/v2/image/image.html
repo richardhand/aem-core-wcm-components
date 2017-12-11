@@ -21,7 +21,7 @@
        class="cmp-image__link"
        href="${image.link}"
        data-title="${image.title || image.alt}" data-asset="${image.fileReference}">
-        <noscript data-sly-unwrap="${!image.json}" data-cmp-image="${image.json}">
+        <noscript data-sly-unwrap="${!image.lazyEnabled || image.smartSizes.length == 0 || !image.json}" data-cmp-image="${image.json}">
             <img class="cmp-image__image"
                  src="${image.src}"
                  alt="${image.alt || true}"

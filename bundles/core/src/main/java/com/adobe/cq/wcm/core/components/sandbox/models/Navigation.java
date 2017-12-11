@@ -47,19 +47,19 @@ public interface Navigation extends ComponentExporter {
     /**
      * Name of the resource / configuration policy property that defines if the resulted navigation tree should collect all child pages
      * of the configured {@link #PN_NAVIGATION_ROOT}. The property should provide a Boolean value. When this value property is set to
-     * {@code true}, the {@link #PN_MAX_DEPTH} property will be ignored.
+     * {@code true}, the {@link #PN_STRUCTURE_DEPTH} property will be ignored.
      *
      * @since com.adobe.cq.wcm.core.components.sandbox.models 6.0.0
      */
     String PN_COLLECT_ALL_PAGES = "collectAllPages";
 
     /**
-     * Name of the resource / configuration policy property that defines the max depth level in the content tree, relative to the
-     * {@link #PN_NAVIGATION_ROOT}, where items will be searched to build the navigation tree. The property should provide a Long value.
+     * Name of the resource / configuration policy property that defines the navigation structure depth, relative to the
+     * {@link #PN_NAVIGATION_ROOT}, where items will be searched for building the navigation tree. The property should provide a Long value.
      *
      * @since com.adobe.cq.wcm.core.components.sandbox.models 1.0.0
      */
-    String PN_MAX_DEPTH = "maxDepth";
+    String PN_STRUCTURE_DEPTH = "structureDepth";
 
     /**
      * Returns the list of navigation items.

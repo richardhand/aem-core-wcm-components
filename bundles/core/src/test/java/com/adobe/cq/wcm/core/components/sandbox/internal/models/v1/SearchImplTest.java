@@ -87,6 +87,7 @@ public class SearchImplTest {
         when(mockHit.getResource()).thenReturn(resource);
         slingBindings.put(WCMBindings.CURRENT_STYLE, new MockStyle(resource));
         slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
+        context.request().setQueryString(SearchImpl.PARAM_FULLTEXT + "=yod");
         Search search = context.request().adaptTo(Search.class);
         assertEquals(1, search.getResults().size());
         for(ListItem searchResultItem: search.getResults()) {
@@ -96,5 +97,28 @@ public class SearchImplTest {
             assertEquals(1501792920000L, searchResultItem.getLastModified().getTimeInMillis());
         }
         Utils.testJSONExport(search, Utils.getTestExporterJSONPath(TEST_BASE, "search"));
+    }
+
+    @Test
+    public void testGetResultsNoFulltext() throws Exception {
+        Resource resource = context.currentResource(TEST_ROOT + "/jcr:content/search");
+        when(mockHit.getResource()).thenReturn(resource);
+        slingBindings.put(WCMBindings.CURRENT_STYLE, new MockStyle(resource));
+        slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
+        Search search = context.request().adaptTo(Search.class);
+        assertEquals(0, search.getResults().size());
+        Utils.testJSONExport(search, Utils.getTestExporterJSONPath(TEST_BASE, "search2"));
+    }
+
+    @Test
+    public void testGetResultsFulltextBelowMinimumSearchTermLength() throws Exception {
+        Resource resource = context.currentResource(TEST_ROOT + "/jcr:content/search");
+        when(mockHit.getResource()).thenReturn(resource);
+        slingBindings.put(WCMBindings.CURRENT_STYLE, new MockStyle(resource));
+        slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
+        context.request().setQueryString(SearchImpl.PARAM_FULLTEXT + "=yo");
+        Search search = context.request().adaptTo(Search.class);
+        assertEquals(0, search.getResults().size());
+        Utils.testJSONExport(search, Utils.getTestExporterJSONPath(TEST_BASE, "search2"));
     }
 }

@@ -19,11 +19,11 @@
 
     var DIALOG_CONTENT_SELECTOR = '.cmp-navigation__editor',
         COLLECT_ALL_PAGES_SELECTOR = DIALOG_CONTENT_SELECTOR + ' coral-checkbox[name="./collectAllPages"]',
-        MAX_DEPTH_SELECTOR = DIALOG_CONTENT_SELECTOR + ' coral-numberinput[name="./maxDepth"]';
+        STRUCTURE_DEPTH_SELECTOR = DIALOG_CONTENT_SELECTOR + ' coral-numberinput[name="./structureDepth"]';
 
     $(window).adaptTo('foundation-registry').register('foundation.adapters', {
         type: 'foundation-toggleable',
-        selector: MAX_DEPTH_SELECTOR,
+        selector: STRUCTURE_DEPTH_SELECTOR,
         adapter: function(el) {
             var toggleable = $(el);
             return {
@@ -42,24 +42,24 @@
         }
     });
 
-    function toggleMaxDepth(collectAllPages) {
+    function toggleStructureDepth(collectAllPages) {
         if (collectAllPages) {
-            Coral.commons.ready(document.querySelector(MAX_DEPTH_SELECTOR), function (maxDepth) {
+            Coral.commons.ready(document.querySelector(STRUCTURE_DEPTH_SELECTOR), function (structureDepth) {
                 if (collectAllPages.checked) {
-                    $(maxDepth).adaptTo('foundation-toggleable').hide();
+                    $(structureDepth).adaptTo('foundation-toggleable').hide();
                 } else {
-                    $(maxDepth).adaptTo('foundation-toggleable').show();
+                    $(structureDepth).adaptTo('foundation-toggleable').show();
                 }
             });
         }
     }
 
     $(document).on('coral-component:attached', COLLECT_ALL_PAGES_SELECTOR, function () {
-        toggleMaxDepth(this);
+        toggleStructureDepth(this);
     });
 
     $(document).on('change', COLLECT_ALL_PAGES_SELECTOR, function () {
-        toggleMaxDepth(this);
+        toggleStructureDepth(this);
     });
 
 })(jQuery);
