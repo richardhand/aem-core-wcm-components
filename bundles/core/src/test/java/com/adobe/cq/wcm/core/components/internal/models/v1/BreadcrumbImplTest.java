@@ -45,6 +45,7 @@ public class BreadcrumbImplTest {
     private static final String BREADCRUMB_3 = CURRENT_PAGE + "/jcr:content/header/breadcrumb-hide-current";
     private static final String BREADCRUMB_4 = CURRENT_PAGE + "/jcr:content/header/breadcrumb-start-level";
     private static final String BREADCRUMB_5 = CURRENT_PAGE + "/jcr:content/header/breadcrumb-style-based";
+    private static final String BREADCRUMB_6 = CURRENT_PAGE + "/jcr:content/header/breadcrumb-sandbox";
 
     @ClassRule
     public static final AemContext CONTEXT = CoreComponentTestContext.createContext(TEST_BASE, "/content/breadcrumb/women");
@@ -86,6 +87,12 @@ public class BreadcrumbImplTest {
         Breadcrumb breadcrumb = getBreadcrumbUnderTest(BREADCRUMB_5, style);
         checkBreadcrumbConsistency(breadcrumb, new String[]{"Devi Sleeveless Shirt"});
         Utils.testJSONExport(breadcrumb, Utils.getTestExporterJSONPath(TEST_BASE, BREADCRUMB_5));
+    }
+
+    @Test
+    public void testV2JSONExporter() throws Exception {
+        Breadcrumb breadcrumb = getBreadcrumbUnderTest(BREADCRUMB_6);
+        Utils.testJSONExport(breadcrumb, Utils.getTestExporterJSONPath(TEST_BASE, BREADCRUMB_6));
     }
 
     private void checkBreadcrumbConsistency(Breadcrumb breadcrumb, String[] expectedPages) {
