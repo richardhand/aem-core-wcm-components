@@ -18,6 +18,8 @@ package com.adobe.cq.wcm.core.components.sandbox.internal.models.v1;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.jcr.RangeIterator;
@@ -80,6 +82,7 @@ public class NavigationImplTest {
     private static final String NAV_COMPONENT_6 = "/content/navigation-3-region/us/en/2/jcr:content/root/navigation-component-6";
     private static final String NAV_COMPONENT_7 = "/content/navigation-3-region/us/en/2/jcr:content/root/navigation-component-7";
     private static final String NAV_COMPONENT_8 = "/content/navigation-livecopy/2/jcr:content/root/navigation-component-8";
+    private static final String NAV_COMPONENT_9 = TEST_ROOT + "/jcr:content/root/navigation-component-9";
 
     private static final ContentPolicyManager contentPolicyManager = mock(ContentPolicyManager.class);
 
@@ -141,7 +144,6 @@ public class NavigationImplTest {
     @Test
     public void testFullNavigationTree() {
         Navigation navigation = getNavigationUnderTest(NAV_COMPONENT_1);
-        Map<String, NavigationItem> items = getNavigationItems(navigation);
         Object[][] expectedPages = {
                 {"/content/navigation", 0, true, "/content/navigation.html"},
                 {"/content/navigation/navigation-1", 1, false, "/navigation-1-vanity"},
@@ -156,7 +158,7 @@ public class NavigationImplTest {
                         "/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2/navigation-1-1-2-3.html"},
                 {"/content/navigation/navigation-2", 1, false, "/content/navigation/navigation-2.html"}
         };
-        verifyNavigationItems(expectedPages, items);
+        verifyNavigationItems(expectedPages, getNavigationItems(navigation));
         Utils.testJSONExport(navigation, Utils.getTestExporterJSONPath(TEST_BASE, "navigation1"));
     }
 
@@ -170,7 +172,6 @@ public class NavigationImplTest {
     @Test
     public void testNavigationWithRootInDifferentTree() {
         Navigation navigation = getNavigationUnderTest(NAV_COMPONENT_3);
-        Map<String, NavigationItem> items = getNavigationItems(navigation);
         Object[][] expectedPages = {
                 {"/content/navigation/navigation-1/navigation-1-1", 0, false, "/content/navigation/navigation-1/navigation-1-1.html"},
                 {"/content/navigation/navigation-1/navigation-1-1/navigation-1-1-1", 1, false,
@@ -182,40 +183,37 @@ public class NavigationImplTest {
                 {"/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2/navigation-1-1-2-3", 2, false,
                         "/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2/navigation-1-1-2-3.html"},
         };
-        verifyNavigationItems(expectedPages, items);
+        verifyNavigationItems(expectedPages, getNavigationItems(navigation));
         Utils.testJSONExport(navigation, Utils.getTestExporterJSONPath(TEST_BASE, "navigation5"));
     }
 
     @Test
     public void testPartialNavigationTreeNotOnlyCurrentPage() {
         Navigation navigation = getNavigationUnderTest(NAV_COMPONENT_4);
-        Map<String, NavigationItem> items = getNavigationItems(navigation);
         Object[][] expectedPages = {
                 {"/content/navigation/navigation-1", 0, true, "/navigation-1-vanity"},
                 {"/content/navigation/navigation-1/navigation-1-1", 1, true, "/content/navigation/navigation-1/navigation-1-1.html"},
                 {"/content/navigation/navigation-2", 0, false, "/content/navigation/navigation-2.html"}
         };
-        verifyNavigationItems(expectedPages, items);
+        verifyNavigationItems(expectedPages, getNavigationItems(navigation));
         Utils.testJSONExport(navigation, Utils.getTestExporterJSONPath(TEST_BASE, "navigation7"));
     }
 
     @Test
     public void testPartialNavigationTreeContentPolicyNotOnlyCurrentPage() {
         Navigation navigation = getNavigationUnderTest(NAV_COMPONENT_5);
-        Map<String, NavigationItem> items = getNavigationItems(navigation);
         Object[][] expectedPages = {
                 {"/content/navigation/navigation-1", 0, true, "/navigation-1-vanity"},
                 {"/content/navigation/navigation-1/navigation-1-1", 1, true, "/content/navigation/navigation-1/navigation-1-1.html"},
                 {"/content/navigation/navigation-2", 0, false, "/content/navigation/navigation-2.html"}
         };
-        verifyNavigationItems(expectedPages, items);
+        verifyNavigationItems(expectedPages, getNavigationItems(navigation));
         Utils.testJSONExport(navigation, Utils.getTestExporterJSONPath(TEST_BASE, "navigation8"));
     }
 
     @Test
     public void testCollectionOnTemplate() {
         Navigation navigation = getNavigationUnderTest(NAV_COMPONENT_IN_TEMPLATE);
-        Map<String, NavigationItem> items = getNavigationItems(navigation);
         Object[][] expectedPages = {
                 {"/content/navigation/navigation-1", 0, false, "/navigation-1-vanity"},
                 {"/content/navigation/navigation-1/navigation-1-1", 1, false, "/content/navigation/navigation-1/navigation-1-1.html"},
@@ -229,38 +227,35 @@ public class NavigationImplTest {
                         "/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2/navigation-1-1-2-3.html"},
                 {"/content/navigation/navigation-2", 0, false, "/content/navigation/navigation-2.html"}
         };
-        verifyNavigationItems(expectedPages, items);
+        verifyNavigationItems(expectedPages, getNavigationItems(navigation));
     }
 
     @Test
     public void testNavigationWithLanguageMaster() {
         Navigation navigation = getNavigationUnderTest(NAV_COMPONENT_6);
-        Map<String, NavigationItem> items = getNavigationItems(navigation);
         Object[][] expectedPages = {
                 {"/content/navigation-3-region/us/en", 0, true, "/content/navigation-3-region/us/en.html"},
                 {"/content/navigation-3-region/us/en/1", 1, false, "/content/navigation-3-region/us/en/1.html"},
                 {"/content/navigation-3-region/us/en/2", 1, true, "/content/navigation-3-region/us/en/2.html"},
         };
-        verifyNavigationItems(expectedPages, items);
+        verifyNavigationItems(expectedPages, getNavigationItems(navigation));
     }
 
     @Test
     public void testNavigationWithLanguageMasterLeafsMissing() {
         Navigation navigation = getNavigationUnderTest(NAV_COMPONENT_7);
-        Map<String, NavigationItem> items = getNavigationItems(navigation);
         Object[][] expectedPages = {
                 {"/content/navigation-3-region/us/en/1", 0, false, "/content/navigation-3-region/us/en/1.html"},
                 {"/content/navigation-3-region/us/en/1/1-1", 1, false, "/content/navigation-3-region/us/en/1/1-1.html"},
                 {"/content/navigation-3-region/us/en/1/1-3", 1, false, "/content/navigation-3-region/us/en/1/1-3.html"},
                 {"/content/navigation-3-region/us/en/1/1-4", 1, false, "/content/navigation-3-region/us/en/1/1-4.html"},
         };
-        verifyNavigationItems(expectedPages, items);
+        verifyNavigationItems(expectedPages, getNavigationItems(navigation));
     }
 
     @Test
     public void testNavigationWithLiveCopyTree() {
         Navigation navigation = getNavigationUnderTest(NAV_COMPONENT_8);
-        Map<String, NavigationItem> items = getNavigationItems(navigation);
         Object[][] expectedPages = {
                 {"/content/navigation-livecopy", 0, true, "/content/navigation-livecopy.html"},
                 {"/content/navigation-livecopy/1", 1, false, "/content/navigation-livecopy/1.html"},
@@ -270,7 +265,28 @@ public class NavigationImplTest {
                 {"/content/navigation-livecopy/3", 1, false, "/content/navigation-livecopy/3.html"},
 
         };
-        verifyNavigationItems(expectedPages, items);
+        verifyNavigationItems(expectedPages, getNavigationItems(navigation));
+    }
+
+    @Test
+    public void activeRedirectTest() throws Exception {
+        Navigation navigation = getNavigationUnderTest(NAV_COMPONENT_9);
+        Object[][] expectedPages = {
+                {"/content/navigation", 0, true, "/content/navigation.html"},
+                {"/content/navigation-redirect/navigation-1", 1, false, "/navigation-1-vanity"},
+                {"/content/navigation-redirect/navigation-1/navigation-1-1", 2, false, "/content/navigation-redirect/navigation-1/navigation-1-1.html"},
+                {"/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2", 3, false,
+                        "/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2.html"},
+                {"/content/navigation/navigation-1/navigation-1-1/navigation-1-1-1", 3, false,
+                        "/content/navigation/navigation-1/navigation-1-1/navigation-1-1-1.html"},
+                {"/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2/navigation-1-1-2-2/navigation-1-1-2-2-1", 4, false,
+                        "/content/navigation/navigation-1/navigation-1-1/navigation-1-1-2/navigation-1-1-2-2/navigation-1-1-2-2-1.html"},
+                {"/content/navigation-redirect/navigation-1/navigation-1-1/navigation-1-1-2/navigation-1-1-2-3", 4, false,
+                        "/content/navigation-redirect/navigation-1/navigation-1-1/navigation-1-1-2/navigation-1-1-2-3.html"},
+                {"/content/navigation-redirect/navigation-2", 1, false, "/content/navigation-redirect/navigation-2.html"}
+        };
+        verifyNavigationItems(expectedPages, getNavigationItems(navigation));
+        Utils.testJSONExport(navigation, Utils.getTestExporterJSONPath(TEST_BASE, "navigation9"));
     }
 
     private Navigation getNavigationUnderTest(String resourcePath) {
@@ -307,29 +323,25 @@ public class NavigationImplTest {
         return request.adaptTo(Navigation.class);
     }
 
-    private Map<String, NavigationItem> getNavigationItems(Navigation navigation) {
-        Map<String, NavigationItem> items = new LinkedHashMap<>();
+    private List<NavigationItem> getNavigationItems(Navigation navigation) {
+        List<NavigationItem> items = new LinkedList<>();
         for (NavigationItem item : navigation.getItems()) {
             collect(items, item);
         }
         return items;
     }
 
-    private void collect(Map<String, NavigationItem> items, NavigationItem navigationItem) {
-        if (items.put(navigationItem.getPath(), navigationItem) != null) {
-            fail("NavigationItem " + navigationItem.getURL() + " seems to have already been included; invalid recursion collection in the" +
-                    " implementation?!");
-        }
+    private void collect(List<NavigationItem> items, NavigationItem navigationItem) {
+        items.add(navigationItem);
         for (NavigationItem item : navigationItem.getChildren()) {
             collect(items, item);
         }
     }
 
-    private void verifyNavigationItems(Object[][] expectedPages, Map<String, NavigationItem> items) {
+    private void verifyNavigationItems(Object[][] expectedPages, List<NavigationItem> items) {
         assertEquals("The navigation tree contains a different number of pages than expected.", expectedPages.length, items.size());
         int index = 0;
-        for (String key : items.keySet()) {
-            NavigationItem item = items.get(key);
+        for (NavigationItem item : items) {
             assertTrue("The navigation tree doesn't seem to have the correct order.",
                     expectedPages[index][0].equals(item.getPath()));
             assertEquals("The navigation item's level is not what was expected: " + item.getPath(),

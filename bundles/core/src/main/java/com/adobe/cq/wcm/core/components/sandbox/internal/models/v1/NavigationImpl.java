@@ -28,6 +28,7 @@ import javax.jcr.RangeIterator;
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.models.annotations.Exporter;
@@ -35,9 +36,11 @@ import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.OSGiService;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 import org.apache.sling.models.annotations.injectorspecific.Self;
+import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 
 import com.adobe.cq.export.json.ComponentExporter;
 import com.adobe.cq.wcm.core.components.internal.Constants;
+import com.adobe.cq.wcm.core.components.sandbox.internal.models.v2.PageImpl;
 import com.adobe.cq.wcm.core.components.sandbox.models.Navigation;
 import com.adobe.cq.wcm.core.components.sandbox.models.NavigationItem;
 import com.day.cq.wcm.api.LanguageManager;
@@ -59,6 +62,9 @@ public class NavigationImpl implements Navigation {
 
     @Self
     private SlingHttpServletRequest request;
+
+    @SlingObject
+    private ResourceResolver resourceResolver;
 
     @ScriptVariable
     private Page currentPage;
@@ -128,8 +134,7 @@ public class NavigationImpl implements Navigation {
                 }
                 items = getItems(navigationRoot, navigationRoot.page);
                 if (!skipNavigationRoot) {
-                    boolean isSelected =
-                            currentPage.equals(navigationRoot.page) || currentPage.getPath().startsWith(navigationRoot.page.getPath() + "/");
+                    boolean isSelected = checkSelected(navigationRoot.page);
                     NavigationItemImpl root = new NavigationItemImpl(navigationRoot.page, isSelected, request, 0, items);
                     items = new ArrayList<>();
                     items.add(root);
@@ -163,7 +168,7 @@ public class NavigationImpl implements Navigation {
                 int pageLevel = getLevel(page);
                 int level = pageLevel - navigationRoot.startLevel;
                 List<NavigationItem> children = getItems(navigationRoot, page);
-                boolean isSelected = this.currentPage.equals(page) || this.currentPage.getPath().startsWith(page.getPath() + "/");
+                boolean isSelected = checkSelected(page);
                 if (skipNavigationRoot) {
                     level = level - 1;
                 }
@@ -171,6 +176,31 @@ public class NavigationImpl implements Navigation {
             }
         }
         return pages;
+    }
+
+    private boolean checkSelected(Page page) {
+        return this.currentPage.equals(page) ||
+                this.currentPage.getPath().startsWith(page.getPath() + "/") ||
+                currentPageIsRedirectTarget(page);
+    }
+
+    private boolean currentPageIsRedirectTarget(Page page) {
+        boolean currentPageIsRedirectTarget = false;
+        Resource contentResource = page.getContentResource();
+        if (contentResource != null) {
+            ValueMap valueMap = contentResource.getValueMap();
+            String redirectTarget = valueMap.get(PageImpl.PN_REDIRECT_TARGET, String.class);
+            if(StringUtils.isNotBlank(redirectTarget)) {
+                PageManager pageManager = resourceResolver.adaptTo(PageManager.class);
+                if (pageManager != null) {
+                    Page redirectPage = pageManager.getPage(redirectTarget);
+                    if (redirectPage.equals(currentPage)) {
+                        currentPageIsRedirectTarget = true;
+                    }
+                }
+            }
+        }
+        return currentPageIsRedirectTarget;
     }
 
     private int getLevel(Page page) {
