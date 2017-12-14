@@ -45,13 +45,13 @@ The Page component uses the following use objects:
 * `com.adobe.cq.wcm.core.components.models.SocialMediaHelper`
 * `com.day.cq.wcm.foundation.TemplatedContainer`
 
-## Component policy configuration properties
+## Component Policy Configuration Properties
 The following configuration properties are used:
 
 1. `./clientlibs` - allows to define a list of client libraries to be loaded by the pages associated to this configuration policy
 2. `./appResourcesClientlib` - allows to define the client library that is used to serve web resources like favicons
 
-## Edit dialog properties
+## Edit Dialog Properties
 The following properties are written to JCR for this Page component and are expected to be available as `Resource` properties:
 
 1. `./jcr:title` - defines the title for this page
@@ -77,7 +77,7 @@ media
 20. `./cq:contextHubPath` - defines the Context Path configuration used by this page
 21. `./cq:contextHubSegmentsPath` - defines the Context Path Segments Path
 
-## Web resources client library
+## Web Resources Client Library
 A web resources client library can be defined at the template level (see `./appResourcesClientlib` component policy configuration).
 This client library has to provide the following structure:
 
@@ -111,10 +111,16 @@ icon-310x150.png|Internet Explorer, Edge and Windows Phone|310px x 150px
 icon-150x150.png|Internet Explorer, Edge and Windows Phone|150px x 150px
 icon-70x70.png|Internet Explorer, Edge and Windows Phone|70px x 70px
 
+## Client Libraries
+The component provides a `core.wcm.components.page.v2.sharing` client library category that contains the JavaScript
+required to enable social sharing. It should be added to a relevant site client library using the `embed` property.
+
+It also provides a `core.wcm.components.page.v2.editor` editor client library category that includes JavaScript
+handling for dialog interaction. It is already included by its edit dialog.
+
 ## Information
 * **Vendor**: Adobe
 * **Version**: v2 - sandbox
 * **Compatibility**: AEM 6.3
 * **Status**: preview
 * **Documentation**: [https://www.adobe.com/go/aem\_cmp\_page\_v2](https://www.adobe.com/go/aem_cmp_page_v2)
-

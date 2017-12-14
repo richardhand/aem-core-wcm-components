@@ -29,7 +29,7 @@ List component written in HTL that renders a configurable collection of items or
 ### Use Object
 The List component uses the `com.adobe.cq.wcm.core.components.models.List` Sling model as its Use-object.
 
-### Component policy configuration properties
+### Component Policy Configuration Properties
 The following configuration properties are used:
 
 1. `./dateFormat` - defines the formatting string for when the list items are set to render their last modification date;
@@ -38,7 +38,7 @@ The following configuration properties are used:
 4. `./disableSearch` - allows to disable the ability to build a list using search results
 5. `./disableTags` - allows to disable the ability to build a list using the tagged child pages of a root page
 
-### Edit dialog properties
+### Edit Dialog Properties
 The following properties are written to JCR for this List component and are expected to be available as `Resource` properties:
 
 1. `./listFrom` - defines the source of this List; possible values:
@@ -63,7 +63,11 @@ last modification date of the item; possible values: `title`, `modified`
 14. `./showDescription` - if set to `true` each item's description will be rendered
 15. `./showModificationDate` - if set to `true` each item's last modification date will be rendered
 
-## BEM description
+## Client Libraries
+The component provides a `core.wcm.components.list.v2.editor` editor client library category that includes JavaScript
+handling for dialog interaction. It is already included by its edit dialog.
+
+## BEM Description
 ```
 BLOCK cmp-list
     ELEMENT cmp-list__item

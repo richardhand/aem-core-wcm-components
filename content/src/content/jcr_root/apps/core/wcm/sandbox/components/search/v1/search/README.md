@@ -26,19 +26,23 @@ The Search component uses the `com.adobe.cq.wcm.core.components.sandbox.models.S
 When the user is scrolling down the results, if the hidden results below are less than the visible results, more results
 are fetched.
 
-### Component policy configuration properties
+### Component Policy Configuration Properties
 The following configuration properties are used:
 
 1. `./startLevel` - defines the level from which to search for results (eg: 1 for /content/site)
 2. `./resultsSize` - defines the maximal number of results fetched by a search request
 3. `./searchTermMinimumLength` - defines the minimum length of the search term to start the search
 
-### Edit dialog properties
+### Edit Dialog Properties
 The following properties are written to JCR for the Search component and are expected to be available as `Resource` properties:
 
 1. `./startLevel` - defines the level from which to search for results (eg: 1 for /content/site)
 
-## BEM description
+## Client Libraries
+The component provides a `core.wcm.components.search.v1` client library category that contains a recommended base
+CSS styling and JavaScript component. It should be added to a relevant site client library using the `embed` property.
+
+## BEM Description
 ```
 BLOCK cmp-search
     ELEMENT cmp-search__form

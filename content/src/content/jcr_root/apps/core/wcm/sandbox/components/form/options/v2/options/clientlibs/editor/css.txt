@@ -14,4 +14,6 @@
 # limitations under the License.
 ###############################################################################
 
-less/options-dialog.less
+#base=css
+
+options.less

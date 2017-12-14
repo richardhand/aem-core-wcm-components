@@ -22,19 +22,19 @@ Language Navigation component written in HTL that renders a global language stru
 ### Use Object
 The Language Navigation component uses the `com.adobe.cq.wcm.core.components.sandbox.models.LanguageNavigation` Sling model as its Use-object.
 
-### Component policy configuration properties
+### Component Policy Configuration Properties
 The following configuration properties are used:
 
 1. `./navigationRoot` - the root page of the global language structure.
 2. `./structureDepth` - the depth of the global language structure relative to the navigation root.
 
-### Edit dialog properties
+### Edit Dialog Properties
 The following properties are written to JCR for the Language Navigation component and are expected to be available as `Resource` properties:
 
 1. `./navigationRoot` - the root path of the global language structure.
 2. `./structureDepth` - the depth of the global language structure relative to the navigation root.
 
-## BEM description
+## BEM Description
 ```
 BLOCK cmp-languagenavigation
     ELEMENT cmp-languagenavigation__group

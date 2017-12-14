@@ -13,18 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-
 /**
- * Design dialog of the Core Title component:
+ * Design dialog:
  * - The options of the select field to define the default value are added/removed based on the status
  * of the size checkboxes
  * - Validation: if no size checkboxes are checked, the dialog cannot be saved
+ *
+ * Edit dialog:
+ * - displays all the sizes if no sizes have been defined in the policy
+ * - hides all the sizes if only one size has been defined in the policy
+ * - displays all the sizes defined in the policy if there are at least two
  */
 (function ($, Granite, ns, $document) {
 
     var DEFAULT_SIZE_SELECTOR       = "coral-select.core-title-size-default",
+        DEFAULT_SIZES_SELECTOR      = "coral-select.core-title-sizes-default",
         ALLOWED_SIZES_SELECTOR      = ".core-title-sizes-allowed coral-checkbox",
-        DATA_ATTR_VALIDATION_STATE  = "checkboxes.validation.state";
+        DATA_ATTR_VALIDATION_STATE  = "checkboxes.validation.state",
+        SIZES_SELECTOR              = "coral-select.core-title-sizes";
 
     // Update the select field that defines the default value
     function updateDefaultSizeSelect(checkboxToggled) {
@@ -106,10 +112,31 @@
         updateDefaultSizeSelect(true);
     });
 
-    // Update the default size select when the design title dialog is opened
     $document.on("foundation-contentloaded", function (e) {
+        // Update the default size select when the design title dialog is opened
         Coral.commons.ready($(ALLOWED_SIZES_SELECTOR), function(component) {
             updateDefaultSizeSelect(false);
+        });
+
+        // Hide/display the edit dialog size dropdown
+        Coral.commons.ready($(SIZES_SELECTOR, DEFAULT_SIZES_SELECTOR), function(component) {
+            var select = $(SIZES_SELECTOR).get(0);
+            var defaultSelect = $(DEFAULT_SIZES_SELECTOR).get(0);
+            if (select === null || select === undefined || defaultSelect === null || defaultSelect === undefined) {
+                return;
+            }
+            var itemsCount = select.items.getAll().length;
+            if (itemsCount == 0) {
+                // display all the sizes
+                $(select).parent().remove();
+            } else if (itemsCount == 1) {
+                // don't display anything
+                $(select).parent().remove();
+                $(defaultSelect).parent().remove();
+            } else {
+                // display the values defined in the design policy
+                $(defaultSelect).parent().remove();
+            }
         });
     });
 

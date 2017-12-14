@@ -24,11 +24,10 @@ Navigation component written in HTL that renders a website navigation tree.
 * Automatically filters out pages that should be hidden from navigation
 * Automatically handles redirect targets defined on pages
 
-
 ### Use Object
 The Navigation component uses the `com.adobe.cq.wcm.core.components.sandbox.models.Navigation` Sling model as its Use-object.
 
-### Component policy configuration properties
+### Component Policy Configuration Properties
 The following configuration properties are used:
 
 1. `./navigationRoot` - the root page from which to build the navigation. Can be a blueprint master, language master or regular page.
@@ -36,7 +35,7 @@ The following configuration properties are used:
 3. `./collectAllPages` - if `true`, collects all pages that are descendants of the `./navigationRoot`. Overrides `./structureDepth`.
 4. `./structureDepth` - the depth of the navigation structure, relative to the navigation root.
 
-### Edit dialog properties
+### Edit Dialog Properties
 The following properties are written to JCR for the Navigation component and are expected to be available as `Resource` properties:
 
 1. `./navigationRoot` - the root page from which to build the navigation. Can be a blueprint master, language master or regular page.
@@ -44,7 +43,11 @@ The following properties are written to JCR for the Navigation component and are
 3. `./collectAllPages` - if `true`, collects all pages that are descendants of the `./navigationRoot`. Overrides `./structureDepth`.
 4. `./structureDepth` - the depth of the navigation structure, relative to the navigation root.
 
-## BEM description
+## Client Libraries
+The component provides a `core.wcm.sandbox.components.navigation.v1.editor` editor client library category that includes
+JavaScript handling for dialog interaction. It is already included by its edit and design dialogs.
+
+## BEM Description
 ```
 BLOCK cmp-navigation
     ELEMENT cmp-navigation__group

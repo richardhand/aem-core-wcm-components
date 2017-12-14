@@ -14,6 +14,7 @@
 # limitations under the License.
 ###############################################################################
 
-#base=./js
+#base=js
+
 polyfills.js
 image.js
