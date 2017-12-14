@@ -149,7 +149,7 @@ public class NavigationImpl implements Navigation {
     @Nonnull
     @Override
     public String getExportedType() {
-        return RESOURCE_TYPE;
+        return request.getResource().getResourceType();
     }
 
     /**

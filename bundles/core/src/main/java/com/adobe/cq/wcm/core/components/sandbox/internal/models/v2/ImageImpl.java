@@ -106,12 +106,6 @@ public class ImageImpl extends com.adobe.cq.wcm.core.components.internal.models.
         }
     }
 
-    @Nonnull
-    @Override
-    public String getExportedType() {
-        return RESOURCE_TYPE;
-    }
-
     @Override
     public int[] getSmartSizes() {
         return smartSizes;

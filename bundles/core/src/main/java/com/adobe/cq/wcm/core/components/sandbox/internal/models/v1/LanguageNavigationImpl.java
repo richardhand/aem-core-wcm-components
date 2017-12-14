@@ -92,7 +92,7 @@ public class LanguageNavigationImpl implements LanguageNavigation {
     @Nonnull
     @Override
     public String getExportedType() {
-        return RESOURCE_TYPE;
+        return request.getResource().getResourceType();
     }
 
     private List<NavigationItem> getItems(Page root) {

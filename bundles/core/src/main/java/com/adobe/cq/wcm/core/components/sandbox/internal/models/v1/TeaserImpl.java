@@ -134,6 +134,6 @@ public class TeaserImpl extends AbstractImageDelegatingModel implements Teaser {
     @Nonnull
     @Override
     public String getExportedType() {
-        return RESOURCE_TYPE;
+        return request.getResource().getResourceType();
     }
 }

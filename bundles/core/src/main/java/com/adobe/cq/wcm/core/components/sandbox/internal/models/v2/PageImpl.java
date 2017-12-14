@@ -142,12 +142,6 @@ public class PageImpl extends com.adobe.cq.wcm.core.components.internal.models.v
         return super.getExportedItems();
     }
 
-    @Nonnull
-    @Override
-    public String getExportedType() {
-        return RESOURCE_TYPE;
-    }
-
     @Nullable
     @Override
     public NavigationItem getRedirectTarget() {

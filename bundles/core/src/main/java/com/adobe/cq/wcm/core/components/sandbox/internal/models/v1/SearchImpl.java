@@ -171,7 +171,7 @@ public class SearchImpl implements Search {
     @Nonnull
     @Override
     public String getExportedType() {
-        return RESOURCE_TYPE;
+        return request.getResource().getResourceType();
     }
 
     private Page getPage(Resource resource) {
