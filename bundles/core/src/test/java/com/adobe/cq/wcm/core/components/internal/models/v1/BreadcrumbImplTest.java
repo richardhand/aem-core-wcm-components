@@ -99,8 +99,9 @@ public class BreadcrumbImplTest {
         assertTrue("Expected that the returned breadcrumb will contain " + expectedPages.length + " items",
                 breadcrumb.getItems().size() == expectedPages.length);
         int index = 0;
-        for (NavigationItem item : breadcrumb.getItems()) {
-            assertEquals(expectedPages[index++], item.getPage().getTitle());
+        for (NavigationItem i : breadcrumb.getItems()) {
+            com.adobe.cq.wcm.core.components.sandbox.models.NavigationItem item = (com.adobe.cq.wcm.core.components.sandbox.models.NavigationItem)i;
+            assertEquals(expectedPages[index++], item.getTitle());
         }
     }
 
@@ -115,6 +116,7 @@ public class BreadcrumbImplTest {
         }
         MockSlingHttpServletRequest request = new MockSlingHttpServletRequest(CONTEXT.resourceResolver(), CONTEXT.bundleContext());
         request.setResource(resource);
+        request.setContextPath("");
         SlingBindings bindings = new SlingBindings();
         bindings.put(SlingBindings.RESOURCE, resource);
         bindings.put(WCMBindings.PROPERTIES, resource.getValueMap());

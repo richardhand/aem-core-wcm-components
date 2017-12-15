@@ -20,9 +20,7 @@
     <ol class="cmp-breadcrumb__list"
         data-sly-list.navItem="${breadcrumb.items}">
         <li class="cmp-breadcrumb__item${navItem.active ? ' cmp-breadcrumb__item--active' : ''}">
-            <a href="${navItem.page.path @ extension='html'}" data-sly-unwrap="${navItem.active}" class="cmp-breadcrumb__item-link">
-                ${navItem.page.navigationTitle || navItem.page.title || navItem.page.name}
-            </a>
+            <a href="${navItem.url}" data-sly-unwrap="${navItem.active}" class="cmp-breadcrumb__item-link">${navItem.title}</a>
         </li>
     </ol>
 </nav>

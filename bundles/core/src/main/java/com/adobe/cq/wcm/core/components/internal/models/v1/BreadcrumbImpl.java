@@ -17,6 +17,7 @@ package com.adobe.cq.wcm.core.components.internal.models.v1;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -33,6 +34,7 @@ import com.adobe.cq.export.json.ComponentExporter;
 import com.adobe.cq.export.json.ExporterConstants;
 import com.adobe.cq.wcm.core.components.models.Breadcrumb;
 import com.adobe.cq.wcm.core.components.models.NavigationItem;
+import com.adobe.cq.wcm.core.components.sandbox.internal.models.v1.BreadcrumbItemImpl;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.designer.Style;
 
@@ -98,7 +100,7 @@ public class BreadcrumbImpl implements Breadcrumb, ComponentExporter {
                     break;
                 }
                 if (checkIfNotHidden(page)) {
-                    NavigationItem navigationItem = new NavigationItemImpl(page, isActivePage);
+                    NavigationItem navigationItem = new BreadcrumbItemImpl(page, isActivePage, request, currentLevel, Collections.emptyList());
                     items.add(navigationItem);
                 }
             }

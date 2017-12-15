@@ -26,7 +26,7 @@ import com.day.cq.wcm.api.Page;
  * Interface for a single navigation item, used by the {@link Breadcrumb} and {@link Navigation} models.
  */
 @ConsumerType
-public interface NavigationItem extends ListItem {
+public interface NavigationItem extends ListItem, com.adobe.cq.wcm.core.components.models.NavigationItem {
 
     /**
      * Returns the {@link Page} contained by this navigation item.
@@ -36,19 +36,11 @@ public interface NavigationItem extends ListItem {
      * @deprecated since 12.1.0 as {@link NavigationItem} relies on {@link ListItem}
      */
     @Deprecated
+    @Override
     default Page getPage() {
         throw new UnsupportedOperationException();
     }
 
-    /**
-     * Returns {@code true} if the page contained by this navigation item is active.
-     *
-     * @return {@code true} if it is the current page, otherwise {@code false}
-     * @since com.adobe.cq.wcm.core.components.models 11.0.0; marked <code>default</code> in 12.1.0
-     */
-    default boolean isActive() {
-        throw new UnsupportedOperationException();
-    }
     /**
      * Returns the children of this {@code NavigationItem}, if any.
      *
