@@ -1,5 +1,5 @@
 #!groovy
-@Library(['com.adobe.qe.evergreen.sprout@master-hotfix'])
+@Library(['com.adobe.qe.evergreen.sprout'])
 import com.adobe.qe.evergreen.sprout.Sprout
 import com.adobe.qe.evergreen.sprout.Pipeline
 import com.adobe.qe.evergreen.sprout.SproutConfig
