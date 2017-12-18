@@ -1,0 +1,25 @@
+{
+  "hobs": {
+    "config": {
+      "global_maxretries_on_failed": 1,
+      "pacing_delay": 1
+    }
+  },
+  "options": {
+    "withMetadata": {
+      "ignoreOn64": {
+        "value": true,
+        "type": "exclude"
+      },
+      "flaky": {
+        "value": true,
+        "type": "exclude"
+      },
+      "failing": {
+        "value": true,
+        "type": "exclude"
+      }
+    },
+    "testPath": "/libs/granite/testing/hobbes.html?autoRun=true&performRewrite&optin=disabled&tags=aem-core-wcm-components&filter=aem.core-components.testsuite.formtext,aem.core-components.testsuite.languagenavigation,aem.core-components.testsuite.text,aem.core-components.testsuite.formbutton,aem.core-components.testsuite.teaser"
+  }
+}

@@ -9,31 +9,6 @@ import com.adobe.qe.evergreen.sprout.command.*
 
 String MINION_HUB_URL = 'http://or1010050212014.corp.adobe.com:8811'
 
-String GENERAL_METADATA_RUN_OPTIONS =
-        '\\\"ignoreOn64\\\":{\\\"value\\\":true,\\\"type\\\":\\\"exclude\\\"}' +
-        ',' +
-        '\\\"flaky\\\":{\\\"value\\\":true,\\\"type\\\":\\\"exclude\\\"}' +
-        ',' +
-        '\\\"failing\\\":{\\\"value\\\":true,\\\"type\\\":\\\"exclude\\\"}'
-
-String UI_TEST_OPTIONS = '{\\\"withMetadata\\\":{' + GENERAL_METADATA_RUN_OPTIONS + '}}'
-
-String NUM_OF_RETRIES = '{\\\"pacing_delay\\\":1,\\\"global_maxretries_on_failed\\\":1}'
-
-String TEST_GROUP_1 = 'aem.core-components.testsuite.formhidden,aem.core-components.testsuite.formoptions,' +
-        'aem.core-components.testsuite.formcomponents,aem.core-components.testsuite.breadcrumb,' +
-        'aem.core-components.testsuite.teaser'
-
-String TEST_GROUP_2 = 'aem.core-components.testsuite.formtext,aem.core-components.testsuite.languagenavigation,' +
-        'aem.core-components.testsuite.text,aem.core-components.testsuite.formbutton,' +
-        'aem.core-components.testsuite.teaser'
-
-String TEST_GROUP_3 = 'aem.core-components.testsuite.image,aem.core-components.testsuite.list,' +
-        'aem.core-components.testsuite.formcontainer'
-
-String TEST_GROUP_4 = 'aem.core-components.testsuite.navigation,aem.core-components.testsuite.page,' +
-        'aem.core-components.testsuite.search'
-
 /* --------------------------------------------------------------------- */
 /*                                MODULES V1 + Sandbox                   */
 /* --------------------------------------------------------------------- */
@@ -148,40 +123,36 @@ UITestRun coreCompUIEdgePart1 = new UITestRun.Builder()
         .withName('Test Group 1 / Edge')
         .withInstance(author)
         .withBrowser('EDGE')
-        .withFilter(TEST_GROUP_1)
-        .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
-        .withHobbesConfig(NUM_OF_RETRIES)
+        .withRunInstructions('main/jenkinsfiles/TestGroup1RunOptions.json')
+        .withWaitForMinionMinutes(10)
         .build()
 
 UITestRun coreCompUIEdgePart2 = new UITestRun.Builder()
         .withName('Test Group 2 / Edge')
         .withInstance(author)
         .withBrowser('EDGE')
-        .withFilter(TEST_GROUP_2)
-        .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
-        .withHobbesConfig(NUM_OF_RETRIES)
+        .withRunInstructions('main/jenkinsfiles/TestGrou2RunOptions.json')
+        .withWaitForMinionMinutes(10)
         .build()
 
 UITestRun coreCompUIEdgePart3 = new UITestRun.Builder()
         .withName('Test Group 3 / Edge')
         .withInstance(author)
         .withBrowser('EDGE')
-        .withFilter(TEST_GROUP_3)
-        .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
-        .withHobbesConfig(NUM_OF_RETRIES)
+        .withRunInstructions('main/jenkinsfiles/TestGroup3RunOptions.json')
+        .withWaitForMinionMinutes(10)
         .build()
 
 UITestRun coreCompUIEdgePart4 = new UITestRun.Builder()
         .withName('Test Group 4 / Edge')
         .withInstance(author)
         .withBrowser('EDGE')
-        .withFilter(TEST_GROUP_4)
-        .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
-        .withHobbesConfig(NUM_OF_RETRIES)
+        .withRunInstructions('main/jenkinsfiles/TestGroup4RunOptions.json')
+        .withWaitForMinionMinutes(10)
         .build()
 
 // Run tests against chrome
@@ -189,40 +160,36 @@ UITestRun coreCompUIChromePart1 = new UITestRun.Builder()
         .withName('Test Group 1 / Chrome')
         .withInstance(author)
         .withBrowser('CHROME')
-        .withFilter(TEST_GROUP_1)
-        .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
-        .withHobbesConfig(NUM_OF_RETRIES)
+        .withRunInstructions('main/jenkinsfiles/TestGroup1RunOptions.json')
+        .withWaitForMinionMinutes(10)
         .build()
 
 UITestRun coreCompUIChromePart2 = new UITestRun.Builder()
         .withName('Test Group 2 / Chrome')
         .withInstance(author)
         .withBrowser('CHROME')
-        .withFilter(TEST_GROUP_2)
-        .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
-        .withHobbesConfig(NUM_OF_RETRIES)
+        .withRunInstructions('main/jenkinsfiles/TestGroup2RunOptions.json')
+        .withWaitForMinionMinutes(10)
         .build()
 
 UITestRun coreCompUIChromePart3 = new UITestRun.Builder()
         .withName('Test Group 3 / Chrome')
         .withInstance(author)
         .withBrowser('CHROME')
-        .withFilter(TEST_GROUP_3)
-        .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
-        .withHobbesConfig(NUM_OF_RETRIES)
+        .withRunInstructions('main/jenkinsfiles/TestGroup3RunOptions.json')
+        .withWaitForMinionMinutes(10)
         .build()
 
 UITestRun coreCompUIChromePart4 = new UITestRun.Builder()
         .withName('Test Group 4 / Chrome')
         .withInstance(author)
         .withBrowser('CHROME')
-        .withFilter(TEST_GROUP_4)
-        .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
-        .withHobbesConfig(NUM_OF_RETRIES)
+        .withRunInstructions('main/jenkinsfiles/TestGroup4RunOptions.json')
+        .withWaitForMinionMinutes(10)
         .build()
 
 
@@ -231,40 +198,36 @@ UITestRun coreCompUIFirefoxPart1 = new UITestRun.Builder()
         .withName('Test Group 1 / Firefox')
         .withInstance(author)
         .withBrowser('FIREFOX')
-        .withFilter(TEST_GROUP_1)
-        .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
-        .withHobbesConfig(NUM_OF_RETRIES)
+        .withRunInstructions('main/jenkinsfiles/TestGroup1RunOptions.json')
+        .withWaitForMinionMinutes(10)
         .build()
 
 UITestRun coreCompUIFirefoxPart2 = new UITestRun.Builder()
         .withName('Test Group 2 / Firefox')
         .withInstance(author)
         .withBrowser('FIREFOX')
-        .withFilter(TEST_GROUP_2)
-        .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
-        .withHobbesConfig(NUM_OF_RETRIES)
+        .withRunInstructions('main/jenkinsfiles/TestGroup2RunOptions.json')
+        .withWaitForMinionMinutes(10)
         .build()
 
 UITestRun coreCompUIFirefoxPart3 = new UITestRun.Builder()
         .withName('Test Group 3 / Firefox')
         .withInstance(author)
         .withBrowser('FIREFOX')
-        .withFilter(TEST_GROUP_3)
-        .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
-        .withHobbesConfig(NUM_OF_RETRIES)
+        .withRunInstructions('main/jenkinsfiles/TestGroup3RunOptions.json')
+        .withWaitForMinionMinutes(10)
         .build()
 
 UITestRun coreCompUIFirefoxPart4 = new UITestRun.Builder()
         .withName('Test Group 4 / Firefox')
         .withInstance(author)
         .withBrowser('FIREFOX')
-        .withFilter(TEST_GROUP_4)
-        .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
-        .withHobbesConfig(NUM_OF_RETRIES)
+        .withRunInstructions('main/jenkinsfiles/TestGroup4RunOptions.json')
+        .withWaitForMinionMinutes(10)
         .build()
 
 /* --------------------------------------------------------------------- */
