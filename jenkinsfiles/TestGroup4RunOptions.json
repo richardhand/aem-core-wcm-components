@@ -20,6 +20,6 @@
         "type": "exclude"
       }
     },
-    "testPath": "/libs/granite/testing/hobbes.html?autoRun=true&performRewrite&optin=disabled&tags=aem.core-components.testsuite.navigation,aem.core-components.testsuite.page,aem.core-components.testsuite.search"
+    "testPath": "/libs/granite/testing/hobbes.html?autoRun=true&performRewrite&optin=disabled&tags=aem-core-wcm-components&filter=aem.core-components.testsuite.navigation,aem.core-components.testsuite.page,aem.core-components.testsuite.search"
   }
 }
