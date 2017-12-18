@@ -133,7 +133,7 @@ UITestRun coreCompUIEdgePart2 = new UITestRun.Builder()
         .withInstance(author)
         .withBrowser('EDGE')
         .withHobbesHubUrl(MINION_HUB_URL)
-        .withRunInstructions('main/jenkinsfiles/TestGrou2RunOptions.json')
+        .withRunInstructions('main/jenkinsfiles/TestGroup2RunOptions.json')
         .withWaitForMinionMinutes(10)
         .build()
 
