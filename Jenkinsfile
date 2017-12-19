@@ -7,7 +7,7 @@ import com.adobe.qe.evergreen.sprout.criteria.*
 import com.adobe.qe.evergreen.sprout.model.*
 import com.adobe.qe.evergreen.sprout.command.*
 
-String MINION_HUB_URL = 'http://qa-bsl-minion-hub.corp.adobe.com:8811/'
+String MINION_HUB_URL = 'http://qa-bsl-minion-hub.corp.adobe.com:8811'
 
 /* --------------------------------------------------------------------- */
 /*                                MODULES V1 + Sandbox                   */
