@@ -35,8 +35,6 @@ import org.apache.sling.api.wrappers.ValueMapDecorator;
 import org.apache.sling.models.factory.ModelFactory;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment.models.ContentFragment;
 import com.adobe.granite.ui.components.Config;
@@ -112,40 +110,39 @@ public class ParagraphModeRenderCondition extends SlingSafeMethodsServlet {
             return;
         }
 
-        // check if we are to override the persisted component configuration by rendercondition properties
-        Boolean overrideConfig = getParameter(config, request, PN_OVERRIDE_CONFIG, Boolean.class);
-        if (overrideConfig != null && overrideConfig) {
-            Map<String, Object> properties = new HashMap<>(component.getValueMap());
-            // override fragment path if set and non-empty
-            String fragmentPath = getParameter(config, request, PN_FRAGMENT_PATH, String.class);
-            if (!StringUtils.isEmpty(fragmentPath)) {
-                properties.put(ContentFragment.PN_PATH, fragmentPath);
-            }
-            // override element name if set (might be empty to configure no specific element)
-            String elementName = request.getParameter(PN_ELEMENT_NAME);
-            if (elementName != null) {
-                properties.put(ContentFragment.PN_ELEMENT_NAMES, elementName);
-            }
-
-            // wrap component resource and use a decorated value map
-            ValueMapDecorator decorator = new ValueMapDecorator(properties);
-            component = new ResourceWrapper(component) {
-
-                @Override
-                public ValueMap getValueMap() {
-                    return decorator;
-                }
-
-                @Override
-                public <AdapterType> AdapterType adaptTo(Class<AdapterType> type) {
-                    if (type == ValueMap.class) {
-                        return (AdapterType) decorator;
-                    }
-                    return super.adaptTo(type);
-                }
-
-            };
+        // override fragment path if set
+        Map<String, Object> properties = new HashMap<>(component.getValueMap());
+        String fragmentPath = getParameter(config, request, PN_FRAGMENT_PATH, String.class);
+        if (!StringUtils.isEmpty(fragmentPath)) {
+            properties.put(ContentFragment.PN_PATH, fragmentPath);
         }
+
+        // override element name if set, get it as an object to be able to differentiate between:
+        //   - null: don't override the property (the parameter is not set)
+        //   - empty string: override the property (empty string means no element is configured)
+        String elementName = (String) getParameter(config, request, PN_ELEMENT_NAME, Object.class);
+        if (elementName != null) {
+            properties.put(ContentFragment.PN_ELEMENT_NAMES, elementName);
+        }
+
+        // wrap component resource and use a decorated value map
+        ValueMapDecorator decorator = new ValueMapDecorator(properties);
+        component = new ResourceWrapper(component) {
+
+            @Override
+            public ValueMap getValueMap() {
+                return decorator;
+            }
+
+            @Override
+            public <AdapterType> AdapterType adaptTo(Class<AdapterType> type) {
+                if (type == ValueMap.class) {
+                    return (AdapterType) decorator;
+                }
+                return super.adaptTo(type);
+            }
+
+        };
 
         // get the sling model
         ContentFragment fragment = modelFactory.getModelFromWrappedRequest(request, component, ContentFragment.class);
