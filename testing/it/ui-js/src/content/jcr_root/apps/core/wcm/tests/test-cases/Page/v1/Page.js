@@ -890,7 +890,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             .execFct(function (opts, done) {
                 c.setPageName(h.param("testLiveCopyPagePath")(opts), "testPageName", done);
             })
-            .navigateTo("/mnt/overlay/wcm/core/content/sites/properties.html?item=%testPageName%")
+            .navigateTo("/mnt/overlay/wcm/core/content/sites/properties.html?item=%testLiveCopyPagePath%")
             //.click('coral-columnview-item:contains("%testPageName%") coral-columnview-item-thumbnail')
             //.click("button.cq-siteadmin-admin-actions-properties-activator")
 
