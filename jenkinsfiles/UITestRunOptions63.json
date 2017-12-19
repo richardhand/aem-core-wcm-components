@@ -1,24 +1,24 @@
 {
-  "hobs": {
-    "config": {
-      "global_maxretries_on_failed": 1,
-      "pacing_delay": 1
+    "hobs": {
+        "config": {
+            "global_maxretries_on_failed": 1,
+            "pacing_delay": 1
+        }
+    },
+    "options": {
+        "withMetadata": {
+            "ignoreOn63": {
+                "value": true,
+                "type": "exclude"
+            },
+            "flaky": {
+                "value": true,
+                "type": "exclude"
+            },
+            "failing": {
+                "value": true,
+                "type": "exclude"
+            }
+        }
     }
-  },
-  "options": {
-    "withMetadata": {
-      "ignoreOn63": {
-        "value": true,
-        "type": "exclude"
-      },
-      "flaky": {
-        "value": true,
-        "type": "exclude"
-      },
-      "failing": {
-        "value": true,
-        "type": "exclude"
-      }
-    }
-  }
 }
