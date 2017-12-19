@@ -890,8 +890,9 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             .execFct(function (opts, done) {
                 c.setPageName(h.param("testLiveCopyPagePath")(opts), "testPageName", done);
             })
-            .click('coral-columnview-item:contains("%testPageName%") coral-columnview-item-thumbnail')
-            .click("button.cq-siteadmin-admin-actions-properties-activator")
+            .navigateTo("/mnt/overlay/wcm/core/content/sites/properties.html?item=%testPageName%")
+            //.click('coral-columnview-item:contains("%testPageName%") coral-columnview-item-thumbnail')
+            //.click("button.cq-siteadmin-admin-actions-properties-activator")
 
             .click("coral-tab-label:contains('Live Copy')", {delay: 1000})
             //check if the "Live Copy" option was selected
