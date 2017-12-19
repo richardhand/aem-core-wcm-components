@@ -1,29 +1,32 @@
 #!groovy
-@Library(['com.adobe.qe.evergreen.sprout'])
+@Library(['com.adobe.qe.evergreen.sprout@issue/fixing-testpath'])
 import com.adobe.qe.evergreen.sprout.Sprout
 import com.adobe.qe.evergreen.sprout.Pipeline
 import com.adobe.qe.evergreen.sprout.SproutConfig
 import com.adobe.qe.evergreen.sprout.criteria.Exclude
 import com.adobe.qe.evergreen.sprout.criteria.GitCommitMessage
-import com.adobe.qe.evergreen.sprout.model.QPQuickstart
-import com.adobe.qe.evergreen.sprout.model.CQInstance
-import com.adobe.qe.evergreen.sprout.model.MavenDependency
-import com.adobe.qe.evergreen.sprout.model.Module
-import com.adobe.qe.evergreen.sprout.model.Quickstart
-import com.adobe.qe.evergreen.sprout.model.UITestRun
+import com.adobe.qe.evergreen.sprout.model.*
 
-String MINION_HUB_URL = 'http://or1010050212014.corp.adobe.com:8811'
+String MINION_HUB_URL = 'http://qa-bsl-minion-hub.corp.adobe.com:8811'
 
-String GENERAL_METADATA_RUN_OPTIONS =
-        '\\\"ignoreOn63\\\":{\\\"value\\\":true,\\\"type\\\":\\\"exclude\\\"}' +
-                ',' +
-                '\\\"flaky\\\":{\\\"value\\\":true,\\\"type\\\":\\\"exclude\\\"}' +
-                ',' +
-                '\\\"failing\\\":{\\\"value\\\":true,\\\"type\\\":\\\"exclude\\\"}'
+TEST_GROUP_1 =  "aem.core-components.testsuite.formhidden," +
+        "aem.core-components.testsuite.formoptions," +
+        "aem.core-components.testsuite.formcomponents," +
+        "aem.core-components.testsuite.breadcrumb," +
+        "aem.core-components.testsuite.teaser"
 
-String UI_TEST_OPTIONS = '{\\\"withMetadata\\\":{' + GENERAL_METADATA_RUN_OPTIONS + '}}'
+TEST_GROUP_2 =  "aem.core-components.testsuite.formtext," +
+        "aem.core-components.testsuite.languagenavigation," +
+        "aem.core-components.testsuite.text," +
+        "aem.core-components.testsuite.formbutton"
 
-String NUM_OF_RETRIES = '{\\\"pacing_delay\\\":1,\\\"global_maxretries_on_failed\\\":1}'
+TEST_GROUP_3 =  "aem.core-components.testsuite.image," +
+        "aem.core-components.testsuite.list," +
+        "aem.core-components.testsuite.formcontainer"
+
+TEST_GROUP_4 =  "aem.core-components.testsuite.navigation," +
+        "aem.core-components.testsuite.page," +
+        "aem.core-components.testsuite.search"
 
 SproutConfig config = new SproutConfig()
 
@@ -133,55 +136,46 @@ CQInstance author = new CQInstance.Builder()
 /* --------------------------------------------------------------------- */
 /*                                UI TESTS                               */
 /* --------------------------------------------------------------------- */
+// Run tests against chrome
 UITestRun coreCompUIChromePart1 = new UITestRun.Builder()
-        .withName('UI Tests: Breadcrumb, FormButton, FormContainer, Title , Teaser/ Chrome')
+        .withName('Test Group 1 / Chrome')
         .withInstance(author)
         .withBrowser('CHROME')
-        .withFilter('aem.core-components.testsuite.breadcrumb,aem.core-components.testsuite.formbutton,' +
-        'aem.core-components.testsuite.formcontainer,aem.core-components.testsuite.title,' +
-        'aem.core-components.testsuite.teaser')
-        .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
-        .withHobbesConfig(NUM_OF_RETRIES).build()
+        .withRunInstructions('main/jenkinsfiles/UITestRunOptions.json')
+        .withWaitForMinionMinutes(10)
+        .withFilter(TEST_GROUP_1)
+        .build()
 
 UITestRun coreCompUIChromePart2 = new UITestRun.Builder()
-        .withName('UI Tests: FormHidden, FormOptions, FormComponents / Chrome')
+        .withName('Test Group 2 / Chrome')
         .withInstance(author)
         .withBrowser('CHROME')
-        .withFilter('aem.core-components.testsuite.formhidden,aem.core-components.testsuite.formoptions,' +
-        'aem.core-components.testsuite.formcomponents')
-        .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
-        .withHobbesConfig(NUM_OF_RETRIES).build()
+        .withRunInstructions('main/jenkinsfiles/UITestRunOptions.json')
+        .withWaitForMinionMinutes(10)
+        .withFilter(TEST_GROUP_2)
+        .build()
 
 UITestRun coreCompUIChromePart3 = new UITestRun.Builder()
-        .withName('UI Tests: FormText, LanguageNavigation, Text / Chrome')
+        .withName('Test Group 3 / Chrome')
         .withInstance(author)
         .withBrowser('CHROME')
-        .withFilter('aem.core-components.testsuite.formtext,aem.core-components.testsuite.languagenavigation,' +
-        'aem.core-components.testsuite.text')
-        .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
-        .withHobbesConfig(NUM_OF_RETRIES).build()
+        .withRunInstructions('main/jenkinsfiles/UITestRunOptions.json')
+        .withWaitForMinionMinutes(10)
+        .withFilter(TEST_GROUP_3)
+        .build()
 
 UITestRun coreCompUIChromePart4 = new UITestRun.Builder()
-        .withName('UI Tests: Image, List / Chrome')
+        .withName('Test Group 4 / Chrome')
         .withInstance(author)
         .withBrowser('CHROME')
-        .withFilter('aem.core-components.testsuite.image,aem.core-components.testsuite.list')
-        .withRunOptions(UI_TEST_OPTIONS)
         .withHobbesHubUrl(MINION_HUB_URL)
-        .withHobbesConfig(NUM_OF_RETRIES).build()
-
-UITestRun coreCompUIChromePart5 = new UITestRun.Builder()
-        .withName('UI Tests: Navigation, Page, Search / Chrome')
-        .withInstance(author)
-        .withBrowser('CHROME')
-        .withFilter('aem.core-components.testsuite.navigation,aem.core-components.testsuite.page,' +
-        'aem.core-components.testsuite.search')
-        .withRunOptions(UI_TEST_OPTIONS)
-        .withHobbesHubUrl(MINION_HUB_URL)
-        .withHobbesConfig(NUM_OF_RETRIES).build()
+        .withRunInstructions('main/jenkinsfiles/UITestRunOptions.json')
+        .withWaitForMinionMinutes(10)
+        .withFilter(TEST_GROUP_4)
+        .build()
 
 /* --------------------------------------------------------------------- */
 /*                       SPROUT CONFIGURATION                            */
@@ -195,8 +189,7 @@ config.setComputeReleaseCoverage(false)
 config.setModules([componentsCore, componentsContent, componentsConfig, componentsItUi,
                    componentsJUnitCore,componentsParent])
 // the tests to execute
-config.setTestRuns([coreCompUIChromePart1,coreCompUIChromePart2,coreCompUIChromePart3,coreCompUIChromePart4,
-                    coreCompUIChromePart5])
+config.setTestRuns([coreCompUIChromePart1,coreCompUIChromePart2,coreCompUIChromePart3,coreCompUIChromePart4])
 
 // don't ask for release at the end
 config.setEnableBuildPromotion(false)
