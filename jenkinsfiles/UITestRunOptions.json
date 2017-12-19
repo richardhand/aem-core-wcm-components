@@ -19,7 +19,6 @@
                 "value": true,
                 "type": "exclude"
             }
-        },
-        "testPath": "/libs/granite/testing/hobbes.html?autoRun=true&performRewrite&optin=disabled&tags=aem-core-wcm-components&filter=aem.core-components.testsuite.formhidden,aem.core-components.testsuite.formoptions,aem.core-components.testsuite.formcomponents,aem.core-components.testsuite.breadcrumb,aem.core-components.testsuite.teaser"
+        }
     }
 }
