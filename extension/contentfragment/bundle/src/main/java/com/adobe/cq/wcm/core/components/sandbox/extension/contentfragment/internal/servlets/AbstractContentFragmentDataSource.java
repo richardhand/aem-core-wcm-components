@@ -46,10 +46,10 @@ import static com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment
 import static org.apache.sling.api.resource.Resource.RESOURCE_TYPE_NON_EXISTING;
 
 /**
- * <p>Abstract and generic datasource taking care of getting the content fragment according to the datasource
- * configuration. The content fragment can either be specified directly via its path (see {@link #PN_FRAGMENT_PATH}) or
- * indirectly via a {@code /apps/core/wcm/extension/sandbox/components/contentfragment} component referencing a content
- * fragment (see {@link #PN_COMPONENT_PATH}).</p>
+ * <p>Abstract datasource providing access to a content fragment instance configured by datasource properties. The
+ * content fragment to be returned by {@link #getContentFragment(SlingHttpServletRequest)} can be specified via a
+ * {@code /apps/core/wcm/extension/sandbox/components/contentfragment} component (see {@link #PN_COMPONENT_PATH}) or
+ * directly by path (see {@link #PN_FRAGMENT_PATH}).</p>
  *
  * <p>Concrete implementations need only return a list of items in
  * {@link #getItems(ContentFragment, SlingHttpServletRequest)} and, for each item, specify their title and value (in
@@ -58,15 +58,15 @@ import static org.apache.sling.api.resource.Resource.RESOURCE_TYPE_NON_EXISTING;
 public abstract class AbstractContentFragmentDataSource<T> extends SlingSafeMethodsServlet {
 
     /**
-     * Name of the datasource property containing the path to a content fragment to use for this datasource. The value
-     * may contain expressions. If set, {@link #PN_COMPONENT_PATH} is ignored.
+     * Name of the datasource property containing the path to a content fragment to use. If set, the value of
+     * {@link #PN_COMPONENT_PATH} is ignored. The value may contain expressions.
      */
     public final static String PN_FRAGMENT_PATH = "fragmentPath";
 
     /**
-     * Name of the datasource property containing the path to a
-     * {@code /apps/core/wcm/extension/sandbox/components/contentfragment} component. The value may contain expressions.
-     * The datasource uses the content fragment referenced by the component.
+     * Name of the resource property containing the path to a
+     * {@code /apps/core/wcm/extension/sandbox/components/contentfragment} component. The servlet uses the content
+     * fragment referenced by the component. The value may contain expressions.
      */
     public final static String PN_COMPONENT_PATH = "componentPath";
 
