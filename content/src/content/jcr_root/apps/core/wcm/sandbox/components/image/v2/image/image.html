@@ -16,16 +16,19 @@
 <div data-sly-use.image="com.adobe.cq.wcm.core.components.sandbox.models.Image"
      data-sly-use.templates="core/wcm/components/commons/v1/templates.html"
      data-sly-test="${image.src}"
+     data-cmp-is="image"
+     data-cmp-lazy="${image.lazyEnabled}"
+     data-cmp-src="${image.srcUriTemplate ? image.srcUriTemplate : image.src}"
+     data-cmp-widths="${image.widths}"
+     data-asset="${image.fileReference}"
+     data-title="${image.title || image.alt}"
      class="cmp-image${!wcmmode.disabled ? ' cq-dd-image' : ''}">
     <a data-sly-unwrap="${!image.link}"
-       class="cmp-image__link"
-       href="${image.link}"
-       data-title="${image.title || image.alt}" data-asset="${image.fileReference}">
-        <noscript data-sly-unwrap="${!image.lazyEnabled || image.smartSizes.length == 0 || !image.json}" data-cmp-image="${image.json}">
-            <img class="cmp-image__image"
-                 src="${image.src}"
-                 alt="${image.alt || true}"
-                 title="${image.displayPopupTitle && image.title}"/>
+       class="cmp-image__link" href="${image.link}"
+       data-cmp-hook-image="link">
+        <noscript data-sly-unwrap="${!image.lazyEnabled && image.widths.length <= 1}" data-cmp-hook-image="noscript">
+            <img src="${image.src}" class="cmp-image__image" data-cmp-hook-image="image"
+                 alt="${image.alt || true}" title="${image.displayPopupTitle && image.title}"/>
         </noscript>
     </a>
     <span class="cmp-image__title" data-sly-test="${!image.displayPopupTitle && image.title}">${image.title}</span>

@@ -34,6 +34,7 @@ import com.adobe.cq.sightly.SightlyWCMMode;
 import com.adobe.cq.sightly.WCMBindings;
 import com.adobe.cq.wcm.core.components.Utils;
 import com.adobe.cq.wcm.core.components.models.Image;
+import com.adobe.cq.wcm.core.components.testing.MockContentPolicyStyle;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.designer.Style;
 import com.day.cq.wcm.api.policies.ContentPolicy;
@@ -81,7 +82,7 @@ public class ImageImplTest extends AbstractImageTest {
     }
 
     @Test
-    public void testImageWithOneSmartSize() throws Exception {
+    public void testImageWithOneSmartSize() {
         String escapedResourcePath = Text.escapePath(IMAGE3_PATH);
         Image image = getImageUnderTest(IMAGE3_PATH);
         assertEquals(IMAGE_TITLE_ALT, image.getAlt());
@@ -114,14 +115,14 @@ public class ImageImplTest extends AbstractImageTest {
     }
 
     @Test
-    public void testInvalidAssetTypeImage() throws Exception {
+    public void testInvalidAssetTypeImage() {
         Image image = getImageUnderTest(IMAGE17_PATH);
         assertNull(image.getSrc());
         Utils.testJSONExport(image, Utils.getTestExporterJSONPath(testBase, IMAGE17_PATH));
     }
 
     @Test
-    public void testExtensionDeterminedFromMimetype() throws Exception {
+    public void testExtensionDeterminedFromMimetype() {
         String escapedResourcePath = Text.escapePath(IMAGE18_PATH);
         Image image = getImageUnderTest(IMAGE18_PATH);
         assertEquals(CONTEXT_PATH + escapedResourcePath + ".img.png/1490005239000.png", image.getSrc());
@@ -129,7 +130,7 @@ public class ImageImplTest extends AbstractImageTest {
     }
 
     @Test
-    public void testImageCacheKiller() throws Exception {
+    public void testImageCacheKiller() {
         String escapedResourcePath = Text.escapePath(IMAGE4_PATH);
         Image image = getImageUnderTest(IMAGE4_PATH);
         assertEquals(CONTEXT_PATH + escapedResourcePath + ".img.png/1494867377756.png", image.getSrc());
@@ -141,7 +142,7 @@ public class ImageImplTest extends AbstractImageTest {
     }
 
     @Test
-    public void testTIFFImage() throws Exception {
+    public void testTIFFImage() {
         String escapedResourcePath = Text.escapePath(IMAGE16_PATH);
         Image image = getImageUnderTest(IMAGE16_PATH);
         assertEquals(CONTEXT_PATH + escapedResourcePath + ".img.jpeg/1500299989000.jpeg", image.getSrc());
@@ -164,7 +165,7 @@ public class ImageImplTest extends AbstractImageTest {
         return getImageUnderTest(resourcePath, Image.class);
     }
 
-    protected Image getImageUnderTest(String resourcePath, Class<? extends Image> imageClass) {
+    protected <T> T getImageUnderTest(String resourcePath, Class<T> imageClass) {
         Resource resource = CONTEXT.resourceResolver().getResource(resourcePath);
         if (resource == null) {
             throw new IllegalStateException("Does the test resource " + resourcePath + " exist?");
@@ -176,8 +177,16 @@ public class ImageImplTest extends AbstractImageTest {
         ContentPolicy contentPolicy = mapping.getPolicy();
 
         SlingBindings slingBindings = new SlingBindings();
+        Style style = null;
         if (contentPolicy != null) {
             when(contentPolicyManager.getPolicy(resource)).thenReturn(contentPolicy);
+            style = new MockContentPolicyStyle(contentPolicy);
+        }
+        if (style == null) {
+            style = mock(Style.class);
+            when(style.get(anyString(), (Object) Matchers.anyObject())).thenAnswer(
+                    invocationOnMock -> invocationOnMock.getArguments()[1]
+            );
         }
         slingBindings.put(SlingBindings.RESOURCE, resource);
         final MockSlingHttpServletRequest request =
@@ -188,10 +197,6 @@ public class ImageImplTest extends AbstractImageTest {
         slingBindings.put(WCMBindings.CURRENT_PAGE, page);
         slingBindings.put(WCMBindings.WCM_MODE, new SightlyWCMMode(request));
         slingBindings.put(WCMBindings.PAGE_MANAGER, CONTEXT.pageManager());
-        Style style = mock(Style.class);
-        when(style.get(anyString(), (Object) Matchers.anyObject())).thenAnswer(
-                invocationOnMock -> invocationOnMock.getArguments()[1]
-        );
         slingBindings.put(WCMBindings.CURRENT_STYLE, style);
         slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
         request.setAttribute(SlingBindings.class.getName(), slingBindings);

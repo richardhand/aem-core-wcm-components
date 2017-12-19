@@ -57,21 +57,27 @@ public interface Image {
      * Name of the JSON property that will store the smart sizes for smart loading.
      *
      * @since com.adobe.cq.wcm.core.components.models 11.0.0
+     * @deprecated since 12.1.0
      */
+    @Deprecated
     String JSON_SMART_SIZES = "smartSizes";
 
     /**
      * Name of the JSON property that will store the smart images for smart loading.
      *
      * @since com.adobe.cq.wcm.core.components.models 11.0.0
+     * @deprecated since 12.1.0
      */
+    @Deprecated
     String JSON_SMART_IMAGES = "smartImages";
 
     /**
      * Name of the JSON property that will indicate if the image should be loaded lazily.
      *
      * @since com.adobe.cq.wcm.core.components.models 11.0.0
+     * @deprecated since 12.1.0
      */
+    @Deprecated
     String JSON_LAZY_ENABLED = "lazyEnabled";
 
     /**
@@ -146,7 +152,9 @@ public interface Image {
      *
      * @return the JSON for the smart image functionality
      * @since com.adobe.cq.wcm.core.components.models 11.0.0; marked <code>default</code> in 12.1.0
+     * @deprecated since 12.1.0
      */
+    @Deprecated
     default String getJson() {
         throw new UnsupportedOperationException();
     }

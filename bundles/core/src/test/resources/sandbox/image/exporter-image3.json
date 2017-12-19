@@ -1,14 +1,12 @@
 {
-    "smartSizes": [
+    "widths": [
         600
     ],
-    "smartImages": [
-        "/core/content/test/jcr%3acontent/root/image3.img.600.png"
-    ],
-    "lazyEnabled": false,
-    "alt": "Adobe Logo",
-    "title": "Adobe Logo",
-    "link": "https://www.adobe.com",
-    "src": "/core/content/test/jcr%3acontent/root/image3.img.600.png",
-    ":type": "core/wcm/sandbox/components/image/v2/image"
+    "lazyEnabled"           : false,
+    "srcUriTemplate"        : "/core/content/test/jcr%3acontent/root/image3.img{.width}.png",
+    "title"                 : "Adobe Logo",
+    "alt"                   : "Adobe Logo",
+    "link"                  : "https://www.adobe.com",
+    "src"                   : "/core/content/test/jcr%3acontent/root/image3.img.600.png",
+    ":type"                 : "core/wcm/sandbox/components/image/v2/image"
 }

@@ -48,24 +48,27 @@ public interface Image extends com.adobe.cq.wcm.core.components.models.Image, Co
     default String getJson() {
         throw new UnsupportedOperationException();
     }
-    
+
     /**
-     * Returns the available image sizes (expressed in width).
+     * Returns the alternative image widths (in pixels), configured through the {@link #PN_DESIGN_ALLOWED_RENDITION_WIDTHS}
+     * content policy. If no configuration is present, this method will return an empty array.
      *
-     * @return the available image sizes (expressed in width)
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 2.3.0
+     * @return the alternative image widths (in pixels)
+     * @since com.adobe.cq.wcm.core.components.sandbox.models 9.0.0
      */
-    default int[] getSmartSizes() {
+    @Nonnull
+    default int[] getWidths() {
         throw new UnsupportedOperationException();
     }
 
     /**
-     * Returns the URLs for the available image renditions.
+     * Returns a URI template representation of the image src attribute that can be variable expanded
+     * to a URI reference. Useful for building an alternative image configuration from the original src.
      *
-     * @return the URLs for the available image renditions
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 2.3.0
+     * @return the image src URI template
+     * @since com.adobe.cq.wcm.core.components.sandbox.models 9.0.0
      */
-    default String[] getSmartImages() {
+    default String getSrcUriTemplate() {
         throw new UnsupportedOperationException();
     }
 

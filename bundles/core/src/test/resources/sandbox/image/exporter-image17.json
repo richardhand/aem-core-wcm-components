@@ -1,9 +1,8 @@
 {
-    "smartSizes": [],
-    "smartImages": [],
-    "lazyEnabled": false,
-    "alt": "Adobe Logo",
-    "title": "Adobe Logo",
-    "link": "https://www.adobe.com",
-    ":type": "core/wcm/sandbox/components/image/v2/image"
+    "widths": [],
+    "lazyEnabled"           : true,
+    "title"                 : "Adobe Logo",
+    "alt"                   : "Adobe Logo",
+    "link"                  : "https://www.adobe.com",
+    ":type"                 : "core/wcm/sandbox/components/image/v2/image"
 }
