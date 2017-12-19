@@ -30,8 +30,11 @@ The Content Fragment component uses the `com.adobe.cq.wcm.core.components.sandbo
 The following JCR properties are used:
 
 1. `./fragmentPath` - defines the path to the Content Fragment to be rendered
-2. `./elementNames` - multi-valued property defining the elements to be rendered and in which order (optional: if not present, all elements are rendered)
-3. `./variationName` - defines the variation to use to render the elements (optional: if not present, the master variation is used)
+2. `./variationName` - defines the variation to use to render the elements (optional: if not present, the master variation is used)
+3. `./elementNames` - multi-valued property defining the elements to be rendered and in which order (optional: if not present, all elements are rendered)
+4. `./paragraphScope` - defines if all or a range of paragraphs are to be rendered (only used in paragraph mode)
+5. `./paragraphRange` - defines the range(s) of paragraphs to be rendered (only used in paragraph mode and if paragraphs are restricted to ranges)
+6. `./paragraphHeadings` - defines if headings should count as paragraphs (only used in paragraph mode and if paragraphs are restricted to ranges)
 
 ## BEM description
 ```

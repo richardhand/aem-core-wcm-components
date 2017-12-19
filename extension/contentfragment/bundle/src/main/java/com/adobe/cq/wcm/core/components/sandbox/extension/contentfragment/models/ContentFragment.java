@@ -16,7 +16,6 @@
 package com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment.models;
 
 import java.util.Map;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -159,6 +158,45 @@ public interface ContentFragment extends ContainerExporter {
         @Nullable
         @JsonIgnore
         default String[] getDisplayValues() {
+            throw new UnsupportedOperationException();
+        }
+
+        /**
+         * Returns {@code true} if this is a text element, i.e. a textual element containing multiple lines
+         * (paragraphs).
+         *
+         * @return {@code true} if the element is a text element, {@code false} otherwise
+         */
+        @JsonIgnore
+        default boolean isText() {
+            throw new UnsupportedOperationException();
+        }
+
+        /**
+         * Returns the value of a text element converted to HTML. It uses
+         * {@link com.adobe.cq.dam.cfm.converter.ContentTypeConverter#convertToHTML(String, String)} to convert the
+         * value returned by {@link #getDisplayValue()}. Returns {@code null} for non-text elements.
+         *
+         * @return the value of the element converted to HTML or {@code null} for non-text elements
+         * @see #isText()
+         * @see com.adobe.cq.dam.cfm.converter.ContentTypeConverter#convertToHTML(String, String)
+         */
+        @Nullable
+        @JsonIgnore
+        default String getHtml() {
+            throw new UnsupportedOperationException();
+        }
+
+        /**
+         * Returns the paragraphs of a text element by converting its value to HTML using {@link #getHtml()} and
+         * splitting the result into separate paragraphs. Returns {@code null} for non-text elements.
+         *
+         * @return an array containing HTML paragraphs or {@code null} for non-text elements
+         * @see #isText()
+         * @see #getHtml()
+         */
+        @Nullable
+        default String[] getParagraphs() {
             throw new UnsupportedOperationException();
         }
 

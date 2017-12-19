@@ -24,6 +24,10 @@
     var SELECTOR_ELEMENT_NAMES = "[data-granite-coral-multifield-name='./elementNames']";
     var SELECTOR_ELEMENT_NAMES_ADD = SELECTOR_ELEMENT_NAMES + " > [is=coral-button]";
     var SELECTOR_VARIATION_NAME = "[name='./variationName']";
+    var SELECTOR_PARAGRAPH_CONTROLS = ".cmp-contentfragment__edit-dialog-paragraph-controls";
+    var SELECTOR_PARAGRAPH_SCOPE = "[name='./paragraphScope']";
+    var SELECTOR_PARAGRAPH_RANGE = "[name='./paragraphRange']";
+    var SELECTOR_PARAGRAPH_HEADINGS = "[name='./paragraphHeadings']";
 
     // ui helper
     var ui = $(window).adaptTo("foundation-ui");
@@ -44,35 +48,64 @@
     var addElement;
     // the variation name field (select)
     var variationName;
+    // the paragraph controls (field set)
+    var paragraphControls;
 
-    // keeps track of the current fragment path
-    var currentFragmentPath;
+    // the path of the component being edited
+    var componentPath;
     // the resource path of the element names field
     var elementNamesPath;
     // the resource path of the variation name field
     var variationNamePath;
+    // the resource path of the paragraph controls field set
+    var paragraphControlsPath;
+
+    // keeps track of the current fragment path
+    var currentFragmentPath;
+
+    // initial state of the paragraph controls (if set)
+    var initialParagraphScope;
+    var initialParagraphRange;
+    var initialParagraphHeadings;
 
     function initialize(dialog) {
+        // get path of component being edited
+        var content = dialog.querySelector("." + CLASS_EDIT_DIALOG);
+        componentPath = content.dataset.componentPath;
+
         // get the fields
         fragmentPath = dialog.querySelector(SELECTOR_FRAGMENT_PATH);
         elementNames = dialog.querySelector(SELECTOR_ELEMENT_NAMES);
         addElement = elementNames.querySelector(SELECTOR_ELEMENT_NAMES_ADD);
         variationName = dialog.querySelector(SELECTOR_VARIATION_NAME);
+        paragraphControls = dialog.querySelector(SELECTOR_PARAGRAPH_CONTROLS);
 
-        // get the current fragment path
+        // get the field resource paths from their data attribute
+        elementNamesPath = elementNames.dataset.fieldPath;
+        variationNamePath = variationName.dataset.fieldPath;
+        paragraphControlsPath = paragraphControls.dataset.fieldPath;
+
+        // initialize state variables
         currentFragmentPath = fragmentPath.value;
+        var scope = paragraphControls.querySelector(SELECTOR_PARAGRAPH_SCOPE + "[checked]");
+        if (scope) {
+            initialParagraphScope = scope.value;
+            initialParagraphRange = paragraphControls.querySelector(SELECTOR_PARAGRAPH_RANGE).value;
+            initialParagraphHeadings = paragraphControls.querySelector(SELECTOR_PARAGRAPH_HEADINGS).value;
+        }
+
         // disable add button and variation name if no content fragment is currently set
         if (!currentFragmentPath) {
             addElement.setAttribute("disabled", "");
             variationName.setAttribute("disabled", "");
         }
-
-        // get the field resource paths from their data attribute
-        elementNamesPath = elementNames.dataset.fieldPath;
-        variationNamePath = variationName.dataset.fieldPath;
+        // enable / disable the paragraph controls
+        setParagraphControlsState();
 
         // register change listener
         $(fragmentPath).on("foundation-field-change", onFragmentPathChange);
+        $(elementNames).on("change", updateParagraphControls);
+        $(document).on("change", SELECTOR_PARAGRAPH_SCOPE, setParagraphControlsState);
     }
 
     /**
@@ -87,6 +120,9 @@
                 // disable add button and variation name
                 addElement.setAttribute("disabled", "");
                 variationName.setAttribute("disabled", "");
+
+                // update (hide) paragraph controls
+                updateParagraphControls();
             });
             // don't do anything else
             return;
@@ -118,6 +154,9 @@
                         // enable add button and variation name
                         addElement.removeAttribute("disabled");
                         variationName.removeAttribute("disabled");
+
+                        // update paragraph controls
+                        updateParagraphControls();
                     });
                 });
             });
@@ -230,6 +269,69 @@
             }
         }
         return true;
+    }
+
+    /**
+     * Is called when the fragment or element names configuration changes. Retrieves the paragraph controls from the
+     * server, which might now be hidden or displayed depending on the new configuration.
+     */
+    function updateParagraphControls () {
+        // get array of configured element names
+        var names = $(elementNames.items.getAll()).filter(function () {
+            // filter empty entries of the element names multifield
+            return this.content && this.content.querySelector("coral-select");
+        }).map(function () {
+            // map the valid entries to the selected element name
+            return this.content.querySelector("coral-select").value;
+        });
+
+        if (names.length === 0 || names.length === 1) {
+            // if zero or one element names are configured, we request the markup of paragraph controls,
+            // parameterizing its rendercondition with the current fragment and element names
+            var data = {
+                componentPath: componentPath,
+                fragmentPath: currentFragmentPath,
+                elementName: names.length ? names[0] : ""
+            };
+            $.get({
+                url: Granite.HTTP.externalize(paragraphControlsPath) + ".html",
+                data: data
+            }).done(function (html) {
+                // add resulting (potentially empty) markup to the dialog
+                paragraphControls.innerHTML = $(html).get(0).innerHTML;
+                // set initial (persisted) state, if available
+                if (paragraphControls.children.length && initialParagraphScope) {
+                    paragraphControls.querySelector(SELECTOR_PARAGRAPH_SCOPE + "[value="+ initialParagraphScope +"]").click();
+                    paragraphControls.querySelector(SELECTOR_PARAGRAPH_RANGE).value = initialParagraphRange;
+                    paragraphControls.querySelector(SELECTOR_PARAGRAPH_HEADINGS).checked = !!initialParagraphHeadings;
+                }
+                // enable / disable the paragraph controls
+                setParagraphControlsState();
+            });
+        } else {
+            // if more than one element is configured, we remove the paragraph controls
+            paragraphControls.innerHTML = "";
+        }
+    }
+
+    /**
+     * Enables or disables the paragraph range and headings field depending on the state of the paragraph scope field.
+     */
+    function setParagraphControlsState () {
+        // get the selected scope radio button (might not be present at all)
+        var scope = paragraphControls.querySelector(SELECTOR_PARAGRAPH_SCOPE + "[checked]");
+        if (scope) {
+            // enable or disable range and headings fields according to the scope value
+            var range = paragraphControls.querySelector(SELECTOR_PARAGRAPH_RANGE);
+            var headings = paragraphControls.querySelector(SELECTOR_PARAGRAPH_HEADINGS);
+            if (scope.value === "range") {
+                range.removeAttribute("disabled");
+                headings.removeAttribute("disabled");
+            } else {
+                range.setAttribute("disabled", "");
+                headings.setAttribute("disabled", "");
+            }
+        }
     }
 
     /**

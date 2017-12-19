@@ -20,10 +20,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -39,9 +39,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.adobe.cq.dam.cfm.ContentElement;
+import com.adobe.cq.dam.cfm.ContentFragmentException;
 import com.adobe.cq.dam.cfm.ContentVariation;
 import com.adobe.cq.dam.cfm.FragmentData;
 import com.adobe.cq.dam.cfm.FragmentTemplate;
+import com.adobe.cq.dam.cfm.content.FragmentRenderService;
+import com.adobe.cq.dam.cfm.converter.ContentTypeConverter;
 import com.adobe.cq.export.json.ComponentExporter;
 import com.adobe.cq.export.json.ExporterConstants;
 import com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment.models.ContentFragment;
@@ -67,8 +70,17 @@ public class ContentFragmentImpl implements ContentFragment {
     @Self
     private SlingHttpServletRequest request;
 
+    @Inject
+    private FragmentRenderService renderService;
+
+    @Inject
+    private ContentTypeConverter converter;
+
     @ScriptVariable
     private ResourceResolver resolver;
+
+    @ScriptVariable
+    private Resource resource;
 
     @ValueMapValue(name = ContentFragment.PN_PATH, injectionStrategy = OPTIONAL)
     private String path;
@@ -183,13 +195,13 @@ public class ContentFragmentImpl implements ContentFragment {
             while (iterator.hasNext()) {
                 ContentElement element = iterator.next();
                 ContentVariation variation = null;
-                if (StringUtils.isNotEmpty(variationName)) {
+                if (StringUtils.isNotEmpty(variationName) && !"master".equals(variationName)) {
                     variation = element.getVariation(variationName);
                     if (variation == null) {
                         LOG.warn("Non-existing variation " + variationName + " of element " + element.getName());
                     }
                 }
-                elements.add(new ElementImpl(element, variation));
+                elements.add(new ElementImpl(renderService, converter, resource, element, variation));
             }
         }
         return elements;
@@ -227,11 +239,26 @@ public class ContentFragmentImpl implements ContentFragment {
 
     private static class ElementImpl implements Element {
 
+        private FragmentRenderService renderService;
+        private ContentTypeConverter converter;
+        private Resource component;
         private ContentElement element;
-
         private ContentVariation variation;
 
-        ElementImpl(@Nonnull ContentElement element, @Nullable ContentVariation variation) {
+        /**
+         *
+         * @param renderService the render service to use to render the HTML and paragraphs of text elements
+         * @param converter the converter to use to convert the value of text elements to HTML
+         * @param component the component resource
+         * @param element the original element
+         * @param variation the configured variation of the element, or {@code null}
+         */
+        ElementImpl(@Nonnull FragmentRenderService renderService, @Nonnull ContentTypeConverter converter,
+                    @Nonnull Resource component, @Nonnull ContentElement element,
+                    @Nullable ContentVariation variation) {
+            this.renderService = renderService;
+            this.converter = converter;
+            this.component = component;
             this.element = element;
             this.variation = variation;
         }
@@ -303,6 +330,53 @@ public class ContentFragmentImpl implements ContentFragment {
             return type;
         }
 
+        @Override
+        public boolean isText() {
+            String contentType = getContentType();
+            // a text element is defined as a single-valued element with a certain content type (e.g. "text/plain",
+            // "text/html", "text/x-markdown", potentially others)
+            return contentType != null && contentType.startsWith("text/") && !isMultiValued();
+        }
+
+        @Nullable
+        @Override
+        public String getHtml() {
+            // restrict this method to text elements
+            if (!isText()) {
+                return null;
+            }
+
+            String contentType = getContentType();
+            if ("text/html".equals(contentType)) {
+                // return HTML as is
+                return getDisplayValue();
+            } else {
+                try {
+                    // convert element value to HTML
+                    return converter.convertToHTML(getDisplayValue(), contentType);
+                } catch (ContentFragmentException e) {
+                    LOG.warn("Could not convert to HTML", e);
+                    return null;
+                }
+            }
+        }
+
+        @Nullable
+        @Override
+        public String[] getParagraphs() {
+            // restrict this method to text elements
+            if (!isText()) {
+                return null;
+            }
+
+            // render the fragment
+            String content = renderService.render(component);
+            if (content == null) {
+                return null;
+            }
+            // split into paragraphs
+            return content.split("(?=(<p>|<h1>|<h2>|<h3>|<h4>|<h5>|<h6>))");
+        }
     }
 
 }

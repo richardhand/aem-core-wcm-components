@@ -13,14 +13,11 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<sly data-sly-use.fragment="com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment.models.ContentFragment"
-     data-sly-test="${properties.fragmentPath}">
-    <sly data-sly-test.isParagraphMode="${fragment.elements.size == 1 && fragment.elements[0].isText}">
-        <sly data-sly-include="paragraphs.html"></sly>
-    </sly>
-    <sly data-sly-test="${!isParagraphMode}">
-        <sly data-sly-include="elements.html"></sly>
-    </sly>
-</sly>
-<sly data-sly-use.template="core/wcm/components/commons/v1/templates.html"
-     data-sly-call="${template.placeholder @ isEmpty=!properties.fragmentPath || fragment.elements.isEmpty, classAppend='cq-dd-contentfragment'}"></sly>
+<dl data-sly-use.fragment="com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment.models.ContentFragment"
+    data-path="${properties.fragmentPath}"
+    data-type="${fragment.type}"
+    class="cmp-contentfragment${!wcmmode.disabled ? ' cq-dd-contentfragment' : ''}"
+    data-sly-list.element="${fragment.elements}"
+    data-sly-use.elementTemplate="element.html">
+    <sly data-sly-call="${elementTemplate.element @ element=element}"></sly>
+</dl>

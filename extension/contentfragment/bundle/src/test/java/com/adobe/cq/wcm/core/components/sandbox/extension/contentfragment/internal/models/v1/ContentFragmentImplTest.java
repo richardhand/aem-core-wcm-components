@@ -52,6 +52,8 @@ import com.adobe.cq.dam.cfm.DataType;
 import com.adobe.cq.dam.cfm.FragmentData;
 import com.adobe.cq.dam.cfm.FragmentTemplate;
 import com.adobe.cq.dam.cfm.VariationDef;
+import com.adobe.cq.dam.cfm.content.FragmentRenderService;
+import com.adobe.cq.dam.cfm.converter.ContentTypeConverter;
 import com.adobe.cq.export.json.ComponentExporter;
 import com.adobe.cq.sightly.WCMBindings;
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
@@ -148,6 +150,10 @@ public class ContentFragmentImplTest {
 
         // register an adapter that adapts resources to mocks of content fragments
         AEM_CONTEXT.registerAdapter(Resource.class, com.adobe.cq.dam.cfm.ContentFragment.class, ADAPTER);
+
+        // register dummy services to be injected into the model
+        AEM_CONTEXT.registerService(FragmentRenderService.class, mock(FragmentRenderService.class));
+        AEM_CONTEXT.registerService(ContentTypeConverter.class, mock(ContentTypeConverter.class));
     }
 
     @Before
@@ -316,6 +322,7 @@ public class ContentFragmentImplTest {
         request.setResource(resource);
         SlingBindings slingBindings = new SlingBindings();
         slingBindings.put(SlingBindings.RESOLVER, resolver);
+        slingBindings.put(SlingBindings.RESOURCE, resource);
         slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
         request.setAttribute(SlingBindings.class.getName(), slingBindings);
         return request.adaptTo(ContentFragment.class);
