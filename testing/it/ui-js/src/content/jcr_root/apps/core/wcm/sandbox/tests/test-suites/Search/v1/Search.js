@@ -30,7 +30,7 @@
         execInNewWindow: false
     })
         .addTestCase(search.testDefaultConfiguration(tcExecuteBeforeTest, tcExecuteAfterTest))
-        .addTestCase(search.testChangeStartLevel(tcExecuteBeforeTest, tcExecuteAfterTest))
+        .addTestCase(search.testChangeSearchRoot(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(search.testClearButton(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(search.testOutsideClick(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(search.testMark(tcExecuteBeforeTest, tcExecuteAfterTest))

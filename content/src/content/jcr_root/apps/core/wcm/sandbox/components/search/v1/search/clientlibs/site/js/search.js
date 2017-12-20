@@ -37,6 +37,7 @@
         loadingIndicator : '.cmp-search__loading-indicator',
         clear : '.cmp-search__clear',
         results : '.cmp-search__results',
+        template : '[data-cmp-hook-search="itemTemplate"]',
         item : {
             self : '.cmp-search__item',
             focused : '.cmp-search__item--focused',
@@ -108,6 +109,7 @@
         this._loadingIndicator = this._el.querySelector(selectors.loadingIndicator);
         this._clear = this._el.querySelector(selectors.clear);
         this._results = this._el.querySelector(selectors.results);
+        this._template = this._el.querySelector(selectors.template).innerHTML;
 
         this._searchTermMinimumLength = parseFloat(this._el.dataset.searchTermMinimumLength);
         this._resultsSize = parseFloat(this._el.dataset.resultsSize);
@@ -222,6 +224,18 @@
         idCount++;
     };
 
+    Search.prototype._generateItems = function (data, results) {
+        var self = this;
+
+        data.forEach(function (item) {
+            var el       = document.createElement('span');
+            el.innerHTML = self._template;
+            el.getElementsByClassName('cmp-search__item-title')[0].appendChild(document.createTextNode(item.title));
+            el.getElementsByClassName('cmp-search__item')[0].setAttribute('href', item.url);
+            results.innerHTML += el.innerHTML;
+        });
+    };
+
     Search.prototype._markResults = function() {
         var nodeList = this._results.querySelectorAll(selectors.item.self);
         var escapedTerm = this._input.value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
@@ -296,9 +310,9 @@
                 }, LOADING_DISPLAY_DELAY);
                 if (request.status >= 200 && request.status < 400) {
                     // success status
-                    var data = request.responseText;
-                    if (data && data.trim()) {
-                        self._results.innerHTML = self._results.innerHTML + data;
+                    var data = JSON.parse(request.responseText);
+                    if (data.length > 0) {
+                        self._generateItems(data, self._results);
                         self._markResults();
                         toggleShow(self._results, true);
                     } else {

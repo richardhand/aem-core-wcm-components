@@ -15,8 +15,6 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.sandbox.models;
 
-import java.util.List;
-
 import javax.annotation.Nonnull;
 
 import com.adobe.cq.export.json.ComponentExporter;
@@ -29,12 +27,12 @@ import com.adobe.cq.export.json.ComponentExporter;
 public interface Search extends ComponentExporter {
 
     /**
-     * Name of the resource / configuration policy property that defines the search level from which to search
-     * for results. The property should provide a String value.
+     * Name of the resource / configuration policy property that defines the site's search root from which to search.
+     * The property should provide a String value.
      *
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 2.2.0
+     * @since com.adobe.cq.wcm.core.components.sandbox.models 9.0.0
      */
-    String PN_START_LEVEL = "startLevel";
+    String PN_SEARCH_ROOT = "searchRoot";
 
     /**
      * Name of the configuration policy property that defines the minimum length of the search term to start the search.
@@ -49,18 +47,6 @@ public interface Search extends ComponentExporter {
      * @since com.adobe.cq.wcm.core.components.sandbox.models 2.4.0
      */
     String PN_RESULTS_SIZE = "resultsSize";
-
-    /**
-     * A list of {@link ListItem} items as search result.
-     *
-     * If the search term was not found, the list will be empty.
-     *
-     * @return list of search results
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 5.0.0
-     */
-    default List<ListItem> getResults() {
-        throw new UnsupportedOperationException();
-    }
 
     /**
      * The maximal number of results fetched by a search request.
@@ -79,6 +65,17 @@ public interface Search extends ComponentExporter {
      * @since com.adobe.cq.wcm.core.components.sandbox.models 2.4.0
      */
     default int getSearchTermMinimumLength() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Relative path of the search component in the current page.
+     *
+     * @return the relative path of search inside the current page
+     * @since com.adobe.cq.wcm.core.components.sandbox.models 9.0.0
+     */
+    @Nonnull
+    default String getRelativePath() {
         throw new UnsupportedOperationException();
     }
 

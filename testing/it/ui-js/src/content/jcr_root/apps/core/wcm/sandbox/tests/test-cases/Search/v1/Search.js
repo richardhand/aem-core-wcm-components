@@ -34,8 +34,7 @@
             }
         },
         editDialog: {
-            self       : '.cq-Dialog',
-            startLevel : '.cq-Dialog coral-numberinput[name="./startLevel"]'
+            self       : '.cq-Dialog'
         }
     };
 
@@ -223,7 +222,7 @@
     };
 
     /**
-     * Test: Default configuration (start level 2)
+     * Test: Default configuration (search in current page tree)
      */
     search.testDefaultConfiguration = function (tcExecuteBeforeTest, tcExecuteAfterTest) {
         return new TestCase('Default configuration', {
@@ -232,23 +231,23 @@
         })
             .config.changeContext(c.getContentFrame)
             .execFct(function(opts, done) {
-                pollQuery(done, c.rootPage, 'Page', h.param('page_1')());
+                pollQuery(done, c.rootPage, 'Page', h.param('page_1_1_1')());
             })
             .fillInput(selectors.component.input, 'Page', {delay: 1000})
             .assert.visible(selectors.component.results)
-            .assert.exist(selectors.component.item.self + '[href="' + h.config.context_path + '%page_1%.html"]');
+            .assert.exist(selectors.component.item.self + '[href="' + h.config.context_path + '%page_1_1_1%.html"]');
     };
 
     /**
-     * Test: Change start level (start level 4)
+     * Test: Change search root (start level 4)
      */
-    search.testChangeStartLevel = function (tcExecuteBeforeTest, tcExecuteAfterTest) {
-        return new TestCase('Change Start Level', {
+    search.testChangeSearchRoot = function (tcExecuteBeforeTest, tcExecuteAfterTest) {
+        return new TestCase('Change Search Root', {
             execBefore: tcExecuteBeforeTest,
             execAfter : tcExecuteAfterTest
         })
             .execTestCase(c.tcOpenConfigureDialog('cmpPath'))
-            .fillInput(selectors.editDialog.startLevel, '4')
+            .fillInput('foundation-autocomplete[name="./searchRoot"]', '%page_1%')
             .execTestCase(c.tcSaveConfigureDialog)
             .config.changeContext(c.getContentFrame)
             .fillInput(selectors.component.input, 'Page', {delay: 1000})
@@ -391,7 +390,9 @@
         return new TestCase('Scroll Down', {
             execBefore: tcExecuteBeforeTest
         })
-
+            .execTestCase(c.tcOpenConfigureDialog('cmpPath'))
+            .fillInput('foundation-autocomplete[name="./searchRoot"]', c.rootPage)
+            .execTestCase(c.tcSaveConfigureDialog)
             .config.changeContext(c.getContentFrame)
             .fillInput(selectors.component.input, 'page', {delay: 1000})
             .assert.isTrue(function () {

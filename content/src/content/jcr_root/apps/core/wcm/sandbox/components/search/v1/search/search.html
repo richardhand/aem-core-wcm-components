@@ -16,7 +16,9 @@
 <section class="cmp-search" role="search"
     data-results-size="${search.resultsSize}" data-search-term-minimum-length="${search.searchTermMinimumLength}"
     data-sly-use.search="com.adobe.cq.wcm.core.components.sandbox.models.Search">
-    <form method="get" action="${resource.path @ addSelectors=['result'], extension='html'}" class="cmp-search__form" autocomplete="off">
+    <form method="get" action="${currentPage.path @ addSelectors=['searchresults'], extension='json', suffix = search.relativePath}"
+          class="cmp-search__form"
+          autocomplete="off">
         <div class="cmp-search__field">
             <i class="cmp-search__icon"></i>
             <span class="cmp-search__loading-indicator"></span>
@@ -28,4 +30,5 @@
         </div>
     </form>
     <div class="cmp-search__results" role="listbox" aria-multiselectable="false"></div>
+    <sly data-sly-include="itemTemplate.html"/>
 </section>
