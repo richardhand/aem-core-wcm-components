@@ -7,7 +7,8 @@ import com.adobe.qe.evergreen.sprout.criteria.*
 import com.adobe.qe.evergreen.sprout.model.*
 import com.adobe.qe.evergreen.sprout.command.*
 
-String MINION_HUB_URL = 'http://qa-bsl-minion-hub.corp.adobe.com:8811'
+// String MINION_HUB_URL = 'http://qa-bsl-minion-hub.corp.adobe.com:8811'
+String MINION_HUB_URL = 'http://or1010050212014.corp.adobe.com:8811'
 
 TEST_GROUP_1 =  "aem.core-components.testsuite.formhidden," +
                 "aem.core-components.testsuite.formoptions," +
