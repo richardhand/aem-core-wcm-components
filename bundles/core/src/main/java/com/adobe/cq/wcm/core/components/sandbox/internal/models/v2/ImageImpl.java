@@ -18,6 +18,7 @@ package com.adobe.cq.wcm.core.components.sandbox.internal.models.v2;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
 
@@ -25,7 +26,6 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
-import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.commons.json.JSONArray;
 import org.apache.sling.commons.json.JSONObject;
 import org.apache.sling.models.annotations.Exporter;
@@ -35,12 +35,10 @@ import org.slf4j.LoggerFactory;
 
 import com.adobe.cq.export.json.ComponentExporter;
 import com.adobe.cq.export.json.ExporterConstants;
+import com.adobe.cq.wcm.core.components.internal.servlets.AdaptiveImageServlet;
 import com.adobe.cq.wcm.core.components.sandbox.models.Image;
-import com.day.cq.commons.DownloadResource;
 import com.day.cq.dam.api.Asset;
 import com.day.cq.dam.api.DamConstants;
-import com.day.cq.wcm.api.policies.ContentPolicy;
-import com.day.cq.wcm.api.policies.ContentPolicyManager;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Model(adaptables = SlingHttpServletRequest.class, adapters = {Image.class, ComponentExporter.class}, resourceType = ImageImpl.RESOURCE_TYPE)
@@ -49,12 +47,15 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 public class ImageImpl extends com.adobe.cq.wcm.core.components.internal.models.v1.ImageImpl implements Image {
 
     public static final String RESOURCE_TYPE = "core/wcm/sandbox/components/image/v2/image";
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageImpl.class);
+    private static final String SRC_URI_TEMPLATE_WIDTH_VAR = "{.width}";
+
+    private String srcUriTemplate;
 
     @PostConstruct
     protected void initModel() {
         super.initModel();
-        boolean hasContent = false;
         boolean altValueFromDAM = properties.get(PN_ALT_VALUE_FROM_DAM, currentStyle.get(PN_ALT_VALUE_FROM_DAM, true));
         boolean titleValueFromDAM = properties.get(PN_TITLE_VALUE_FROM_DAM, currentStyle.get(PN_TITLE_VALUE_FROM_DAM, true));
         displayPopupTitle = properties.get(PN_DISPLAY_POPUP_TITLE, currentStyle.get(PN_DISPLAY_POPUP_TITLE, true));
@@ -79,7 +80,6 @@ public class ImageImpl extends com.adobe.cq.wcm.core.components.internal.models.
                             title = damTitle;
                         }
                     }
-                    hasContent = true;
                 } else {
                     LOGGER.error("Unable to adapt resource '{}' used by image '{}' to an asset.", fileReference,
                             request.getResource().getPath());
@@ -87,33 +87,24 @@ public class ImageImpl extends com.adobe.cq.wcm.core.components.internal.models.
             } else {
                 LOGGER.error("Unable to find resource '{}' used by image '{}'.", fileReference, request.getResource().getPath());
             }
-        } else {
-            Resource file = resource.getChild(DownloadResource.NN_FILE);
-            if (file != null) {
-                hasContent = true;
-            }
         }
         if (hasContent) {
-            ResourceResolver resourceResolver = request.getResourceResolver();
-            ContentPolicyManager policyManager = resourceResolver.adaptTo(ContentPolicyManager.class);
-            if (policyManager != null) {
-                ContentPolicy contentPolicy = policyManager.getPolicy(resource);
-                if (contentPolicy != null) {
-                    disableLazyLoading = contentPolicy.getProperties().get(PN_DESIGN_LAZY_LOADING_ENABLED, true);
-                }
-            }
+            disableLazyLoading = currentStyle.get(PN_DESIGN_LAZY_LOADING_ENABLED, true);
+            srcUriTemplate = request.getContextPath() + escapedResourcePath + DOT + AdaptiveImageServlet.DEFAULT_SELECTOR +
+                    SRC_URI_TEMPLATE_WIDTH_VAR + DOT + extension + (lastModifiedDate > 0 ? "/" + lastModifiedDate + DOT + extension : "");
             buildJson();
         }
     }
 
+    @Nonnull
     @Override
-    public int[] getSmartSizes() {
-        return smartSizes;
+    public int[] getWidths() {
+        return Arrays.copyOf(smartSizes, smartSizes.length);
     }
 
     @Override
-    public String[] getSmartImages() {
-        return smartImages;
+    public String getSrcUriTemplate() {
+        return srcUriTemplate;
     }
 
     @Override
