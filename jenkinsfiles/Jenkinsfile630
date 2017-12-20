@@ -1,13 +1,11 @@
 #!groovy
 @Library(['com.adobe.qe.evergreen.sprout@issue/fixing-testpath'])
-import com.adobe.qe.evergreen.sprout.Sprout
-import com.adobe.qe.evergreen.sprout.Pipeline
-import com.adobe.qe.evergreen.sprout.SproutConfig
-import com.adobe.qe.evergreen.sprout.criteria.Exclude
-import com.adobe.qe.evergreen.sprout.criteria.GitCommitMessage
+import com.adobe.qe.evergreen.sprout.*
+import com.adobe.qe.evergreen.sprout.criteria.*
 import com.adobe.qe.evergreen.sprout.model.*
 
-String MINION_HUB_URL = 'http://qa-bsl-minion-hub.corp.adobe.com:8811'
+// String MINION_HUB_URL = 'http://qa-bsl-minion-hub.corp.adobe.com:8811'
+String MINION_HUB_URL = 'http://or1010050212014.corp.adobe.com:8811'
 
 TEST_GROUP_1 =  "aem.core-components.testsuite.formhidden," +
         "aem.core-components.testsuite.formoptions," +
