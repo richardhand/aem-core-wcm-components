@@ -64,7 +64,7 @@ Module componentsExtCFBundle = new Module.Builder('main/extension/contentfragmen
         .withUnitTests(true)
         .withCoverage(true)
         .withRelease()
-        .withUnitTestCoverageCommand(new ShellCommand("mvn verify"))
+        .withUnitTestCoverageCommand(new ShellCommand("mvn clean verify"))
         .withArtifact('jar', 'main/extension/contentfragment/bundle/target/core.wcm.components.sandbox.extension.contentfragment.bundle-*.jar', true)
         .withConsumer(componentsExtension)
         .build()
