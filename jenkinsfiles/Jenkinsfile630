@@ -97,6 +97,12 @@ MavenDependency fp18678 = new MavenDependency.Builder()
         .withVersion("1.0")
         .withExtension("zip").build()
 
+MavenDependency hobbesTesting = new MavenDependency.Builder()
+        .withGroupId("com.adobe.granite")
+        .withArtifactId("com.adobe.granite.testing.hobbes.content")
+        .withVersion("latest")
+        .withExtension("zip").build()
+
 /* --------------------------------------------------------------------- */
 /*                       QUICKSTART CONFIGURATIONS                       */
 /* --------------------------------------------------------------------- */
@@ -118,6 +124,7 @@ CQInstance author = new CQInstance.Builder()
         .withRunmode("nosamplecontent")
         .withContextPath("/cp")
         .withMavenDependency(hobbesRewriterPackage)
+        .withMavenDependency(hobbesTesting)
         .withMavenDependency(uiTestingCommonsPackage)
 // install all the dependencies needed for sandbox to work on a 6.3 instance
         .withMavenDependency(exportJson)
