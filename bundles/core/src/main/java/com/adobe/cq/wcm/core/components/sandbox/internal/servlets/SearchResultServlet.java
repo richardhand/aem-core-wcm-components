@@ -25,6 +25,7 @@ import javax.annotation.Nonnull;
 import javax.jcr.RangeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import javax.jcr.Value;
 import javax.servlet.Servlet;
 import javax.servlet.http.HttpServletResponse;
 
@@ -96,8 +97,6 @@ public class SearchResultServlet extends SlingSafeMethodsServlet {
     @Reference
     private LiveRelationshipManager relationshipManager;
 
-    private ValueMap contentPolicyProperties = null;
-
     @Override
     protected void doGet(@Nonnull SlingHttpServletRequest request, @Nonnull SlingHttpServletResponse response)
             throws IOException {
@@ -140,7 +139,7 @@ public class SearchResultServlet extends SlingSafeMethodsServlet {
         RequestPathInfo requestPathInfo = request.getRequestPathInfo();
         Resource resource = request.getResource();
         String relativeContentResource = requestPathInfo.getSuffix();
-        if(StringUtils.startsWith(relativeContentResource, "/")) {
+        if (StringUtils.startsWith(relativeContentResource, "/")) {
             relativeContentResource = StringUtils.substring(relativeContentResource, 1);
         }
         if (StringUtils.isNotEmpty(relativeContentResource)) {
@@ -164,12 +163,12 @@ public class SearchResultServlet extends SlingSafeMethodsServlet {
 
     private List<ListItem> getResults(SlingHttpServletRequest request, Resource searchResource, Page currentPage) {
         ValueMap valueMap = searchResource.getValueMap();
-        ValueMap contentPolicyMap = getContentPolicyProperties(searchResource);
+        ValueMap contentPolicyMap = getContentPolicyProperties(searchResource, request.getResource());
         int searchTermMinimumLength = valueMap.get(Search.PN_SEARCH_TERM_MINIMUM_LENGTH, contentPolicyMap.get(Search
                 .PN_SEARCH_TERM_MINIMUM_LENGTH, SearchImpl.PROP_SEARCH_TERM_MINIMUM_LENGTH_DEFAULT));
         int resultsSize = valueMap.get(Search.PN_RESULTS_SIZE, contentPolicyMap.get(Search.PN_RESULTS_SIZE,
                 SearchImpl.PROP_RESULTS_SIZE_DEFAULT));
-        String searchRootPagePath = getSearchRootPagePath(searchResource, currentPage);
+        String searchRootPagePath = getSearchRootPagePath(searchResource, currentPage, contentPolicyMap);
         if (StringUtils.isEmpty(searchRootPagePath)) {
             searchRootPagePath = currentPage.getPath();
         }
@@ -214,10 +213,9 @@ public class SearchResultServlet extends SlingSafeMethodsServlet {
         return results;
     }
 
-    private String getSearchRootPagePath(Resource searchResource, Page currentPage) {
+    private String getSearchRootPagePath(Resource searchResource, Page currentPage, ValueMap contentPolicyMap) {
         String searchRootPagePath = null;
         ValueMap valueMap = searchResource.getValueMap();
-        ValueMap contentPolicyMap = getContentPolicyProperties(searchResource);
         String searchRoot = valueMap.get(Search.PN_SEARCH_ROOT, contentPolicyMap.get(Search.PN_SEARCH_ROOT, String.class));
         PageManager pageManager = currentPage.getPageManager();
         if (StringUtils.isNotEmpty(searchRoot) && pageManager != null) {
@@ -257,17 +255,16 @@ public class SearchResultServlet extends SlingSafeMethodsServlet {
         return searchRootPagePath;
     }
 
-    private ValueMap getContentPolicyProperties(Resource searchResource) {
-        if(contentPolicyProperties != null) {
-            return contentPolicyProperties;
-        }
-        contentPolicyProperties = new ValueMapDecorator(new HashMap<>());
-        ResourceResolver resourceResolver = searchResource.getResourceResolver();
-        ContentPolicyManager contentPolicyManager = resourceResolver.adaptTo(ContentPolicyManager.class);
-        if (contentPolicyManager != null) {
-            ContentPolicy policy = contentPolicyManager.getPolicy(searchResource);
-            if (policy != null) {
-                contentPolicyProperties = policy.getProperties();
+    private ValueMap getContentPolicyProperties(Resource searchResource, Resource requestedResource) {
+        ValueMap contentPolicyProperties = new ValueMapDecorator(new HashMap<>());
+        if (searchResource.getPath().startsWith(requestedResource.getPath())) {
+            ResourceResolver resourceResolver = searchResource.getResourceResolver();
+            ContentPolicyManager contentPolicyManager = resourceResolver.adaptTo(ContentPolicyManager.class);
+            if (contentPolicyManager != null) {
+                ContentPolicy policy = contentPolicyManager.getPolicy(searchResource);
+                if (policy != null) {
+                    contentPolicyProperties = policy.getProperties();
+                }
             }
         }
         return contentPolicyProperties;
