@@ -37,6 +37,7 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
+import org.apache.sling.api.wrappers.ValueMapDecorator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
@@ -58,6 +59,8 @@ import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.api.Template;
 import com.day.cq.wcm.api.WCMException;
+import com.day.cq.wcm.api.policies.ContentPolicy;
+import com.day.cq.wcm.api.policies.ContentPolicyManager;
 import com.day.cq.wcm.msm.api.LiveRelationship;
 import com.day.cq.wcm.msm.api.LiveRelationshipManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -92,6 +95,8 @@ public class SearchResultServlet extends SlingSafeMethodsServlet {
 
     @Reference
     private LiveRelationshipManager relationshipManager;
+
+    private ValueMap contentPolicyProperties = null;
 
     @Override
     protected void doGet(@Nonnull SlingHttpServletRequest request, @Nonnull SlingHttpServletResponse response)
@@ -159,9 +164,11 @@ public class SearchResultServlet extends SlingSafeMethodsServlet {
 
     private List<ListItem> getResults(SlingHttpServletRequest request, Resource searchResource, Page currentPage) {
         ValueMap valueMap = searchResource.getValueMap();
-        int searchTermMinimumLength = valueMap.get(Search.PN_SEARCH_TERM_MINIMUM_LENGTH, SearchImpl
-                .PROP_SEARCH_TERM_MINIMUM_LENGTH_DEFAULT);
-        int resultsSize = valueMap.get(Search.PN_RESULTS_SIZE, SearchImpl.PROP_RESULTS_SIZE_DEFAULT);
+        ValueMap contentPolicyMap = getContentPolicyProperties(searchResource);
+        int searchTermMinimumLength = valueMap.get(Search.PN_SEARCH_TERM_MINIMUM_LENGTH, contentPolicyMap.get(Search
+                .PN_SEARCH_TERM_MINIMUM_LENGTH, SearchImpl.PROP_SEARCH_TERM_MINIMUM_LENGTH_DEFAULT));
+        int resultsSize = valueMap.get(Search.PN_RESULTS_SIZE, contentPolicyMap.get(Search.PN_RESULTS_SIZE,
+                SearchImpl.PROP_RESULTS_SIZE_DEFAULT));
         String searchRootPagePath = getSearchRootPagePath(searchResource, currentPage);
         if (StringUtils.isEmpty(searchRootPagePath)) {
             searchRootPagePath = currentPage.getPath();
@@ -210,7 +217,8 @@ public class SearchResultServlet extends SlingSafeMethodsServlet {
     private String getSearchRootPagePath(Resource searchResource, Page currentPage) {
         String searchRootPagePath = null;
         ValueMap valueMap = searchResource.getValueMap();
-        String searchRoot = valueMap.get(Search.PN_SEARCH_ROOT, String.class);
+        ValueMap contentPolicyMap = getContentPolicyProperties(searchResource);
+        String searchRoot = valueMap.get(Search.PN_SEARCH_ROOT, contentPolicyMap.get(Search.PN_SEARCH_ROOT, String.class));
         PageManager pageManager = currentPage.getPageManager();
         if (StringUtils.isNotEmpty(searchRoot) && pageManager != null) {
             Page rootPage = pageManager.getPage(searchRoot);
@@ -247,6 +255,22 @@ public class SearchResultServlet extends SlingSafeMethodsServlet {
             }
         }
         return searchRootPagePath;
+    }
+
+    private ValueMap getContentPolicyProperties(Resource searchResource) {
+        if(contentPolicyProperties != null) {
+            return contentPolicyProperties;
+        }
+        contentPolicyProperties = new ValueMapDecorator(new HashMap<>());
+        ResourceResolver resourceResolver = searchResource.getResourceResolver();
+        ContentPolicyManager contentPolicyManager = resourceResolver.adaptTo(ContentPolicyManager.class);
+        if (contentPolicyManager != null) {
+            ContentPolicy policy = contentPolicyManager.getPolicy(searchResource);
+            if (policy != null) {
+                contentPolicyProperties = policy.getProperties();
+            }
+        }
+        return contentPolicyProperties;
     }
 
     @CheckForNull
