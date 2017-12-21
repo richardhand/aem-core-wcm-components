@@ -15,7 +15,6 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.internal.models.v1;
 
-import java.io.IOException;
 import java.io.StringReader;
 
 import javax.json.Json;
@@ -59,7 +58,7 @@ public class ImageImplTest extends AbstractImageTest {
     protected String testBase = TEST_BASE;
 
     @BeforeClass
-    public static void setUp() throws IOException {
+    public static void setUp() {
         internalSetUp(CONTEXT, TEST_BASE);
     }
 
@@ -99,7 +98,7 @@ public class ImageImplTest extends AbstractImageTest {
     }
 
     @Test
-    public void testSimpleDecorativeImage() throws Exception {
+    public void testSimpleDecorativeImage() {
         String escapedResourcePath = Text.escapePath(IMAGE4_PATH);
         Image image = getImageUnderTest(IMAGE4_PATH);
         assertNull("Did not expect a value for the alt attribute, since the image is marked as decorative.", image.getAlt());
@@ -155,6 +154,30 @@ public class ImageImplTest extends AbstractImageTest {
         assertEquals(ImageImpl.RESOURCE_TYPE, ((ImageImpl) image).getExportedType());
     }
 
+    @Test
+    public void testImageFromTemplateStructure() {
+        Image image = getImageUnderTest(TEMPLATE_IMAGE_PATH);
+        assertEquals(CONTEXT_PATH + "/content/test.img.png/structure/jcr%3acontent/root/image_template/1490005239000.png", image.getSrc());
+        assertEquals(IMAGE_TITLE_ALT, image.getAlt());
+        assertEquals(IMAGE_TITLE_ALT, image.getTitle());
+        assertEquals(IMAGE_FILE_REFERENCE, image.getFileReference());
+        String expectedJson = "{" +
+                "\"smartImages\":[" +
+                    "\"/core/content/test.img.600.png/structure/jcr%3acontent/root/image_template/1490005239000.png\"," +
+                    "\"/core/content/test.img.700.png/structure/jcr%3acontent/root/image_template/1490005239000.png\"," +
+                    "\"/core/content/test.img.800.png/structure/jcr%3acontent/root/image_template/1490005239000.png\"," +
+                    "\"/core/content/test.img.2000.png/structure/jcr%3acontent/root/image_template/1490005239000.png\"," +
+                    "\"/core/content/test.img.2500.png/structure/jcr%3acontent/root/image_template/1490005239000.png\"" +
+                "]," +
+                "\"smartSizes\":[600,700,800,2000,2500]," +
+                "\"lazyEnabled\":true" +
+        "}";
+        compareJSON(expectedJson, image.getJson());
+        assertFalse(image.displayPopupTitle());
+        assertEquals(CONTEXT_PATH + "/content/test-image.html", image.getLink());
+        Utils.testJSONExport(image, Utils.getTestExporterJSONPath(testBase, TEMPLATE_IMAGE_PATH));
+    }
+
     protected void compareJSON(String expectedJson, String json) {
         JsonReader expected = Json.createReader(new StringReader(expectedJson));
         JsonReader actual = Json.createReader(new StringReader(json));
@@ -171,11 +194,10 @@ public class ImageImplTest extends AbstractImageTest {
             throw new IllegalStateException("Does the test resource " + resourcePath + " exist?");
         }
         ContentPolicyMapping mapping = resource.adaptTo(ContentPolicyMapping.class);
-        if (mapping == null) {
-            throw new IllegalStateException("Adapter not registered for the ContentPolicyManager.");
+        ContentPolicy contentPolicy = null;
+        if (mapping != null) {
+            contentPolicy = mapping.getPolicy();
         }
-        ContentPolicy contentPolicy = mapping.getPolicy();
-
         SlingBindings slingBindings = new SlingBindings();
         Style style = null;
         if (contentPolicy != null) {

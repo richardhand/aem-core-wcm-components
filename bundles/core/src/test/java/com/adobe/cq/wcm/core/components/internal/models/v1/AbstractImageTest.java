@@ -18,8 +18,6 @@ package com.adobe.cq.wcm.core.components.internal.models.v1;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
-
 import javax.annotation.Nullable;
 
 import org.apache.sling.api.resource.ResourceResolver;
@@ -41,8 +39,10 @@ public class AbstractImageTest {
     @ClassRule
     public static final AemContext CONTEXT = CoreComponentTestContext.createContext();
 
-    protected static final String TEST_ROOT = "/content";
-    protected static final String PAGE = TEST_ROOT + "/test";
+    protected static final String CONTEXT_PATH = "/core";
+    protected static final String TEST_CONTENT_ROOT = "/content";
+    protected static final String TEST_APPS_ROOT = "/apps/core/wcm/components";
+    protected static final String PAGE = TEST_CONTENT_ROOT + "/test";
     protected static final String IMAGE0_PATH = PAGE + "/jcr:content/root/image0";
     protected static final String IMAGE1_PATH = PAGE + "/jcr:content/root/image1";
     protected static final String IMAGE2_PATH = PAGE + "/jcr:content/root/image2";
@@ -64,6 +64,9 @@ public class AbstractImageTest {
     protected static final String IMAGE18_PATH = PAGE + "/jcr:content/root/image18";
     protected static final String IMAGE19_PATH = PAGE + "/jcr:content/root/image19";
     protected static final String IMAGE20_PATH = PAGE + "/jcr:content/root/image20";
+    protected static final String TEMPLATE_PATH = "/conf/coretest/settings/wcm/templates/testtemplate";
+    protected static final String TEMPLATE_STRUCTURE_PATH = TEMPLATE_PATH + "/structure";
+    protected static final String TEMPLATE_IMAGE_PATH = TEMPLATE_STRUCTURE_PATH + "/jcr:content/root/image_template";
     protected static final String PNG_IMAGE_BINARY_NAME = "Adobe_Systems_logo_and_wordmark.png";
     protected static final String GIF_IMAGE_BINARY_NAME = "Adobe_Systems_logo_and_wordmark.gif";
     protected static final String _1PX_IMAGE_BINARY_NAME = "1x1.png";
@@ -84,8 +87,9 @@ public class AbstractImageTest {
 
     protected ResourceResolver resourceResolver;
 
-    protected static void internalSetUp(AemContext aemContext, String testBase) throws IOException {
-        CONTEXT.load().json(testBase + CoreComponentTestContext.TEST_CONTENT_JSON, TEST_ROOT);
+    protected static void internalSetUp(AemContext aemContext, String testBase) {
+        CONTEXT.load().json(testBase + CoreComponentTestContext.TEST_CONTENT_JSON, TEST_CONTENT_ROOT);
+        CONTEXT.load().json(testBase + CoreComponentTestContext.TEST_APPS_JSON, TEST_APPS_ROOT);
         mockedMimeTypeService = mock(MimeTypeService.class);
         when(mockedMimeTypeService.getMimeType("tif")).thenReturn(StandardImageHandler.TIFF_MIMETYPE);
         when(mockedMimeTypeService.getMimeType("tiff")).thenReturn(StandardImageHandler.TIFF_MIMETYPE);

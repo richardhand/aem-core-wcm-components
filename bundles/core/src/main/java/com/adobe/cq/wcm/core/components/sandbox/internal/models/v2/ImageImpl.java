@@ -24,6 +24,7 @@ import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.jackrabbit.vault.util.Text;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.commons.json.JSONArray;
@@ -90,8 +91,9 @@ public class ImageImpl extends com.adobe.cq.wcm.core.components.internal.models.
         }
         if (hasContent) {
             disableLazyLoading = currentStyle.get(PN_DESIGN_LAZY_LOADING_ENABLED, true);
-            srcUriTemplate = request.getContextPath() + escapedResourcePath + DOT + AdaptiveImageServlet.DEFAULT_SELECTOR +
-                    SRC_URI_TEMPLATE_WIDTH_VAR + DOT + extension + (lastModifiedDate > 0 ? "/" + lastModifiedDate + DOT + extension : "");
+            srcUriTemplate = request.getContextPath() + Text.escapePath(baseResourcePath) + DOT + AdaptiveImageServlet.DEFAULT_SELECTOR +
+                    SRC_URI_TEMPLATE_WIDTH_VAR + DOT + extension +
+                    (inTemplate ? templateRelativePath : "") + (lastModifiedDate > 0 ? "/" + lastModifiedDate + DOT + extension : "");
             buildJson();
         }
     }

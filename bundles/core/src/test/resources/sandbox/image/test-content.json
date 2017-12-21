@@ -274,7 +274,8 @@
                     "altValueFromDAM"    : "true",
                     "titleValueFromDAM": "true"
                 }
-            }
+            },
+            "cq:template": "/conf/coretest/settings/wcm/templates/testtemplate"
         }
     }
 }

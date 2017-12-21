@@ -1,21 +1,19 @@
-/*******************************************************************************
- * Copyright 2017 Adobe Systems Incorporated
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- ******************************************************************************/
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ ~ Copyright 2017 Adobe Systems Incorporated
+ ~
+ ~ Licensed under the Apache License, Version 2.0 (the "License");
+ ~ you may not use this file except in compliance with the License.
+ ~ You may obtain a copy of the License at
+ ~
+ ~   http://www.apache.org/licenses/LICENSE-2.0
+ ~
+ ~ Unless required by applicable law or agreed to in writing, software
+ ~ distributed under the License is distributed on an "AS IS" BASIS,
+ ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ ~ See the License for the specific language governing permissions and
+ ~ limitations under the License.
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.sandbox.internal.models.v2;
-
-import java.io.IOException;
 
 import org.apache.jackrabbit.util.Text;
 import org.junit.Assert;
@@ -26,6 +24,7 @@ import com.adobe.cq.wcm.core.components.Utils;
 import com.adobe.cq.wcm.core.components.sandbox.models.Image;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -36,7 +35,7 @@ public class ImageImplTest extends com.adobe.cq.wcm.core.components.internal.mod
     private static final String IMAGE21_PATH = PAGE + "/jcr:content/root/image21";
 
     @BeforeClass
-    public static void setUp() throws IOException {
+    public static void setUp() {
         internalSetUp(CONTEXT, TEST_BASE);
     }
 
@@ -119,6 +118,30 @@ public class ImageImplTest extends com.adobe.cq.wcm.core.components.internal.mod
         assertEquals(CONTEXT_PATH + "/content/test-image.html", image.getLink());
         assertEquals(CONTEXT_PATH + escapedResourcePath + ".img.png/1490005239000.png", image.getSrc());
         Utils.testJSONExport(image, Utils.getTestExporterJSONPath(testBase, IMAGE0_PATH));
+    }
+
+    @Override
+    public void testImageFromTemplateStructure() {
+        com.adobe.cq.wcm.core.components.models.Image image = getImageUnderTest(TEMPLATE_IMAGE_PATH);
+        assertEquals(CONTEXT_PATH + "/content/test.img.png/structure/jcr%3acontent/root/image_template/1490005239000.png", image.getSrc());
+        assertEquals("Adobe Systems Logo and Wordmark in PNG format", image.getAlt());
+        assertEquals("Adobe Systems Logo and Wordmark", image.getTitle());
+        assertEquals(IMAGE_FILE_REFERENCE, image.getFileReference());
+        String expectedJson = "{" +
+                "\"smartImages\":[" +
+                    "\"/core/content/test.img.600.png/structure/jcr%3acontent/root/image_template/1490005239000.png\"," +
+                    "\"/core/content/test.img.700.png/structure/jcr%3acontent/root/image_template/1490005239000.png\"," +
+                    "\"/core/content/test.img.800.png/structure/jcr%3acontent/root/image_template/1490005239000.png\"," +
+                    "\"/core/content/test.img.2000.png/structure/jcr%3acontent/root/image_template/1490005239000.png\"," +
+                    "\"/core/content/test.img.2500.png/structure/jcr%3acontent/root/image_template/1490005239000.png\"" +
+                "]," +
+                "\"smartSizes\":[600,700,800,2000,2500]," +
+                "\"lazyEnabled\":false" +
+        "}";
+        compareJSON(expectedJson, image.getJson());
+        assertTrue(image.displayPopupTitle());
+        assertEquals(CONTEXT_PATH + "/content/test-image.html", image.getLink());
+        Utils.testJSONExport(image, Utils.getTestExporterJSONPath(testBase, TEMPLATE_IMAGE_PATH));
     }
 
     @Override

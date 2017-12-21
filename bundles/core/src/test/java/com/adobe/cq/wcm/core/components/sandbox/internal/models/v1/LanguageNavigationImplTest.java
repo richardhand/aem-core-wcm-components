@@ -148,10 +148,10 @@ public class LanguageNavigationImplTest {
             throw new IllegalStateException("Does the test resource " + resourcePath + " exist?");
         }
         ContentPolicyMapping mapping = resource.adaptTo(ContentPolicyMapping.class);
-        if (mapping == null) {
-            throw new IllegalStateException("Adapter not registered for the ContentPolicyManager.");
+        ContentPolicy contentPolicy = null;
+        if (mapping != null) {
+            contentPolicy = mapping.getPolicy();
         }
-        ContentPolicy contentPolicy = mapping.getPolicy();
         final MockSlingHttpServletRequest request =
                 new MockSlingHttpServletRequest(AEM_CONTEXT.resourceResolver(), AEM_CONTEXT.bundleContext());
         request.setContextPath(CONTEXT_PATH);

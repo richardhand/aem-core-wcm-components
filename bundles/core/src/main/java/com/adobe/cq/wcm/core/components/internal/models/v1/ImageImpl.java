@@ -59,7 +59,9 @@ import com.day.cq.commons.ImageResource;
 import com.day.cq.commons.jcr.JcrConstants;
 import com.day.cq.dam.api.Asset;
 import com.day.cq.wcm.api.NameConstants;
+import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
+import com.day.cq.wcm.api.Template;
 import com.day.cq.wcm.api.designer.Style;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -84,6 +86,9 @@ public class ImageImpl implements Image, ComponentExporter {
 
     @ScriptVariable
     private PageManager pageManager;
+
+    @ScriptVariable
+    private Page currentPage;
 
     @ScriptVariable
     protected Style currentStyle;
@@ -118,7 +123,9 @@ public class ImageImpl implements Image, ComponentExporter {
     protected String mimeType;
     protected String extension;
     protected long lastModifiedDate = 0;
-    protected String escapedResourcePath;
+    protected boolean inTemplate;
+    protected String baseResourcePath;
+    protected String templateRelativePath;
     protected boolean disableLazyLoading;
 
     /**
@@ -188,21 +195,30 @@ public class ImageImpl implements Image, ComponentExporter {
             smartImages = new String[supportedRenditionWidths.size()];
             smartSizes = new int[supportedRenditionWidths.size()];
             int index = 0;
-            escapedResourcePath = Text.escapePath(resource.getPath());
+            Template template = currentPage.getTemplate();
+            if (template != null && resource.getPath().startsWith(template.getPath())) {
+                inTemplate = true;
+                baseResourcePath = currentPage.getPath();
+                templateRelativePath = resource.getPath().substring(template.getPath().length());
+            } else {
+                baseResourcePath = resource.getPath();
+            }
             for (Integer width : supportedRenditionWidths) {
-                smartImages[index] = request.getContextPath() + escapedResourcePath + DOT + AdaptiveImageServlet.DEFAULT_SELECTOR + DOT +
-                        width + DOT + extension + (lastModifiedDate > 0 ? "/" + lastModifiedDate + DOT + extension
-                        : "");
+                smartImages[index] = Text.escapePath(request.getContextPath() + baseResourcePath + DOT +
+                        AdaptiveImageServlet.DEFAULT_SELECTOR + DOT + width + DOT + extension +
+                        (inTemplate ? templateRelativePath : "") +
+                        (lastModifiedDate > 0 ? "/" + lastModifiedDate + DOT + extension : ""));
                 smartSizes[index] = width;
                 index++;
             }
-            src = request.getContextPath() + escapedResourcePath + DOT + AdaptiveImageServlet.DEFAULT_SELECTOR + DOT;
+            src = Text.escapePath(request.getContextPath() + baseResourcePath + DOT + AdaptiveImageServlet.DEFAULT_SELECTOR + DOT);
             if (smartSizes.length == 1) {
                 src += smartSizes[0] + DOT + extension;
             } else {
                 src += extension;
             }
-            src += lastModifiedDate > 0 ? "/" + lastModifiedDate + DOT + extension : "";
+            src += (inTemplate ? Text.escapePath(templateRelativePath) : "") + (lastModifiedDate > 0 ? "/" + lastModifiedDate + DOT +
+                    extension : "");
             if (!isDecorative) {
                 if (StringUtils.isNotEmpty(linkURL)) {
                     linkURL = Utils.getURL(request, pageManager, linkURL);
