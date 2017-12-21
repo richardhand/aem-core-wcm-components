@@ -25,7 +25,6 @@ import javax.annotation.Nonnull;
 import javax.jcr.RangeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import javax.jcr.Value;
 import javax.servlet.Servlet;
 import javax.servlet.http.HttpServletResponse;
 
