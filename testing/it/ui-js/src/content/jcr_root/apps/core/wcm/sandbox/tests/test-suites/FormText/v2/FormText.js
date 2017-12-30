@@ -22,7 +22,7 @@
     // shortcut
     var c = window.CQ.CoreComponentsIT.commons;
     var formTextV1 = window.CQ.CoreComponentsIT.FormText.v1;
-
+    var formTextV2 = window.CQ.CoreComponentsIT.FormText.v2;
 
     /**
      * v2 specifics
@@ -54,7 +54,7 @@
         .addTestCase(formTextV1.setHelpMessage(itemSelector, tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(formTextV1.setHelpMessageAsPlaceholder(tcExecuteBeforeTest, tcExecuteAfterTest))
         .addTestCase(formTextV1.setReadOnly(tcExecuteBeforeTest, tcExecuteAfterTest))
-        .addTestCase(formTextV1.setRequired(tcExecuteBeforeTest, tcExecuteAfterTest))
-        .addTestCase(formTextV1.setConstraintMessage(tcExecuteBeforeTest, tcExecuteAfterTest))
+        .addTestCase(formTextV2.setRequired(tcExecuteBeforeTest, tcExecuteAfterTest))
+        .addTestCase(formTextV2.setConstraintMessage(tcExecuteBeforeTest, tcExecuteAfterTest))
     ;
 }(hobs, jQuery));
