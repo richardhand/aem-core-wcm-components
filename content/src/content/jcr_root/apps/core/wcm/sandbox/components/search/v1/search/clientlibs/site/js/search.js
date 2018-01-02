@@ -16,9 +16,12 @@
 (function () {
     'use strict';
 
+    var NS = 'cmp';
+    var IS = 'search';
+
     var DELAY = 300; // time before fetching new results when the user is typing a search string
     var LOADING_DISPLAY_DELAY = 300; // minimum time during which the loading indicator is displayed
-    var PARAM_RESULTS_OFFSET = "resultsOffset";
+    var PARAM_RESULTS_OFFSET = 'resultsOffset';
 
     var keyCodes = {
         TAB: 9,
@@ -29,23 +32,65 @@
     };
 
     var selectors = {
-        self : '.cmp-search',
-        form : '.cmp-search__form',
-        field : '.cmp-search__field',
-        input : '.cmp-search__input',
-        searchIcon : '.cmp-search__icon',
-        loadingIndicator : '.cmp-search__loading-indicator',
-        clear : '.cmp-search__clear',
-        results : '.cmp-search__results',
-        template : '[data-cmp-hook-search="itemTemplate"]',
+        self : '[data-' + NS + '-is="' + IS +'"]',
         item : {
-            self : '.cmp-search__item',
-            focused : '.cmp-search__item--focused',
-            mark : '.cmp-search__item-mark'
+            self : '[data-' + NS + '-hook-' + IS + '="item"]',
+            title : '[data-' + NS + '-hook-' + IS + '="itemTitle"]',
+            focused : '.' + NS + '-search__item--is-focused'
+        }
+    };
+
+    var properties = {
+        /**
+         * The minimum required length of the search term before results are fetched.
+         */
+        minLength: {
+            'default' : 3,
+            transform : function(value) {
+                // number
+                value = parseFloat(value);
+                return isNaN(value) ? null : value;
+            }
+        },
+        /**
+         * The maximal number of results fetched by a search request.
+         */
+        resultsSize: {
+            'default' : 10,
+            transform : function(value) {
+                // number
+                value = parseFloat(value);
+                return isNaN(value) ? null : value;
+            }
         }
     };
 
     var idCount = 0;
+
+    function readData(element) {
+        var data = element.dataset;
+        var options = [];
+        var capitalized = IS;
+        capitalized = capitalized.charAt(0).toUpperCase() + capitalized.slice(1);
+        var reserved = ['is', 'hook' + capitalized];
+
+        for (var key in data) {
+            if (data.hasOwnProperty(key)) {
+                var value = data[key];
+
+                if (key.indexOf(NS) === 0) {
+                    key = key.slice(NS.length);
+                    key = key.charAt(0).toLowerCase() + key.substring(1);
+
+                    if (reserved.indexOf(key) === -1) {
+                        options[key] = value;
+                    }
+                }
+            }
+        }
+
+        return options;
+    }
 
     function toggleShow(element, show) {
         if (element) {
@@ -85,7 +130,7 @@
 
             if (nodeValue && match) {
                 var element = document.createElement('mark');
-                element.className = 'cmp-search__item-mark';
+                element.className = NS + '-search__item-mark';
                 element.appendChild(document.createTextNode(match[0]));
 
                 var after = node.splitText(match.index);
@@ -101,47 +146,44 @@
     }
 
     function Search(config) {
-        this._el = config.el;
-        this._form = this._el.querySelector(selectors.form);
-        this._action = this._form.getAttribute('action');
-        this._input = this._el.querySelector(selectors.input);
-        this._searchIcon = this._el.querySelector(selectors.searchIcon);
-        this._loadingIndicator = this._el.querySelector(selectors.loadingIndicator);
-        this._clear = this._el.querySelector(selectors.clear);
-        this._results = this._el.querySelector(selectors.results);
-        this._template = this._el.querySelector(selectors.template).innerHTML;
+        if (config.element) {
+            // prevents multiple initialization
+            config.element.removeAttribute('data-' + NS + '-is');
+        }
 
-        this._searchTermMinimumLength = parseFloat(this._el.dataset.searchTermMinimumLength);
-        this._resultsSize = parseFloat(this._el.dataset.resultsSize);
+        this._cacheElements(config.element);
+        this._setupProperties(config.options);
+
+        this._action = this._elements.form.getAttribute('action');
         this._resultsOffset = 0;
         this._hasMoreResults = true;
 
-        this._input.addEventListener('input', this._onInput.bind(this));
-        this._input.addEventListener('focus', this._onInput.bind(this));
-        this._input.addEventListener('keydown', this._onKeydown.bind(this));
-        this._clear.addEventListener('click', this._onClearClick.bind(this));
+        this._elements.input.addEventListener('input', this._onInput.bind(this));
+        this._elements.input.addEventListener('focus', this._onInput.bind(this));
+        this._elements.input.addEventListener('keydown', this._onKeydown.bind(this));
+        this._elements.clear.addEventListener('click', this._onClearClick.bind(this));
         document.addEventListener('click', this._onDocumentClick.bind(this));
-        this._results.addEventListener('scroll', this._onScroll.bind(this));
+        this._elements.results.addEventListener('scroll', this._onScroll.bind(this));
 
         this._makeAccessible();
     }
 
     Search.prototype._displayResults = function() {
-        if (this._input.value.length === 0) {
-            toggleShow(this._clear, false);
+        if (this._elements.input.value.length === 0) {
+            toggleShow(this._elements.clear, false);
             this._cancelResults();
-        } else if (this._input.value.length < this._searchTermMinimumLength) {
-            toggleShow(this._clear, true);
+        } else if (this._elements.input.value.length < this._properties.minLength) {
+            toggleShow(this._elements.clear, true);
         } else {
             this._updateResults();
-            toggleShow(this._clear, true);
+            toggleShow(this._elements.clear, true);
         }
     };
 
     Search.prototype._onScroll = function(event) {
         // fetch new results when the results to be scrolled down are less than the visible results
-        if (this._results.scrollTop + 2 * this._results.clientHeight >= this._results.scrollHeight) {
-            this._resultsOffset += this._resultsSize;
+        if (this._elements.results.scrollTop + 2 * this._elements.results.clientHeight >= this._elements.results.scrollHeight) {
+            this._resultsOffset += this._properties.resultsSize;
             this._displayResults();
         }
     };
@@ -166,9 +208,9 @@
                 break;
             case keyCodes.ENTER:
                 if (!self._resultsOpen()) {
-                    self._form.submit();
+                    self._elements.form.submit();
                 } else {
-                    var focused = self._results.querySelector(selectors.item.focused);
+                    var focused = self._elements.results.querySelector(selectors.item.focused);
                     if (focused) {
                         focused.click();
                     }
@@ -199,28 +241,28 @@
 
     Search.prototype._onClearClick = function(event) {
         event.preventDefault();
-        this._input.value = '';
-        toggleShow(this._clear, false);
-        toggleShow(this._results, false);
+        this._elements.input.value = '';
+        toggleShow(this._elements.clear, false);
+        toggleShow(this._elements.results, false);
     };
 
     Search.prototype._onDocumentClick = function(event) {
-        var inputContainsTarget =  this._input.contains(event.target);
-        var resultsContainTarget = this._results.contains(event.target);
+        var inputContainsTarget =  this._elements.input.contains(event.target);
+        var resultsContainTarget = this._elements.results.contains(event.target);
 
         if (!(inputContainsTarget || resultsContainTarget)) {
-            toggleShow(this._results, false);
+            toggleShow(this._elements.results, false);
         }
     };
 
     Search.prototype._resultsOpen = function() {
-        return this._results.style.display !== 'none';
+        return this._elements.results.style.display !== 'none';
     };
 
     Search.prototype._makeAccessible = function() {
-        var id = 'cmp-search-' + idCount;
-        this._input.setAttribute('aria-owns', id);
-        this._results.id = id;
+        var id = NS + '-search-results-' + idCount;
+        this._elements.input.setAttribute('aria-owns', id);
+        this._elements.results.id = id;
         idCount++;
     };
 
@@ -228,17 +270,17 @@
         var self = this;
 
         data.forEach(function (item) {
-            var el       = document.createElement('span');
-            el.innerHTML = self._template;
-            el.getElementsByClassName('cmp-search__item-title')[0].appendChild(document.createTextNode(item.title));
-            el.getElementsByClassName('cmp-search__item')[0].setAttribute('href', item.url);
+            var el = document.createElement('span');
+            el.innerHTML = self._elements.itemTemplate.innerHTML;
+            el.querySelectorAll(selectors.item.title)[0].appendChild(document.createTextNode(item.title));
+            el.querySelectorAll(selectors.item.self)[0].setAttribute('href', item.url);
             results.innerHTML += el.innerHTML;
         });
     };
 
     Search.prototype._markResults = function() {
-        var nodeList = this._results.querySelectorAll(selectors.item.self);
-        var escapedTerm = this._input.value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+        var nodeList = this._elements.results.querySelectorAll(selectors.item.self);
+        var escapedTerm = this._elements.input.value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
         var regex = new RegExp('(' + escapedTerm + ')', 'gi');
 
         for (var i = this._resultsOffset - 1; i < nodeList.length; ++i) {
@@ -248,11 +290,11 @@
     };
 
     Search.prototype._stepResultFocus = function(reverse) {
-        var results = this._results.querySelectorAll(selectors.item.self);
-        var focused = this._results.querySelector(selectors.item.focused);
+        var results = this._elements.results.querySelectorAll(selectors.item.self);
+        var focused = this._elements.results.querySelector(selectors.item.focused);
         var newFocused;
         var index = Array.prototype.indexOf.call(results, focused);
-        var focusedCssClass = 'cmp-search__item--focused';
+        var focusedCssClass = NS + '-search__item--is-focused';
 
         if (results.length > 0) {
 
@@ -266,11 +308,11 @@
                 }
 
                 // if the last visible result is partially hidden, scroll up until it's completely visible
-                newFocused = this._results.querySelector(selectors.item.focused);
+                newFocused = this._elements.results.querySelector(selectors.item.focused);
                 if (newFocused) {
-                    var bottomHiddenHeight = newFocused.offsetTop + newFocused.offsetHeight - this._results.scrollTop - this._results.clientHeight;
+                    var bottomHiddenHeight = newFocused.offsetTop + newFocused.offsetHeight - this._elements.results.scrollTop - this._elements.results.clientHeight;
                     if (bottomHiddenHeight > 0) {
-                        this._results.scrollTop += bottomHiddenHeight;
+                        this._elements.results.scrollTop += bottomHiddenHeight;
                     } else {
                         this._onScroll();
                     }
@@ -284,11 +326,11 @@
                 }
 
                 // if the first visible result is partially hidden, scroll down until it's completely visible
-                newFocused = this._results.querySelector(selectors.item.focused);
+                newFocused = this._elements.results.querySelector(selectors.item.focused);
                 if (newFocused) {
-                    var topHiddenHeight = this._results.scrollTop - newFocused.offsetTop;
+                    var topHiddenHeight = this._elements.results.scrollTop - newFocused.offsetTop;
                     if (topHiddenHeight > 0) {
-                        this._results.scrollTop -= topHiddenHeight;
+                        this._elements.results.scrollTop -= topHiddenHeight;
                     }
                 }
             }
@@ -299,28 +341,28 @@
         var self = this;
         if (self._hasMoreResults) {
             var request = new XMLHttpRequest();
-            var url = self._action + "?" + serialize(self._form) + "&" + PARAM_RESULTS_OFFSET + "=" + self._resultsOffset;
+            var url = self._action + '?' + serialize(self._elements.form) + '&' + PARAM_RESULTS_OFFSET + '=' + self._resultsOffset;
 
             request.open('GET', url, true);
             request.onload = function() {
                 // when the results are loaded: hide the loading indicator and display the search icon after a minimum period
                 setTimeout(function() {
-                    toggleShow(self._loadingIndicator, false);
-                    toggleShow(self._searchIcon, true);
+                    toggleShow(self._elements.loadingIndicator, false);
+                    toggleShow(self._elements.icon, true);
                 }, LOADING_DISPLAY_DELAY);
                 if (request.status >= 200 && request.status < 400) {
                     // success status
                     var data = JSON.parse(request.responseText);
                     if (data.length > 0) {
-                        self._generateItems(data, self._results);
+                        self._generateItems(data, self._elements.results);
                         self._markResults();
-                        toggleShow(self._results, true);
+                        toggleShow(self._elements.results, true);
                     } else {
                         self._hasMoreResults = false;
                     }
                     // the total number of results is not a multiple of the fetched results:
                     // -> we reached the end of the query
-                    if (self._results.querySelectorAll(selectors.item.self).length % self._resultsSize > 0) {
+                    if (self._elements.results.querySelectorAll(selectors.item.self).length % self._properties.resultsSize > 0) {
                         self._hasMoreResults = false;
                     }
                 } else {
@@ -328,52 +370,89 @@
                 }
             };
             // when the results are loading: display the loading indicator and hide the search icon
-            toggleShow(self._loadingIndicator, true);
-            toggleShow(self._searchIcon, false);
+            toggleShow(self._elements.loadingIndicator, true);
+            toggleShow(self._elements.icon, false);
             request.send();
         }
     };
 
     Search.prototype._cancelResults = function() {
         clearTimeout(this._timeout);
-        this._results.scrollTop = 0;
+        this._elements.results.scrollTop = 0;
         this._resultsOffset = 0;
         this._hasMoreResults = true;
-        this._results.innerHTML = '';
+        this._elements.results.innerHTML = '';
     };
 
-    var initSearch = function(search) {
-        for (var i = 0; i < search.length; i++) {
-            new Search({ el: search[i] });
+    Search.prototype._cacheElements = function(wrapper) {
+        this._elements = {};
+        this._elements.self = wrapper;
+        var hooks = this._elements.self.querySelectorAll('[data-' + NS + '-hook-' + IS + ']');
+
+        for (var i = 0; i < hooks.length; i++) {
+            var hook = hooks[i];
+            var capitalized = IS;
+            capitalized = capitalized.charAt(0).toUpperCase() + capitalized.slice(1);
+            var key = hook.dataset[NS + 'Hook' + capitalized];
+            this._elements[key] = hook;
         }
     };
 
-    document.addEventListener('DOMContentLoaded', function() {
-        var search = document.querySelectorAll(selectors.self);
-        initSearch(search);
-    });
+    Search.prototype._setupProperties = function(options) {
+        this._properties = {};
 
-    var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
-    var body = document.querySelector('body');
-    var observer = new MutationObserver(function (mutations) {
-        mutations.forEach(function (mutation) {
-            // needed for IE
-            var nodesArray = [].slice.call(mutation.addedNodes);
-            if (nodesArray.length > 0) {
-                nodesArray.forEach(function (addedNode) {
-                    if (addedNode.querySelectorAll) {
-                        var search = [].slice.call(addedNode.querySelectorAll(selectors.self));
-                        initSearch(search);
+        for (var key in properties) {
+            if (properties.hasOwnProperty(key)) {
+                var property = properties[key];
+                if (options && options[key] != null) {
+                    if (property && typeof property.transform === 'function') {
+                        this._properties[key] = property.transform(options[key]);
+                    } else {
+                        this._properties[key] = options[key];
                     }
-                });
+                } else {
+                    this._properties[key] = properties[key]['default'];
+                }
             }
-        });
-    });
+        }
+    };
 
-    observer.observe(body, {
-        subtree      : true,
-        childList    : true,
-        characterData: true
-    });
+    function onDocumentReady() {
+        var elements = document.querySelectorAll(selectors.self);
+        for (var i = 0; i < elements.length; i++) {
+            new Search({ element: elements[i], options: readData(elements[i]) });
+        }
+
+        var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
+        var body = document.querySelector('body');
+        var observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+                // needed for IE
+                var nodesArray = [].slice.call(mutation.addedNodes);
+                if (nodesArray.length > 0) {
+                    nodesArray.forEach(function (addedNode) {
+                        if (addedNode.querySelectorAll) {
+                            var elementsArray = [].slice.call(addedNode.querySelectorAll(selectors.self));
+                            elementsArray.forEach(function (element) {
+                                new Search({ element: element, options: readData(element) });
+                            });
+                        }
+                    });
+                }
+            });
+        });
+
+        observer.observe(body, {
+            subtree      : true,
+            childList    : true,
+            characterData: true
+        });
+    }
+
+    if (document.readyState != 'loading'){
+        onDocumentReady();
+    } else {
+        document.addEventListener('DOMContentLoaded', onDocumentReady());
+    }
 
 })();

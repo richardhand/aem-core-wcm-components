@@ -118,7 +118,7 @@
                         this._properties[key] = options[key];
                     }
                 } else {
-                    this._properties[key] = properties[key].default;
+                    this._properties[key] = properties[key]['default'];
                 }
             }
         }

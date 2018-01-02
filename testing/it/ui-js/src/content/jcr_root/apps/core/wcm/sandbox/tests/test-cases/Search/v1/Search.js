@@ -24,12 +24,12 @@
 
     var selectors = {
         component: {
-            self    : '.cmp-search',
-            input   : '.cmp-search__input',
-            clear   : '.cmp-search__clear',
-            results : '.cmp-search__results',
+            self    : '[data-cmp-is="search"]',
+            input   : '[data-cmp-hook-search="input"]',
+            clear   : '[data-cmp-hook-search="clear"]',
+            results : '[data-cmp-hook-search="results"]',
             item: {
-                self  : '.cmp-search__item',
+                self  : '[data-cmp-hook-search="item"]',
                 mark  : '.cmp-search__item-mark'
             }
         },
@@ -63,10 +63,10 @@
                         }
                     });
                 }
-                if(match) {
+                if (match) {
                     done(true);
                 } else {
-                    if(retries++ === maxRetries) {
+                    if (retries++ === maxRetries) {
                         done(false, "Not able to get query result for " + expected);
                         return;
                     }
@@ -235,7 +235,7 @@
             })
             .fillInput(selectors.component.input, 'Page', {delay: 1000})
             .assert.visible(selectors.component.results)
-            .assert.exist(selectors.component.item.self + '[href="' + h.config.context_path + '%page_1_1_1%.html"]');
+            .assert.visible(selectors.component.item.self + '[href="' + h.config.context_path + '%page_1_1_1%.html"]');
     };
 
     /**
@@ -357,7 +357,7 @@
 
             .execFct(function (opts,done) {
                 var data = {
-                    "resultsSize" : "3",
+                    "resultsSize" : "2",
                     "jcr:title" : "New Policy",
                     "sling:resourceType" : "wcm/core/components/policy/policy"
                 };
@@ -379,7 +379,7 @@
             .fillInput(selectors.component.input, 'page', {delay: 1000})
             .assert.isTrue(function () {
                 var $results = h.find(selectors.component.item.self);
-                return $results && $results.length == 3})
+                return $results && $results.length == 2})
 
     };
 
@@ -388,10 +388,11 @@
      */
     search.testScrollDown = function (tcExecuteBeforeTest, tcExecuteAfterTest, policyName, policyLocation, policyPath, policyAssignmentPath) {
         return new TestCase('Scroll Down', {
-            execBefore: tcExecuteBeforeTest
+            execBefore: tcExecuteBeforeTest,
+            execAfter: tcExecuteAfterTest
         })
             .execTestCase(c.tcOpenConfigureDialog('cmpPath'))
-            .fillInput('foundation-autocomplete[name="./searchRoot"]', c.rootPage)
+            .fillInput('foundation-autocomplete[name="./searchRoot"]', c.rootPage, {delayAfter: 1000})
             .execTestCase(c.tcSaveConfigureDialog)
             .config.changeContext(c.getContentFrame)
             .fillInput(selectors.component.input, 'page', {delay: 1000})

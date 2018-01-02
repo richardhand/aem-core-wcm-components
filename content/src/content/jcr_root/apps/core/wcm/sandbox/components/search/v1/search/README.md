@@ -29,14 +29,14 @@ are fetched.
 ### Component Policy Configuration Properties
 The following configuration properties are used:
 
-1. `./searchRoot` - defines the root page from which to search. Can be a blueprint master, language master or regular page.
-2. `./resultsSize` - defines the maximal number of results fetched by a search request
-3. `./searchTermMinimumLength` - defines the minimum length of the search term to start the search
+1. `./searchRoot` - the root page from which to search. Can be a blueprint master, language master or regular page.
+2. `./resultsSize` - the maximal number of results fetched by a search request
+3. `./searchTermMinimumLength` - the minimum required length of the search term before results are fetched
 
 ### Edit Dialog Properties
 The following properties are written to JCR for the Search component and are expected to be available as `Resource` properties:
 
-1. `./searchRoot` - defines the root page from which to search. Can be a blueprint master, language master or regular page.
+1. `./searchRoot` - the root page from which to search. Can be a blueprint master, language master or regular page.
 
 ## Client Libraries
 The component provides a `core.wcm.components.search.v1` client library category that contains a recommended base
@@ -56,7 +56,29 @@ BLOCK cmp-search
     ELEMENT cmp-search__item
     ELEMENT cmp-search__item-mark
     ELEMENT cmp-search__item-title
-        MOD cmp-search__item--focused
+        MOD cmp-search__item--is-focused
+```
+
+## JavaScript Data Attribute Bindings
+Apply a `data-cmp-is="search"` attribute to the wrapper block to enable initialization of the JavaScript component.
+
+The following attributes can be added to the same element to provide options:
+
+1. `data-cmp-min-length` - populated with `searchTermMinimumLength` from the component's policy configuration
+2. `data-cmp-results-size` - populated with `resultsSize` from the component's policy configuration
+
+A hook attribute from the following should be added to the corresponding element so that the JavaScript is able to target it:
+
+```
+data-cmp-hook-search="form"
+data-cmp-hook-search="icon"
+data-cmp-hook-search="loadingIndicator"
+data-cmp-hook-search="input"
+data-cmp-hook-search="clear"
+data-cmp-hook-search="results"
+data-cmp-hook-search="itemTemplate"
+data-cmp-hook-search="item"
+data-cmp-hook-search="itemTitle"
 ```
 
 ## Information
@@ -65,4 +87,3 @@ BLOCK cmp-search
 * **Compatibility**: AEM 6.3
 * **Status**: preview
 * **Documentation**: [https://www.adobe.com/go/aem\_cmp\_search\_v1](https://www.adobe.com/go/aem_cmp_search_v1)
-

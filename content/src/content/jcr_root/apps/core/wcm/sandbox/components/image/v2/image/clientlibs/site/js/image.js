@@ -247,7 +247,7 @@
                             that._properties[key] = options[key];
                         }
                     } else {
-                        that._properties[key] = properties[key]["default"];
+                        that._properties[key] = properties[key]['default'];
                     }
                 }
             }
