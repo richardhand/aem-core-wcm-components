@@ -146,7 +146,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>core.wcm.components.sandbox.bundle</artifactId>
-            <version>0.0.92</version>
+            <version>0.0.98</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
