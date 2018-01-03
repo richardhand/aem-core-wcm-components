@@ -315,7 +315,7 @@ config.setEnableMailNotification(false)
 // Don't trigger sprout for release commits
 config.setBuildCriteria([new Exclude(
         new AndCriteria()
-                .withCriteria(new GitCommitMessage(/^(.*)@releng \[maven\-scm\] :prepare(.*)$/))
+                .withCriteria(new GitCommitMessage(/^(.*)(@releng|NPR-84|@docs)(.*)$/))
                 .withCriteria(new Exclude(new ManuallyTriggered())))])
 
 // Slack notification
