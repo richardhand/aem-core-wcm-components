@@ -19,8 +19,7 @@
         data-sly-test="${!fragment.elements.isEmpty}"
         data-path="${properties.fragmentPath}"
         data-type="${fragment.type}"
-        data-sly-use.json="${'contentfragment.js' @ fragment=fragment, properties=properties}"
-        data-json="${!wcmmode.disabled && json.string}"
+        data-json="${!wcmmode.disabled && fragment.editorJSON}"
         class="cmp-contentfragment${!wcmmode.disabled ? ' cq-dd-contentfragment' : ''}"
         data-sly-use.elementTemplate="element.html"
         data-sly-list.element="${fragment.elements}">

@@ -250,4 +250,14 @@ public interface ContentFragment extends ContainerExporter {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Returns a JSON format string containing information about this fragment.
+     * @return JSON string
+     */
+    @Nonnull
+    @JsonIgnore
+    default String getEditorJSON() {
+        throw new UnsupportedOperationException();
+    }
+
 }
