@@ -256,14 +256,12 @@ public class SearchResultServlet extends SlingSafeMethodsServlet {
 
     private ValueMap getContentPolicyProperties(Resource searchResource, Resource requestedResource) {
         ValueMap contentPolicyProperties = new ValueMapDecorator(new HashMap<>());
-        if (searchResource.getPath().startsWith(requestedResource.getPath())) {
-            ResourceResolver resourceResolver = searchResource.getResourceResolver();
-            ContentPolicyManager contentPolicyManager = resourceResolver.adaptTo(ContentPolicyManager.class);
-            if (contentPolicyManager != null) {
-                ContentPolicy policy = contentPolicyManager.getPolicy(searchResource);
-                if (policy != null) {
-                    contentPolicyProperties = policy.getProperties();
-                }
+        ResourceResolver resourceResolver = searchResource.getResourceResolver();
+        ContentPolicyManager contentPolicyManager = resourceResolver.adaptTo(ContentPolicyManager.class);
+        if (contentPolicyManager != null) {
+            ContentPolicy policy = contentPolicyManager.getPolicy(searchResource);
+            if (policy != null) {
+                contentPolicyProperties = policy.getProperties();
             }
         }
         return contentPolicyProperties;

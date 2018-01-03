@@ -42,7 +42,7 @@
                                 rootPath="/content"
                                 forceSelection="{Boolean}true"
                                 name="./searchRoot"
-                                value="${not empty cqDesign.navigationRoot ? cqDesign.navigationRoot : ''}"
+                                value="${not empty cqDesign.searchRoot ? cqDesign.searchRoot : ''}"
                                 required="{Boolean}true"/>
                         </items>
                     </properties>
