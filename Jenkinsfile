@@ -116,6 +116,13 @@ MavenDependency uiTestingCommonsPackage = new MavenDependency.Builder()
 Quickstart quickstart = new BuildQuickstart.Builder('Quickstart 6.4')
         .build()
 
+Quickstart qsWithSampleContentProvisioning = new BuildQuickstart.Builder('Quickstart 6.4')
+        .withModule(componentsItUi)
+        .withModule(componentsCore)
+        .withModule(componentsContent)
+        .withModule(componentsConfig)
+        .build()
+
 /* --------------------------------------------------------------------- */
 /*                      CQ INSTANCE CONFIGURATIONS                        */
 /* --------------------------------------------------------------------- */
@@ -301,7 +308,7 @@ config.setEnableBuildPromotion(false)
 config.setParameterDefinitionCriteria([ new Branch(/^PRIVATE_master$/)])
 
 config.setGithubAccessTokenId('bf3be1a6-ad0a-43d9-86e2-93b30279060f')
-config.setQuickstartPRConfig(quickstart)
+config.setQuickstartPRConfig(qsWithSampleContentProvisioning)
 
 config.setEnableMailNotification(false)
 
