@@ -95,7 +95,7 @@ public class FormStructureHelperImpl implements FormStructureHelper {
     }
 
     private boolean isButtonElement(Resource resource) {
-        if (resource.isResourceType(FormConstants.RT_CORE_FORM_BUTTON) || resource.isResourceType(FormConstants.RT_CORE_FORM_BUTTON_SANDBOX)) {
+        if (resource.isResourceType(FormConstants.RT_CORE_FORM_BUTTON_V1) || resource.isResourceType(FormConstants.RT_CORE_FORM_BUTTON_V2)) {
             ValueMap valueMap = resource.adaptTo(ValueMap.class);
             if(valueMap != null) {
                 String type = valueMap.get("type", String.class);

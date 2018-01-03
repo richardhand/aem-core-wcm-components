@@ -26,7 +26,7 @@ import com.adobe.cq.export.json.ContainerExporter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * Defines the {@code Page} Sling Model used for the {@code /apps/core/wcm/sandbox/components/page} component.
+ * Defines the {@code Page} Sling Model used for the {@code /apps/core/wcm/components/page} component.
  */
 @ConsumerType
 public interface Page extends com.adobe.cq.wcm.core.components.models.Page, ContainerExporter {

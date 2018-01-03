@@ -41,7 +41,7 @@ import com.day.cq.wcm.api.designer.Style;
 public class TitleImpl implements Title, ComponentExporter {
 
     protected static final String RESOURCE_TYPE_V1 = "core/wcm/components/title/v1/title";
-    protected static final String RESOURCE_TYPE_V2 = "core/wcm/sandbox/components/title/v2/title";
+    protected static final String RESOURCE_TYPE_V2 = "core/wcm/components/title/v2/title";
 
     @ScriptVariable
     private Resource resource;

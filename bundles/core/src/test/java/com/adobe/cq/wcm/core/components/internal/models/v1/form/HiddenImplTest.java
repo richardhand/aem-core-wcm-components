@@ -16,6 +16,7 @@
 package com.adobe.cq.wcm.core.components.internal.models.v1.form;
 
 import com.adobe.cq.wcm.core.components.Utils;
+import com.adobe.cq.wcm.core.components.internal.form.FormConstants;
 import com.adobe.cq.wcm.core.components.models.form.Field;
 import io.wcm.testing.mock.aem.junit.AemContext;
 
@@ -80,7 +81,7 @@ public class HiddenImplTest {
     @Test
     public void testExportedType() {
         Field hiddenField = prepareHiddenFieldForTest(HIDDENINPUT1_PATH);
-        assertEquals(HiddenImpl.RESOURCE_TYPE_V1, ((HiddenImpl) hiddenField).getExportedType());
+        assertEquals(FormConstants.RT_CORE_FORM_HIDDEN_V1, ((HiddenImpl) hiddenField).getExportedType());
     }
 
     @Test

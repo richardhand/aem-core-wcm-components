@@ -59,7 +59,7 @@
             "jcr:lastModifiedBy": "admin",
             "jcr:created": "Wed Oct 05 2016 16:28:03 GMT+0530",
             "jcr:lastModified": "Thu Oct 06 2016 12:47:08 GMT+0530",
-            "sling:resourceType": "core/wcm/sandbox/components/form/hidden/v2/hidden"
+            "sling:resourceType": "core/wcm/components/form/hidden/v2/hidden"
           }
         }
       }

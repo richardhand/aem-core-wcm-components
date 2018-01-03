@@ -23,7 +23,7 @@ import org.osgi.annotation.versioning.ConsumerType;
 import com.adobe.cq.export.json.ComponentExporter;
 
 /**
- * Defines the {@code Title} Sling Model used for the {@code /apps/core/wcm/sandbox/components/title} component.
+ * Defines the {@code Title} Sling Model used for the {@code /apps/core/wcm/components/title} component.
  */
 @ConsumerType
 public interface Title extends com.adobe.cq.wcm.core.components.models.Title, ComponentExporter {

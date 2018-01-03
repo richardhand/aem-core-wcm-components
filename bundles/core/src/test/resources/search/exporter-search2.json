@@ -2,5 +2,5 @@
   "resultsSize": 10,
   "searchTermMinimumLength": 3,
   "results":[],
-  ":type": "core/wcm/sandbox/components/search/v1/search"
+  ":type": "core/wcm/components/search/v1/search"
 }

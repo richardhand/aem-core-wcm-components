@@ -37,7 +37,7 @@ import com.adobe.cq.wcm.core.components.models.Text;
 public class TextImpl implements Text, ComponentExporter {
 
     protected static final String RESOURCE_TYPE_V1 = "core/wcm/components/text/v1/text";
-    protected static final String RESOURCE_TYPE_V2 = "core/wcm/sandbox/components/text/v2/text";
+    protected static final String RESOURCE_TYPE_V2 = "core/wcm/components/text/v2/text";
 
     @ValueMapValue(injectionStrategy = InjectionStrategy.OPTIONAL)
     private String text;

@@ -29,19 +29,17 @@ import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
 import com.adobe.cq.export.json.ComponentExporter;
 import com.adobe.cq.export.json.ExporterConstants;
+import com.adobe.cq.wcm.core.components.internal.form.FormConstants;
 import com.adobe.cq.wcm.core.components.models.form.Text;
 import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
 
 @Model(adaptables = SlingHttpServletRequest.class,
        adapters = {Text.class, ComponentExporter.class},
-       resourceType = {TextImpl.RESOURCE_TYPE_V1, TextImpl.RESOURCE_TYPE_V2})
+       resourceType = {FormConstants.RT_CORE_FORM_TEXT_V1, FormConstants.RT_CORE_FORM_TEXT_V2})
 @Exporter(name = ExporterConstants.SLING_MODEL_EXPORTER_NAME,
           extensions = ExporterConstants.SLING_MODEL_EXTENSION)
 public class TextImpl extends AbstractFieldImpl implements Text, ComponentExporter {
-
-    protected static final String RESOURCE_TYPE_V1 = "core/wcm/components/form/text/v1/text";
-    protected static final String RESOURCE_TYPE_V2 = "core/wcm/sandbox/components/form/text/v2/text";
 
     private static final String ID_PREFIX = "form-text";
     private static final String PROP_NAME_DEFAULT = "text";

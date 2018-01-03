@@ -18,7 +18,7 @@ package com.adobe.cq.wcm.core.components.sandbox.models.form;
 import org.osgi.annotation.versioning.ConsumerType;
 
 /**
- * Defines the {@code Button} Sling Model used for the {@code /apps/core/wcm/sandbox/components/button} component.
+ * Defines the {@code Button} Sling Model used for the {@code /apps/core/wcm/components/button} component.
  */
 @ConsumerType
 public interface Button extends Field, com.adobe.cq.wcm.core.components.models.form.Button {

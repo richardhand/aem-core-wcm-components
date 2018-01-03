@@ -34,14 +34,13 @@ import org.slf4j.LoggerFactory;
 import com.adobe.cq.export.json.ComponentExporter;
 import com.adobe.cq.wcm.core.components.internal.Constants;
 import com.adobe.cq.wcm.core.components.internal.Utils;
-import com.adobe.cq.wcm.core.components.sandbox.internal.resource.ImageResourceWrapper;
+import com.adobe.cq.wcm.core.components.internal.models.v1.AbstractImageDelegatingModel;
 import com.adobe.cq.wcm.core.components.sandbox.models.Teaser;
 import com.day.cq.commons.DownloadResource;
 import com.day.cq.commons.ImageResource;
 import com.day.cq.commons.jcr.JcrConstants;
 import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.api.components.Component;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Model(adaptables = SlingHttpServletRequest.class, adapters = {Teaser.class, ComponentExporter.class}, resourceType = TeaserImpl.RESOURCE_TYPE)
 @Exporter(name = Constants.EXPORTER_NAME, extensions = Constants.EXPORTER_EXTENSION)

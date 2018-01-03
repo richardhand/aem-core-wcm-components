@@ -18,7 +18,7 @@ package com.adobe.cq.wcm.core.components.sandbox.models.form;
 import org.osgi.annotation.versioning.ConsumerType;
 
 /**
- * Defines the form {@code Options} Sling Model used for the {@code /apps/core/wcm/sandbox/components/form/options} component.
+ * Defines the form {@code Options} Sling Model used for the {@code /apps/core/wcm/components/form/options} component.
  */
 @ConsumerType
 public interface Options extends Field, com.adobe.cq.wcm.core.components.models.form.Options {

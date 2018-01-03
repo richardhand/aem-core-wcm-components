@@ -36,7 +36,7 @@ public class TextImplTest {
     protected static final String TEXT_1 = ROOT + "/rich-text";
     protected static final String TEXT_2 = ROOT + "/plain-text";
     protected static final String TEXT_3 = ROOT + "/empty-text";
-    protected static final String TEXT_4 = ROOT + "/rich-text-sandbox";
+    protected static final String TEXT_4 = ROOT + "/rich-text-v2";
 
     protected static String getTestBase() {
         return TEST_BASE;

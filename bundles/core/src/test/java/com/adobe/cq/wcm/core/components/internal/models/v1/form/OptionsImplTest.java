@@ -58,7 +58,7 @@ public class OptionsImplTest {
     private static final String OPTIONS_6 = CONTENT_ROOT + "/radio";
     private static final String OPTIONS_7 = CONTENT_ROOT + "/drop-down";
     private static final String OPTIONS_8 = CONTENT_ROOT + "/multi-drop-down";
-    private static final String OPTIONS_9 = CONTENT_ROOT + "/optionsDefault-sandbox";
+    private static final String OPTIONS_9 = CONTENT_ROOT + "/optionsDefault-v2";
 
     @ClassRule
     public static final AemContext CONTEXT = CoreComponentTestContext.createContext(TEST_BASE, CONTENT_ROOT);

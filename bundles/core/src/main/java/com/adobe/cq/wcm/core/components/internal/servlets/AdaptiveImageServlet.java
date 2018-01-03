@@ -52,8 +52,8 @@ import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.adobe.cq.wcm.core.components.sandbox.internal.models.v1.AbstractImageDelegatingModel;
-import com.adobe.cq.wcm.core.components.sandbox.internal.resource.ImageResourceWrapper;
+import com.adobe.cq.wcm.core.components.internal.models.v1.AbstractImageDelegatingModel;
+import com.adobe.cq.wcm.core.components.internal.resource.ImageResourceWrapper;
 import com.day.cq.commons.DownloadResource;
 import com.day.cq.commons.ImageResource;
 import com.day.cq.dam.api.Asset;

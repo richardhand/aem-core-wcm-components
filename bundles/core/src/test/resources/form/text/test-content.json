@@ -81,7 +81,7 @@
             "rows": 3,
             "hideTitle": true
           },
-          "text_sandbox": {
+          "text-v2": {
             "jcr:primaryType": "nt:unstructured",
             "jcr:title": "Custom title",
             "jcr:createdBy": "admin",
@@ -95,7 +95,7 @@
             "type": "email",
             "useTextarea": true,
             "value": "Prefilled Sample Input",
-            "sling:resourceType": "core/wcm/sandbox/components/form/text/v2/text",
+            "sling:resourceType": "core/wcm/components/form/text/v2/text",
             "requiredMessage": "please fill the field",
             "usePlaceholder": "true",
             "rows": 3,

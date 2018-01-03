@@ -22,7 +22,7 @@ import org.osgi.annotation.versioning.ConsumerType;
 import com.adobe.cq.export.json.ComponentExporter;
 
 /**
- * Defines the Sling Model for the {@code /apps/core/wcm/sandbox/components/sharing} component.
+ * Defines the Sling Model for the {@code /apps/core/wcm/components/sharing} component.
  */
 @ConsumerType
 public interface SocialMediaHelper extends com.adobe.cq.wcm.core.components.models.SocialMediaHelper, ComponentExporter {

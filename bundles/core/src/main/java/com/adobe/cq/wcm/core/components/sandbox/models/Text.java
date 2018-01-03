@@ -22,7 +22,7 @@ import org.osgi.annotation.versioning.ConsumerType;
 import com.adobe.cq.export.json.ComponentExporter;
 
 /**
- * Defines the {@code Text} Sling Model used for the {@code /apps/core/wcm/sandbox/components/text} component.
+ * Defines the {@code Text} Sling Model used for the {@code /apps/core/wcm/components/text} component.
  */
 @ConsumerType
 public interface Text extends com.adobe.cq.wcm.core.components.models.Text, ComponentExporter {

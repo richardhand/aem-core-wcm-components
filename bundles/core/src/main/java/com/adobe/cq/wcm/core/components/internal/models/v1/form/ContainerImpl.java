@@ -58,12 +58,9 @@ import static com.day.cq.wcm.foundation.forms.FormsConstants.SCRIPT_FORM_SERVER_
 
 @Model(adaptables = SlingHttpServletRequest.class,
        adapters = {Container.class, ContainerExporter.class},
-       resourceType = {ContainerImpl.RESOURCE_TYPE_V1, ContainerImpl.RESOURCE_TYPE_V2})
+       resourceType = {FormConstants.RT_CORE_FORM_CONTAINER_V1, FormConstants.RT_CORE_FORM_CONTAINER_V2})
 @Exporter(name = ExporterConstants.SLING_MODEL_EXPORTER_NAME, extensions = ExporterConstants.SLING_MODEL_EXTENSION)
 public class ContainerImpl implements Container, ContainerExporter {
-
-    protected static final String RESOURCE_TYPE_V1 = FormConstants.RT_CORE_FORM_CONTAINER_V1;
-    protected static final String RESOURCE_TYPE_V2 = FormConstants.RT_CORE_FORM_CONTAINER_V2;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ContainerImpl.class);
     private static final String PROP_METHOD_DEFAULT = "POST";

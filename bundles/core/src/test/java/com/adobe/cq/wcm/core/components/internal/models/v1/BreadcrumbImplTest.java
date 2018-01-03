@@ -45,7 +45,7 @@ public class BreadcrumbImplTest {
     private static final String BREADCRUMB_3 = CURRENT_PAGE + "/jcr:content/header/breadcrumb-hide-current";
     private static final String BREADCRUMB_4 = CURRENT_PAGE + "/jcr:content/header/breadcrumb-start-level";
     private static final String BREADCRUMB_5 = CURRENT_PAGE + "/jcr:content/header/breadcrumb-style-based";
-    private static final String BREADCRUMB_6 = CURRENT_PAGE + "/jcr:content/header/breadcrumb-sandbox";
+    private static final String BREADCRUMB_6 = CURRENT_PAGE + "/jcr:content/header/breadcrumb-v2";
 
     @ClassRule
     public static final AemContext CONTEXT = CoreComponentTestContext.createContext(TEST_BASE, "/content/breadcrumb/women");

@@ -22,7 +22,7 @@ import org.osgi.annotation.versioning.ConsumerType;
 import javax.annotation.Nonnull;
 
 /**
- * Defines the {@code Image} Sling Model used for the {@code /apps/core/wcm/sandbox/components/image} component.
+ * Defines the {@code Image} Sling Model used for the {@code /apps/core/wcm/components/image} component.
  */
 @ConsumerType
 public interface Image extends com.adobe.cq.wcm.core.components.models.Image, ComponentExporter {

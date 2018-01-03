@@ -24,7 +24,7 @@ import com.adobe.cq.export.json.ComponentExporter;
 import com.adobe.cq.export.json.ContainerExporter;
 
 /**
- * Defines the form {@code Container} Sling Model used for the {@code /apps/core/wcm/sandbox/components/form/container} component.
+ * Defines the form {@code Container} Sling Model used for the {@code /apps/core/wcm/components/form/container} component.
  */
 @ConsumerType
 public interface Container extends com.adobe.cq.wcm.core.components.models.form.Container, ContainerExporter {
