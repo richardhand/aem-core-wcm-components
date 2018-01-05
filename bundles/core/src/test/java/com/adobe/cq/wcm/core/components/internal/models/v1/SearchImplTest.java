@@ -13,7 +13,7 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-package com.adobe.cq.wcm.core.components.sandbox.internal.models.v1;
+package com.adobe.cq.wcm.core.components.internal.models.v1;
 
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ValueMap;
@@ -26,7 +26,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import com.adobe.cq.sightly.WCMBindings;
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
-import com.adobe.cq.wcm.core.components.sandbox.models.Search;
+import com.adobe.cq.wcm.core.components.models.Search;
 import com.adobe.cq.wcm.core.components.testing.MockStyle;
 import io.wcm.testing.mock.aem.junit.AemContext;
 
@@ -61,7 +61,7 @@ public class SearchImplTest {
         assertEquals(10, search.getResultsSize());
         assertEquals(3, search.getSearchTermMinimumLength());
         assertEquals("/jcr:content/search", search.getRelativePath());
-        assertEquals("core/wcm/sandbox/components/search/v1/search", search.getExportedType());
+        assertEquals("core/wcm/components/search/v1/search", search.getExportedType());
     }
 
 }

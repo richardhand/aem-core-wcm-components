@@ -13,7 +13,7 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-package com.adobe.cq.wcm.core.components.sandbox.models;
+package com.adobe.cq.wcm.core.components.models;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -23,7 +23,7 @@ import com.adobe.cq.export.json.ComponentExporter;
 /**
  * Defines the {@code Navigation} Sling Model used for the {@code /apps/core/wcm/components/navigation} component.
  *
- * @since com.adobe.cq.wcm.core.components.sandbox.models 1.0.0
+ * @since com.adobe.cq.wcm.core.components.models 12.2.0
  */
 public interface Navigation extends ComponentExporter {
 
@@ -31,7 +31,7 @@ public interface Navigation extends ComponentExporter {
      * Name of the resource / configuration policy property that defines the site's navigation root for which to build the navigation tree.
      * The property should provide a String value.
      *
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 6.0.0
+     * @since com.adobe.cq.wcm.core.components.models 12.2.0
      */
     String PN_NAVIGATION_ROOT = "navigationRoot";
 
@@ -40,7 +40,7 @@ public interface Navigation extends ComponentExporter {
      * navigation root, but include its children. The property should provide a Boolean value ({@code true} if the site root should be
      * omitted, {@code false} otherwise).
      *
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 6.0.0
+     * @since com.adobe.cq.wcm.core.components.models 12.2.0
      */
     String PN_SKIP_NAVIGATION_ROOT = "skipNavigationRoot";
 
@@ -49,7 +49,7 @@ public interface Navigation extends ComponentExporter {
      * of the configured {@link #PN_NAVIGATION_ROOT}. The property should provide a Boolean value. When this value property is set to
      * {@code true}, the {@link #PN_STRUCTURE_DEPTH} property will be ignored.
      *
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 6.0.0
+     * @since com.adobe.cq.wcm.core.components.models 12.2.0
      */
     String PN_COLLECT_ALL_PAGES = "collectAllPages";
 
@@ -57,7 +57,7 @@ public interface Navigation extends ComponentExporter {
      * Name of the resource / configuration policy property that defines the navigation structure depth, relative to the
      * {@link #PN_NAVIGATION_ROOT}, where items will be searched for building the navigation tree. The property should provide a Long value.
      *
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 1.0.0
+     * @since com.adobe.cq.wcm.core.components.models 12.2.0
      */
     String PN_STRUCTURE_DEPTH = "structureDepth";
 
@@ -65,14 +65,15 @@ public interface Navigation extends ComponentExporter {
      * Returns the list of navigation items.
      *
      * @return a list of navigation items
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 1.0.0
+     * @since com.adobe.cq.wcm.core.components.models 12.2.0
      */
     default List<NavigationItem> getItems() {
         throw new UnsupportedOperationException();
     }
 
     /**
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 3.1.0
+     * @see ComponentExporter#getExportedType()
+     * @since com.adobe.cq.wcm.core.components.models 12.2.0
      */
     @Nonnull
     @Override

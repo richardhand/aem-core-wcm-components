@@ -17,6 +17,7 @@ package com.adobe.cq.wcm.core.components.internal.resource;
 
 import java.util.HashMap;
 import java.util.List;
+
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.StringUtils;
@@ -27,9 +28,9 @@ import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.wrappers.ValueMapDecorator;
 import org.apache.sling.models.annotations.Exporter;
 
-import com.adobe.cq.wcm.core.components.internal.Constants;
+import com.adobe.cq.export.json.ExporterConstants;
 
-@Exporter(name = Constants.EXPORTER_NAME, extensions = Constants.EXPORTER_EXTENSION)
+@Exporter(name = ExporterConstants.SLING_MODEL_EXPORTER_NAME , extensions = ExporterConstants.SLING_MODEL_EXTENSION)
 public class ImageResourceWrapper extends ResourceWrapper {
 
     private ValueMap valueMap;

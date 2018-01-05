@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-Form Hidden (v2 - sandbox)
+Form Hidden (v2)
 ====
 Hidden form field component written in HTL.
 
@@ -32,7 +32,7 @@ The following properties are written to JCR for this Form Hidden component and a
 
 ## Information
 * **Vendor**: Adobe
-* **Version**: v2 - sandbox
+* **Version**: v2
 * **Compatibility**: AEM 6.3
 * **Status**: preview
 * **Documentation**: [https://www.adobe.com/go/aem\_cmp\_form\_hidden\_v2](https://www.adobe.com/go/aem_cmp_form_hidden_v2)

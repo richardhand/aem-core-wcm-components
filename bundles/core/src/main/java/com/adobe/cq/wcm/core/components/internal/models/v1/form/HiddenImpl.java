@@ -17,8 +17,6 @@ package com.adobe.cq.wcm.core.components.internal.models.v1.form;
 
 import javax.annotation.PostConstruct;
 
-import com.adobe.cq.wcm.core.components.internal.form.FormConstants;
-import com.adobe.cq.wcm.core.components.models.form.Field;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Exporter;
@@ -29,6 +27,8 @@ import org.apache.sling.models.annotations.injectorspecific.Self;
 
 import com.adobe.cq.export.json.ComponentExporter;
 import com.adobe.cq.export.json.ExporterConstants;
+import com.adobe.cq.wcm.core.components.internal.form.FormConstants;
+import com.adobe.cq.wcm.core.components.models.form.Field;
 import com.day.cq.wcm.foundation.forms.FormStructureHelperFactory;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
 

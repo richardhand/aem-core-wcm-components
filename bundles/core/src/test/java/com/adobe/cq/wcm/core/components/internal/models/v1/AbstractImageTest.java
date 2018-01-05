@@ -101,7 +101,7 @@ public class AbstractImageTest {
         when(mockedMimeTypeService.getExtension(StandardImageHandler.JPEG_MIMETYPE)).thenReturn("jpeg");
         when(mockedMimeTypeService.getExtension(StandardImageHandler.PNG1_MIMETYPE)).thenReturn("png");
         when(mockedMimeTypeService.getExtension(StandardImageHandler.GIF_MIMETYPE)).thenReturn("gif");
-        aemContext.load().json("/image/test-conf.json", "/conf");
+        aemContext.load().json(testBase + "/test-conf.json", "/conf");
         aemContext.load().json("/image/test-content-dam.json", "/content/dam/core/images");
         aemContext.load().binaryFile("/image/" + PNG_IMAGE_BINARY_NAME, PNG_ASSET_PATH + "/jcr:content/renditions/original");
         aemContext.load().binaryFile("/image/" + "cq5dam.web.1280.1280_" + PNG_IMAGE_BINARY_NAME, PNG_ASSET_PATH +

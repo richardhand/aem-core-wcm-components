@@ -22,14 +22,13 @@ import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import com.adobe.cq.wcm.core.components.Utils;
-import com.adobe.cq.wcm.core.components.sandbox.models.NavigationItem;
-import com.adobe.cq.wcm.core.components.sandbox.models.Page;
+import com.adobe.cq.wcm.core.components.models.NavigationItem;
+import com.adobe.cq.wcm.core.components.models.Page;
 import com.adobe.cq.wcm.core.components.testing.MockHtmlLibraryManager;
 import com.adobe.granite.ui.clientlibs.ClientLibrary;
 

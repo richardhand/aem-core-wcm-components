@@ -13,14 +13,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-Language Navigation (v1 - sandbox)
+Language Navigation (v1)
 ====
 Language Navigation component written in HTL that renders a global language structure navigation.
 
 ## Features
 
 ### Use Object
-The Language Navigation component uses the `com.adobe.cq.wcm.core.components.sandbox.models.LanguageNavigation` Sling model as its Use-object.
+The Language Navigation component uses the `com.adobe.cq.wcm.core.components.models.LanguageNavigation` Sling model as its Use-object.
 
 ### Component Policy Configuration Properties
 The following configuration properties are used:
@@ -49,7 +49,7 @@ BLOCK cmp-languagenavigation
 
 ## Information
 * **Vendor**: Adobe
-* **Version**: v1 - sandbox
+* **Version**: v1
 * **Compatibility**: AEM 6.3
 * **Status**: preview
 * **Documentation**: [https://www.adobe.com/go/aem\_cmp\_languagenavigation\_v1](https://www.adobe.com/go/aem_cmp_languagenavigation_v1)

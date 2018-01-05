@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-Page (v2 - sandbox)
+Page (v2)
 ====
 Extensible page component written in HTL.
 
@@ -41,7 +41,7 @@ libsScript from all referenced [cloud service configurations](https://docs.adobe
 
 ## Use Object
 The Page component uses the following use objects:
-* `com.adobe.cq.wcm.core.components.sandbox.models.Page`
+* `com.adobe.cq.wcm.core.components.models.Page`
 * `com.adobe.cq.wcm.core.components.models.SocialMediaHelper`
 * `com.day.cq.wcm.foundation.TemplatedContainer`
 
@@ -120,7 +120,7 @@ handling for dialog interaction. It is already included by its edit dialog.
 
 ## Information
 * **Vendor**: Adobe
-* **Version**: v2 - sandbox
+* **Version**: v2
 * **Compatibility**: AEM 6.3
 * **Status**: preview
 * **Documentation**: [https://www.adobe.com/go/aem\_cmp\_page\_v2](https://www.adobe.com/go/aem_cmp_page_v2)

@@ -22,8 +22,8 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.adobe.cq.wcm.core.components.sandbox.models.NavigationItem;
-import com.adobe.cq.wcm.core.components.sandbox.models.LanguageNavigationItem;
+import com.adobe.cq.wcm.core.components.models.LanguageNavigationItem;
+import com.adobe.cq.wcm.core.components.models.NavigationItem;
 import com.day.cq.wcm.api.Page;
 
 public class LanguageNavigationItemImpl extends NavigationItemImpl implements LanguageNavigationItem {

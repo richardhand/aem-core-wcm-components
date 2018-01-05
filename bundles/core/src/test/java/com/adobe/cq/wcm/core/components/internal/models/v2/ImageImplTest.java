@@ -22,7 +22,7 @@ import org.junit.Test;
 
 import com.adobe.cq.wcm.core.components.Utils;
 import com.adobe.cq.wcm.core.components.internal.models.v1.AbstractImageTest;
-import com.adobe.cq.wcm.core.components.sandbox.models.Image;
+import com.adobe.cq.wcm.core.components.models.Image;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -121,6 +121,7 @@ public class ImageImplTest extends com.adobe.cq.wcm.core.components.internal.mod
         Utils.testJSONExport(image, Utils.getTestExporterJSONPath(testBase, AbstractImageTest.IMAGE0_PATH));
     }
 
+    @Test
     @Override
     public void testImageFromTemplateStructure() {
         com.adobe.cq.wcm.core.components.models.Image image = getImageUnderTest(TEMPLATE_IMAGE_PATH);

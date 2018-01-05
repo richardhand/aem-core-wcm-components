@@ -99,8 +99,7 @@ public class BreadcrumbImplTest {
         assertTrue("Expected that the returned breadcrumb will contain " + expectedPages.length + " items",
                 breadcrumb.getItems().size() == expectedPages.length);
         int index = 0;
-        for (NavigationItem i : breadcrumb.getItems()) {
-            com.adobe.cq.wcm.core.components.sandbox.models.NavigationItem item = (com.adobe.cq.wcm.core.components.sandbox.models.NavigationItem)i;
+        for (NavigationItem item : breadcrumb.getItems()) {
             assertEquals(expectedPages[index++], item.getTitle());
         }
     }

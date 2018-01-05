@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
 
@@ -31,9 +32,9 @@ import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 
 import com.adobe.cq.export.json.ComponentExporter;
-import com.adobe.cq.wcm.core.components.internal.Constants;
-import com.adobe.cq.wcm.core.components.sandbox.models.LanguageNavigation;
-import com.adobe.cq.wcm.core.components.sandbox.models.NavigationItem;
+import com.adobe.cq.export.json.ExporterConstants;
+import com.adobe.cq.wcm.core.components.models.LanguageNavigation;
+import com.adobe.cq.wcm.core.components.models.NavigationItem;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageFilter;
 import com.day.cq.wcm.api.PageManager;
@@ -42,8 +43,8 @@ import com.day.cq.wcm.api.designer.Style;
 @Model(adaptables = SlingHttpServletRequest.class,
        adapters = {LanguageNavigation.class, ComponentExporter.class},
        resourceType = {LanguageNavigationImpl.RESOURCE_TYPE})
-@Exporter(name = Constants.EXPORTER_NAME,
-          extensions = Constants.EXPORTER_EXTENSION)
+@Exporter(name = ExporterConstants.SLING_MODEL_EXPORTER_NAME ,
+          extensions = ExporterConstants.SLING_MODEL_EXTENSION)
 public class LanguageNavigationImpl implements LanguageNavigation {
 
     public static final String RESOURCE_TYPE = "core/wcm/components/languagenavigation/v1/languagenavigation";

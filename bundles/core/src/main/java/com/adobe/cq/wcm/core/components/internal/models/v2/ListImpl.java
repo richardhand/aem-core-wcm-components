@@ -28,14 +28,14 @@ import org.apache.sling.models.annotations.injectorspecific.Self;
 import com.adobe.cq.export.json.ComponentExporter;
 import com.adobe.cq.export.json.ExporterConstants;
 import com.adobe.cq.wcm.core.components.internal.models.v1.PageListItemImpl;
-import com.adobe.cq.wcm.core.components.sandbox.models.List;
-import com.adobe.cq.wcm.core.components.sandbox.models.ListItem;
+import com.adobe.cq.wcm.core.components.models.List;
+import com.adobe.cq.wcm.core.components.models.ListItem;
 import com.day.cq.wcm.api.Page;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Model(adaptables = SlingHttpServletRequest.class, adapters = {List.class, ComponentExporter.class}, resourceType = ListImpl.RESOURCE_TYPE)
 @Exporter(name = ExporterConstants.SLING_MODEL_EXPORTER_NAME, extensions = ExporterConstants.SLING_MODEL_EXTENSION)
-public class ListImpl extends com.adobe.cq.wcm.core.components.internal.models.v1.ListImpl implements List, ComponentExporter {
+public class ListImpl extends com.adobe.cq.wcm.core.components.internal.models.v1.ListImpl implements List {
 
     protected static final String RESOURCE_TYPE = "core/wcm/components/list/v2/list";
 

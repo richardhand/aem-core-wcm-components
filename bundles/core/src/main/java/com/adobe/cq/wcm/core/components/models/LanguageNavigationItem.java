@@ -14,7 +14,7 @@
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-package com.adobe.cq.wcm.core.components.sandbox.models;
+package com.adobe.cq.wcm.core.components.models;
 
 import java.util.Locale;
 
@@ -22,15 +22,17 @@ import org.osgi.annotation.versioning.ConsumerType;
 
 /**
  * Interface for a single language navigation item, used by the {@link LanguageNavigation} model.
+ *
+ * @since com.adobe.cq.wcm.core.components.models 12.2.0
  */
 @ConsumerType
-public interface LanguageNavigationItem extends com.adobe.cq.wcm.core.components.sandbox.models.NavigationItem {
+public interface LanguageNavigationItem extends NavigationItem {
 
     /**
      * Returns the locale of this {@code LanguageNavigationItem}.
      *
      * @return the locale of the language navigation item
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 2.0.0
+     * @since com.adobe.cq.wcm.core.components.models 12.2.0
      */
     default Locale getLocale() {
         throw new UnsupportedOperationException();
@@ -40,7 +42,7 @@ public interface LanguageNavigationItem extends com.adobe.cq.wcm.core.components
      * Returns the country of this {@code LanguageNavigationItem}.
      *
      * @return the country of the language navigation item
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 2.0.0
+     * @since com.adobe.cq.wcm.core.components.models 12.2.0
      */
     default String getCountry() {
         throw new UnsupportedOperationException();
@@ -50,7 +52,7 @@ public interface LanguageNavigationItem extends com.adobe.cq.wcm.core.components
      * Returns the language of this {@code LanguageNavigationItem}.
      *
      * @return the language of the language navigation item
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 2.0.0
+     * @since com.adobe.cq.wcm.core.components.models 12.2.0
      */
     default String getLanguage() {
         throw new UnsupportedOperationException();

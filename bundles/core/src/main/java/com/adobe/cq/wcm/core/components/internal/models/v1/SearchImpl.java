@@ -21,21 +21,15 @@ import javax.annotation.PostConstruct;
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
-import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
-import org.apache.sling.models.annotations.injectorspecific.OSGiService;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 import org.apache.sling.models.annotations.injectorspecific.Self;
-import org.apache.sling.models.annotations.injectorspecific.SlingObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.adobe.cq.export.json.ComponentExporter;
-import com.adobe.cq.wcm.core.components.internal.Constants;
-import com.adobe.cq.wcm.core.components.sandbox.models.Search;
-import com.day.cq.search.QueryBuilder;
+import com.adobe.cq.export.json.ExporterConstants;
+import com.adobe.cq.wcm.core.components.models.Search;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.api.designer.Style;
@@ -43,8 +37,8 @@ import com.day.cq.wcm.api.designer.Style;
 @Model(adaptables = SlingHttpServletRequest.class,
        adapters = {Search.class, ComponentExporter.class},
        resourceType = {SearchImpl.RESOURCE_TYPE})
-@Exporter(name = Constants.EXPORTER_NAME,
-          extensions = Constants.EXPORTER_EXTENSION)
+@Exporter(name = ExporterConstants.SLING_MODEL_EXPORTER_NAME ,
+          extensions = ExporterConstants.SLING_MODEL_EXTENSION)
 public class SearchImpl implements Search {
 
     protected static final String RESOURCE_TYPE = "core/wcm/components/search/v1/search";

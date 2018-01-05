@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-List (v2 - sandbox)
+List (v2)
 ====
 List component written in HTL that renders a configurable collection of items or content.
 
@@ -78,7 +78,7 @@ BLOCK cmp-list
 
 ## Information
 * **Vendor**: Adobe
-* **Version**: v2 - sandbox
+* **Version**: v2
 * **Compatibility**: AEM 6.3
 * **Status**: preview
 * **Documentation**: [https://www.adobe.com/go/aem\_cmp\_list\_v2](https://www.adobe.com/go/aem_cmp_list_v2)

@@ -4,6 +4,6 @@
     cq:isContainer="{Boolean}true"
     jcr:description="Components Container allowing visitors to submit information"
     jcr:primaryType="cq:Component"
-    jcr:title="Form Container (v2 - sandbox)"
+    jcr:title="Form Container (v2)"
     sling:resourceSuperType="wcm/foundation/components/responsivegrid"
     componentGroup=".core-wcm-form"/>

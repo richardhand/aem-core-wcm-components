@@ -30,8 +30,6 @@ public final class FormConstants {
 
     /** The prefixes for all core form related resource types */
     public final static String RT_CORE_FORM_PREFIX = "core/wcm/components/form/";
-    /** The prefixes for all sandbox core form related resource types */
-    public final static String RT_CORE_FORM_PREFIX_SANDBOX = "core/wcm/sandbox/components/form/";
 
     /** The resource type for form container v1 */
     public final static String RT_CORE_FORM_CONTAINER_V1 = RT_CORE_FORM_PREFIX + "container/v1/container";
@@ -40,7 +38,6 @@ public final class FormConstants {
 
     /* The resource type prefix for the form container related datasources */
     public final static String RT_CORE_FORM_CONTAINER_DATASOURCE_V1 = RT_CORE_FORM_PREFIX + "container/v1/datasource";
-    public final static String RT_CORE_FORM_CONTAINER_DATASOURCE_V2 = RT_CORE_FORM_PREFIX + "container/v2/datasource";
 
     /** Array of all resource types for the form container, including versions */
     public final static Set<String> RT_ALL_CORE_FORM_CONTAINER = Collections.unmodifiableSet(new HashSet<String>() {{

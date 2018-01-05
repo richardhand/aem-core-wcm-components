@@ -9,7 +9,7 @@
     },
     "staticListType"                           : {
       "jcr:primaryType"     : "nt:unstructured",
-      "sling:resourceType"  : "core/wcm/components/list",
+      "sling:resourceType"  : "core/wcm/components/list/v2/list",
       "listFrom"            : "static",
       "showThumbnail"       : "true",
       "linkItems"           : "true",

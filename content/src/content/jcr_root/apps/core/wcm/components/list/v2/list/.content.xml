@@ -3,5 +3,5 @@
     cq:icon="textBulleted"
     jcr:description="Configurable collection of items or content"
     jcr:primaryType="cq:Component"
-    jcr:title="List (v2 - sandbox)"
+    jcr:title="List (v2)"
     componentGroup=".core-wcm"/>

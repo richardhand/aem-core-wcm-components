@@ -39,10 +39,10 @@ import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 
 import com.adobe.cq.export.json.ComponentExporter;
-import com.adobe.cq.wcm.core.components.internal.Constants;
+import com.adobe.cq.export.json.ExporterConstants;
 import com.adobe.cq.wcm.core.components.internal.models.v2.PageImpl;
-import com.adobe.cq.wcm.core.components.sandbox.models.Navigation;
-import com.adobe.cq.wcm.core.components.sandbox.models.NavigationItem;
+import com.adobe.cq.wcm.core.components.models.Navigation;
+import com.adobe.cq.wcm.core.components.models.NavigationItem;
 import com.day.cq.wcm.api.LanguageManager;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageFilter;
@@ -55,7 +55,7 @@ import com.day.cq.wcm.msm.api.LiveRelationshipManager;
 @Model(adaptables = SlingHttpServletRequest.class,
        adapters = {Navigation.class, ComponentExporter.class},
        resourceType = {NavigationImpl.RESOURCE_TYPE})
-@Exporter(name = Constants.EXPORTER_NAME, extensions = Constants.EXPORTER_EXTENSION)
+@Exporter(name = ExporterConstants.SLING_MODEL_EXPORTER_NAME , extensions = ExporterConstants.SLING_MODEL_EXTENSION)
 public class NavigationImpl implements Navigation {
 
     public static final String RESOURCE_TYPE = "core/wcm/components/navigation/v1/navigation";

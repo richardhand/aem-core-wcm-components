@@ -19,5 +19,5 @@
     "showDescription": true,
     "showModificationDate": true,
     "linkItems": true,
-    ":type": "core/wcm/components/list"
+    ":type": "core/wcm/components/list/v2/list"
 }

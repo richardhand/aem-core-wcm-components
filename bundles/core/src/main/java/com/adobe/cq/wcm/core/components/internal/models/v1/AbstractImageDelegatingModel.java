@@ -16,6 +16,7 @@
 package com.adobe.cq.wcm.core.components.internal.models.v1;
 
 import java.util.List;
+
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.StringUtils;

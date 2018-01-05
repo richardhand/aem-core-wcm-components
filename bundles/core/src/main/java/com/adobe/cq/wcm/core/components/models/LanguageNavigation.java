@@ -13,7 +13,7 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-package com.adobe.cq.wcm.core.components.sandbox.models;
+package com.adobe.cq.wcm.core.components.models;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -23,7 +23,7 @@ import com.adobe.cq.export.json.ComponentExporter;
 /**
  * Defines the {@code LanguageNavigation} Sling Model used for the {@code /apps/core/wcm/components/languagenavigation} component.
  *
- * @since com.adobe.cq.wcm.core.components.sandbox.models 1.3.0
+ * @since com.adobe.cq.wcm.core.components.models 12.2.0
  */
 public interface LanguageNavigation extends ComponentExporter {
 
@@ -31,7 +31,7 @@ public interface LanguageNavigation extends ComponentExporter {
      * Name of the resource / configuration policy property that defines the navigation root from which to build the global
      * language structure navigation. The property should provide a String value.
      *
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 1.3.0
+     * @since com.adobe.cq.wcm.core.components.models 12.2.0
      */
     String PN_NAVIGATION_ROOT = "navigationRoot";
 
@@ -39,7 +39,7 @@ public interface LanguageNavigation extends ComponentExporter {
      * Name of the resource / configuration policy property that defines the depth of the global language structure in the content tree
      * relative to the site root. The property should provide a Long value.
      *
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 1.3.0
+     * @since com.adobe.cq.wcm.core.components.models 12.2.0
      */
     String PN_STRUCTURE_DEPTH = "structureDepth";
 
@@ -47,14 +47,15 @@ public interface LanguageNavigation extends ComponentExporter {
      * Returns the list of language navigation items related to the current page.
      *
      * @return a list of language navigation items related to the current page
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 1.3.0
+     * @since com.adobe.cq.wcm.core.components.models 12.2.0
      */
     default List<NavigationItem> getItems() {
         throw new UnsupportedOperationException();
     }
 
     /**
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 3.1.0
+     * @see ComponentExporter#getExportedType()
+     * @since com.adobe.cq.wcm.core.components.models 12.2.0
      */
     @Nonnull
     @Override

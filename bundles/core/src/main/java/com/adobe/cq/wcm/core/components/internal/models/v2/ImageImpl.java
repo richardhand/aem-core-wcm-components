@@ -37,14 +37,12 @@ import org.slf4j.LoggerFactory;
 import com.adobe.cq.export.json.ComponentExporter;
 import com.adobe.cq.export.json.ExporterConstants;
 import com.adobe.cq.wcm.core.components.internal.servlets.AdaptiveImageServlet;
-import com.adobe.cq.wcm.core.components.sandbox.models.Image;
+import com.adobe.cq.wcm.core.components.models.Image;
 import com.day.cq.dam.api.Asset;
 import com.day.cq.dam.api.DamConstants;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Model(adaptables = SlingHttpServletRequest.class, adapters = {Image.class, ComponentExporter.class}, resourceType = ImageImpl.RESOURCE_TYPE)
 @Exporter(name = ExporterConstants.SLING_MODEL_EXPORTER_NAME, extensions = ExporterConstants.SLING_MODEL_EXTENSION)
-@JsonSerialize(as = Image.class)
 public class ImageImpl extends com.adobe.cq.wcm.core.components.internal.models.v1.ImageImpl implements Image {
 
     public static final String RESOURCE_TYPE = "core/wcm/components/image/v2/image";

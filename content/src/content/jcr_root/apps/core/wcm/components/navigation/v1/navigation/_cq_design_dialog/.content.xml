@@ -20,7 +20,7 @@
           jcr:description="Navigation Dialog"
           jcr:primaryType="nt:unstructured"
           jcr:title="Navigation"
-          extraClientlibs="[core.wcm.sandbox.components.navigation.v1.editor]"
+          extraClientlibs="[core.wcm.components.navigation.v1.editor]"
           sling:resourceType="cq/gui/components/authoring/dialog"
           helpPath="https://www.adobe.com/go/aem_cmp_navigation_v1">
     <content

@@ -13,7 +13,7 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-package com.adobe.cq.wcm.core.components.sandbox.models;
+package com.adobe.cq.wcm.core.components.models;
 
 import java.util.Calendar;
 
@@ -22,7 +22,9 @@ import javax.annotation.Nullable;
 import org.osgi.annotation.versioning.ConsumerType;
 
 /**
- * Interface for a generic list item, used by the {@link Search} model.
+ * Interface for a generic list item, used by the {@link List} and {@link Search} models.
+ *
+ * @since com.adobe.cq.wcm.core.components.models 12.2.0
  */
 @ConsumerType
 public interface ListItem {
@@ -31,7 +33,7 @@ public interface ListItem {
      * Returns the URL of this {@code ListItem}.
      *
      * @return the URL of this navigation item or {@code null}
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 6.0.0
+     * @since com.adobe.cq.wcm.core.components.models 12.2.0
      */
     @Nullable
     default String getURL() {
@@ -42,7 +44,7 @@ public interface ListItem {
      * Returns the title of this {@code ListItem}.
      *
      * @return the title of this navigation item or {@code null}
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 6.0.0
+     * @since com.adobe.cq.wcm.core.components.models 12.2.0
      */
     @Nullable
     default String getTitle() {
@@ -53,7 +55,7 @@ public interface ListItem {
      * Returns the description of this {@code ListItem}.
      *
      * @return the description of this navigation item or {@code null}
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 6.0.0
+     * @since com.adobe.cq.wcm.core.components.models 12.2.0
      */
     @Nullable
     default String getDescription() {
@@ -64,7 +66,7 @@ public interface ListItem {
      * Returns the date when this {@code ListItem} was last modified.
      *
      * @return the last modified date of this item or {@code null}
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 6.0.0
+     * @since com.adobe.cq.wcm.core.components.models 12.2.0
      */
     @Nullable
     default Calendar getLastModified() {
@@ -75,7 +77,7 @@ public interface ListItem {
      * Returns the path of this {@code ListItem}.
      *
      * @return the list item path or {@code null}
-     * @since com.adobe.cq.wcm.core.components.sandbox.models 6.0.0
+     * @since com.adobe.cq.wcm.core.components.models 12.2.0
      */
     @Nullable
     default String getPath() {

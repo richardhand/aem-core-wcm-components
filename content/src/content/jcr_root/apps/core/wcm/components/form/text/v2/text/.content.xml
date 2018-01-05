@@ -3,5 +3,5 @@
     cq:icon="type"
     jcr:description="Allows visitors to enter text information"
     jcr:primaryType="cq:Component"
-    jcr:title="Form Text (v2 - sandbox)"
+    jcr:title="Form Text (v2)"
     componentGroup=".core-wcm-form"/>

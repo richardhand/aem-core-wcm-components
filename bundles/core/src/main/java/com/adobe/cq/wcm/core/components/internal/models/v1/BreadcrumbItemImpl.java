@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.apache.sling.api.SlingHttpServletRequest;
 
-import com.adobe.cq.wcm.core.components.sandbox.models.NavigationItem;
+import com.adobe.cq.wcm.core.components.models.NavigationItem;
 import com.day.cq.wcm.api.Page;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

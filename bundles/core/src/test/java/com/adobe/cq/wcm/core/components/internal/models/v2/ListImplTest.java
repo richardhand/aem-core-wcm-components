@@ -25,10 +25,11 @@ import org.junit.Test;
 import com.adobe.cq.sightly.WCMBindings;
 import com.adobe.cq.wcm.core.components.Utils;
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
-import com.adobe.cq.wcm.core.components.sandbox.models.List;
+import com.adobe.cq.wcm.core.components.models.List;
 import com.day.cq.wcm.api.designer.Style;
 import io.wcm.testing.mock.aem.junit.AemContext;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -56,6 +57,7 @@ public class ListImplTest {
         assertTrue(list.showModificationDate());
         assertTrue(list.linkItems());
         assertTrue(list.linkItems());
+        assertEquals(2, list.getListItems().size());
         Utils.testJSONExport(list, Utils.getTestExporterJSONPath(TEST_BASE, LIST_1));
     }
 
@@ -78,7 +80,7 @@ public class ListImplTest {
         bindings.put(WCMBindings.CURRENT_STYLE, style);
         bindings.put(WCMBindings.CURRENT_PAGE, CONTEXT.pageManager().getPage(CURRENT_PAGE));
         request.setAttribute(SlingBindings.class.getName(), bindings);
-        return request.adaptTo(com.adobe.cq.wcm.core.components.sandbox.models.List.class);
+        return request.adaptTo(List.class);
     }
 
 }

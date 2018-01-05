@@ -13,14 +13,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-Quick Search (v1 - sandbox)
+Quick Search (v1)
 ====
 Search component written in HTL.
 
 ## Features
 
 ### Use Object
-The Search component uses the `com.adobe.cq.wcm.core.components.sandbox.models.Search` Sling model as its Use-object.
+The Search component uses the `com.adobe.cq.wcm.core.components.models.Search` Sling model as its Use-object.
 
 ### Behavior
 When the user is scrolling down the results, if the hidden results below are less than the visible results, more results
@@ -83,7 +83,7 @@ data-cmp-hook-search="itemTitle"
 
 ## Information
 * **Vendor**: Adobe
-* **Version**: v1 - sandbox
+* **Version**: v1
 * **Compatibility**: AEM 6.3
 * **Status**: preview
 * **Documentation**: [https://www.adobe.com/go/aem\_cmp\_search\_v1](https://www.adobe.com/go/aem_cmp_search_v1)

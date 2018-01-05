@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-Form Button (v2 - sandbox)
+Form Button (v2)
 ====
 Button component written in HTL.
 
@@ -41,7 +41,7 @@ BLOCK cmp-form-button
 
 ## Information
 * **Vendor**: Adobe
-* **Version**: v2 - sandbox
+* **Version**: v2
 * **Compatibility**: AEM 6.3
 * **Status**: preview
 * **Documentation**: [https://www.adobe.com/go/aem\_cmp\_form\_button\_v2](https://www.adobe.com/go/aem_cmp_form_button_v2)

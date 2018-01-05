@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-Form Container (v2 - sandbox)
+Form Container (v2)
 ====
 Form container written in HTL.
 
@@ -51,7 +51,7 @@ BLOCK cmp-form
 
 ## Information
 * **Vendor**: Adobe
-* **Version**: v2 - sandbox
+* **Version**: v2
 * **Compatibility**: AEM 6.3
 * **Status**: preview
 * **Documentation**: [https://www.adobe.com/go/aem\_cmp\_form\_container\_v2](https://www.adobe.com/go/aem_cmp_form_container_v2)

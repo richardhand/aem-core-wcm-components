@@ -19,12 +19,12 @@ import java.util.Calendar;
 import java.util.Map;
 
 import com.adobe.cq.export.json.ComponentExporter;
-import com.adobe.cq.wcm.core.components.sandbox.models.Page;
+import com.adobe.cq.export.json.ContainerExporter;
+import com.adobe.cq.wcm.core.components.models.Page;
 
 import org.junit.Test;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class PageTest {
 
@@ -45,7 +45,7 @@ public class PageTest {
         underTest.getRedirectTarget();
     }
 
-    private static class MockPage implements Page {
+    private static class MockPage implements Page, ContainerExporter {
         @Override
         public String getLanguage() {
             return null;

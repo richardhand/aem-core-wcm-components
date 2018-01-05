@@ -18,5 +18,5 @@
     cq:icon="globeGrid"
     jcr:description="Global language structure navigation"
     jcr:primaryType="cq:Component"
-    jcr:title="Language Navigation (v1 - sandbox)"
+    jcr:title="Language Navigation (v1)"
     componentGroup=".core-wcm"/>

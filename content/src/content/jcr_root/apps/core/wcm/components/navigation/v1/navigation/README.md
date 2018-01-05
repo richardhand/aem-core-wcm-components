@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-Navigation (v1 - sandbox)
+Navigation (v1)
 ====
 Navigation component written in HTL that renders a website navigation tree.
 
@@ -25,7 +25,7 @@ Navigation component written in HTL that renders a website navigation tree.
 * Automatically handles redirect targets defined on pages
 
 ### Use Object
-The Navigation component uses the `com.adobe.cq.wcm.core.components.sandbox.models.Navigation` Sling model as its Use-object.
+The Navigation component uses the `com.adobe.cq.wcm.core.components.models.Navigation` Sling model as its Use-object.
 
 ### Component Policy Configuration Properties
 The following configuration properties are used:
@@ -44,7 +44,7 @@ The following properties are written to JCR for the Navigation component and are
 4. `./structureDepth` - the depth of the navigation structure, relative to the navigation root.
 
 ## Client Libraries
-The component provides a `core.wcm.sandbox.components.navigation.v1.editor` editor client library category that includes
+The component provides a `core.wcm.components.navigation.v1.editor` editor client library category that includes
 JavaScript handling for dialog interaction. It is already included by its edit and design dialogs.
 
 ## BEM Description
@@ -59,7 +59,7 @@ BLOCK cmp-navigation
 
 ## Information
 * **Vendor**: Adobe
-* **Version**: v1 - sandbox
+* **Version**: v1
 * **Compatibility**: AEM 6.3
 * **Status**: preview
 * **Documentation**: [https://www.adobe.com/go/aem\_cmp\_navigation\_v1](https://www.adobe.com/go/aem_cmp_navigation_v1)

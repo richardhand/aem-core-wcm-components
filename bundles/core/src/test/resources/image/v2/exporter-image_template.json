@@ -12,5 +12,5 @@
     "alt"           : "Adobe Systems Logo and Wordmark in PNG format",
     "link"          : "/core/content/test-image.html",
     "src"           : "/core/content/test.img.png/structure/jcr%3acontent/root/image_template/1490005239000.png",
-    ":type"         : "core/wcm/components/image"
+    ":type"         : "core/wcm/components/image/v2/image"
 }

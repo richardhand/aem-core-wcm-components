@@ -59,7 +59,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Model(adaptables = SlingHttpServletRequest.class, adapters = {List.class, ComponentExporter.class}, resourceType = ListImpl.RESOURCE_TYPE)
 @Exporter(name = ExporterConstants.SLING_MODEL_EXPORTER_NAME, extensions = ExporterConstants.SLING_MODEL_EXTENSION)
-public class ListImpl implements List, ComponentExporter {
+public class ListImpl implements List {
 
     protected static final String RESOURCE_TYPE = "core/wcm/components/list/v1/list";
 
