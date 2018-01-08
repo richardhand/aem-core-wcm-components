@@ -67,6 +67,11 @@ public class ContentFragmentImpl implements ContentFragment {
      */
     public static final String RESOURCE_TYPE = "core/wcm/extension/sandbox/components/contentfragment/v1/contentfragment";
 
+    /**
+     * The name of the master variation.
+     */
+    private static final String MASTER_VARIATION = "master";
+
     @Self
     private SlingHttpServletRequest request;
 
@@ -195,7 +200,7 @@ public class ContentFragmentImpl implements ContentFragment {
             while (iterator.hasNext()) {
                 ContentElement element = iterator.next();
                 ContentVariation variation = null;
-                if (StringUtils.isNotEmpty(variationName) && !"master".equals(variationName)) {
+                if (StringUtils.isNotEmpty(variationName) && !MASTER_VARIATION.equals(variationName)) {
                     variation = element.getVariation(variationName);
                     if (variation == null) {
                         LOG.warn("Non-existing variation " + variationName + " of element " + element.getName());

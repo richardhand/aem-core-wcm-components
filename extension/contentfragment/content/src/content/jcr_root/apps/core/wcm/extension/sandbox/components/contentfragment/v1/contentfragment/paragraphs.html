@@ -19,8 +19,6 @@
     <div data-sly-resource="${'par0' @ resourceType='dam/cfm/components/grid'}"></div>
     <div data-sly-list="${fragment.elements[0].paragraphs}">
         ${item @ context="html"}
-        <!--/* we need to increment the indexes by 1 to have 1..n instead of 0..n-1 */-->
-        <div data-sly-use.increment="${'increment.js' @ n=itemList.index}"
-             data-sly-resource="${'par{0}' @ format=increment.result, resourceType='dam/cfm/components/grid'}"></div>
+        <div data-sly-resource="${'par{0}' @ format=itemList.count, resourceType='dam/cfm/components/grid'}"></div>
     </div>
 </div>
