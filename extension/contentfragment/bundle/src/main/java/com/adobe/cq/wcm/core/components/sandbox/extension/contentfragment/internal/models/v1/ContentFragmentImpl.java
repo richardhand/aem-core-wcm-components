@@ -34,6 +34,7 @@ import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
+import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,6 +69,9 @@ public class ContentFragmentImpl implements ContentFragment {
      * The resource type of the component associated with this Sling model.
      */
     public static final String RESOURCE_TYPE = "core/wcm/extension/sandbox/components/contentfragment/v1/contentfragment";
+
+    @Self
+    private SlingHttpServletRequest request;
 
     @ScriptVariable
     private ResourceResolver resolver;
@@ -244,7 +248,7 @@ public class ContentFragmentImpl implements ContentFragment {
     @Nonnull
     @Override
     public String getExportedType() {
-        return RESOURCE_TYPE;
+        return request.getResource().getResourceType();
     }
 
     @Nonnull

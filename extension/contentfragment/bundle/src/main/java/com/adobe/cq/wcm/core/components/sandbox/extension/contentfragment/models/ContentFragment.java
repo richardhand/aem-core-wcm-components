@@ -32,7 +32,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Defines the Sling Model for the {@code /apps/core/wcm/sandbox/components/contentfragment} component. The model
+ * Defines the Sling Model for the {@code /apps/core/wcm/components/contentfragment} component. The model
  * provides information about the referenced content fragment and access to representations of its elements.
  *
  * @since com.adobe.cq.wcm.core.components.sandbox.models 2.6.0

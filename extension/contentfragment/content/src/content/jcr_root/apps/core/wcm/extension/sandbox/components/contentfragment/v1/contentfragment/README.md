@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-Content Fragment (v1 - sandbox)
+Content Fragment (v1 - sandbox extension)
 ====
 Content Fragment component written in HTL that displays the elements of a Content Fragment or a selection thereof.
 
@@ -44,7 +44,7 @@ BLOCK cmp-contentfragment
 
 ## Information
 * **Vendor**: Adobe
-* **Version**: v1 - sandbox
+* **Version**: v1 - sandbox extension
 * **Compatibility**: AEM 6.3
 * **Status**: production-ready
 * **Documentation**: [https://www.adobe.com/go/aem\_cmp\_contentfragment\_v1](https://www.adobe.com/go/aem_cmp_contentfragment_v1)

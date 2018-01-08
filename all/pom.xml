@@ -146,13 +146,13 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>core.wcm.components.sandbox.bundle</artifactId>
-            <version>0.0.84</version>
+            <version>0.0.100</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>core.wcm.components.sandbox.content</artifactId>
-            <version>0.0.92</version>
+            <version>0.0.112</version>
             <type>zip</type>
             <scope>provided</scope>
         </dependency>
@@ -160,7 +160,7 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>core.wcm.components.sandbox.config</artifactId>
             <type>zip</type>
-            <version>0.0.10</version>
+            <version>0.0.12</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

@@ -75,6 +75,18 @@
                             <filter>true</filter>
                         </subPackage>
                     </subPackages>
+                    <dependencies>
+                        <dependency>
+                            <group>day/cq60/product</group>
+                            <name>cq-platform-content</name>
+                            <version>[1.3.234,)</version>
+                        </dependency>
+                        <dependency>
+                            <group>day/cq60/product</group>
+                            <name>cq-dam-cfm-content</name>
+                            <version>[0.9.345-NPR-19008-R010,)</version>
+                        </dependency>
+                    </dependencies>
                 </configuration>
             </plugin>
         </plugins>
@@ -145,7 +157,7 @@
         <dependency>
             <groupId>com.adobe.cq</groupId>
             <artifactId>core.wcm.components.sandbox.extension.contentfragment.bundle</artifactId>
-            <version>0.0.2</version>
+            <version>0.0.3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
