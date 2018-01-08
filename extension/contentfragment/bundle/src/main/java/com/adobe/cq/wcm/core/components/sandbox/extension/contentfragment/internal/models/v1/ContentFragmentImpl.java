@@ -48,9 +48,10 @@ import com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment.models
 import com.day.text.Text;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonArray;
-
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonObject;
 import static com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment.internal.models.v1.ContentFragmentImpl.RESOURCE_TYPE;
 import static com.day.cq.commons.jcr.JcrConstants.JCR_CONTENT;
 import static com.day.cq.commons.jcr.JcrConstants.JCR_TITLE;
@@ -162,35 +163,35 @@ public class ContentFragmentImpl implements ContentFragment {
     @Nonnull
     @Override
     public String getEditorJSON() {
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("title", fragment.getTitle());
-        jsonObject.addProperty("path", path);
+        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+        jsonObjectBuilder.add("title", fragment.getTitle());
+        jsonObjectBuilder.add("path", path);
         if (variationName != null) {
-            jsonObject.addProperty("variation", variationName);
+            jsonObjectBuilder.add("variation", variationName);
         }
         if (elementNames != null) {
-            JsonArray jsonElements = new JsonArray();
+            JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
             for (String ele : elementNames) {
-                jsonElements.add(ele);
+                arrayBuilder.add(ele);
             }
-            jsonObject.add("elements", jsonElements);
+            jsonObjectBuilder.add("elements", arrayBuilder);
         }
         Iterator<Resource> associatedContentIter = fragment.getAssociatedContent();
         if (associatedContentIter.hasNext()) {
-            JsonArray associatedContentArray = new JsonArray();
+            JsonArrayBuilder associatedContentArray = Json.createArrayBuilder();
             while (associatedContentIter.hasNext()) {
                 Resource resource = associatedContentIter.next();
                 ValueMap vm = resource.adaptTo(ValueMap.class);
-                JsonObject content = new JsonObject();
+                JsonObjectBuilder contentObject = Json.createObjectBuilder();
                 if (vm!= null && vm.containsKey(JCR_TITLE)) {
-                    content.addProperty("title", vm.get(JCR_TITLE, String.class));
+                    contentObject.add("title", vm.get(JCR_TITLE, String.class));
                 }
-                content.addProperty("path", resource.getPath());
-                associatedContentArray.add(content);
+                contentObject.add("path", resource.getPath());
+                associatedContentArray.add(contentObject);
             }
-            jsonObject.add("associatedContent", associatedContentArray);
+            jsonObjectBuilder.add("associatedContent", associatedContentArray);
         }
-        return jsonObject.toString();
+        return jsonObjectBuilder.build().toString();
     }
 
     @Nullable

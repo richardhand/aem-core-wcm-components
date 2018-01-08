@@ -321,10 +321,28 @@ public class ContentFragmentImplTest {
     }
 
     @Test
+    public void testStructuredWithVariationGetEditorJSON() {
+        ContentFragment fragment = getTestContentFragment(CF_STRUCTURED_VARIATION);
+        String expectedJSON = "{\"title\":\"Test Content Fragment\",\"path\":\"/content/dam/contentfragments/structured\"," +
+                "\"variation\":\"teaser\",\"associatedContent\":[{\"title\":\"Test Collection\"" +
+                ",\"path\":\"/content/dam/collections/X/X7v6pJAcy5qtkUdXdIxR/test\"}]}";
+        assertEquals(fragment.getEditorJSON(), expectedJSON);
+    }
+
+    @Test
     public void testTextOnlyGetEditorJSON() {
         ContentFragment fragment = getTestContentFragment(CF_TEXT_ONLY_MULTIPLE_ELEMENTS);
         String expectedJSON = "{\"title\":\"Test Content Fragment\",\"path\":\"/content/dam/contentfragments/text-only\"" +
                 ",\"elements\":[\"second\",\"non-existing\",\"main\"],\"associatedContent\":[{\"title\":\"Test Collection\"" +
+                ",\"path\":\"/content/dam/collections/X/X7v6pJAcy5qtkUdXdIxR/test\"}]}";
+        assertEquals(fragment.getEditorJSON(), expectedJSON);
+    }
+
+    @Test
+    public void testTextOnlyWithVariationGetEditorJSON() {
+        ContentFragment fragment = getTestContentFragment(CF_TEXT_ONLY_VARIATION);
+        String expectedJSON = "{\"title\":\"Test Content Fragment\",\"path\":\"/content/dam/contentfragments/text-only\"," +
+                "\"variation\":\"teaser\",\"associatedContent\":[{\"title\":\"Test Collection\"" +
                 ",\"path\":\"/content/dam/collections/X/X7v6pJAcy5qtkUdXdIxR/test\"}]}";
         assertEquals(fragment.getEditorJSON(), expectedJSON);
     }
