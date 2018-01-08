@@ -84,6 +84,7 @@ public class ContentFragmentImpl implements ContentFragment {
     private com.adobe.cq.dam.cfm.ContentFragment fragment;
     private String type;
     private List<Element> elements;
+    private List<Resource> associatedContentList;
 
     @PostConstruct
     private void initialize() {
@@ -234,10 +235,10 @@ public class ContentFragmentImpl implements ContentFragment {
     @Nullable
     @Override
     public List<Resource> getAssociatedContent() {
-        if (fragment != null) {
-            return IteratorUtils.toList(fragment.getAssociatedContent());
+        if (fragment != null && associatedContentList == null) {
+            associatedContentList = IteratorUtils.toList(fragment.getAssociatedContent());
         }
-        return null;
+        return associatedContentList;
     }
 
     @Nonnull
