@@ -59,19 +59,6 @@ Module componentsConfig = new Module.Builder('master/config')
 Module componentsItUi = new Module.Builder('master/testing/it/ui-js')
         .withArtifact('zip', 'master/testing/it/ui-js/target/core.wcm.components.it.ui-js-*.zip', true)
         .build()
-Module componentsExtension = new Module.Builder('master/extension')
-        .withArtifact('zip', 'master/extension/target/core.wcm.components.extension-*.zip', true)
-        .build()
-Module componentsExtCFBundle = new Module.Builder('master/extension/contentfragment/bundle')
-        .withUnitTests(true)
-        .withCoverage(false)
-        .withArtifact('jar', 'master/extension/contentfragment/bundle/target/core.wcm.components.extension.contentfragment.bundle-*.jar', true)
-        .withConsumer(componentsExtension)
-        .build()
-Module componentsExtCFContent = new Module.Builder('master/extension/contentfragment/content')
-        .withArtifact('zip', 'master/extension/contentfragment/content/target/core.wcm.components.sandbox.extension.contentfragment.content-*.zip', true)
-        .withConsumer(componentsExtension)
-        .build()
 Module componentsJUnitCore = new Module.Builder('master/testing/junit/core')
         .withArtifact('jar', 'master/testing/junit/core/target/core.wcm.components.junit.core-*.jar', true)
         .withConsumer(componentsCore)
@@ -190,8 +177,7 @@ config.getElasticsearchReporting().setEnable(false)
 
 // the modules to build
 config.setModules([componentsCore, componentsContent, componentsConfig, componentsAll, componentsItUi,
-                   componentsJUnitCore,componentsParent,
-                   componentsExtension, componentsExtCFBundle, componentsExtCFContent])
+                   componentsJUnitCore,componentsParent])
 
 // the tests to execute
 config.setTestRuns([coreCompUIChromePart1_64,coreCompUIChromePart2_64,coreCompUIChromePart3_64,coreCompUIChromePart4_64])
