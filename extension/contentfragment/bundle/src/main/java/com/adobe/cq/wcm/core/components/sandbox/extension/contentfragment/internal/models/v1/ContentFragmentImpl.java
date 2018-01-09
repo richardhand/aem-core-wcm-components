@@ -316,26 +316,16 @@ public class ContentFragmentImpl implements ContentFragment {
             return getData().getContentType();
         }
 
+        @Nonnull
+        @Override
+        public String getDataType() {
+            return getData().getDataType().getTypeString();
+        }
+
         @Nullable
         @Override
         public Object getValue() {
             return getData().getValue();
-        }
-
-        @Nullable
-        @Override
-        public String getDisplayValue() {
-            String[] values = getDisplayValues();
-            if (values == null) {
-                return null;
-            }
-            return StringUtils.join(values, ", ");
-        }
-
-        @Nullable
-        @Override
-        public String[] getDisplayValues() {
-            return getData().getValue(String[].class);
         }
 
         @Nonnull
