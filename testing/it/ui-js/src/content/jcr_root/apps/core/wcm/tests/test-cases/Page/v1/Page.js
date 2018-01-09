@@ -111,9 +111,9 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             //add two tags
            .click("foundation-autocomplete.cq-ui-tagfield button")
             .click("coral-columnview-item-content[title='TestTags']")
-            .click("coral-columnview-item:contains('TestTag1') coral-columnview-item-thumbnail")
-            .click("coral-columnview-item:contains('TestTag2') coral-columnview-item-thumbnail")
-            .click("button.granite-pickerdialog-submit")
+            .click("coral-columnview-item:contains('TestTag1') coral-columnview-item-thumbnail",{after:1000})
+            .click("coral-columnview-item:contains('TestTag2') coral-columnview-item-thumbnail",{after:1000})
+            .click("button.granite-pickerdialog-submit",{after:1000})
             //check if tags were added
             .assert.exist("coral-taglist[name='./cq:tags'] coral-tag:contains('" + tag1 + "')")
             .assert.exist("coral-taglist[name='./cq:tags'] coral-tag:contains('" + tag2 + "')")
@@ -565,7 +565,7 @@ window.CQ.CoreComponentsIT.Page.v1 = window.CQ.CoreComponentsIT.Page.v1 || {}
             //test social media sharing
             .click("input[name='./socialMedia'][value='facebook']")
             .click("input[name='./socialMedia'][value='pinterest']")
-            .click("foundation-autocomplete[name='./variantPath'] button[title='Open Selection Dialog']")
+            .click("foundation-autocomplete[name='./variantPath'] button[title='Open Selection Dialog']",{before:2000,after:1000})
             .click("form.granite-pickerdialog-content button:contains('Cancel')")
 
             /*****  Check if the date is saved *****/
