@@ -114,6 +114,13 @@ MavenDependency servicePack1 = new MavenDependency.Builder()
         .withExtension("zip")
         .build()
 
+MavenDependency fp20593 = new MavenDependency.Builder()
+        .withGroupId("com.adobe.cq.feature")
+        .withArtifactId("cq-6.3.0-featurepack-20593")
+        .withVersion("1.6")
+        .withExtension("zip").build()
+
+
 /* --------------------------------------------------------------------- */
 /*                       QUICKSTART CONFIGURATIONS                        */
 /* --------------------------------------------------------------------- */
@@ -134,6 +141,7 @@ CQInstance author631 = new CQInstance.Builder()
         .withMavenDependency(hobbesRewriterPackage)
         .withMavenDependency(uiTestingCommonsPackage)
         .withMavenDependency(servicePack1)
+        .withMavenDependency(fp20593)
         .withFileDependency(componentsItUi.getArtifact('zip'))
         .withFileDependency(componentsCore.getArtifact('jar'))
         .withFileDependency(componentsContent.getArtifact('zip'))
