@@ -42,7 +42,7 @@ public class TitleImplTest {
     private static final String TITLE_RESOURCE_JCR_TITLE_TYPE = TEST_PAGE + "/jcr:content/par/title-jcr-title-type";
     private static final String TITLE_NOPROPS = TEST_PAGE + "/jcr:content/par/title-noprops";
     private static final String TITLE_WRONGTYPE = TEST_PAGE + "/jcr:content/par/title-wrongtype";
-    private static final String TITLE_RESOURCE_JCR_TITLE_SANDBOX = TEST_PAGE + "/jcr:content/par/title-jcr-title-sandbox";
+    private static final String TITLE_RESOURCE_JCR_TITLE_V2 = TEST_PAGE + "/jcr:content/par/title-jcr-title-v2";
 
     @ClassRule
     public static final AemContext CONTEXT = CoreComponentTestContext.createContext(TEST_BASE, TEST_PAGE);
@@ -86,8 +86,8 @@ public class TitleImplTest {
 
     @Test
     public void testV2JSONExport() {
-        Title title = getTitleUnderTest(TITLE_RESOURCE_JCR_TITLE_SANDBOX);
-        Utils.testJSONExport(title, Utils.getTestExporterJSONPath(TEST_BASE, TITLE_RESOURCE_JCR_TITLE_SANDBOX));
+        Title title = getTitleUnderTest(TITLE_RESOURCE_JCR_TITLE_V2);
+        Utils.testJSONExport(title, Utils.getTestExporterJSONPath(TEST_BASE, TITLE_RESOURCE_JCR_TITLE_V2));
     }
 
     private Title getTitleUnderTest(String resourcePath) {

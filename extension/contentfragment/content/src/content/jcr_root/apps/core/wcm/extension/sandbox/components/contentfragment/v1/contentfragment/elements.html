@@ -16,6 +16,7 @@
 <dl data-sly-use.fragment="com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment.models.ContentFragment"
     data-path="${properties.fragmentPath}"
     data-type="${fragment.type}"
+    data-json="${!wcmmode.disabled && fragment.editorJSON}"
     class="cmp-contentfragment${!wcmmode.disabled ? ' cq-dd-contentfragment' : ''}"
     data-sly-list.element="${fragment.elements}"
     data-sly-use.elementTemplate="element.html">

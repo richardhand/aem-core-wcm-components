@@ -61,7 +61,7 @@ public class ContainerImplTest {
     private static final String CONTAINING_PAGE = "/content/coretest/demo-page";
     private static final String FORM1_PATH = CONTAINING_PAGE + "/jcr:content/root/responsivegrid/container";
     private static final String FORM2_PATH = CONTAINING_PAGE + "/jcr:content/root/responsivegrid/container_350773202";
-    private static final String FORM3_PATH = CONTAINING_PAGE + "/jcr:content/root/responsivegrid/container_sandbox";
+    private static final String FORM3_PATH = CONTAINING_PAGE + "/jcr:content/root/responsivegrid/container-v2";
 
     @ClassRule
     public static final AemContext CONTEXT = CoreComponentTestContext.createContext(TEST_BASE, CONTAINING_PAGE);

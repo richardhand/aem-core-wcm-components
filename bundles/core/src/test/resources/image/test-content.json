@@ -285,7 +285,8 @@
                         }
                     }
                 }
-            }
+            },
+            "cq:template": "/conf/coretest/settings/wcm/templates/testtemplate"
         }
     }
 }

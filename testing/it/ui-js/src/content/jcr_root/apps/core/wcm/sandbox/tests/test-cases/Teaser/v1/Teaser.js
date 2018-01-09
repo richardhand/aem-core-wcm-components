@@ -35,12 +35,12 @@
 
         // create a proxy component
         .execFct(function (opts, done){
-            c.createProxyComponent(teaserRT, c.proxyPath_v2, "proxyPath", done);
+            c.createProxyComponent(teaserRT, c.proxyPath_sandbox, "proxyPath", done);
         })
 
         // create a proxy component for an image
         .execFct(function (opts, done){
-            c.createProxyComponent(c.rtImage_v2,c.proxyPath_v2, "imageProxyPath", done)
+            c.createProxyComponent(c.rtImage_v2,c.proxyPath_sandbox, "imageProxyPath", done)
         })
 
         .execFct(function (opts, done) {

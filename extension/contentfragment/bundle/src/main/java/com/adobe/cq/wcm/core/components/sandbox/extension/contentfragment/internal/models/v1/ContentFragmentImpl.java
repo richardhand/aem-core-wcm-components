@@ -25,11 +25,13 @@ import javax.annotation.Nullable;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
@@ -51,8 +53,13 @@ import com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment.models
 import com.day.text.Text;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonObject;
 import static com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment.internal.models.v1.ContentFragmentImpl.RESOURCE_TYPE;
 import static com.day.cq.commons.jcr.JcrConstants.JCR_CONTENT;
+import static com.day.cq.commons.jcr.JcrConstants.JCR_TITLE;
 import static org.apache.sling.models.annotations.injectorspecific.InjectionStrategy.OPTIONAL;
 
 @Model(adaptables = SlingHttpServletRequest.class, adapters = {ContentFragment.class, ComponentExporter.class}, resourceType = RESOURCE_TYPE)
@@ -99,6 +106,7 @@ public class ContentFragmentImpl implements ContentFragment {
     private com.adobe.cq.dam.cfm.ContentFragment fragment;
     private String type;
     private List<Element> elements;
+    private List<Resource> associatedContentList;
 
     @PostConstruct
     private void initialize() {
@@ -175,6 +183,40 @@ public class ContentFragmentImpl implements ContentFragment {
         return type;
     }
 
+    @Nonnull
+    @Override
+    public String getEditorJSON() {
+        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+        jsonObjectBuilder.add("title", fragment.getTitle());
+        jsonObjectBuilder.add("path", path);
+        if (variationName != null) {
+            jsonObjectBuilder.add("variation", variationName);
+        }
+        if (elementNames != null) {
+            JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+            for (String ele : elementNames) {
+                arrayBuilder.add(ele);
+            }
+            jsonObjectBuilder.add("elements", arrayBuilder);
+        }
+        Iterator<Resource> associatedContentIter = fragment.getAssociatedContent();
+        if (associatedContentIter.hasNext()) {
+            JsonArrayBuilder associatedContentArray = Json.createArrayBuilder();
+            while (associatedContentIter.hasNext()) {
+                Resource resource = associatedContentIter.next();
+                ValueMap vm = resource.adaptTo(ValueMap.class);
+                JsonObjectBuilder contentObject = Json.createObjectBuilder();
+                if (vm!= null && vm.containsKey(JCR_TITLE)) {
+                    contentObject.add("title", vm.get(JCR_TITLE, String.class));
+                }
+                contentObject.add("path", resource.getPath());
+                associatedContentArray.add(contentObject);
+            }
+            jsonObjectBuilder.add("associatedContent", associatedContentArray);
+        }
+        return jsonObjectBuilder.build().toString();
+    }
+
     @Nullable
     @Override
     public List<Element> getElements() {
@@ -210,6 +252,15 @@ public class ContentFragmentImpl implements ContentFragment {
             }
         }
         return elements;
+    }
+
+    @Nullable
+    @Override
+    public List<Resource> getAssociatedContent() {
+        if (fragment != null && associatedContentList == null) {
+            associatedContentList = IteratorUtils.toList(fragment.getAssociatedContent());
+        }
+        return associatedContentList;
     }
 
     @Nonnull

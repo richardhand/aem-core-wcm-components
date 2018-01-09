@@ -4,5 +4,5 @@
     "name": "name1",
     "value": "value1",
     "type": "BUTTON",
-    ":type": "core/wcm/sandbox/components/form/button/v2/button/v2/button"
+    ":type": "core/wcm/components/form/button/v2/button/v2/button"
 }

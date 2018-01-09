@@ -45,7 +45,7 @@ public class BreadcrumbImplTest {
     private static final String BREADCRUMB_3 = CURRENT_PAGE + "/jcr:content/header/breadcrumb-hide-current";
     private static final String BREADCRUMB_4 = CURRENT_PAGE + "/jcr:content/header/breadcrumb-start-level";
     private static final String BREADCRUMB_5 = CURRENT_PAGE + "/jcr:content/header/breadcrumb-style-based";
-    private static final String BREADCRUMB_6 = CURRENT_PAGE + "/jcr:content/header/breadcrumb-sandbox";
+    private static final String BREADCRUMB_6 = CURRENT_PAGE + "/jcr:content/header/breadcrumb-v2";
 
     @ClassRule
     public static final AemContext CONTEXT = CoreComponentTestContext.createContext(TEST_BASE, "/content/breadcrumb/women");
@@ -99,8 +99,7 @@ public class BreadcrumbImplTest {
         assertTrue("Expected that the returned breadcrumb will contain " + expectedPages.length + " items",
                 breadcrumb.getItems().size() == expectedPages.length);
         int index = 0;
-        for (NavigationItem i : breadcrumb.getItems()) {
-            com.adobe.cq.wcm.core.components.sandbox.models.NavigationItem item = (com.adobe.cq.wcm.core.components.sandbox.models.NavigationItem)i;
+        for (NavigationItem item : breadcrumb.getItems()) {
             assertEquals(expectedPages[index++], item.getTitle());
         }
     }

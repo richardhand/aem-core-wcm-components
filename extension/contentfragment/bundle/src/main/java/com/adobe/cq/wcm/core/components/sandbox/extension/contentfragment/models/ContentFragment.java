@@ -19,6 +19,7 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.apache.sling.api.resource.Resource;
 import org.osgi.annotation.versioning.ConsumerType;
 
 import com.adobe.cq.dam.cfm.ContentElement;
@@ -30,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Defines the Sling Model for the {@code /apps/core/wcm/sandbox/components/contentfragment} component. The model
+ * Defines the Sling Model for the {@code /apps/core/wcm/components/contentfragment} component. The model
  * provides information about the referenced content fragment and access to representations of its elements.
  *
  * @since com.adobe.cq.wcm.core.components.sandbox.models 2.6.0
@@ -256,6 +257,19 @@ public interface ContentFragment extends ContainerExporter {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Returns a list of resources representing the collections that are associated to this content fragment.
+     *
+     * @return a list of collection resources
+     * @see ContentFragment#getAssociatedContent()
+     * @since com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment.models 0.0.1
+     */
+    @Nullable
+    @JsonIgnore
+    default java.util.List<Resource> getAssociatedContent() {
+        throw new UnsupportedOperationException();
+    }
+
     @Nonnull
     @Override
     default String getExportedType() {
@@ -271,6 +285,16 @@ public interface ContentFragment extends ContainerExporter {
     @Nonnull
     @Override
     default String[] getExportedItemsOrder() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Returns a JSON format string containing information about this fragment.
+     * @return JSON string
+     */
+    @Nonnull
+    @JsonIgnore
+    default String getEditorJSON() {
         throw new UnsupportedOperationException();
     }
 
