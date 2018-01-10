@@ -123,7 +123,7 @@ MavenDependency servicePack1 = new MavenDependency.Builder()
 MavenDependency fp20593 = new MavenDependency.Builder()
         .withGroupId("com.adobe.cq.feature")
         .withArtifactId("cq-6.3.0-featurepack-20593")
-        .withVersion("1.6")
+        .withVersion("1.2")
         .withExtension("zip").build()
 
 
