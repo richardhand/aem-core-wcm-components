@@ -163,6 +163,87 @@ UITestRun coreCompUIChromePart4 = new UITestRun.Builder()
         .withFilter(TEST_GROUP_4)
         .build()
 
+// Run tests against firefox
+UITestRun coreCompUIFirefoxPart1 = new UITestRun.Builder()
+        .withName('Test Group 1 / Firefox')
+        .withInstance(author)
+        .withBrowser('FIREFOX')
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withRunInstructions('main/jenkinsfiles/UITestRunOptions63.json')
+        .withWaitForMinionMinutes(10)
+        .withFilter(TEST_GROUP_1)
+        .build()
+
+UITestRun coreCompUIFirefoxPart2 = new UITestRun.Builder()
+        .withName('Test Group 2 / Firefox')
+        .withInstance(author)
+        .withBrowser('FIREFOX')
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withRunInstructions('main/jenkinsfiles/UITestRunOptions63.json')
+        .withWaitForMinionMinutes(10)
+        .withFilter(TEST_GROUP_2)
+        .build()
+
+UITestRun coreCompUIFirefoxPart3 = new UITestRun.Builder()
+        .withName('Test Group 3 / Firefox')
+        .withInstance(author)
+        .withBrowser('FIREFOX')
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withRunInstructions('main/jenkinsfiles/UITestRunOptions63.json')
+        .withWaitForMinionMinutes(10)
+        .withFilter(TEST_GROUP_3)
+        .build()
+
+UITestRun coreCompUIFirefoxPart4 = new UITestRun.Builder()
+        .withName('Test Group 4 / Firefox')
+        .withInstance(author)
+        .withBrowser('FIREFOX')
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withRunInstructions('main/jenkinsfiles/UITestRunOptions63.json')
+        .withWaitForMinionMinutes(10)
+        .withFilter(TEST_GROUP_4)
+        .build()
+
+// Run tests against edge
+UITestRun coreCompUIEdgePart1 = new UITestRun.Builder()
+        .withName('Test Group 1 / Edge')
+        .withInstance(author)
+        .withBrowser('EDGE')
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withRunInstructions('main/jenkinsfiles/UITestRunOptions63.json')
+        .withWaitForMinionMinutes(10)
+        .withFilter(TEST_GROUP_1)
+        .build()
+
+UITestRun coreCompUIEdgePart2 = new UITestRun.Builder()
+        .withName('Test Group 2 / Edge')
+        .withInstance(author)
+        .withBrowser('EDGE')
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withRunInstructions('main/jenkinsfiles/UITestRunOptions63.json')
+        .withWaitForMinionMinutes(10)
+        .withFilter(TEST_GROUP_2)
+        .build()
+
+UITestRun coreCompUIEdgePart3 = new UITestRun.Builder()
+        .withName('Test Group 3 / Edge')
+        .withInstance(author)
+        .withBrowser('EDGE')
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withRunInstructions('main/jenkinsfiles/UITestRunOptions63.json')
+        .withWaitForMinionMinutes(10)
+        .withFilter(TEST_GROUP_3)
+        .build()
+
+UITestRun coreCompUIEdgePart4 = new UITestRun.Builder()
+        .withName('Test Group 4 / Edge')
+        .withInstance(author)
+        .withBrowser('EDGE')
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withRunInstructions('main/jenkinsfiles/UITestRunOptions63.json')
+        .withWaitForMinionMinutes(10)
+        .withFilter(TEST_GROUP_4)
+        .build()
 /* --------------------------------------------------------------------- */
 /*                       SPROUT CONFIGURATION                            */
 /* --------------------------------------------------------------------- */
@@ -175,7 +256,9 @@ config.setComputeReleaseCoverage(false)
 config.setModules([componentsCore, componentsContent, componentsConfig, componentsItUi,
                    componentsJUnitCore,componentsParent])
 // the tests to execute
-config.setTestRuns([coreCompUIChromePart1,coreCompUIChromePart2,coreCompUIChromePart3,coreCompUIChromePart4])
+config.setTestRuns([coreCompUIChromePart1,coreCompUIChromePart2,coreCompUIChromePart3,coreCompUIChromePart4,
+                    coreCompUIFirefoxPart1,coreCompUIFirefoxPart2,coreCompUIFirefoxPart3,coreCompUIFirefoxPart4,
+                    coreCompUIEdgePart1,coreCompUIEdgePart2,coreCompUIEdgePart3,coreCompUIEdgePart4])
 
 // don't ask for release at the end
 config.setEnableBuildPromotion(false)
