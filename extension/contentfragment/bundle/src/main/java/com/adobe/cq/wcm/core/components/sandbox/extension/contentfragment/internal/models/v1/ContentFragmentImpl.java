@@ -293,7 +293,7 @@ public class ContentFragmentImpl implements ContentFragment {
         return models.keySet().toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
-    private static class ElementImpl implements Element {
+    static class ElementImpl implements Element {
 
         private FragmentRenderService renderService;
         private ContentTypeConverter converter;

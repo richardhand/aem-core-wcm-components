@@ -1,0 +1,93 @@
+{
+  "jcr:primaryType": "nt:unstructured",
+  "jcr:title": "Content Fragment",
+  "sling:resourceType": "cq/gui/components/authoring/dialog",
+  "content": {
+    "jcr:primaryType": "nt:unstructured",
+    "sling:resourceType": "granite/ui/components/coral/foundation/container",
+    "items": {
+      "jcr:primaryType": "nt:unstructured",
+      "tabs": {
+        "jcr:primaryType": "nt:unstructured",
+        "maximized": true,
+        "sling:resourceType": "granite/ui/components/coral/foundation/tabs",
+        "items": {
+          "jcr:primaryType": "nt:unstructured",
+          "properties": {
+            "jcr:primaryType": "nt:unstructured",
+            "jcr:title": "Properties",
+            "margin": true,
+            "sling:resourceType": "granite/ui/components/coral/foundation/container",
+            "items": {
+              "jcr:primaryType": "nt:unstructured",
+              "column": {
+                "jcr:primaryType": "nt:unstructured",
+                "sling:resourceType": "granite/ui/components/coral/foundation/container",
+                "items": {
+                  "jcr:primaryType": "nt:unstructured",
+                  "paragraphControls": {
+                    "jcr:primaryType": "nt:unstructured",
+                    "sling:resourceType": "granite/ui/components/coral/foundation/form/fieldset",
+                    "items": {
+                      "jcr:primaryType": "nt:unstructured",
+                      "content": {
+                        "jcr:primaryType": "nt:unstructured",
+                        "sling:resourceType": "granite/ui/components/coral/foundation/container",
+                        "granite:rendercondition": {
+                          "jcr:primaryType": "nt:unstructured",
+                          "sling:resourceType": "core/wcm/extension/sandbox/components/contentfragment/v1/renderconditions/paragraphmode",
+                          "componentPath": "",
+                          "fragmentPath": ""
+                        },
+                        "items": {
+                          "jcr:primaryType": "nt:unstructured",
+                          "paragraphScope": {
+                            "jcr:primaryType": "nt:unstructured",
+                            "vertical": false,
+                            "name": "./paragraphScope",
+                            "fieldLabel": "Paragraphs",
+                            "sling:resourceType": "granite/ui/components/coral/foundation/form/radiogroup",
+                            "deleteHint": false,
+                            "items": {
+                              "jcr:primaryType": "nt:unstructured",
+                              "all": {
+                                "jcr:primaryType": "nt:unstructured",
+                                "text": "All",
+                                "value": "all",
+                                "checked": true
+                              },
+                              "range": {
+                                "jcr:primaryType": "nt:unstructured",
+                                "text": "Range",
+                                "value": "range"
+                              }
+                            }
+                          },
+                          "paragraphRange": {
+                            "jcr:primaryType": "nt:unstructured",
+                            "validation": "cfm.paragraphRange",
+                            "name": "./paragraphRange",
+                            "fieldLabel": "",
+                            "sling:resourceType": "granite/ui/components/coral/foundation/form/textfield",
+                            "fieldDescription": "Specify ranges of paragraphs which should be displayed, separated by ';'. For instance '1; 3-5; 7; 9-*' to include the 1st and 7th paragraphs, the 3rd to 5th ones, and from the 9th to the end."
+                          },
+                          "paragraphHeadings": {
+                            "jcr:primaryType": "nt:unstructured",
+                            "name": "./paragraphHeadings",
+                            "text": "Handle headings as their own paragraphs",
+                            "value": "true",
+                            "sling:resourceType": "granite/ui/components/coral/foundation/form/checkbox"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

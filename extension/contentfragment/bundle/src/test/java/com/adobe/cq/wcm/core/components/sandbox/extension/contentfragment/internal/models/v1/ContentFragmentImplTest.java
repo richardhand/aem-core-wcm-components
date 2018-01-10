@@ -113,15 +113,24 @@ public class ContentFragmentImplTest {
     private static final String STRUCTURED_TYPE = "global/models/test";
     private static final String STRUCTURED_TYPE_NESTED = "global/nested/models/test";
     private static final String[] ASSOCIATED_CONTENT = new String[]{ "/content/dam/collections/X/X7v6pJAcy5qtkUdXdIxR/test" };
-    private static final Element MAIN = new Element("main", "Main", "text/html", "<p>Main content</p>");
-    private static final Element SECOND_TEXT_ONLY = new Element("second", "Second", "text/plain", "Second content");
-    private static final Element SECOND_STRUCTURED = new Element("second", "Second", null, new String[]{"one", "two", "three"});
+    private static final Element MAIN = new Element("main", "Main", "text/html",
+            "<p>Main content</p>", true, "<p>Main content</p>", new String []{"<p>Main content</p>"});
+    private static final Element SECOND_TEXT_ONLY = new Element("second", "Second", "text/plain", "Second content",
+            true, null, new String[]{"Second content"});
+    private static final Element SECOND_STRUCTURED = new Element("second", "Second", null, new String[]{"one", "two", "three"},
+            false, null, null);
     private static final String VARIATION_NAME = "teaser";
     static {
-        MAIN.addVariation(VARIATION_NAME, "Teaser", "text/html", "<p>Main content (teaser)</p>");
-        SECOND_TEXT_ONLY.addVariation(VARIATION_NAME, "Teaser", "text/plain", "Second content (teaser)");
-        SECOND_STRUCTURED.addVariation(VARIATION_NAME, "Teaser", null, new String[]{"one (teaser)", "two (teaser)", "three (teaser)"});
+        MAIN.addVariation(VARIATION_NAME, "Teaser", "text/html", "<p>Main content (teaser)</p>",
+                true, "<p>Main content (teaser)</p>", new String[] {"<p>Main content (teaser)</p>"});
+        SECOND_TEXT_ONLY.addVariation(VARIATION_NAME, "Teaser", "text/plain", "Second content (teaser)", true,
+                null, new String [] {"Second content (teaser)"});
+        SECOND_STRUCTURED.addVariation(VARIATION_NAME, "Teaser", null, new String[]{"one (teaser)", "two (teaser)", "three (teaser)"},
+                false, null, null);
     }
+
+    private static FragmentRenderService fragmentRenderService;
+    private static final String PARA_SPLIT_REGEX = "(?=(<p>|<h1>|<h2>|<h3>|<h4>|<h5>|<h6>))";
 
 
     @ClassRule
@@ -154,7 +163,8 @@ public class ContentFragmentImplTest {
         AEM_CONTEXT.registerAdapter(Resource.class, com.adobe.cq.dam.cfm.ContentFragment.class, ADAPTER);
 
         // register dummy services to be injected into the model
-        AEM_CONTEXT.registerService(FragmentRenderService.class, mock(FragmentRenderService.class));
+        fragmentRenderService = mock(FragmentRenderService.class);
+        AEM_CONTEXT.registerService(FragmentRenderService.class, fragmentRenderService);
         AEM_CONTEXT.registerService(ContentTypeConverter.class, mock(ContentTypeConverter.class));
     }
 
@@ -403,6 +413,16 @@ public class ContentFragmentImplTest {
         assertEquals("Content fragment has wrong number of elements", expectedElements.length, elements.size());
         for (int i = 0; i < expectedElements.length; i++) {
             ContentFragment.Element element = elements.get(i);
+            Resource component;
+            try {
+                Field componentField = ContentFragmentImpl.ElementImpl.class.getDeclaredField("component");
+                componentField.setAccessible(true);
+                component = (Resource) componentField.get(element);
+                String value = element.getDisplayValue();
+                when(fragmentRenderService.render(component)).thenReturn(value);
+            } catch (NoSuchFieldException|IllegalAccessException e) {
+                e.printStackTrace();
+            }
             Element expected = expectedElements[i];
             assertEquals("Element has wrong name", expected.name, element.getName());
             assertEquals("Element has wrong title", expected.title, element.getTitle());
@@ -410,14 +430,23 @@ public class ContentFragmentImplTest {
             String contentType = expected.contentType;
             String displayValue = StringUtils.join(expected.values, ", ");
             String[] displayValues = expected.values;
+            boolean isText = expected.isText;
+            String htmlValue = expected.htmlValue;
+            String [] paragraphs = expected.paragraphs;
             if (StringUtils.isNotEmpty(variationName)) {
                 contentType = expected.variations.get(variationName).contentType;
                 displayValue = StringUtils.join(expected.variations.get(variationName).values, ", ");
                 displayValues = expected.variations.get(variationName).values;
+                isText = expected.variations.get(variationName).isText;
+                htmlValue = expected.variations.get(variationName).htmlValue;
+                paragraphs = expected.variations.get(variationName).paragraphs;
             }
             assertEquals("Element has wrong content type", contentType, element.getContentType());
             assertEquals("Element has wrong display value", displayValue, element.getDisplayValue());
             assertArrayEquals("Element has wrong display values", displayValues, element.getDisplayValues());
+            assertEquals("Element has wrong isText flag", isText, element.isText());
+            assertEquals("Element has wrong html", htmlValue, element.getHtml());
+            assertArrayEquals("ELement has wrong paragraphs", paragraphs, element.getParagraphs());
         }
     }
 
@@ -654,7 +683,8 @@ public class ContentFragmentImplTest {
                     Resource variation = resource.getChild(PATH_MODEL_VARIATIONS + "/" + rendition.getName());
                     if (variation != null) {
                         String title = variation.getValueMap().get(JCR_TITLE, String.class);
-                        element.addVariation(rendition.getName(), title, contentType, new String[]{ content });
+                        element.addVariation(rendition.getName(), title, contentType, new String[]{ content },
+                                true, content, content.split(PARA_SPLIT_REGEX));
                     } else {
                         element.values = new String[]{ content };
                         element.contentType = contentType;
@@ -707,7 +737,8 @@ public class ContentFragmentImplTest {
                 } else {
                     properties = resource.getChild(PATH_MODEL_VARIATIONS + "/" + data.getName()).getValueMap();
                     String title = properties.get(JCR_TITLE, String.class);
-                    element.addVariation(data.getName(), title, contentType, values);
+                    element.addVariation(data.getName(), title, contentType, values, true, values[0],
+                            values[0].split(PARA_SPLIT_REGEX));
                 }
             }
 
@@ -745,16 +776,24 @@ public class ContentFragmentImplTest {
             String title;
             String contentType;
             String[] values;
+            boolean isText;
+            String htmlValue;
+            String[] paragraphs;
 
-            Variation(String name, String title, String contentType, String[] values) {
+            Variation(String name, String title, String contentType, String[] values, boolean isText,
+                      String htmlValue, String[] paragraphs) {
                 this.name = name;
                 this.title = title;
                 this.contentType = contentType;
                 this.values = values;
+                this.isText = isText;
+                this.htmlValue = htmlValue;
+                this.paragraphs = paragraphs;
             }
 
-            Variation(String name, String title, String contentType, String value) {
-                this(name, title, contentType, new String[]{ value });
+            Variation(String name, String title, String contentType, String value, boolean isText,
+                      String htmlValue, String[] paragraphs) {
+                this(name, title, contentType, new String[]{ value }, isText, htmlValue, paragraphs);
             }
 
         }
@@ -764,30 +803,40 @@ public class ContentFragmentImplTest {
         boolean isMultiValued;
         String contentType;
         String[] values;
+        boolean isText;
+        String htmlValue;
+        String[] paragraphs;
         Map<String, Variation> variations = new LinkedHashMap<>();
 
         Element() {
         }
 
-        Element(String name, String title, String contentType, String value) {
-            this(name, title, contentType, new String[]{value});
+        Element(String name, String title, String contentType, String value, boolean isText,
+                        String htmlValue, String[] paragraphs) {
+            this(name, title, contentType, new String[]{value}, isText, htmlValue, paragraphs);
             this.isMultiValued = false;
         }
 
-        Element(String name, String title, String contentType, String[] values) {
+        Element(String name, String title, String contentType, String[] values, boolean isText,
+                String htmlValue, String[] paragraphs) {
             this.name = name;
             this.title = title;
             this.contentType = contentType;
             this.isMultiValued = true;
             this.values = values;
+            this.isText = isText;
+            this.htmlValue = htmlValue;
+            this.paragraphs = paragraphs;
         }
 
-        private void addVariation(String name, String title, String contentType, String[] values) {
-            variations.put(name, new Variation(name, title, contentType, values));
+        private void addVariation(String name, String title, String contentType, String[] values, boolean isText,
+                                  String htmlValue, String[] paragraphs) {
+            variations.put(name, new Variation(name, title, contentType, values, isText, htmlValue, paragraphs));
         }
 
-        private void addVariation(String name, String title, String contentType, String value) {
-            variations.put(name, new Variation(name, title, contentType, value));
+        private void addVariation(String name, String title, String contentType, String value, boolean isText,
+                                  String htmlValue, String[] paragraphs) {
+            variations.put(name, new Variation(name, title, contentType, value, isText, htmlValue, paragraphs));
         }
 
     }
