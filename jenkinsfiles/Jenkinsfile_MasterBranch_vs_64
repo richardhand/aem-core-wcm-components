@@ -32,7 +32,7 @@ SproutConfig config = new SproutConfig()
 
 // points to master branch
 config.setAdditionalRepositories([
-        [url: 'git@git.corp.adobe.com:CQ/aem-core-wcm-components.git', branch: 'master', folder: 'master', vcs: 'git']
+        [url: 'git@git.corp.adobe.com:CQ/aem-core-wcm-components.git', branch: 'issue/CQ-4229930_master', folder: 'master', vcs: 'git']
 ])
 
 /* --------------------------------------------------------------------- */
@@ -62,16 +62,12 @@ Module componentsItUi = new Module.Builder('master/testing/it/ui-js')
 Module componentsJUnitCore = new Module.Builder('master/testing/junit/core')
         .withArtifact('jar', 'master/testing/junit/core/target/core.wcm.components.junit.core-*.jar', true)
         .withConsumer(componentsCore)
-        .withConsumer(componentsExtCFBundle)
         .build()
 Module componentsParent = new Module.Builder('master/parent')
         .withConsumer(componentsAll)
         .withConsumer(componentsConfig)
         .withConsumer(componentsContent)
         .withConsumer(componentsCore)
-        .withConsumer(componentsExtCFBundle)
-        .withConsumer(componentsExtCFContent)
-        .withConsumer(componentsExtension)
         .withConsumer(componentsItUi)
         .withConsumer(componentsJUnitCore)
         .withBuild()
