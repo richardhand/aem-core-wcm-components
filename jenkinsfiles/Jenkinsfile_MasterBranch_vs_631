@@ -32,7 +32,7 @@ SproutConfig config = new SproutConfig()
 
 // points to master branch of repo
 config.setAdditionalRepositories([
-        [url: 'git@git.corp.adobe.com:CQ/aem-core-wcm-components.git', branch: 'issue/CQ-4229930_master', folder: 'master', vcs: 'git']
+        [url: 'git@git.corp.adobe.com:CQ/aem-core-wcm-components.git', branch: 'master', folder: 'master', vcs: 'git']
 ])
 
 /* --------------------------------------------------------------------- */
