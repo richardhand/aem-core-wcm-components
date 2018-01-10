@@ -112,7 +112,7 @@ CQInstance author = new CQInstance.Builder()
         .withMavenDependency(uiTestingCommonsPackage)
 // install all the dependencies needed for sandbox to work on a 6.3 instance
         .withMavenDependency(servicePack1)
-        .withMavenDependency(fp20593)
+//        .withMavenDependency(fp20593)
 // install all the core component modules
         .withFileDependency(componentsCore.getArtifact('jar'))
         .withFileDependency(componentsContent.getArtifact('zip'))
