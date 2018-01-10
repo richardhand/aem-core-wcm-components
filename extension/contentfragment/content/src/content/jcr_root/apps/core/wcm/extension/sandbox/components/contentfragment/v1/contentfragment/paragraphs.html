@@ -16,9 +16,9 @@
 <div data-sly-use.fragment="com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment.models.ContentFragment"
      data-path="${properties.fragmentPath}"
      class="cmp-contentfragment">
-    <div data-sly-resource="${'par0' @ resourceType='dam/cfm/components/grid'}"></div>
+    <div data-sly-resource="${'par0' @ resourceType=fragment.gridResourceType}"></div>
     <div data-sly-list="${fragment.elements[0].paragraphs}">
         ${item @ context="html"}
-        <div data-sly-resource="${'par{0}' @ format=itemList.count, resourceType='dam/cfm/components/grid'}"></div>
+        <div data-sly-resource="${'par{0}' @ format=itemList.count, resourceType=fragment.gridResourceType}"></div>
     </div>
 </div>

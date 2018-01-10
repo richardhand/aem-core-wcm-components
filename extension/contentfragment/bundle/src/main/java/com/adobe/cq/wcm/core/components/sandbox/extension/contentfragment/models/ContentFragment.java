@@ -298,4 +298,12 @@ public interface ContentFragment extends ContainerExporter {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Returns resource type that is used for the internal responsive grid.
+     * @return resource type
+     */
+    @Nonnull
+    @JsonIgnore
+    default String getGridResourceType() {throw new UnsupportedOperationException();}
+
 }

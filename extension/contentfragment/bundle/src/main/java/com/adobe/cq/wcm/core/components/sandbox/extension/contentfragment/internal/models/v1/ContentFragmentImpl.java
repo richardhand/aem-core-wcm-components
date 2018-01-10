@@ -25,6 +25,8 @@ import javax.annotation.Nullable;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import com.day.cq.wcm.api.policies.ContentPolicy;
+import com.day.cq.wcm.api.policies.ContentPolicyManager;
 import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -73,6 +75,8 @@ public class ContentFragmentImpl implements ContentFragment {
      * The resource type of the component associated with this Sling model.
      */
     public static final String RESOURCE_TYPE = "core/wcm/extension/sandbox/components/contentfragment/v1/contentfragment";
+
+    private static final String DEFAULT_GRID_TYPE = "dam/cfm/components/grid";
 
     /**
      * The name of the master variation.
@@ -181,6 +185,19 @@ public class ContentFragmentImpl implements ContentFragment {
             }
         }
         return type;
+    }
+
+    @Nonnull
+    @Override
+    public String getGridResourceType() {
+        String gridResourceType = DEFAULT_GRID_TYPE;
+        ContentPolicyManager policyManager = resolver.adaptTo(ContentPolicyManager.class);
+        ContentPolicy fragmentPolicy = policyManager != null ? policyManager.getPolicy(resource) : null;
+        if (fragmentPolicy != null) {
+            ValueMap props = fragmentPolicy.getProperties();
+            gridResourceType = props.get("cfm-grid-type", DEFAULT_GRID_TYPE);
+        }
+        return gridResourceType;
     }
 
     @Nonnull
