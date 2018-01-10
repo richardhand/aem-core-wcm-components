@@ -182,6 +182,89 @@ UITestRun coreCompUIChromePart4_631 = new UITestRun.Builder()
         .withWaitForMinionMinutes(10)
         .withFilter(TEST_GROUP_4)
         .build()
+
+// Run tests against firefox
+UITestRun coreCompUIFirefoxPart1_631 = new UITestRun.Builder()
+        .withName('Test Group 1 / Chrome')
+        .withInstance(author631)
+        .withBrowser('FIREFOX')
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withRunInstructions('main/jenkinsfiles/UITestRunOptions.json')
+        .withWaitForMinionMinutes(10)
+        .withFilter(TEST_GROUP_1)
+        .build()
+
+UITestRun coreCompUIFirefoxPart2_631 = new UITestRun.Builder()
+        .withName('Test Group 2 / Chrome')
+        .withInstance(author631)
+        .withBrowser('FIREFOX')
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withRunInstructions('main/jenkinsfiles/UITestRunOptions.json')
+        .withWaitForMinionMinutes(10)
+        .withFilter(TEST_GROUP_2)
+        .build()
+
+UITestRun coreCompUIFirefoxPart3_631 = new UITestRun.Builder()
+        .withName('Test Group 3 / Chrome')
+        .withInstance(author631)
+        .withBrowser('FIREFOX')
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withRunInstructions('main/jenkinsfiles/UITestRunOptions.json')
+        .withWaitForMinionMinutes(10)
+        .withFilter(TEST_GROUP_3)
+        .build()
+
+UITestRun coreCompUIFirefoxPart4_631 = new UITestRun.Builder()
+        .withName('Test Group 4 / Chrome')
+        .withInstance(author631)
+        .withBrowser('FIREFOX')
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withRunInstructions('main/jenkinsfiles/UITestRunOptions.json')
+        .withWaitForMinionMinutes(10)
+        .withFilter(TEST_GROUP_4)
+        .build()
+
+// Run tests against edge
+UITestRun coreCompUIEdgePart1_631 = new UITestRun.Builder()
+        .withName('Test Group 1 / Chrome')
+        .withInstance(author631)
+        .withBrowser('EDGE')
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withRunInstructions('main/jenkinsfiles/UITestRunOptions.json')
+        .withWaitForMinionMinutes(10)
+        .withFilter(TEST_GROUP_1)
+        .build()
+
+UITestRun coreCompUIEdgePart2_631 = new UITestRun.Builder()
+        .withName('Test Group 2 / Chrome')
+        .withInstance(author631)
+        .withBrowser('EDGE')
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withRunInstructions('main/jenkinsfiles/UITestRunOptions.json')
+        .withWaitForMinionMinutes(10)
+        .withFilter(TEST_GROUP_2)
+        .build()
+
+UITestRun coreCompUIEdgePart3_631 = new UITestRun.Builder()
+        .withName('Test Group 3 / Chrome')
+        .withInstance(author631)
+        .withBrowser('EDGE')
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withRunInstructions('main/jenkinsfiles/UITestRunOptions.json')
+        .withWaitForMinionMinutes(10)
+        .withFilter(TEST_GROUP_3)
+        .build()
+
+UITestRun coreCompUIEdgePart4_631 = new UITestRun.Builder()
+        .withName('Test Group 4 / Chrome')
+        .withInstance(author631)
+        .withBrowser('EDGE')
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withRunInstructions('main/jenkinsfiles/UITestRunOptions.json')
+        .withWaitForMinionMinutes(10)
+        .withFilter(TEST_GROUP_4)
+        .build()
+
 /* --------------------------------------------------------------------- */
 /*                       SPROUT CONFIGURATION                            */
 /* --------------------------------------------------------------------- */
@@ -198,7 +281,9 @@ config.setModules([componentsCore, componentsContent, componentsConfig, componen
                    componentsJUnitCore,componentsParent])
 
 // the tests to execute
-config.setTestRuns([coreCompUIChromePart1_631,coreCompUIChromePart2_631,coreCompUIChromePart3_631,coreCompUIChromePart4_631])
+config.setTestRuns([coreCompUIChromePart1_631,coreCompUIChromePart2_631,coreCompUIChromePart3_631,coreCompUIChromePart4_631,
+                    coreCompUIFirefoxPart1_631,coreCompUIFirefoxPart2_631,coreCompUIFirefoxPart3_631,coreCompUIFirefoxPart4_631,
+                    coreCompUIEdgePart1_631,coreCompUIEdgePart2_631,coreCompUIEdgePart3_631,coreCompUIEdgePart4_631])
 
 config.setGithubAccessTokenId('bf3be1a6-ad0a-43d9-86e2-93b30279060f')
 
