@@ -401,14 +401,12 @@ public class ContentFragmentImplTest {
             Element expected = expectedElements[i];
             assertEquals("Element has wrong name", expected.name, element.getName());
             assertEquals("Element has wrong title", expected.title, element.getTitle());
-            assertEquals("Element has wrong multi-valued flag", expected.isMultiValued, element.isMultiValued());
             String contentType = expected.contentType;
             String [] expectedValues = expected.values;
             if (StringUtils.isNotEmpty(variationName)) {
                 contentType = expected.variations.get(variationName).contentType;
                 expectedValues = expected.variations.get(variationName).values;
             }
-            assertEquals("Element has wrong content type", contentType, element.getContentType());
             Object elementValue = element.getValue();
             if (elementValue != null && elementValue.getClass().isArray()) {
                 assertArrayEquals("Element's values didn't match", expectedValues, (String[])elementValue);

@@ -95,31 +95,6 @@ public interface ContentFragment extends ContainerExporter {
         }
 
         /**
-         * Returns {@code true} if the element is multi-valued, {@code false} otherwise.
-         *
-         * @return {@code true} if the element is multi-valued, {@code false} otherwise
-         * @see DataType#isMultiValue()
-         * @since com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment.models 1.0.0
-         */
-        @JsonIgnore
-        default boolean isMultiValued() {
-            throw new UnsupportedOperationException();
-        }
-
-        /**
-         * Returns the content type of the element.
-         *
-         * @return the content type
-         * @see ContentElement#getContentType()
-         * @see FragmentData#getContentType()
-         * @since com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment.models 1.0.0
-         */
-        @Nullable
-        default String getContentType() {
-            throw new UnsupportedOperationException();
-        }
-
-        /**
          * Returns the string representation of data type of {@link FragmentData} of the element.
          * For the possible values see {@link com.adobe.cq.dam.cfm.BasicDataType}. Note that this doesn't
          * contain information about the multivalued characteristic of element. Eg. even if the actual value is of type

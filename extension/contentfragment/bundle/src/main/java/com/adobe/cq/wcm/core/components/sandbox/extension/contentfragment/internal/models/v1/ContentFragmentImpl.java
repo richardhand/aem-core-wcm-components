@@ -305,17 +305,6 @@ public class ContentFragmentImpl implements ContentFragment {
             return element.getValue();
         }
 
-        @Override
-        public boolean isMultiValued() {
-            return getData().getDataType().isMultiValue();
-        }
-
-        @Nullable
-        @Override
-        public String getContentType() {
-            return getData().getContentType();
-        }
-
         @Nonnull
         @Override
         public String getDataType() {
