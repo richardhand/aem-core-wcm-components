@@ -1,11 +1,13 @@
 #!groovy
 @Library(['com.adobe.qe.evergreen.sprout@develop'])
-import com.adobe.qe.evergreen.sprout.*
+import com.adobe.qe.evergreen.sprout.Sprout
+import com.adobe.qe.evergreen.sprout.Pipeline
+import com.adobe.qe.evergreen.sprout.SproutConfig
 import com.adobe.qe.evergreen.sprout.criteria.*
 import com.adobe.qe.evergreen.sprout.model.*
+import com.adobe.qe.evergreen.sprout.command.*
 
 String MINION_HUB_URL = 'http://qa-bsl-minion-hub.corp.adobe.com:8811'
-// String MINION_HUB_URL = 'http://or1010050212014.corp.adobe.com:8811'
 
 TEST_GROUP_1 =  "aem.core-components.testsuite.formhidden," +
         "aem.core-components.testsuite.formoptions," +
@@ -28,28 +30,47 @@ TEST_GROUP_4 =  "aem.core-components.testsuite.navigation," +
 
 SproutConfig config = new SproutConfig()
 
-/* --------------------------------------------------------------------- */
-/*                                MODULES V1 + Sandbox                   */
-/* --------------------------------------------------------------------- */
+// points to master branch of repo
+config.setAdditionalRepositories([
+        [url: 'git@git.corp.adobe.com:CQ/aem-core-wcm-components.git', branch: 'master', folder: 'master', vcs: 'git']
+])
 
-// define all the modules
-Module componentsCore = new Module.Builder('main/bundles/core')
-        .withArtifact('jar', 'main/bundles/core/target/core.wcm.components.sandbox.bundle-*.jar', true)
+/* --------------------------------------------------------------------- */
+/*                                MODULES                               */
+/* --------------------------------------------------------------------- */
+Module componentsAll = new Module.Builder('master/all')
+        .withArtifact('zip', 'master/all/target/core.wcm.components.all-*.zip', true)
         .build()
-Module componentsContent = new Module.Builder('main/content')
-        .withArtifact('zip', 'main/content/target/core.wcm.components.sandbox.content-*.zip', true)
+Module componentsContent = new Module.Builder('master/content')
+        .withArtifact('zip', 'master/content/target/core.wcm.components.content-*.zip', true)
+        .withConsumer(componentsAll)
         .build()
-Module componentsConfig = new Module.Builder('main/config')
-        .withArtifact('zip', 'main/config/target/core.wcm.components.sandbox.config-*.zip', true)
+Module componentsCore = new Module.Builder('master/bundles/core')
+        .withUnitTests(true)
+        .withCoverage(false)
+        .withArtifact('jar', 'master/bundles/core/target/core.wcm.components.core-*.jar', true)
+        .withConsumer(componentsAll)
+        .withConsumer(componentsContent)
         .build()
-Module componentsItUi = new Module.Builder('main/testing/it/ui-js')
-        .withArtifact('zip', 'main/testing/it/ui-js/target/core.wcm.components.sandbox.it.ui-js-*.zip', true)
+Module componentsConfig = new Module.Builder('master/config')
+        .withArtifact('zip', 'master/config/target/core.wcm.components.config-*.zip', true)
+        .withConsumer(componentsAll)
         .build()
-Module componentsJUnitCore = new Module.Builder('main/testing/junit/core')
+Module componentsItUi = new Module.Builder('master/testing/it/ui-js')
+        .withArtifact('zip', 'master/testing/it/ui-js/target/core.wcm.components.it.ui-js-*.zip', true)
+        .build()
+Module componentsJUnitCore = new Module.Builder('master/testing/junit/core')
+        .withArtifact('jar', 'master/testing/junit/core/target/core.wcm.components.junit.core-*.jar', true)
         .withConsumer(componentsCore)
-        .withArtifact('jar', 'main/testing/junit/core/target/core.wcm.components.junit.core-*.jar', true)
         .build()
-Module componentsParent = new Module.Builder('main/parent')
+Module componentsParent = new Module.Builder('master/parent')
+        .withConsumer(componentsAll)
+        .withConsumer(componentsConfig)
+        .withConsumer(componentsContent)
+        .withConsumer(componentsCore)
+        .withConsumer(componentsItUi)
+        .withConsumer(componentsJUnitCore)
+        .withBuild()
         .build()
 
 /* --------------------------------------------------------------------- */
@@ -59,7 +80,8 @@ MavenDependency hobbesRewriterPackage = new MavenDependency.Builder()
         .withGroupId("com.adobe.granite")
         .withArtifactId("com.adobe.granite.testing.hobbes.rewriter")
         .withVersion("latest")
-        .withExtension("jar").build()
+        .withExtension("jar")
+        .build()
 
 MavenDependency hobbesTesting = new MavenDependency.Builder()
         .withGroupId("com.adobe.granite")
@@ -71,9 +93,9 @@ MavenDependency uiTestingCommonsPackage = new MavenDependency.Builder()
         .withGroupId("com.adobe.qe")
         .withArtifactId("com.adobe.qe.ui-testing-commons")
         .withVersion("latest")
-        .withExtension("zip").build()
+        .withExtension("zip")
+        .build()
 
-// define all the dependencies needed for sandbox to work on a 6.3 instance
 MavenDependency servicePack1 = new MavenDependency.Builder()
         .withGroupId("com.adobe.cq")
         .withArtifactId("aem-service-pkg")
@@ -87,45 +109,43 @@ MavenDependency fp20593 = new MavenDependency.Builder()
         .withVersion("1.2")
         .withExtension("zip").build()
 
+
 /* --------------------------------------------------------------------- */
-/*                       QUICKSTART CONFIGURATIONS                       */
+/*                       QUICKSTART CONFIGURATIONS                        */
 /* --------------------------------------------------------------------- */
-// we need a plain 6.3 quickstart
-Quickstart quickstart63 = new QPQuickstart.Builder('Quickstart 6.3')
+Quickstart qs631 = new QPQuickstart.Builder('Quickstart 6.3 SP1')
         .withVersion('6.3.0')
         .build()
 
 /* --------------------------------------------------------------------- */
-/*                      CQ INSTANCE CONFIGURATIONS                       */
+/*                      CQ INSTANCE CONFIGURATIONS                        */
 /* --------------------------------------------------------------------- */
-// define an 6.3 author instance
-CQInstance author = new CQInstance.Builder()
-        .withQuickstart(quickstart63)
-        .withId('weretail-author')
+CQInstance author631 = new CQInstance.Builder()
+        .withQuickstart(qs631)
+        .withId('author631')
         .withPort(1234)
         .withRunmode("author")
-// we must run with nosamplecontent mode, due to different artifact ids for the components, to avoid trouble
         .withRunmode("nosamplecontent")
         .withContextPath("/cp")
         .withMavenDependency(hobbesRewriterPackage)
-        .withMavenDependency(hobbesTesting)
         .withMavenDependency(uiTestingCommonsPackage)
-// install all the dependencies needed for sandbox to work on a 6.3 instance
-        .withMavenDependency(fp20593)
+        .withMavenDependency(hobbesTesting)
         .withMavenDependency(servicePack1)
-// install all the core component modules
+        .withMavenDependency(fp20593)
+        .withFileDependency(componentsItUi.getArtifact('zip'))
         .withFileDependency(componentsCore.getArtifact('jar'))
         .withFileDependency(componentsContent.getArtifact('zip'))
         .withFileDependency(componentsConfig.getArtifact('zip'))
-        .withFileDependency(componentsItUi.getArtifact('zip'))
         .build()
+
 /* --------------------------------------------------------------------- */
 /*                                UI TESTS                               */
 /* --------------------------------------------------------------------- */
+
 // Run tests against chrome
-UITestRun coreCompUIChromePart1 = new UITestRun.Builder()
+UITestRun coreCompUIChromePart1_631 = new UITestRun.Builder()
         .withName('Test Group 1 / Chrome')
-        .withInstance(author)
+        .withInstance(author631)
         .withBrowser('CHROME')
         .withHobbesHubUrl(MINION_HUB_URL)
         .withRunInstructions('main/jenkinsfiles/UITestRunOptions63.json')
@@ -133,9 +153,9 @@ UITestRun coreCompUIChromePart1 = new UITestRun.Builder()
         .withFilter(TEST_GROUP_1)
         .build()
 
-UITestRun coreCompUIChromePart2 = new UITestRun.Builder()
+UITestRun coreCompUIChromePart2_631 = new UITestRun.Builder()
         .withName('Test Group 2 / Chrome')
-        .withInstance(author)
+        .withInstance(author631)
         .withBrowser('CHROME')
         .withHobbesHubUrl(MINION_HUB_URL)
         .withRunInstructions('main/jenkinsfiles/UITestRunOptions63.json')
@@ -143,9 +163,9 @@ UITestRun coreCompUIChromePart2 = new UITestRun.Builder()
         .withFilter(TEST_GROUP_2)
         .build()
 
-UITestRun coreCompUIChromePart3 = new UITestRun.Builder()
+UITestRun coreCompUIChromePart3_631 = new UITestRun.Builder()
         .withName('Test Group 3 / Chrome')
-        .withInstance(author)
+        .withInstance(author631)
         .withBrowser('CHROME')
         .withHobbesHubUrl(MINION_HUB_URL)
         .withRunInstructions('main/jenkinsfiles/UITestRunOptions63.json')
@@ -153,9 +173,9 @@ UITestRun coreCompUIChromePart3 = new UITestRun.Builder()
         .withFilter(TEST_GROUP_3)
         .build()
 
-UITestRun coreCompUIChromePart4 = new UITestRun.Builder()
+UITestRun coreCompUIChromePart4_631 = new UITestRun.Builder()
         .withName('Test Group 4 / Chrome')
-        .withInstance(author)
+        .withInstance(author631)
         .withBrowser('CHROME')
         .withHobbesHubUrl(MINION_HUB_URL)
         .withRunInstructions('main/jenkinsfiles/UITestRunOptions63.json')
@@ -164,9 +184,9 @@ UITestRun coreCompUIChromePart4 = new UITestRun.Builder()
         .build()
 
 // Run tests against firefox
-UITestRun coreCompUIFirefoxPart1 = new UITestRun.Builder()
+UITestRun coreCompUIFirefoxPart1_631 = new UITestRun.Builder()
         .withName('Test Group 1 / Firefox')
-        .withInstance(author)
+        .withInstance(author631)
         .withBrowser('FIREFOX')
         .withHobbesHubUrl(MINION_HUB_URL)
         .withRunInstructions('main/jenkinsfiles/UITestRunOptions63.json')
@@ -174,9 +194,9 @@ UITestRun coreCompUIFirefoxPart1 = new UITestRun.Builder()
         .withFilter(TEST_GROUP_1)
         .build()
 
-UITestRun coreCompUIFirefoxPart2 = new UITestRun.Builder()
+UITestRun coreCompUIFirefoxPart2_631 = new UITestRun.Builder()
         .withName('Test Group 2 / Firefox')
-        .withInstance(author)
+        .withInstance(author631)
         .withBrowser('FIREFOX')
         .withHobbesHubUrl(MINION_HUB_URL)
         .withRunInstructions('main/jenkinsfiles/UITestRunOptions63.json')
@@ -184,9 +204,9 @@ UITestRun coreCompUIFirefoxPart2 = new UITestRun.Builder()
         .withFilter(TEST_GROUP_2)
         .build()
 
-UITestRun coreCompUIFirefoxPart3 = new UITestRun.Builder()
+UITestRun coreCompUIFirefoxPart3_631 = new UITestRun.Builder()
         .withName('Test Group 3 / Firefox')
-        .withInstance(author)
+        .withInstance(author631)
         .withBrowser('FIREFOX')
         .withHobbesHubUrl(MINION_HUB_URL)
         .withRunInstructions('main/jenkinsfiles/UITestRunOptions63.json')
@@ -194,9 +214,9 @@ UITestRun coreCompUIFirefoxPart3 = new UITestRun.Builder()
         .withFilter(TEST_GROUP_3)
         .build()
 
-UITestRun coreCompUIFirefoxPart4 = new UITestRun.Builder()
+UITestRun coreCompUIFirefoxPart4_631 = new UITestRun.Builder()
         .withName('Test Group 4 / Firefox')
-        .withInstance(author)
+        .withInstance(author631)
         .withBrowser('FIREFOX')
         .withHobbesHubUrl(MINION_HUB_URL)
         .withRunInstructions('main/jenkinsfiles/UITestRunOptions63.json')
@@ -205,9 +225,9 @@ UITestRun coreCompUIFirefoxPart4 = new UITestRun.Builder()
         .build()
 
 // Run tests against edge
-UITestRun coreCompUIEdgePart1 = new UITestRun.Builder()
+UITestRun coreCompUIEdgePart1_631 = new UITestRun.Builder()
         .withName('Test Group 1 / Edge')
-        .withInstance(author)
+        .withInstance(author631)
         .withBrowser('EDGE')
         .withHobbesHubUrl(MINION_HUB_URL)
         .withRunInstructions('main/jenkinsfiles/UITestRunOptions63.json')
@@ -215,9 +235,9 @@ UITestRun coreCompUIEdgePart1 = new UITestRun.Builder()
         .withFilter(TEST_GROUP_1)
         .build()
 
-UITestRun coreCompUIEdgePart2 = new UITestRun.Builder()
+UITestRun coreCompUIEdgePart2_631 = new UITestRun.Builder()
         .withName('Test Group 2 / Edge')
-        .withInstance(author)
+        .withInstance(author631)
         .withBrowser('EDGE')
         .withHobbesHubUrl(MINION_HUB_URL)
         .withRunInstructions('main/jenkinsfiles/UITestRunOptions63.json')
@@ -225,9 +245,9 @@ UITestRun coreCompUIEdgePart2 = new UITestRun.Builder()
         .withFilter(TEST_GROUP_2)
         .build()
 
-UITestRun coreCompUIEdgePart3 = new UITestRun.Builder()
+UITestRun coreCompUIEdgePart3_631 = new UITestRun.Builder()
         .withName('Test Group 3 / Edge')
-        .withInstance(author)
+        .withInstance(author631)
         .withBrowser('EDGE')
         .withHobbesHubUrl(MINION_HUB_URL)
         .withRunInstructions('main/jenkinsfiles/UITestRunOptions63.json')
@@ -235,33 +255,35 @@ UITestRun coreCompUIEdgePart3 = new UITestRun.Builder()
         .withFilter(TEST_GROUP_3)
         .build()
 
-UITestRun coreCompUIEdgePart4 = new UITestRun.Builder()
+UITestRun coreCompUIEdgePart4_631 = new UITestRun.Builder()
         .withName('Test Group 4 / Edge')
-        .withInstance(author)
+        .withInstance(author631)
         .withBrowser('EDGE')
         .withHobbesHubUrl(MINION_HUB_URL)
         .withRunInstructions('main/jenkinsfiles/UITestRunOptions63.json')
         .withWaitForMinionMinutes(10)
         .withFilter(TEST_GROUP_4)
         .build()
+
 /* --------------------------------------------------------------------- */
 /*                       SPROUT CONFIGURATION                            */
 /* --------------------------------------------------------------------- */
 
-// no code coverage
+// calculate code coverage
 config.setComputeCoverage(false)
 config.setComputeReleaseCoverage(false)
 
-// the modules to build
-config.setModules([componentsCore, componentsContent, componentsConfig, componentsItUi,
-                   componentsJUnitCore,componentsParent])
-// the tests to execute
-config.setTestRuns([coreCompUIChromePart1,coreCompUIChromePart2,coreCompUIChromePart3,coreCompUIChromePart4,
-                    coreCompUIFirefoxPart1,coreCompUIFirefoxPart2,coreCompUIFirefoxPart3,coreCompUIFirefoxPart4,
-                    coreCompUIEdgePart1,coreCompUIEdgePart2,coreCompUIEdgePart3,coreCompUIEdgePart4])
+// Report Sprout stats to elasticsearch
+config.getElasticsearchReporting().setEnable(false)
 
-// don't ask for release at the end
-config.setEnableBuildPromotion(false)
+// the modules to build
+config.setModules([componentsCore, componentsContent, componentsConfig, componentsAll, componentsItUi,
+                   componentsJUnitCore,componentsParent])
+
+// the tests to execute
+config.setTestRuns([coreCompUIChromePart1_631,coreCompUIChromePart2_631,coreCompUIChromePart3_631,coreCompUIChromePart4_631,
+                    coreCompUIFirefoxPart1_631,coreCompUIFirefoxPart2_631,coreCompUIFirefoxPart3_631,coreCompUIFirefoxPart4_631,
+                    coreCompUIEdgePart1_631,coreCompUIEdgePart2_631,coreCompUIEdgePart3_631,coreCompUIEdgePart4_631])
 
 config.setGithubAccessTokenId('bf3be1a6-ad0a-43d9-86e2-93b30279060f')
 
