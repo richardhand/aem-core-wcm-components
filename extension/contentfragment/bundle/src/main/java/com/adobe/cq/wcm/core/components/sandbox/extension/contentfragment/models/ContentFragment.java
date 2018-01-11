@@ -121,7 +121,9 @@ public interface ContentFragment extends ContainerExporter {
 
         /**
          * Returns the string representation of data type of {@link FragmentData} of the element.
-         *
+         * For the possible values see {@link com.adobe.cq.dam.cfm.BasicDataType}. Note that this doesn't
+         * contain information about the multivalued characteristic of element. Eg. even if the actual value is of type
+         * String [], the data type returned would be String.
          * @return the data type string
          * @see FragmentData#getDataType()
          * @since com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment.models 1.0.0
@@ -132,7 +134,8 @@ public interface ContentFragment extends ContainerExporter {
         }
 
         /**
-         * Returns the value of the element.
+         * Returns the value of the element. The returned object's type would be one of those listed
+         * in {@link com.adobe.cq.dam.cfm.BasicDataType} or an array of those types.
          *
          * @return the value of the element
          * @see FragmentData#getValue()
