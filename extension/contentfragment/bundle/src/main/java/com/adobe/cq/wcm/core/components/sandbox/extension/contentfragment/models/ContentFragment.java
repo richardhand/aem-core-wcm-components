@@ -109,8 +109,8 @@ public interface ContentFragment extends ContainerExporter {
         }
 
         /**
-         * Returns the value of the element. The returned object's type would be one of those listed
-         * in {@link com.adobe.cq.dam.cfm.BasicDataType} or an array of those types.
+         * Returns the value of the element. The returned object's type would correspond to the types as specified in
+         * {@link com.adobe.cq.dam.cfm.BasicDataType} or an array of those types.
          *
          * @return the value of the element
          * @see FragmentData#getValue()
