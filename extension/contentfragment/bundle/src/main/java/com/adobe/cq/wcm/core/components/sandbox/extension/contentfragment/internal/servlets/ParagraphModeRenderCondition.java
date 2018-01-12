@@ -68,12 +68,6 @@ public class ParagraphModeRenderCondition extends SlingSafeMethodsServlet {
     public final static String PN_COMPONENT_PATH = "componentPath";
 
     /**
-     * Name of the boolean resource property specifying if the persisted component configuration should be overridden
-     * by the {@link #PN_FRAGMENT_PATH} and {@link #PN_ELEMENT_NAME} properties. The value may contain expressions.
-     */
-    public final static String PN_OVERRIDE_CONFIG = "overrideConfig";
-
-    /**
      * Name of the property to override the fragment path of the persisted component configuration. The value may
      * contain expressions.
      */
