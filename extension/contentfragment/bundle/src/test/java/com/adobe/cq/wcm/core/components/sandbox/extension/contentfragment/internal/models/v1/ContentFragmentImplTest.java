@@ -22,6 +22,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -32,6 +33,7 @@ import javax.json.Json;
 import javax.json.JsonReader;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
@@ -399,18 +401,19 @@ public class ContentFragmentImplTest {
             Element expected = expectedElements[i];
             assertEquals("Element has wrong name", expected.name, element.getName());
             assertEquals("Element has wrong title", expected.title, element.getTitle());
-            assertEquals("Element has wrong multi-valued flag", expected.isMultiValued, element.isMultiValued());
             String contentType = expected.contentType;
-            String displayValue = StringUtils.join(expected.values, ", ");
-            String[] displayValues = expected.values;
+            String [] expectedValues = expected.values;
             if (StringUtils.isNotEmpty(variationName)) {
                 contentType = expected.variations.get(variationName).contentType;
-                displayValue = StringUtils.join(expected.variations.get(variationName).values, ", ");
-                displayValues = expected.variations.get(variationName).values;
+                expectedValues = expected.variations.get(variationName).values;
             }
-            assertEquals("Element has wrong content type", contentType, element.getContentType());
-            assertEquals("Element has wrong display value", displayValue, element.getDisplayValue());
-            assertArrayEquals("Element has wrong display values", displayValues, element.getDisplayValues());
+            Object elementValue = element.getValue();
+            if (elementValue != null && elementValue.getClass().isArray()) {
+                assertArrayEquals("Element's values didn't match", expectedValues, (String[])elementValue);
+            } else {
+                assertEquals("Element is not single valued", expectedValues.length, 1);
+                assertEquals("Element's value didn't match", expectedValues[0], elementValue);
+            }
         }
     }
 
