@@ -96,7 +96,7 @@
                         "fragmentPath"      : "/content/dam/contentfragments/structured",
                         "elementNames"      : ["second"]
                     },
-                    "structured-single-element-main"            : {
+                    "structured-single-element-main"       : {
                         "jcr:primaryType"   : "nt:unstructured",
                         "sling:resourceType": "core/wcm/extension/sandbox/components/contentfragment/v1/contentfragment",
                         "fragmentPath"      : "/content/dam/contentfragments/structured",

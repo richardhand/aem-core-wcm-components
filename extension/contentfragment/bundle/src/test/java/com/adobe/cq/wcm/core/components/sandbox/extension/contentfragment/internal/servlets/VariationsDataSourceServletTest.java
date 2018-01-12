@@ -27,7 +27,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import com.adobe.granite.ui.components.ds.DataSource;
 
 @RunWith(MockitoJUnitRunner.class)
-public class VariationsDataSourceServletTest extends AbstractServletTest {
+public class VariationsDataSourceServletTest extends AbstractDataSourceServletTest {
 
     /* names of the datasource instances to test */
 

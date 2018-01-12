@@ -20,18 +20,12 @@ import java.util.Iterator;
 import javax.servlet.ServletException;
 import javax.servlet.jsp.PageContext;
 
-import com.adobe.cq.dam.cfm.content.FragmentRenderService;
-import com.adobe.cq.dam.cfm.converter.ContentTypeConverter;
-import com.adobe.cq.sightly.WCMBindings;
-import com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment.models.ContentFragment;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
-import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.i18n.ResourceBundleProvider;
 import org.apache.sling.i18n.impl.RootResourceBundle;
-import org.apache.sling.models.factory.ModelFactory;
 import org.apache.sling.servlethelpers.MockSlingHttpServletResponse;
 import org.apache.sling.testing.mock.sling.servlet.MockSlingHttpServletRequest;
 import org.junit.Before;
@@ -39,6 +33,8 @@ import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.mockito.Mockito;
 
+import com.adobe.cq.dam.cfm.content.FragmentRenderService;
+import com.adobe.cq.dam.cfm.converter.ContentTypeConverter;
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
 import com.adobe.granite.ui.components.Config;
 import com.adobe.granite.ui.components.ExpressionResolver;
@@ -50,18 +46,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public abstract class AbstractServletTest {
+public abstract class AbstractDataSourceServletTest {
 
     private static final String DATASOURCES_PATH = "/content/datasources";
-    protected static final String CONTENT_FRAGMENTS_PATH = "/content/dam/contentfragments";
-    private static final String TEST_PAGE_PATH = "/content/contentfragments";
-    protected static final String TEST_CONTAINER_PATH = TEST_PAGE_PATH + "/jcr:content/root/responsivegrid";
+    private static final String CONTENT_FRAGMENTS_PATH = "/content/dam/contentfragments";
 
     @ClassRule
     public static final AemContext CONTEXT = CoreComponentTestContext.createContext("/contentfragment", "/content");
@@ -86,10 +79,6 @@ public abstract class AbstractServletTest {
         CONTEXT.registerService(ContentTypeConverter.class, mock(ContentTypeConverter.class));
         Mockito.when(resourceBundleProvider.getResourceBundle(null)).thenReturn(RESOURCE_BUNDLE);
         Mockito.when(resourceBundleProvider.getResourceBundle(null, null)).thenReturn(RESOURCE_BUNDLE);
-
-        CONTEXT.load().json("/contentfragment/test-dialog.json",
-                "/apps/core/wcm/extension/sandbox/components/contentfragment/v1/contentfragment/cq:dialog");
-
     }
 
     protected ExpressionResolver expressionResolver;
@@ -143,20 +132,6 @@ public abstract class AbstractServletTest {
         if (iterator.hasNext()) {
             fail("Datasource returned too many items, expected " + names.length);
         }
-    }
-
-    protected static ContentFragment getTestContentFragment(String name) {
-        String path = TEST_CONTAINER_PATH + "/" + name;
-        ResourceResolver resolver = CONTEXT.resourceResolver();
-        Resource resource = resolver.getResource(path);
-        MockSlingHttpServletRequest request = new MockSlingHttpServletRequest(resolver, CONTEXT.bundleContext());
-        request.setResource(resource);
-        SlingBindings slingBindings = new SlingBindings();
-        slingBindings.put(SlingBindings.RESOLVER, resolver);
-        slingBindings.put(SlingBindings.RESOURCE, resource);
-        slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
-        request.setAttribute(SlingBindings.class.getName(), slingBindings);
-        return request.adaptTo(ContentFragment.class);
     }
 
 }
