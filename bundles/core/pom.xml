@@ -28,7 +28,7 @@
     </parent>
 
     <artifactId>core.wcm.components.sandbox.bundle</artifactId>
-    <version>0.0.101-SNAPSHOT</version>
+    <version>0.0.103-SNAPSHOT</version>
     <packaging>bundle</packaging>
 
     <name>Adobe Experience Manager Core WCM Components Core Bundle - Sandbox</name>
@@ -287,7 +287,7 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>core.wcm.components.junit.core</artifactId>
             <scope>test</scope>
-            <version>1.9.27-SNAPSHOT</version>
+            <version>1.9.28</version>
         </dependency>
         <!-- for testing we need the new ResourceTypeBasedResourcePicker -->
         <dependency>

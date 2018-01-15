@@ -28,7 +28,7 @@
     </parent>
 
     <artifactId>core.wcm.components.junit.core</artifactId>
-    <version>1.9.27-SNAPSHOT</version>
+    <version>1.9.29-SNAPSHOT</version>
     <name>Adobe Experience Manager Core WCM Components JUnit Testing</name>
 
     <scm>

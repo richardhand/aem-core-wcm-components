@@ -1,5 +1,6 @@
 # AEM Core WCM Components Sandbox
-[![Build Status](https://travis-ci.org/Adobe-Marketing-Cloud/aem-core-wcm-components.png?branch=development)](https://travis-ci.org/Adobe-Marketing-Cloud/aem-core-wcm-components)
+6.4 [![Build Status](https://jenkins-sprouts.bsl.eur.adobe.com/buildStatus/icon?job=aem-core-wcm-components/PRIVATE_master)](https://jenkins-sprouts.bsl.eur.adobe.com/job/aem-core-wcm-components/PRIVATE_master)
+6.3 [![Build Status](https://jenkins-sprouts.bsl.eur.adobe.com/buildStatus/icon?job=aem-core-wcm-components_vs_630)](https://jenkins-sprouts.bsl.eur.adobe.com/job/aem-core-wcm-components_vs_630)
 [![Code Coverage](https://codecov.io/gh/Adobe-Marketing-Cloud/aem-core-wcm-components/branch/development/graph/badge.svg)](https://codecov.io/gh/Adobe-Marketing-Cloud/aem-core-wcm-components)
 
 **The Sandbox represents a space where work-in-progress versions of the Core Components are developed. They provide _beta features_ and *should not be used in production*. When the components become stable, they will be promoted to new production-ready releases and moved out of sandbox.**
