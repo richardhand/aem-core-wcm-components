@@ -1,0 +1,216 @@
+#!groovy
+@Library(['com.adobe.qe.evergreen.sprout@develop'])
+import com.adobe.qe.evergreen.sprout.Sprout
+import com.adobe.qe.evergreen.sprout.Pipeline
+import com.adobe.qe.evergreen.sprout.SproutConfig
+import com.adobe.qe.evergreen.sprout.criteria.*
+import com.adobe.qe.evergreen.sprout.model.*
+import com.adobe.qe.evergreen.sprout.command.*
+
+String MINION_HUB_URL = 'http://qa-bsl-minion-hub.corp.adobe.com:8811'
+
+TEST_GROUP_1 =  "aem.core-components.testsuite.formhidden," +
+        "aem.core-components.testsuite.formoptions," +
+        "aem.core-components.testsuite.formcomponents," +
+        "aem.core-components.testsuite.breadcrumb," +
+        "aem.core-components.testsuite.teaser"
+
+TEST_GROUP_2 =  "aem.core-components.testsuite.formtext," +
+        "aem.core-components.testsuite.languagenavigation," +
+        "aem.core-components.testsuite.text," +
+        "aem.core-components.testsuite.formbutton"
+
+TEST_GROUP_3 =  "aem.core-components.testsuite.image," +
+        "aem.core-components.testsuite.list," +
+        "aem.core-components.testsuite.formcontainer"
+
+TEST_GROUP_4 =  "aem.core-components.testsuite.navigation," +
+        "aem.core-components.testsuite.page," +
+        "aem.core-components.testsuite.search"
+
+SproutConfig config = new SproutConfig()
+
+// points to development branch
+config.setAdditionalRepositories([
+        [url: 'git@git.corp.adobe.com:CQ/aem-core-wcm-components.git', branch: 'development', folder: 'dev', vcs: 'git']
+])
+
+/* --------------------------------------------------------------------- */
+/*                                MODULES                               */
+/* --------------------------------------------------------------------- */
+Module componentsAll = new Module.Builder('dev/all')
+        .withArtifact('zip', 'dev/all/target/core.wcm.components.sandbox.all-*.zip', true)
+        .build()
+Module componentsContent = new Module.Builder('dev/content')
+        .withArtifact('zip', 'dev/content/target/core.wcm.components.sandbox.content-*.zip', true)
+        .withConsumer(componentsAll)
+        .build()
+Module componentsCore = new Module.Builder('dev/bundles/core')
+        .withUnitTests(true)
+        .withCoverage(false)
+        .withArtifact('jar', 'dev/bundles/core/target/core.wcm.components.sandbox.bundle-*.jar', true)
+        .withConsumer(componentsAll)
+        .withConsumer(componentsContent)
+        .build()
+Module componentsConfig = new Module.Builder('dev/config')
+        .withArtifact('zip', 'dev/config/target/core.wcm.components.sandbox.config-*.zip', true)
+        .withConsumer(componentsAll)
+        .build()
+Module componentsItUi = new Module.Builder('dev/testing/it/ui-js')
+        .withArtifact('zip', 'dev/testing/it/ui-js/target/core.wcm.components.sandbox.it.ui-js-*.zip', true)
+        .build()
+Module componentsExtension = new Module.Builder('dev/extension')
+        .withArtifact('zip', 'dev/extension/target/core.wcm.components.sandbox.extension-*.zip', true)
+        .build()
+Module componentsExtCFBundle = new Module.Builder('dev/extension/contentfragment/bundle')
+        .withUnitTests(true)
+        .withCoverage(false)
+        .withArtifact('jar', 'dev/extension/contentfragment/bundle/target/core.wcm.components.sandbox.extension.contentfragment.bundle-*.jar', true)
+        .withConsumer(componentsExtension)
+        .build()
+Module componentsExtCFContent = new Module.Builder('dev/extension/contentfragment/content')
+        .withArtifact('zip', 'dev/extension/contentfragment/content/target/core.wcm.components.sandbox.extension.contentfragment.content-*.zip', true)
+        .withConsumer(componentsExtension)
+        .build()
+Module componentsJUnitCore = new Module.Builder('dev/testing/junit/core')
+        .withArtifact('jar', 'dev/testing/junit/core/target/core.wcm.components.sandbox.junit.core-*.jar', true)
+        .withConsumer(componentsCore)
+        .withConsumer(componentsExtCFBundle)
+        .build()
+Module componentsParent = new Module.Builder('dev/parent')
+        .withConsumer(componentsAll)
+        .withConsumer(componentsConfig)
+        .withConsumer(componentsContent)
+        .withConsumer(componentsCore)
+        .withConsumer(componentsExtCFBundle)
+        .withConsumer(componentsExtCFContent)
+        .withConsumer(componentsExtension)
+        .withConsumer(componentsItUi)
+        .withConsumer(componentsJUnitCore)
+        .withBuild()
+        .build()
+
+/* --------------------------------------------------------------------- */
+/*                        EXTERNAL DEPENDENCIES                          */
+/* --------------------------------------------------------------------- */
+MavenDependency hobbesRewriterPackage = new MavenDependency.Builder()
+        .withGroupId("com.adobe.granite")
+        .withArtifactId("com.adobe.granite.testing.hobbes.rewriter")
+        .withVersion("latest")
+        .withExtension("jar")
+        .build()
+
+MavenDependency uiTestingCommonsPackage = new MavenDependency.Builder()
+        .withGroupId("com.adobe.qe")
+        .withArtifactId("com.adobe.qe.ui-testing-commons")
+        .withVersion("latest")
+        .withExtension("zip")
+        .build()
+
+/* --------------------------------------------------------------------- */
+/*                       QUICKSTART CONFIGURATIONS                        */
+/* --------------------------------------------------------------------- */
+Quickstart qs64 = new BuildQuickstart.Builder('Quickstart 6.4')
+        .build()
+
+
+/* --------------------------------------------------------------------- */
+/*                      CQ INSTANCE CONFIGURATIONS                        */
+/* --------------------------------------------------------------------- */
+CQInstance author64 = new CQInstance.Builder()
+        .withQuickstart(qs64)
+        .withId('author64')
+        .withPort(4567)
+        .withRunmode("author")
+        .withRunmode("nosamplecontent")
+        .withContextPath("/cp")
+        .withMavenDependency(hobbesRewriterPackage)
+        .withMavenDependency(uiTestingCommonsPackage)
+        .withFileDependency(componentsItUi.getArtifact('zip'))
+        .withFileDependency(componentsCore.getArtifact('jar'))
+        .withFileDependency(componentsContent.getArtifact('zip'))
+        .withFileDependency(componentsConfig.getArtifact('zip'))
+        .build()
+
+/* --------------------------------------------------------------------- */
+/*                                UI TESTS                               */
+/* --------------------------------------------------------------------- */
+
+// Run tests against chrome
+UITestRun coreCompUIChromePart1_64 = new UITestRun.Builder()
+        .withName('Test Group 1 / Chrome')
+        .withInstance(author64)
+        .withBrowser('CHROME')
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withRunInstructions('main/jenkinsfiles/UITestRunOptions.json')
+        .withWaitForMinionMinutes(10)
+        .withFilter(TEST_GROUP_1)
+        .build()
+
+UITestRun coreCompUIChromePart2_64 = new UITestRun.Builder()
+        .withName('Test Group 2 / Chrome')
+        .withInstance(author64)
+        .withBrowser('CHROME')
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withRunInstructions('main/jenkinsfiles/UITestRunOptions.json')
+        .withWaitForMinionMinutes(10)
+        .withFilter(TEST_GROUP_2)
+        .build()
+
+UITestRun coreCompUIChromePart3_64 = new UITestRun.Builder()
+        .withName('Test Group 3 / Chrome')
+        .withInstance(author64)
+        .withBrowser('CHROME')
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withRunInstructions('main/jenkinsfiles/UITestRunOptions.json')
+        .withWaitForMinionMinutes(10)
+        .withFilter(TEST_GROUP_3)
+        .build()
+
+UITestRun coreCompUIChromePart4_64 = new UITestRun.Builder()
+        .withName('Test Group 4 / Chrome')
+        .withInstance(author64)
+        .withBrowser('CHROME')
+        .withHobbesHubUrl(MINION_HUB_URL)
+        .withRunInstructions('main/jenkinsfiles/UITestRunOptions.json')
+        .withWaitForMinionMinutes(10)
+        .withFilter(TEST_GROUP_4)
+        .build()
+
+/* --------------------------------------------------------------------- */
+/*                       SPROUT CONFIGURATION                            */
+/* --------------------------------------------------------------------- */
+
+// calculate code coverage
+config.setComputeCoverage(false)
+config.setComputeReleaseCoverage(false)
+
+// Report Sprout stats to elasticsearch
+config.getElasticsearchReporting().setEnable(false)
+
+// the modules to build
+config.setModules([componentsCore, componentsContent, componentsConfig, componentsAll, componentsItUi,
+                   componentsJUnitCore,componentsParent,
+                   componentsExtension, componentsExtCFBundle, componentsExtCFContent])
+
+// the tests to execute
+config.setTestRuns([coreCompUIChromePart1_64,coreCompUIChromePart2_64,coreCompUIChromePart3_64,coreCompUIChromePart4_64])
+
+config.setGithubAccessTokenId('bf3be1a6-ad0a-43d9-86e2-93b30279060f')
+
+config.setEnableMailNotification(false)
+
+// Slack notification
+config.setEnableSlackNotifications(true)
+config.setSlackChannel('#refsquad-sprouts')
+config.setSlackTeamDomain('cq-dev')
+config.setSlackIntegrationToken('TPhlDoZqT0DvKyVC1RnCvzfj')
+
+/* --------------------------------------------------------------------- */
+/*                       SPROUT CUSTOMIZATION                            */
+/* --------------------------------------------------------------------- */
+Pipeline sprout = new Sprout.Builder()
+        .withConfig(config)
+        .withJenkins(this).build()
+
+sprout.execute()

@@ -27,17 +27,17 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Nullable;
 import javax.json.Json;
 import javax.json.JsonReader;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.scripting.SlingBindings;
-import org.apache.sling.testing.clients.util.ResourceUtil;
 import org.apache.sling.testing.mock.sling.servlet.MockSlingHttpServletRequest;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -322,8 +322,8 @@ public class ContentFragmentImplTest {
         ObjectMapper mapper = new ObjectMapper();
         mapper.writerWithView(ContentFragmentImpl.class).writeValue(writer, fragment);
         JsonReader jsonReaderOutput = Json.createReader(IOUtils.toInputStream(writer.toString()));
-        JsonReader jsonReaderExpected = Json.createReader(IOUtils.toInputStream(
-                ResourceUtil.readResourceAsString("/contentfragment/test-expected-content-export.json")));
+        JsonReader jsonReaderExpected = Json.createReader(Thread.currentThread().getContextClassLoader().getClass()
+                .getResourceAsStream("/contentfragment/test-expected-content-export.json"));
         assertEquals(jsonReaderExpected.read(), jsonReaderOutput.read());
     }
 
@@ -418,7 +418,7 @@ public class ContentFragmentImplTest {
                 Field componentField = ContentFragmentImpl.ElementImpl.class.getDeclaredField("component");
                 componentField.setAccessible(true);
                 component = (Resource) componentField.get(element);
-                String value = element.getDisplayValue();
+                String value = element.getValue() != null ? element.getValue().toString() : null;
                 when(fragmentRenderService.render(component)).thenReturn(value);
             } catch (NoSuchFieldException|IllegalAccessException e) {
                 e.printStackTrace();
@@ -426,24 +426,25 @@ public class ContentFragmentImplTest {
             Element expected = expectedElements[i];
             assertEquals("Element has wrong name", expected.name, element.getName());
             assertEquals("Element has wrong title", expected.title, element.getTitle());
-            assertEquals("Element has wrong multi-valued flag", expected.isMultiValued, element.isMultiValued());
             String contentType = expected.contentType;
-            String displayValue = StringUtils.join(expected.values, ", ");
-            String[] displayValues = expected.values;
             boolean isText = expected.isText;
             String htmlValue = expected.htmlValue;
             String [] paragraphs = expected.paragraphs;
+            String [] expectedValues = expected.values;
             if (StringUtils.isNotEmpty(variationName)) {
                 contentType = expected.variations.get(variationName).contentType;
-                displayValue = StringUtils.join(expected.variations.get(variationName).values, ", ");
-                displayValues = expected.variations.get(variationName).values;
+                expectedValues = expected.variations.get(variationName).values;
                 isText = expected.variations.get(variationName).isText;
                 htmlValue = expected.variations.get(variationName).htmlValue;
                 paragraphs = expected.variations.get(variationName).paragraphs;
             }
-            assertEquals("Element has wrong content type", contentType, element.getContentType());
-            assertEquals("Element has wrong display value", displayValue, element.getDisplayValue());
-            assertArrayEquals("Element has wrong display values", displayValues, element.getDisplayValues());
+            Object elementValue = element.getValue();
+            if (elementValue != null && elementValue.getClass().isArray()) {
+                assertArrayEquals("Element's values didn't match", expectedValues, (String[])elementValue);
+            } else {
+                assertEquals("Element is not single valued", expectedValues.length, 1);
+                assertEquals("Element's value didn't match", expectedValues[0], elementValue);
+            }
             assertEquals("Element has wrong isText flag", isText, element.isText());
             assertEquals("Element has wrong html", htmlValue, element.getHtml());
             assertArrayEquals("ELement has wrong paragraphs", paragraphs, element.getParagraphs());

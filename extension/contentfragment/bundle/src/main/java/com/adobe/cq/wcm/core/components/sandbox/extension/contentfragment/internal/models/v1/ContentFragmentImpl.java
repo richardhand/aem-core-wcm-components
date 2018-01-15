@@ -28,8 +28,8 @@ import javax.inject.Inject;
 import com.day.cq.wcm.api.policies.ContentPolicy;
 import com.day.cq.wcm.api.policies.ContentPolicyManager;
 import org.apache.commons.collections.IteratorUtils;
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
@@ -355,37 +355,16 @@ public class ContentFragmentImpl implements ContentFragment {
             return element.getValue();
         }
 
+        @Nonnull
         @Override
-        public boolean isMultiValued() {
-            return getData().getDataType().isMultiValue();
-        }
-
-        @Nullable
-        @Override
-        public String getContentType() {
-            return getData().getContentType();
+        public String getDataType() {
+            return getData().getDataType().getTypeString();
         }
 
         @Nullable
         @Override
         public Object getValue() {
             return getData().getValue();
-        }
-
-        @Nullable
-        @Override
-        public String getDisplayValue() {
-            String[] values = getDisplayValues();
-            if (values == null) {
-                return null;
-            }
-            return StringUtils.join(values, ", ");
-        }
-
-        @Nullable
-        @Override
-        public String[] getDisplayValues() {
-            return getData().getValue(String[].class);
         }
 
         @Nonnull
@@ -403,12 +382,16 @@ public class ContentFragmentImpl implements ContentFragment {
             return type;
         }
 
+        private String getContentType() {
+            return getData().getContentType();
+        }
+
         @Override
         public boolean isText() {
             String contentType = getContentType();
             // a text element is defined as a single-valued element with a certain content type (e.g. "text/plain",
             // "text/html", "text/x-markdown", potentially others)
-            return contentType != null && contentType.startsWith("text/") && !isMultiValued();
+            return contentType != null && contentType.startsWith("text/") && !getData().getDataType().isMultiValue();
         }
 
         @Nullable
@@ -420,13 +403,18 @@ public class ContentFragmentImpl implements ContentFragment {
             }
 
             String contentType = getContentType();
+            String [] values = getData().getValue(String[].class);
+            String value = null;
+            if (values != null) {
+                value = org.apache.commons.lang.StringUtils.join(values, ", ");
+            }
             if ("text/html".equals(contentType)) {
                 // return HTML as is
-                return getDisplayValue();
+                return value;
             } else {
                 try {
                     // convert element value to HTML
-                    return converter.convertToHTML(getDisplayValue(), contentType);
+                    return converter.convertToHTML(value, contentType);
                 } catch (ContentFragmentException e) {
                     LOG.warn("Could not convert to HTML", e);
                     return null;
