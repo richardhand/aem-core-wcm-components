@@ -13,8 +13,11 @@
             propertyName="./fragmentPath">
             <parameters
                 jcr:primaryType="nt:unstructured"
+                variationName=""
                 elementNames=""
-                variationName=""/>
+                paragraphScope=""
+                paragraphRange=""
+                paragraphHeadings=""/>
         </contentfragment>
     </cq:dropTargets>
     <cq:listeners

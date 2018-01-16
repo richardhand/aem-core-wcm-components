@@ -33,6 +33,8 @@ import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.mockito.Mockito;
 
+import com.adobe.cq.dam.cfm.content.FragmentRenderService;
+import com.adobe.cq.dam.cfm.converter.ContentTypeConverter;
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
 import com.adobe.granite.ui.components.Config;
 import com.adobe.granite.ui.components.ExpressionResolver;
@@ -52,6 +54,7 @@ import static org.mockito.Mockito.when;
 public abstract class AbstractDataSourceServletTest {
 
     private static final String DATASOURCES_PATH = "/content/datasources";
+    private static final String CONTENT_FRAGMENTS_PATH = "/content/dam/contentfragments";
 
     @ClassRule
     public static final AemContext CONTEXT = CoreComponentTestContext.createContext("/contentfragment", "/content");
@@ -61,7 +64,7 @@ public abstract class AbstractDataSourceServletTest {
     @BeforeClass
     public static void setUpSuper() throws Exception {
         // load the content fragments
-        CONTEXT.load().json("/contentfragment/test-content-dam-contentfragments.json", "/content/dam/contentfragments");
+        CONTEXT.load().json("/contentfragment/test-content-dam-contentfragments.json", CONTENT_FRAGMENTS_PATH);
         // load the data sources
         CONTEXT.load().json("/contentfragment/test-content-datasources.json", DATASOURCES_PATH);
         // load the content fragment models
@@ -72,6 +75,8 @@ public abstract class AbstractDataSourceServletTest {
         // mock resource bundle provider to enable constructing i18n instances
         ResourceBundleProvider resourceBundleProvider = Mockito.mock(ResourceBundleProvider.class);
         CONTEXT.registerService(ResourceBundleProvider.class, resourceBundleProvider);
+        CONTEXT.registerService(FragmentRenderService.class, mock(FragmentRenderService.class));
+        CONTEXT.registerService(ContentTypeConverter.class, mock(ContentTypeConverter.class));
         Mockito.when(resourceBundleProvider.getResourceBundle(null)).thenReturn(RESOURCE_BUNDLE);
         Mockito.when(resourceBundleProvider.getResourceBundle(null, null)).thenReturn(RESOURCE_BUNDLE);
     }

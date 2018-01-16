@@ -16,7 +16,6 @@
 package com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment.models;
 
 import java.util.Map;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -24,7 +23,6 @@ import org.apache.sling.api.resource.Resource;
 import org.osgi.annotation.versioning.ConsumerType;
 
 import com.adobe.cq.dam.cfm.ContentElement;
-import com.adobe.cq.dam.cfm.DataType;
 import com.adobe.cq.dam.cfm.FragmentData;
 import com.adobe.cq.export.json.ComponentExporter;
 import com.adobe.cq.export.json.ContainerExporter;
@@ -127,6 +125,45 @@ public interface ContentFragment extends ContainerExporter {
             throw new UnsupportedOperationException();
         }
 
+        /**
+         * Returns {@code true} if this is a multiline text element, i.e. a textual element containing multiple lines
+         * (paragraphs).
+         *
+         * @return {@code true} if the element is a multiline text element, {@code false} otherwise
+         */
+        @JsonIgnore
+        default boolean isMultiLine() {
+            throw new UnsupportedOperationException();
+        }
+
+        /**
+         * Returns the value of a multiline text element converted to HTML. It uses
+         * {@link com.adobe.cq.dam.cfm.converter.ContentTypeConverter#convertToHTML(String, String)} to convert the
+         * value to html. Returns {@code null} for non-multiline-text elements.
+         *
+         * @return the value of the element converted to HTML or {@code null} for non-multiline-text elements
+         * @see #isMultiLine()
+         * @see com.adobe.cq.dam.cfm.converter.ContentTypeConverter#convertToHTML(String, String)
+         */
+        @Nullable
+        @JsonIgnore
+        default String getHtml() {
+            throw new UnsupportedOperationException();
+        }
+
+        /**
+         * Returns the paragraphs of a multiline text element by rendering it using
+         * {@link com.adobe.cq.dam.cfm.content.FragmentRenderService} and splitting the result into separate paragraphs.
+         * Returns {@code null} for non-multiline-text elements.
+         *
+         * @return an array containing HTML paragraphs or {@code null} for non-multiline-text elements
+         * @see #isMultiLine()
+         * @see #getHtml()
+         */
+        @Nullable
+        default String[] getParagraphs() {
+            throw new UnsupportedOperationException();
+        }
     }
 
     /**
@@ -223,5 +260,13 @@ public interface ContentFragment extends ContainerExporter {
     default String getEditorJSON() {
         throw new UnsupportedOperationException();
     }
+
+    /**
+     * Returns resource type that is used for the internal responsive grid.
+     * @return resource type
+     */
+    @Nonnull
+    @JsonIgnore
+    default String getGridResourceType() {throw new UnsupportedOperationException();}
 
 }
