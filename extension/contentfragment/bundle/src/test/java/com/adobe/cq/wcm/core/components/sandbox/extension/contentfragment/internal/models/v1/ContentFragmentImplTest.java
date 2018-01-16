@@ -52,6 +52,8 @@ import com.adobe.cq.dam.cfm.DataType;
 import com.adobe.cq.dam.cfm.FragmentData;
 import com.adobe.cq.dam.cfm.FragmentTemplate;
 import com.adobe.cq.dam.cfm.VariationDef;
+import com.adobe.cq.dam.cfm.content.FragmentRenderService;
+import com.adobe.cq.dam.cfm.converter.ContentTypeConverter;
 import com.adobe.cq.export.json.ComponentExporter;
 import com.adobe.cq.sightly.WCMBindings;
 import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
@@ -111,15 +113,24 @@ public class ContentFragmentImplTest {
     private static final String STRUCTURED_TYPE = "global/models/test";
     private static final String STRUCTURED_TYPE_NESTED = "global/nested/models/test";
     private static final String[] ASSOCIATED_CONTENT = new String[]{ "/content/dam/collections/X/X7v6pJAcy5qtkUdXdIxR/test" };
-    private static final Element MAIN = new Element("main", "Main", "text/html", "<p>Main content</p>");
-    private static final Element SECOND_TEXT_ONLY = new Element("second", "Second", "text/plain", "Second content");
-    private static final Element SECOND_STRUCTURED = new Element("second", "Second", null, new String[]{"one", "two", "three"});
+    private static final Element MAIN = new Element("main", "Main", "text/html",
+            "<p>Main content</p>", true, "<p>Main content</p>", new String []{"<p>Main content</p>"});
+    private static final Element SECOND_TEXT_ONLY = new Element("second", "Second", "text/plain", "Second content",
+            true, null, new String[]{"Second content"});
+    private static final Element SECOND_STRUCTURED = new Element("second", "Second", null, new String[]{"one", "two", "three"},
+            false, null, null);
     private static final String VARIATION_NAME = "teaser";
     static {
-        MAIN.addVariation(VARIATION_NAME, "Teaser", "text/html", "<p>Main content (teaser)</p>");
-        SECOND_TEXT_ONLY.addVariation(VARIATION_NAME, "Teaser", "text/plain", "Second content (teaser)");
-        SECOND_STRUCTURED.addVariation(VARIATION_NAME, "Teaser", null, new String[]{"one (teaser)", "two (teaser)", "three (teaser)"});
+        MAIN.addVariation(VARIATION_NAME, "Teaser", "text/html", "<p>Main content (teaser)</p>",
+                true, "<p>Main content (teaser)</p>", new String[] {"<p>Main content (teaser)</p>"});
+        SECOND_TEXT_ONLY.addVariation(VARIATION_NAME, "Teaser", "text/plain", "Second content (teaser)", true,
+                null, new String [] {"Second content (teaser)"});
+        SECOND_STRUCTURED.addVariation(VARIATION_NAME, "Teaser", null, new String[]{"one (teaser)", "two (teaser)", "three (teaser)"},
+                false, null, null);
     }
+
+    private static FragmentRenderService fragmentRenderService;
+    private static final String PARA_SPLIT_REGEX = "(?=(<p>|<h1>|<h2>|<h3>|<h4>|<h5>|<h6>))";
 
 
     @ClassRule
@@ -150,6 +161,11 @@ public class ContentFragmentImplTest {
 
         // register an adapter that adapts resources to mocks of content fragments
         AEM_CONTEXT.registerAdapter(Resource.class, com.adobe.cq.dam.cfm.ContentFragment.class, ADAPTER);
+
+        // register dummy services to be injected into the model
+        fragmentRenderService = mock(FragmentRenderService.class);
+        AEM_CONTEXT.registerService(FragmentRenderService.class, fragmentRenderService);
+        AEM_CONTEXT.registerService(ContentTypeConverter.class, mock(ContentTypeConverter.class));
     }
 
     @Before
@@ -360,6 +376,7 @@ public class ContentFragmentImplTest {
         request.setResource(resource);
         SlingBindings slingBindings = new SlingBindings();
         slingBindings.put(SlingBindings.RESOLVER, resolver);
+        slingBindings.put(SlingBindings.RESOURCE, resource);
         slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
         request.setAttribute(SlingBindings.class.getName(), slingBindings);
         return request.adaptTo(ContentFragment.class);
@@ -396,14 +413,30 @@ public class ContentFragmentImplTest {
         assertEquals("Content fragment has wrong number of elements", expectedElements.length, elements.size());
         for (int i = 0; i < expectedElements.length; i++) {
             ContentFragment.Element element = elements.get(i);
+            Resource component;
+            try {
+                Field componentField = ContentFragmentImpl.ElementImpl.class.getDeclaredField("component");
+                componentField.setAccessible(true);
+                component = (Resource) componentField.get(element);
+                String value = element.getValue() != null ? element.getValue().toString() : null;
+                when(fragmentRenderService.render(component)).thenReturn(value);
+            } catch (NoSuchFieldException|IllegalAccessException e) {
+                e.printStackTrace();
+            }
             Element expected = expectedElements[i];
             assertEquals("Element has wrong name", expected.name, element.getName());
             assertEquals("Element has wrong title", expected.title, element.getTitle());
             String contentType = expected.contentType;
+            boolean isMultiLine = expected.isMultiLine;
+            String htmlValue = expected.htmlValue;
+            String [] paragraphs = expected.paragraphs;
             String [] expectedValues = expected.values;
             if (StringUtils.isNotEmpty(variationName)) {
                 contentType = expected.variations.get(variationName).contentType;
                 expectedValues = expected.variations.get(variationName).values;
+                isMultiLine = expected.variations.get(variationName).isMultiLine;
+                htmlValue = expected.variations.get(variationName).htmlValue;
+                paragraphs = expected.variations.get(variationName).paragraphs;
             }
             Object elementValue = element.getValue();
             if (elementValue != null && elementValue.getClass().isArray()) {
@@ -412,6 +445,9 @@ public class ContentFragmentImplTest {
                 assertEquals("Element is not single valued", expectedValues.length, 1);
                 assertEquals("Element's value didn't match", expectedValues[0], elementValue);
             }
+            assertEquals("Element has wrong isMultiLine flag", isMultiLine, element.isMultiLine());
+            assertEquals("Element has wrong html", htmlValue, element.getHtml());
+            assertArrayEquals("ELement has wrong paragraphs", paragraphs, element.getParagraphs());
         }
     }
 
@@ -648,7 +684,8 @@ public class ContentFragmentImplTest {
                     Resource variation = resource.getChild(PATH_MODEL_VARIATIONS + "/" + rendition.getName());
                     if (variation != null) {
                         String title = variation.getValueMap().get(JCR_TITLE, String.class);
-                        element.addVariation(rendition.getName(), title, contentType, new String[]{ content });
+                        element.addVariation(rendition.getName(), title, contentType, new String[]{ content },
+                                true, content, content.split(PARA_SPLIT_REGEX));
                     } else {
                         element.values = new String[]{ content };
                         element.contentType = contentType;
@@ -701,7 +738,8 @@ public class ContentFragmentImplTest {
                 } else {
                     properties = resource.getChild(PATH_MODEL_VARIATIONS + "/" + data.getName()).getValueMap();
                     String title = properties.get(JCR_TITLE, String.class);
-                    element.addVariation(data.getName(), title, contentType, values);
+                    element.addVariation(data.getName(), title, contentType, values, true, values[0],
+                            values[0].split(PARA_SPLIT_REGEX));
                 }
             }
 
@@ -739,16 +777,24 @@ public class ContentFragmentImplTest {
             String title;
             String contentType;
             String[] values;
+            boolean isMultiLine;
+            String htmlValue;
+            String[] paragraphs;
 
-            Variation(String name, String title, String contentType, String[] values) {
+            Variation(String name, String title, String contentType, String[] values, boolean isMultiLine,
+                      String htmlValue, String[] paragraphs) {
                 this.name = name;
                 this.title = title;
                 this.contentType = contentType;
                 this.values = values;
+                this.isMultiLine = isMultiLine;
+                this.htmlValue = htmlValue;
+                this.paragraphs = paragraphs;
             }
 
-            Variation(String name, String title, String contentType, String value) {
-                this(name, title, contentType, new String[]{ value });
+            Variation(String name, String title, String contentType, String value, boolean isMultiLine,
+                      String htmlValue, String[] paragraphs) {
+                this(name, title, contentType, new String[]{ value }, isMultiLine, htmlValue, paragraphs);
             }
 
         }
@@ -758,30 +804,40 @@ public class ContentFragmentImplTest {
         boolean isMultiValued;
         String contentType;
         String[] values;
+        boolean isMultiLine;
+        String htmlValue;
+        String[] paragraphs;
         Map<String, Variation> variations = new LinkedHashMap<>();
 
         Element() {
         }
 
-        Element(String name, String title, String contentType, String value) {
-            this(name, title, contentType, new String[]{value});
+        Element(String name, String title, String contentType, String value, boolean isMultiLine,
+                        String htmlValue, String[] paragraphs) {
+            this(name, title, contentType, new String[]{value}, isMultiLine, htmlValue, paragraphs);
             this.isMultiValued = false;
         }
 
-        Element(String name, String title, String contentType, String[] values) {
+        Element(String name, String title, String contentType, String[] values, boolean isMultiLine,
+                String htmlValue, String[] paragraphs) {
             this.name = name;
             this.title = title;
             this.contentType = contentType;
             this.isMultiValued = true;
             this.values = values;
+            this.isMultiLine = isMultiLine;
+            this.htmlValue = htmlValue;
+            this.paragraphs = paragraphs;
         }
 
-        private void addVariation(String name, String title, String contentType, String[] values) {
-            variations.put(name, new Variation(name, title, contentType, values));
+        private void addVariation(String name, String title, String contentType, String[] values, boolean isMultiline,
+                                  String htmlValue, String[] paragraphs) {
+            variations.put(name, new Variation(name, title, contentType, values, isMultiline, htmlValue, paragraphs));
         }
 
-        private void addVariation(String name, String title, String contentType, String value) {
-            variations.put(name, new Variation(name, title, contentType, value));
+        private void addVariation(String name, String title, String contentType, String value, boolean isMultiline,
+                                  String htmlValue, String[] paragraphs) {
+            variations.put(name, new Variation(name, title, contentType, value, isMultiline, htmlValue, paragraphs));
         }
 
     }

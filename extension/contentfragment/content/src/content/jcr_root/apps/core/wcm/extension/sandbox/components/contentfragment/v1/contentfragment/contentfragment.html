@@ -13,18 +13,14 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
-<!--/* need this outer test for the fragment path, as it is a required property for instantiating the model */-->
-<sly data-sly-test="${properties.fragmentPath}">
-    <dl data-sly-use.fragment="com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment.models.ContentFragment"
-        data-sly-test="${!fragment.elements.isEmpty}"
-        data-path="${properties.fragmentPath}"
-        data-type="${fragment.type}"
-        data-json="${!wcmmode.disabled && fragment.editorJSON}"
-        class="cmp-contentfragment${!wcmmode.disabled ? ' cq-dd-contentfragment' : ''}"
-        data-sly-use.elementTemplate="element.html"
-        data-sly-list.element="${fragment.elements}">
-        <sly data-sly-call="${elementTemplate.element @ element=element}"></sly>
-    </dl>
+<sly data-sly-use.fragment="com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment.models.ContentFragment"
+     data-sly-test="${properties.fragmentPath}" data-sly-use.cfTemplates="templates.html">
+    <sly data-sly-test.isParagraphMode="${fragment.elements.size == 1 && fragment.elements[0].isMultiLine}">
+        <sly data-sly-call="${cfTemplates.paragraphs @ fragment=fragment, fragmentPath=properties.fragmentPath}"></sly>
+    </sly>
+    <sly data-sly-test="${!isParagraphMode}">
+        <sly data-sly-call="${cfTemplates.elements @ fragment=fragment, fragmentPath=properties.fragmentPath, wcmmode=wcmmode}"></sly>
+    </sly>
 </sly>
 <sly data-sly-use.template="core/wcm/components/commons/v1/templates.html"
      data-sly-call="${template.placeholder @ isEmpty=!properties.fragmentPath || fragment.elements.isEmpty, classAppend='cq-dd-contentfragment'}"></sly>
