@@ -19,6 +19,7 @@ TEST_GROUP_1 =  "aem.core-components.testsuite.formhidden," +
 TEST_GROUP_2 =  "aem.core-components.testsuite.formtext," +
                 "aem.core-components.testsuite.languagenavigation," +
                 "aem.core-components.testsuite.text," +
+                "aem.core-components.testsuite.title," +
                 "aem.core-components.testsuite.formbutton"
 
 TEST_GROUP_3 =  "aem.core-components.testsuite.image," +
