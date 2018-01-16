@@ -58,7 +58,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
-import javax.json.JsonObject;
+
 import static com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment.internal.models.v1.ContentFragmentImpl.RESOURCE_TYPE;
 import static com.day.cq.commons.jcr.JcrConstants.JCR_CONTENT;
 import static com.day.cq.commons.jcr.JcrConstants.JCR_TITLE;
@@ -317,6 +317,7 @@ public class ContentFragmentImpl implements ContentFragment {
         private Resource component;
         private ContentElement element;
         private ContentVariation variation;
+        private String htmlValue;
 
         /**
          *
@@ -387,7 +388,7 @@ public class ContentFragmentImpl implements ContentFragment {
         }
 
         @Override
-        public boolean isText() {
+        public boolean isMultiLine() {
             String contentType = getContentType();
             // a text element is defined as a single-valued element with a certain content type (e.g. "text/plain",
             // "text/html", "text/x-markdown", potentially others)
@@ -398,7 +399,7 @@ public class ContentFragmentImpl implements ContentFragment {
         @Override
         public String getHtml() {
             // restrict this method to text elements
-            if (!isText()) {
+            if (!isMultiLine()) {
                 return null;
             }
 
@@ -413,8 +414,11 @@ public class ContentFragmentImpl implements ContentFragment {
                 return value;
             } else {
                 try {
-                    // convert element value to HTML
-                    return converter.convertToHTML(value, contentType);
+                    if (htmlValue == null) {
+                        // convert element value to HTML
+                        htmlValue = converter.convertToHTML(value, contentType);
+                    }
+                    return htmlValue;
                 } catch (ContentFragmentException e) {
                     LOG.warn("Could not convert to HTML", e);
                     return null;
@@ -426,7 +430,7 @@ public class ContentFragmentImpl implements ContentFragment {
         @Override
         public String[] getParagraphs() {
             // restrict this method to text elements
-            if (!isText()) {
+            if (!isMultiLine()) {
                 return null;
             }
 

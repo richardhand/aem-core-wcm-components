@@ -47,7 +47,7 @@ import com.adobe.granite.ui.components.rendercondition.SimpleRenderCondition;
 /**
  * Render condition that returns true if the referenced content fragment component renders in paragraph mode. This is
  * the case if the component configuration defines to render a single element (or if the referenced fragment contains
- * only one element) and if that element is a text element (according to {@link ContentFragment.Element#isText()}).
+ * only one element) and if that element is a multiline text element (according to {@link ContentFragment.Element#isMultiLine()}).
  */
 @Component(
     service = { Servlet.class },
@@ -146,7 +146,7 @@ public class ParagraphModeRenderCondition extends SlingSafeMethodsServlet {
 
         // evaluate render condition
         List<ContentFragment.Element> elements = fragment.getElements();
-        boolean isParagraphMode = elements != null && elements.size() == 1 && elements.get(0).isText();
+        boolean isParagraphMode = elements != null && elements.size() == 1 && elements.get(0).isMultiLine();
         request.setAttribute(RenderCondition.class.getName(), new SimpleRenderCondition(isParagraphMode));
     }
 

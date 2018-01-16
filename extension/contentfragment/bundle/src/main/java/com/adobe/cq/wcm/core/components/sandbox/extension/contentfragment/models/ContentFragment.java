@@ -23,7 +23,6 @@ import org.apache.sling.api.resource.Resource;
 import org.osgi.annotation.versioning.ConsumerType;
 
 import com.adobe.cq.dam.cfm.ContentElement;
-import com.adobe.cq.dam.cfm.DataType;
 import com.adobe.cq.dam.cfm.FragmentData;
 import com.adobe.cq.export.json.ComponentExporter;
 import com.adobe.cq.export.json.ContainerExporter;
@@ -127,23 +126,23 @@ public interface ContentFragment extends ContainerExporter {
         }
 
         /**
-         * Returns {@code true} if this is a text element, i.e. a textual element containing multiple lines
+         * Returns {@code true} if this is a multiline text element, i.e. a textual element containing multiple lines
          * (paragraphs).
          *
-         * @return {@code true} if the element is a text element, {@code false} otherwise
+         * @return {@code true} if the element is a multiline text element, {@code false} otherwise
          */
         @JsonIgnore
-        default boolean isText() {
+        default boolean isMultiLine() {
             throw new UnsupportedOperationException();
         }
 
         /**
-         * Returns the value of a text element converted to HTML. It uses
+         * Returns the value of a multiline text element converted to HTML. It uses
          * {@link com.adobe.cq.dam.cfm.converter.ContentTypeConverter#convertToHTML(String, String)} to convert the
-         * value to html. Returns {@code null} for non-text elements.
+         * value to html. Returns {@code null} for non-multiline-text elements.
          *
-         * @return the value of the element converted to HTML or {@code null} for non-text elements
-         * @see #isText()
+         * @return the value of the element converted to HTML or {@code null} for non-multiline-text elements
+         * @see #isMultiLine()
          * @see com.adobe.cq.dam.cfm.converter.ContentTypeConverter#convertToHTML(String, String)
          */
         @Nullable
@@ -153,11 +152,12 @@ public interface ContentFragment extends ContainerExporter {
         }
 
         /**
-         * Returns the paragraphs of a text element by converting its value to HTML using {@link #getHtml()} and
-         * splitting the result into separate paragraphs. Returns {@code null} for non-text elements.
+         * Returns the paragraphs of a multiline text element by rendering it using
+         * {@link com.adobe.cq.dam.cfm.content.FragmentRenderService} and splitting the result into separate paragraphs.
+         * Returns {@code null} for non-multiline-text elements.
          *
-         * @return an array containing HTML paragraphs or {@code null} for non-text elements
-         * @see #isText()
+         * @return an array containing HTML paragraphs or {@code null} for non-multiline-text elements
+         * @see #isMultiLine()
          * @see #getHtml()
          */
         @Nullable

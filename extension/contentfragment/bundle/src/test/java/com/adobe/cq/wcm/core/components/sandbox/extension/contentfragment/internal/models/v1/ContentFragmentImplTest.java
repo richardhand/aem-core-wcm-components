@@ -427,14 +427,14 @@ public class ContentFragmentImplTest {
             assertEquals("Element has wrong name", expected.name, element.getName());
             assertEquals("Element has wrong title", expected.title, element.getTitle());
             String contentType = expected.contentType;
-            boolean isText = expected.isText;
+            boolean isMultiLine = expected.isMultiLine;
             String htmlValue = expected.htmlValue;
             String [] paragraphs = expected.paragraphs;
             String [] expectedValues = expected.values;
             if (StringUtils.isNotEmpty(variationName)) {
                 contentType = expected.variations.get(variationName).contentType;
                 expectedValues = expected.variations.get(variationName).values;
-                isText = expected.variations.get(variationName).isText;
+                isMultiLine = expected.variations.get(variationName).isMultiLine;
                 htmlValue = expected.variations.get(variationName).htmlValue;
                 paragraphs = expected.variations.get(variationName).paragraphs;
             }
@@ -445,7 +445,7 @@ public class ContentFragmentImplTest {
                 assertEquals("Element is not single valued", expectedValues.length, 1);
                 assertEquals("Element's value didn't match", expectedValues[0], elementValue);
             }
-            assertEquals("Element has wrong isText flag", isText, element.isText());
+            assertEquals("Element has wrong isMultiLine flag", isMultiLine, element.isMultiLine());
             assertEquals("Element has wrong html", htmlValue, element.getHtml());
             assertArrayEquals("ELement has wrong paragraphs", paragraphs, element.getParagraphs());
         }
@@ -777,24 +777,24 @@ public class ContentFragmentImplTest {
             String title;
             String contentType;
             String[] values;
-            boolean isText;
+            boolean isMultiLine;
             String htmlValue;
             String[] paragraphs;
 
-            Variation(String name, String title, String contentType, String[] values, boolean isText,
+            Variation(String name, String title, String contentType, String[] values, boolean isMultiLine,
                       String htmlValue, String[] paragraphs) {
                 this.name = name;
                 this.title = title;
                 this.contentType = contentType;
                 this.values = values;
-                this.isText = isText;
+                this.isMultiLine = isMultiLine;
                 this.htmlValue = htmlValue;
                 this.paragraphs = paragraphs;
             }
 
-            Variation(String name, String title, String contentType, String value, boolean isText,
+            Variation(String name, String title, String contentType, String value, boolean isMultiLine,
                       String htmlValue, String[] paragraphs) {
-                this(name, title, contentType, new String[]{ value }, isText, htmlValue, paragraphs);
+                this(name, title, contentType, new String[]{ value }, isMultiLine, htmlValue, paragraphs);
             }
 
         }
@@ -804,7 +804,7 @@ public class ContentFragmentImplTest {
         boolean isMultiValued;
         String contentType;
         String[] values;
-        boolean isText;
+        boolean isMultiLine;
         String htmlValue;
         String[] paragraphs;
         Map<String, Variation> variations = new LinkedHashMap<>();
@@ -812,32 +812,32 @@ public class ContentFragmentImplTest {
         Element() {
         }
 
-        Element(String name, String title, String contentType, String value, boolean isText,
+        Element(String name, String title, String contentType, String value, boolean isMultiLine,
                         String htmlValue, String[] paragraphs) {
-            this(name, title, contentType, new String[]{value}, isText, htmlValue, paragraphs);
+            this(name, title, contentType, new String[]{value}, isMultiLine, htmlValue, paragraphs);
             this.isMultiValued = false;
         }
 
-        Element(String name, String title, String contentType, String[] values, boolean isText,
+        Element(String name, String title, String contentType, String[] values, boolean isMultiLine,
                 String htmlValue, String[] paragraphs) {
             this.name = name;
             this.title = title;
             this.contentType = contentType;
             this.isMultiValued = true;
             this.values = values;
-            this.isText = isText;
+            this.isMultiLine = isMultiLine;
             this.htmlValue = htmlValue;
             this.paragraphs = paragraphs;
         }
 
-        private void addVariation(String name, String title, String contentType, String[] values, boolean isText,
+        private void addVariation(String name, String title, String contentType, String[] values, boolean isMultiline,
                                   String htmlValue, String[] paragraphs) {
-            variations.put(name, new Variation(name, title, contentType, values, isText, htmlValue, paragraphs));
+            variations.put(name, new Variation(name, title, contentType, values, isMultiline, htmlValue, paragraphs));
         }
 
-        private void addVariation(String name, String title, String contentType, String value, boolean isText,
+        private void addVariation(String name, String title, String contentType, String value, boolean isMultiline,
                                   String htmlValue, String[] paragraphs) {
-            variations.put(name, new Variation(name, title, contentType, value, isText, htmlValue, paragraphs));
+            variations.put(name, new Variation(name, title, contentType, value, isMultiline, htmlValue, paragraphs));
         }
 
     }
