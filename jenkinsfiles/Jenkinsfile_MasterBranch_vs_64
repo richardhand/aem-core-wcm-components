@@ -1,8 +1,7 @@
 #!groovy
 @Library(['com.adobe.qe.evergreen.sprout@develop'])
-import com.adobe.qe.evergreen.sprout.Sprout
-import com.adobe.qe.evergreen.sprout.Pipeline
-import com.adobe.qe.evergreen.sprout.SproutConfig
+import com.adobe.qe.evergreen.sprout.*
+import com.adobe.qe.evergreen.sprout.config.*
 import com.adobe.qe.evergreen.sprout.criteria.*
 import com.adobe.qe.evergreen.sprout.model.*
 import com.adobe.qe.evergreen.sprout.command.*
@@ -119,6 +118,8 @@ CQInstance author64 = new CQInstance.Builder()
 /*                                UI TESTS                               */
 /* --------------------------------------------------------------------- */
 
+Criteria ALL_BROWSERS_CRITERIA = { SproutEffectiveConfig conf, Object jenkins -> return jenkins.env.RUN_ON_ALL_BROWSERS.toBoolean() }
+
 // Run tests against chrome
 UITestRun coreCompUIChromePart1_64 = new UITestRun.Builder()
         .withName('Test Group 1 / Chrome')
@@ -169,6 +170,7 @@ UITestRun coreCompUIFirefoxPart1_64 = new UITestRun.Builder()
         .withRunInstructions('main/jenkinsfiles/UITestRunOptions.json')
         .withWaitForMinionMinutes(10)
         .withFilter(TEST_GROUP_1)
+        .withCriteria(ALL_BROWSERS_CRITERIA)
         .build()
 
 UITestRun coreCompUIFirefoxPart2_64 = new UITestRun.Builder()
@@ -179,6 +181,7 @@ UITestRun coreCompUIFirefoxPart2_64 = new UITestRun.Builder()
         .withRunInstructions('main/jenkinsfiles/UITestRunOptions.json')
         .withWaitForMinionMinutes(10)
         .withFilter(TEST_GROUP_2)
+        .withCriteria(ALL_BROWSERS_CRITERIA)
         .build()
 
 UITestRun coreCompUIFirefoxPart3_64 = new UITestRun.Builder()
@@ -189,6 +192,7 @@ UITestRun coreCompUIFirefoxPart3_64 = new UITestRun.Builder()
         .withRunInstructions('main/jenkinsfiles/UITestRunOptions.json')
         .withWaitForMinionMinutes(10)
         .withFilter(TEST_GROUP_3)
+        .withCriteria(ALL_BROWSERS_CRITERIA)
         .build()
 
 UITestRun coreCompUIFirefoxPart4_64 = new UITestRun.Builder()
@@ -199,6 +203,7 @@ UITestRun coreCompUIFirefoxPart4_64 = new UITestRun.Builder()
         .withRunInstructions('main/jenkinsfiles/UITestRunOptions.json')
         .withWaitForMinionMinutes(10)
         .withFilter(TEST_GROUP_4)
+        .withCriteria(ALL_BROWSERS_CRITERIA)
         .build()
 
 // Run tests against edge
@@ -210,6 +215,7 @@ UITestRun coreCompUIEdgePart1_64 = new UITestRun.Builder()
         .withRunInstructions('main/jenkinsfiles/UITestRunOptions.json')
         .withWaitForMinionMinutes(10)
         .withFilter(TEST_GROUP_1)
+        .withCriteria(ALL_BROWSERS_CRITERIA)
         .build()
 
 UITestRun coreCompUIEdgePart2_64 = new UITestRun.Builder()
@@ -220,6 +226,7 @@ UITestRun coreCompUIEdgePart2_64 = new UITestRun.Builder()
         .withRunInstructions('main/jenkinsfiles/UITestRunOptions.json')
         .withWaitForMinionMinutes(10)
         .withFilter(TEST_GROUP_2)
+        .withCriteria(ALL_BROWSERS_CRITERIA)
         .build()
 
 UITestRun coreCompUIEdgePart3_64 = new UITestRun.Builder()
@@ -230,6 +237,7 @@ UITestRun coreCompUIEdgePart3_64 = new UITestRun.Builder()
         .withRunInstructions('main/jenkinsfiles/UITestRunOptions.json')
         .withWaitForMinionMinutes(10)
         .withFilter(TEST_GROUP_3)
+        .withCriteria(ALL_BROWSERS_CRITERIA)
         .build()
 
 UITestRun coreCompUIEdgePart4_64 = new UITestRun.Builder()
@@ -240,6 +248,7 @@ UITestRun coreCompUIEdgePart4_64 = new UITestRun.Builder()
         .withRunInstructions('main/jenkinsfiles/UITestRunOptions.json')
         .withWaitForMinionMinutes(10)
         .withFilter(TEST_GROUP_4)
+        .withCriteria(ALL_BROWSERS_CRITERIA)
         .build()
 
 /* --------------------------------------------------------------------- */
