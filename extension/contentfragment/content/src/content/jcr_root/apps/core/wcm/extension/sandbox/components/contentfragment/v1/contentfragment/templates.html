@@ -26,8 +26,7 @@
 </template>
 
 <template data-sly-template.elements="${@ fragment='The content fragment', fragmentPath='fragment path', wcmmode = 'WCM mode'}">
-    <dl data-sly-use.fragment="com.adobe.cq.wcm.core.components.sandbox.extension.contentfragment.models.ContentFragment"
-        data-path="${fragmentPath}"
+    <dl data-path="${fragmentPath}"
         data-type="${fragment.type}"
         data-json="${!wcmmode.disabled && fragment.editorJSON}"
         class="cmp-contentfragment${!wcmmode.disabled ? ' cq-dd-contentfragment' : ''}"
