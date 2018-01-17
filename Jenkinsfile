@@ -1,8 +1,7 @@
 #!groovy
-@Library(['com.adobe.qe.evergreen.sprout@issue/fixing-testpath'])
-import com.adobe.qe.evergreen.sprout.Sprout
-import com.adobe.qe.evergreen.sprout.Pipeline
-import com.adobe.qe.evergreen.sprout.SproutConfig
+@Library(['com.adobe.qe.evergreen.sprout@issue/develop'])
+import com.adobe.qe.evergreen.sprout.*
+import com.adobe.qe.evergreen.sprout.config.*
 import com.adobe.qe.evergreen.sprout.criteria.*
 import com.adobe.qe.evergreen.sprout.model.*
 import com.adobe.qe.evergreen.sprout.command.*
@@ -44,6 +43,7 @@ Module componentsContent = new Module.Builder('main/content')
 Module componentsCore = new Module.Builder('main/bundles/core')
         .withUnitTests(true)
         .withCoverage(true)
+        .withUnitTestCoverageCheck(80.0)
         .withRelease()
         .withUnitTestCoverageCommand(new ShellCommand("mvn clean verify"))
         .withArtifact('jar', 'main/bundles/core/target/core.wcm.components.sandbox.bundle-*.jar', true)
@@ -65,6 +65,8 @@ Module componentsExtension = new Module.Builder('main/extension')
 Module componentsExtCFBundle = new Module.Builder('main/extension/contentfragment/bundle')
         .withUnitTests(true)
         .withCoverage(true)
+        .withUnitTestCoverageCommand(new MvnJacocoOfflineCommand())
+        .withUnitTestCoverageCheck(80.0)
         .withRelease()
         .withUnitTestCoverageCommand(new ShellCommand("mvn clean verify"))
         .withArtifact('jar', 'main/extension/contentfragment/bundle/target/core.wcm.components.sandbox.extension.contentfragment.bundle-*.jar', true)
@@ -333,4 +335,6 @@ Pipeline sprout = new Sprout.Builder()
         .withConfig(config)
         .withJenkins(this).build()
 
-sprout.execute()
+withEnv(['USE_SPROUT_BUILD_PROFILE=true']) {
+    sprout.execute()
+}
