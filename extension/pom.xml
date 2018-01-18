@@ -30,7 +30,7 @@
     <!-- ====================================================================== -->
     <!-- P R O J E C T  D E S C R I P T I O N                                   -->
     <!-- ====================================================================== -->
-    <artifactId>core.wcm.components.sandbox.extension</artifactId>
+    <artifactId>core.wcm.components.extension</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>content-package</packaging>
 
@@ -64,14 +64,14 @@
                     <embeddeds>
                         <embedded>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>core.wcm.components.sandbox.extension.contentfragment.bundle</artifactId>
+                            <artifactId>core.wcm.components.extension.contentfragment.bundle</artifactId>
                             <filter>true</filter>
                         </embedded>
                     </embeddeds>
                     <subPackages>
                         <subPackage>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>core.wcm.components.sandbox.extension.contentfragment.content</artifactId>
+                            <artifactId>core.wcm.components.extension.contentfragment.content</artifactId>
                             <filter>true</filter>
                         </subPackage>
                     </subPackages>
@@ -156,12 +156,12 @@
     <dependencies>
         <dependency>
             <groupId>com.adobe.cq</groupId>
-            <artifactId>core.wcm.components.sandbox.extension.contentfragment.bundle</artifactId>
+            <artifactId>core.wcm.components.extension.contentfragment.bundle</artifactId>
             <version>0.0.3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>core.wcm.components.sandbox.extension.contentfragment.content</artifactId>
+            <artifactId>core.wcm.components.extension.contentfragment.content</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <type>zip</type>
             <scope>provided</scope>
