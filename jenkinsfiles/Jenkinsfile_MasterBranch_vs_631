@@ -1,5 +1,5 @@
 #!groovy
-@Library(['com.adobe.qe.evergreen.sprout@develop'])
+@Library(['com.adobe.qe.evergreen.sprout'])
 import com.adobe.qe.evergreen.sprout.*
 import com.adobe.qe.evergreen.sprout.config.*
 import com.adobe.qe.evergreen.sprout.criteria.*
