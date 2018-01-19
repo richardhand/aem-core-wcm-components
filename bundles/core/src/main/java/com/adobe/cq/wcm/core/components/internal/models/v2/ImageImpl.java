@@ -15,7 +15,10 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.internal.models.v2;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
@@ -23,6 +26,7 @@ import javax.annotation.PostConstruct;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jackrabbit.util.Text;
 import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.api.request.RequestParameter;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
@@ -83,9 +87,22 @@ public class ImageImpl extends com.adobe.cq.wcm.core.components.internal.models.
         }
         if (hasContent) {
             disableLazyLoading = currentStyle.get(PN_DESIGN_LAZY_LOADING_ENABLED, true);
+
+            // pass the request QS to the image src so that AdaptiveImageServlet can handle it
+            List<RequestParameter> params = request.getRequestParameterList();
+            String qs = "";
+            try {
+                for (RequestParameter p : params) {
+                    qs =  qs.concat((qs.isEmpty() ? "?" : "&") + p.getName() + "=" + URLEncoder.encode(p.getString(), "UTF-8"));
+                }
+            } catch (UnsupportedEncodingException e) {
+                LOGGER.error("Unable to encode request parameters. {}", e.getMessage());
+                qs = "";
+            }
+
             srcUriTemplate = request.getContextPath() + Text.escapePath(baseResourcePath) + DOT + AdaptiveImageServlet.DEFAULT_SELECTOR +
                     SRC_URI_TEMPLATE_WIDTH_VAR + DOT + extension +
-                    (inTemplate ? templateRelativePath : "") + (lastModifiedDate > 0 ? "/" + lastModifiedDate + DOT + extension : "");
+                    (inTemplate ? templateRelativePath : "") + (lastModifiedDate > 0 ? "/" + lastModifiedDate + DOT + extension : "") + qs;
             buildJson();
         }
     }
