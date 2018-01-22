@@ -73,6 +73,12 @@
                         "sling:resourceType": "core/wcm/extension/components/contentfragment/v1/contentfragment",
                         "fragmentPath"      : "/content/dam/contentfragments/structured"
                     },
+                    "structured-display-mode-single"                           : {
+                        "jcr:primaryType"   : "nt:unstructured",
+                        "sling:resourceType": "core/wcm/extension/components/contentfragment/v1/contentfragment",
+                        "fragmentPath"      : "/content/dam/contentfragments/structured",
+                        "displayMode"       : "singleText"
+                    },
                     "structured-variation"                 : {
                         "jcr:primaryType"   : "nt:unstructured",
                         "sling:resourceType": "core/wcm/extension/components/contentfragment/v1/contentfragment",

@@ -15,12 +15,16 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.extension.contentfragment.internal.servlets;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.Nonnull;
 import javax.servlet.Servlet;
 
+import com.adobe.granite.ui.components.Config;
 import org.apache.commons.collections.IteratorUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.api.resource.ValueMap;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -48,6 +52,19 @@ public class ElementsDataSourceServlet extends AbstractContentFragmentDataSource
      */
     public final static String RESOURCE_TYPE = "core/wcm/extension/components/contentfragment/v1/datasource/elements";
 
+    /**
+     * Defines a parameter name and property name whose value would define whether to return all elements or just
+     * multiline text elements.
+     */
+    private static final String PARAM_AND_PN_DISPLAY_MODE = "displayMode";
+
+    /**
+     * Property and parameter value for {@link #PARAM_AND_PN_DISPLAY_MODE}. When the corresponding parameter
+     * or property is equal to this, then only multiline text elements are returned.
+     */
+    private static final String SINGLE_TEXT = "singleText";
+
+
     @Reference
     private ExpressionResolver expressionResolver;
 
@@ -60,6 +77,27 @@ public class ElementsDataSourceServlet extends AbstractContentFragmentDataSource
     @Nonnull
     @Override
     protected List<ContentElement> getItems(@Nonnull ContentFragment fragment, @Nonnull SlingHttpServletRequest request) {
+        Config config = getConfig(request);
+        ValueMap map = getComponentValueMap(config, request);
+        String textOnlyParam = request.getParameter(PARAM_AND_PN_DISPLAY_MODE);
+        boolean textOnly = map != null && map.containsKey(PARAM_AND_PN_DISPLAY_MODE)
+                && map.get(PARAM_AND_PN_DISPLAY_MODE, "multi").equals(SINGLE_TEXT);
+        if (textOnlyParam != null) {
+            textOnly = textOnlyParam.equals(SINGLE_TEXT);
+        }
+        if (textOnly) {
+            Iterator<ContentElement> elementIterator = fragment.getElements();
+            List<ContentElement> elementList = new ArrayList<ContentElement>();
+            while (elementIterator.hasNext()) {
+                ContentElement element = elementIterator.next();
+                String contentType = element.getValue().getContentType();
+                if (contentType != null && contentType.startsWith("text/") &&
+                        !element.getValue().getDataType().isMultiValue()) {
+                    elementList.add(element);
+                }
+            }
+            return elementList;
+        }
         return IteratorUtils.toList(fragment.getElements());
     }
 

@@ -24,10 +24,15 @@
     var SELECTOR_ELEMENT_NAMES = "[data-granite-coral-multifield-name='./elementNames']";
     var SELECTOR_ELEMENT_NAMES_ADD = SELECTOR_ELEMENT_NAMES + " > [is=coral-button]";
     var SELECTOR_VARIATION_NAME = "[name='./variationName']";
+    var SELECTOR_DISPLAY_MODE = "[name='./displayMode']";
+    var SELECTOR_DISPLAY_MODE_CHECKED = "[name='./displayMode']:checked";
     var SELECTOR_PARAGRAPH_CONTROLS = ".cmp-contentfragment__edit-dialog-paragraph-controls";
     var SELECTOR_PARAGRAPH_SCOPE = "[name='./paragraphScope']";
     var SELECTOR_PARAGRAPH_RANGE = "[name='./paragraphRange']";
     var SELECTOR_PARAGRAPH_HEADINGS = "[name='./paragraphHeadings']";
+
+    // mode in which only one multiline text element could be selected for display
+    var SINGLE_TEXT_DISPLAY_MODE = "singleText";
 
     // ui helper
     var ui = $(window).adaptTo("foundation-ui");
@@ -50,6 +55,8 @@
     var variationName;
     // the paragraph controls (field set)
     var paragraphControls;
+    // the tab containing paragraph control
+    var paragraphControlsTab;
 
     // the path of the component being edited
     var componentPath;
@@ -68,10 +75,13 @@
     var initialParagraphRange;
     var initialParagraphHeadings;
 
+    var editDialog;
+
     function initialize(dialog) {
         // get path of component being edited
         var content = dialog.querySelector("." + CLASS_EDIT_DIALOG);
         componentPath = content.dataset.componentPath;
+        editDialog = dialog;
 
         // get the fields
         fragmentPath = dialog.querySelector(SELECTOR_FRAGMENT_PATH);
@@ -84,6 +94,7 @@
         elementNamesPath = elementNames.dataset.fieldPath;
         variationNamePath = variationName.dataset.fieldPath;
         paragraphControlsPath = paragraphControls.dataset.fieldPath;
+        paragraphControlsTab = dialog.querySelector("coral-tabview").tabList.items.getAll()[1];
 
         // initialize state variables
         currentFragmentPath = fragmentPath.value;
@@ -101,11 +112,43 @@
         }
         // enable / disable the paragraph controls
         setParagraphControlsState();
+        // hide/show paragraph control tab
+        updateParagraphControlTabState();
 
         // register change listener
         $(fragmentPath).on("foundation-field-change", onFragmentPathChange);
-        $(elementNames).on("change", updateParagraphControls);
         $(document).on("change", SELECTOR_PARAGRAPH_SCOPE, setParagraphControlsState);
+        var $radioGroup = $(dialog).find(SELECTOR_DISPLAY_MODE).closest(".coral-RadioGroup");
+        $radioGroup.on("change", function(e) {
+            updateElementNamesHTML(e.target.value);
+            updateParagraphControlTabState();
+        });
+    }
+
+    function updateElementNamesHTML(displayMode) {
+        var data = {
+            fragmentPath: fragmentPath.value,
+            displayMode: displayMode
+        };
+        var elementNamesRequest = $.get({url: Granite.HTTP.externalize(elementNamesPath) + ".html", data: data});
+        // wait for requests to load
+        $.when(elementNamesRequest).then(function (result1) {
+            elementNames.items.clear();
+            // get the fields from the resulting markup
+            var newElementNames = $(result1).find(SELECTOR_ELEMENT_NAMES)[0];
+            // wait for them to be ready
+            Coral.commons.ready(newElementNames, function() {
+                // replace the element names multifield's template
+                elementNames.template = newElementNames.template;
+
+                // enable add button and variation name
+                addElement.removeAttribute("disabled");
+
+            });
+        }, function () {
+            // display error dialog if one of the requests failed
+            ui.prompt(errorDialogTitle, errorDialogMessage, "error");
+        });
     }
 
     /**
@@ -122,14 +165,17 @@
                 variationName.setAttribute("disabled", "");
 
                 // update (hide) paragraph controls
-                updateParagraphControls();
+                updateParagraphControlTabState();
             });
             // don't do anything else
             return;
         }
 
         // get markup of element names and variation name fields, parameterizing their datasources with new fragment
-        var data = { fragmentPath: fragmentPath.value };
+        var data = {
+            fragmentPath: fragmentPath.value,
+            displayMode: dialog.querySelector(SELECTOR_DISPLAY_MODE_CHECKED).value
+        };
         var elementNamesRequest = $.get({url: Granite.HTTP.externalize(elementNamesPath) + ".html", data: data});
         var variationNameRequest = $.get({url: Granite.HTTP.externalize(variationNamePath) + ".html", data: data});
 
@@ -156,7 +202,7 @@
                         variationName.removeAttribute("disabled");
 
                         // update paragraph controls
-                        updateParagraphControls();
+                        updateParagraphControlTabState();
                     });
                 });
             });
@@ -272,49 +318,6 @@
     }
 
     /**
-     * Is called when the fragment or element names configuration changes. Retrieves the paragraph controls from the
-     * server, which might now be hidden or displayed depending on the new configuration.
-     */
-    function updateParagraphControls () {
-        // get array of configured element names
-        var names = $(elementNames.items.getAll()).filter(function () {
-            // filter empty entries of the element names multifield
-            return this.content && this.content.querySelector("coral-select");
-        }).map(function () {
-            // map the valid entries to the selected element name
-            return this.content.querySelector("coral-select").value;
-        });
-
-        if (names.length === 0 || names.length === 1) {
-            // if zero or one element names are configured, we request the markup of paragraph controls,
-            // parameterizing its rendercondition with the current fragment and element names
-            var data = {
-                componentPath: componentPath,
-                fragmentPath: currentFragmentPath,
-                elementName: names.length ? names[0] : ""
-            };
-            $.get({
-                url: Granite.HTTP.externalize(paragraphControlsPath) + ".html",
-                data: data
-            }).done(function (html) {
-                // add resulting (potentially empty) markup to the dialog
-                paragraphControls.innerHTML = $(html).get(0).innerHTML;
-                // set initial (persisted) state, if available
-                if (paragraphControls.children.length && initialParagraphScope) {
-                    paragraphControls.querySelector(SELECTOR_PARAGRAPH_SCOPE + "[value="+ initialParagraphScope +"]").click();
-                    paragraphControls.querySelector(SELECTOR_PARAGRAPH_RANGE).value = initialParagraphRange;
-                    paragraphControls.querySelector(SELECTOR_PARAGRAPH_HEADINGS).checked = !!initialParagraphHeadings;
-                }
-                // enable / disable the paragraph controls
-                setParagraphControlsState();
-            });
-        } else {
-            // if more than one element is configured, we remove the paragraph controls
-            paragraphControls.innerHTML = "";
-        }
-    }
-
-    /**
      * Enables or disables the paragraph range and headings field depending on the state of the paragraph scope field.
      */
     function setParagraphControlsState () {
@@ -331,6 +334,16 @@
                 range.setAttribute("disabled", "");
                 headings.setAttribute("disabled", "");
             }
+        }
+    }
+
+    // Toggles the display of paragraph control tab depening on display mode
+    function updateParagraphControlTabState() {
+        var displayMode = editDialog.querySelector(SELECTOR_DISPLAY_MODE_CHECKED).value;
+        if (displayMode === SINGLE_TEXT_DISPLAY_MODE) {
+            paragraphControlsTab.hidden = false;
+        } else {
+            paragraphControlsTab.hidden = true;
         }
     }
 
