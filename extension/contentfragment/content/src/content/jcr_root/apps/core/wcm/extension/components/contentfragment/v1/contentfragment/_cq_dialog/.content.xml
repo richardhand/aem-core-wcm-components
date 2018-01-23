@@ -72,23 +72,58 @@
                                     </displayMode>
                                     <elementNames
                                         jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
-                                        fieldLabel="Elements"
-                                        fieldDescription="Specify which elements to display or leave empty to display all elements.">
-                                        <field
-                                            jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="granite/ui/components/coral/foundation/form/select"
-                                            emptyText="Select"
-                                            fieldLabel="Element"
-                                            name="./elementNames">
-                                            <datasource
+                                        sling:resourceType="granite/ui/components/coral/foundation/container">
+                                        <items jcr:primaryType="nt:unstructured">
+                                            <singleText
                                                 jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="core/wcm/extension/components/contentfragment/v1/datasource/elements"
-                                                componentPath="${requestPathInfo.suffix}"
-                                                fragmentPath="${param.fragmentPath}"/>
-                                        </field>
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                                emptyText="Select"
+                                                fieldLabel="Element"
+                                                name="./elementNames">
+                                                <datasource
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="core/wcm/extension/components/contentfragment/v1/datasource/elements"
+                                                    componentPath="${requestPathInfo.suffix}"
+                                                    fragmentPath="${param.fragmentPath}"/>
+                                                <granite:rendercondition
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="core/wcm/extension/components/contentfragment/v1/renderconditions/elementnames"
+                                                    componentPath="${empty requestPathInfo.suffix ? param.componentPath : requestPathInfo.suffix}"
+                                                    displayMode="singleText"/>
+                                                <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    single-text-selector="{Boolean}true"/>
+                                            </singleText>
+                                            <multi
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                                fieldDescription="Specify which elements to display or leave empty to display all elements."
+                                                fieldLabel="Elements">
+                                                <field
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                                    emptyText="Select"
+                                                    fieldLabel="Element"
+                                                    name="./elementNames">
+                                                    <datasource
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="core/wcm/extension/components/contentfragment/v1/datasource/elements"
+                                                        componentPath="${requestPathInfo.suffix}"
+                                                        fragmentPath="${param.fragmentPath}"/>
+                                                </field>
+                                                <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    field-path="${requestPathInfo.resourcePath}"/>
+                                                <granite:rendercondition
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="core/wcm/extension/components/contentfragment/v1/renderconditions/elementnames"
+                                                    componentPath="${empty requestPathInfo.suffix ? param.componentPath : requestPathInfo.suffix}"
+                                                    displayMode="multi"/>
+                                            </multi>
+                                        </items>
                                         <granite:data
                                             jcr:primaryType="nt:unstructured"
+                                            element-names-container="{Boolean}true"
                                             field-path="${requestPathInfo.resourcePath}"/>
                                     </elementNames>
                                 </items>
@@ -112,12 +147,6 @@
                                     <content
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="granite/ui/components/coral/foundation/container">
-                                        <granite:rendercondition
-                                            jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="core/wcm/extension/components/contentfragment/v1/renderconditions/paragraphmode"
-                                            componentPath="${empty requestPathInfo.suffix ? param.componentPath : requestPathInfo.suffix}"
-                                            fragmentPath="${param.fragmentPath}"
-                                            elementName="${param.elementName}"/>
                                         <items jcr:primaryType="nt:unstructured">
                                             <paragraphScope
                                                 jcr:primaryType="nt:unstructured"
@@ -149,7 +178,7 @@
                                             <paragraphHeadings
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                                text="Handle headings as their own paragraphs"
+                                                text="Handle headings as paragraphs"
                                                 name="./paragraphHeadings"
                                                 value="true"/>
                                         </items>

@@ -21,7 +21,9 @@
 
     // field selectors
     var SELECTOR_FRAGMENT_PATH = "[name='./fragmentPath']";
+    var SELECTOR_ELEMENT_NAMES_CONTAINER = "[data-element-names-container='true']";
     var SELECTOR_ELEMENT_NAMES = "[data-granite-coral-multifield-name='./elementNames']";
+    var SELECTOR_SINGLE_TEXT_ELEMENT = "[data-single-text-selector='true']";
     var SELECTOR_ELEMENT_NAMES_ADD = SELECTOR_ELEMENT_NAMES + " > [is=coral-button]";
     var SELECTOR_VARIATION_NAME = "[name='./variationName']";
     var SELECTOR_DISPLAY_MODE = "[name='./displayMode']";
@@ -47,12 +49,7 @@
 
     // the fragment path field (foundation autocomplete)
     var fragmentPath;
-    // the element names field (multifield)
-    var elementNames;
-    // the add button of the element names field
-    var addElement;
-    // the variation name field (select)
-    var variationName;
+
     // the paragraph controls (field set)
     var paragraphControls;
     // the tab containing paragraph control
@@ -60,10 +57,6 @@
 
     // the path of the component being edited
     var componentPath;
-    // the resource path of the element names field
-    var elementNamesPath;
-    // the resource path of the variation name field
-    var variationNamePath;
     // the resource path of the paragraph controls field set
     var paragraphControlsPath;
 
@@ -77,6 +70,208 @@
 
     var editDialog;
 
+    var elementsController;
+
+    var ElementsController = function () {
+        // container which contains either single elements select field or a multifield of element selectors
+        this.elementNamesContainer = editDialog.querySelector(SELECTOR_ELEMENT_NAMES_CONTAINER);
+        // element container resource path
+        this.elementsContainerPath = this.elementNamesContainer.dataset.fieldPath;
+        this.fetchedState = null;
+        this._updateFields();
+    };
+
+    ElementsController.prototype._updateFields = function() {
+        this.elementNames = editDialog.querySelector(SELECTOR_ELEMENT_NAMES);
+        this.addElement = this.elementNames ? this.elementNames.querySelector(SELECTOR_ELEMENT_NAMES_ADD) : undefined;
+        this.singleTextSelector = editDialog.querySelector(SELECTOR_SINGLE_TEXT_ELEMENT);
+        // the variation name field (select)
+        this.variationName = editDialog.querySelector(SELECTOR_VARIATION_NAME);
+        this.variationNamePath = this.variationName.dataset.fieldPath;
+    };
+
+    ElementsController.prototype.disableFields = function() {
+        if (this.addElement) {
+            this.addElement.setAttribute("disabled", "");
+        }
+        if (this.singleTextSelector) {
+            this.singleTextSelector.setAttribute("disabled", "");
+        }
+        if (this.variationName) {
+            this.variationName.setAttribute("disabled", "");
+        }
+    };
+    
+    ElementsController.prototype.resetFields = function() {
+        if (this.elementNames) {
+            this.elementNames.items.clear();
+        }
+        if (this.singleTextSelector) {
+            this.singleTextSelector.value = "";
+        }
+        if (this.variationName) {
+            this.variationName.value = "";
+        }
+    }
+
+    ElementsController.prototype.prepareRequest = function(displayMode, type) {
+        if (typeof displayMode === "undefined") {
+            displayMode = editDialog.querySelector(SELECTOR_DISPLAY_MODE_CHECKED).value;
+        }
+        var data = {
+            fragmentPath: fragmentPath.value,
+            displayMode: displayMode
+        };
+        var url;
+        if (type === "variation") {
+            url = Granite.HTTP.externalize(this.variationNamePath) + ".html";
+        } else if (type === "elements") {
+            url = Granite.HTTP.externalize(this.elementsContainerPath) + ".html";
+        }
+        var request = $.get({
+            url: url,
+            data: data
+        });
+        return request;
+    };
+
+    ElementsController.prototype.testGetHTML = function(displayMode, callback) {
+        var elementNamesRequest = this.prepareRequest(displayMode, "elements");
+        var variationNameRequest = this.prepareRequest(displayMode, "variation");
+        var self = this;
+        // wait for requests to load
+        $.when(elementNamesRequest, variationNameRequest).then(function (result1, result2) {
+            // get the fields from the resulting markup and create a test state
+            self.fetchedState = {
+                elementNames: $(result1[0]).find(SELECTOR_ELEMENT_NAMES)[0],
+                singleTextSelector: $(result1[0]).find(SELECTOR_SINGLE_TEXT_ELEMENT)[0],
+                variationName: $(result2[0]).find(SELECTOR_VARIATION_NAME)[0],
+                elementNamesContainerHTML: result1[0],
+                variationNameHTML: result2[0]
+            };
+            callback();
+
+        }, function () {
+            // display error dialog if one of the requests failed
+            ui.prompt(errorDialogTitle, errorDialogMessage, "error");
+        });
+    };
+
+    /**
+     * Checks if the current states of element names, single text selector and variation name select match with the
+     * fetched state.
+     *
+     * @returns {boolean} true if the states match or if there was no current state or fetched state, false otherwise
+     */
+    ElementsController.prototype.testStateForUpdate = function() {
+        if (!this.fetchedState) {
+            return true;
+        }
+        // check if some element names are currently configured
+        if (this.elementNames && this.elementNames.items.length > 0) {
+            // if we're unsetting the current fragment we need to reset the config
+            if (!this.fetchedState.elementNames) {
+                return false;
+            }
+            // compare the items of the current and new element names fields
+            var currentItems = this.elementNames.template.content.querySelectorAll("coral-select-item");
+            var newItems = this.fetchedState.elementNames.template.content.querySelectorAll("coral-select-item");
+            if (!itemsAreEqual(currentItems, newItems)) {
+                return false;
+            }
+        }
+
+        if (this.singleTextSelector && this.singleTextSelector.items.length > 0) {
+            // if we're unsetting the current fragment we need to reset the config
+            if (!this.fetchedState.singleTextSelector) {
+                return false;
+            }
+            // compare the items of the current and new element names fields
+            var currentItems = this.singleTextSelector.querySelectorAll("coral-select-item");
+            var newItems = this.fetchedState.singleTextSelector.querySelectorAll("coral-select-item");
+            if (!itemsAreEqual(currentItems, newItems)) {
+                return false;
+            }
+        }
+
+        // check if a varation is currently configured
+        if (this.variationName.value && this.variationName.value !== "master") {
+            // if we're unsetting the current fragment we need to reset the config
+            if (!this.fetchedState.variationName) {
+                return false;
+            }
+            // compare the items of the current and new variation name fields
+            if (!itemsAreEqual(this.variationName.items.getAll(), this.fetchedState.variationName.items.getAll())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    ElementsController.prototype.saveFetchedState = function() {
+        if (!this.fetchedState) {
+            return;
+        }
+        if (this.fetchedState.elementNames) {
+            this._updateElementsDOM(this.fetchedState.elementNames);
+        } else {
+            this._updateElementsDOM(this.fetchedState.singleTextSelector);
+        }
+        this._updateVariationDOM(this.fetchedState.variationName);
+    };
+
+    ElementsController.prototype.fetchAndUpdateElementsHTML = function(displayMode) {
+        var elementNamesRequest = this.prepareRequest(displayMode, "elements");
+        var self = this;
+        // wait for requests to load
+        $.when(elementNamesRequest).then(function (result) {
+            self._updateElementsHTML(result);
+        }, function () {
+            // display error dialog if one of the requests failed
+            ui.prompt(errorDialogTitle, errorDialogMessage, "error");
+        });
+    };
+
+    /**
+     * Updates inner html of element container.
+     * @param {String} html - outerHTML value for elementNamesContainer
+     */
+    ElementsController.prototype._updateElementsHTML = function(html) {
+        this.elementNamesContainer.innerHTML = $(html)[0].innerHTML;
+        this._updateFields();
+    };
+
+    /**
+     * Updates dom of element container.
+     * @param {String} html - outerHTML value for elementNamesContainer
+     */
+    ElementsController.prototype._updateElementsDOM = function(dom) {
+        if (dom.tagName === "CORAL-MULTIFIELD") {
+            // replace the element names multifield's template
+            this.elementNames.template = dom.template;
+        } else {
+            dom.value = this.singleTextSelector.value;
+            this.singleTextSelector.parentNode.replaceChild(dom, this.singleTextSelector);
+            this.singleTextSelector = dom;
+            this.singleTextSelector.removeAttribute("disabled");
+        }
+        this._updateFields();
+    };
+
+    /**
+     * Updates dom of variation name select dropdown.
+     * @param {HTMLElement} dom - dom for variation name dropdown
+     */
+    ElementsController.prototype._updateVariationDOM = function(dom) {
+        // replace the variation name select, keeping its value
+        dom.value = this.variationName.value;
+        this.variationName.parentNode.replaceChild(dom, this.variationName);
+        this.variationName = dom;
+        this.variationName.removeAttribute("disabled");
+        this._updateFields();
+    };
+
     function initialize(dialog) {
         // get path of component being edited
         var content = dialog.querySelector("." + CLASS_EDIT_DIALOG);
@@ -85,19 +280,13 @@
 
         // get the fields
         fragmentPath = dialog.querySelector(SELECTOR_FRAGMENT_PATH);
-        elementNames = dialog.querySelector(SELECTOR_ELEMENT_NAMES);
-        addElement = elementNames.querySelector(SELECTOR_ELEMENT_NAMES_ADD);
-        variationName = dialog.querySelector(SELECTOR_VARIATION_NAME);
         paragraphControls = dialog.querySelector(SELECTOR_PARAGRAPH_CONTROLS);
-
-        // get the field resource paths from their data attribute
-        elementNamesPath = elementNames.dataset.fieldPath;
-        variationNamePath = variationName.dataset.fieldPath;
         paragraphControlsPath = paragraphControls.dataset.fieldPath;
         paragraphControlsTab = dialog.querySelector("coral-tabview").tabList.items.getAll()[1];
 
         // initialize state variables
         currentFragmentPath = fragmentPath.value;
+        elementsController = new ElementsController();
         var scope = paragraphControls.querySelector(SELECTOR_PARAGRAPH_SCOPE + "[checked]");
         if (scope) {
             initialParagraphScope = scope.value;
@@ -107,8 +296,7 @@
 
         // disable add button and variation name if no content fragment is currently set
         if (!currentFragmentPath) {
-            addElement.setAttribute("disabled", "");
-            variationName.setAttribute("disabled", "");
+            elementsController.disableFields();
         }
         // enable / disable the paragraph controls
         setParagraphControlsState();
@@ -120,34 +308,8 @@
         $(document).on("change", SELECTOR_PARAGRAPH_SCOPE, setParagraphControlsState);
         var $radioGroup = $(dialog).find(SELECTOR_DISPLAY_MODE).closest(".coral-RadioGroup");
         $radioGroup.on("change", function(e) {
-            updateElementNamesHTML(e.target.value);
+            elementsController.fetchAndUpdateElementsHTML(e.target.value);
             updateParagraphControlTabState();
-        });
-    }
-
-    function updateElementNamesHTML(displayMode) {
-        var data = {
-            fragmentPath: fragmentPath.value,
-            displayMode: displayMode
-        };
-        var elementNamesRequest = $.get({url: Granite.HTTP.externalize(elementNamesPath) + ".html", data: data});
-        // wait for requests to load
-        $.when(elementNamesRequest).then(function (result1) {
-            elementNames.items.clear();
-            // get the fields from the resulting markup
-            var newElementNames = $(result1).find(SELECTOR_ELEMENT_NAMES)[0];
-            // wait for them to be ready
-            Coral.commons.ready(newElementNames, function() {
-                // replace the element names multifield's template
-                elementNames.template = newElementNames.template;
-
-                // enable add button and variation name
-                addElement.removeAttribute("disabled");
-
-            });
-        }, function () {
-            // display error dialog if one of the requests failed
-            ui.prompt(errorDialogTitle, errorDialogMessage, "error");
         });
     }
 
@@ -161,7 +323,9 @@
             // confirm change (if necessary)
             confirmFragmentChange(null, null, function () {
                 // disable add button and variation name
-                addElement.setAttribute("disabled", "");
+                if (addElement) {
+                    addElement.setAttribute("disabled", "");
+                }
                 variationName.setAttribute("disabled", "");
 
                 // update (hide) paragraph controls
@@ -171,45 +335,19 @@
             return;
         }
 
-        // get markup of element names and variation name fields, parameterizing their datasources with new fragment
-        var data = {
-            fragmentPath: fragmentPath.value,
-            displayMode: dialog.querySelector(SELECTOR_DISPLAY_MODE_CHECKED).value
-        };
-        var elementNamesRequest = $.get({url: Granite.HTTP.externalize(elementNamesPath) + ".html", data: data});
-        var variationNameRequest = $.get({url: Granite.HTTP.externalize(variationNamePath) + ".html", data: data});
-
-        // wait for requests to load
-        $.when(elementNamesRequest, variationNameRequest).then(function (result1, result2) {
-            // get the fields from the resulting markup
-            var newElementNames = $(result1[0]).find(SELECTOR_ELEMENT_NAMES)[0];
-            var newVariationName = $(result2[0]).find(SELECTOR_VARIATION_NAME)[0];
-            // wait for them to be ready
-            Coral.commons.ready(newElementNames, function() {
-                Coral.commons.ready(newVariationName, function() {
-                    // confirm change (if necessary)
-                    confirmFragmentChange(newElementNames, newVariationName, function () {
-                        // replace the element names multifield's template
-                        elementNames.template = newElementNames.template;
-
-                        // replace the variation name select, keeping its value
-                        newVariationName.value = variationName.value;
-                        variationName.parentNode.replaceChild(newVariationName, variationName);
-                        variationName = newVariationName;
-
-                        // enable add button and variation name
-                        addElement.removeAttribute("disabled");
-                        variationName.removeAttribute("disabled");
-
-                        // update paragraph controls
-                        updateParagraphControlTabState();
-                    });
-                });
-            });
-        }, function () {
-            // display error dialog if one of the requests failed
-            ui.prompt(errorDialogTitle, errorDialogMessage, "error");
+        elementsController.testGetHTML(editDialog.querySelector(SELECTOR_DISPLAY_MODE_CHECKED).value, function() {
+            // check if we can keep the current configuration, in which case no confirmation dialog is necessary
+            var canKeepConfig = elementsController.testStateForUpdate();
+            if (canKeepConfig) {
+                currentFragmentPath = fragmentPath.value;
+                // its okay to save fetched state
+                elementsController.saveFetchedState();
+                return;
+            }
+            // else show a confirmation dialog
+            confirmFragmentChange(elementsController.saveFetchedState, elementsController);
         });
+
     }
 
     /**
@@ -217,21 +355,16 @@
      * of the content fragment change. Executes the specified callback after the user confirms, or if the current
      * configuration can be kept (in which case no dialog is shown).
      *
-     * @param newElementNames the element names field reflecting the newly selected fragment (null if fragment was unset)
+     * @param newElementNames the element names field reflecting the newly selected fragment (null if fragment was unset
+     *                        or component is in single text element mode)
+     * @param newSingleTextSelect the coral select field representing multiline text elements in newly selected fragment
+     *                        (null if fragment was unset or component is in multiple elements mode)
      * @param newVariationName the variation name field reflecting the newly selected fragment (null if fragment was unset)
      * @param callback a callback to execute after the change is confirmed
+     * @param scope - the object defining "this" for callback
      */
-    function confirmFragmentChange(newElementNames, newVariationName, callback) {
-        // check if we can keep the current configuration, in which case no confirmation dialog is necessary
-        if (canKeepConfig(newElementNames, newVariationName)) {
-            // update the current fragment path
-            currentFragmentPath = fragmentPath.value;
-            // execute callback
-            callback();
-            return;
-        }
+    function confirmFragmentChange(callback, scope) {
 
-        // else show a confirmation dialog
         ui.prompt(confirmationDialogTitle, confirmationDialogMessage, "warning", [{
             text: confirmationDialogCancel,
             handler: function () {
@@ -245,55 +378,13 @@
             primary: true,
             handler: function () {
                 // reset the current configuration
-                elementNames.items.clear();
-                variationName.value = "";
-
+                elementsController.resetFields();
                 // update the current fragment path
                 currentFragmentPath = fragmentPath.value;
                 // execute callback
-                callback();
+                callback.call(scope);
             }
         }]);
-    }
-
-
-    /**
-     * Checks if the current configuration of element names and variation name can be kept, or if it needs to be reset
-     * as a result of the content fragment change. It compares the two fields to the new ones that reflect the newly
-     * selected content fragment.
-     *
-     * @param newElementNames the element names field reflecting the newly selected fragment (null if fragment was unset)
-     * @param newVariationName the variation name field reflecting the newly selected fragment (null if fragment was unset)
-     * @returns {boolean} true if the configuration can be kept or if there was none, false otherwise
-     */
-    function canKeepConfig(newElementNames, newVariationName) {
-        // check if some element names are currently configured
-        if (elementNames.items.length > 0) {
-            // if we're unsetting the current fragment we need to reset the config
-            if (!newElementNames) {
-                return false;
-            }
-            // compare the items of the current and new element names fields
-            var currentItems = elementNames.template.content.querySelectorAll("coral-select-item");
-            var newItems = newElementNames.template.content.querySelectorAll("coral-select-item");
-            if (!itemsAreEqual(currentItems, newItems)) {
-                return false;
-            }
-        }
-
-        // check if a varation is currently configured
-        if (variationName.value && variationName.value !== "master") {
-            // if we're unsetting the current fragment we need to reset the config
-            if (!newVariationName) {
-                return false;
-            }
-            // compare the items of the current and new variation name fields
-            if (!itemsAreEqual(variationName.items.getAll(), newVariationName.items.getAll())) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     /**
