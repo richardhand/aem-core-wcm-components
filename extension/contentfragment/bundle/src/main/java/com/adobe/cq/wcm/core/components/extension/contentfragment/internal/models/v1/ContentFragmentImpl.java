@@ -66,7 +66,6 @@ import static org.apache.sling.models.annotations.injectorspecific.InjectionStra
 
 @Model(adaptables = SlingHttpServletRequest.class, adapters = {ContentFragment.class, ComponentExporter.class}, resourceType = RESOURCE_TYPE)
 @Exporter(name = ExporterConstants.SLING_MODEL_EXPORTER_NAME, extensions = ExporterConstants.SLING_MODEL_EXTENSION)
-@JsonSerialize(as = ContentFragment.class)
 public class ContentFragmentImpl implements ContentFragment {
 
     private static final Logger LOG = LoggerFactory.getLogger(ContentFragmentImpl.class);
