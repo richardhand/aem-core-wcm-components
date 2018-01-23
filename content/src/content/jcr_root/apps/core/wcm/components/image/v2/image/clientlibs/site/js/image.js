@@ -119,7 +119,7 @@
 
             that._elements.container = that._elements.link ? that._elements.link : that._elements.self;
 
-            unwrapNoscript();
+            unwrapNoScript();
 
             if (that._properties.lazy) {
                 addLazyLoader();
@@ -136,6 +136,17 @@
             var hasWidths = that._properties.widths && that._properties.widths.length > 0;
             var replacement = hasWidths ? '.' + getOptimalWidth() : '';
             var url = that._properties.src.replace(SRC_URI_TEMPLATE_WIDTH_VAR, replacement);
+
+            // get the QS from the original request when in target editor and pass it to the image src
+            // in Target editor the nextElementSibling is a <cq> tag with configuration attributes
+            if (that._elements.self.nextElementSibling) {
+                var dataConfig = JSON.parse(that._elements.self.nextElementSibling.getAttribute('data-config'));
+                var qsIdx = dataConfig ? dataConfig.slingPath.indexOf('?') : -1;
+                if (qsIdx > 0) {
+                    var qs = dataConfig.slingPath.substring(qsIdx);
+                    url += qs;
+                }
+            }
 
             if (that._elements.image.getAttribute('src') !== url) {
                 that._elements.image.setAttribute('src', url);
@@ -181,14 +192,14 @@
             that._lazyLoaderShowing = true;
         }
 
-        function unwrapNoscript() {
+        function unwrapNoScript() {
             var tmp = document.createElement('div');
             tmp.innerHTML = decodeNoscript(that._elements.noscript.textContent.trim());
             var imageElement = tmp.firstElementChild;
             imageElement.removeAttribute('src');
-            that._elements.noscript.parentNode.removeChild(that._elements.noscript);
-            that._elements.container.insertBefore(imageElement, that._elements.container.firstChild);
 
+            that._elements.container.insertBefore(imageElement, that._elements.noscript);
+            that._elements.noscript.parentNode.removeChild(that._elements.noscript);
             if (that._elements.container.matches(selectors.image)) {
                 that._elements.image = that._elements.container;
             } else {
