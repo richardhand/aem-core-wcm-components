@@ -72,6 +72,9 @@
 
     var elementsController;
 
+    /**
+     * A class which encapsulates the logic related to element selectors and variation name selector.
+     */
     var ElementsController = function () {
         // container which contains either single elements select field or a multifield of element selectors
         this.elementNamesContainer = editDialog.querySelector(SELECTOR_ELEMENT_NAMES_CONTAINER);
@@ -81,15 +84,25 @@
         this._updateFields();
     };
 
+    /**
+     * Updates the member fields of this class according to current dom of dialog.
+     */
     ElementsController.prototype._updateFields = function() {
+        // The multifield containing element selector dropdowns
         this.elementNames = editDialog.querySelector(SELECTOR_ELEMENT_NAMES);
+        // The add button in multifield
         this.addElement = this.elementNames ? this.elementNames.querySelector(SELECTOR_ELEMENT_NAMES_ADD) : undefined;
+        // The dropdown containing element selector for multiline text elements only. Either this or the elementNames
+        // multifield should be visible to user at a time.
         this.singleTextSelector = editDialog.querySelector(SELECTOR_SINGLE_TEXT_ELEMENT);
         // the variation name field (select)
         this.variationName = editDialog.querySelector(SELECTOR_VARIATION_NAME);
         this.variationNamePath = this.variationName.dataset.fieldPath;
     };
 
+    /**
+     * Disable all the fields of this controller.
+     */
     ElementsController.prototype.disableFields = function() {
         if (this.addElement) {
             this.addElement.setAttribute("disabled", "");
@@ -101,7 +114,10 @@
             this.variationName.setAttribute("disabled", "");
         }
     };
-    
+
+    /**
+     * Resets all the fields of this controller.
+     */
     ElementsController.prototype.resetFields = function() {
         if (this.elementNames) {
             this.elementNames.items.clear();
@@ -114,6 +130,13 @@
         }
     }
 
+    /**
+     * Creates an http request object for retrieving fragment's element names or variation names and returns it.
+     * @param {String} displayMode - displayMode parameter for element name request. Should be "singleText" or "multi"
+     * @param {String} type - type of request. It can have the following values -
+     * 1. "variation" for getting variation names
+     * 2. "elements" for getting element names
+     */
     ElementsController.prototype.prepareRequest = function(displayMode, type) {
         if (typeof displayMode === "undefined") {
             displayMode = editDialog.querySelector(SELECTOR_DISPLAY_MODE_CHECKED).value;
@@ -135,6 +158,11 @@
         return request;
     };
 
+    /**
+     * Retrieves the html for element names and variation names and keeps the fetched values as "fetchedState" member.
+     * @displayMode {String} - display mode to use as parameter of element names request
+     * @callback {Function} - function to execute when response is received
+     */
     ElementsController.prototype.testGetHTML = function(displayMode, callback) {
         var elementNamesRequest = this.prepareRequest(displayMode, "elements");
         var variationNameRequest = this.prepareRequest(displayMode, "variation");
@@ -158,19 +186,16 @@
     };
 
     /**
-     * Checks if the current states of element names, single text selector and variation name select match with the
-     * fetched state.
+     * Checks if the current states of element names, single text selector and variation names match with those
+     * present in fetchedState.
      *
-     * @returns {boolean} true if the states match or if there was no current state or fetched state, false otherwise
+     * @returns {boolean} true if the states match or if there was no current state, false otherwise
      */
     ElementsController.prototype.testStateForUpdate = function() {
-        if (!this.fetchedState) {
-            return true;
-        }
         // check if some element names are currently configured
         if (this.elementNames && this.elementNames.items.length > 0) {
             // if we're unsetting the current fragment we need to reset the config
-            if (!this.fetchedState.elementNames) {
+            if (!this.fetchedState || !this.fetchedState.elementNames) {
                 return false;
             }
             // compare the items of the current and new element names fields
@@ -183,7 +208,7 @@
 
         if (this.singleTextSelector && this.singleTextSelector.items.length > 0) {
             // if we're unsetting the current fragment we need to reset the config
-            if (!this.fetchedState.singleTextSelector) {
+            if (!this.fetchedState || !this.fetchedState.singleTextSelector) {
                 return false;
             }
             // compare the items of the current and new element names fields
@@ -197,7 +222,7 @@
         // check if a varation is currently configured
         if (this.variationName.value && this.variationName.value !== "master") {
             // if we're unsetting the current fragment we need to reset the config
-            if (!this.fetchedState.variationName) {
+            if (!this.fetchedState || !this.fetchedState.variationName) {
                 return false;
             }
             // compare the items of the current and new variation name fields
@@ -209,6 +234,9 @@
         return true;
     }
 
+    /**
+     * Replace the current state with the values present in fetchedState and discard the fetchedState thereafter.
+     */
     ElementsController.prototype.saveFetchedState = function() {
         if (!this.fetchedState) {
             return;
@@ -219,8 +247,19 @@
             this._updateElementsDOM(this.fetchedState.singleTextSelector);
         }
         this._updateVariationDOM(this.fetchedState.variationName);
+        this.discardFetchedState();
     };
 
+    /**
+     * Discard the fetchedState data.
+     */
+    ElementsController.prototype.discardFetchedState = function() {
+        this.fetchedState = null;
+    };
+
+    /**
+     * Retrieve element names and update the current element names with the retrieved data.
+     */
     ElementsController.prototype.fetchAndUpdateElementsHTML = function(displayMode) {
         var elementNamesRequest = this.prepareRequest(displayMode, "elements");
         var self = this;
@@ -243,8 +282,10 @@
     };
 
     /**
-     * Updates dom of element container.
-     * @param {String} html - outerHTML value for elementNamesContainer
+     * Updates dom of element container with the passed dom. If the passed dom is multifield, the current multifield
+     * template would be replaced with the dom's template otherwise the dom would used as the new singleTextSelector
+     * memeber.
+     * @param {HTMLElement} dom - new dom
      */
     ElementsController.prototype._updateElementsDOM = function(dom) {
         if (dom.tagName === "CORAL-MULTIFIELD") {
@@ -320,17 +361,15 @@
     function onFragmentPathChange() {
         // if the fragment was reset (i.e. the fragment path was deleted)
         if (!fragmentPath.value) {
-            // confirm change (if necessary)
-            confirmFragmentChange(null, null, function () {
-                // disable add button and variation name
-                if (addElement) {
-                    addElement.setAttribute("disabled", "");
-                }
-                variationName.setAttribute("disabled", "");
-
-                // update (hide) paragraph controls
-                updateParagraphControlTabState();
-            });
+            var canKeepConfig = elementsController.testStateForUpdate();
+            if (canKeepConfig) {
+                // There was no current configuration. We just need to disable fields.
+                currentFragmentPath = fragmentPath.value;
+                elementsController.disableFields();
+                return;
+            }
+            // There was some current configuration. Show a confirmation dialog
+            confirmFragmentChange(null, null, elementsController.disableFields, elementsController);
             // don't do anything else
             return;
         }
@@ -345,25 +384,22 @@
                 return;
             }
             // else show a confirmation dialog
-            confirmFragmentChange(elementsController.saveFetchedState, elementsController);
+            confirmFragmentChange(elementsController.discardFetchedState, elementsController,
+                                  elementsController.saveFetchedState, elementsController);
         });
 
     }
 
     /**
      * Presents the user with a confirmation dialog if the current configuration needs to be reset as a result
-     * of the content fragment change. Executes the specified callback after the user confirms, or if the current
-     * configuration can be kept (in which case no dialog is shown).
+     * of the content fragment change.
      *
-     * @param newElementNames the element names field reflecting the newly selected fragment (null if fragment was unset
-     *                        or component is in single text element mode)
-     * @param newSingleTextSelect the coral select field representing multiline text elements in newly selected fragment
-     *                        (null if fragment was unset or component is in multiple elements mode)
-     * @param newVariationName the variation name field reflecting the newly selected fragment (null if fragment was unset)
-     * @param callback a callback to execute after the change is confirmed
-     * @param scope - the object defining "this" for callback
+     * @param {Function} cancelCallback - callback to call if change is cancelled
+     * @param {Object} cancelCallbackScope - scope (value of "this" keyword) for cancelCallback
+     * @param {Function} confirmCallback a callback to execute after the change is confirmed
+     * @param {Object} confirmCallbackScope - the scope (value of "this" keyword) to use for confirmCallback
      */
-    function confirmFragmentChange(callback, scope) {
+    function confirmFragmentChange(cancelCallback, cancelCallbackScope, confirmCallback, confirmCallbackScope) {
 
         ui.prompt(confirmationDialogTitle, confirmationDialogMessage, "warning", [{
             text: confirmationDialogCancel,
@@ -372,6 +408,9 @@
                 requestAnimationFrame(function() {
                     fragmentPath.value = currentFragmentPath;
                 });
+                if (cancelCallback) {
+                    cancelCallback.call(cancelCallbackScope);
+                }
             }
         }, {
             text: confirmationDialogConfirm,
@@ -382,7 +421,9 @@
                 // update the current fragment path
                 currentFragmentPath = fragmentPath.value;
                 // execute callback
-                callback.call(scope);
+                if (confirmCallback) {
+                    confirmCallback.call(confirmCallbackScope);
+                }
             }
         }]);
     }
