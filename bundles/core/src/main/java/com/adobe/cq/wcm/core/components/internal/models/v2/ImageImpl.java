@@ -89,20 +89,16 @@ public class ImageImpl extends com.adobe.cq.wcm.core.components.internal.models.
             disableLazyLoading = currentStyle.get(PN_DESIGN_LAZY_LOADING_ENABLED, true);
 
             // pass the request QS to the image src so that AdaptiveImageServlet can handle it
-            List<RequestParameter> params = request.getRequestParameterList();
-            String qs = "";
-            try {
-                for (RequestParameter p : params) {
-                    qs =  qs.concat((qs.isEmpty() ? "?" : "&") + p.getName() + "=" + URLEncoder.encode(p.getString(), "UTF-8"));
-                }
-            } catch (UnsupportedEncodingException e) {
-                LOGGER.error("Unable to encode request parameters. {}", e.getMessage());
-                qs = "";
+            String qs = request.getQueryString();
+            if (StringUtils.isNotBlank(qs)) {
+                // remove forceeditcontext parameter (if any) as this causes rendering issues when applied directly to an image URL
+                String forcedEdit = "forceeditcontext=true";
+                qs = qs.replaceAll(String.format("&%s|%s&|%s", forcedEdit, forcedEdit, forcedEdit), "");
             }
 
             srcUriTemplate = request.getContextPath() + Text.escapePath(baseResourcePath) + DOT + AdaptiveImageServlet.DEFAULT_SELECTOR +
                     SRC_URI_TEMPLATE_WIDTH_VAR + DOT + extension +
-                    (inTemplate ? templateRelativePath : "") + (lastModifiedDate > 0 ? "/" + lastModifiedDate + DOT + extension : "") + qs;
+                    (inTemplate ? templateRelativePath : "") + (lastModifiedDate > 0 ? "/" + lastModifiedDate + DOT + extension : "") + (StringUtils.isNotBlank(qs) ? "?"+qs : "");
             buildJson();
         }
     }
