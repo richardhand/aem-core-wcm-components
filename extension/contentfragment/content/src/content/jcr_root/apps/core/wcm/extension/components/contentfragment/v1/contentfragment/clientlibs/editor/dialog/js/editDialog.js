@@ -26,6 +26,7 @@
     var SELECTOR_SINGLE_TEXT_ELEMENT = "[data-single-text-selector='true']";
     var SELECTOR_ELEMENT_NAMES_ADD = SELECTOR_ELEMENT_NAMES + " > [is=coral-button]";
     var SELECTOR_VARIATION_NAME = "[name='./variationName']";
+    var SELECTOR_DISPLAY_MODE_RADIO_GROUP = "[data-display-mode-radio-group='true']";
     var SELECTOR_DISPLAY_MODE = "[name='./displayMode']";
     var SELECTOR_DISPLAY_MODE_CHECKED = "[name='./displayMode']:checked";
     var SELECTOR_PARAGRAPH_CONTROLS = ".cmp-contentfragment__edit-dialog-paragraph-controls";
@@ -347,7 +348,7 @@
         // register change listener
         $(fragmentPath).on("foundation-field-change", onFragmentPathChange);
         $(document).on("change", SELECTOR_PARAGRAPH_SCOPE, setParagraphControlsState);
-        var $radioGroup = $(dialog).find(SELECTOR_DISPLAY_MODE).closest(".coral-RadioGroup");
+        var $radioGroup = $(dialog).find(SELECTOR_DISPLAY_MODE_RADIO_GROUP);
         $radioGroup.on("change", function(e) {
             elementsController.fetchAndUpdateElementsHTML(e.target.value);
             updateParagraphControlTabState();

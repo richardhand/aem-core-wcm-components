@@ -58,6 +58,9 @@
                                         fieldLabel="Display Mode"
                                         name="./displayMode"
                                         vertical="{Boolean}false">
+                                        <granite:data
+                                            jcr:primaryType="nt:unstructured"
+                                            display-mode-radio-group="{Boolean}true"/>
                                         <items jcr:primaryType="nt:unstructured">
                                             <singleText
                                                 jcr:primaryType="nt:unstructured"
