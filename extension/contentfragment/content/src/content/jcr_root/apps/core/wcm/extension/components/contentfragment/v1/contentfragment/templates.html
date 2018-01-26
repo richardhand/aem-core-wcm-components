@@ -16,6 +16,8 @@
 
 <template data-sly-template.paragraphs="${@ fragment='The content fragment', fragmentPath='fragment path'}">
     <div data-path="${fragmentPath}"
+         data-type="${fragment.type}"
+         data-json="${!wcmmode.disabled && fragment.editorJSON}"
          class="cmp-contentfragment">
         <div data-sly-resource="${'par0' @ resourceType=fragment.gridResourceType}"></div>
         <div data-sly-list="${fragment.elements[0].paragraphs}">
