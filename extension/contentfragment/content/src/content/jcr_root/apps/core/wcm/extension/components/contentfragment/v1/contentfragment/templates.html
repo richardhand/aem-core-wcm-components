@@ -14,7 +14,7 @@
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 
-<template data-sly-template.paragraphs="${@ fragment='The content fragment', fragmentPath='fragment path'}">
+<template data-sly-template.paragraphs="${@ fragment='The content fragment', fragmentPath='fragment path', wcmmode = 'WCM mode'}">
     <div data-path="${fragmentPath}"
          data-json="${!wcmmode.disabled && fragment.editorJSON}"
          class="cmp-contentfragment">
