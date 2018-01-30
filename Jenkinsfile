@@ -78,7 +78,7 @@ Module componentsExtCFBundle = new Module.Builder('main/extension/contentfragmen
         .build()
 Module componentsJUnitCore = new Module.Builder('main/testing/junit/core')
         .withRelease()
-        .withArtifact('jar', 'main/testing/junit/core/target/core.wcm.components.junit.core-*.jar', true)
+        .withArtifact('jar', 'main/testing/junit/core/target/core.wcm.components.sandbox.junit.core-*.jar', true)
         .withConsumer(componentsCore)
         .withConsumer(componentsExtCFBundle)
         .build()
