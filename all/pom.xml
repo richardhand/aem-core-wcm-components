@@ -152,7 +152,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>core.wcm.components.sandbox.content</artifactId>
-            <version>2.0.2</version>
+            <version>2.0.4</version>
             <type>zip</type>
             <scope>provided</scope>
         </dependency>
