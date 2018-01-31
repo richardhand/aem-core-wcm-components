@@ -41,12 +41,18 @@ public class ElementsDataSourceServletTest extends AbstractDataSourceServletTest
     private static final String DS_COMPONENT_PATH_TEXT_ONLY             = "elements-component-path-text-only";
     private static final String DS_FRAGMENT_PATH_STRUCTURED             = "elements-fragment-path-structured";
     private static final String DS_COMPONENT_PATH_STRUCTURED            = "elements-component-path-structured";
+    private static final String DS_COMPONENT_PATH_STRUCTURED_DISPLAY_MODE_SINGLE =
+                                                    "elements-component-path-structured-display-mode-single";
     private static final String DS_FRAGMENT_PATH_OVERRIDE               = "elements-fragment-path-override";
+
 
     /* names and titles of the elements of both the text-only and structured content fragment */
 
     private static final String[] ELEMENT_NAMES = {"main", "second"};
     private static final String[] ELEMENT_TITLES = {"Main", "Second"};
+
+    private static final String [] ELEMENT_NAMES_MULTILINE_TEXT_ONLY = {"main"};
+    private static final String [] ELEMENT_TITLES_MULTILINE_TEXT_ONLY = {"Main"};
 
     private ElementsDataSourceServlet servlet;
 
@@ -125,6 +131,13 @@ public class ElementsDataSourceServletTest extends AbstractDataSourceServletTest
             throws ServletException, IOException {
         DataSource dataSource = getDataSource(servlet, DS_COMPONENT_PATH_STRUCTURED);
         assertDataSource(dataSource, ELEMENT_NAMES, ELEMENT_TITLES);
+    }
+
+    @Test
+    public void testComponentPathStructuredDisplayModeSingle()
+            throws ServletException, IOException {
+        DataSource dataSource = getDataSource(servlet, DS_COMPONENT_PATH_STRUCTURED_DISPLAY_MODE_SINGLE);
+        assertDataSource(dataSource, ELEMENT_NAMES_MULTILINE_TEXT_ONLY, ELEMENT_TITLES_MULTILINE_TEXT_ONLY);
     }
 
     @Test
