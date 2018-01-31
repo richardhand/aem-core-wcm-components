@@ -1,10 +1,11 @@
 #!groovy
-@Library(['com.adobe.qe.evergreen.sprout'])
+@Library(['com.adobe.qe.evergreen.sprout@prerelease'])
 import com.adobe.qe.evergreen.sprout.*
 import com.adobe.qe.evergreen.sprout.config.*
 import com.adobe.qe.evergreen.sprout.criteria.*
 import com.adobe.qe.evergreen.sprout.model.*
 import com.adobe.qe.evergreen.sprout.command.*
+import com.adobe.qe.evergreen.sprout.vcs.RepositoryConfig
 
 String MINION_HUB_URL = 'http://qa-bsl-minion-hub.corp.adobe.com:8811'
 
@@ -30,9 +31,13 @@ TEST_GROUP_4 =  "aem.core-components.testsuite.navigation," +
 SproutConfig config = new SproutConfig()
 
 // points to development branch of repo
-config.setAdditionalRepositories([
-        [url: 'git@git.corp.adobe.com:CQ/aem-core-wcm-components.git', branch: 'development', folder: 'dev', vcs: 'git']
-])
+RepositoryConfig coreCompRepo = new RepositoryConfig('git@git.corp.adobe.com:CQ/aem-core-wcm-components.git')
+	.withDefaultBranch('development')
+        .withFolder('dev')
+        .withVCS('git')
+        .build()
+
+config.setRepositories([coreCompRepo])
 
 /* --------------------------------------------------------------------- */
 /*                                MODULES                               */
