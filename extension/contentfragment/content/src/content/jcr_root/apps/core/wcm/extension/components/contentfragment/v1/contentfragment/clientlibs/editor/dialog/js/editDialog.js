@@ -117,6 +117,21 @@
     };
 
     /**
+     * Enable all the fields of this controller.
+     */
+    ElementsController.prototype.enableFields = function() {
+        if (this.addElement) {
+            this.addElement.removeAttribute("disabled");
+        }
+        if (this.singleTextSelector) {
+            this.singleTextSelector.removeAttribute("disabled");
+        }
+        if (this.variationName) {
+            this.variationName.removeAttribute("disabled");
+        }
+    };
+
+    /**
      * Resets all the fields of this controller.
      */
     ElementsController.prototype.resetFields = function() {
@@ -242,7 +257,9 @@
         if (!this.fetchedState) {
             return;
         }
-        if (this.fetchedState.elementNames) {
+        if (!this.elementNames && !this.singleTextSelector) {
+            this._updateElementsHTML(this.fetchedState.elementNamesContainerHTML);
+        } else if (this.fetchedState.elementNames) {
             this._updateElementsDOM(this.fetchedState.elementNames);
         } else {
             this._updateElementsDOM(this.fetchedState.singleTextSelector);
@@ -379,6 +396,9 @@
             // check if we can keep the current configuration, in which case no confirmation dialog is necessary
             var canKeepConfig = elementsController.testStateForUpdate();
             if (canKeepConfig) {
+                if (!currentFragmentPath) {
+                    elementsController.enableFields();
+                }
                 currentFragmentPath = fragmentPath.value;
                 // its okay to save fetched state
                 elementsController.saveFetchedState();
