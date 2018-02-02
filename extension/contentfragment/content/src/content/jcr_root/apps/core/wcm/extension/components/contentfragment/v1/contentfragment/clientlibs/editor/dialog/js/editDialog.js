@@ -185,15 +185,24 @@
         var self = this;
         // wait for requests to load
         $.when(elementNamesRequest, variationNameRequest).then(function (result1, result2) {
+            var newElementNames = $(result1[0]).find(SELECTOR_ELEMENT_NAMES)[0];
+            var newSingleTextSelector = $(result1[0]).find(SELECTOR_SINGLE_TEXT_ELEMENT)[0];
+            var newVariationName = $(result2[0]).find(SELECTOR_VARIATION_NAME)[0];
             // get the fields from the resulting markup and create a test state
-            self.fetchedState = {
-                elementNames: $(result1[0]).find(SELECTOR_ELEMENT_NAMES)[0],
-                singleTextSelector: $(result1[0]).find(SELECTOR_SINGLE_TEXT_ELEMENT)[0],
-                variationName: $(result2[0]).find(SELECTOR_VARIATION_NAME)[0],
-                elementNamesContainerHTML: result1[0],
-                variationNameHTML: result2[0]
-            };
-            callback();
+            Coral.commons.ready(newElementNames, function() {
+                Coral.commons.ready(newSingleTextSelector, function() {
+                    Coral.commons.ready(newVariationName, function() {
+                        self.fetchedState = {
+                            elementNames: newElementNames,
+                            singleTextSelector: newSingleTextSelector,
+                            variationName: newVariationName,
+                            elementNamesContainerHTML: result1[0],
+                            variationNameHTML: result2[0]
+                        };
+                        callback();
+                    });
+                });
+            });
 
         }, function () {
             // display error dialog if one of the requests failed
