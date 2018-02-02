@@ -117,6 +117,21 @@
     };
 
     /**
+     * Enable all the fields of this controller.
+     */
+    ElementsController.prototype.enableFields = function() {
+        if (this.addElement) {
+            this.addElement.removeAttribute("disabled");
+        }
+        if (this.singleTextSelector) {
+            this.singleTextSelector.removeAttribute("disabled");
+        }
+        if (this.variationName) {
+            this.variationName.removeAttribute("disabled");
+        }
+    };
+
+    /**
      * Resets all the fields of this controller.
      */
     ElementsController.prototype.resetFields = function() {
@@ -170,15 +185,24 @@
         var self = this;
         // wait for requests to load
         $.when(elementNamesRequest, variationNameRequest).then(function (result1, result2) {
+            var newElementNames = $(result1[0]).find(SELECTOR_ELEMENT_NAMES)[0];
+            var newSingleTextSelector = $(result1[0]).find(SELECTOR_SINGLE_TEXT_ELEMENT)[0];
+            var newVariationName = $(result2[0]).find(SELECTOR_VARIATION_NAME)[0];
             // get the fields from the resulting markup and create a test state
-            self.fetchedState = {
-                elementNames: $(result1[0]).find(SELECTOR_ELEMENT_NAMES)[0],
-                singleTextSelector: $(result1[0]).find(SELECTOR_SINGLE_TEXT_ELEMENT)[0],
-                variationName: $(result2[0]).find(SELECTOR_VARIATION_NAME)[0],
-                elementNamesContainerHTML: result1[0],
-                variationNameHTML: result2[0]
-            };
-            callback();
+            Coral.commons.ready(newElementNames, function() {
+                Coral.commons.ready(newSingleTextSelector, function() {
+                    Coral.commons.ready(newVariationName, function() {
+                        self.fetchedState = {
+                            elementNames: newElementNames,
+                            singleTextSelector: newSingleTextSelector,
+                            variationName: newVariationName,
+                            elementNamesContainerHTML: result1[0],
+                            variationNameHTML: result2[0]
+                        };
+                        callback();
+                    });
+                });
+            });
 
         }, function () {
             // display error dialog if one of the requests failed
@@ -242,7 +266,9 @@
         if (!this.fetchedState) {
             return;
         }
-        if (this.fetchedState.elementNames) {
+        if (!this.elementNames && !this.singleTextSelector) {
+            this._updateElementsHTML(this.fetchedState.elementNamesContainerHTML);
+        } else if (this.fetchedState.elementNames) {
             this._updateElementsDOM(this.fetchedState.elementNames);
         } else {
             this._updateElementsDOM(this.fetchedState.singleTextSelector);
@@ -379,6 +405,9 @@
             // check if we can keep the current configuration, in which case no confirmation dialog is necessary
             var canKeepConfig = elementsController.testStateForUpdate();
             if (canKeepConfig) {
+                if (!currentFragmentPath) {
+                    elementsController.enableFields();
+                }
                 currentFragmentPath = fragmentPath.value;
                 // its okay to save fetched state
                 elementsController.saveFetchedState();
