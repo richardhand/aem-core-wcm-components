@@ -15,16 +15,15 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.extension.contentfragment.internal.servlets;
 
-import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.jsp.PageContext;
-
+import com.adobe.cq.dam.cfm.content.FragmentRenderService;
+import com.adobe.cq.dam.cfm.converter.ContentTypeConverter;
+import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
+import com.adobe.granite.ui.components.ExpressionResolver;
+import com.adobe.granite.ui.components.rendercondition.RenderCondition;
+import io.wcm.testing.mock.aem.junit.AemContext;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
-import org.apache.sling.api.resource.ValueMap;
-import org.apache.sling.api.scripting.SlingBindings;
-import org.apache.sling.models.factory.ModelFactory;
 import org.apache.sling.servlethelpers.MockSlingHttpServletResponse;
 import org.apache.sling.testing.mock.sling.servlet.MockSlingHttpServletRequest;
 import org.junit.Before;
@@ -35,42 +34,34 @@ import org.junit.runner.RunWith;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.adobe.cq.dam.cfm.content.FragmentRenderService;
-import com.adobe.cq.dam.cfm.converter.ContentTypeConverter;
-import com.adobe.cq.sightly.WCMBindings;
-import com.adobe.cq.wcm.core.components.context.CoreComponentTestContext;
-import com.adobe.cq.wcm.core.components.extension.contentfragment.models.ContentFragment;
-import com.adobe.granite.ui.components.ExpressionResolver;
-import com.adobe.granite.ui.components.rendercondition.RenderCondition;
-import io.wcm.testing.mock.aem.junit.AemContext;
+import javax.servlet.ServletException;
+import javax.servlet.jsp.PageContext;
+import java.io.IOException;
 
 import static com.adobe.cq.wcm.core.components.extension.contentfragment.internal.models.v1.ContentFragmentImplTest.ADAPTER;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ParagraphModeRenderConditionTest {
+public class ElementNamesRenderConditionTest {
 
     private static final String RENDERCONDITIONS_PATH = "/content/renderconditions";
     private static final String CONTENT_FRAGMENTS_PATH = "/content/dam/contentfragments";
 
     /* names of the datasource instances to test */
 
-    private static final String RC_FALSE = "paragraph-mode-false";
-    private static final String RC_TRUE = "paragraph-mode-true";
-    private static final String RC_OVERRIDE_ELEMENT = "paragraph-mode-override-element";
-    private static final String RC_OVERRIDE_FRAGMENT = "paragraph-mode-override-fragment";
+    private static final String RC_SINGLE_TEXT = "display-mode-single-text";
+    private static final String RC_MULTI = "display-mode-multi";
 
     @ClassRule
     public static final AemContext CONTEXT = CoreComponentTestContext.createContext("/contentfragment", "/content");
 
-    private ParagraphModeRenderCondition servlet;
+    private ElementNamesRenderCondition servlet;
 
     @BeforeClass
     public static void setUp() {
@@ -96,60 +87,29 @@ public class ParagraphModeRenderConditionTest {
         when(expressionResolver.resolve(anyString(), anyObject(), anyObject(),
                 org.mockito.Matchers.<SlingHttpServletRequest>anyObject())).then(returnsFirstArg());
 
-        // mock the model factory
-        ModelFactory modelFactory = mock(ModelFactory.class);
-        when(modelFactory.getModelFromWrappedRequest(any(SlingHttpServletRequest.class), any(Resource.class),
-                any(Class.class))).thenAnswer(invocation -> {
-            Resource resource = invocation.getArgumentAt(1, Resource.class);
-            ResourceResolver resolver = CONTEXT.resourceResolver();
-            MockSlingHttpServletRequest request = new MockSlingHttpServletRequest(resolver, CONTEXT.bundleContext());
-            request.setResource(resource);
-            SlingBindings slingBindings = new SlingBindings();
-            slingBindings.put(SlingBindings.RESOLVER, resolver);
-            slingBindings.put(SlingBindings.RESOURCE, resource);
-            slingBindings.put(WCMBindings.PROPERTIES, resource.adaptTo(ValueMap.class));
-            request.setAttribute(SlingBindings.class.getName(), slingBindings);
-            return request.adaptTo(ContentFragment.class);
-        });
-
         // create the servlet to test
-        servlet = new ParagraphModeRenderCondition();
+        servlet = new ElementNamesRenderCondition();
         Whitebox.setInternalState(servlet, "expressionResolver", expressionResolver);
-        Whitebox.setInternalState(servlet, "modelFactory", modelFactory);
     }
 
     @Test
-    public void testFalse()
+    public void testSingleTextDisplayMode()
             throws ServletException, IOException {
-        RenderCondition renderCondition = getRenderCondition(RC_FALSE);
+        RenderCondition renderCondition = getRenderCondition(RC_SINGLE_TEXT);
+        assertTrue("Invalid value of render condition", renderCondition.check());
+    }
+
+    @Test
+    public void testMultipleElementsDisplayMode()
+            throws ServletException, IOException {
+        RenderCondition renderCondition = getRenderCondition(RC_MULTI);
         assertFalse("Invalid value of render condition", renderCondition.check());
-    }
-
-    @Test
-    public void testTrue()
-            throws ServletException, IOException {
-        RenderCondition renderCondition = getRenderCondition(RC_TRUE);
-        assertTrue("Invalid value of render condition", renderCondition.check());
-    }
-
-    @Test
-    public void testOverrideElement()
-            throws ServletException, IOException {
-        RenderCondition renderCondition = getRenderCondition(RC_OVERRIDE_ELEMENT);
-        assertTrue("Invalid value of render condition", renderCondition.check());
-    }
-
-    @Test
-    public void testOverrideFragment()
-            throws ServletException, IOException {
-        RenderCondition renderCondition = getRenderCondition(RC_OVERRIDE_FRAGMENT);
-        assertTrue("Invalid value of render condition", renderCondition.check());
     }
 
     /**
      * Calls the servlet with the specified render conditino resource and returns the resulting render condition.
      */
-    protected RenderCondition getRenderCondition(String name)
+    private RenderCondition getRenderCondition(String name)
             throws ServletException, IOException {
         // get render condition resource
         ResourceResolver resolver = CONTEXT.resourceResolver();

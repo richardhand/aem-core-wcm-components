@@ -107,6 +107,43 @@ public abstract class AbstractContentFragmentDataSource<T> extends SlingSafeMeth
     @Nonnull
     protected abstract String getValue(@Nonnull T item);
 
+    /**
+     * Returns datasource configuration.
+     * @param request the request
+     * @return datasource configuration.
+     */
+    Config getConfig(SlingHttpServletRequest request) {
+        // get datasource configuration
+        Resource datasource = request.getResource().getChild(Config.DATASOURCE);
+        if (datasource == null) {
+            return null;
+        }
+        return new Config(datasource);
+    }
+
+    /**
+     * Get value map corresponding to resource of the component.
+     * @param config datasource configuration
+     * @param request the request
+     * @return value map.
+     */
+    ValueMap getComponentValueMap(Config config, SlingHttpServletRequest request) {
+        if (config == null) {
+            return null;
+        }
+        String componentPath = getParameter(config, PN_COMPONENT_PATH, request);
+        if (componentPath == null) {
+            return null;
+        }
+
+        // get component resource
+        Resource component = request.getResourceResolver().getResource(componentPath);
+        if (component == null) {
+            return null;
+        }
+        return component.getValueMap();
+    }
+
     @Override
     protected void doGet(@Nonnull SlingHttpServletRequest request, @Nonnull SlingHttpServletResponse response)
             throws ServletException, IOException {
@@ -137,32 +174,21 @@ public abstract class AbstractContentFragmentDataSource<T> extends SlingSafeMeth
      */
     @Nullable
     private ContentFragment getContentFragment(@Nonnull SlingHttpServletRequest request) {
-        // get datasource configuration
-        Resource datasource = request.getResource().getChild(Config.DATASOURCE);
-        if (datasource == null) {
+
+        Config config = getConfig(request);
+        ValueMap map = getComponentValueMap(config, request);
+
+        if (config == null) {
             return null;
         }
-        Config config = new Config(datasource);
 
         // get fragment path
         String fragmentPath = getParameter(config, PN_FRAGMENT_PATH, request);
 
         // if not present or empty, get fragment path via component
         if (StringUtils.isEmpty(fragmentPath)) {
-            // get component path
-            String componentPath = getParameter(config, PN_COMPONENT_PATH, request);
-            if (componentPath == null) {
-                return null;
-            }
-
-            // get component resource
-            Resource component = request.getResourceResolver().getResource(componentPath);
-            if (component == null) {
-                return null;
-            }
-
             // get fragment path from component resource
-            fragmentPath = component.getValueMap().get(PN_PATH, String.class);
+            fragmentPath = map != null ? map.get(PN_PATH, String.class) : null;
         }
 
         // no fragment path available
