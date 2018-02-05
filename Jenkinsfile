@@ -149,7 +149,7 @@ CQInstance author = new CQInstance.Builder()
 /* --------------------------------------------------------------------- */
 
 // Run against Edge
-/*UITestRun coreCompUIEdgePart1 = new UITestRun.Builder()
+UITestRun coreCompUIEdgePart1 = new UITestRun.Builder()
         .withName('Test Group 1 / Edge')
         .withInstance(author)
         .withBrowser('EDGE')
@@ -188,7 +188,7 @@ UITestRun coreCompUIEdgePart4 = new UITestRun.Builder()
         .withWaitForMinionMinutes(10)
         .withFilter(TEST_GROUP_4)
         .build()
-*/
+
 
 // Run tests against chrome
 UITestRun coreCompUIChromePart1 = new UITestRun.Builder()
@@ -232,7 +232,7 @@ UITestRun coreCompUIChromePart4 = new UITestRun.Builder()
         .build()
 
 // Run tests against firefox
-/* UITestRun coreCompUIFirefoxPart1 = new UITestRun.Builder()
+UITestRun coreCompUIFirefoxPart1 = new UITestRun.Builder()
         .withName('Test Group 1 / Firefox')
         .withInstance(author)
         .withBrowser('FIREFOX')
@@ -271,7 +271,7 @@ UITestRun coreCompUIFirefoxPart4 = new UITestRun.Builder()
         .withWaitForMinionMinutes(10)
         .withFilter(TEST_GROUP_4)
         .build()
-*/
+
 /* --------------------------------------------------------------------- */
 /*                       SPROUT CONFIGURATION                            */
 /* --------------------------------------------------------------------- */
@@ -297,9 +297,9 @@ config.setModules([componentsCore, componentsContent, componentsConfig, componen
                    componentsJUnitCore,componentsParent,
                    componentsExtension, componentsExtCFBundle, componentsExtCFContent])
 // the tests to execute
-config.setTestRuns([coreCompUIChromePart1,coreCompUIChromePart2,coreCompUIChromePart3,coreCompUIChromePart4/*,
+config.setTestRuns([coreCompUIChromePart1,coreCompUIChromePart2,coreCompUIChromePart3,coreCompUIChromePart4,
                     coreCompUIFirefoxPart1,coreCompUIFirefoxPart2,coreCompUIFirefoxPart3,coreCompUIFirefoxPart4,
-                    coreCompUIEdgePart1,coreCompUIEdgePart2,coreCompUIEdgePart3,coreCompUIEdgePart4*/])
+                    coreCompUIEdgePart1,coreCompUIEdgePart2,coreCompUIEdgePart3,coreCompUIEdgePart4])
 
 // Releases
 config.setReleaseCriteria([new Branch(/^PRIVATE_master$/)])
