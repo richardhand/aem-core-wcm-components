@@ -15,8 +15,10 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 package com.adobe.cq.wcm.core.components.extension.contentfragment.internal.models.v1;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +41,7 @@ import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
+import org.apache.sling.models.factory.ModelFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,7 +56,6 @@ import com.adobe.cq.export.json.ComponentExporter;
 import com.adobe.cq.export.json.ExporterConstants;
 import com.adobe.cq.wcm.core.components.extension.contentfragment.models.ContentFragment;
 import com.day.text.Text;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -91,6 +93,9 @@ public class ContentFragmentImpl implements ContentFragment {
     @Inject
     private ContentTypeConverter converter;
 
+    @Inject
+    private ModelFactory modelFactory;
+
     @ScriptVariable
     private ResourceResolver resolver;
 
@@ -109,7 +114,9 @@ public class ContentFragmentImpl implements ContentFragment {
     private com.adobe.cq.dam.cfm.ContentFragment fragment;
     private String type;
     private List<Element> elements;
+    private Map<String, ContentFragment.Element> exportedElements;
     private List<Resource> associatedContentList;
+    private boolean isInitialized;
 
     @PostConstruct
     private void initialize() {
@@ -128,6 +135,43 @@ public class ContentFragmentImpl implements ContentFragment {
         } else {
             LOG.warn("Please provide a path for the content fragment component.");
         }
+    }
+
+    private void initializeElements() {
+        // get either all elements...
+        Iterator<ContentElement> iterator = fragment.getElements();
+        // ...or configured elements
+        if (ArrayUtils.isNotEmpty(elementNames)) {
+            List<ContentElement> elements = new LinkedList<>();
+            for (String name : elementNames) {
+                if (!fragment.hasElement(name)) {
+                    // skip non-existing element
+                    LOG.warn("Skipping non-existing element " + name);
+                    continue;
+                }
+                elements.add(fragment.getElement(name));
+            }
+            iterator = elements.iterator();
+        }
+
+        // wrap elements and get their configured variation (if any)
+        exportedElements = new LinkedHashMap<>();
+        while (iterator.hasNext()) {
+            ContentElement element = iterator.next();
+            ContentVariation variation = null;
+            if (StringUtils.isNotEmpty(variationName) && !MASTER_VARIATION.equals(variationName)) {
+                variation = element.getVariation(variationName);
+                if (variation == null) {
+                    LOG.warn("Non-existing variation " + variationName + " of element " + element.getName());
+                }
+            }
+            exportedElements.put(
+                    element.getName(),
+                    new ElementImpl(renderService, converter, resource, element, variation));
+        }
+
+        elements = new ArrayList<>(exportedElements.values());
+        isInitialized = true;
     }
 
     @Nullable
@@ -233,39 +277,32 @@ public class ContentFragmentImpl implements ContentFragment {
         return jsonObjectBuilder.build().toString();
     }
 
+    @Nonnull
+    @Override
+    public Map<String, Element> getExportedElements() {
+        if (!isInitialized && fragment != null) {
+            initializeElements();
+        }
+        return (exportedElements != null ? exportedElements : Collections.emptyMap());
+    }
+
+    @Nonnull
+    @Override
+    public String[] getExportedElementsOrder() {
+        Map<String, ContentFragment.Element> elements = getExportedElements();
+
+        if (elements.isEmpty()) {
+            return ArrayUtils.EMPTY_STRING_ARRAY;
+        }
+
+        return elements.keySet().toArray(ArrayUtils.EMPTY_STRING_ARRAY);
+    }
+
     @Nullable
     @Override
     public List<Element> getElements() {
-        if (elements == null && fragment != null) {
-            // get either all elements...
-            Iterator<ContentElement> iterator = fragment.getElements();
-            // ...or configured elements
-            if (ArrayUtils.isNotEmpty(elementNames)) {
-                List<ContentElement> elements = new LinkedList<>();
-                for (String name : elementNames) {
-                    if (!fragment.hasElement(name)) {
-                        // skip non-existing element
-                        LOG.warn("Skipping non-existing element " + name);
-                        continue;
-                    }
-                    elements.add(fragment.getElement(name));
-                }
-                iterator = elements.iterator();
-            }
-
-            // wrap elements and get their configured variation (if any)
-            elements = new LinkedList<>();
-            while (iterator.hasNext()) {
-                ContentElement element = iterator.next();
-                ContentVariation variation = null;
-                if (StringUtils.isNotEmpty(variationName) && !MASTER_VARIATION.equals(variationName)) {
-                    variation = element.getVariation(variationName);
-                    if (variation == null) {
-                        LOG.warn("Non-existing variation " + variationName + " of element " + element.getName());
-                    }
-                }
-                elements.add(new ElementImpl(renderService, converter, resource, element, variation));
-            }
+        if (!isInitialized && fragment != null)  {
+            initializeElements();
         }
         return elements;
     }
@@ -288,11 +325,21 @@ public class ContentFragmentImpl implements ContentFragment {
     @Nonnull
     @Override
     public Map<String, ComponentExporter> getExportedItems() {
-        Map<String, ComponentExporter> map = new HashMap<>();
-        for (Element e : getElements()) {
-            if (map.put(e.getName(), e) != null) {
-                throw new IllegalStateException("Duplicate key");
+        Map<String, ComponentExporter> map = new LinkedHashMap<>();
+        Iterator<Resource> children = resource.listChildren();
+
+        while (children.hasNext()) {
+            Resource child = children.next();
+            ComponentExporter exporter =
+                modelFactory.getModelFromWrappedRequest(request, child, ComponentExporter.class);
+
+            if (exporter != null) {
+                String name = child.getName();
+                if (map.put(name, exporter) != null) {
+                    throw new IllegalStateException("Duplicate key: " + name);
+                }
             }
+
         }
         return map;
     }
@@ -300,7 +347,7 @@ public class ContentFragmentImpl implements ContentFragment {
     @Nonnull
     @Override
     public String[] getExportedItemsOrder() {
-        Map<String, ? extends ComponentExporter> models = getExportedItems();
+        Map<String, ComponentExporter> models = getExportedItems();
 
         if (models.isEmpty()) {
             return ArrayUtils.EMPTY_STRING_ARRAY;
