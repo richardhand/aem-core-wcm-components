@@ -22,6 +22,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -299,19 +300,21 @@ public class ContentFragmentImplTest {
     }
 
     @Test
-    public void testGetExportedItems() {
+    public void testGetElements() {
         ContentFragmentImpl fragment = (ContentFragmentImpl) getTestContentFragment(CF_TEXT_ONLY);
-        final Map<String, ComponentExporter> exportedItems = fragment.getExportedItems();
-        assertEquals(2, exportedItems.size());
-        assertEquals(true, exportedItems.containsKey("main"));
-        assertEquals(true, exportedItems.containsKey("second"));
+        final Map<String, ContentFragment.Element> elements = fragment.getExportedElements();
+        assertNotNull(elements);
+        assertEquals(2, elements.size());
+        assertEquals(true, elements.containsKey("main"));
+        assertEquals(true, elements.containsKey("second"));
     }
 
     @Test
-    public void testGetExportedElementType() {
+    public void testGetElementsType() {
         ContentFragmentImpl fragment = (ContentFragmentImpl) getTestContentFragment(CF_TEXT_ONLY);
-        final Map<String, ComponentExporter> exportedItems = fragment.getExportedItems();
-        final ComponentExporter mainElement = exportedItems.get("main");
+        final Map<String, ? extends ComponentExporter> elements = fragment.getExportedElements();
+        assertNotNull(elements);
+        final ComponentExporter mainElement = elements.get("main");
         assertEquals("text/html", mainElement.getExportedType());
     }
     
@@ -409,7 +412,9 @@ public class ContentFragmentImplTest {
             Resource resource = associatedContent.get(i);
             assertEquals("Element has wrong associated content", expectedAssociatedContent[i], resource.getPath());
         }
-        List<ContentFragment.Element> elements = fragment.getElements();
+        Map<String, ContentFragment.Element> elementsMap = fragment.getExportedElements();
+        assertNotNull(elementsMap);
+        List<ContentFragment.Element> elements = new ArrayList<>(elementsMap.values());
         assertEquals("Content fragment has wrong number of elements", expectedElements.length, elements.size());
         for (int i = 0; i < expectedElements.length; i++) {
             ContentFragment.Element element = elements.get(i);

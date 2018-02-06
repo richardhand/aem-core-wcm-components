@@ -60,6 +60,23 @@ public interface ContentFragment extends ContainerExporter {
     String PN_VARIATION_NAME = "variationName";
 
     /**
+     * Name of the property (in JSON export) that provides the path to the model of the content fragment
+     */
+    String JSON_PN_MODEL = "model";
+
+    /**
+     * Name of the property (in JSON export) that provides an object containing the elements of the
+     * content fragment; the keys of the object properties refer to the element names
+     */
+    String JSON_PN_ELEMENTS = "elements";
+
+    /**
+     * Name of the property (in JSON export) that provides an array containing the names of the
+     * elements of the content fragment in the correct order
+     */
+    String JSON_PN_ELEMENTS_ORDER = "elementsOrder";
+
+    /**
      * Represents a content element of a content fragment.
      *
      * @since com.adobe.cq.wcm.core.components.extension.contentfragment.models 1.0.0
@@ -199,7 +216,7 @@ public interface ContentFragment extends ContainerExporter {
      * @since com.adobe.cq.wcm.core.components.extension.contentfragment.models 1.0.0
      */
     @Nullable
-    @JsonProperty("model")
+    @JsonProperty(JSON_PN_MODEL)
     default String getType() {
         throw new UnsupportedOperationException();
     }
@@ -217,6 +234,34 @@ public interface ContentFragment extends ContainerExporter {
     @Nullable
     @JsonIgnore
     default java.util.List<Element> getElements() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Returns a map of elements that are used for creating the JSON export. The keys of the map determine the
+     * name of the element. The value holds the Sling Model that is used for the export. The map only contains
+     * elements that are configured through the property {@link ContentFragment#PN_ELEMENT_NAMES} or all elements
+     * if the property is not set.
+     *
+     * @return a map containing the elements that are subject to be exported
+     * @since com.adobe.cq.wcm.core.components.extension.contentfragment.models 1.0.0
+     */
+    @Nonnull
+    @JsonProperty(JSON_PN_ELEMENTS)
+    default java.util.Map<String, Element> getExportedElements() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Returns the names of the elements in the correct order. The names correspond to the keys of the map
+     * returned by {@link ContentFragment#getExportedElements}.
+     *
+     * @return Array that determines the order of the elements
+     * @since com.adobe.cq.wcm.core.components.extension.contentfragment.models 1.0.0
+     */
+    @Nonnull
+    @JsonProperty(JSON_PN_ELEMENTS_ORDER)
+    default String[] getExportedElementsOrder() {
         throw new UnsupportedOperationException();
     }
 
