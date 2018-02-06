@@ -23,4 +23,4 @@
     </sly>
 </sly>
 <sly data-sly-use.template="core/wcm/components/commons/v1/templates.html"
-     data-sly-call="${template.placeholder @ isEmpty=!properties.fragmentPath || fragment.elements.isEmpty, classAppend='cq-dd-contentfragment'}"></sly>
+     data-sly-call="${template.placeholder @ isEmpty=!properties.fragmentPath || !fragment.elements || fragment.elements.isEmpty, classAppend='cq-dd-contentfragment'}"></sly>
