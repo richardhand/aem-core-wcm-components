@@ -269,7 +269,13 @@
         if (!this.elementNames && !this.singleTextSelector) {
             this._updateElementsHTML(this.fetchedState.elementNamesContainerHTML);
         } else if (this.fetchedState.elementNames) {
-            this._updateElementsDOM(this.fetchedState.elementNames);
+            if (this.fetchedState.elementNames.template.content.children) {
+                this._updateElementsDOM(this.fetchedState.elementNames);
+            } else {
+                // if the content of template is not accessible through the DOM (IE 11!),
+                // then use the HTML to update the elements multifield
+                this._updateElementsHTML(this.fetchedState.elementNamesContainerHTML);
+            }
         } else {
             this._updateElementsDOM(this.fetchedState.singleTextSelector);
         }
@@ -314,7 +320,7 @@
      * memeber.
      * @param {HTMLElement} dom - new dom
      */
-    ElementsController.prototype._updateElementsDOM = function(dom) {
+    ElementsController.prototype._updateElementsDOM = function(dom, html) {
         if (dom.tagName === "CORAL-MULTIFIELD") {
             // replace the element names multifield's template
             this.elementNames.template = dom.template;
