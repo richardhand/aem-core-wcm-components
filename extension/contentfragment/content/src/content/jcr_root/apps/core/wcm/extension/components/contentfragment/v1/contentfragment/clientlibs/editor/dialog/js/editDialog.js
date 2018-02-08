@@ -320,7 +320,7 @@
      * memeber.
      * @param {HTMLElement} dom - new dom
      */
-    ElementsController.prototype._updateElementsDOM = function(dom, html) {
+    ElementsController.prototype._updateElementsDOM = function(dom) {
         if (dom.tagName === "CORAL-MULTIFIELD") {
             // replace the element names multifield's template
             this.elementNames.template = dom.template;
