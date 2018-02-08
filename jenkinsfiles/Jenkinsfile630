@@ -89,6 +89,12 @@ MavenDependency fp20593 = new MavenDependency.Builder()
         .withVersion("1.8")
         .withExtension("zip").build()
 
+MavenDependency cfp2 = new MavenDependency.Builder()
+        .withGroupId("com.adobe.cq.cumulativefixpack")
+        .withArtifactId("aem-6.3.1-cfp")
+        .withVersion("2.0")
+        .withExtension("zip").build()
+
 /* --------------------------------------------------------------------- */
 /*                       QUICKSTART CONFIGURATIONS                       */
 /* --------------------------------------------------------------------- */
@@ -120,6 +126,7 @@ CQInstance author = new CQInstance.Builder()
 // install all the dependencies needed for sandbox to work on a 6.3 instance
         .withMavenDependency(fp20593)
         .withMavenDependency(servicePack1)
+        .withMavenDependency(cfp2)
 // install all the core component modules
         .withFileDependency(componentsCore.getArtifact('jar'))
         .withFileDependency(componentsContent.getArtifact('zip'))
