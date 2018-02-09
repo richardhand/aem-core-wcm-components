@@ -15,7 +15,7 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/-->
 <sly data-sly-use.fragment="com.adobe.cq.wcm.core.components.extension.contentfragment.models.ContentFragment"
      data-sly-test="${properties.fragmentPath}" data-sly-use.cfTemplates="templates.html">
-    <sly data-sly-test.isParagraphMode="${fragment.elements.size == 1 && fragment.elements[0].isMultiLine}">
+    <sly data-sly-test.isParagraphMode="${fragment.elements.size == 1 && fragment.elements[0].isMultiLine && properties.displayMode == 'singleText'}">
         <sly data-sly-call="${cfTemplates.paragraphs @ fragment=fragment, fragmentPath=properties.fragmentPath, wcmmode=wcmmode}"></sly>
     </sly>
     <sly data-sly-test="${!isParagraphMode}">
