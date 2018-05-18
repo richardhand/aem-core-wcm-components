@@ -25,8 +25,8 @@
         * [Content Fragment](../extension/contentfragment/content/src/content/jcr_root/apps/core/wcm/extension/components/contentfragment/v1/contentfragment)
 * [Versioning](VERSIONING.md)
 * Advanced Guides
-    * [Sling Model Delegation Pattern](advancedguides/SLING_MODELS_DELEGATION_PATTERN.md)
-    * [Adaptive Image Servlet](advancedguides/ADAPTIVE_IMAGE_SERVLET.md)
+    * [Sling Model Delegation Pattern](documentation/advancedguides/SLING_MODELS_DELEGATION_PATTERN.md)
+    * [Adaptive Image Servlet](documentation/advancedguides/ADAPTIVE_IMAGE_SERVLET.md)
 * Project and Community
     * [Milestones and Roadmap](projectandcommunity/ROADMAP.md)
     * Events, gatherings and meetups
