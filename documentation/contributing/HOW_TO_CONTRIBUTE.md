@@ -1,5 +1,7 @@
 # How to contribute
 
+Thank you for choosing to contribute!
+
 New code contributions should be made primarily using GitHub pull requests. This involves creating a fork of the project in your personal space, adding your new code in a branch and triggering a pull request.
 
 See how to perform pull requests at https://help.github.com/articles/using-pull-requests.
