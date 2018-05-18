@@ -7,6 +7,7 @@
     * [Breadcrumb](../content/src/content/jcr_root/apps/core/wcm/components/breadcrumb/v2/breadcrumb)
     * [Image](../content/src/content/jcr_root/apps/core/wcm/components/image/v2/image)
     * [Language Navigation](../content/src/content/jcr_root/apps/core/wcm/components/languagenavigation/v1/languagenavigation)
+    * [List](../content/src/content/jcr_root/apps/core/wcm/components/list/v2/list)
     * [Navigation](../content/src/content/jcr_root/apps/core/wcm/components/navigation/v1/navigation)
     * [Page](../content/src/content/jcr_root/apps/core/wcm/components/page/v2/page)
     * [Quick Search](../content/src/content/jcr_root/apps/core/wcm/components/search/v1/search)
@@ -20,7 +21,6 @@
         * [Form hidden field](../content/src/content/jcr_root/apps/core/wcm/components/form/hidden/v2/hidden)
         * [Form options field](../content/src/content/jcr_root/apps/core/wcm/components/form/options/v2/options)
         * [Form text field](../content/src/content/jcr_root/apps/core/wcm/components/form/text/v2/text)
-        * [List](../content/src/content/jcr_root/apps/core/wcm/components/list/v2/list)
     * Extensions
         * [Content Fragment](../extension/contentfragment/content/src/content/jcr_root/apps/core/wcm/extension/components/contentfragment/v1/contentfragment)
 * [Versioning](VERSIONING.md)
