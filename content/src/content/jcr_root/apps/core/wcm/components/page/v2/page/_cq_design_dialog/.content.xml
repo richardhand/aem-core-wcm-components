@@ -20,6 +20,7 @@
     jcr:primaryType="nt:unstructured"
     jcr:title="Page"
     sling:resourceType="cq/gui/components/authoring/dialog"
+    extraClientlibs="[cq.common.wcm,core.wcm.components.page.v2.editor]"
     helpPath="https://www.adobe.com/go/aem_cmp_page_v2">
     <content
         jcr:primaryType="nt:unstructured"
@@ -38,44 +39,46 @@
                         <items
                             jcr:primaryType="nt:unstructured"
                             sling:hideChildren="[heading,well]">
-                            <clientlibs
+                            <clientLibs
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/coral/foundation/form/autocomplete"
-                                fieldDescription="The Client-Side Library categories to load. JavaScript is added at the body end, CSS in the page head."
-                                fieldLabel="Client Libraries"
-                                mode="contains"
-                                multiple="{Boolean}true"
-                                name="./clientlibs"
-                                required="{Boolean}false">
-                                <datasource
+                                sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                composite="{Boolean}true"
+                                fieldDescription="The Client-Side Library categories to load. Unless specified, JavaScript is added at the body end, CSS in the page head."
+                                fieldLabel="Client Libraries">
+                                <field
+                                    granite:class="cmp-pageDesignDialog__clientlib"
                                     jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="core/wcm/components/commons/datasources/clientlibrarycategories/v1"/>
-                                <values
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/coral/foundation/form/autocomplete/tags"/>
-                                <options
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/coral/foundation/form/autocomplete/list"/>
-                            </clientlibs>
-                            <headClientlibs
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/coral/foundation/form/autocomplete"
-                                fieldDescription="Load both JavaScript and CSS for the selected Client-Side Library categories in the page head. If a category is duplicated in the Client Libraries field, JavaScript will be loaded in the page head rather than at body end."
-                                fieldLabel="Page head Client Libraries"
-                                mode="contains"
-                                multiple="{Boolean}true"
-                                name="./headClientlibs"
-                                required="{Boolean}false">
-                                <datasource
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="core/wcm/components/commons/datasources/clientlibrarycategories/v1"/>
-                                <values
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/coral/foundation/form/autocomplete/tags"/>
-                                <options
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/coral/foundation/form/autocomplete/list"/>
-                            </headClientlibs>
+                                    sling:resourceType = "granite/ui/components/coral/foundation/container"
+                                    name="./clientlibs">
+                                    <items jcr:primaryType="nt:unstructured">
+                                        <category
+                                            granite:class="cmp-pageDesignDialog__clientlibField"
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/form/autocomplete"
+                                            emptyText="Category"
+                                            mode="contains"
+                                            multiple="{Boolean}false"
+                                            name="./category"
+                                            required="{Boolean}false">
+                                            <datasource
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="core/wcm/components/commons/datasources/clientlibrarycategories/v1"/>
+                                            <options
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/form/autocomplete/list"/>
+                                        </category>
+                                        <loadJsHead
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                            fieldDescription="Load JavaScript for this category in the page head"
+                                            name="./loadJsHead"
+                                            text="JS page head"
+                                            uncheckedValue="false"
+                                            value="true"
+                                            wrapperClass="cmp-pageDesignDialog__clientlibField"/>
+                                    </items>
+                                </field>
+                            </clientLibs>
                             <appResourcesClientlib
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/coral/foundation/form/autocomplete"
