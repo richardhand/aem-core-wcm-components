@@ -39,26 +39,22 @@
                         <items
                             jcr:primaryType="nt:unstructured"
                             sling:hideChildren="[heading,well]">
-                            <clientLibs
+                            <clientLibraries
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
-                                composite="{Boolean}true"
+                                composite="{Boolean}false"
                                 fieldDescription="The Client-Side Library categories to load. Unless specified, JavaScript is added at the body end, CSS in the page head."
                                 fieldLabel="Client Libraries">
                                 <field
-                                    granite:class="cmp-pageDesignDialog__clientlib"
                                     jcr:primaryType="nt:unstructured"
-                                    sling:resourceType = "granite/ui/components/coral/foundation/container"
-                                    name="./clientlibs">
+                                    sling:resourceType = "granite/ui/components/coral/foundation/container">
                                     <items jcr:primaryType="nt:unstructured">
-                                        <category
-                                            granite:class="cmp-pageDesignDialog__clientlibField"
+                                        <clientLibraryCategory
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/coral/foundation/form/autocomplete"
                                             emptyText="Category"
                                             mode="contains"
                                             multiple="{Boolean}false"
-                                            name="./category"
                                             required="{Boolean}false">
                                             <datasource
                                                 jcr:primaryType="nt:unstructured"
@@ -66,19 +62,10 @@
                                             <options
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="granite/ui/components/foundation/form/autocomplete/list"/>
-                                        </category>
-                                        <loadJsHead
-                                            jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                            fieldDescription="Load JavaScript for this category in the page head"
-                                            name="./loadJsHead"
-                                            text="JS page head"
-                                            uncheckedValue="false"
-                                            value="true"
-                                            wrapperClass="cmp-pageDesignDialog__clientlibField"/>
+                                        </clientLibraryCategory>
                                     </items>
                                 </field>
-                            </clientLibs>
+                            </clientLibraries>
                             <appResourcesClientlib
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/coral/foundation/form/autocomplete"
