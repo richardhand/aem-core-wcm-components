@@ -20,6 +20,10 @@
       data-sly-use.redirect="redirect.html">
     <head data-sly-call="${head.head @ page = page}"></head>
     <body class="${page.cssClassNames}">
+        <h1>HEAD</h1>
+        <div>${page.clientLibCategoriesJsHead}</div>
+        <h1>BODY</h1>
+        <div>${page.clientLibCategoriesJsBody}</div>
         <sly data-sly-test.isRedirectPage="${page.redirectTarget && (wcmmode.edit || wcmmode.preview)}"
              data-sly-call="${redirect.redirect @ redirectTarget = page.redirectTarget}"></sly>
         <sly data-sly-test="${!isRedirectPage}">
